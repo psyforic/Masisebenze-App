@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-new-client',
@@ -8,29 +9,15 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NewClientComponent implements OnInit {
 
-  @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
+  modalRef: BsModalRef;
   closeResult: string;
-
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: BsModalService) { }
   ngOnInit(): void {
-
+   
   }
 
   open() {
-    this.modalService.open(this.content, { size: 'lg' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+    this.modalRef = this.modalService.show(this.content);
   }
 }
