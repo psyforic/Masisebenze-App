@@ -17,7 +17,7 @@ import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
 
 import { RootComponent } from './root.component';
 import { AppPreBootstrap } from './AppPreBootstrap';
-import { ModalModule } from 'ngx-bootstrap';
+import { ModalModule} from 'ngx-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
 import { GestureConfig } from '@angular/material';
@@ -118,7 +118,7 @@ export function getCurrentLanguage(): string {
             provide: LOCALE_ID,
             useFactory: getCurrentLanguage
         },
-        { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
+        { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig }
     ],
     bootstrap: [RootComponent]
 })

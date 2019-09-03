@@ -1,6 +1,109 @@
 <div class="main-content buttons-with-margin">
-
     <div class="container-fluid">
-        <p>clients works!</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    All Clients
+                </div>
+                <div class="header-toolbar">
+                    <button (click)="createClient()" mat-raised-button color="primary" matTooltip="Create new Client">
+                        New Client
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mat-table__wrapper">
+                    <div class="example-header">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
+                        </mat-form-field>
+                    </div>
+                    <div class="example-container">
+                        <mat-table [dataSource]="dataSource" matSort>
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    ID
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    {{ user.id }}
+                                </mat-cell>
+                            </ng-container>
+                            <!-- Progress Column -->
+                            <ng-container matColumnDef="firstName">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    FirstName
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    <h6><a [routerLink]="['/clients/view', user.id]">{{ user.firstName }}</a></h6>
+                                </mat-cell>
+                            </ng-container>
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="lastName">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    LastName
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    {{ user.lastName }}
+                                </mat-cell>
+                            </ng-container>
+                            <!-- Color Column -->
+                            <ng-container matColumnDef="dob">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    D.O.B
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    {{ user.dob }}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="age">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    Age
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    {{ user.age }}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="dateOfInjury">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    Date Of Injury
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    {{ user.dateOfInjury }}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="actions">
+                                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    <button [routerLink]="['/clients/edit', user.id]" mat-icon-button color="primary"
+                                        matTooltip="Edit user">
+                                        <mat-icon>create</mat-icon>
+                                    </button>&nbsp;
+                                    <button mat-icon-button color="warn" matTooltip="Delete user" type="button">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+
+
+                                    <mat-menu #appMenu="matMenu">
+                                        <button mat-menu-item>
+                                            <mat-icon>rate_review</mat-icon>
+                                            <span>Generate Report</span>
+                                        </button>
+                                    </mat-menu>
+
+                                    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns">
+                            </mat-row>
+                        </mat-table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,6 +1,66 @@
 <div class="main-content buttons-with-margin">
-
     <div class="container-fluid">
-        <p>job-descriptions works!</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    All Job Descriptions
+                </div>
+                <div class="header-toolbar">
+                    <button mat-raised-button color="primary" matTooltip="Add A New Job" (click)="newJobTitle()">
+                        New Job Title
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="mat-table__wrapper">
+                    <div class="example-header">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
+                        </mat-form-field>
+                    </div>
+                    <div class="example-container">
+                        <mat-table [dataSource]="dataSource" matSort>
+                            <!-- ID Column -->
+                            <ng-container matColumnDef="id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    ID
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let job">
+                                    {{ job.id }}
+                                </mat-cell>
+                            </ng-container>
+                            <!-- Progress Column -->
+                            <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    FirstName
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let job">
+                                    {{ job.name }}
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="actions">
+                                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                                <mat-cell *matCellDef="let user">
+                                    <button (click)="editJobTitle()" mat-icon-button color="primary"
+                                        matTooltip="Edit Job">
+                                        <mat-icon>create</mat-icon>
+                                    </button>&nbsp;
+                                    <button mat-icon-button color="warn" matTooltip="Delete Job" type="button">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns">
+                            </mat-row>
+                        </mat-table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<app-edit-job-description #editJob></app-edit-job-description>
+<app-new-job-description #newJob></app-new-job-description>

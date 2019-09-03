@@ -10,6 +10,8 @@ import { JobDescriptionsModule } from './job-descriptions/job-descriptions.modul
 import { ReportsModule } from './reports/reports.module';
 import { ActivityLogModule } from './activity-log/activity-log.module';
 import { LawfirmsModule } from './lawfirms/lawfirms.module';
+import { PartialsModule } from './partials/partials.module';
+import { ClientsModule } from './lawfirms/clients/clients.module';
 
 @NgModule({
   imports: [
@@ -18,7 +20,8 @@ import { LawfirmsModule } from './lawfirms/lawfirms.module';
     LawfirmsModule,
     JobDescriptionsModule,
     ReportsModule,
-    ActivityLogModule
+    ActivityLogModule,
+    PartialsModule
   ],
   declarations: [
     FooterComponent,

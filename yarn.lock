@@ -299,6 +299,20 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@lblanco/ngx-metronic-components@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@lblanco/ngx-metronic-components/-/ngx-metronic-components-0.0.2.tgz#ef91b45255dad893fc4ae0b3379cede134c66c0f"
+  integrity sha512-2Iqf5XIm2kwaO0tx7LgpGVofIesbhxoP4QQyIsTYD8IeJOqH9cyOqVaYOx2Bm2IGp8Pku85KTQkDGbFFjmNizg==
+  dependencies:
+    tslib "^1.9.0"
+
+"@ng-bootstrap/ng-bootstrap@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@ng-bootstrap/ng-bootstrap/-/ng-bootstrap-5.1.0.tgz#c0bdb74702d46f58b3cfd526dd77921e6107e7f7"
+  integrity sha512-IYoKE1NMrIPbRV0077/uHOjdwPb3qyhHpbBXiMGjclkSm2GvKXNPIzgd3Vjon/lbKelHdAW4A/upUHN2VYUi3w==
+  dependencies:
+    tslib "^1.9.0"
+
 "@ngtools/webpack@8.1.2":
   version "8.1.2"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-8.1.2.tgz#5f96371d51a7f338a29990916b5b77f55bbf1ca6"

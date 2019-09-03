@@ -8,6 +8,8 @@ import { ClientsComponent } from './lawfirms/clients/clients.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
 import { JobDescriptionsComponent } from './job-descriptions/job-descriptions.component';
+import { LawfirmsComponent } from './lawfirms/lawfirms/lawfirms.component';
+import { NewAttorneyComponent } from './lawfirms/attorneys/new-attorney/new-attorney.component';
 
 @NgModule({
 
@@ -24,7 +26,9 @@ import { JobDescriptionsComponent } from './job-descriptions/job-descriptions.co
                     { path: 'reports', component: ReportsComponent },
                     { path: 'activity-log', component: ActivityLogComponent },
                     { path: 'attorneys/list', component: AttorneysComponent },
-                    { path: 'attorneys/clients', component: ClientsComponent }
+                    { path: 'lawfirms/list', component: LawfirmsComponent },
+                    { path: 'attorneys/clients', component: ClientsComponent },
+                    { path: 'attorneys/new', component: NewAttorneyComponent }
                 ]
             }
         ])
