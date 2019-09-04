@@ -1,0 +1,104 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">New Client</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <mat-tab-group mat-stretch-tabs>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">
+                        <i class="flaticon-add"></i>
+                    </mat-icon>
+                    Company Information
+                </ng-template>
+                <form class="kt-form kt-form--label-right">
+                    <div class="kt-portlet__body">
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <label>Attorney</label>
+                                <select class="form-control">
+                                    <option value="undefined" selected>Select Attorney</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <label>Contact Person at Attorney</label>
+                                <select class="form-control">
+                                    <option value="undefined" selected>Select Contact Attorney</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-lg-12">
+                            <label>Court Date</label>
+                            <div class="kt-input-icon">
+                                <input type="text" class="form-control" placeholder="dd-mm-yyyy">
+                                <span class=" kt-input-icon__icon kt-input-icon__icon--right"><span><i
+                                            class="la la-calendar-o"></i></span></span>
+                            </div>
+                            <span class="form-text text-muted">Please enter Court Date</span>
+                        </div>
+                    </div>
+                </form>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon class="example-tab-icon">
+                        <i class="flaticon-user-add"></i>
+                    </mat-icon>
+                    Client Information
+                </ng-template>
+                <div class="form-group row">
+                    <div class="col-lg-12">
+                        <label>Case Number</label>
+                        <input type="text" class="form-control" placeholder="Enter Case Number">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        <label>Title</label>
+                        <select class="form-control">
+                            <option value="undefined" selected>Mr.</option>
+                            <option value="undefined">Mrs.</option>
+                            <option value="undefined">Rev.</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-5">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" placeholder="Enter First Name">
+                    </div>
+                    <div class="col-lg-5">
+                        <label>Last Name</label>
+                        <input type="text" class="form-control" placeholder="Enter Last Name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-6">
+                        <label>Id Number</label>
+                        <input type="text" class="form-control" placeholder="Enter Id Number">
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Date Of Assessment</label>
+
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="dd-mm-yyyy">
+                            <span class="input-group-addon"><span><i class="fa fa-calendar-o"></i></span></span>
+                        </div>
+                        <span class="form-text text-muted">Please enter Select Date</span>
+                    </div>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+    <div class="modal-footer">
+        <button type="button" mat-raised-button color="default" (click)="modal.close()">Close</button>
+        <button type="button" mat-raised-button color="primary">Save changes</button>
+    </div>
+</ng-template>

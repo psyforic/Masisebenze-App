@@ -5,7 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-new-job-description',
   templateUrl: './new-job-description.component.html',
-  styleUrls: ['./new-job-description.component.css']
+  styleUrls: ['./new-job-description.component.scss']
 })
 export class NewJobDescriptionComponent implements OnInit {
 

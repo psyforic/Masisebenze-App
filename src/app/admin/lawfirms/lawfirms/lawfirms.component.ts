@@ -3,6 +3,8 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Router } from '@angular/router';
 import { NewAttorneyComponent } from '../attorneys/new-attorney/new-attorney.component';
 import { EditAttorneyComponent } from '../attorneys/edit-attorney/edit-attorney.component';
+import { NewLawfirmComponent } from './new-lawfirm/new-lawfirm.component';
+import { EditLawfirmComponent } from './edit-lawfirm/edit-lawfirm.component';
 
 export interface User {
   id: number;
@@ -12,7 +14,7 @@ export interface User {
 @Component({
   selector: 'app-lawfirms',
   templateUrl: './lawfirms.component.html',
-  styleUrls: ['./lawfirms.component.css']
+  styleUrls: ['./lawfirms.component.scss']
 })
 export class LawfirmsComponent implements OnInit, AfterViewInit {
 
@@ -21,10 +23,10 @@ export class LawfirmsComponent implements OnInit, AfterViewInit {
   displayedColumns = ['attNo', 'fullName', 'email', 'actions'];
 
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('newAttorney', { static: true }) newAttorney: NewAttorneyComponent;
-  @ViewChild('editAttorney', { static: true }) editAttorney: EditAttorneyComponent;
+  @ViewChild('newLawFirm', { static: true }) newLawFirm: NewLawfirmComponent;
+  @ViewChild('editLawFirm', { static: true }) editLawFirm: EditLawfirmComponent;
 
   constructor(private router: Router) {
 
@@ -48,11 +50,11 @@ export class LawfirmsComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  createNewAttorney() {
-    this.router.navigate(['./new']);
+  createNewLawFirm() {
+    this.newLawFirm.open();
   }
-  editSelectedAttorney() {
-    this.editAttorney.open();
+  editSelectedLawFirm() {
+    this.editLawFirm.open();
   }
 
 }

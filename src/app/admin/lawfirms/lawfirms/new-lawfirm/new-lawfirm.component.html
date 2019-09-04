@@ -1,0 +1,155 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">New Law Firm</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="lawFirmForm">
+            <mat-tab-group mat-stretch-tabs>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">
+                            account_balance
+                        </mat-icon>
+                        Company Information
+                    </ng-template>
+
+                    <div class="content">
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Company Name</mat-label>
+                                    <input type="text" matInput placeholder="Company Name"
+                                        formControlName="companyName">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Email</mat-label>
+                                    <input type="email" matInput placeholder="email@example.com"
+                                        formControlName="email">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Phone</mat-label>
+                                    <input type="text" matInput placeholder="041 2345 678" formControlName="phone">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Fax</mat-label>
+                                    <input type="text" matInput placeholder="Fax" formControlName="fax">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">
+                            map
+                        </mat-icon>
+                        Address Details
+                    </ng-template>
+                    <div formArrayName="addresses">
+                        <div *ngFor="let address of aliases().controls; let i=index">
+                            <!-- address header, show remove button when more than one address available -->
+                            <div>
+                                <span>Address {{i + 1}}</span>
+                                <span *ngIf="aliases().length > 1" (click)="removeAddress(i)">
+                                </span>
+                            </div>
+
+                            <!-- Angular assigns array index as group name by default 0, 1, 2, ... -->
+                            <div [formGroupName]="i">
+                                <!--Line 1-->
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <mat-form-field>
+                                            <mat-label>Line 1</mat-label>
+                                            <input type="text" matInput placeholder="Address Line 1"
+                                                formControlName="line1">
+                                        </mat-form-field>
+                                        <!-- <small [hidden]="aliases().controls[i].controls.line1.valid">
+                                            line 1 is required
+                                        </small> -->
+                                    </div>
+                                </div>
+                                <!--Line 2-->
+                                <div class="form-group row">
+                                    <div class="col-sm-12">
+                                        <mat-form-field>
+                                            <mat-label>Line 2</mat-label>
+                                            <input type="text" matInput placeholder="Address Line 2"
+                                                formControlName="line2">
+                                        </mat-form-field>
+                                        <!-- <small [hidden]="aliases().controls[i].controls.line2.valid">
+                                            line 2 is required
+                                        </small> -->
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <mat-form-field>
+                                            <mat-label>City</mat-label>
+                                            <input type="text" matInput formControlName="city">
+                                        </mat-form-field>
+                                        <!-- <small [hidden]="aliases().controls[i].controls.city.valid">
+                                                city is required
+                                            </small> -->
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field>
+                                            <mat-label>Postal Code</mat-label>
+                                            <input type="text" matInput formControlName="postalCode">
+                                        </mat-form-field>
+                                        <!-- <small
+                                                            [hidden]="aliases().controls[i].controls.postalCode.valid">
+                                                            Postal Code is required
+                                                        </small> -->
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <mat-form-field>
+                                            <mat-label>Province</mat-label>
+                                            <input type="text" matInput formControlName="province">
+                                        </mat-form-field>
+                                        <!-- <small
+                                             [hidden]="aliases().controls[i].controls.province.valid">
+                                                  Province is required
+                                                   </small> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="aliases().length <=1" class="form-group row">
+                        <div class="col-md-6">
+                            <a href="javascript:void(0)" (click)="addPostalAddress()">
+                                <i class="fa fa-plus-circle"> Add Postal Address </i>
+                            </a>
+                        </div>
+                        <div class="col-md-6 pull-right">
+                            <mat-checkbox>Same as Physical Address</mat-checkbox>
+                        </div>
+                    </div>
+
+                </mat-tab>
+            </mat-tab-group>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" mat-raised-button color="default" (click)="modal.close()">Close</button>
+        <button type="button" mat-raised-button color="primary">Save changes</button>
+    </div>
+</ng-template>

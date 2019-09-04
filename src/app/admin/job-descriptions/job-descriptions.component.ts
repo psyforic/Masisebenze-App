@@ -10,7 +10,7 @@ export interface Job {
 @Component({
   selector: 'app-job-descriptions',
   templateUrl: './job-descriptions.component.html',
-  styleUrls: ['./job-descriptions.component.css']
+  styleUrls: ['./job-descriptions.component.scss']
 })
 export class JobDescriptionsComponent implements OnInit, AfterViewInit {
 

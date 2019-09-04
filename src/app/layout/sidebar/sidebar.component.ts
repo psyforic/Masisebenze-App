@@ -17,8 +17,9 @@ export interface ChildrenItems {
 }
 export const ROUTES: RouteInfo[] = [
   { path: '/admin/dashboard', title: 'Dashboard', icon: 'th-large', type: 'link' },
+  { path: '/admin/lawfirms', title: 'Law Firms', icon: 'university', type: 'link' },
   {
-    path: '/admin/attorneys', title: 'Attorneys', icon: 'university', type: 'sub',
+    path: '/admin/attorneys', title: 'Attorneys', icon: 'gavel', type: 'sub',
     children: [
       { path: 'list', title: 'Attorney List', ab: 'A' },
       { path: 'clients', title: 'Clients', ab: 'C' }

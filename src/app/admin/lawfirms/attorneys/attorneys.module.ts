@@ -15,35 +15,36 @@ import { ViewAttorneyComponent } from './view-attorney/view-attorney.component';
 import { NewClientComponent } from './new-client/new-client.component';
 
 @NgModule({
-	declarations: [
-		AttorneysComponent,
-		NewAttorneyComponent,
-		EditAttorneyComponent,
-		NewContactComponent,
-		ViewAttorneyComponent,
-		NewClientComponent],
-	imports: [
-		CommonModule,
-		NgbModule,
-		PartialsModule,
-		RouterModule.forChild([
-			{
-				path: '',
-				component: AttorneysComponent
-			},
-			{
-				path: 'new',
-				component: NewAttorneyComponent
-			},
-			{
-				path: 'view/:id',
-				component: ViewAttorneyComponent
-			},
-		]),
-		FormsModule,
-		ReactiveFormsModule,
-		PartialsModule
-	],
-	entryComponents: [NewContactComponent]
+    declarations: [
+        AttorneysComponent,
+        NewAttorneyComponent,
+        EditAttorneyComponent,
+        NewContactComponent,
+        ViewAttorneyComponent,
+        NewClientComponent
+    ],
+    imports: [
+        CommonModule,
+        NgbModule,
+        PartialsModule,
+        RouterModule.forChild([
+            {
+                path: '',
+                component: AttorneysComponent
+            },
+            {
+                path: 'new',
+                component: NewAttorneyComponent
+            },
+            {
+                path: 'view/:id',
+                component: ViewAttorneyComponent
+            },
+        ]),
+        FormsModule,
+        ReactiveFormsModule,
+        PartialsModule
+    ],
+    entryComponents: [NewContactComponent]
 })
 export class AttorneysModule { }

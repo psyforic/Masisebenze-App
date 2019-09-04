@@ -4,7 +4,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-edit-job-description',
   templateUrl: './edit-job-description.component.html',
-  styleUrls: ['./edit-job-description.component.css']
+  styleUrls: ['./edit-job-description.component.scss']
 })
 export class EditJobDescriptionComponent implements OnInit {
 

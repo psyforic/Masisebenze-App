@@ -22,6 +22,7 @@ import { NewAttorneyComponent } from './lawfirms/attorneys/new-attorney/new-atto
                 component: AdminComponent,
                 children: [
                     { path: 'dashboard', component: DashboardComponent },
+                    { path: 'lawfirms', component: LawfirmsComponent },
                     { path: 'job-descriptions', component: JobDescriptionsComponent },
                     { path: 'reports', component: ReportsComponent },
                     { path: 'activity-log', component: ActivityLogComponent },

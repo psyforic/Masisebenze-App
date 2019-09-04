@@ -33,6 +33,9 @@ import { PartialsModule } from '../partials/partials.module';
 import { RouterModule } from '@angular/router';
 import { AttorneysModule } from './attorneys/attorneys.module';
 import { ClientsModule } from './clients/clients.module';
+import { NewLawfirmComponent } from './lawfirms/new-lawfirm/new-lawfirm.component';
+import { EditLawfirmComponent } from './lawfirms/edit-lawfirm/edit-lawfirm.component';
+import { ViewLawfirmComponent } from './lawfirms/view-lawfirm/view-lawfirm.component';
 
 
 
@@ -40,6 +43,9 @@ import { ClientsModule } from './clients/clients.module';
   declarations: [
     ContactsComponent,
     LawfirmsComponent,
+    NewLawfirmComponent,
+    EditLawfirmComponent,
+    ViewLawfirmComponent,
   ],
   imports: [
     CommonModule,

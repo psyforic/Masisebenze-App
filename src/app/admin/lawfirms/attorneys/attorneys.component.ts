@@ -12,7 +12,7 @@ export interface User {
 @Component({
   selector: 'app-attorneys',
   templateUrl: './attorneys.component.html',
-  styleUrls: ['./attorneys.component.css']
+  styleUrls: ['./attorneys.component.scss']
 })
 export class AttorneysComponent implements OnInit, AfterViewInit {
 
