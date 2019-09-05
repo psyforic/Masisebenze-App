@@ -36,6 +36,8 @@ import { ClientsModule } from './clients/clients.module';
 import { NewLawfirmComponent } from './lawfirms/new-lawfirm/new-lawfirm.component';
 import { EditLawfirmComponent } from './lawfirms/edit-lawfirm/edit-lawfirm.component';
 import { ViewLawfirmComponent } from './lawfirms/view-lawfirm/view-lawfirm.component';
+import { NewContactComponent } from './lawfirms/new-contact/new-contact.component';
+import { NewClientComponent } from './lawfirms/new-client/new-client.component';
 
 
 
@@ -46,6 +48,8 @@ import { ViewLawfirmComponent } from './lawfirms/view-lawfirm/view-lawfirm.compo
     NewLawfirmComponent,
     EditLawfirmComponent,
     ViewLawfirmComponent,
+    NewContactComponent,
+    NewClientComponent
   ],
   imports: [
     CommonModule,
@@ -78,6 +82,7 @@ import { ViewLawfirmComponent } from './lawfirms/view-lawfirm/view-lawfirm.compo
     MatTooltipModule,
     MatDialogModule,
     ClientsModule
-  ]
+  ],
+  entryComponents: [NewClientComponent, NewContactComponent]
 })
 export class LawfirmsModule { }

@@ -31,16 +31,18 @@
               }
             ],
             "styles": [
-              "node_modules/toastr/build/toastr.css",
               "node_modules/font-awesome/css/font-awesome.css",
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "src/assets/scss/material-dashboard.scss",
+              "node_modules/toastr/build/toastr.css",
               "src/assets/css/demo.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.js",
+              "node_modules/toastr/toastr.js",
               "node_modules/jquery-migrate/dist/jquery-migrate.min.js",
               "node_modules/js-cookie/src/js.cookie.js",
               "node_modules/lodash/lodash.min.js",
@@ -59,9 +61,7 @@
               "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
               "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
               "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
-              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
-              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.js",
-              "src/assets/js/material-dashboard.min.js"
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js"
             ]
           },
           "configurations": {

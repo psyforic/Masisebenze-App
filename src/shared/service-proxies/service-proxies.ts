@@ -2427,6 +2427,60 @@ export class LawFirmServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getLawFirms(input: any | null | undefined): Observable<ListResultDtoOfLawFirmListDto> {
+        let url_ = this.baseUrl + "/api/services/app/LawFirm/GetLawFirms?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLawFirms(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLawFirms(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfLawFirmListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfLawFirmListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLawFirms(response: HttpResponseBase): Observable<ListResultDtoOfLawFirmListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfLawFirmListDto.fromJS(resultData200) : new ListResultDtoOfLawFirmListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfLawFirmListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -4387,6 +4441,9 @@ export interface IRegisterOutput {
 
 export class CreateAttorneyInput implements ICreateAttorneyInput {
     lawFirmId: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -4403,6 +4460,9 @@ export class CreateAttorneyInput implements ICreateAttorneyInput {
     init(data?: any) {
         if (data) {
             this.lawFirmId = data["lawFirmId"];
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.cellphone = data["cellphone"];
             this.phone = data["phone"];
             this.email = data["email"];
             this.fax = data["fax"];
@@ -4419,6 +4479,9 @@ export class CreateAttorneyInput implements ICreateAttorneyInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["lawFirmId"] = this.lawFirmId;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["cellphone"] = this.cellphone;
         data["phone"] = this.phone;
         data["email"] = this.email;
         data["fax"] = this.fax;
@@ -4435,6 +4498,9 @@ export class CreateAttorneyInput implements ICreateAttorneyInput {
 
 export interface ICreateAttorneyInput {
     lawFirmId: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -4443,6 +4509,9 @@ export interface ICreateAttorneyInput {
 export class AttorneyDetailOutput implements IAttorneyDetailOutput {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -4468,6 +4537,9 @@ export class AttorneyDetailOutput implements IAttorneyDetailOutput {
         if (data) {
             this.lawFirmId = data["lawFirmId"];
             this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.cellphone = data["cellphone"];
             this.phone = data["phone"];
             this.email = data["email"];
             this.fax = data["fax"];
@@ -4493,6 +4565,9 @@ export class AttorneyDetailOutput implements IAttorneyDetailOutput {
         data = typeof data === 'object' ? data : {};
         data["lawFirmId"] = this.lawFirmId;
         data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["cellphone"] = this.cellphone;
         data["phone"] = this.phone;
         data["email"] = this.email;
         data["fax"] = this.fax;
@@ -4518,6 +4593,9 @@ export class AttorneyDetailOutput implements IAttorneyDetailOutput {
 export interface IAttorneyDetailOutput {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -4831,6 +4909,9 @@ export interface IContact {
 export class Attorney implements IAttorney {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -4857,6 +4938,9 @@ export class Attorney implements IAttorney {
         if (data) {
             this.lawFirmId = data["lawFirmId"];
             this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.cellphone = data["cellphone"];
             this.phone = data["phone"];
             this.email = data["email"];
             this.fax = data["fax"];
@@ -4887,6 +4971,9 @@ export class Attorney implements IAttorney {
         data = typeof data === 'object' ? data : {};
         data["lawFirmId"] = this.lawFirmId;
         data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["cellphone"] = this.cellphone;
         data["phone"] = this.phone;
         data["email"] = this.email;
         data["fax"] = this.fax;
@@ -4917,6 +5004,9 @@ export class Attorney implements IAttorney {
 export interface IAttorney {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -5069,6 +5159,9 @@ export interface IClient {
 export class AttorneyListDto implements IAttorneyListDto {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -5094,6 +5187,9 @@ export class AttorneyListDto implements IAttorneyListDto {
         if (data) {
             this.lawFirmId = data["lawFirmId"];
             this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.cellphone = data["cellphone"];
             this.phone = data["phone"];
             this.email = data["email"];
             this.fax = data["fax"];
@@ -5119,6 +5215,9 @@ export class AttorneyListDto implements IAttorneyListDto {
         data = typeof data === 'object' ? data : {};
         data["lawFirmId"] = this.lawFirmId;
         data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["cellphone"] = this.cellphone;
         data["phone"] = this.phone;
         data["email"] = this.email;
         data["fax"] = this.fax;
@@ -5144,6 +5243,9 @@ export class AttorneyListDto implements IAttorneyListDto {
 export interface IAttorneyListDto {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
@@ -6561,6 +6663,57 @@ export interface ILawFirmListDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class ListResultDtoOfLawFirmListDto implements IListResultDtoOfLawFirmListDto {
+    items: LawFirmListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfLawFirmListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(LawFirmListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfLawFirmListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfLawFirmListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfLawFirmListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfLawFirmListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfLawFirmListDto {
+    items: LawFirmListDto[] | undefined;
 }
 
 export class PagedResultDtoOfLawFirmListDto implements IPagedResultDtoOfLawFirmListDto {

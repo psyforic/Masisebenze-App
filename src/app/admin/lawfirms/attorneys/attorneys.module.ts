@@ -10,18 +10,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PartialsModule } from '../../partials/partials.module';
 import { NewAttorneyComponent } from './new-attorney/new-attorney.component';
 import { EditAttorneyComponent } from './edit-attorney/edit-attorney.component';
-import { NewContactComponent } from './new-contact/new-contact.component';
+import { NewContactComponent } from '../lawfirms/new-contact/new-contact.component';
 import { ViewAttorneyComponent } from './view-attorney/view-attorney.component';
-import { NewClientComponent } from './new-client/new-client.component';
+import { NewClientComponent } from '../lawfirms/new-client/new-client.component';
 
 @NgModule({
     declarations: [
         AttorneysComponent,
-        NewAttorneyComponent,
         EditAttorneyComponent,
-        NewContactComponent,
         ViewAttorneyComponent,
-        NewClientComponent
+        NewAttorneyComponent
     ],
     imports: [
         CommonModule,
@@ -45,6 +43,6 @@ import { NewClientComponent } from './new-client/new-client.component';
         ReactiveFormsModule,
         PartialsModule
     ],
-    entryComponents: [NewContactComponent]
+    entryComponents: [NewAttorneyComponent]
 })
 export class AttorneysModule { }

@@ -6,7 +6,8 @@
                     <div class="card-header">
                         <div class="card-title">Law Firms</div>
                         <div class="header-toolbar">
-                            <button mat-raised-button color="primary" (click)="createNewLawFirm()" matTooltip="Create new Law Firm">
+                            <button mat-raised-button color="primary" (click)="createNewLawFirm()"
+                                matTooltip="Create new Law Firm">
                                 <mat-icon>add</mat-icon>
                             </button>
                         </div>
@@ -21,43 +22,45 @@
                             <div class="example-container">
                                 <mat-table [dataSource]="dataSource" matSort>
                                     <!-- ID Column -->
-                                    <ng-container matColumnDef="attNo">
+                                    <ng-container matColumnDef="companyName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            ID
+                                           Company Name
                                         </mat-header-cell>
-                                        <mat-cell *matCellDef="let att">
-                                            {{ att.id }}
-                                        </mat-cell>
-                                    </ng-container>
-                                    <!-- Name Column -->
-                                    <ng-container matColumnDef="fullName">
-                                        <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            Company Name
-                                        </mat-header-cell>
-                                        <mat-cell *matCellDef="let att">
-                                            <h6><a [routerLink]="['/attorneys/view', att.id]">{{ att.fullName }}</a>
+                                        <mat-cell *matCellDef="let law">
+
+                                            <h6><a [routerLink]="['/admin/lawfirms/view', law.id]">
+                                                    {{ law.companyName }}</a>
                                             </h6>
                                         </mat-cell>
                                     </ng-container>
-                                    <!-- Color Column -->
+                                    <!-- Name Column -->
                                     <ng-container matColumnDef="email">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
                                             Email
                                         </mat-header-cell>
-                                        <mat-cell *matCellDef="let att">
-                                            {{ att.email }}
+                                        <mat-cell *matCellDef="let law">
+                                            {{law.email}}
+                                        </mat-cell>
+                                    </ng-container>
+                                    <!-- Color Column -->
+                                    <ng-container matColumnDef="phone">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Phone
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let law">
+                                            {{ law.phone }}
                                         </mat-cell>
                                     </ng-container>
 
                                     <ng-container matColumnDef="actions">
                                         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-                                        <mat-cell *matCellDef="let user">
+                                        <mat-cell *matCellDef="let law">
                                             <button (click)="editSelectedLawFirm()" mat-icon-button color="primary"
-                                                matTooltip="Edit Attorney">
+                                                matTooltip="Edit Law Firm">
                                                 <mat-icon>create</mat-icon>
                                             </button>&nbsp;
-                                            <button mat-icon-button color="warn" matTooltip="Delete Attorney"
-                                                type="button">
+                                            <button (click)="delete(law)" mat-icon-button color="warn"
+                                                matTooltip="Delete Law Firm" type="button">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
                                         </mat-cell>
@@ -77,5 +80,5 @@
 
     </div>
 </div>
-<app-new-lawfirm #newLawFirm></app-new-lawfirm>
+<app-new-lawfirm #newLawFirm (newContact)="refresh()"></app-new-lawfirm>
 <app-edit-lawfirm #editLawFirm></app-edit-lawfirm>

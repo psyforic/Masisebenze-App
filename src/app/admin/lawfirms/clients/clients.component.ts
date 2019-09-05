@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewChecked, AfterViewInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { NewClientComponent } from '../attorneys/new-client/new-client.component';
+import { NewClientComponent } from '../lawfirms/new-client/new-client.component';
 
 export interface User {
   id: number;

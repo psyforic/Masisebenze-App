@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { NewContactComponent } from '../new-contact/new-contact.component';
-import { NewClientComponent } from '../new-client/new-client.component';
+import { NewContactComponent } from '../../lawfirms/new-contact/new-contact.component';
+import { NewClientComponent } from '../../lawfirms/new-client/new-client.component';
 
 export class Contact {
   id: number;

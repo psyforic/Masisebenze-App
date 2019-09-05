@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <div class="card-title">Attorneys</div>
                         <div class="header-toolbar">
-                            <button [routerLink]="['/admin/attorneys/new']" mat-raised-button color="primary">New
+                            <button (click)="createNewAttorney()" mat-raised-button color="primary">New
                                 Attorney</button>
                         </div>
                     </div>
@@ -20,21 +20,22 @@
                             <div class="example-container">
                                 <mat-table [dataSource]="dataSource" matSort>
                                     <!-- ID Column -->
-                                    <ng-container matColumnDef="attNo">
+                                    <ng-container matColumnDef="firstName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            ID
+                                            First Name
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let att">
-                                            {{ att.id }}
+                                            <h6><a [routerLink]="['/admin/attorneys/view', att.id]">{{ att.firstName }}</a>
+                                            </h6>
                                         </mat-cell>
                                     </ng-container>
                                     <!-- Name Column -->
-                                    <ng-container matColumnDef="fullName">
+                                    <ng-container matColumnDef="lastName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                            Company Name
+                                            Last Name
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let att">
-                                            <h6><a [routerLink]="['/attorneys/view', att.id]">{{ att.fullName }}</a>
+                                            <h6><a [routerLink]="['/attorneys/view', att.id]">{{ att.lastName }}</a>
                                             </h6>
                                         </mat-cell>
                                     </ng-container>
@@ -43,8 +44,28 @@
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
                                             Email
                                         </mat-header-cell>
+                                        <mat-cell *matCellDef="let att" matTooltip="{{att.email}}">
+                                            {{ (att.email.length>16)? (att.email | slice:0:16)+'...':(att.email) }}
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Color Column -->
+                                    <ng-container matColumnDef="phone">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            Work Phone
+                                        </mat-header-cell>
                                         <mat-cell *matCellDef="let att">
-                                            {{ att.email }}
+                                            {{ att.phone }}
+                                        </mat-cell>
+                                    </ng-container>
+
+                                    <!-- Color Column -->
+                                    <ng-container matColumnDef="lawFirm">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>
+                                            LawFirm
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let att">
+                                            Lundi
                                         </mat-cell>
                                     </ng-container>
 
@@ -78,3 +99,4 @@
 
     </div>
 </div>
+<kt-new-attorney #newAttorney (attorneyAdded)="refresh()"></kt-new-attorney>

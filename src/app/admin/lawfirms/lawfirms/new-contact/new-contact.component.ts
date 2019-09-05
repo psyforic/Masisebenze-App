@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Contact } from '../new-attorney/new-attorney.component';
+import { Contact } from '../../attorneys/new-attorney/new-attorney.component';
 
 @Component({
   selector: 'kt-new-contact',

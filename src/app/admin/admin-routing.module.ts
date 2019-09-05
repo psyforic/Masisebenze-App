@@ -10,6 +10,9 @@ import { ActivityLogComponent } from './activity-log/activity-log.component';
 import { JobDescriptionsComponent } from './job-descriptions/job-descriptions.component';
 import { LawfirmsComponent } from './lawfirms/lawfirms/lawfirms.component';
 import { NewAttorneyComponent } from './lawfirms/attorneys/new-attorney/new-attorney.component';
+import { ViewAttorneyComponent } from './lawfirms/attorneys/view-attorney/view-attorney.component';
+import { ViewLawfirmComponent } from './lawfirms/lawfirms/view-lawfirm/view-lawfirm.component';
+import { ViewClientComponent } from './lawfirms/clients/view-client/view-client.component';
 
 @NgModule({
 
@@ -29,7 +32,9 @@ import { NewAttorneyComponent } from './lawfirms/attorneys/new-attorney/new-atto
                     { path: 'attorneys/list', component: AttorneysComponent },
                     { path: 'lawfirms/list', component: LawfirmsComponent },
                     { path: 'attorneys/clients', component: ClientsComponent },
-                    { path: 'attorneys/new', component: NewAttorneyComponent }
+                    { path: 'attorneys/new', component: NewAttorneyComponent },
+                    { path: 'lawfirms/view/:id', component: ViewLawfirmComponent },
+                    { path: 'clients/view/:id', component: ViewClientComponent }
                 ]
             }
         ])

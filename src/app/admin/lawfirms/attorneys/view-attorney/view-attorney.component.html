@@ -18,7 +18,7 @@
                     </mat-icon>
                     Company Information
                 </ng-template>
-                <form class="kt-form kt-form--label-right">
+                <form>
                     <div class="kt-portlet__body">
                         <div class="form-group row">
                             <div class="col-lg-6">
@@ -236,7 +236,7 @@
                     Clients
                 </ng-template>
                 <div class="row">
-                    <div class="col-lg-12 kt-align-right">
+                    <div class="col-lg-12 pull-right">
                         <button type="button" (click)="addClient()" class="btn btn-primary">Add New Client</button>
                     </div>
                     <div class="mat-table__wrapper">
@@ -335,5 +335,3 @@
         </mat-tab-group>
     </div>
 </div>
-<kt-new-contact (newContact)="displayContact($event)" #newContact></kt-new-contact>
-<kt-new-client #newClient></kt-new-client>
