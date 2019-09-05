@@ -1,23 +1,111 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Injector, Output, EventEmitter } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { AppComponentBase } from '@shared/app-component-base';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import {
+  ClientServiceProxy,
+  CreateClientInput,
+  ContactListDto,
+  AttorneyListDto,
+  LawFirmServiceProxy,
+  LawFirmListDto
+} from '@shared/service-proxies/service-proxies';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-client',
   templateUrl: './new-client.component.html',
-  styleUrls: ['./new-client.component.scss']
+  styleUrls: ['./new-client.component.scss'],
+  providers: [ClientServiceProxy, LawFirmServiceProxy]
 })
-export class NewClientComponent implements OnInit {
+export class NewClientComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: true }) content: ElementRef;
-  modalRef: BsModalRef;
+  @Output() clientAdded = new EventEmitter();
   closeResult: string;
-  constructor(private modalService: BsModalService) { }
-  ngOnInit(): void {
-   
-  }
+  filter = '';
+  clientForm: FormGroup;
 
+  attorneyControl = new FormControl();
+  contactControl = new FormControl();
+  lawFirmControl = new FormControl();
+  attorneys: AttorneyListDto[] = [];
+  contacts: ContactListDto[] = [];
+  lawFirms: LawFirmListDto[] = [];
+  lawFirmId: string;
+  clientInput: CreateClientInput = new CreateClientInput();
+  constructor(private injector: Injector,
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private clientService: ClientServiceProxy,
+    private lawFirmService: LawFirmServiceProxy) {
+    super(injector);
+  }
+  ngOnInit(): void {
+    this.initializeForm();
+    this.getLawFirms();
+  }
+  initializeForm() {
+    this.clientForm = this.fb.group({
+      attorneyId: ['', Validators.required],
+      contactId: ['', Validators.required],
+      courtDate: ['', Validators.required],
+      caseNumber: ['', Validators.required],
+      title: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      idNumber: ['', Validators.required],
+      assessmentDate: ['', Validators.required]
+    });
+  }
   open() {
-    this.modalRef = this.modalService.show(this.content);
+
+    this.modalService.open(this.content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  getLawFirms() {
+    this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
+      this.lawFirms = result.items;
+    });
+  }
+  getAttorneys() {
+    this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {
+      this.attorneys = result.items;
+    });
+  }
+  getContacts() {
+    this.lawFirmService.getContacts(this.lawFirmId).subscribe((result) => {
+      this.contacts = result.items;
+    });
+  }
+  selectedId(event) {
+    this.lawFirmId = event.target.value;
+    this.getAttorneys();
+    this.getContacts();
+    console.log(event.target.value);
+  }
+  save() {
+    this.clientInput = Object.assign({}, this.clientForm.value);
+    this.clientService.create(this.clientInput)
+      .pipe(finalize(() => {
+
+      }))
+      .subscribe(() => {
+        this.notify.success('Saved Successfully');
+        this.clientAdded.emit(this.clientInput);
+        this.modalService.dismissAll();
+      });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

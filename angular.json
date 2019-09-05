@@ -41,7 +41,7 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
-              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar..min.js",
               "node_modules/toastr/toastr.js",
               "node_modules/jquery-migrate/dist/jquery-migrate.min.js",
               "node_modules/js-cookie/src/js.cookie.js",

@@ -23,11 +23,11 @@ export class Contact {
     providers: [LawFirmServiceProxy, AttorneyServiceProxy]
 })
 export class NewAttorneyComponent extends AppComponentBase implements OnInit {
-
-    closeResult: string;
     @ViewChild('newContact', { static: false }) newContactRef: NewContactComponent;
     @ViewChild('content', { static: false }) content: ElementRef;
     @Output() attorneyAdded = new EventEmitter();
+    closeResult: string;
+    filter = '';
     newAttorneyForm: FormGroup;
     lawFirms: LawFirmListDto[] = [];
     attorneyInput: CreateAttorneyInput = new CreateAttorneyInput();
@@ -60,7 +60,7 @@ export class NewAttorneyComponent extends AppComponentBase implements OnInit {
         });
     }
     getLawFirms() {
-        this.lawFirmService.getLawFirms().subscribe((result) => {
+        this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
             this.lawFirms = result.items;
             console.log(result.items);
         });

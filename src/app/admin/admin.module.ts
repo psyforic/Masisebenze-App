@@ -11,7 +11,6 @@ import { ReportsModule } from './reports/reports.module';
 import { ActivityLogModule } from './activity-log/activity-log.module';
 import { LawfirmsModule } from './lawfirms/lawfirms.module';
 import { PartialsModule } from './partials/partials.module';
-import { ClientsModule } from './lawfirms/clients/clients.module';
 
 @NgModule({
   imports: [

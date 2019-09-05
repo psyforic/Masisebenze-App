@@ -2484,6 +2484,114 @@ export class LawFirmServiceProxy {
      * @param id (optional) 
      * @return Success
      */
+    getAttorneys(id: string | null | undefined): Observable<ListResultDtoOfAttorneyListDto> {
+        let url_ = this.baseUrl + "/api/services/app/LawFirm/GetAttorneys?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAttorneys(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAttorneys(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAttorneyListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAttorneyListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAttorneys(response: HttpResponseBase): Observable<ListResultDtoOfAttorneyListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAttorneyListDto.fromJS(resultData200) : new ListResultDtoOfAttorneyListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAttorneyListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getContacts(id: string | null | undefined): Observable<ListResultDtoOfContactListDto> {
+        let url_ = this.baseUrl + "/api/services/app/LawFirm/GetContacts?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetContacts(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetContacts(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfContactListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfContactListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetContacts(response: HttpResponseBase): Observable<ListResultDtoOfContactListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfContactListDto.fromJS(resultData200) : new ListResultDtoOfContactListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfContactListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
     get(id: string | null | undefined): Observable<LawFirmListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/Get?";
         if (id !== undefined)
@@ -6714,6 +6822,108 @@ export class ListResultDtoOfLawFirmListDto implements IListResultDtoOfLawFirmLis
 
 export interface IListResultDtoOfLawFirmListDto {
     items: LawFirmListDto[] | undefined;
+}
+
+export class ListResultDtoOfAttorneyListDto implements IListResultDtoOfAttorneyListDto {
+    items: AttorneyListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfAttorneyListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AttorneyListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfAttorneyListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfAttorneyListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfAttorneyListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfAttorneyListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfAttorneyListDto {
+    items: AttorneyListDto[] | undefined;
+}
+
+export class ListResultDtoOfContactListDto implements IListResultDtoOfContactListDto {
+    items: ContactListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfContactListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ContactListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfContactListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfContactListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfContactListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfContactListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfContactListDto {
+    items: ContactListDto[] | undefined;
 }
 
 export class PagedResultDtoOfLawFirmListDto implements IPagedResultDtoOfLawFirmListDto {
