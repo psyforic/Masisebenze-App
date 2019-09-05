@@ -62,7 +62,6 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
       })).subscribe((result) => {
         this.lawFirms = result.items;
         this.dataSource = new MatTableDataSource(this.lawFirms);
-        console.log('DATA', this.dataSource.data);
         this.showPaging(result, pageNumber);
       });
 

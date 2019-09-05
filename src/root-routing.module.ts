@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: 'app/admin/admin.module#AdminModule', // Lazy load client-user module
         data: { preload: true }
     },
+    {
+        path: 'documents/upload',
+        loadChildren: 'app/admin/documents/documents.module#DocumentsModule'
+    },
 ];
 
 @NgModule({

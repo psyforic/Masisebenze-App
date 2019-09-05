@@ -150,7 +150,7 @@
                                                 <mat-form-field>
                                                     <mat-label>Postal Code</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.postalCode" name="line1"
+                                                        [(ngModel)]="lawFirm?.physicalAddress.postalCode" name="line1"
                                                         disabled>
                                                 </mat-form-field>
                                             </div>
@@ -172,23 +172,16 @@
                                 Contacts
                             </ng-template>
                             <div class="row">
-                                <div class="col-lg-12 pull-right">
-                                    <button (click)="addContact()" mat-raised-button color="primary" type="button">
+                                <div class="col-lg-12 mt-1">
+                                    <button class="pull-right" (click)="addContact()" mat-raised-button color="primary"
+                                        type="button">
                                         Add New Contact
                                     </button>
                                 </div>
                                 <div class="mat-table__wrapper" *ngIf="contacts.length > 0">
                                     <div class="example-container">
                                         <mat-table [dataSource]="dataSource" matSort>
-                                            <!-- ID Column -->
-                                            <ng-container matColumnDef="id">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                    ID
-                                                </mat-header-cell>
-                                                <mat-cell *matCellDef="let contact">
-                                                    {{ contact.id }}
-                                                </mat-cell>
-                                            </ng-container>
+                                           
                                             <!-- Progress Column -->
                                             <ng-container matColumnDef="firstName">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -216,12 +209,12 @@
                                                     {{ contact.email }}
                                                 </mat-cell>
                                             </ng-container>
-                                            <ng-container matColumnDef="phone">
+                                            <ng-container matColumnDef="role">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                    Phone
+                                                    Role
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let contact">
-                                                    {{ contact.phone }}
+                                                    {{ contact.role }}
                                                 </mat-cell>
                                             </ng-container>
 
@@ -249,8 +242,6 @@
                         </div>
                     </mat-tab>
 
-
-
                     <mat-tab>
                         <div class="col-lg-12">
                             <ng-template mat-tab-label>
@@ -260,10 +251,10 @@
                                 Clients
                             </ng-template>
                             <div class="row">
-                                <div class="pull-right">
-                                    <button type="button" (click)="addClient()" mat-raised-button color="primary">Add
-                                        New
-                                        Client</button>
+                                <div class="col-lg-12 mt-1">
+                                    <button class="pull-right" type="button" (click)="addClient()" mat-raised-button
+                                        color="primary">
+                                        New Client</button>
                                 </div>
                                 <div class="mat-table__wrapper">
                                     <div class="example-header">
@@ -369,5 +360,5 @@
         </div>
     </div>
 </div>
-<kt-new-contact (newContact)="displayContact($event)" #newContact></kt-new-contact>
+<kt-new-contact (newContact)="displayContact($event)" #newContact [lawFirmId]="lawFirmId"></kt-new-contact>
 <kt-new-client #newClient></kt-new-client>

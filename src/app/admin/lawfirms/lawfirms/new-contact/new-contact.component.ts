@@ -1,21 +1,29 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Input, Injector } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Contact } from '../../attorneys/new-attorney/new-attorney.component';
+import { CreateContactInput, ContactServiceProxy } from '@shared/service-proxies/service-proxies';
+import { finalize } from 'rxjs/operators';
+import { AppComponentBase } from '@shared/app-component-base';
 
 @Component({
   selector: 'kt-new-contact',
   templateUrl: './new-contact.component.html',
-  styleUrls: ['./new-contact.component.scss']
+  styleUrls: ['./new-contact.component.scss'],
+  providers: [ContactServiceProxy]
 })
-export class NewContactComponent implements OnInit {
+export class NewContactComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() newContact = new EventEmitter();
+  @Input() lawFirmId = new Input();
   closeResult: string;
-  contact: Contact = new Contact();
-  constructor(private modalService: NgbModal) { }
+  contact: CreateContactInput = new CreateContactInput();
+  constructor(private injector: Injector, private modalService: NgbModal,
+    private contactService: ContactServiceProxy) {
+    super(injector);
+  }
   ngOnInit(): void {
-
+    this.contact.lawFirmId = this.lawFirmId;
   }
 
   open() {
@@ -26,9 +34,17 @@ export class NewContactComponent implements OnInit {
     });
   }
   contactAdded() {
-    this.contact.id = 23;
     this.newContact.emit(this.contact);
     this.modalService.dismissAll();
+  }
+  save() {
+    this.contactService.create(this.contact)
+      .pipe(finalize(() => { }))
+      .subscribe(() => {
+        this.notify.success('Saved Successfully');
+        this.newContact.emit(this.contact);
+        this.modalService.dismissAll();
+      });
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

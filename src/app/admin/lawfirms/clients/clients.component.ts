@@ -1,44 +1,27 @@
-import { Component, OnInit, AfterViewChecked, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { NewClientComponent } from '../lawfirms/new-client/new-client.component';
+import { ClientListDto, ClientServiceProxy } from '@shared/service-proxies/service-proxies';
+import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
+import { finalize } from 'rxjs/operators';
 
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  dob: string;
-  age: number;
-  dateOfInjury: string;
-}
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.scss']
+  styleUrls: ['./clients.component.scss'],
+  providers: [ClientServiceProxy]
 })
-export class ClientsComponent implements OnInit, AfterViewInit {
-
-  dataSource: MatTableDataSource<User>;
-  displayedColumns = ['id', 'firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
+export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
   @ViewChild('newClient', { static: false }) newClientRef: NewClientComponent;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
-  constructor() {
-
-  }
-  ngOnInit() {
-    const users: User[] = [
-      { id: 1, firstName: 'Johan', lastName: 'Schaeffer', dob: '29 July 1977', age: 42, dateOfInjury: '23 October 2018' },
-      { id: 2, firstName: 'Xola', lastName: 'Gqulu', dob: '13 March 1990', age: 29, dateOfInjury: '09 March 2019' },
-      { id: 3, firstName: 'Sivuyile', lastName: 'Gonondo', dob: '08 September 1969', age: 49, dateOfInjury: '29 September 2018' },
-      { id: 4, firstName: 'Gert', lastName: 'Adams', dob: '23 December 1997', age: 21, dateOfInjury: '14 July 2015' }
-    ];
-    this.dataSource = new MatTableDataSource(users);
-
-  }
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  dataSource: MatTableDataSource<ClientListDto>;
+  displayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
+  clients: ClientListDto[] = [];
+  constructor(private injector: Injector,
+    private clientService: ClientServiceProxy) {
+    super(injector);
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -48,4 +31,31 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   createClient() {
     this.newClientRef.open();
   }
+  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
+    this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+      .pipe(finalize(() => {
+        finishedCallback();
+      }))
+      .subscribe((result) => {
+        this.clients = result.items;
+        this.dataSource = new MatTableDataSource(this.clients);
+        this.showPaging(result, pageNumber);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+  }
+  protected delete(entity: ClientListDto): void {
+    abp.message.confirm(
+      'Delete Client \'' + entity.firstName + ' ' + entity.lastName + '\'?',
+      (result: boolean) => {
+        if (result) {
+          this.clientService.delete(entity.id).pipe(finalize(() => {
+            abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
+            this.refresh();
+          })).subscribe(() => { });
+        }
+      }
+    );
+  }
+
 }

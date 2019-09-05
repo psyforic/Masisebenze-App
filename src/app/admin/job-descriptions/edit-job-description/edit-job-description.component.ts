@@ -1,36 +1,57 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CreateJobDescriptionInput, JobDescriptionServiceProxy, JobDescriptionDetailOutput } from '@shared/service-proxies/service-proxies';
+import { finalize } from 'rxjs/operators';
+import { AppComponentBase } from '@shared/app-component-base';
 
 @Component({
   selector: 'app-edit-job-description',
   templateUrl: './edit-job-description.component.html',
   styleUrls: ['./edit-job-description.component.scss']
 })
-export class EditJobDescriptionComponent implements OnInit {
+export class EditJobDescriptionComponent extends AppComponentBase implements OnInit {
 
-  @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
+  @Output() jobDescriptionUpdated = new EventEmitter();
+  modalRef: BsModalRef;
   closeResult: string;
-  constructor(private modalService: NgbModal) { }
-
-  ngOnInit(): void {
-
+  id: number;
+  jobDescriptionForm: FormGroup;
+  jobDescriptionDetail: JobDescriptionDetailOutput = new JobDescriptionDetailOutput();
+  constructor(private injector: Injector, private modalService: BsModalService,
+    private fb: FormBuilder, private jobDescriptionService: JobDescriptionServiceProxy) {
+    super(injector);
   }
-  open() {
-    this.modalService.open(this.content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+  initializeForm() {
+    this.jobDescriptionForm = this.fb.group({
+      code: ['', Validators.required],
+      title: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
+  save() {
+    this.jobDescriptionDetail = Object.assign({}, this.jobDescriptionForm.value);
+    this.jobDescriptionDetail.id = this.id;
+    this.jobDescriptionService.editJobDescription(this.jobDescriptionDetail)
+      .pipe(finalize(() => { }))
+      .subscribe(() => {
+        this.notify.success('Updated Successfully');
+        this.jobDescriptionUpdated.emit(this.jobDescriptionDetail);
+        this.modalRef.hide();
+      });
+  }
+  open(id: number) {
+    this.jobDescriptionService.getDetail(id).subscribe(result => {
+      this.jobDescriptionDetail = result;
+      this.id = result.id;
+      this.jobDescriptionForm.patchValue(result);
+    });
+    this.modalRef = this.modalService.show(this.content);
   }
 
 }

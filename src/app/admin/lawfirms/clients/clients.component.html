@@ -20,15 +20,6 @@
                     </div>
                     <div class="example-container">
                         <mat-table [dataSource]="dataSource" matSort>
-                            <!-- ID Column -->
-                            <ng-container matColumnDef="id">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    ID
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let user">
-                                    {{ user.id }}
-                                </mat-cell>
-                            </ng-container>
                             <!-- Progress Column -->
                             <ng-container matColumnDef="firstName">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -107,4 +98,4 @@
         </div>
     </div>
 </div>
-<app-new-client #newClient></app-new-client>
+<app-new-client #newClient (clientAdded)="refresh()"></app-new-client>

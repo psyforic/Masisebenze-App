@@ -11,6 +11,7 @@ import {
   LawFirmListDto
 } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'app-new-client',
@@ -19,7 +20,7 @@ import { finalize } from 'rxjs/operators';
   providers: [ClientServiceProxy, LawFirmServiceProxy]
 })
 export class NewClientComponent extends AppComponentBase implements OnInit {
-
+  datePickerConfig: Partial<BsDatepickerConfig>;
   @ViewChild('content', { static: true }) content: ElementRef;
   @Output() clientAdded = new EventEmitter();
   closeResult: string;
@@ -40,13 +41,17 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     private clientService: ClientServiceProxy,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
+    this.datePickerConfig = Object.assign({}, { containerClass: 'theme-default', dateInputFormat: 'YYYY-MM-DD' });
   }
   ngOnInit(): void {
     this.initializeForm();
     this.getLawFirms();
+    this.getAttorneys();
+    this.getContacts();
   }
   initializeForm() {
     this.clientForm = this.fb.group({
+      lawFirmId: ['', Validators.required],
       attorneyId: ['', Validators.required],
       contactId: ['', Validators.required],
       courtDate: ['', Validators.required],
@@ -69,6 +74,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   getLawFirms() {
     this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
       this.lawFirms = result.items;
+      this.lawFirmId = this.lawFirms[0].id;
     });
   }
   getAttorneys() {
@@ -89,7 +95,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.clientInput = Object.assign({}, this.clientForm.value);
-    this.clientService.create(this.clientInput)
+    this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
 
       }))

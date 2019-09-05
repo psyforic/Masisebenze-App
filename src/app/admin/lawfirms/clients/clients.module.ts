@@ -6,7 +6,7 @@ import { ViewClientComponent } from './view-client/view-client.component';
 import { NewClientComponent } from './new-client/new-client.component';
 import { PartialsModule } from '@app/admin/partials/partials.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -20,6 +20,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     CommonModule,
     MatAutocompleteModule,
     PartialsModule,
+    BsDatepickerModule.forRoot(),
   ],
   entryComponents: [NewClientComponent]
 })

@@ -4,38 +4,31 @@ import { NewContactComponent } from '../new-contact/new-contact.component';
 import { NewClientComponent } from '../new-client/new-client.component';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
-import { LawFirmServiceProxy, LawFirmDetailOutput } from '@shared/service-proxies/service-proxies';
+import {
+  LawFirmServiceProxy,
+  LawFirmDetailOutput,
+  ContactListDto,
+  ContactServiceProxy,
+  ClientServiceProxy,
+  ClientListDto
+} from '@shared/service-proxies/service-proxies';
+import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
+import { finalize } from 'rxjs/operators';
 
-export class Contact {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  constructor() {
-  }
-}
-export interface Client {
-  id: number;
-  firstName: string;
-  lastName: string;
-  dob: string;
-  age: number;
-  dateOfInjury: string;
-}
+
 @Component({
   selector: 'app-view-lawfirm',
   templateUrl: './view-lawfirm.component.html',
   styleUrls: ['./view-lawfirm.component.scss'],
-  providers: [LawFirmServiceProxy]
+  providers: [LawFirmServiceProxy, ContactServiceProxy, ClientServiceProxy]
 })
-export class ViewLawfirmComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListDto> implements AfterViewInit {
 
-  dataSource: MatTableDataSource<Contact>;
-  clientDataSource: MatTableDataSource<Client>;
-  contacts: Contact[] = [];
-  clients: Client[] = [];
-  displayedColumns = ['id', 'firstName', 'lastName', 'email', 'phone', 'actions'];
+  dataSource: MatTableDataSource<ContactListDto> = new MatTableDataSource<ContactListDto>();
+  clientDataSource: MatTableDataSource<ClientListDto> = new MatTableDataSource<ClientListDto>();
+  contacts: ContactListDto[] = [];
+  clients: ClientListDto[] = [];
+  displayedColumns = ['firstName', 'lastName', 'email', 'role', 'actions'];
   clientDisplayedColumns = ['id', 'firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
   lawFirmId: string;
   lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
@@ -48,27 +41,14 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit, Af
 
   constructor(private injector: Injector,
     private route: ActivatedRoute,
-    private lawFimService: LawFirmServiceProxy) {
+    private lawFimService: LawFirmServiceProxy,
+    private contactService: ContactServiceProxy,
+    private clientService: ClientServiceProxy) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.lawFirmId = paramMap.get('id');
       this.getLawFirm();
     });
-  }
-  ngOnInit(): void {
-    this.contacts = [
-      { id: 1, firstName: 'Lundi', lastName: 'Mapundu', email: 'lundi@mapundu.co.za', phone: '0749183210' },
-      { id: 2, firstName: 'Lundi', lastName: 'Mapundu', email: 'lundi@developmenthub.co.za', phone: '0791602233' }
-    ];
-    this.dataSource = new MatTableDataSource(this.contacts);
-
-    this.clients = [
-      { id: 1, firstName: 'Johan', lastName: 'Schaeffer', dob: '29 July 1977', age: 42, dateOfInjury: '23 October 2018' },
-      { id: 2, firstName: 'Xola', lastName: 'Gqulu', dob: '13 March 1990', age: 29, dateOfInjury: '09 March 2019' },
-      { id: 3, firstName: 'Sivuyile', lastName: 'Gonondo', dob: '08 September 1969', age: 49, dateOfInjury: '29 September 2018' },
-      { id: 4, firstName: 'Gert', lastName: 'Adams', dob: '23 December 1997', age: 21, dateOfInjury: '14 July 2015' }
-    ];
-    this.clientDataSource = new MatTableDataSource(this.clients);
   }
   getLawFirm() {
     this.lawFimService.getDetail(this.lawFirmId).subscribe((result) => {
@@ -80,6 +60,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit, Af
     this.dataSource.sort = this.sort;
     this.clientDataSource.paginator = this.clientPaginator;
     this.clientDataSource.sort = this.clientSort;
+    this.refresh();
   }
   addContact() {
     this.newContactRef.open();
@@ -87,9 +68,8 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit, Af
   addClient() {
     this.newClientRef.open();
   }
-  displayContact(contact: Contact) {
-    console.log('Contact', contact);
-    this.contacts.push(contact);
+  displayContact(contact) {
+    this.refresh();
     this.dataSource._updateChangeSubscription();
 
   }
@@ -98,4 +78,61 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit, Af
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.clientDataSource.filter = filterValue;
   }
+  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
+    this.contactService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+      .pipe(finalize(() => {
+        finishedCallback();
+      }))
+      .subscribe((result) => {
+        result.items.forEach((value) => {
+          if (value.lawFirmId === this.lawFirmId) {
+            this.contacts.push(value);
+          }
+        });
+        this.dataSource = new MatTableDataSource(this.contacts);
+        this.showPaging(result, pageNumber);
+      });
+
+    this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+      .pipe(finalize(() => {
+        finishedCallback();
+      }))
+      .subscribe((result) => {
+        result.items.forEach((client) => {
+          if (client.lawFirmId === this.lawFirmId) {
+            this.clients.push(client);
+          }
+        });
+        this.clientDataSource = new MatTableDataSource(this.clients);
+        this.showPaging(result, pageNumber);
+      });
+  }
+  protected delete(entity: ContactListDto): void {
+    abp.message.confirm(
+      'Delete Contact \'' + entity.firstName + '\'?',
+      (result: boolean) => {
+        if (result) {
+          this.contactService.delete(entity.id).pipe(finalize(() => {
+            abp.notify.success('Deleted Contact: ' + entity.firstName);
+            this.refresh();
+          })).subscribe(() => { });
+        }
+      }
+    );
+  }
+
+  protected deleteClient(entity: ClientListDto): void {
+    abp.message.confirm(
+      'Delete Client \'' + entity.firstName + ' ' + entity.lastName + '\'?',
+      (result: boolean) => {
+        if (result) {
+          this.contactService.delete(entity.id).pipe(finalize(() => {
+            abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
+            this.refresh();
+          })).subscribe(() => { });
+        }
+      }
+    );
+  }
+
 }

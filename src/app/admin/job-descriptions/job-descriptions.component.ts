@@ -1,45 +1,31 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { EditJobDescriptionComponent } from './edit-job-description/edit-job-description.component';
 import { NewJobDescriptionComponent } from './new-job-description/new-job-description.component';
+import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
+import { JobDescriptionListDto, JobDescriptionServiceProxy } from '@shared/service-proxies/service-proxies';
+import { finalize } from 'rxjs/operators';
 
-export interface Job {
-  id: number;
-  name: string;
-}
 @Component({
   selector: 'app-job-descriptions',
   templateUrl: './job-descriptions.component.html',
-  styleUrls: ['./job-descriptions.component.scss']
+  styleUrls: ['./job-descriptions.component.scss'],
+  providers: [JobDescriptionServiceProxy]
 })
-export class JobDescriptionsComponent implements OnInit, AfterViewInit {
+export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescriptionListDto> implements AfterViewInit {
 
-  dataSource: MatTableDataSource<Job>;
+  dataSource: MatTableDataSource<JobDescriptionListDto>;
   displayedColumns = ['id', 'name', 'actions'];
-
+  jobDescriptions: JobDescriptionListDto[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild('editJob', { static: false }) editJob: EditJobDescriptionComponent;
   @ViewChild('newJob', { static: false }) newJob: NewJobDescriptionComponent;
-  constructor() {
-
+  constructor(private injector: Injector,
+    private jobDescriptionService: JobDescriptionServiceProxy) {
+    super(injector);
   }
-  ngOnInit() {
-    const jobs: Job[] = [
-      { id: 1, name: 'Nursing Assistant' },
-      { id: 2, name: 'Dog Trainer' },
-      { id: 3, name: 'Librarian' },
-      { id: 4, name: 'Copywriter', },
-      { id: 5, name: 'Secretary' },
-      { id: 6, name: 'Receptionist' },
-      { id: 7, name: 'Foreman' },
-      { id: 8, name: 'Superintendent', },
-      { id: 9, name: 'Foreman' },
-      { id: 10, name: 'Computer Programmer' }
-    ];
-    this.dataSource = new MatTableDataSource(jobs);
 
-  }
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -49,11 +35,34 @@ export class JobDescriptionsComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  editJobTitle() {
-    this.editJob.open();
+  editJobTitle(id: number) {
+    this.editJob.open(id);
   }
   newJobTitle() {
     this.newJob.open();
+  }
+  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
+    this.jobDescriptionService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+      .pipe(finalize(() => {
+        finishedCallback();
+      })).subscribe((result) => {
+        this.jobDescriptions = result.items;
+        this.dataSource = new MatTableDataSource(this.jobDescriptions);
+        this.showPaging(result, pageNumber);
+      });
+  }
+  protected delete(entity: JobDescriptionListDto): void {
+    abp.message.confirm(
+      'Delete Job Description \'' + entity.title + '\'?',
+      (result: boolean) => {
+        if (result) {
+          this.jobDescriptionService.delete(entity.id).pipe(finalize(() => {
+            abp.notify.success('Deleted Job Description: ' + entity.title);
+            this.refresh();
+          })).subscribe(() => { });
+        }
+      }
+    );
   }
 
 }

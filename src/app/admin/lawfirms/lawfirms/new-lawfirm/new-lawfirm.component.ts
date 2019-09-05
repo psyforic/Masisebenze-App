@@ -73,7 +73,6 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.lawFirm = Object.assign({}, this.lawFirmForm.value);
-    console.log('LOIN', this.lawFirmForm.get('line1').value);
     this.lawFirm.physicalAddress = new CreateAddressInput();
     this.lawFirm.sameAddress = true;
     this.lawFirm.physicalAddress.line1 = this.lawFirmForm.get('line1').value;
