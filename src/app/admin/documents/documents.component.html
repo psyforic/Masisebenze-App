@@ -11,11 +11,11 @@
               </a>
             </div>
             <h3 class="text-white">Masisebenze</h3>
-            <p class="text-white">Please Upload Files For <strong>Sizwe Ngxopho</strong></p>
+            <p class="text-white">Howdy <strong>{{contact.firstName}}</strong> Please Upload Files For <strong>{{client.firstName}} {{client.lastName}}</strong></p>
           </div>
         </div>
         <div class="row justify-content-center">
-          <div class="col-md-10">
+          <div class="col-md-12">
             <form method="#" action="#">
 
               <!--   if you want to have the card without animation please remove the ".card-hidden" class   -->
@@ -38,15 +38,7 @@
                           </mat-checkbox>
                         </td>
                       </ng-container>
-                      <!-- ID Column -->
-                      <ng-container matColumnDef="id">
-                        <mat-header-cell *matHeaderCellDef>
-                          ID
-                        </mat-header-cell>
-                        <mat-cell *matCellDef="let file">
-                          {{ file.id }}
-                        </mat-cell>
-                      </ng-container>
+                     
                       <!-- Progress Column -->
                       <ng-container matColumnDef="name">
                         <mat-header-cell *matHeaderCellDef>
@@ -57,21 +49,70 @@
                         </mat-cell>
                       </ng-container>
 
+                      <!-- Progress Column -->
+                      <ng-container matColumnDef="author">
+                        <mat-header-cell *matHeaderCellDef>
+                          File Author
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let file">
+                          <mat-form-field>
+                            <input type="text" matInput placeholder="Author">
+                          </mat-form-field>
+                        </mat-cell>
+                      </ng-container>
+
+                      <!-- Progress Column -->
+                      <ng-container matColumnDef="authorDate">
+                        <mat-header-cell *matHeaderCellDef>
+                          Date Authored
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let file">
+                          {{ file.authorDate }}
+                        </mat-cell>
+                      </ng-container>
                       <ng-container matColumnDef="status">
                         <mat-header-cell *matHeaderCellDef>
                           File Status
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file">
-                          <small>Not Uploaded</small>
+                          <div *ngIf="downloadURL | async; let downloadSrc" class="text text-info">
+                            File uploaded: <a [href]="downloadSrc"></a>
+                          </div>
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="progress">
+                        <mat-header-cell *matHeaderCellDef>
+                          Progress
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let file">
+                          <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                              [style.width]="(uploadProgress | async) + '%'"
+                              [attr.aria-valuenow]="(uploadProgress | async)" aria-valuemin="0" aria-valuemax="100">
+                            </div>
+                          </div>
+                        </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="upload">
+                        <mat-header-cell *matHeaderCellDef>Upload</mat-header-cell>
+                        <mat-cell *matCellDef="let user">
+                          <input type="file" class="btn btn-primary" (change)="upload($event)"
+                            accept=".pdf,.docx,.doc" />
                         </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="actions">
                         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                         <mat-cell *matCellDef="let user">
-                          <button type="file" mat-icon-button color="primary" matTooltip="Upload File">
-                            <mat-icon>cloud_upload</mat-icon>
-                          </button>&nbsp;
+                          <div class="btn-group" role="group" *ngIf="uploadState | async; let state">
+                            <button type="button" class="btn btn-primary" (click)="task.pause()"
+                              [disabled]="state === 'paused'">Pause</button>
+                            <button type="button" class="btn btn-primary" (click)="task.cancel()"
+                              [disabled]="!(state === 'paused' || state === 'running')">Cancel</button>
+                            <button type="button" class="btn btn-primary" (click)="task.resume()"
+                              [disabled]="state === 'running'">Resume</button>
+                          </div>
                         </mat-cell>
                       </ng-container>
                       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

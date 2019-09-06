@@ -11,6 +11,7 @@ import { ReportsModule } from './reports/reports.module';
 import { ActivityLogModule } from './activity-log/activity-log.module';
 import { LawfirmsModule } from './lawfirms/lawfirms.module';
 import { PartialsModule } from './partials/partials.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   imports: [
@@ -20,13 +21,13 @@ import { PartialsModule } from './partials/partials.module';
     JobDescriptionsModule,
     ReportsModule,
     ActivityLogModule,
-    PartialsModule
+    PartialsModule,
+    DashboardModule
   ],
   declarations: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    AdminComponent,
-    DashboardComponent]
+    AdminComponent]
 })
 export class AdminModule { }

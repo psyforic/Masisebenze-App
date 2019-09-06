@@ -85,7 +85,7 @@ import {
     MatSnackBarModule,
     MatTabsModule,
     MatTooltipModule,
-    MatDialogModule,
+    MatDialogModule
   ],
   providers: [BsModalService]
 })

@@ -45,6 +45,7 @@
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
               "node_modules/toastr/toastr.js",
               "node_modules/jquery-migrate/dist/jquery-migrate.min.js",
+              "node_modules/chartist/dist/chartist.js",
               "node_modules/js-cookie/src/js.cookie.js",
               "node_modules/lodash/lodash.min.js",
               "node_modules/moment/min/moment.min.js",

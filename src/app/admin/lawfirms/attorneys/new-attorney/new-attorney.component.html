@@ -22,11 +22,12 @@
                                     </mat-select>
                                 </mat-form-field> -->
                                 <mat-form-field>
-                                    <mat-select placeholder="Law Firm" name="lawFirm">
-                                        <mat-option *ngFor="let firm of lawFirms" [value]="firm.id">
+                                    <mat-label>Law Firm</mat-label>
+                                    <select matNativeControl required  name="lawFirm">
+                                        <option *ngFor="let firm of lawFirms" [value]="firm.id">
                                             {{firm.companyName}}
-                                        </mat-option>
-                                    </mat-select>
+                                        </option>
+                                    </select>
                                 </mat-form-field>
                             </div>
                         </div>

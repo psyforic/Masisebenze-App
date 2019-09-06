@@ -1,6 +1,19 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, Injector } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
+import {
+  DocumentListDto,
+  DocumentServiceProxy,
+  ClientServiceProxy,
+  ClientListDto,
+  ContactDetailOutput,
+  ContactServiceProxy
+} from '@shared/service-proxies/service-proxies';
+import { ActivatedRoute } from '@angular/router';
+import { AngularFireStorageReference, AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
+import { map, finalize } from 'rxjs/operators';
 
 export interface File {
   id: number;
@@ -10,41 +23,39 @@ export interface File {
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
-  styleUrls: ['./documents.component.scss']
+  styleUrls: ['./documents.component.scss'],
+  providers: [DocumentServiceProxy, ClientServiceProxy, ContactServiceProxy]
 })
-export class DocumentsComponent implements OnInit, AfterViewInit {
+export class DocumentsComponent extends PagedListingComponentBase<DocumentListDto> {
 
-
-  uploadUrl: string;
-  uploadedFiles: any[] = [];
-  displayedColumns = ['select', 'id', 'name', 'status', 'actions'];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  selection = new SelectionModel<File>(true, []);
-  dataSource: MatTableDataSource<File>;
+  uploadUrl: string;
+  uploadedFiles: DocumentListDto[] = [];
+  displayedColumns = ['select', 'name', 'author', 'authorDate', 'status', 'progress', 'upload', 'actions'];
+  selection = new SelectionModel<DocumentListDto>(true, []);
+  dataSource: MatTableDataSource<DocumentListDto> = new MatTableDataSource<DocumentListDto>();
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  uploadProgress: Observable<number>;
+  downloadURL: Observable<string>;
+  uploadState: Observable<string>;
+  client: ClientListDto = new ClientListDto();
+  contact: ContactDetailOutput = new ContactDetailOutput();
+  clientId: string;
+  contactId: string;
 
-  constructor() { }
-
-  ngOnInit() {
-    const documents: File[] = [
-      { id: 1, name: 'Copy of Id or smartcard' }, { id: 2, name: 'Copy of passport' }, { id: 3, name: 'Power of attorney' },
-      { id: 4, name: 'Various certificates', }, { id: 5, name: 'Employment certificate' }, { id: 6, name: 'Payslips' },
-      { id: 7, name: 'Ambulance records' }, { id: 8, name: 'RAF4 Serious Injury Assessment Report' }, { id: 9, name: 'RAF1 Statutory medical report' },
-      { id: 10, name: 'Narrative Test' }, { id: 11, name: 'Affidavit' }, { id: 12, name: 'Radiology report' }, { id: 13, name: 'Computer Programmer' },
-      { id: 14, name: 'Supplementary Medico Legal Report Orthopaedic surgeon' }, { id: 15, name: 'Referral letter' },
-      { id: 16, name: 'Hospital records' }, { id: 17, name: 'Consultation notes' }, { id: 18, name: 'Medico Legal Report Industrial Psychologist' },
-      { id: 19, name: 'Medico Legal Report Clinical Psychologist' }, { id: 20, name: 'Medico Legal Report Neurosurgeon' },
-      { id: 21, name: 'Medico Legal Report Plastic surgeon' }, { id: 22, name: 'Medico Legal Report Urologist' }, { id: 23, name: 'Medico Legal Report Ophthalmologist' },
-      { id: 24, name: 'Medico Legal Report Biokineticist' }, { id: 25, name: 'Medico Legal Report Speech and Language Therapist' },
-      { id: 26, name: 'Clinical notes' }, { id: 27, name: 'Photos depicting the injuries' }, { id: 28, name: '28.	First medical report' },
-      { id: 29, name: '29.	Progress medical report' }, { id: 30, name: 'Financial Medical Report' }, { id: 31, name: 'Sick Report' }
-    ];
-    this.dataSource = new MatTableDataSource(documents);
+  constructor(injector: Injector,
+    private route: ActivatedRoute,
+    private documentService: DocumentServiceProxy,
+    private clientService: ClientServiceProxy,
+    private contactService: ContactServiceProxy,
+    private afStorage: AngularFireStorage) {
+    super(injector);
+    this.route.queryParamMap.subscribe(params => {
+      this.clientId = params.get('clientId');
+      this.contactId = params.get('contactId');
+    });
   }
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  // upload completed event
   onUpload(event): void {
     for (const file of event.files) {
       this.uploadedFiles.push(file);
@@ -54,7 +65,16 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   onBeforeSend(event): void {
     event.xhr.setRequestHeader('Authorization', 'Bearer ');
   }
-
+  getUsers() {
+    this.clientService.getById(this.clientId)
+      .subscribe((result) => {
+        this.client = result;
+      });
+    this.contactService.getById(this.contactId)
+      .subscribe((result) => {
+        this.contact = result;
+      });
+  }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
@@ -69,11 +89,40 @@ export class DocumentsComponent implements OnInit, AfterViewInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: File): string {
+  checkboxLabel(row?: DocumentListDto): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
+  }
+  upload(event) {
+    const id = Math.random().toString(36).substring(2);
+    this.ref = this.afStorage.ref(id);
+    this.task = this.ref.put(event.target.files[0]);
+    this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
+    this.uploadProgress = this.task.percentageChanges();
+    this.task.snapshotChanges()
+      .pipe(finalize(() => {
+        this.downloadURL = this.ref.getDownloadURL();
+      })).subscribe();
+  }
+  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
+    this.documentService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+      .pipe(finalize(() => {
+        finishedCallback();
+      })).subscribe((result) => {
+        this.uploadedFiles = result.items.filter((client) => {
+           return client.clientId === this.clientId;
+        });
+        console.log('Files', result.items);
+        this.dataSource = new MatTableDataSource(this.uploadedFiles);
+        this.showPaging(result, pageNumber);
+        this.dataSource.paginator = this.paginator;
+      });
+    this.getUsers();
+  }
+  protected delete(entity: DocumentListDto): void {
+    // TODO: Implement Method
   }
 
 }

@@ -17,12 +17,17 @@ import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
 
 import { RootComponent } from './root.component';
 import { AppPreBootstrap } from './AppPreBootstrap';
-import { ModalModule} from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 import { GestureConfig } from '@angular/material';
 
 import * as _ from 'lodash';
+import { environment } from 'environments/environment';
 
 export function appInitializerFactory(injector: Injector,
     platformLocation: PlatformLocation) {
@@ -100,7 +105,11 @@ export function getCurrentLanguage(): string {
         AbpModule,
         ServiceProxyModule,
         RootRoutingModule,
-        HttpClientModule
+        HttpClientModule,
+        AngularFireModule.initializeApp(environment.firebase, 'MasisebenzeFCE'),
+        AngularFirestoreModule,
+        AngularFireAuthModule,
+        AngularFireStorageModule,
     ],
     declarations: [
         RootComponent
