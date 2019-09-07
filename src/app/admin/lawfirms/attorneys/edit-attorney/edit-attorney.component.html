@@ -1,48 +1,69 @@
-<div class="kt-section">
-		<div class="kt-section__content">
-			<ng-template #content let-c="close" let-d="dismiss">
-				<div class="modal-header">
-					<h4 class="modal-title">Edit Attorney</h4>
-					<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label>First Name</label>
-								<input type="text" class="form-control" name="fname" placeholder="First Name" value="John">
-							</div>
-						</div>
-
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label>Last Name</label>
-								<input type="text" class="form-control" name="lname" placeholder="Last Name" value="Aldes">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label>Email</label>
-								<input type="email" class="form-control" name="fname" placeholder="Email" value="j.aldes@attorneys.com">
-							</div>
-						</div>
-
-						<div class="col-lg-6">
-							<div class="form-group">
-								<label>Phone</label>
-								<input type="tel" class="form-control" name="lname" placeholder="Phone" value="011 43532 543">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" (click)="c('Close click')">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</ng-template>
-		</div>
-	</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">View Attorney</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="editAttorneyForm" (ngSubmit)="save()">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-form-field>
+                                    <mat-label>Law Firm</mat-label>
+                                    <select matNativeControl required formControlName="lawFirmId">
+                                        <option *ngFor="let firm of lawFirms" [value]="firm.id">
+                                            {{firm.companyName}}
+                                        </option>
+                                    </select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="First Name" formControlName="firstName">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Last Name" formControlName="lastName">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Email address" type="email" formControlName="email">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-lg-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Cell Phone" type="text" formControlName="cellPhone">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Phone" type="text" formControlName="phone">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Fax" type="fax" formControlName="fax">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" mat-raised-button color="primary">Save</button>
+        </div>
+    </form>
+</ng-template>

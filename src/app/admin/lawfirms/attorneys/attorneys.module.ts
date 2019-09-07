@@ -43,6 +43,7 @@ import { NewClientComponent } from '../lawfirms/new-client/new-client.component'
         ReactiveFormsModule,
         PartialsModule
     ],
-    entryComponents: [NewAttorneyComponent]
+    entryComponents: [NewAttorneyComponent],
+    exports: [ViewAttorneyComponent, EditAttorneyComponent]
 })
 export class AttorneysModule { }

@@ -21,7 +21,7 @@ export interface User {
   styleUrls: ['./lawfirms.component.scss'],
   providers: [LawFirmServiceProxy]
 })
-export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto> implements AfterViewInit {
+export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto> {
 
   dataSource: MatTableDataSource<LawFirmListDto>;
   displayedColumns = ['companyName', 'email', 'phone', 'actions'];
@@ -37,11 +37,6 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
     private router: Router,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -62,6 +57,8 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
       })).subscribe((result) => {
         this.lawFirms = result.items;
         this.dataSource = new MatTableDataSource(this.lawFirms);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         this.showPaging(result, pageNumber);
       });
 

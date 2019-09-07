@@ -38,18 +38,22 @@ import { EditLawfirmComponent } from './lawfirms/edit-lawfirm/edit-lawfirm.compo
 import { ViewLawfirmComponent } from './lawfirms/view-lawfirm/view-lawfirm.component';
 import { NewContactComponent } from './lawfirms/new-contact/new-contact.component';
 import { NewClientComponent } from './lawfirms/new-client/new-client.component';
+import { NewAttorneyComponent } from './lawfirms/new-attorney/new-attorney.component';
+import { EditContactComponent } from './contacts/edit-contact/edit-contact.component';
 
 
 
 @NgModule({
   declarations: [
     ContactsComponent,
+    EditContactComponent,
     LawfirmsComponent,
     NewLawfirmComponent,
     EditLawfirmComponent,
     ViewLawfirmComponent,
     NewContactComponent,
-    NewClientComponent
+    NewClientComponent,
+    NewAttorneyComponent
   ],
   imports: [
     CommonModule,

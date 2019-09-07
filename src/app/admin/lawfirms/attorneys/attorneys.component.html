@@ -25,7 +25,8 @@
                                             First Name
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let att">
-                                            <h6><a [routerLink]="['/admin/attorneys/view', att.id]">{{ att.firstName }}</a>
+                                            <h6><a href="javascript:void(0)"
+                                                    (click)="viewSelectedAttorney(att.id)">{{ att.firstName }}</a>
                                             </h6>
                                         </mat-cell>
                                     </ng-container>
@@ -35,7 +36,8 @@
                                             Last Name
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let att">
-                                            <h6><a [routerLink]="['/attorneys/view', att.id]">{{ att.lastName }}</a>
+                                            <h6><a href="javascript:void(0)"
+                                                    (click)="viewSelectedAttorney(att.id)">{{ att.lastName }}</a>
                                             </h6>
                                         </mat-cell>
                                     </ng-container>
@@ -71,13 +73,13 @@
 
                                     <ng-container matColumnDef="actions">
                                         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-                                        <mat-cell *matCellDef="let user">
-                                            <button (click)="editSelectedAttorney()" mat-icon-button color="primary"
-                                                matTooltip="Edit Attorney">
+                                        <mat-cell *matCellDef="let attorney">
+                                            <button (click)="editSelectedAttorney(attorney.id)" mat-icon-button
+                                                color="primary" matTooltip="Edit Attorney">
                                                 <mat-icon>create</mat-icon>
                                             </button>&nbsp;
-                                            <button mat-icon-button color="warn" matTooltip="Delete Attorney"
-                                                type="button">
+                                            <button (click)="delete(attorney)" mat-icon-button color="warn"
+                                                matTooltip="Delete Attorney" type="button">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
                                         </mat-cell>
@@ -100,3 +102,5 @@
     </div>
 </div>
 <kt-new-attorney #newAttorney (attorneyAdded)="refresh()"></kt-new-attorney>
+<kt-edit-attorney #editAttorney (editedAttorney)="refresh()"></kt-edit-attorney>
+<kt-view-attorney #viewAttorney></kt-view-attorney>

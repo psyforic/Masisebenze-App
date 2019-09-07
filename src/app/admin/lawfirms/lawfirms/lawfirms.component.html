@@ -24,7 +24,7 @@
                                     <!-- ID Column -->
                                     <ng-container matColumnDef="companyName">
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                           Company Name
+                                            Company Name
                                         </mat-header-cell>
                                         <mat-cell *matCellDef="let law">
 
@@ -81,4 +81,4 @@
     </div>
 </div>
 <app-new-lawfirm #newLawFirm (newContact)="refresh()"></app-new-lawfirm>
-<app-edit-lawfirm #editLawFirm></app-edit-lawfirm>
+<app-edit-lawfirm #editLawFirm (editedLawFirm)="refresh()"></app-edit-lawfirm>

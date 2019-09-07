@@ -10,10 +10,15 @@ import {
   ContactListDto,
   ContactServiceProxy,
   ClientServiceProxy,
-  ClientListDto
+  ClientListDto,
+  AttorneyListDto
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
+import { NewAttorneyComponent } from '../../attorneys/new-attorney/new-attorney.component';
+import { ViewAttorneyComponent } from '../../attorneys/view-attorney/view-attorney.component';
+import { EditAttorneyComponent } from '../../attorneys/edit-attorney/edit-attorney.component';
+import { EditContactComponent } from '../../contacts/edit-contact/edit-contact.component';
 
 
 @Component({
@@ -24,21 +29,39 @@ import { finalize } from 'rxjs/operators';
 })
 export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListDto> implements AfterViewInit {
 
-  dataSource: MatTableDataSource<ContactListDto> = new MatTableDataSource<ContactListDto>();
-  clientDataSource: MatTableDataSource<ClientListDto> = new MatTableDataSource<ClientListDto>();
-  contacts: ContactListDto[] = [];
-  clients: ClientListDto[] = [];
-  displayedColumns = ['firstName', 'lastName', 'email', 'role', 'actions'];
-  clientDisplayedColumns = ['id', 'firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
-  lawFirmId: string;
-  lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
+
   @ViewChild(MatPaginator, { static: false }) clientPaginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) clientSort: MatSort;
-  @ViewChild('newContact', { static: false }) newContactRef: NewContactComponent;
-  @ViewChild('newClient', { static: false }) newClientRef: NewClientComponent;
 
+
+  @ViewChild(MatPaginator, { static: false }) attorneyPaginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) attorneySort: MatSort;
+
+  @ViewChild('newContact', { static: false }) newContactRef: NewContactComponent;
+  @ViewChild('editContact', { static: false }) editContactRef: EditContactComponent;
+
+  @ViewChild('newClient', { static: false }) newClientRef: NewClientComponent;
+  @ViewChild('newAttorney', { static: false }) newAttorneyRef: NewAttorneyComponent;
+  @ViewChild('viewAttorney', { static: false }) viewAttorneyRef: ViewAttorneyComponent;
+  @ViewChild('editAttorney', { static: false }) editAttorneyRef: EditAttorneyComponent;
+
+
+  dataSource: MatTableDataSource<ContactListDto> = new MatTableDataSource<ContactListDto>();
+  clientDataSource: MatTableDataSource<ClientListDto> = new MatTableDataSource<ClientListDto>();
+  attorneyDataSource: MatTableDataSource<AttorneyListDto> = new MatTableDataSource<AttorneyListDto>();
+
+  contacts: ContactListDto[] = [];
+  clients: ClientListDto[] = [];
+  attorneys: AttorneyListDto[] = [];
+
+  displayedColumns = ['firstName', 'lastName', 'email', 'role', 'actions'];
+  displayedAttCols = ['firstName', 'lastName', 'email', 'phone', 'actions'];
+  clientDisplayedColumns = ['id', 'firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
+
+  lawFirmId: string;
+  lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
   constructor(private injector: Injector,
     private route: ActivatedRoute,
     private lawFimService: LawFirmServiceProxy,
@@ -47,54 +70,80 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.lawFirmId = paramMap.get('id');
-      this.getLawFirm();
     });
   }
+  ngAfterViewInit(): void {
+    // this.refresh();
+  }
+
+
   getLawFirm() {
     this.lawFimService.getDetail(this.lawFirmId).subscribe((result) => {
       this.lawFirm = result;
     });
   }
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.clientDataSource.paginator = this.clientPaginator;
-    this.clientDataSource.sort = this.clientSort;
-    this.refresh();
-  }
   addContact() {
     this.newContactRef.open();
+  }
+  editSelectedContact(id: string) {
+    this.editContactRef.open(id);
+  }
+  deleteContact(contact: any) {
+    this.editContactRef.delete(contact);
   }
   addClient() {
     this.newClientRef.open();
   }
+  addAttorney() {
+    this.newAttorneyRef.open();
+  }
   displayContact(contact) {
     this.refresh();
     this.dataSource._updateChangeSubscription();
-
+  }
+  viewSelectedAttorney(id: string) {
+    this.viewAttorneyRef.open(id);
+  }
+  editSelectedAttorney(id: string) {
+    this.editAttorneyRef.open(id);
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.clientDataSource.filter = filterValue;
   }
+  getAttorneys() {
+    this.lawFimService.getAttorneys(this.lawFirmId)
+      .subscribe((result) => {
+        this.attorneys = result.items;
+        this.attorneyDataSource = new MatTableDataSource(this.attorneys);
+        this.attorneyDataSource.paginator = this.attorneyPaginator;
+        this.attorneySort = this.attorneySort;
+      });
+  }
+  deleteAttorney(entity: any) {
+    this.editAttorneyRef.delete(entity);
+    this.refresh();
+  }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this.contactService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+    this.getLawFirm();
+    this.getAttorneys();
+    this.contactService.getByLawFirm(this.lawFirmId)
       .pipe(finalize(() => {
+        this.dataSource = new MatTableDataSource(this.contacts);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         finishedCallback();
       }))
       .subscribe((result) => {
-        result.items.forEach((value) => {
-          if (value.lawFirmId === this.lawFirmId) {
-            this.contacts.push(value);
-          }
-        });
-        this.dataSource = new MatTableDataSource(this.contacts);
-        this.showPaging(result, pageNumber);
+        this.contacts = result.items;
       });
 
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
+        this.clientDataSource = new MatTableDataSource(this.clients);
+        this.clientDataSource.paginator = this.clientPaginator;
+        this.clientDataSource.sort = this.clientSort;
         finishedCallback();
       }))
       .subscribe((result) => {
@@ -103,10 +152,11 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
             this.clients.push(client);
           }
         });
-        this.clientDataSource = new MatTableDataSource(this.clients);
         this.showPaging(result, pageNumber);
       });
   }
+
+
   protected delete(entity: ContactListDto): void {
     abp.message.confirm(
       'Delete Contact \'' + entity.firstName + '\'?',

@@ -1,0 +1,57 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Attorney</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="newAttorneyForm" (ngSubmit)="save()">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="First Name" formControlName="firstName">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Last Name" formControlName="lastName">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Email address" type="email" formControlName="email">
+                </mat-form-field>
+              </div>
+              <div class="col-lg-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Cell Phone" type="text" formControlName="cellPhone">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Phone" type="text" formControlName="phone">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Fax" type="fax" formControlName="fax">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" mat-raised-button color="primary">Save</button>
+    </div>
+  </form>
+</ng-template>

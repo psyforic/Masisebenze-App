@@ -12,7 +12,7 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./job-descriptions.component.scss'],
   providers: [JobDescriptionServiceProxy]
 })
-export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescriptionListDto> implements AfterViewInit {
+export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescriptionListDto> {
 
   dataSource: MatTableDataSource<JobDescriptionListDto>;
   displayedColumns = ['id', 'name', 'actions'];
@@ -24,11 +24,6 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
   constructor(private injector: Injector,
     private jobDescriptionService: JobDescriptionServiceProxy) {
     super(injector);
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -48,6 +43,8 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
       })).subscribe((result) => {
         this.jobDescriptions = result.items;
         this.dataSource = new MatTableDataSource(this.jobDescriptions);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         this.showPaging(result, pageNumber);
       });
   }

@@ -1,0 +1,48 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Edit Contact</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form #newContact="ngForm" (ngSubmit)="save()">
+    <div class="modal-body">
+      <div class="card">
+        <div class="row">
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>First Name</mat-label>
+              <input type="text" matInput name="fname" placeholder="First Name" [(ngModel)]="contact.firstName">
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Last Name</mat-label>
+              <input type="text" matInput name="lname" placeholder="Last Name" [(ngModel)]="contact.lastName">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input type="email" matInput name="email" placeholder="Email" [(ngModel)]="contact.email">
+            </mat-form-field>
+
+          </div>
+
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Role</mat-label>
+              <input type="text" matInput name="role" placeholder="Role" [(ngModel)]="contact.role">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" mat-raised-button (click)="modal.dismiss()">Close</button>
+      <button type="submit" mat-raised-button color="primary">Update</button>
+    </div>
+  </form>
+</ng-template>

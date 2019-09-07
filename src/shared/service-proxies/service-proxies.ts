@@ -1927,6 +1927,60 @@ export class ContactServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getByLawFirm(input: string | null | undefined): Observable<ListResultDtoOfContactListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Contact/GetByLawFirm?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByLawFirm(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByLawFirm(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfContactListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfContactListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByLawFirm(response: HttpResponseBase): Observable<ListResultDtoOfContactListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfContactListDto.fromJS(resultData200) : new ListResultDtoOfContactListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfContactListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -2382,6 +2436,66 @@ export class DocumentServiceProxy {
     }
 
     /**
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfDocumentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Document/GetAll?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfDocumentListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfDocumentListDto.fromJS(resultData200) : new PagedResultDtoOfDocumentListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfDocumentListDto>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -2541,66 +2655,6 @@ export class DocumentServiceProxy {
             }));
         }
         return _observableOf<DocumentListDto>(<any>null);
-    }
-
-    /**
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfDocumentListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Document/GetAll?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAll(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfDocumentListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfDocumentListDto.fromJS(resultData200) : new PagedResultDtoOfDocumentListDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfDocumentListDto>(<any>null);
     }
 
     /**
@@ -7453,6 +7507,57 @@ export interface IContactListDto {
     id: string | undefined;
 }
 
+export class ListResultDtoOfContactListDto implements IListResultDtoOfContactListDto {
+    items: ContactListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfContactListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ContactListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfContactListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfContactListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfContactListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfContactListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfContactListDto {
+    items: ContactListDto[] | undefined;
+}
+
 export class PagedResultDtoOfContactListDto implements IPagedResultDtoOfContactListDto {
     totalCount: number | undefined;
     items: ContactListDto[] | undefined;
@@ -8257,12 +8362,13 @@ export interface ICreateAddressInput {
 export class LawFirmDetailOutput implements ILawFirmDetailOutput {
     companyName: string | undefined;
     physicalAddressId: number | undefined;
-    physicalAddress: Address | undefined;
+    physicalAddress: CreateAddressInput | undefined;
     postalAddressId: number | undefined;
-    postalAddress: Address | undefined;
+    postalAddress: CreateAddressInput | undefined;
     email: string | undefined;
     phone: string | undefined;
     fax: string | undefined;
+    sameAddress: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -8285,12 +8391,13 @@ export class LawFirmDetailOutput implements ILawFirmDetailOutput {
         if (data) {
             this.companyName = data["companyName"];
             this.physicalAddressId = data["physicalAddressId"];
-            this.physicalAddress = data["physicalAddress"] ? Address.fromJS(data["physicalAddress"]) : <any>undefined;
+            this.physicalAddress = data["physicalAddress"] ? CreateAddressInput.fromJS(data["physicalAddress"]) : <any>undefined;
             this.postalAddressId = data["postalAddressId"];
-            this.postalAddress = data["postalAddress"] ? Address.fromJS(data["postalAddress"]) : <any>undefined;
+            this.postalAddress = data["postalAddress"] ? CreateAddressInput.fromJS(data["postalAddress"]) : <any>undefined;
             this.email = data["email"];
             this.phone = data["phone"];
             this.fax = data["fax"];
+            this.sameAddress = data["sameAddress"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -8319,6 +8426,7 @@ export class LawFirmDetailOutput implements ILawFirmDetailOutput {
         data["email"] = this.email;
         data["phone"] = this.phone;
         data["fax"] = this.fax;
+        data["sameAddress"] = this.sameAddress;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -8341,12 +8449,13 @@ export class LawFirmDetailOutput implements ILawFirmDetailOutput {
 export interface ILawFirmDetailOutput {
     companyName: string | undefined;
     physicalAddressId: number | undefined;
-    physicalAddress: Address | undefined;
+    physicalAddress: CreateAddressInput | undefined;
     postalAddressId: number | undefined;
-    postalAddress: Address | undefined;
+    postalAddress: CreateAddressInput | undefined;
     email: string | undefined;
     phone: string | undefined;
     fax: string | undefined;
+    sameAddress: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -8552,57 +8661,6 @@ export class ListResultDtoOfAttorneyListDto implements IListResultDtoOfAttorneyL
 
 export interface IListResultDtoOfAttorneyListDto {
     items: AttorneyListDto[] | undefined;
-}
-
-export class ListResultDtoOfContactListDto implements IListResultDtoOfContactListDto {
-    items: ContactListDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfContactListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(ContactListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfContactListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfContactListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfContactListDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfContactListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfContactListDto {
-    items: ContactListDto[] | undefined;
 }
 
 export class PagedResultDtoOfLawFirmListDto implements IPagedResultDtoOfLawFirmListDto {

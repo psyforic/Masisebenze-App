@@ -1,104 +1,112 @@
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title">New Client</h4>
+        <h4 class="modal-title">New Law Firm</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.close()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    <div class="modal-body">
-        <mat-tab-group mat-stretch-tabs>
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <mat-icon class="example-tab-icon">
-                        <i class="flaticon-add"></i>
-                    </mat-icon>
-                    Company Information
-                </ng-template>
-                <form class="kt-form kt-form--label-right">
-                    <div class="kt-portlet__body">
-                        <div class="form-group row">
-                            <div class="col-lg-12">
-                                <label>Attorney</label>
-                                <select class="form-control">
-                                    <option value="undefined" selected>Select Attorney</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <div class="col-lg-12">
-                                <label>Contact Person at Attorney</label>
-                                <select class="form-control">
-                                    <option value="undefined" selected>Select Contact Attorney</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
+    <form [formGroup]="lawFirmForm" (ngSubmit)="save()">
+        <div class="modal-body">
+
+            <mat-tab-group mat-stretch-tabs>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class=" example-tab-icon">
+                            account_balance
+                        </mat-icon>
+                        Company Information
+                    </ng-template>
+
+                    <div class="card">
                         <div class="col-lg-12">
-                            <label>Court Date</label>
-                            <div class="kt-input-icon">
-                                <input type="text" class="form-control" placeholder="dd-mm-yyyy">
-                                <span class=" kt-input-icon__icon kt-input-icon__icon--right"><span><i
-                                            class="la la-calendar-o"></i></span></span>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <mat-form-field>
+                                        <mat-label>Company Name</mat-label>
+                                        <input type="text" matInput placeholder="Company Name"
+                                            formControlName="companyName">
+                                    </mat-form-field>
+                                </div>
                             </div>
-                            <span class="form-text text-muted">Please enter Court Date</span>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <mat-form-field>
+                                        <mat-label>Email</mat-label>
+                                        <input type="email" matInput placeholder="email@example.com"
+                                            formControlName="email">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <mat-form-field>
+                                        <mat-label>Phone</mat-label>
+                                        <input type="text" matInput placeholder="041 2345 678" formControlName="phone">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <mat-form-field>
+                                        <mat-label>Fax</mat-label>
+                                        <input type="text" matInput placeholder="Fax" formControlName="fax">
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </mat-tab>
 
-            <mat-tab>
-                <ng-template mat-tab-label>
-                    <mat-icon class="example-tab-icon">
-                        <i class="flaticon-user-add"></i>
-                    </mat-icon>
-                    Client Information
-                </ng-template>
-                <div class="form-group row">
+                </mat-tab>
+
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">
+                            map
+                        </mat-icon>
+                        Address Details
+                    </ng-template>
                     <div class="col-lg-12">
-                        <label>Case Number</label>
-                        <input type="text" class="form-control" placeholder="Enter Case Number">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-2">
-                        <label>Title</label>
-                        <select class="form-control">
-                            <option value="undefined" selected>Mr.</option>
-                            <option value="undefined">Mrs.</option>
-                            <option value="undefined">Rev.</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-5">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Enter First Name">
-                    </div>
-                    <div class="col-lg-5">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Enter Last Name">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <label>Id Number</label>
-                        <input type="text" class="form-control" placeholder="Enter Id Number">
-                    </div>
-                    <div class="col-lg-6">
-                        <label>Date Of Assessment</label>
-
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="dd-mm-yyyy">
-                            <span class="input-group-addon"><span><i class="fa fa-calendar-o"></i></span></span>
+                        <div class="card">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Line 1" type="text" formControlName="line1">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Line 2" type="text" formControlName="line2">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="City" type="text" formControlName="city">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Province" type="text" formControlName="province">
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Postal Code" type="text"
+                                            formControlName="postalCode">
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
-                        <span class="form-text text-muted">Please enter Select Date</span>
                     </div>
-                </div>
-            </mat-tab>
-
-        </mat-tab-group>
-    </div>
-    <div class="modal-footer">
-        <button type="button" mat-raised-button color="default" (click)="modal.close()">Close</button>
-        <button type="button" mat-raised-button color="primary">Save changes</button>
-    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+        <div class="modal-footer">
+            <button type="button" mat-raised-button color="default" (click)="modal.close()">Close</button>
+            <button type="submit" mat-raised-button color="primary">Save</button>
+        </div>
+    </form>
 </ng-template>

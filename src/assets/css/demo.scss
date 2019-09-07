@@ -289,10 +289,17 @@ mat-tab-group .card {
     padding: 0px;
     align-content: center;
 }
-.card-header-bg{
+
+.card-header-bg {
     background: #4fc3f7;
 }
+
 .card [class*=card-header-] .card-icon,
 .card [class*=card-header-] .card-text {
-     background-color: #4fc3f7;
+    background-color: #4fc3f7;
+}
+
+.modal-body>.row>.col-lg-12>.card,
+.modal-body>.card {
+    box-shadow: none;
 }

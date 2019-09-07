@@ -62,12 +62,10 @@ export class NewAttorneyComponent extends AppComponentBase implements OnInit {
     getLawFirms() {
         this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
             this.lawFirms = result.items;
-            console.log(result.items);
         });
     }
     save() {
         this.attorneyInput = Object.assign({}, this.newAttorneyForm.value);
-        this.attorneyInput.lawFirmId = this.lawFirms[0].id;
         this.attorneyService.create(this.attorneyInput)
             .pipe(finalize(() => { }))
             .subscribe(() => {

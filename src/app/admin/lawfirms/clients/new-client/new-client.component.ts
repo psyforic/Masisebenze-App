@@ -21,15 +21,14 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 })
 export class NewClientComponent extends AppComponentBase implements OnInit {
   datePickerConfig: Partial<BsDatepickerConfig>;
-  @ViewChild('content', { static: true }) content: ElementRef;
+  @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('courtDate', { static: false }) courtDate: ElementRef;
+  @ViewChild('assessmentDate', { static: false }) assessmentDate: ElementRef;
   @Output() clientAdded = new EventEmitter();
   closeResult: string;
   filter = '';
   clientForm: FormGroup;
 
-  attorneyControl = new FormControl();
-  contactControl = new FormControl();
-  lawFirmControl = new FormControl();
   attorneys: AttorneyListDto[] = [];
   contacts: ContactListDto[] = [];
   lawFirms: LawFirmListDto[] = [];
@@ -46,8 +45,8 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.getLawFirms();
-    this.getAttorneys();
-    this.getContacts();
+    this.getLawFirmAttorneys();
+    this.getLawFirmContacts();
   }
   initializeForm() {
     this.clientForm = this.fb.group({
@@ -64,7 +63,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     });
   }
   open() {
-
     this.modalService.open(this.content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -77,24 +75,28 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
       this.lawFirmId = this.lawFirms[0].id;
     });
   }
-  getAttorneys() {
+  getLawFirmAttorneys() {
     this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {
       this.attorneys = result.items;
     });
   }
-  getContacts() {
+  getLawFirmContacts() {
     this.lawFirmService.getContacts(this.lawFirmId).subscribe((result) => {
       this.contacts = result.items;
     });
   }
   selectedId(event) {
     this.lawFirmId = event.target.value;
-    this.getAttorneys();
-    this.getContacts();
+    this.getLawFirmAttorneys();
+    this.getLawFirmContacts();
+  }
+  selectedDate(event) {
     console.log(event.target.value);
   }
   save() {
     this.clientInput = Object.assign({}, this.clientForm.value);
+    this.clientInput.assessmentDate = this.assessmentDate.nativeElement.value;
+    this.clientInput.courtDate = this.courtDate.nativeElement.value;
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
 
