@@ -33,6 +33,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   contacts: ContactListDto[] = [];
   lawFirms: LawFirmListDto[] = [];
   lawFirmId: string;
+  dateModel: Date;
   clientInput: CreateClientInput = new CreateClientInput();
   constructor(private injector: Injector,
     private modalService: NgbModal,
@@ -95,8 +96,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.clientInput = Object.assign({}, this.clientForm.value);
-    this.clientInput.assessmentDate = this.assessmentDate.nativeElement.value;
-    this.clientInput.courtDate = this.courtDate.nativeElement.value;
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
 

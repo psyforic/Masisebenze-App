@@ -26,7 +26,7 @@
                                     FirstName
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let user">
-                                    <h6><a [routerLink]="['/clients/view', user.id]">{{ user.firstName }}</a></h6>
+                                    <h6><a [routerLink]="['/admin/clients/view', user.id]">{{ user.firstName }}</a></h6>
                                 </mat-cell>
                             </ng-container>
                             <!-- Name Column -->
@@ -35,7 +35,7 @@
                                     LastName
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let user">
-                                    {{ user.lastName }}
+                                    <h6><a [routerLink]="['/admin/clients/view', user.id]">{{ user.lastName }}</a></h6>
                                 </mat-cell>
                             </ng-container>
                             <!-- Color Column -->

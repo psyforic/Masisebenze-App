@@ -58,15 +58,10 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <mat-form-field>
-                                        <input #courtDate matInput placeholder="Court Date" ngbDatepicker
-                                            #d="ngbDatepicker" [positionTarget]="buttonEl" [placement]="'bottom'"
-                                            formControlName="courtDate">
-                                        <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear"
-                                            (click)="d.toggle()">
+                                        <input matInput placeholder="Court Date" formControlName="courtDate">
+                                        <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear">
                                             <mat-icon>calendar_today</mat-icon>
                                         </button>
-                                        <div #buttonEl>
-                                        </div>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -132,16 +127,11 @@
                                 <div class="col-lg-6">
                                     <mat-form-field>
                                         <mat-label>Date Of Assessment</mat-label>
-                                        <input (change)="selectedDate($event)" #assessmentDate type="text" matInput placeholder="dd-mm-yyyy"
-                                            ngbDatepicker #assessPicker="ngbDatepicker" [positionTarget]="assessDate"
-                                            [placement]="'bottom'" formControlName="assessmentDate">
-                                        <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear"
-                                            (click)="assessPicker.toggle()">
+                                        <input type="text" matInput placeholder="yyyy-mm-dd" formControlName="assessmentDate" >
+                                        <button type="button" mat-button matSuffix mat-icon-button aria-label="Calendar">
                                             <mat-icon>calendar_today</mat-icon>
                                         </button>
                                     </mat-form-field>
-                                    <div #assessDate>
-                                    </div>
                                 </div>
                             </div>
                         </div>

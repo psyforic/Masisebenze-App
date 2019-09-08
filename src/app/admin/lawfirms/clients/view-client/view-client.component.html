@@ -1,9 +1,9 @@
-<div class="main-content buttons-with-margin">
+<div class="main-content">
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    Joshua Anthony
+                    {{client.firstName}} {{client.lastName}}
                 </div>
                 <div class="header-toolbar">
 
@@ -14,48 +14,429 @@
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">
-                                <i class="flaticon-map"></i>
+                                assignment_ind
                             </mat-icon>
-                            Attorney Information
+                            Personal Information
                         </ng-template>
-                        Attorney Information Will Come Here
+                        <div class="col-lg-12">
+                            <form #clientForm="ngForm" (ngSubmit)="save()">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="card card-profile mt-3">
+                                            <div class="card-avatar">
+                                                <a href="javascript:void(0)">
+                                                    <img class="img" src="../../../../../assets/img/faces/face-0.jpg" />
+                                                </a>
+                                            </div>
+                                            <div class="card-body text-center">
+
+                                                <h4 class="text tex-center">{{client.firstName}} {{client.lastName}}
+                                                </h4>
+
+                                                <a href="javascript:void(0)" class="btn btn-primary btn-round">Change
+                                                    Picture</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="First Name"
+                                                                [(ngModel)]="client.firstName" name="firstName">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Last Name" type="text"
+                                                                [(ngModel)]="client.lastName" name="lastName">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Id Number" type="text"
+                                                                name="idNumber" [(ngModel)]="client.idNumber">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Case Number" type="text"
+                                                                name="caseNumber" [(ngModel)]="client.caseNumber">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Line 1" type="text"
+                                                                [(ngModel)]="line1" name="line1">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Line 2" type="text"
+                                                                [(ngModel)]="line2" name="line2">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="City" type="text"
+                                                                [(ngModel)]="city" name="city">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <mat-form-field class="example-full-width">
+                                                            <mat-label>Province</mat-label>
+                                                            <select matNativeControl required [(ngModel)]="province"
+                                                                name="province">
+                                                                <option value="Eastern Cape">Eastern Cape</option>
+                                                                <option value="Free State">Free State</option>
+                                                                <option value="Gauteng">Gauteng</option>
+                                                                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
+                                                                <option value="Limpopo">Limpopo</option>
+                                                                <option value="Mpumalanga">Mpumalanga</option>
+                                                                <option value="KwaZulu-Natal">Northern Cape</option>
+                                                                <option value="North West">North West</option>
+                                                                <option value="Western Cape">Western Cape</option>
+                                                            </select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Postal Code" type="text"
+                                                                [(ngModel)]="postalCode" name="postalCode">
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <mat-accordion>
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Early ChildHood
+                                                    </mat-panel-title>
+                                                    <mat-panel-description>
+                                                        <!-- Type your name and age -->
+                                                    </mat-panel-description>
+                                                </mat-expansion-panel-header>
+
+                                                <mat-form-field>
+                                                    <textarea rows="3" matInput placeholder="Description"
+                                                        [(ngModel)]="client.earlyChildhood" name="earlyChildhood">
+                                                        </textarea>
+                                                </mat-form-field>
+                                            </mat-expansion-panel>
+                                            <mat-expansion-panel (opened)="panelOpenState = true"
+                                                (closed)="panelOpenState = false">
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Family
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <mat-form-field>
+                                                    <textarea rows="3" matInput placeholder="Description"
+                                                        [(ngModel)]="client.family" name="family">
+                                                    </textarea>
+                                                </mat-form-field>
+
+                                            </mat-expansion-panel>
+
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Home Environment
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <mat-form-field>
+                                                    <textarea rows="3" matInput placeholder="Description"
+                                                        [(ngModel)]="client.homeEnvironment" name="homeEnvironment">
+                                                </textarea>
+                                                </mat-form-field>
+
+                                            </mat-expansion-panel>
+
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Education
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <mat-form-field>
+                                                    <textarea rows="3" matInput placeholder="Description"
+                                                        [(ngModel)]="client.education" name="education"></textarea>
+                                                </mat-form-field>
+                                            </mat-expansion-panel>
+
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Social Habits
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+
+                                                <mat-form-field>
+                                                    <textarea rows="3" matInput placeholder="Description"
+                                                        [(ngModel)]="client.socialHabits" name="socialHabits">
+                                                </textarea>
+                                                </mat-form-field>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 mt-3">
+                                        <button mat-raised-button type="submit" color="primary"
+                                            class="btn-round pull-right">Update
+                                            Client</button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
                     </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">
-                                <i class="flaticon-add"></i>
+                                gavel
                             </mat-icon>
-                            Personal Information
+                            Attorney Information
                         </ng-template>
-                        Personal Information Will Come Here
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Law Firm" type="text"
+                                                            name="LawFirm" value="{{client.lawFirm?.companyName}}">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Attorney" type="text"
+                                                            value="{{client.attorney?.firstName}}">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Law Firm Contact" type="text"
+                                                            value="{{client.contact?.firstName}} {{client.contact?.lastName}}">
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Court Date" type="text"
+                                                            value="{{client?.courtDate | date: 'short'}}">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </mat-tab>
 
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">
-                                <i class="flaticon-profile-1"></i>
+                                folder_shared
                             </mat-icon>
-                            Medical History
+                            Work & Medical History
                         </ng-template>
-                        Medical History Will Come Here
+                        <div class="col-lg-12">
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title">
+                                                <h4>Work history</h4>
+                                            </div>
+                                        </div>
+                                        <form #workHistoryForm="ngForm"
+                                            (ngSubmit)="saveWorkHistory()">
+                                            <div class="card-body">
+                                                <mat-accordion>
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Premorbid
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+
+                                                        <mat-form-field>
+                                                            <textarea rows="3" matInput placeholder="Description"
+                                                                name="premorbid"
+                                                                [(ngModel)]="workHistory.premorbid"></textarea>
+                                                        </mat-form-field>
+
+                                                    </mat-expansion-panel>
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Postmorbid
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+
+                                                        <mat-form-field>
+                                                            <textarea row="3" matInput placeholder="Description"
+                                                                name="postMorbid"
+                                                                [(ngModel)]="workHistory.postMorbid"></textarea>
+                                                        </mat-form-field>
+                                                    </mat-expansion-panel>
+
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Work History
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="workHistory.description" [sanitize]="true"
+                                                            name="description">
+                                                        </quill-editor>
+
+                                                    </mat-expansion-panel>
+                                                </mat-accordion>
+
+
+                                            </div>
+                                            <div class="card-footer">
+                                                <div class="row">
+                                                    <div class="col-lg-12 mt-3">
+                                                        <button mat-raised-button type="submit" color="primary"
+                                                            class="btn-round pull-right">Save
+                                                        </button>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="card-title">
+                                                <h4 class="text-center">Medical history</h4>
+                                            </div>
+                                        </div>
+                                        <form #medicalHistoryForm="ngForm">
+                                            <div class="card-body">
+                                                <mat-accordion>
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Previous Injuries
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+
+                                                        <mat-form-field>
+                                                            <textarea rows="3" matInput
+                                                                placeholder="Description"></textarea>
+                                                        </mat-form-field>
+
+                                                    </mat-expansion-panel>
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Medical Conditions
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+
+                                                        <mat-form-field>
+                                                            <textarea row="3" matInput
+                                                                placeholder="Description"></textarea>
+                                                        </mat-form-field>
+                                                    </mat-expansion-panel>
+
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Current History
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="medicalHistory.currentHistory"
+                                                            [sanitize]="true">
+                                                        </quill-editor>
+
+                                                    </mat-expansion-panel>
+
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Medication
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+
+                                                        <mat-form-field>
+                                                            <textarea row="3" matInput
+                                                                placeholder="Description"></textarea>
+                                                        </mat-form-field>
+                                                    </mat-expansion-panel>
+                                                </mat-accordion>
+                                            </div>
+                                            <div class="card-footer">
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">
-                                <i class="flaticon2-user-1"></i>
+                                folder
                             </mat-icon>
-                            Work History
+                            Documents
                         </ng-template>
-                        Work History Will Come Here
+                        Documents Will Come Here
                     </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">
-                                <i class="flaticon-file-2"></i>
+                                assessment
                             </mat-icon>
-                            Assessment & Report
+                            Assessments
                         </ng-template>
-                        Assessment & Reports Will Come Here
+                        <div class="col-lg-12">
+                            <div class="card">
+                                <div class="card-body text-center text-primary">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <i class="fa fa-hourglass-3 fa-5x"></i>
+                                            <h4>No Assessments Yet</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </mat-tab>
                 </mat-tab-group>
             </div>

@@ -26,10 +26,11 @@ import {
   MatSnackBarModule,
   MatTabsModule,
   MatTooltipModule,
-  MatDialogModule
+  MatDialogModule,
+  MatExpansionModule
 } from '@angular/material';
-
-
+import { QuillModule } from 'ngx-quill';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 @NgModule({
   declarations: [],
   imports: [
@@ -39,6 +40,19 @@ import {
     ReactiveFormsModule,
     NgbModule,
     ModalModule.forRoot(),
+    QuillModule.forRoot({
+      modules: {
+        syntax: true,
+        toolbar: [
+          ['bold', 'italic', 'underline'],        // toggled buttons
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+
+          ['clean']
+        ]
+      }
+    }),
     MatButtonModule,
     MatMenuModule,
     MatSelectModule,
@@ -59,6 +73,8 @@ import {
     MatTabsModule,
     MatTooltipModule,
     MatDialogModule,
+    MatExpansionModule,
+    NgxMaterialTimepickerModule
   ],
   exports: [
     CommonModule,
@@ -85,7 +101,10 @@ import {
     MatSnackBarModule,
     MatTabsModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatExpansionModule,
+    QuillModule,
+    NgxMaterialTimepickerModule
   ],
   providers: [BsModalService]
 })

@@ -1,24 +1,36 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, AfterViewInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { AppComponentBase } from '@shared/app-component-base';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import { NewBookingComponent } from './bookings/new-booking/new-booking.component';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import timeGrigPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { EventInput } from '@fullcalendar/core';
+import { BookingServiceProxy, BookingListDto } from '@shared/service-proxies/service-proxies';
+import { finalize } from 'rxjs/operators';
+import * as moment from 'moment';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  providers: [BookingServiceProxy]
 })
-export class DashboardComponent extends AppComponentBase implements OnInit {
-
-  calendarPlugins = [dayGridPlugin];
-  calendarEvents = [
-    { title: 'Assessment 1', date: '2019-08-23' }
+export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit {
+  @ViewChild('newBooking', { static: false }) newBookingModal: NewBookingComponent;
+  @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent;
+  calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
+  bookings: BookingListDto[] = [];
+  newEvents: EventInput[] = [];
+  calendarEvents: EventInput[] = [
+    { title: 'Event Now', start: new Date() }
   ];
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, private bookingService: BookingServiceProxy) {
     super(injector);
   }
   addEvent() {
     this.calendarEvents.push({
-      title: 'Assessment 2', date: '2019-08-27'
+      title: 'Assessment 2', start: '2019-09-27'
     });
   }
   modifyTitle(eventIndex, newTitle) {
@@ -28,6 +40,39 @@ export class DashboardComponent extends AppComponentBase implements OnInit {
     calendarEvents[eventIndex] = singleEvent;
     this.calendarEvents = calendarEvents;
   }
+  handleDateClick(arg) {
+    this.newBookingModal.open(arg);
+  }
+  addBooking(booking: any[]) {
+    this.calendarEvents = this.calendarEvents.concat({
+      title: booking[1],
+      // start: booking[0].assessmentTime
+      start: moment(booking[0].assessmentTime).format('YYYY-MM-DD HH:mm:ss')
+    });
+  }
+  ngAfterViewInit(): void {
+    this.getBookings();
+  }
+
+  getBookings() {
+    this.bookingService.getBookings('')
+      .pipe(finalize(() => {
+        this.bookings.forEach((el) => {
+          let event: EventInput;
+          event = {
+            title: el.client.firstName + ' ' + el.client.lastName,
+            start: moment(el.assessmentTime).format('YYYY-MM-DD HH:mm:ss')
+          };
+          this.calendarEvents.push(event);
+        });
+        console.log(this.bookings);
+      }))
+      .subscribe((result) => {
+        this.bookings = result.items;
+
+      });
+  }
+
   startAnimationForLineChart(chart) {
     let seq: any, delays: any, durations: any;
     seq = 0;
@@ -85,6 +130,15 @@ export class DashboardComponent extends AppComponentBase implements OnInit {
     seq2 = 0;
   }
   ngOnInit() {
+    this.getBookings();
+    this.bookings.forEach((el) => {
+      let event: EventInput;
+      event = {
+        title: el.client.firstName + ' ' + el.client.lastName,
+        start: moment(el.assessmentTime).format('YYYY-MM-DD HH:mm:ss')
+      };
+      this.calendarEvents.push(event);
+    });
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
     const dataDailySalesChart: any = {
@@ -167,3 +221,4 @@ export class DashboardComponent extends AppComponentBase implements OnInit {
   }
 
 }
+

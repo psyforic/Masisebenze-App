@@ -80,7 +80,11 @@
             <h4 class="card-title">Calendar</h4>
           </div>
           <div class="card-body">
-            <full-calendar [events]="calendarEvents" deepChangeDetection="true" defaultView="dayGridMonth"
+            <full-calendar #calendar [events]="calendarEvents" [header]="{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            }" deepChangeDetection="true" defaultView="dayGridMonth" (dateClick)="handleDateClick($event)"
               [plugins]="calendarPlugins" [weekends]="false"></full-calendar>
           </div>
         </div>
@@ -200,7 +204,8 @@
           </div>
         </div>
       </div>
-      
+
     </div>
   </div>
 </div>
+<app-new-booking #newBooking (newBookingInput)="addBooking($event)"></app-new-booking>

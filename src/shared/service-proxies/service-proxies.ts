@@ -863,6 +863,60 @@ export class BookingServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getBookings(input: any | null | undefined): Observable<ListResultDtoOfBookingListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/GetBookings?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBookings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBookings(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfBookingListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfBookingListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBookings(response: HttpResponseBase): Observable<ListResultDtoOfBookingListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfBookingListDto.fromJS(resultData200) : new ListResultDtoOfBookingListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfBookingListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -1360,6 +1414,430 @@ export class ClientServiceProxy {
             }));
         }
         return _observableOf<ClientDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createWorkHistory(input: CreateWorkHistoryInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Client/CreateWorkHistory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateWorkHistory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateWorkHistory(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateWorkHistory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getWorkHistoryDetail(id: string | null | undefined): Observable<WorkHistoryDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Client/GetWorkHistoryDetail?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkHistoryDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkHistoryDetail(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkHistoryDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkHistoryDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkHistoryDetail(response: HttpResponseBase): Observable<WorkHistoryDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkHistoryDetailOutput.fromJS(resultData200) : new WorkHistoryDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkHistoryDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getWorkHistoryByClientId(input: string | null | undefined): Observable<WorkHistoryListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Client/GetWorkHistoryByClientId?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkHistoryByClientId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkHistoryByClientId(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkHistoryListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkHistoryListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkHistoryByClientId(response: HttpResponseBase): Observable<WorkHistoryListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkHistoryListDto.fromJS(resultData200) : new WorkHistoryListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkHistoryListDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    editWorkHistory(input: WorkHistoryDetailOutput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Client/EditWorkHistory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEditWorkHistory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEditWorkHistory(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processEditWorkHistory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createMedicalHistory(input: CreateMedicalHistoryInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Client/CreateMedicalHistory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateMedicalHistory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMedicalHistory(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMedicalHistory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getMedicalHistoryDetail(id: string | null | undefined): Observable<MedicalHistoryDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Client/GetMedicalHistoryDetail?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMedicalHistoryDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMedicalHistoryDetail(<any>response_);
+                } catch (e) {
+                    return <Observable<MedicalHistoryDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MedicalHistoryDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMedicalHistoryDetail(response: HttpResponseBase): Observable<MedicalHistoryDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MedicalHistoryDetailOutput.fromJS(resultData200) : new MedicalHistoryDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MedicalHistoryDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getMedicalHistoryByClientId(input: string | null | undefined): Observable<MedicalHistoryListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Client/GetMedicalHistoryByClientId?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMedicalHistoryByClientId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMedicalHistoryByClientId(<any>response_);
+                } catch (e) {
+                    return <Observable<MedicalHistoryListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MedicalHistoryListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMedicalHistoryByClientId(response: HttpResponseBase): Observable<MedicalHistoryListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MedicalHistoryListDto.fromJS(resultData200) : new MedicalHistoryListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MedicalHistoryListDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    editMedicalHistory(input: MedicalHistoryDetailOutput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Client/EditMedicalHistory";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processEditMedicalHistory(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processEditMedicalHistory(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processEditMedicalHistory(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -6258,10 +6736,17 @@ export class Client implements IClient {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
     address: Address | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -6294,10 +6779,17 @@ export class Client implements IClient {
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
             this.idNumber = data["idNumber"];
+            this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.addressId = data["addressId"];
             this.dateOfInjury = data["dateOfInjury"] ? moment(data["dateOfInjury"].toString()) : <any>undefined;
             this.address = data["address"] ? Address.fromJS(data["address"]) : <any>undefined;
             this.assessmentDate = data["assessmentDate"] ? moment(data["assessmentDate"].toString()) : <any>undefined;
+            this.earlyChildhood = data["earlyChildhood"];
+            this.family = data["family"];
+            this.homeEnvironment = data["homeEnvironment"];
+            this.education = data["education"];
+            this.socialHabits = data["socialHabits"];
+            this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
@@ -6330,10 +6822,17 @@ export class Client implements IClient {
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["idNumber"] = this.idNumber;
+        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["addressId"] = this.addressId;
         data["dateOfInjury"] = this.dateOfInjury ? this.dateOfInjury.toISOString() : <any>undefined;
         data["address"] = this.address ? this.address.toJSON() : <any>undefined;
         data["assessmentDate"] = this.assessmentDate ? this.assessmentDate.toISOString() : <any>undefined;
+        data["earlyChildhood"] = this.earlyChildhood;
+        data["family"] = this.family;
+        data["homeEnvironment"] = this.homeEnvironment;
+        data["education"] = this.education;
+        data["socialHabits"] = this.socialHabits;
+        data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
@@ -6366,10 +6865,17 @@ export interface IClient {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
     address: Address | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -6589,6 +7095,7 @@ export interface ICreateBookingInput {
 export class BookingDetailOutput implements IBookingDetailOutput {
     assessmentTime: moment.Moment | undefined;
     clientId: string | undefined;
+    client: Client | undefined;
     userId: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -6612,6 +7119,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
         if (data) {
             this.assessmentTime = data["assessmentTime"] ? moment(data["assessmentTime"].toString()) : <any>undefined;
             this.clientId = data["clientId"];
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.userId = data["userId"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
@@ -6635,6 +7143,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
         data = typeof data === 'object' ? data : {};
         data["assessmentTime"] = this.assessmentTime ? this.assessmentTime.toISOString() : <any>undefined;
         data["clientId"] = this.clientId;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["userId"] = this.userId;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
@@ -6658,6 +7167,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
 export interface IBookingDetailOutput {
     assessmentTime: moment.Moment | undefined;
     clientId: string | undefined;
+    client: Client | undefined;
     userId: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -6672,6 +7182,7 @@ export interface IBookingDetailOutput {
 export class BookingListDto implements IBookingListDto {
     assessmentTime: moment.Moment | undefined;
     clientId: string | undefined;
+    client: Client | undefined;
     userId: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -6695,6 +7206,7 @@ export class BookingListDto implements IBookingListDto {
         if (data) {
             this.assessmentTime = data["assessmentTime"] ? moment(data["assessmentTime"].toString()) : <any>undefined;
             this.clientId = data["clientId"];
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.userId = data["userId"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
@@ -6718,6 +7230,7 @@ export class BookingListDto implements IBookingListDto {
         data = typeof data === 'object' ? data : {};
         data["assessmentTime"] = this.assessmentTime ? this.assessmentTime.toISOString() : <any>undefined;
         data["clientId"] = this.clientId;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["userId"] = this.userId;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
@@ -6741,6 +7254,7 @@ export class BookingListDto implements IBookingListDto {
 export interface IBookingListDto {
     assessmentTime: moment.Moment | undefined;
     clientId: string | undefined;
+    client: Client | undefined;
     userId: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -6750,6 +7264,57 @@ export interface IBookingListDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class ListResultDtoOfBookingListDto implements IListResultDtoOfBookingListDto {
+    items: BookingListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfBookingListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(BookingListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfBookingListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfBookingListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfBookingListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfBookingListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfBookingListDto {
+    items: BookingListDto[] | undefined;
 }
 
 export class PagedResultDtoOfBookingListDto implements IPagedResultDtoOfBookingListDto {
@@ -6816,9 +7381,16 @@ export class CreateClientInput implements ICreateClientInput {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
 
     constructor(data?: ICreateClientInput) {
@@ -6840,9 +7412,16 @@ export class CreateClientInput implements ICreateClientInput {
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
             this.idNumber = data["idNumber"];
+            this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.addressId = data["addressId"];
             this.dateOfInjury = data["dateOfInjury"] ? moment(data["dateOfInjury"].toString()) : <any>undefined;
             this.assessmentDate = data["assessmentDate"] ? moment(data["assessmentDate"].toString()) : <any>undefined;
+            this.earlyChildhood = data["earlyChildhood"];
+            this.family = data["family"];
+            this.homeEnvironment = data["homeEnvironment"];
+            this.education = data["education"];
+            this.socialHabits = data["socialHabits"];
+            this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
         }
     }
@@ -6864,9 +7443,16 @@ export class CreateClientInput implements ICreateClientInput {
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["idNumber"] = this.idNumber;
+        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["addressId"] = this.addressId;
         data["dateOfInjury"] = this.dateOfInjury ? this.dateOfInjury.toISOString() : <any>undefined;
         data["assessmentDate"] = this.assessmentDate ? this.assessmentDate.toISOString() : <any>undefined;
+        data["earlyChildhood"] = this.earlyChildhood;
+        data["family"] = this.family;
+        data["homeEnvironment"] = this.homeEnvironment;
+        data["education"] = this.education;
+        data["socialHabits"] = this.socialHabits;
+        data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
         return data; 
     }
@@ -6888,9 +7474,16 @@ export interface ICreateClientInput {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
 }
 
@@ -6906,10 +7499,17 @@ export class ClientDetailOutput implements IClientDetailOutput {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     addressId: number | undefined;
-    address: Address | undefined;
+    address: CreateAddressInput | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -6942,10 +7542,17 @@ export class ClientDetailOutput implements IClientDetailOutput {
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
             this.idNumber = data["idNumber"];
+            this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.dateOfInjury = data["dateOfInjury"] ? moment(data["dateOfInjury"].toString()) : <any>undefined;
             this.addressId = data["addressId"];
-            this.address = data["address"] ? Address.fromJS(data["address"]) : <any>undefined;
+            this.address = data["address"] ? CreateAddressInput.fromJS(data["address"]) : <any>undefined;
             this.assessmentDate = data["assessmentDate"] ? moment(data["assessmentDate"].toString()) : <any>undefined;
+            this.earlyChildhood = data["earlyChildhood"];
+            this.family = data["family"];
+            this.homeEnvironment = data["homeEnvironment"];
+            this.education = data["education"];
+            this.socialHabits = data["socialHabits"];
+            this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
@@ -6978,10 +7585,17 @@ export class ClientDetailOutput implements IClientDetailOutput {
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["idNumber"] = this.idNumber;
+        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["dateOfInjury"] = this.dateOfInjury ? this.dateOfInjury.toISOString() : <any>undefined;
         data["addressId"] = this.addressId;
         data["address"] = this.address ? this.address.toJSON() : <any>undefined;
         data["assessmentDate"] = this.assessmentDate ? this.assessmentDate.toISOString() : <any>undefined;
+        data["earlyChildhood"] = this.earlyChildhood;
+        data["family"] = this.family;
+        data["homeEnvironment"] = this.homeEnvironment;
+        data["education"] = this.education;
+        data["socialHabits"] = this.socialHabits;
+        data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
@@ -7014,10 +7628,17 @@ export interface IClientDetailOutput {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     addressId: number | undefined;
-    address: Address | undefined;
+    address: CreateAddressInput | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -7027,6 +7648,65 @@ export interface IClientDetailOutput {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class CreateAddressInput implements ICreateAddressInput {
+    line1: string | undefined;
+    line2: string | undefined;
+    city: string | undefined;
+    postalCode: string | undefined;
+    province: string | undefined;
+
+    constructor(data?: ICreateAddressInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.line1 = data["line1"];
+            this.line2 = data["line2"];
+            this.city = data["city"];
+            this.postalCode = data["postalCode"];
+            this.province = data["province"];
+        }
+    }
+
+    static fromJS(data: any): CreateAddressInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAddressInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["line1"] = this.line1;
+        data["line2"] = this.line2;
+        data["city"] = this.city;
+        data["postalCode"] = this.postalCode;
+        data["province"] = this.province;
+        return data; 
+    }
+
+    clone(): CreateAddressInput {
+        const json = this.toJSON();
+        let result = new CreateAddressInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateAddressInput {
+    line1: string | undefined;
+    line2: string | undefined;
+    city: string | undefined;
+    postalCode: string | undefined;
+    province: string | undefined;
 }
 
 export class ClientListDto implements IClientListDto {
@@ -7041,9 +7721,16 @@ export class ClientListDto implements IClientListDto {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     address: Address | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -7076,9 +7763,16 @@ export class ClientListDto implements IClientListDto {
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
             this.idNumber = data["idNumber"];
+            this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.dateOfInjury = data["dateOfInjury"] ? moment(data["dateOfInjury"].toString()) : <any>undefined;
             this.address = data["address"] ? Address.fromJS(data["address"]) : <any>undefined;
             this.assessmentDate = data["assessmentDate"] ? moment(data["assessmentDate"].toString()) : <any>undefined;
+            this.earlyChildhood = data["earlyChildhood"];
+            this.family = data["family"];
+            this.homeEnvironment = data["homeEnvironment"];
+            this.education = data["education"];
+            this.socialHabits = data["socialHabits"];
+            this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
@@ -7111,9 +7805,16 @@ export class ClientListDto implements IClientListDto {
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["idNumber"] = this.idNumber;
+        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["dateOfInjury"] = this.dateOfInjury ? this.dateOfInjury.toISOString() : <any>undefined;
         data["address"] = this.address ? this.address.toJSON() : <any>undefined;
         data["assessmentDate"] = this.assessmentDate ? this.assessmentDate.toISOString() : <any>undefined;
+        data["earlyChildhood"] = this.earlyChildhood;
+        data["family"] = this.family;
+        data["homeEnvironment"] = this.homeEnvironment;
+        data["education"] = this.education;
+        data["socialHabits"] = this.socialHabits;
+        data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
@@ -7146,9 +7847,16 @@ export interface IClientListDto {
     firstName: string | undefined;
     lastName: string | undefined;
     idNumber: number | undefined;
+    dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     address: Address | undefined;
     assessmentDate: moment.Moment | undefined;
+    earlyChildhood: string | undefined;
+    family: string | undefined;
+    homeEnvironment: string | undefined;
+    education: string | undefined;
+    socialHabits: string | undefined;
+    currentComplaints: string | undefined;
     profilePictureId: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -7157,6 +7865,380 @@ export interface IClientListDto {
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class CreateWorkHistoryInput implements ICreateWorkHistoryInput {
+    clientId: string | undefined;
+    premorbid: string | undefined;
+    postMorbid: string | undefined;
+    description: string | undefined;
+
+    constructor(data?: ICreateWorkHistoryInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.premorbid = data["premorbid"];
+            this.postMorbid = data["postMorbid"];
+            this.description = data["description"];
+        }
+    }
+
+    static fromJS(data: any): CreateWorkHistoryInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateWorkHistoryInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["premorbid"] = this.premorbid;
+        data["postMorbid"] = this.postMorbid;
+        data["description"] = this.description;
+        return data; 
+    }
+
+    clone(): CreateWorkHistoryInput {
+        const json = this.toJSON();
+        let result = new CreateWorkHistoryInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateWorkHistoryInput {
+    clientId: string | undefined;
+    premorbid: string | undefined;
+    postMorbid: string | undefined;
+    description: string | undefined;
+}
+
+export class WorkHistoryDetailOutput implements IWorkHistoryDetailOutput {
+    clientId: string | undefined;
+    client: Client | undefined;
+    premorbid: string | undefined;
+    postMorbid: string | undefined;
+    description: string | undefined;
+    id: string | undefined;
+
+    constructor(data?: IWorkHistoryDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
+            this.premorbid = data["premorbid"];
+            this.postMorbid = data["postMorbid"];
+            this.description = data["description"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WorkHistoryDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkHistoryDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["premorbid"] = this.premorbid;
+        data["postMorbid"] = this.postMorbid;
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): WorkHistoryDetailOutput {
+        const json = this.toJSON();
+        let result = new WorkHistoryDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWorkHistoryDetailOutput {
+    clientId: string | undefined;
+    client: Client | undefined;
+    premorbid: string | undefined;
+    postMorbid: string | undefined;
+    description: string | undefined;
+    id: string | undefined;
+}
+
+export class WorkHistoryListDto implements IWorkHistoryListDto {
+    clientId: string | undefined;
+    client: Client | undefined;
+    premorbid: string | undefined;
+    postMorbid: string | undefined;
+    description: string | undefined;
+    id: string | undefined;
+
+    constructor(data?: IWorkHistoryListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
+            this.premorbid = data["premorbid"];
+            this.postMorbid = data["postMorbid"];
+            this.description = data["description"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WorkHistoryListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkHistoryListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["premorbid"] = this.premorbid;
+        data["postMorbid"] = this.postMorbid;
+        data["description"] = this.description;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): WorkHistoryListDto {
+        const json = this.toJSON();
+        let result = new WorkHistoryListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWorkHistoryListDto {
+    clientId: string | undefined;
+    client: Client | undefined;
+    premorbid: string | undefined;
+    postMorbid: string | undefined;
+    description: string | undefined;
+    id: string | undefined;
+}
+
+export class CreateMedicalHistoryInput implements ICreateMedicalHistoryInput {
+    previousInjuries: string | undefined;
+    clientId: string | undefined;
+    medicalConditions: string | undefined;
+    currentHistory: string | undefined;
+    medication: string | undefined;
+
+    constructor(data?: ICreateMedicalHistoryInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.previousInjuries = data["previousInjuries"];
+            this.clientId = data["clientId"];
+            this.medicalConditions = data["medicalConditions"];
+            this.currentHistory = data["currentHistory"];
+            this.medication = data["medication"];
+        }
+    }
+
+    static fromJS(data: any): CreateMedicalHistoryInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateMedicalHistoryInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["previousInjuries"] = this.previousInjuries;
+        data["clientId"] = this.clientId;
+        data["medicalConditions"] = this.medicalConditions;
+        data["currentHistory"] = this.currentHistory;
+        data["medication"] = this.medication;
+        return data; 
+    }
+
+    clone(): CreateMedicalHistoryInput {
+        const json = this.toJSON();
+        let result = new CreateMedicalHistoryInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateMedicalHistoryInput {
+    previousInjuries: string | undefined;
+    clientId: string | undefined;
+    medicalConditions: string | undefined;
+    currentHistory: string | undefined;
+    medication: string | undefined;
+}
+
+export class MedicalHistoryDetailOutput implements IMedicalHistoryDetailOutput {
+    previousInjuries: string | undefined;
+    clientId: string | undefined;
+    client: Client | undefined;
+    medicalConditions: string | undefined;
+    currentHistory: string | undefined;
+    medication: string | undefined;
+    id: string | undefined;
+
+    constructor(data?: IMedicalHistoryDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.previousInjuries = data["previousInjuries"];
+            this.clientId = data["clientId"];
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
+            this.medicalConditions = data["medicalConditions"];
+            this.currentHistory = data["currentHistory"];
+            this.medication = data["medication"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): MedicalHistoryDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new MedicalHistoryDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["previousInjuries"] = this.previousInjuries;
+        data["clientId"] = this.clientId;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["medicalConditions"] = this.medicalConditions;
+        data["currentHistory"] = this.currentHistory;
+        data["medication"] = this.medication;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): MedicalHistoryDetailOutput {
+        const json = this.toJSON();
+        let result = new MedicalHistoryDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMedicalHistoryDetailOutput {
+    previousInjuries: string | undefined;
+    clientId: string | undefined;
+    client: Client | undefined;
+    medicalConditions: string | undefined;
+    currentHistory: string | undefined;
+    medication: string | undefined;
+    id: string | undefined;
+}
+
+export class MedicalHistoryListDto implements IMedicalHistoryListDto {
+    previousInjuries: string | undefined;
+    clientId: string | undefined;
+    client: Client | undefined;
+    medicalConditions: string | undefined;
+    currentHistory: string | undefined;
+    medication: string | undefined;
+    id: string | undefined;
+
+    constructor(data?: IMedicalHistoryListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.previousInjuries = data["previousInjuries"];
+            this.clientId = data["clientId"];
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
+            this.medicalConditions = data["medicalConditions"];
+            this.currentHistory = data["currentHistory"];
+            this.medication = data["medication"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): MedicalHistoryListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MedicalHistoryListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["previousInjuries"] = this.previousInjuries;
+        data["clientId"] = this.clientId;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["medicalConditions"] = this.medicalConditions;
+        data["currentHistory"] = this.currentHistory;
+        data["medication"] = this.medication;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): MedicalHistoryListDto {
+        const json = this.toJSON();
+        let result = new MedicalHistoryListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMedicalHistoryListDto {
+    previousInjuries: string | undefined;
+    clientId: string | undefined;
+    client: Client | undefined;
+    medicalConditions: string | undefined;
+    currentHistory: string | undefined;
+    medication: string | undefined;
     id: string | undefined;
 }
 
@@ -8298,65 +9380,6 @@ export interface ICreateLawFirmInput {
     email: string | undefined;
     phone: string | undefined;
     fax: string | undefined;
-}
-
-export class CreateAddressInput implements ICreateAddressInput {
-    line1: string | undefined;
-    line2: string | undefined;
-    city: string | undefined;
-    postalCode: string | undefined;
-    province: string | undefined;
-
-    constructor(data?: ICreateAddressInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.line1 = data["line1"];
-            this.line2 = data["line2"];
-            this.city = data["city"];
-            this.postalCode = data["postalCode"];
-            this.province = data["province"];
-        }
-    }
-
-    static fromJS(data: any): CreateAddressInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateAddressInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["line1"] = this.line1;
-        data["line2"] = this.line2;
-        data["city"] = this.city;
-        data["postalCode"] = this.postalCode;
-        data["province"] = this.province;
-        return data; 
-    }
-
-    clone(): CreateAddressInput {
-        const json = this.toJSON();
-        let result = new CreateAddressInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICreateAddressInput {
-    line1: string | undefined;
-    line2: string | undefined;
-    city: string | undefined;
-    postalCode: string | undefined;
-    province: string | undefined;
 }
 
 export class LawFirmDetailOutput implements ILawFirmDetailOutput {
