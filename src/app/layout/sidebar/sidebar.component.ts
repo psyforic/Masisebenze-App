@@ -19,12 +19,14 @@ export const ROUTES: RouteInfo[] = [
   { path: '/admin/dashboard', title: 'Dashboard', icon: 'th-large', type: 'link' },
   { path: '/admin/lawfirms', title: 'Law Firms', icon: 'university', type: 'link' },
   {
-    path: '/admin/attorneys', title: 'Attorneys', icon: 'gavel', type: 'sub',
-    children: [
-      { path: 'list', title: 'Attorney List', ab: 'A' },
-      { path: 'clients', title: 'Clients', ab: 'C' }
-    ]
+    path: '/admin/attorneys/list', title: 'Attorneys', icon: 'gavel', type: 'link'
   },
+  // children: [
+  //   { path: 'list', title: 'Attorney List', ab: 'A' },
+  //   { path: 'clients', title: 'Clients', ab: 'C' }
+  // ]
+  // },
+  { path: '/admin/lawfirms/clients', title: 'Clients', icon: 'users', type: 'link' },
   { path: '/admin/job-descriptions', title: 'Job Descriptions', icon: 'th-list', type: 'link' },
   { path: '/admin/reports', title: 'Reports', icon: 'bar-chart', type: 'link' },
   { path: '/admin/activity-log', title: 'Activity Log', icon: 'history', type: 'link' }

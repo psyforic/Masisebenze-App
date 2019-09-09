@@ -1,9 +1,18 @@
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { NewClientComponent } from '../lawfirms/new-client/new-client.component';
-import { ClientListDto, ClientServiceProxy } from '@shared/service-proxies/service-proxies';
+import {
+  ClientListDto,
+  ClientServiceProxy,
+  WorkHistoryListDto,
+  MedicalHistoryListDto
+} from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
+import { ReportGenerator } from '@app/admin/partials/report-generator';
+import { Packer } from 'docx';
+// import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-clients',
@@ -19,6 +28,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   dataSource: MatTableDataSource<ClientListDto>;
   displayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
   clients: ClientListDto[] = [];
+  workData: WorkHistoryListDto = new WorkHistoryListDto();
+  medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy) {
     super(injector);
@@ -31,6 +42,37 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   createClient() {
     this.newClientRef.open();
   }
+  generate(entity: ClientListDto) {
+    this.getMedicalHistory(entity.id);
+    this.getWorkHistory(entity.id);
+    const address = '29  7th Avenue, Newton Park';
+    const reportGenerator = new ReportGenerator();
+    console.log('WorData', this.workData);
+    console.log('MedicalData', this.medicalData);
+    this.workData.description = 'Provide';
+    this.medicalData.currentHistory = 'Provide';
+    const doc = reportGenerator.create([entity, address, this.workData, this.medicalData]);
+
+    const packer = new Packer();
+    Packer.toBlob(doc).then(blob => {
+      console.log(blob);
+      saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
+      console.log('Document created successfully');
+    });
+  }
+  getMedicalHistory(id) {
+    this.clientService.getMedicalHistoryByClientId(id)
+      .subscribe((result) => {
+        this.medicalData = result;
+      });
+  }
+  getWorkHistory(id) {
+    this.clientService.getWorkHistoryByClientId(id)
+      .subscribe((result) => {
+        this.workData = result;
+      });
+  }
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
@@ -57,5 +99,4 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       }
     );
   }
-
 }

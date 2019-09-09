@@ -136,6 +136,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       });
   }
   saveWorkHistory() {
+    this.workHistory.clientId = this.clientId;
     this.clientService.createWorkHistory(this.workHistory)
       .pipe(finalize(() => { }))
       .subscribe(() => {
@@ -151,6 +152,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       });
   }
   saveMedicalHistory() {
+    this.medicalHistory.clientId = this.clientId;
     this.clientService.createMedicalHistory(this.medicalHistory)
       .pipe(finalize(() => { }))
       .subscribe(() => {
