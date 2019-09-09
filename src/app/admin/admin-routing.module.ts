@@ -31,7 +31,7 @@ import { ViewClientComponent } from './lawfirms/clients/view-client/view-client.
                     { path: 'activity-log', component: ActivityLogComponent },
                     { path: 'attorneys/list', component: AttorneysComponent },
                     { path: 'lawfirms/list', component: LawfirmsComponent },
-                    { path: 'lawfirms/clients', component: ClientsComponent },
+                    { path: 'clients', component: ClientsComponent },
                     { path: 'attorneys/new', component: NewAttorneyComponent },
                     { path: 'lawfirms/view/:id', component: ViewLawfirmComponent },
                     { path: 'clients/view/:id', component: ViewClientComponent }

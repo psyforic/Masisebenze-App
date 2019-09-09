@@ -46,12 +46,10 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   addBooking(booking: any[]) {
     this.calendarEvents = this.calendarEvents.concat({
       title: booking[1],
-      // start: booking[0].assessmentTime
       start: moment(booking[0].assessmentTime).format('YYYY-MM-DD HH:mm:ss')
     });
   }
   ngAfterViewInit(): void {
-    this.getBookings();
   }
 
   getBookings() {
