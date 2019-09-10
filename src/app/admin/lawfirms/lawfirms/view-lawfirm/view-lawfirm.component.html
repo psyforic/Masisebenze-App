@@ -265,6 +265,9 @@
                                 </div>
                                 <div class="mat-table__wrapper" *ngIf="contacts.length > 0">
                                     <div class="example-container">
+                                        <div class="example-loading-shade" *ngIf="isTableLoading">
+                                            <mat-spinner *ngIf="isTableLoading"></mat-spinner>
+                                        </div>
                                         <mat-table [dataSource]="dataSource" matSort>
                                             <!-- Progress Column -->
                                             <ng-container matColumnDef="firstName">

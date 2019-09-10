@@ -1,6 +1,5 @@
 <div class="wrapper wrapper-full-page" style="background-image: url(assets/img/bg-5.jpg)">
   <div class="full-page login-page" data-color="red" style="background-image: url(assets/img/bg-5.jpg)">
-    <!--   you can change the color of the filter page using: data-color="blue | azure | green | orange | red | purple" -->
     <div class="content">
       <div class="container">
         <div class="row justify-content-center text-center">
@@ -11,17 +10,19 @@
               </a>
             </div>
             <h3 class="text-white">Masisebenze</h3>
-            <p class="text-white">Howdy <strong>{{contact.firstName}}</strong> Please Upload Files For <strong>{{client.firstName}} {{client.lastName}}</strong></p>
+            <p class="text-white">Howdy <strong>{{contact.firstName}}</strong> Please Upload Files For
+              <strong>{{client.firstName}} {{client.lastName}}</strong></p>
           </div>
         </div>
         <div class="row justify-content-center">
           <div class="col-md-12">
-            <form method="#" action="#">
-
-              <!--   if you want to have the card without animation please remove the ".card-hidden" class   -->
+            <form #uploadForm="ngForm">
               <div class="card card-hidden">
                 <div class="mat-table__wrapper">
                   <div class="example-container">
+                    <div class="example-loading-shade" *ngIf="isTableLoading">
+                      <mat-spinner *ngIf="isTableLoading"></mat-spinner>
+                    </div>
                     <table mat-table [dataSource]="dataSource">
                       <!--Checkbox Column-->
                       <ng-container matColumnDef="select">
@@ -38,7 +39,7 @@
                           </mat-checkbox>
                         </td>
                       </ng-container>
-                     
+
                       <!-- Progress Column -->
                       <ng-container matColumnDef="name">
                         <mat-header-cell *matHeaderCellDef>
@@ -54,9 +55,9 @@
                         <mat-header-cell *matHeaderCellDef>
                           File Author
                         </mat-header-cell>
-                        <mat-cell *matCellDef="let file">
+                        <mat-cell *matCellDef="let file;">
                           <mat-form-field>
-                            <input type="text" matInput placeholder="Author">
+                            <input #authorName required type="text" matInput placeholder="Author">
                           </mat-form-field>
                         </mat-cell>
                       </ng-container>
@@ -67,7 +68,11 @@
                           Date Authored
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file">
-                          {{ file.authorDate }}
+                          <mat-form-field>
+                            <input matInput [matDatepicker]="picker" placeholder="Choose a date" name="date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
                         </mat-cell>
                       </ng-container>
                       <ng-container matColumnDef="status">
@@ -75,12 +80,12 @@
                           File Status
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file">
-                          <div *ngIf="downloadURL | async; let downloadSrc" class="text text-info">
-                            File uploaded: <a [href]="downloadSrc"></a>
+                          <div *ngIf="downloadURL | async; let downloadSrc" class="text text-primary">
+                            <a [href]="downloadSrc">File uploaded</a>
                           </div>
                         </mat-cell>
                       </ng-container>
-                      <ng-container matColumnDef="progress">
+                      <!-- <ng-container matColumnDef="progress">
                         <mat-header-cell *matHeaderCellDef>
                           Progress
                         </mat-header-cell>
@@ -92,27 +97,26 @@
                             </div>
                           </div>
                         </mat-cell>
-                      </ng-container>
+                      </ng-container> -->
 
                       <ng-container matColumnDef="upload">
                         <mat-header-cell *matHeaderCellDef>Upload</mat-header-cell>
-                        <mat-cell *matCellDef="let user">
-                          <input type="file" class="btn btn-primary" (change)="upload($event)"
-                            accept=".pdf,.docx,.doc" />
+                        <mat-cell *matCellDef="let file; let i= index">
+                          <div class="file btn btn-sm btn-primary btn-round">
+                            <i class="fa fa-cloud-upload"></i>
+                            <input type="file" name="file" class="form-control-file" (change)="upload($event)"
+                              accept=".pdf,.docx,.doc" />
+                          </div>
                         </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="actions">
-                        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-                        <mat-cell *matCellDef="let user">
-                          <div class="btn-group" role="group" *ngIf="uploadState | async; let state">
-                            <button type="button" class="btn btn-primary" (click)="task.pause()"
-                              [disabled]="state === 'paused'">Pause</button>
-                            <button type="button" class="btn btn-primary" (click)="task.cancel()"
-                              [disabled]="!(state === 'paused' || state === 'running')">Cancel</button>
-                            <button type="button" class="btn btn-primary" (click)="task.resume()"
-                              [disabled]="state === 'running'">Resume</button>
-                          </div>
+                        <mat-header-cell *matHeaderCellDef>
+                          Actions
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let file">
+                          <button type="button" class="btn btn-round btn-sm btn-primary"
+                            >Click Me</button>
                         </mat-cell>
                       </ng-container>
                       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -130,39 +134,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <footer class="footer footer-transparent">
-      <div class="container">
-        <nav class="pull-left">
-          <ul>
-            <li>
-              <a href="#">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Company
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Portfolio
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                Blog
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <p class="copyright pull-right">
-          &copy; {{test | date: 'yyyy'}} <a href="https://www.creative-tim.com">Creative Tim</a>, made with love for a
-          better web
-        </p>
-      </div>
-    </footer> -->
 
   </div>
 

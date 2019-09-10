@@ -8,12 +8,14 @@ import {
   ClientServiceProxy,
   ClientListDto,
   ContactDetailOutput,
-  ContactServiceProxy
+  ContactServiceProxy,
+  DocumentDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireStorageReference, AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 export interface File {
   id: number;
@@ -31,25 +33,35 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   uploadUrl: string;
   uploadedFiles: DocumentListDto[] = [];
-  displayedColumns = ['select', 'name', 'author', 'authorDate', 'status', 'progress', 'upload', 'actions'];
+
+  displayedColumns = ['select', 'name', 'author', 'authorDate', 'status', 'upload', 'actions'];
   selection = new SelectionModel<DocumentListDto>(true, []);
   dataSource: MatTableDataSource<DocumentListDto> = new MatTableDataSource<DocumentListDto>();
+
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
   downloadURL: Observable<string>;
   uploadState: Observable<string>;
+
   client: ClientListDto = new ClientListDto();
   contact: ContactDetailOutput = new ContactDetailOutput();
   clientId: string;
   contactId: string;
+  input: DocumentDetailOutput = new DocumentDetailOutput();
+
+  uploadForm: FormGroup;
+  totalfiles: Array<File> = [];
+  totalFileName = [];
+  lengthCheckToaddMore = 0;
 
   constructor(injector: Injector,
     private route: ActivatedRoute,
     private documentService: DocumentServiceProxy,
     private clientService: ClientServiceProxy,
     private contactService: ContactServiceProxy,
-    private afStorage: AngularFireStorage) {
+    private afStorage: AngularFireStorage,
+    private fb: FormBuilder) {
     super(injector);
     this.route.queryParamMap.subscribe(params => {
       this.clientId = params.get('clientId');
@@ -61,7 +73,6 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
       this.uploadedFiles.push(file);
     }
   }
-
   onBeforeSend(event): void {
     event.xhr.setRequestHeader('Authorization', 'Bearer ');
   }
@@ -95,7 +106,7 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
-  upload(event) {
+  upload(event, authorName: any, authorDate: any) {
     const id = Math.random().toString(36).substring(2);
     this.ref = this.afStorage.ref(id);
     this.task = this.ref.put(event.target.files[0]);
@@ -104,20 +115,35 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
     this.task.snapshotChanges()
       .pipe(finalize(() => {
         this.downloadURL = this.ref.getDownloadURL();
+        this.downloadURL.subscribe((res) => {
+          this.input.fileUrl = res;
+        });
+        console.log('Author', authorName.value);
+        console.log(this.input.fileUrl);
+        // this.input.authorDate = authorDate;
+        // this.input.authorName = authorName;
+        // this.documentService.editDocument(this.input).subscribe(() => {
+        //   abp.notify.success('File Uploaded Successfully');
+        // });
       })).subscribe();
+  }
+  onClicked(row) {
+    console.log(row);
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.documentService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
         finishedCallback();
       })).subscribe((result) => {
+        console.log(result);
         this.uploadedFiles = result.items.filter((client) => {
-           return client.clientId === this.clientId;
+          return client.clientId === this.clientId;
         });
         console.log('Files', result.items);
         this.dataSource = new MatTableDataSource(this.uploadedFiles);
-        this.showPaging(result, pageNumber);
         this.dataSource.paginator = this.paginator;
+        // this.showPaging(result, pageNumber);
+
       });
     this.getUsers();
   }
