@@ -33,7 +33,7 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
   uploadUrl: string;
   uploadedFiles: DocumentListDto[] = [];
   showInput = true;
-  displayedColumns = ['select', 'name', 'author', 'authorDate', 'upload', 'actions'];
+  displayedColumns = ['select', 'name', 'author', 'authorDate', 'upload'];
   selection = new SelectionModel<DocumentListDto>(true, []);
   dataSource: MatTableDataSource<DocumentListDto> = new MatTableDataSource<DocumentListDto>();
 
@@ -49,7 +49,7 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
   clientId: string;
   contactId: string;
   input: DocumentDetailOutput;
-
+  isUploading = false;
   uploadForm: FormGroup;
   totalfiles: Array<File> = [];
   totalFileName = [];
@@ -107,6 +107,7 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
   upload(event, index, docId) {
+    this.isUploading = true;
     const id = Math.random().toString(36).substring(2);
     this.ref = this.afStorage.ref(id);
     this.task = this.ref.put(event.target.files[0]);
@@ -116,17 +117,13 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
       .pipe(finalize(() => {
         this.downloadURL = this.ref.getDownloadURL();
         this.downloadURL.subscribe((res) => {
-          this.uploadUrl = res;
+          // this.uploadUrl = res;
+          this.uploadFile(index, docId, res);
         });
-        this.uploadFile(index, docId, this.uploadUrl);
-      })).subscribe();
-  }
 
-  onClicked(fileName, fileAuthor) {
-    // console.log(this.authorName.nativeElement.value);
-    // console.log(this.authorDate.nativeElement.value);
-    console.log(fileName);
-    console.log(fileAuthor);
+      })).subscribe(() => {
+
+      });
   }
 
   uploadFile(index, id, uploadUrl) {
@@ -142,7 +139,10 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
     this.input.fileUrl = uploadUrl;
     this.input.identifier = 1;
 
-    this.documentService.editDocument(this.input).subscribe(() => {
+    this.documentService.editDocument(this.input).pipe((finalize(() => {
+      this.refresh();
+    }))).subscribe(() => {
+      this.isUploading = false;
       abp.notify.success('File Uploaded Successfully');
     });
   }
@@ -158,8 +158,6 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
         console.log('Files', result.items);
         this.dataSource = new MatTableDataSource(this.uploadedFiles);
         this.dataSource.paginator = this.paginator;
-        // this.showPaging(result, pageNumber);
-
       });
     this.getUsers();
   }
