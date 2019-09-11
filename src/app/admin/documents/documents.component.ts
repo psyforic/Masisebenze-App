@@ -1,4 +1,4 @@
-import { Component, ViewChild, Injector } from '@angular/core';
+import { Component, ViewChild, Injector, ElementRef } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
@@ -16,12 +16,9 @@ import { AngularFireStorageReference, AngularFireUploadTask, AngularFireStorage 
 import { Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import * as moment from 'moment';
 
-export interface File {
-  id: number;
-  name: string;
-}
-
+declare const $: any;
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
@@ -31,10 +28,12 @@ export interface File {
 export class DocumentsComponent extends PagedListingComponentBase<DocumentListDto> {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild('fileAuthor', { static: false }) authorName: ElementRef;
+  @ViewChild('fileDate', { static: false }) authorDate: ElementRef;
   uploadUrl: string;
   uploadedFiles: DocumentListDto[] = [];
-
-  displayedColumns = ['select', 'name', 'author', 'authorDate', 'status', 'upload', 'actions'];
+  showInput = true;
+  displayedColumns = ['select', 'name', 'author', 'authorDate', 'upload', 'actions'];
   selection = new SelectionModel<DocumentListDto>(true, []);
   dataSource: MatTableDataSource<DocumentListDto> = new MatTableDataSource<DocumentListDto>();
 
@@ -43,12 +42,13 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
   uploadProgress: Observable<number>;
   downloadURL: Observable<string>;
   uploadState: Observable<string>;
-
+  author: string;
+  date: string;
   client: ClientListDto = new ClientListDto();
   contact: ContactDetailOutput = new ContactDetailOutput();
   clientId: string;
   contactId: string;
-  input: DocumentDetailOutput = new DocumentDetailOutput();
+  input: DocumentDetailOutput;
 
   uploadForm: FormGroup;
   totalfiles: Array<File> = [];
@@ -106,7 +106,7 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
-  upload(event, authorName: any, authorDate: any) {
+  upload(event, index, docId) {
     const id = Math.random().toString(36).substring(2);
     this.ref = this.afStorage.ref(id);
     this.task = this.ref.put(event.target.files[0]);
@@ -116,19 +116,35 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
       .pipe(finalize(() => {
         this.downloadURL = this.ref.getDownloadURL();
         this.downloadURL.subscribe((res) => {
-          this.input.fileUrl = res;
+          this.uploadUrl = res;
         });
-        console.log('Author', authorName.value);
-        console.log(this.input.fileUrl);
-        // this.input.authorDate = authorDate;
-        // this.input.authorName = authorName;
-        // this.documentService.editDocument(this.input).subscribe(() => {
-        //   abp.notify.success('File Uploaded Successfully');
-        // });
+        this.uploadFile(index, docId, this.uploadUrl);
       })).subscribe();
   }
-  onClicked(row) {
-    console.log(row);
+
+  onClicked(fileName, fileAuthor) {
+    // console.log(this.authorName.nativeElement.value);
+    // console.log(this.authorDate.nativeElement.value);
+    console.log(fileName);
+    console.log(fileAuthor);
+  }
+
+  uploadFile(index, id, uploadUrl) {
+    const authorName = $('#author' + index).val();
+    const authorDate = $('#date' + index).val();
+    const momentDate = new Date(authorDate);
+    const formattedDate = moment(momentDate).format('YYYY-MM-DD');
+
+    this.input = new DocumentDetailOutput();
+    this.input.id = id;
+    this.input.authorName = authorName;
+    this.input.authorDate = moment(formattedDate);
+    this.input.fileUrl = uploadUrl;
+    this.input.identifier = 1;
+
+    this.documentService.editDocument(this.input).subscribe(() => {
+      abp.notify.success('File Uploaded Successfully');
+    });
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.documentService.getAll(request.sorting, request.skipCount, request.maxResultCount)
