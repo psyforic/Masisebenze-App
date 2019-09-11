@@ -20,22 +20,22 @@
               <div class="card card-hidden">
                 <div class="mat-table__wrapper">
                   <div class="example-container">
-                    <div class="example-loading-shade" *ngIf="isTableLoading">
-                      <mat-spinner *ngIf="isTableLoading"></mat-spinner>
+                    <div class="example-loading-shade" *ngIf="isTableLoading || isUploading">
+                      <mat-spinner *ngIf="isTableLoading || isUploading"></mat-spinner>
                     </div>
                     <table mat-table [dataSource]="dataSource">
                       <!--Checkbox Column-->
                       <ng-container matColumnDef="select">
                         <th mat-header-cell *matHeaderCellDef>
-                          <mat-checkbox (change)="$event ? masterToggle() : null"
+                          <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
                             [checked]="selection.hasValue() && isAllSelected()"
                             [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                          </mat-checkbox>
+                          </mat-checkbox> -->
                         </th>
                         <td mat-cell *matCellDef="let row">
                           <mat-checkbox (click)="$event.stopPropagation()"
-                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)"
-                            [aria-label]="checkboxLabel(row)">
+                            (change)="$event ? selection.toggle(row) : null" [checked]="row.identifier"
+                            [disabled]="row.identifier === 1" [aria-label]="checkboxLabel(row)">
                           </mat-checkbox>
                         </td>
                       </ng-container>
@@ -58,8 +58,8 @@
                         <mat-cell *matCellDef="let file; let i=index;">
                           <mat-form-field>
                             <div>
-                              <input value="{{file.authorName}}" id="author{{i}}" #fileAuthor required type="text" matInput
-                                placeholder="Author">
+                              <input [disabled]="file.identifier === 1" value="{{file.authorName}}" id="author{{i}}"
+                                #fileAuthor required type="text" matInput placeholder="File Author">
                             </div>
                           </mat-form-field>
                         </mat-cell>
@@ -71,11 +71,16 @@
                           Date Authored
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file; let i = index;">
-                          <mat-form-field>
+                          <mat-form-field *ngIf="!file.identifier">
                             <input *ngIf="showInput" id="date{{i}}" #fileDate matInput [matDatepicker]="picker"
                               placeholder="Choose a date" name="date">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+
+                          <mat-form-field *ngIf="file.identifier">
+                            <input matInput placeholder="Date Authored" name="date"
+                              value="{{file.authorDate | date: 'yyyy-MM-dd'}}" disabled>
                           </mat-form-field>
                         </mat-cell>
                       </ng-container>
@@ -106,14 +111,14 @@
                       <ng-container matColumnDef="upload">
                         <mat-header-cell *matHeaderCellDef>Upload</mat-header-cell>
                         <mat-cell *matCellDef="let file; let i= index">
-                          <div class="file btn btn-sm btn-primary btn-round">
+                          <button class="file btn btn-sm btn-primary btn-round" [disabled]="file.identifier">
                             <i class="fa fa-cloud-upload"></i>
-                            <input type="file" name="file" class="form-control-file"
+                            <input [disabled]="file.identifier" type="file" name="file" class="form-control-file"
                               (change)="upload($event, i, file.id)" accept=".pdf,.docx,.doc" />
-                          </div>
+                          </button>
                         </mat-cell>
                       </ng-container>
-
+                      <!-- 
                       <ng-container matColumnDef="actions">
                         <mat-header-cell *matHeaderCellDef>
                           Actions
@@ -122,7 +127,7 @@
                           <button type="button" class="btn btn-round btn-sm btn-primary">Click
                             Me</button>
                         </mat-cell>
-                      </ng-container>
+                      </ng-container> -->
                       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                       <mat-row *matRowDef="let row; columns: displayedColumns">
                       </mat-row>
@@ -131,14 +136,10 @@
                   </div>
                 </div>
               </div>
-
             </form>
-
           </div>
         </div>
       </div>
     </div>
-
   </div>
-
 </div>

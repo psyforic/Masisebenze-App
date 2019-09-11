@@ -27,7 +27,8 @@ import {
   MatTabsModule,
   MatTooltipModule,
   MatDialogModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatTreeModule
 } from '@angular/material';
 import { QuillModule } from 'ngx-quill';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
@@ -74,7 +75,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatTooltipModule,
     MatDialogModule,
     MatExpansionModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatTreeModule
   ],
   exports: [
     CommonModule,
@@ -104,7 +106,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatDialogModule,
     MatExpansionModule,
     QuillModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatTreeModule
   ],
   providers: [BsModalService]
 })
