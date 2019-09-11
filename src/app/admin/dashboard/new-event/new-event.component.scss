@@ -1,0 +1,24 @@
+.d-inline-block {
+    width: 100%;
+}
+
+.open>.dropdown-menu,
+.dropdown-menu.show {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+
+    .dropdown-menu .dropdown-item,
+    .dropdown-menu li>a {
+        width: 100%;
+    }
+}
+
+.btn.btn-outline-primary.dropdown-toggle {
+    color: #9c27b0;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    border-bottom: 1px solid #888;
+}

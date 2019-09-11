@@ -10,6 +10,7 @@ import { EventInput } from '@fullcalendar/core';
 import { BookingServiceProxy, BookingListDto } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
+import { NewEventComponent } from './new-event/new-event.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -19,6 +20,7 @@ import * as moment from 'moment';
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit {
   @ViewChild('newBooking', { static: false }) newBookingModal: NewBookingComponent;
   @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent;
+  @ViewChild('newEvent', { static: false }) newEventModal: NewEventComponent;
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
   bookings: BookingListDto[] = [];
   newEvents: EventInput[] = [];
@@ -41,7 +43,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     this.calendarEvents = calendarEvents;
   }
   handleDateClick(arg) {
-    this.newBookingModal.open(arg);
+    this.newEventModal.open(arg);
   }
   addBooking(booking: any[]) {
     this.calendarEvents = this.calendarEvents.concat({

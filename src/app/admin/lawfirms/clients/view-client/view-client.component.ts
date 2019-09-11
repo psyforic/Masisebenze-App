@@ -6,20 +6,63 @@ import {
   WorkHistoryDetailOutput,
   CreateMedicalHistoryInput,
   MedicalHistoryDetailOutput,
-  CreateWorkHistoryInput
+  CreateWorkHistoryInput,
+  DocumentServiceProxy,
+  DocumentListDto
 } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material';
 
+interface DocumentNode {
+  name: string;
+  children?: DocumentNode[];
+}
+const TREE_DATA: DocumentNode[] = [
+  {
+    name: 'Fruit',
+    children: [
+      { name: 'Apple' },
+      { name: 'Banana' },
+      { name: 'Fruit loops' },
+    ]
+  }, {
+    name: 'Vegetables',
+    children: [
+      {
+        name: 'Green',
+        children: [
+          { name: 'Broccoli' },
+          { name: 'Brussel sprouts' },
+        ]
+      }, {
+        name: 'Orange',
+        children: [
+          { name: 'Pumpkins' },
+          { name: 'Carrots' },
+        ]
+      },
+    ]
+  },
+];
+
+/** Flat node with expandable and level information */
+interface FlatNode {
+  expandable: boolean;
+  name: string;
+  level: number;
+}
 @Component({
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy]
+  providers: [ClientServiceProxy, DocumentServiceProxy]
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
   client: ClientDetailOutput = new ClientDetailOutput();
+  documents: DocumentListDto[] = [];
   workHistory: any;
   medicalHistory: any;
   clientId: string;
@@ -36,6 +79,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   panelOpenState = false;
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
+    private documentService: DocumentServiceProxy,
     private route: ActivatedRoute
   ) {
     super(injector);
@@ -43,10 +87,24 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.clientId = paramMap.get('id');
 
     });
-  }
 
+    // this.fileDataSource.data = TREE_DATA;
+  }
+  getFileData() {
+    this.documentService.getClientDocuments(this.clientId)
+      .pipe(finalize(() => { }))
+      .subscribe((result) => {
+        this.documents = result.items;
+        const filtered = this.documents.map((value) => {
+          return { name: value.name, children: [{ name: value.fileUrl }] };
+        });
+
+        this.fileDataSource.data = filtered;
+      });
+  }
   ngOnInit() {
     this.getClient();
+    this.getFileData();
     this.clientService.getMedicalHistoryByClientId(this.clientId)
       .pipe(finalize(() => {
         if (this.medicalHistory.hasOwnProperty('id')) {
@@ -166,4 +224,22 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.notify.success('Saved Successfully');
       });
   }
+
+  private _transformer = (node: DocumentNode, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      name: node.name,
+      level: level,
+    };
+  }
+  // tslint:disable-next-line:member-ordering
+  treeControl = new FlatTreeControl<FlatNode>(
+    node => node.level, node => node.expandable);
+  // tslint:disable-next-line:member-ordering
+  treeFlattener = new MatTreeFlattener(
+    this._transformer, node => node.level, node => node.expandable, node => node.children);
+  // tslint:disable-next-line: member-ordering
+  fileDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  // tslint:disable-next-line:member-ordering
+  hasChild = (_: number, node: FlatNode) => node.expandable;
 }
