@@ -1141,6 +1141,217 @@ export class BookingServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createEvent(input: CreateEventInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/CreateEvent";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateEvent(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateEvent(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateEvent(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllEvents(): Observable<ListResultDtoOfEventListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/GetAllEvents";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllEvents(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllEvents(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfEventListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfEventListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllEvents(response: HttpResponseBase): Observable<ListResultDtoOfEventListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfEventListDto.fromJS(resultData200) : new ListResultDtoOfEventListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfEventListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getEventDetail(id: number | null | undefined): Observable<EventDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/GetEventDetail?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEventDetail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEventDetail(<any>response_);
+                } catch (e) {
+                    return <Observable<EventDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EventDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEventDetail(response: HttpResponseBase): Observable<EventDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? EventDetailOutput.fromJS(resultData200) : new EventDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EventDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getEventById(input: number | null | undefined): Observable<EventListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/GetEventById?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetEventById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetEventById(<any>response_);
+                } catch (e) {
+                    return <Observable<EventListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<EventListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetEventById(response: HttpResponseBase): Observable<EventListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? EventListDto.fromJS(resultData200) : new EventListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<EventListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -8182,8 +8393,14 @@ export interface IPagedResultDtoOfAttorneyListDto {
 }
 
 export class CreateBookingInput implements ICreateBookingInput {
-    assessmentTime: moment.Moment | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
     clientId: string | undefined;
+    userId: number | undefined;
+    lawFirmId: string | undefined;
+    eventId: number | undefined;
+    attorneyId: string | undefined;
+    contactId: string | undefined;
 
     constructor(data?: ICreateBookingInput) {
         if (data) {
@@ -8196,8 +8413,14 @@ export class CreateBookingInput implements ICreateBookingInput {
 
     init(data?: any) {
         if (data) {
-            this.assessmentTime = data["assessmentTime"] ? moment(data["assessmentTime"].toString()) : <any>undefined;
+            this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
+            this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
             this.clientId = data["clientId"];
+            this.userId = data["userId"];
+            this.lawFirmId = data["lawFirmId"];
+            this.eventId = data["eventId"];
+            this.attorneyId = data["attorneyId"];
+            this.contactId = data["contactId"];
         }
     }
 
@@ -8210,8 +8433,14 @@ export class CreateBookingInput implements ICreateBookingInput {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["assessmentTime"] = this.assessmentTime ? this.assessmentTime.toISOString() : <any>undefined;
+        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
+        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
         data["clientId"] = this.clientId;
+        data["userId"] = this.userId;
+        data["lawFirmId"] = this.lawFirmId;
+        data["eventId"] = this.eventId;
+        data["attorneyId"] = this.attorneyId;
+        data["contactId"] = this.contactId;
         return data; 
     }
 
@@ -8224,15 +8453,29 @@ export class CreateBookingInput implements ICreateBookingInput {
 }
 
 export interface ICreateBookingInput {
-    assessmentTime: moment.Moment | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
     clientId: string | undefined;
+    userId: number | undefined;
+    lawFirmId: string | undefined;
+    eventId: number | undefined;
+    attorneyId: string | undefined;
+    contactId: string | undefined;
 }
 
 export class BookingDetailOutput implements IBookingDetailOutput {
-    assessmentTime: moment.Moment | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    lawFirmId: string | undefined;
+    lawFirm: LawFirm | undefined;
+    eventId: number | undefined;
+    attorneyId: string | undefined;
+    attorney: Attorney | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -8253,10 +8496,18 @@ export class BookingDetailOutput implements IBookingDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.assessmentTime = data["assessmentTime"] ? moment(data["assessmentTime"].toString()) : <any>undefined;
+            this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
+            this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
             this.clientId = data["clientId"];
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.userId = data["userId"];
+            this.lawFirmId = data["lawFirmId"];
+            this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
+            this.eventId = data["eventId"];
+            this.attorneyId = data["attorneyId"];
+            this.attorney = data["attorney"] ? Attorney.fromJS(data["attorney"]) : <any>undefined;
+            this.contactId = data["contactId"];
+            this.contact = data["contact"] ? Contact.fromJS(data["contact"]) : <any>undefined;
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -8277,10 +8528,18 @@ export class BookingDetailOutput implements IBookingDetailOutput {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["assessmentTime"] = this.assessmentTime ? this.assessmentTime.toISOString() : <any>undefined;
+        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
+        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
         data["clientId"] = this.clientId;
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["userId"] = this.userId;
+        data["lawFirmId"] = this.lawFirmId;
+        data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
+        data["eventId"] = this.eventId;
+        data["attorneyId"] = this.attorneyId;
+        data["attorney"] = this.attorney ? this.attorney.toJSON() : <any>undefined;
+        data["contactId"] = this.contactId;
+        data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -8301,10 +8560,18 @@ export class BookingDetailOutput implements IBookingDetailOutput {
 }
 
 export interface IBookingDetailOutput {
-    assessmentTime: moment.Moment | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    lawFirmId: string | undefined;
+    lawFirm: LawFirm | undefined;
+    eventId: number | undefined;
+    attorneyId: string | undefined;
+    attorney: Attorney | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -8316,10 +8583,18 @@ export interface IBookingDetailOutput {
 }
 
 export class BookingListDto implements IBookingListDto {
-    assessmentTime: moment.Moment | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    lawFirmId: string | undefined;
+    lawFirm: LawFirm | undefined;
+    eventId: number | undefined;
+    attorneyId: string | undefined;
+    attorney: Attorney | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -8340,10 +8615,18 @@ export class BookingListDto implements IBookingListDto {
 
     init(data?: any) {
         if (data) {
-            this.assessmentTime = data["assessmentTime"] ? moment(data["assessmentTime"].toString()) : <any>undefined;
+            this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
+            this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
             this.clientId = data["clientId"];
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.userId = data["userId"];
+            this.lawFirmId = data["lawFirmId"];
+            this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
+            this.eventId = data["eventId"];
+            this.attorneyId = data["attorneyId"];
+            this.attorney = data["attorney"] ? Attorney.fromJS(data["attorney"]) : <any>undefined;
+            this.contactId = data["contactId"];
+            this.contact = data["contact"] ? Contact.fromJS(data["contact"]) : <any>undefined;
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -8364,10 +8647,18 @@ export class BookingListDto implements IBookingListDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["assessmentTime"] = this.assessmentTime ? this.assessmentTime.toISOString() : <any>undefined;
+        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
+        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
         data["clientId"] = this.clientId;
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["userId"] = this.userId;
+        data["lawFirmId"] = this.lawFirmId;
+        data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
+        data["eventId"] = this.eventId;
+        data["attorneyId"] = this.attorneyId;
+        data["attorney"] = this.attorney ? this.attorney.toJSON() : <any>undefined;
+        data["contactId"] = this.contactId;
+        data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -8388,10 +8679,18 @@ export class BookingListDto implements IBookingListDto {
 }
 
 export interface IBookingListDto {
-    assessmentTime: moment.Moment | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    lawFirmId: string | undefined;
+    lawFirm: LawFirm | undefined;
+    eventId: number | undefined;
+    attorneyId: string | undefined;
+    attorney: Attorney | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -8451,6 +8750,241 @@ export class ListResultDtoOfBookingListDto implements IListResultDtoOfBookingLis
 
 export interface IListResultDtoOfBookingListDto {
     items: BookingListDto[] | undefined;
+}
+
+export class CreateEventInput implements ICreateEventInput {
+    name: string | undefined;
+
+    constructor(data?: ICreateEventInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+        }
+    }
+
+    static fromJS(data: any): CreateEventInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateEventInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        return data; 
+    }
+
+    clone(): CreateEventInput {
+        const json = this.toJSON();
+        let result = new CreateEventInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateEventInput {
+    name: string | undefined;
+}
+
+export class ListResultDtoOfEventListDto implements IListResultDtoOfEventListDto {
+    items: EventListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfEventListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(EventListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfEventListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfEventListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfEventListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfEventListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfEventListDto {
+    items: EventListDto[] | undefined;
+}
+
+export class EventListDto implements IEventListDto {
+    name: Event | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEventListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"] ? Event.fromJS(data["name"]) : <any>undefined;
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EventListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new EventListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): EventListDto {
+        const json = this.toJSON();
+        let result = new EventListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEventListDto {
+    name: Event | undefined;
+    id: number | undefined;
+}
+
+export class Event implements IEvent {
+    name: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEvent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Event {
+        data = typeof data === 'object' ? data : {};
+        let result = new Event();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Event {
+        const json = this.toJSON();
+        let result = new Event();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEvent {
+    name: string | undefined;
+    id: number | undefined;
+}
+
+export class EventDetailOutput implements IEventDetailOutput {
+    name: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEventDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): EventDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new EventDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): EventDetailOutput {
+        const json = this.toJSON();
+        let result = new EventDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEventDetailOutput {
+    name: string | undefined;
+    id: number | undefined;
 }
 
 export class PagedResultDtoOfBookingListDto implements IPagedResultDtoOfBookingListDto {

@@ -27,7 +27,8 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() newBookingInput = new EventEmitter();
   date: string;
-  time: any;
+  startTime: any;
+  endTime: any;
   bookingName: string;
   booking: CreateBookingInput = new CreateBookingInput();
   clients: ClientListDto[] = [];
@@ -52,12 +53,13 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     this.modalService.open(this.content).result.then(() => { }, () => { });
   }
   save() {
-    this.booking.assessmentTime = moment(this.date + ' ' + this.time + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.bookingService.createBooking(this.booking)
       .pipe(finalize(() => {
       }))
       .subscribe(() => {
-        this.notify.success('Assessment Booking Successfully');
+        this.notify.success('Event Booking Created Successfully');
         this.newBookingInput.emit([this.booking, this.bookingName]);
         this.modalService.dismissAll();
       });
@@ -67,8 +69,11 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   //     this.lawFirmId = result.id;
   //   });
   // }
-  setTime(event) {
-    this.time = event;
+  setStartTime(event) {
+    this.startTime = event;
+  }
+  setEndTime(event) {
+    this.endTime = event;
   }
   getLawFirms() {
     this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
