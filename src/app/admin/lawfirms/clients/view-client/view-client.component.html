@@ -6,7 +6,20 @@
                     {{client.firstName}} {{client.lastName}}
                 </div>
                 <div class="header-toolbar">
+                    <div class="btn-group" dropdown>
+                        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                            aria-controls="dropdown-basic">
+                            Actions<span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                    [routerLink]="['/admin/clients/activity-log', client.id]"
+                                    routerLinkActive="router-link-active">Activity Log</a>
+                            </li>
 
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -26,8 +39,8 @@
                                             <div class="card-avatar">
                                                 <a href="javascript:void(0)">
                                                     <img class="img"
-                                                        [src]="'https://firebasestorage.googleapis.com/v0/b/masisebenzefce.appspot.com/o/profilePics%2Fwr8sl00mgmh?alt=media&token=65423641-bd1c-49a3-98f3-48df1a8e9b4d'"
-                                                        alt="../../../../../assets/img/faces/face-0.jpg" />
+                                                        [src]="client.profilePictureId || '../../../../../assets/img/faces/face-0.jpg' "
+                                                        alt="Logo" />
                                                 </a>
                                             </div>
                                             <div class="card-body text-center">

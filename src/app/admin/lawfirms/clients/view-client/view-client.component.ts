@@ -179,11 +179,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       .pipe(finalize(() => {
         this.downloadURL = this.ref.getDownloadURL();
         this.downloadURL.subscribe((res) => {
-          this.client.profilePictureId = res;
-          this.clientService.editClient(this.client)
-            .pipe(finalize(() => { }))
-            .subscribe(() => {
+          this.clientService.updateProfilePic(this.clientId, res)
+            .pipe(finalize(() => {
               this.notify.success('Profile Pic Updated Successfully');
+            })).subscribe(() => {
             });
         });
       })).subscribe(() => {

@@ -8,7 +8,7 @@ import { PartialsModule } from '@app/admin/partials/partials.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ViewActivityLogComponent } from './view-activity-log/view-activity-log.component';
-
+import { VerticalTimelineModule } from 'angular-vertical-timeline';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import { ViewActivityLogComponent } from './view-activity-log/view-activity-log.
     MatAutocompleteModule,
     PartialsModule,
     BsDatepickerModule.forRoot(),
+    VerticalTimelineModule
   ],
   entryComponents: [NewClientComponent]
 })

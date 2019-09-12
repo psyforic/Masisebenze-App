@@ -43,6 +43,7 @@
     "@types/toastr": "^2.1.33",
     "abp-ng2-module": "^4.0.0",
     "abp-web-resources": "^3.8.2",
+    "angular-vertical-timeline": "^0.6.0",
     "animate.css": "^3.5.2",
     "arrive": "2.4.1",
     "block-ui": "^2.70.1",

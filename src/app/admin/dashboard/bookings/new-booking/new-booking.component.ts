@@ -36,7 +36,7 @@ export class NewBookingComponent extends PagedListingComponentBase<BookingListDt
     this.modalService.open(this.content).result.then(() => { }, () => { });
   }
   save() {
-    this.booking.assessmentTime = moment(this.date + ' ' + this.time + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.booking.startTime = moment(this.date + ' ' + this.time + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.bookingService.createBooking(this.booking)
       .pipe(finalize(() => {
       }))

@@ -1,3 +1,30 @@
-<p>
-  view-activity-log works!
-</p>
+<div class="main-content buttons-with-margin">
+  <div class="container-fluid">
+    <!-- Add the timeline -->
+    <div class="card-header">
+      <h1 class="card-title">{{client.firstName}} {{client.lastName}}</h1>
+      <div class="header-toolbar">
+        <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary" matTooltip="Back">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <vertical-timeline>
+
+      <!-- Add some cards to the timeline. It works with *ngFor too -->
+
+      <!-- If no value is passed for the date, the current time is used. -->
+
+        <vertical-timeline-card *ngFor="let activity of activities" [dateValue]="activity.creationTime | date: 'short'">
+          <h3>{{activity.event?.name}}</h3>
+        </vertical-timeline-card>
+
+      <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
+      <vertical-timeline-card [dateValue]="client.creationTime | date:'short'">
+        <h3>File Created</h3>
+      </vertical-timeline-card>
+
+    </vertical-timeline>
+  </div>
+</div>

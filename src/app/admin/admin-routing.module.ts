@@ -13,6 +13,7 @@ import { NewAttorneyComponent } from './lawfirms/attorneys/new-attorney/new-atto
 import { ViewAttorneyComponent } from './lawfirms/attorneys/view-attorney/view-attorney.component';
 import { ViewLawfirmComponent } from './lawfirms/lawfirms/view-lawfirm/view-lawfirm.component';
 import { ViewClientComponent } from './lawfirms/clients/view-client/view-client.component';
+import { ViewActivityLogComponent } from './lawfirms/clients/view-activity-log/view-activity-log.component';
 
 @NgModule({
 
@@ -34,7 +35,8 @@ import { ViewClientComponent } from './lawfirms/clients/view-client/view-client.
                     { path: 'clients', component: ClientsComponent },
                     { path: 'attorneys/new', component: NewAttorneyComponent },
                     { path: 'lawfirms/view/:id', component: ViewLawfirmComponent },
-                    { path: 'clients/view/:id', component: ViewClientComponent }
+                    { path: 'clients/view/:id', component: ViewClientComponent },
+                    { path: 'clients/activity-log/:id', component: ViewActivityLogComponent }
                 ]
             }
         ])

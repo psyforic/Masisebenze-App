@@ -32,6 +32,7 @@ import {
 } from '@angular/material';
 import { QuillModule } from 'ngx-quill';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 @NgModule({
   declarations: [],
   imports: [
@@ -76,7 +77,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatDialogModule,
     MatExpansionModule,
     NgxMaterialTimepickerModule,
-    MatTreeModule
+    MatTreeModule,
+    BsDropdownModule.forRoot()
   ],
   exports: [
     CommonModule,
@@ -107,7 +109,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatExpansionModule,
     QuillModule,
     NgxMaterialTimepickerModule,
-    MatTreeModule
+    MatTreeModule,
+    BsDropdownModule
   ],
   providers: [BsModalService]
 })

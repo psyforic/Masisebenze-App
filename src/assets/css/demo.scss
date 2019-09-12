@@ -16,6 +16,7 @@
 @import '~@fullcalendar/core/main.css';
 @import '~@fullcalendar/daygrid/main.css';
 @import '~@fullcalendar/timegrid/main.css';
+@import "~angular-vertical-timeline/dist/vertical-timeline.css";
 // @media (min-width: 992px) {
 //     .typo-line {
 //         padding-left: 140px;
@@ -225,9 +226,11 @@ mat-tab-group .card {
 .sidebar .nav li a {
     color: #fff;
 }
+
 .cdk-overlay-container {
     z-index: 1200 !important;
 }
+
 .example-loading-shade {
     position: absolute;
     top: 0;
@@ -239,7 +242,7 @@ mat-tab-group .card {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
+}
 
 .form-control:focus {
     outline: none;
