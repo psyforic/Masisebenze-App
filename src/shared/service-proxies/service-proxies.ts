@@ -1193,10 +1193,13 @@ export class BookingServiceProxy {
     }
 
     /**
+     * @param input (optional) 
      * @return Success
      */
-    getAllEvents(): Observable<ListResultDtoOfEventListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Booking/GetAllEvents";
+    getAllEvents(input: any | null | undefined): Observable<ListResultDtoOfEventListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Booking/GetAllEvents?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1725,6 +1728,59 @@ export class ClientServiceProxy {
     }
 
     protected processEditClient(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @param url (optional) 
+     * @return Success
+     */
+    updateProfilePic(id: string | null | undefined, url: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Client/UpdateProfilePic?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        if (url !== undefined)
+            url_ += "url=" + encodeURIComponent("" + url) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateProfilePic(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateProfilePic(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateProfilePic(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8847,57 +8903,10 @@ export interface IListResultDtoOfEventListDto {
 }
 
 export class EventListDto implements IEventListDto {
-    name: Event | undefined;
-    id: number | undefined;
-
-    constructor(data?: IEventListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"] ? Event.fromJS(data["name"]) : <any>undefined;
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): EventListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new EventListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name ? this.name.toJSON() : <any>undefined;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): EventListDto {
-        const json = this.toJSON();
-        let result = new EventListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IEventListDto {
-    name: Event | undefined;
-    id: number | undefined;
-}
-
-export class Event implements IEvent {
     name: string | undefined;
     id: number | undefined;
 
-    constructor(data?: IEvent) {
+    constructor(data?: IEventListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -8913,9 +8922,9 @@ export class Event implements IEvent {
         }
     }
 
-    static fromJS(data: any): Event {
+    static fromJS(data: any): EventListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new Event();
+        let result = new EventListDto();
         result.init(data);
         return result;
     }
@@ -8927,15 +8936,15 @@ export class Event implements IEvent {
         return data; 
     }
 
-    clone(): Event {
+    clone(): EventListDto {
         const json = this.toJSON();
-        let result = new Event();
+        let result = new EventListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IEvent {
+export interface IEventListDto {
     name: string | undefined;
     id: number | undefined;
 }

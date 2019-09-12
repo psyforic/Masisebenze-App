@@ -28,7 +28,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   closeResult: string;
   filter = '';
   clientForm: FormGroup;
-
+  isSaving = false;
   attorneys: AttorneyListDto[] = [];
   contacts: ContactListDto[] = [];
   lawFirms: LawFirmListDto[] = [];
@@ -41,7 +41,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     private clientService: ClientServiceProxy,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
-    this.datePickerConfig = Object.assign({}, { containerClass: 'theme-default', dateInputFormat: 'YYYY-MM-DD' });
   }
   ngOnInit(): void {
     this.initializeForm();
@@ -95,10 +94,11 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     console.log(event.target.value);
   }
   save() {
+    this.isSaving = true;
     this.clientInput = Object.assign({}, this.clientForm.value);
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
-
+        this.isSaving = false;
       }))
       .subscribe(() => {
         this.notify.success('Saved Successfully');

@@ -7,6 +7,7 @@ import { NewClientComponent } from './new-client/new-client.component';
 import { PartialsModule } from '@app/admin/partials/partials.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ViewActivityLogComponent } from './view-activity-log/view-activity-log.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     ClientsComponent,
     EditClientComponent,
     NewClientComponent,
-    ViewClientComponent
+    ViewClientComponent,
+    ViewActivityLogComponent
   ],
   imports: [
     CommonModule,

@@ -4,49 +4,22 @@ import {
   ClientServiceProxy,
   ClientDetailOutput,
   WorkHistoryDetailOutput,
-  CreateMedicalHistoryInput,
   MedicalHistoryDetailOutput,
-  CreateWorkHistoryInput,
   DocumentServiceProxy,
-  DocumentListDto
+  DocumentListDto,
+  CreateAddressInput
 } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
 
 interface DocumentNode {
   name: string;
   children?: DocumentNode[];
 }
-const TREE_DATA: DocumentNode[] = [
-  {
-    name: 'Fruit',
-    children: [
-      { name: 'Apple' },
-      { name: 'Banana' },
-      { name: 'Fruit loops' },
-    ]
-  }, {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [
-          { name: 'Broccoli' },
-          { name: 'Brussel sprouts' },
-        ]
-      }, {
-        name: 'Orange',
-        children: [
-          { name: 'Pumpkins' },
-          { name: 'Carrots' },
-        ]
-      },
-    ]
-  },
-];
-
 /** Flat node with expandable and level information */
 interface FlatNode {
   expandable: boolean;
@@ -63,24 +36,32 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
 
   client: ClientDetailOutput = new ClientDetailOutput();
   documents: DocumentListDto[] = [];
-  workHistory: any;
-  medicalHistory: any;
-  clientId: string;
-  line1: string;
-  line2: string;
-  city: string;
-  province: string;
+  workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
+  medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();;
+  clientId = '';
+  line1 = '';
+  line2 = '';
+  city = '';
+  province = '';
   addressId = 0;
-  postalCode: string;
+  postalCode = '';
   blured = false;
   focused = false;
   isWorkUpdate = false;
   isMedicalUpdate = false;
   panelOpenState = false;
+  isUploading = false;
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  uploadProgress: Observable<number>;
+  downloadURL: Observable<string>;
+  uploadState: Observable<string>;
+  currentHistory = '';
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private afStorage: AngularFireStorage,
   ) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -106,38 +87,14 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.getClient();
     this.getFileData();
     this.clientService.getMedicalHistoryByClientId(this.clientId)
-      .pipe(finalize(() => {
-        if (this.medicalHistory.hasOwnProperty('id')) {
-          this.isMedicalUpdate = false;
-          console.log(this.isWorkUpdate);
-        } else {
-          this.isMedicalUpdate = true;
-          console.log(this.isWorkUpdate);
-        }
-      }))
+      .pipe(finalize(() => { }))
       .subscribe((result) => {
-        if (!result) {
-          this.medicalHistory = new CreateMedicalHistoryInput();
-          this.isWorkUpdate = false;
-        } else {
-          this.medicalHistory = new MedicalHistoryDetailOutput();
-          this.isWorkUpdate = true;
-        }
+        this.medicalHistory = result;
       });
     this.clientService.getWorkHistoryByClientId(this.clientId)
-      .pipe(finalize(() => {
-        if (this.workHistory instanceof CreateWorkHistoryInput) {
-          this.isWorkUpdate = false;
-        } else {
-          this.isWorkUpdate = true;
-        }
-      }))
+      .pipe(finalize(() => { }))
       .subscribe((result) => {
-        if (!result) {
-          this.workHistory = new CreateWorkHistoryInput();
-        } else {
-          this.workHistory = new WorkHistoryDetailOutput();
-        }
+        this.workHistory = result;
       });
   }
   getClient() {
@@ -178,6 +135,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.blured = true;
   }
   save() {
+    this.client.address = new CreateAddressInput();
     this.client.address.line1 = this.line1;
     this.client.address.line2 = this.line2;
     this.client.address.city = this.city;
@@ -193,25 +151,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getClient();
       });
   }
-  saveWorkHistory() {
-    this.workHistory.clientId = this.clientId;
-    this.clientService.createWorkHistory(this.workHistory)
-      .pipe(finalize(() => { }))
-      .subscribe(() => {
-        this.notify.success('Saved Successfully');
-      });
-  }
-
   updateWorkHistory() {
     this.clientService.editWorkHistory(this.workHistory)
-      .pipe(finalize(() => { }))
-      .subscribe(() => {
-        this.notify.success('Saved Successfully');
-      });
-  }
-  saveMedicalHistory() {
-    this.medicalHistory.clientId = this.clientId;
-    this.clientService.createMedicalHistory(this.medicalHistory)
       .pipe(finalize(() => { }))
       .subscribe(() => {
         this.notify.success('Saved Successfully');
@@ -224,7 +165,31 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.notify.success('Saved Successfully');
       });
   }
+  onContentChanged = (event) => {
+    console.log(event);
+  }
+  upload(event) {
+    this.isUploading = true;
+    const id = Math.random().toString(36).substring(2);
+    this.ref = this.afStorage.ref(`/profilePics/${id}`);
+    this.task = this.ref.put(event.target.files[0]);
+    this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
+    this.uploadProgress = this.task.percentageChanges();
+    this.task.snapshotChanges()
+      .pipe(finalize(() => {
+        this.downloadURL = this.ref.getDownloadURL();
+        this.downloadURL.subscribe((res) => {
+          this.client.profilePictureId = res;
+          this.clientService.editClient(this.client)
+            .pipe(finalize(() => { }))
+            .subscribe(() => {
+              this.notify.success('Profile Pic Updated Successfully');
+            });
+        });
+      })).subscribe(() => {
 
+      });
+  }
   private _transformer = (node: DocumentNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,

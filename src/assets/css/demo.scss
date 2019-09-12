@@ -225,7 +225,9 @@ mat-tab-group .card {
 .sidebar .nav li a {
     color: #fff;
 }
-
+.cdk-overlay-container {
+    z-index: 1200 !important;
+}
 .example-loading-shade {
     position: absolute;
     top: 0;

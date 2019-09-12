@@ -16,6 +16,9 @@
                         Attorney Information
                     </ng-template>
                     <div class="col-lg-12">
+                        <div class="example-loading-shade" *ngIf="isSaving">
+                            <mat-spinner *ngIf="isSaving"></mat-spinner>
+                        </div>
                         <div class="card">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -57,12 +60,19 @@
 
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <mat-form-field>
+                                    <!-- <mat-form-field>
                                         <input matInput placeholder="Court Date" formControlName="courtDate">
                                         <button type="button" mat-button matSuffix mat-icon-button aria-label="Clear">
                                             <mat-icon>calendar_today</mat-icon>
                                         </button>
+                                    </mat-form-field> -->
+                                    <mat-form-field>
+                                        <input matInput formControlName="courtDate" [matDatepicker]="picker"
+                                            placeholder="Court Date">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
                                     </mat-form-field>
+
                                 </div>
                             </div>
                         </div>
@@ -79,7 +89,7 @@
 
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-lg-12">
                                     <mat-form-field>
                                         <mat-label>Case Number</mat-label>
@@ -87,7 +97,7 @@
                                             placeholder="Enter Case Number">
                                     </mat-form-field>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="row">
                                 <div class="col-lg-2">
@@ -96,7 +106,7 @@
                                         <select formControlName="title" matNativeControl required>
                                             <option value="Mr.">Mr.</option>
                                             <option value="Mrs.">Mrs.</option>
-                                            <option value="Rev.">Rev.</option>
+                                            <option value="Mrs.">Ms.</option>
                                         </select>
                                     </mat-form-field>
                                 </div>
@@ -125,12 +135,21 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-6">
-                                    <mat-form-field>
+                                    <!-- <mat-form-field>
                                         <mat-label>Date Of Assessment</mat-label>
-                                        <input type="text" matInput placeholder="yyyy-mm-dd" formControlName="assessmentDate" >
-                                        <button type="button" mat-button matSuffix mat-icon-button aria-label="Calendar">
+                                        <input type="text" matInput placeholder="yyyy-mm-dd"
+                                            formControlName="assessmentDate">
+                                        <button type="button" mat-button matSuffix mat-icon-button
+                                            aria-label="Calendar">
                                             <mat-icon>calendar_today</mat-icon>
                                         </button>
+                                    </mat-form-field> -->
+
+                                    <mat-form-field>
+                                        <input matInput formControlName="assessmentDate" [matDatepicker]="datePicker"
+                                            placeholder="Date Of Assessment">
+                                        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #datePicker></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                             </div>

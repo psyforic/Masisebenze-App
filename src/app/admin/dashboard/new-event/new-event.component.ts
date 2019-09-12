@@ -4,11 +4,11 @@ import {
   ClientListDto,
   BookingServiceProxy,
   ClientServiceProxy,
-  BookingListDto,
   LawFirmServiceProxy,
   LawFirmListDto,
   AttorneyListDto,
-  ContactListDto
+  ContactListDto,
+  EventListDto
 } from '@shared/service-proxies/service-proxies';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
@@ -26,6 +26,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() newBookingInput = new EventEmitter();
+
   date: string;
   startTime: any;
   endTime: any;
@@ -37,8 +38,10 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   contacts: ContactListDto[] = [];
   filteredClients: ClientListDto[] = [];
   filter = '';
+  isActive = true;
   lawFirmId: string;
   initialValue = 'Select Client';
+  events: EventListDto[] = [];
   constructor(private injector: Injector, private modalService: NgbModal,
     private bookingService: BookingServiceProxy,
     private clientService: ClientServiceProxy,
@@ -46,7 +49,9 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     super(injector);
   }
   ngOnInit(): void {
+    this.getEvents();
     this.getLawFirms();
+
   }
   open(arg) {
     this.date = arg.dateStr;
@@ -102,7 +107,11 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
           return value.lawFirmId = this.lawFirmId;
         });
       });
-
+  }
+  getEvents() {
+    this.bookingService.getAllEvents(this.filter).subscribe((result) => {
+      this.events = result.items;
+    });
   }
   changeValue(name) {
     this.initialValue = name;
@@ -113,5 +122,4 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     this.getLawFirmContacts();
     this.getClients();
   }
-
 }

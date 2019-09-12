@@ -61,15 +61,15 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
           let event: EventInput;
           event = {
             title: el.client.firstName + ' ' + el.client.lastName,
-            start: moment(el.assessmentTime).format('YYYY-MM-DD HH:mm:ss')
+            start: moment(el.startTime).format('YYYY-MM-DD HH:mm:ss'),
+            end: moment(el.endTime).format('YYYY-MM-DD HH:mm:ss')
           };
           this.calendarEvents.push(event);
         });
-        console.log(this.bookings);
       }))
       .subscribe((result) => {
         this.bookings = result.items;
-
+        console.log(this.bookings);
       });
   }
 
@@ -135,7 +135,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       let event: EventInput;
       event = {
         title: el.client.firstName + ' ' + el.client.lastName,
-        start: moment(el.assessmentTime).format('YYYY-MM-DD HH:mm:ss')
+        start: moment(el.startTime).format('YYYY-MM-DD HH:mm:ss'),
+        end: moment(el.endTime).format('YYYY-MM-DD HH:mm:ss')
       };
       this.calendarEvents.push(event);
     });
