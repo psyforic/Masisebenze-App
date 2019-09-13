@@ -1,6 +1,6 @@
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { NewClientComponent } from '../lawfirms/new-client/new-client.component';
+// import { NewClientComponent } from '../lawfirms/new-client/new-client.component';
 import {
   ClientListDto,
   ClientServiceProxy,
@@ -13,6 +13,7 @@ import { ReportGenerator } from '@app/admin/partials/report-generator';
 import { Packer } from 'docx';
 // import { saveAs } from 'file-saver/FileSaver';
 import { saveAs } from 'file-saver';
+import { NewClientComponent } from './new-client/new-client.component';
 
 @Component({
   selector: 'app-clients',

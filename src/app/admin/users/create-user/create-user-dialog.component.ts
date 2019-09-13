@@ -1,5 +1,8 @@
-import { Component, Injector, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MatDialogRef, MatCheckboxChange } from '@angular/material';
+import {
+  Component, Injector, OnInit, ViewChild, ElementRef, Output,
+  EventEmitter
+} from '@angular/core';
+import { MatCheckboxChange } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -9,6 +12,7 @@ import {
   RoleDto
 } from '@shared/service-proxies/service-proxies';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { } from 'events';
 
 @Component({
   selector: 'app-create-user',
@@ -28,6 +32,7 @@ export class CreateUserDialogComponent extends AppComponentBase
   implements OnInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
+  @Output() userAdded = new EventEmitter();
   saving = false;
   user: CreateUserDto = new CreateUserDto();
   roles: RoleDto[] = [];
@@ -95,6 +100,7 @@ export class CreateUserDialogComponent extends AppComponentBase
       )
       .subscribe(() => {
         this.notify.info(this.l('SavedSuccessfully'));
+        this.userAdded.emit(null);
         this.modalService.dismissAll();
       });
   }

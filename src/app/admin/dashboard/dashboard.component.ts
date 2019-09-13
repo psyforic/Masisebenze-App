@@ -10,6 +10,8 @@ import { BookingServiceProxy, BookingListDto, DashBoardServiceProxy, ClientListD
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 import { NewEventComponent } from './new-event/new-event.component';
+
+declare const $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -50,7 +52,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   addBooking(booking: any[]) {
     this.calendarEvents = this.calendarEvents.concat({
       title: booking[1],
-      start: moment(booking[0].assessmentTime).format('YYYY-MM-DD HH:mm:ss')
+      start: moment(booking[0].startTime).format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(booking[0].endTime).format('YYYY-MM-DD HH:mm:ss')
     });
   }
   ngAfterViewInit(): void {

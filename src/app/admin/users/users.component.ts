@@ -92,26 +92,5 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
         );
     }
 
-    private showResetPasswordUserDialog(userId?: number): void {
-        this._dialog.open(ResetPasswordDialogComponent, {
-            data: userId
-        });
-    }
 
-    private showCreateOrEditUserDialog(id?: number): void {
-        let createOrEditUserDialog;
-        if (id === undefined || id <= 0) {
-            createOrEditUserDialog = this._dialog.open(CreateUserDialogComponent);
-        } else {
-            createOrEditUserDialog = this._dialog.open(EditUserDialogComponent, {
-                data: id
-            });
-        }
-
-        createOrEditUserDialog.afterClosed().subscribe(result => {
-            if (result) {
-                this.refresh();
-            }
-        });
-    }
 }

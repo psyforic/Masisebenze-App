@@ -61,6 +61,6 @@
         </div>
     </div>
 </div>
-<app-create-user #newUser></app-create-user>
+<app-create-user #newUser (userAdded)="refresh()"></app-create-user>
 <app-edit-user #editUserModal></app-edit-user>
 <app-reset-password #resetPasswordModal></app-reset-password>

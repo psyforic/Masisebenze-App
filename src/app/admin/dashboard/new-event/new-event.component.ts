@@ -40,6 +40,8 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   filter = '';
   isActive = true;
   lawFirmId: string;
+  attorneyId: string;
+  clientId: string;
   initialValue = 'Select Client';
   events: EventListDto[] = [];
   constructor(private injector: Injector, private modalService: NgbModal,
@@ -65,15 +67,12 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe(() => {
         this.notify.success('Event Booking Created Successfully');
-        this.newBookingInput.emit([this.booking, this.bookingName]);
+        const client = this.filteredClients.find(x => x.id === this.clientId);
+        this.newBookingInput.emit([this.booking, client.firstName + ' ' + client.lastName]);
         this.modalService.dismissAll();
       });
   }
-  // selectedLawFirm(event) {
-  //   this.lawFirmService.getById(event.target.value).subscribe((result) => {
-  //     this.lawFirmId = result.id;
-  //   });
-  // }
+
   setStartTime(event) {
     this.startTime = event;
   }
@@ -104,23 +103,29 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
       })).subscribe((result) => {
         this.clients = result.items;
         this.filteredClients = this.clients.filter((value) => {
-          return value.lawFirmId = this.lawFirmId;
+          return value.attorneyId = this.attorneyId;
         });
       });
+    console.log(this.filteredClients);
   }
   getEvents() {
     this.bookingService.getAllEvents(this.filter).subscribe((result) => {
       this.events = result.items;
     });
   }
+  selectAttorneyId(event) {
+    this.attorneyId = event.value;
+    this.getClients();
+  }
+  selectedClientId(event) {
+    this.clientId = event.value;
+  }
   changeValue(name) {
     this.initialValue = name;
   }
   selectedId(event) {
-    this.lawFirmId = event.target.value;
-    console.log(this.lawFirmId);
+    this.lawFirmId = event.value;
     this.getLawFirmAttorneys();
     this.getLawFirmContacts();
-    this.getClients();
   }
 }
