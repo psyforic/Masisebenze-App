@@ -25,6 +25,9 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
     BsDatepickerModule.forRoot(),
     VerticalTimelineModule
   ],
+  exports: [
+    NewClientComponent
+  ],
   entryComponents: [NewClientComponent]
 })
 export class ClientsModule { }

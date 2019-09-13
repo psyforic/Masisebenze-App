@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
@@ -23,9 +23,13 @@ class PagedUsersRequestDto extends PagedRequestDto {
             padding: 10px;
           }
         `
-      ]
+    ]
 })
 export class UsersComponent extends PagedListingComponentBase<UserDto> {
+
+    @ViewChild('newUser', { static: false }) newUserRef: CreateUserDialogComponent;
+    @ViewChild('editUserModal', { static: false }) editUserRef: EditUserDialogComponent;
+    @ViewChild('resetPasswordModal', { static: false }) resetPasswordRef: ResetPasswordDialogComponent;
     users: UserDto[] = [];
     keyword = '';
     isActive: boolean | null;
@@ -39,15 +43,17 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
     }
 
     createUser(): void {
-        this.showCreateOrEditUserDialog();
+        this.newUserRef.open();
     }
 
     editUser(user: UserDto): void {
-        this.showCreateOrEditUserDialog(user.id);
+        // this.showCreateOrEditUserDialog(user.id);
+        this.editUserRef.open(user.id);
     }
 
     public resetPassword(user: UserDto): void {
-        this.showResetPasswordUserDialog(user.id);
+        // this.showResetPasswordUserDialog(user.id);
+        this.resetPasswordRef.open(user.id);
     }
 
     protected list(
@@ -74,7 +80,7 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
 
     protected delete(user: UserDto): void {
         abp.message.confirm(
-            this.l('UserDeleteWarningMessage', user.fullName),
+            'Are You Want to delete User ' + user.fullName + '?',
             (result: boolean) => {
                 if (result) {
                     this._userService.delete(user.id).subscribe(() => {

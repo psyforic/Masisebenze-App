@@ -1,4 +1,4 @@
-import { Component, Injector, Optional, Inject, OnInit } from '@angular/core';
+import { Component, Injector, Optional, Inject, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
@@ -12,8 +12,10 @@ import {
   UserDto,
   RoleDto
 } from '@shared/service-proxies/service-proxies';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
+  selector: 'app-edit-user',
   templateUrl: './edit-user-dialog.component.html',
   styles: [
     `
@@ -28,29 +30,22 @@ import {
 })
 export class EditUserDialogComponent extends AppComponentBase
   implements OnInit {
+  @ViewChild('content', { static: false }) content: ElementRef;
   saving = false;
   user: UserDto = new UserDto();
   roles: RoleDto[] = [];
   checkedRolesMap: { [key: string]: boolean } = {};
-
+  _id: number;
   constructor(
     injector: Injector,
     public _userService: UserServiceProxy,
-    private _dialogRef: MatDialogRef<EditUserDialogComponent>,
-    @Optional() @Inject(MAT_DIALOG_DATA) private _id: number
+    private modalService: NgbModal,
   ) {
     super(injector);
   }
 
   ngOnInit(): void {
-    this._userService.get(this._id).subscribe(result => {
-      this.user = result;
 
-      this._userService.getRoles().subscribe(result2 => {
-        this.roles = result2.items;
-        this.setInitialRolesStatus();
-      });
-    });
   }
 
   setInitialRolesStatus(): void {
@@ -68,10 +63,21 @@ export class EditUserDialogComponent extends AppComponentBase
   onRoleChange(role: RoleDto, $event: MatCheckboxChange) {
     this.checkedRolesMap[role.normalizedName] = $event.checked;
   }
+  open(id: number) {
+    this._id = id;
+    this._userService.get(this._id).subscribe(result => {
+      this.user = result;
 
+      this._userService.getRoles().subscribe(result2 => {
+        this.roles = result2.items;
+        this.setInitialRolesStatus();
+      });
+    });
+    this.modalService.open(this.content).result.then(() => { }, () => { });
+  }
   getCheckedRoles(): string[] {
     const roles: string[] = [];
-    _.forEach(this.checkedRolesMap, function(value, key) {
+    _.forEach(this.checkedRolesMap, function (value, key) {
       if (value) {
         roles.push(key);
       }
@@ -93,11 +99,7 @@ export class EditUserDialogComponent extends AppComponentBase
       )
       .subscribe(() => {
         this.notify.info(this.l('SavedSuccessfully'));
-        this.close(true);
+        this.modalService.dismissAll();
       });
-  }
-
-  close(result: any): void {
-    this._dialogRef.close(result);
   }
 }

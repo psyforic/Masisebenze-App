@@ -11,7 +11,7 @@ import { LoginService } from './login.service';
 })
 export class LoginComponent extends AppComponentBase {
   submitting = false;
-
+  test = new Date();
   constructor(
     injector: Injector,
     public loginService: LoginService,

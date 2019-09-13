@@ -10,10 +10,11 @@ import { ActivityLogComponent } from './activity-log/activity-log.component';
 import { JobDescriptionsComponent } from './job-descriptions/job-descriptions.component';
 import { LawfirmsComponent } from './lawfirms/lawfirms/lawfirms.component';
 import { NewAttorneyComponent } from './lawfirms/attorneys/new-attorney/new-attorney.component';
-import { ViewAttorneyComponent } from './lawfirms/attorneys/view-attorney/view-attorney.component';
 import { ViewLawfirmComponent } from './lawfirms/lawfirms/view-lawfirm/view-lawfirm.component';
 import { ViewClientComponent } from './lawfirms/clients/view-client/view-client.component';
 import { ViewActivityLogComponent } from './lawfirms/clients/view-activity-log/view-activity-log.component';
+import { UsersComponent } from './users/users.component';
+import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 
 @NgModule({
 
@@ -25,18 +26,19 @@ import { ViewActivityLogComponent } from './lawfirms/clients/view-activity-log/v
                 path: '',
                 component: AdminComponent,
                 children: [
-                    { path: 'dashboard', component: DashboardComponent },
-                    { path: 'lawfirms', component: LawfirmsComponent },
-                    { path: 'job-descriptions', component: JobDescriptionsComponent },
-                    { path: 'reports', component: ReportsComponent },
-                    { path: 'activity-log', component: ActivityLogComponent },
-                    { path: 'attorneys/list', component: AttorneysComponent },
-                    { path: 'lawfirms/list', component: LawfirmsComponent },
-                    { path: 'clients', component: ClientsComponent },
-                    { path: 'attorneys/new', component: NewAttorneyComponent },
-                    { path: 'lawfirms/view/:id', component: ViewLawfirmComponent },
-                    { path: 'clients/view/:id', component: ViewClientComponent },
-                    { path: 'clients/activity-log/:id', component: ViewActivityLogComponent }
+                    { path: 'dashboard', component: DashboardComponent, canActivate: [AppRouteGuard] },
+                    { path: 'users', component: UsersComponent },
+                    { path: 'lawfirms', component: LawfirmsComponent, canActivate: [AppRouteGuard] },
+                    { path: 'job-descriptions', component: JobDescriptionsComponent, canActivate: [AppRouteGuard] },
+                    { path: 'reports', component: ReportsComponent, canActivate: [AppRouteGuard] },
+                    { path: 'activity-log', component: ActivityLogComponent, canActivate: [AppRouteGuard] },
+                    { path: 'attorneys/list', component: AttorneysComponent, canActivate: [AppRouteGuard] },
+                    { path: 'lawfirms/list', component: LawfirmsComponent, canActivate: [AppRouteGuard] },
+                    { path: 'clients', component: ClientsComponent, canActivate: [AppRouteGuard] },
+                    { path: 'attorneys/new', component: NewAttorneyComponent, canActivate: [AppRouteGuard] },
+                    { path: 'lawfirms/view/:id', component: ViewLawfirmComponent, canActivate: [AppRouteGuard] },
+                    { path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard] },
+                    { path: 'clients/activity-log/:id', component: ViewActivityLogComponent, canActivate: [AppRouteGuard] }
                 ]
             }
         ])

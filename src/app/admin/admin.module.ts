@@ -12,6 +12,7 @@ import { ActivityLogModule } from './activity-log/activity-log.module';
 import { LawfirmsModule } from './lawfirms/lawfirms.module';
 import { PartialsModule } from './partials/partials.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { UsersModule } from './users/users.module';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     ReportsModule,
     ActivityLogModule,
     PartialsModule,
-    DashboardModule
+    DashboardModule,
+    UsersModule
   ],
   declarations: [
     FooterComponent,

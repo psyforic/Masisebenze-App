@@ -1,6 +1,8 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Injector } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { ROUTES } from '../sidebar/sidebar.component';
+import { AppComponentBase } from '@shared/app-component-base';
+import { AppAuthService } from '@shared/auth/app-auth.service';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -14,14 +16,18 @@ declare var $: any;
   templateUrl: './navbar.component.html'
 })
 
-export class NavbarComponent implements OnInit {
+export class NavbarComponent extends AppComponentBase implements OnInit {
   location: Location;
   private listTitles: any[];
 
   private toggleButton: any;
   private sidebarVisible: boolean;
 
-  constructor(location: Location, private element: ElementRef) {
+  constructor(
+    location: Location, private element: ElementRef,
+    private injector: Injector,
+    private _authService: AppAuthService) {
+    super(injector);
     this.location = location;
     this.sidebarVisible = false;
   }
@@ -99,5 +105,9 @@ export class NavbarComponent implements OnInit {
       }
     }
     return 'Dashboard';
+  }
+
+  logout(): void {
+    this._authService.logout();
   }
 }

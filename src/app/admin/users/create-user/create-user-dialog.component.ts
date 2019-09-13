@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MatCheckboxChange } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -8,8 +8,10 @@ import {
   CreateUserDto,
   RoleDto
 } from '@shared/service-proxies/service-proxies';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
+  selector: 'app-create-user',
   templateUrl: './create-user-dialog.component.html',
   styles: [
     `
@@ -24,6 +26,8 @@ import {
 })
 export class CreateUserDialogComponent extends AppComponentBase
   implements OnInit {
+
+  @ViewChild('content', { static: false }) content: ElementRef;
   saving = false;
   user: CreateUserDto = new CreateUserDto();
   roles: RoleDto[] = [];
@@ -33,7 +37,7 @@ export class CreateUserDialogComponent extends AppComponentBase
   constructor(
     injector: Injector,
     public _userService: UserServiceProxy,
-    private _dialogRef: MatDialogRef<CreateUserDialogComponent>
+    private modalService: NgbModal
   ) {
     super(injector);
   }
@@ -46,7 +50,9 @@ export class CreateUserDialogComponent extends AppComponentBase
       this.setInitialRolesStatus();
     });
   }
-
+  open() {
+    this.modalService.open(this.content).result.then(() => { }, () => { });
+  }
   setInitialRolesStatus(): void {
     _.map(this.roles, item => {
       this.checkedRolesMap[item.normalizedName] = this.isRoleChecked(
@@ -67,7 +73,7 @@ export class CreateUserDialogComponent extends AppComponentBase
 
   getCheckedRoles(): string[] {
     const roles: string[] = [];
-    _.forEach(this.checkedRolesMap, function(value, key) {
+    _.forEach(this.checkedRolesMap, function (value, key) {
       if (value) {
         roles.push(key);
       }
@@ -89,11 +95,7 @@ export class CreateUserDialogComponent extends AppComponentBase
       )
       .subscribe(() => {
         this.notify.info(this.l('SavedSuccessfully'));
-        this.close(true);
+        this.modalService.dismissAll();
       });
-  }
-
-  close(result: any): void {
-    this._dialogRef.close(result);
   }
 }
