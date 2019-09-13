@@ -89,7 +89,18 @@
                                 </div>
                                 <div class="col-md-4">
                                     <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Province" type="text" formControlName="province">
+                                        <mat-label>Province</mat-label>
+                                        <mat-select required formControlName="province" name="province">
+                                            <mat-option value="Eastern Cape">Eastern Cape</mat-option>
+                                            <mat-option value="Free State">Free State</mat-option>
+                                            <mat-option value="Gauteng">Gauteng</mat-option>
+                                            <mat-option value="KwaZulu-Natal">KwaZulu-Natal</mat-option>
+                                            <mat-option value="Limpopo">Limpopo</mat-option>
+                                            <mat-option value="Mpumalanga">Mpumalanga</mat-option>
+                                            <mat-option value="KwaZulu-Natal">Northern Cape</mat-option>
+                                            <mat-option value="North West">North West</mat-option>
+                                            <mat-option value="Western Cape">Western Cape</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">

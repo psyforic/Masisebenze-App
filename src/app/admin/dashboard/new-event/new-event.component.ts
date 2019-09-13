@@ -118,6 +118,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   }
   selectedId(event) {
     this.lawFirmId = event.target.value;
+    console.log(this.lawFirmId);
     this.getLawFirmAttorneys();
     this.getLawFirmContacts();
     this.getClients();

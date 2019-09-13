@@ -1,29 +1,107 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { AppComponentBase } from '@shared/app-component-base';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  AttorneyListDto,
+  ContactListDto,
+  LawFirmListDto,
+  CreateClientInput,
+  ClientServiceProxy,
+  LawFirmServiceProxy
+} from '@shared/service-proxies/service-proxies';
+import { finalize } from 'rxjs/operators';
+import * as moment from 'moment';
 
 @Component({
   selector: 'kt-new-client',
   templateUrl: './new-client.component.html',
   styleUrls: ['./new-client.component.scss']
 })
-export class NewClientComponent implements OnInit {
-
+export class NewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('courtDate', { static: false }) courtDate: ElementRef;
+  @ViewChild('assessmentDate', { static: false }) assessmentDate: ElementRef;
+  @Output() clientAdded = new EventEmitter();
   closeResult: string;
-
-  constructor(private modalService: NgbModal) { }
-  ngOnInit(): void {
-
+  filter = '';
+  clientForm: FormGroup;
+  isSaving = false;
+  attorneys: AttorneyListDto[] = [];
+  contacts: ContactListDto[] = [];
+  lawFirms: LawFirmListDto[] = [];
+  lawFirmId: string;
+  dateModel: Date;
+  clientInput: CreateClientInput = new CreateClientInput();
+  constructor(private injector: Injector,
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private clientService: ClientServiceProxy,
+    private lawFirmService: LawFirmServiceProxy) {
+    super(injector);
   }
-
-  open() {
-    this.modalService.open(this.content, { size: 'lg' }).result.then((result) => {
+  ngOnInit(): void {
+    this.initializeForm();
+    // this.getLawFirms();
+  }
+  initializeForm() {
+    this.clientForm = this.fb.group({
+      lawFirmId: ['', Validators.required],
+      attorneyId: ['', Validators.required],
+      contactId: ['', Validators.required],
+      courtDate: ['', Validators.required],
+      caseNumber: ['', Validators.required],
+      title: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      idNumber: ['', Validators.required],
+      assessmentDate: ['', Validators.required]
+    });
+  }
+  open(id: string) {
+    this.lawFirmId = id;
+    this.getLawFirmAttorneys();
+    this.getLawFirmContacts();
+    this.modalService.open(this.content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+  getLawFirmAttorneys() {
+    this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {
+      this.attorneys = result.items;
+    });
+  }
+  getLawFirmContacts() {
+    this.lawFirmService.getContacts(this.lawFirmId).subscribe((result) => {
+      this.contacts = result.items;
+    });
+  }
+  selectedDate(event) {
+    console.log(event.target.value);
+  }
+  save() {
+    const courtDate = new Date(this.clientForm.get('courtDate').value);
+    const formattedCourtDate = moment(courtDate).format('YYYY-MM-DD');
 
+    const assessmentDate = new Date(this.clientForm.get('assessmentDate').value);
+    const formattedAssessmentDate = moment(assessmentDate).format('YYYY-MM-DD');
+    this.isSaving = true;
+    this.clientInput = Object.assign({}, this.clientForm.value);
+    this.clientInput.assessmentDate = moment(formattedAssessmentDate);
+    this.clientInput.courtDate = moment(formattedCourtDate);
+    this.clientService.createClient(this.clientInput)
+      .pipe(finalize(() => {
+        this.isSaving = false;
+      }))
+      .subscribe(() => {
+        this.notify.success('Saved Successfully');
+        this.clientAdded.emit(this.clientInput);
+        this.modalService.dismissAll();
+      });
+  }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

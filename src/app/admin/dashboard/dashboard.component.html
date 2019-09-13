@@ -16,7 +16,7 @@
                     <i class="material-icons">content_copy</i>
                   </div>
                   <p class="card-category">Files Created</p>
-                  <h3 class="card-title pull-right">200</h3>
+                  <h3 class="card-title pull-right">{{NoFiles}}</h3>
                 </div>
 
               </div>
@@ -43,7 +43,7 @@
                     <i class="material-icons">assessment</i>
                   </div>
                   <p class="card-category">Assessment Done</p>
-                  <h3 class="card-title pull-right">3</h3>
+                  <h3 class="card-title pull-right">0</h3>
                 </div>
               </div>
 
@@ -66,7 +66,7 @@
               </div>
               <div class="card-footer">
                 <div class="stats">
-                  <i class="material-icons">access_time</i> campaign sent 2 days ago
+                  <i class="material-icons text-white">access_time</i> refresh
                 </div>
               </div>
             </div>
@@ -100,35 +100,17 @@
           <div class="card-body table-responsive">
             <table class="table table-hover">
               <thead class="text-white">
-                <th>ID</th>
                 <th>Name</th>
-                <th>Salary</th>
-                <th>Country</th>
+                <th>LawFirm</th>
+                <th>Contact</th>
+                <th>Date Added</th>
               </thead>
               <tbody class="text-white">
-                <tr>
-                  <td>1</td>
-                  <td>Dakota Rice</td>
-                  <td>$36,738</td>
-                  <td>Niger</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Minerva Hooper</td>
-                  <td>$23,789</td>
-                  <td>Curaçao</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Sage Rodriguez</td>
-                  <td>$56,142</td>
-                  <td>Netherlands</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Philip Chaney</td>
-                  <td>$38,735</td>
-                  <td>Korea, South</td>
+                <tr *ngFor="let client of clients.slice(0, 4)">
+                  <td>{{client?.firstName}} {{client?.lastName}}</td>
+                  <td>{{client.lawFirm?.companyName}}</td>
+                  <td>{{client.contact?.firstName}}</td>
+                  <td>{{client?.creationTime | date: 'short'}}</td>
                 </tr>
               </tbody>
             </table>
@@ -145,7 +127,7 @@
           <div class="card-body table-responsive">
             <table class="table">
               <tbody class="text-white">
-                <tr>
+                <tr *ngFor="let activity of activities.slice(0,4)">
                   <td>
                     <div class="form-check">
                       <label class="form-check-label">
@@ -156,49 +138,10 @@
                       </label>
                     </div>
                   </td>
-                  <td>Sign contract for "What are conference organizers afraid of?"</td>
+                  <td>{{activity.event?.name}} for {{activity.client?.firstName}} on
+                    {{activity.startTime| date: 'short'}}</td>
                 </tr>
-                <tr>
-                  <td>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-sign">
-                          <span class="check"></span>
-                        </span>
-                      </label>
-                    </div>
-                  </td>
-                  <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="">
-                        <span class="form-check-sign">
-                          <span class="check"></span>
-                        </span>
-                      </label>
-                    </div>
-                  </td>
-                  <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept
-                    through metro Detroit
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" checked>
-                        <span class="form-check-sign">
-                          <span class="check"></span>
-                        </span>
-                      </label>
-                    </div>
-                  </td>
-                  <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                </tr>
+
               </tbody>
             </table>
           </div>

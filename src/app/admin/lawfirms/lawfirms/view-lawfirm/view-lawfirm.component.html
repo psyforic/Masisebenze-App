@@ -330,9 +330,6 @@
                         </div>
                     </mat-tab>
 
-
-
-
                     <mat-tab>
                         <div class="col-lg-12">
                             <ng-template mat-tab-label>
@@ -357,14 +354,14 @@
                                     <div class="example-container">
                                         <mat-table [dataSource]="clientDataSource" matSort>
                                             <!-- ID Column -->
-                                            <ng-container matColumnDef="id">
+                                            <!-- <ng-container matColumnDef="id">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                     ID
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let user">
                                                     {{ user.id }}
                                                 </mat-cell>
-                                            </ng-container>
+                                            </ng-container> -->
                                             <!-- Progress Column -->
                                             <ng-container matColumnDef="firstName">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -411,7 +408,7 @@
                                             <ng-container matColumnDef="actions">
                                                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                                                 <mat-cell *matCellDef="let user">
-                                                    <button [routerLink]="['/clients/edit', user.id]" mat-icon-button
+                                                    <button [routerLink]="['/admin/clients/view', user.id]" mat-icon-button
                                                         color="primary" matTooltip="Edit user">
                                                         <mat-icon>create</mat-icon>
                                                     </button>&nbsp;
@@ -419,7 +416,6 @@
                                                         type="button">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
-
 
                                                     <mat-menu #appMenu="matMenu">
                                                         <button mat-menu-item>

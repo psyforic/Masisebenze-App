@@ -2,12 +2,11 @@ import { Component, OnInit, Injector, ViewChild, AfterViewInit } from '@angular/
 import * as Chartist from 'chartist';
 import { AppComponentBase } from '@shared/app-component-base';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { NewBookingComponent } from './bookings/new-booking/new-booking.component';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventInput } from '@fullcalendar/core';
-import { BookingServiceProxy, BookingListDto } from '@shared/service-proxies/service-proxies';
+import { BookingServiceProxy, BookingListDto, DashBoardServiceProxy, ClientListDto } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 import { NewEventComponent } from './new-event/new-event.component';
@@ -15,19 +14,22 @@ import { NewEventComponent } from './new-event/new-event.component';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [BookingServiceProxy]
+  providers: [BookingServiceProxy, DashBoardServiceProxy]
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit {
-  @ViewChild('newBooking', { static: false }) newBookingModal: NewBookingComponent;
   @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent;
   @ViewChild('newEvent', { static: false }) newEventModal: NewEventComponent;
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
   bookings: BookingListDto[] = [];
   newEvents: EventInput[] = [];
-  calendarEvents: EventInput[] = [
-    { title: 'Event Now', start: new Date() }
-  ];
-  constructor(private injector: Injector, private bookingService: BookingServiceProxy) {
+  NoFiles: number;
+  clients: ClientListDto[] = [];
+  filter = '';
+  activities: BookingListDto[] = [];
+  calendarEvents: EventInput[] = [];
+  constructor(private injector: Injector,
+    private bookingService: BookingServiceProxy,
+    private dashBoardService: DashBoardServiceProxy) {
     super(injector);
   }
   addEvent() {
@@ -72,40 +74,23 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         console.log(this.bookings);
       });
   }
-
-  startAnimationForLineChart(chart) {
-    let seq: any, delays: any, durations: any;
-    seq = 0;
-    delays = 80;
-    durations = 500;
-
-    chart.on('draw', function (data) {
-      if (data.type === 'line' || data.type === 'area') {
-        data.element.animate({
-          d: {
-            begin: 600,
-            dur: 700,
-            from: data.path.clone().scale(1, 0).translate(0, data.chartRect.height()).stringify(),
-            to: data.path.clone().stringify(),
-            easing: Chartist.Svg.Easing.easeOutQuint
-          }
-        });
-      } else if (data.type === 'point') {
-        seq++;
-        data.element.animate({
-          opacity: {
-            begin: seq * delays,
-            dur: durations,
-            from: 0,
-            to: 1,
-            easing: 'ease'
-          }
-        });
-      }
+  getNumFiles() {
+    this.dashBoardService.getNumberFiles(this.filter).subscribe((result) => {
+      this.NoFiles = result;
     });
-
-    seq = 0;
   }
+
+  getNewClients() {
+    this.dashBoardService.getNewClients(this.filter).subscribe((result) => {
+      this.clients = result.items;
+    });
+  }
+  getLatestActivity() {
+    this.dashBoardService.getLatestActivity(this.filter).subscribe((result) => {
+      this.activities = result.items;
+    });
+  }
+
   startAnimationForBarChart(chart) {
     let seq2: any, delays2: any, durations2: any;
 
@@ -140,53 +125,10 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       };
       this.calendarEvents.push(event);
     });
-    /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
-    const dataDailySalesChart: any = {
-      labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
-      series: [
-        [12, 17, 7, 17, 23, 18, 38]
-      ]
-    };
-
-    const optionsDailySalesChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 },
-    };
-
-    const dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
-    this.startAnimationForLineChart(dailySalesChart);
-
-
-    /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
-    const dataCompletedTasksChart: any = {
-      labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-      series: [
-        [230, 750, 450, 300, 280, 240, 200, 190]
-      ]
-    };
-
-    const optionsCompletedTasksChart: any = {
-      lineSmooth: Chartist.Interpolation.cardinal({
-        tension: 0
-      }),
-      low: 0,
-      high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-      chartPadding: { top: 0, right: 0, bottom: 0, left: 0 }
-    };
-
-    const completedTasksChart = new Chartist.Line('#completedTasksChart', dataCompletedTasksChart, optionsCompletedTasksChart);
-
-    // start animation for the Completed Tasks Chart - Line Chart
-    this.startAnimationForLineChart(completedTasksChart);
-
-
+    this.getNumFiles();
+    this.getNewClients();
+    this.getLatestActivity();
 
     /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 

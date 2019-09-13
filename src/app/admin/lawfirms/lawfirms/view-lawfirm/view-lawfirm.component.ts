@@ -58,7 +58,7 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
 
   displayedColumns = ['firstName', 'lastName', 'email', 'role', 'actions'];
   displayedAttCols = ['firstName', 'lastName', 'email', 'phone', 'actions'];
-  clientDisplayedColumns = ['id', 'firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
+  clientDisplayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
 
   lawFirmId: string;
   lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
@@ -92,7 +92,7 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     this.editContactRef.delete(contact);
   }
   addClient() {
-    this.newClientRef.open();
+    this.newClientRef.open(this.lawFirmId);
   }
   addAttorney() {
     this.newAttorneyRef.open();

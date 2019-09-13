@@ -53,18 +53,14 @@
 
 
 <div class="page-header login-page header-filter vh-100" filter-color="black"
-  style="background-image: url('https://demos.creative-tim.com/material-dashboard-pro-angular2/assets/img/login.jpg'); background-size: cover; background-position: top center;">
+  style="background-image: url(assets/img/bg-7.jpg); background-size: cover; background-position: top center;">
   <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="padding-top:20%">
       <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto align-middle">
         <form novalidate autocomplete="off" #loginForm="ngForm" (ngSubmit)="login()" class="form ng-untouched ng-pristine ng-valid">
           <div class="card card-loginvert">
-            <div class="card-header card-header-rose text-center">
-              <h4 class="card-title">Log in</h4>
-              <div class="social-line"><a class="btn btn-just-icon btn-link btn-white" href="#pablo"><i
-                    class="fa fa-facebook-square"></i></a><a class="btn btn-just-icon btn-link btn-white"
-                  href="#pablo"><i class="fa fa-twitter"></i></a><a class="btn btn-just-icon btn-link btn-white"
-                  href="#pablo"><i class="fa fa-google-plus"></i></a></div>
+            <div class="card-header card-header-primary text-center">
+              <h4 class="card-title text-center">Log in</h4>
             </div>
             <div class="card-body">
               <span class="bmd-form-group">
@@ -82,13 +78,13 @@
             </div>
             <div class="card-footer justify-content-center">
               <div class="row">
-                <div class="col-xs-8 p-t-5">
+                <div class="col-xs-8 p-t-5 pull-left pr-2">
                   <mat-checkbox name="rememberMe" [(ngModel)]="loginService.rememberMe">
                     {{ "RememberMe" | localize }}
                   </mat-checkbox>
                 </div>
-                <div class="col-xs-4">
-                  <button mat-flat-button type="submit" flex="15" color="accent"
+                <div class="col-xs-4 pull-right">
+                  <button mat-flat-button type="submit" flex="15" color="primary"
                     [disabled]="!loginForm.form.valid || submitting">
                     {{ "LogIn" | localize }}
                   </button>
