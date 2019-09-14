@@ -15,16 +15,11 @@
                 *ngIf="showWebcam" [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
                 [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
                 (initError)="handleInitError($event)"></webcam>
-              <br />
 
-              <div class="pull-right">
+              <div class="pull-right" *ngIf="showWebcam">
                 <button mat-icon-button (click)="triggerSnapshot();" title="Take Picture"><i
                     class="fa fa-camera fa-2x text-primary"></i></button>
               </div>
-              <!-- <span class="actionBtn" (click)="triggerSnapshot();" title="Take Picture"><i
-                  class="fa fa-camera fa-3x"></i></span>
-              <span class="actionBtn" (click)="showNextWebcam(true);" title="Switch Camera"><i
-                  class="fa fa-rotate-left fa-3x"></i></span> -->
             </div>
           </div>
 
@@ -34,7 +29,7 @@
               <img [src]="webcamImage?.imageAsDataUrl || '../../../../../assets/img/faces/face-0.jpg'" />
             </div>
             <div class="pull-right">
-              <button mat-icon-button (click)="uploadImage(webcamImage);" title="Take Picture"><i
+              <button mat-icon-button (click)="uploadImage(webcamImage);" title="Upload Picture"><i
                   class="fa fa-cloud-upload fa-2x text-primary"></i></button>
             </div>
           </div>

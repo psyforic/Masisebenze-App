@@ -57,7 +57,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   }
   open(arg) {
     this.date = arg.dateStr;
-    this.modalService.open(this.content).result.then(() => { }, () => { });
+    this.modalService.open(this.content, {windowClass: 'slideInDown'}).result.then(() => { }, () => { });
   }
   save() {
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
