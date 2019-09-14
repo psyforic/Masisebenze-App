@@ -31,31 +31,27 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
   initializeForm() {
     this.lawFirmForm = this.fb.group({
       companyName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       fax: ['', Validators.required],
-      line1: [''],
+      line1: ['', Validators.required],
       line2: [''],
       city: ['', Validators.required],
       postalCode: ['', Validators.required],
       province: ['', Validators.required]
     });
   }
-  initAddress() {
-    return this.fb.group({
-      line1: ['', Validators.required],
-      line: [''],
-      city: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      province: ['', Validators.required],
+  open(id: string) {
+    this.lawFirmService.getDetail(id).pipe(finalize(() => {
+    })).subscribe((result) => {
+      this.lawFirm = result;
+      this.lawFirmForm.patchValue(result);
+      this.lawFirmForm.get('line1').setValue(result.physicalAddress.line1);
+      this.lawFirmForm.get('line2').setValue(result.physicalAddress.line2);
+      this.lawFirmForm.get('city').setValue(result.physicalAddress.city);
+      this.lawFirmForm.get('postalCode').setValue(result.physicalAddress.postalCode);
+      this.lawFirmForm.get('province').setValue(result.physicalAddress.province);
     });
-  }
-  addPostalAddress() {
-    // add address to the list
-    const control = <FormArray>this.lawFirmForm.controls['addresses'];
-    control.push(this.initAddress());
-  }
-  open() {
     this.modalService.open(this.content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

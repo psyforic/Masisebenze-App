@@ -29,6 +29,10 @@
                                                 {{attorney.firstName}} {{attorney.lastName}}
                                             </mat-option>
                                         </mat-select>
+                                        <mat-error class="error-message" *ngIf="clientForm.get('attorneyId').touched 
+                                        && clientForm.get('attorneyId').hasError('required')">
+                                            Attorney is Required
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -41,6 +45,10 @@
                                                 {{contact.firstName}} {{contact.lastName}}
                                             </mat-option>
                                         </mat-select>
+                                        <mat-error class="error-message" *ngIf="clientForm.get('contactId').touched 
+                                        && clientForm.get('contactId').hasError('required')">
+                                            Contact Person is Required
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -52,6 +60,11 @@
                                             placeholder="Court Date">
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
+
+                                        <mat-error class="error-message" *ngIf="clientForm.get('courtDate').touched 
+                                        && clientForm.get('courtDate').hasError('required')">
+                                            Please Select Court Date
+                                        </mat-error>
                                     </mat-form-field>
 
                                 </div>
@@ -70,16 +83,6 @@
 
                     <div class="col-lg-12">
                         <div class="card">
-                            <!-- <div class="row">
-                                <div class="col-lg-12">
-                                    <mat-form-field>
-                                        <mat-label>Case Number</mat-label>
-                                        <input formControlName="caseNumber" type="text" matInput
-                                            placeholder="Enter Case Number">
-                                    </mat-form-field>
-                                </div>
-                            </div> -->
-
                             <div class="row">
                                 <div class="col-lg-2">
                                     <mat-form-field>
@@ -89,13 +92,21 @@
                                             <mat-option value="Mrs.">Mrs.</mat-option>
                                             <mat-option value="Mrs.">Ms.</mat-option>
                                         </mat-select>
+                                        <mat-error class="error-message" *ngIf="clientForm.get('title').touched 
+                                        && clientForm.get('title').hasError('required')">
+                                            Title is Required
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-5">
                                     <mat-form-field>
                                         <mat-label>First Name</mat-label>
                                         <input type="text" matInput placeholder="Enter First Name"
-                                            formControlName="firstName">
+                                            formControlName="firstName" required>
+                                        <mat-error class="error-message" *ngIf="clientForm.get('firstName').touched 
+                                        && clientForm.get('firstName').hasError('required')">
+                                            First Name is Required
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-5">
@@ -103,6 +114,10 @@
                                         <mat-label>Last Name</mat-label>
                                         <input type="text" matInput placeholder="Enter Last Name"
                                             formControlName="lastName">
+                                        <mat-error class="error-message" *ngIf="clientForm.get('lastName').touched 
+                                        && clientForm.get('lastName').hasError('required')">
+                                            Last Name is Required
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -112,25 +127,30 @@
                                     <mat-form-field>
                                         <mat-label>Id Number</mat-label>
                                         <input type="text" matInput placeholder="Enter Id Number"
-                                            formControlName="idNumber">
+                                            formControlName="idNumber" maxlength="13">
+                                        <mat-error class="error-message" *ngIf="clientForm.get('idNumber').touched 
+                                        && clientForm.get('idNumber').hasError('required')">
+                                            Id Number is Required
+                                        </mat-error>
+
+                                        <mat-error class="error-message" *ngIf="clientForm.get('idNumber').touched 
+                                        && clientForm.get('idNumber').hasError('minlength')
+                                        && !clientForm.get('idNumber').hasError('required')">
+                                            Id Number must be 13 characters
+                                        </mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-6">
-                                    <!-- <mat-form-field>
-                                        <mat-label>Date Of Assessment</mat-label>
-                                        <input type="text" matInput placeholder="yyyy-mm-dd"
-                                            formControlName="assessmentDate">
-                                        <button type="button" mat-button matSuffix mat-icon-button
-                                            aria-label="Calendar">
-                                            <mat-icon>calendar_today</mat-icon>
-                                        </button>
-                                    </mat-form-field> -->
-
                                     <mat-form-field>
                                         <input matInput formControlName="assessmentDate" [matDatepicker]="datePicker"
-                                            placeholder="Date Of Assessment">
+                                            placeholder="Date Of Assessment" required>
                                         <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
                                         <mat-datepicker #datePicker></mat-datepicker>
+                                        <mat-error class="error-message" *ngIf="clientForm.get('assessmentDate').touched 
+                                        && clientForm.get('assessmentDate').hasError('required')">
+                                            Assessment Date is Required
+                                        </mat-error>
+
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -141,7 +161,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" mat-raised-button (click)="modal.close()">Close</button>
-            <button type="submit" mat-raised-button color="primary">Save</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid">Save</button>
         </div>
     </form>
 </ng-template>

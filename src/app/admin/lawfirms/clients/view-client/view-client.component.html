@@ -255,13 +255,15 @@
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
                                                         <input matInput placeholder="Law Firm" type="text"
-                                                            name="LawFirm" value="{{client.lawFirm?.companyName}}">
+                                                            name="LawFirm" value="{{client.lawFirm?.companyName}}"
+                                                            disabled>
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
                                                         <input matInput placeholder="Attorney" type="text"
-                                                            value="{{client.attorney?.firstName}}">
+                                                            value="{{client.attorney?.firstName}} {{client.attorney?.lastName}}"
+                                                            disabled>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -269,13 +271,14 @@
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
                                                         <input matInput placeholder="Law Firm Contact" type="text"
-                                                            value="{{client.contact?.firstName}} {{client.contact?.lastName}}">
+                                                            value="{{client.contact?.firstName}} {{client.contact?.lastName}}"
+                                                            disabled>
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
                                                         <input matInput placeholder="Court Date" type="text"
-                                                            value="{{client?.courtDate | date: 'short'}}">
+                                                            value="{{client?.courtDate | date: 'short'}}" disabled>
                                                     </mat-form-field>
                                                 </div>
                                             </div>

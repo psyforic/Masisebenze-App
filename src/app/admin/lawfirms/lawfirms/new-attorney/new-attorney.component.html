@@ -14,11 +14,19 @@
               <div class="col-md-6">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="First Name" formControlName="firstName">
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('firstName').touched &&
+                  newAttorneyForm.get('firstName').hasError('required')">
+                    First Name is Required
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Last Name" formControlName="lastName">
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('lastName').touched &&
+                  newAttorneyForm.get('lastName').hasError('required')">
+                    Last Name is Required
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -26,18 +34,56 @@
               <div class="col-md-6">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Email address" type="email" formControlName="email">
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('email').touched &&
+                  newAttorneyForm.get('email').hasError('required')">
+                    Email Address is Required
+                  </mat-error>
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('email').touched &&
+                  newAttorneyForm.get('email').hasError('email')
+                  && !newAttorneyForm.get('email').hasError('required')">
+                    Please Enter a Valid Email Address
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-lg-6">
                 <mat-form-field class="example-full-width">
                   <input matInput placeholder="Cell Phone" type="text" formControlName="cellPhone">
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('cellPhone').touched &&
+                  newAttorneyForm.get('cellPhone').hasError('required')">
+                    Cellphone is Required
+                  </mat-error>
+
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('cellPhone').touched &&
+                  newAttorneyForm.get('cellPhone').hasError('minlength') &&
+                  !newAttorneyForm.get('cellPhone').hasError('required')">
+                    Length must be 10 characters
+                  </mat-error>
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('cellPhone').touched &&
+                  newAttorneyForm.get('cellPhone').hasError('maxlength') &&
+                  !newAttorneyForm.get('cellPhone').hasError('required')">
+                    Maximum length must be 10
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Phone" type="text" formControlName="phone">
+                  <input matInput placeholder="Phone" type="tel" formControlName="phone">
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('phone').touched &&
+                  newAttorneyForm.get('phone').hasError('required')">
+                    Phone is Required
+                  </mat-error>
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('phone').touched &&
+                  newAttorneyForm.get('phone').hasError('minlength') &&
+                  !newAttorneyForm.get('phone').hasError('required')">
+                    Length must be 10 characters
+                  </mat-error>
+                  <mat-error class="error-message" *ngIf="newAttorneyForm.get('phone').touched &&
+                  newAttorneyForm.get('phone').hasError('maxlength') &&
+                  !newAttorneyForm.get('phone').hasError('required')">
+                    Maximum length must be 10
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="col-md-6">
@@ -51,7 +97,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="submit" mat-raised-button color="primary">Save</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="!newAttorneyForm.valid">Save</button>
     </div>
   </form>
 </ng-template>

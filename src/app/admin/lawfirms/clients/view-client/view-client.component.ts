@@ -152,7 +152,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.clientService.editClient(this.client)
       .pipe(finalize(() => { }))
       .subscribe(() => {
-        this.notify.success('Saved Successfully');
+        this.notify.success('Updated Successfully');
         this.getClient();
       });
   }
@@ -160,14 +160,14 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.clientService.editWorkHistory(this.workHistory)
       .pipe(finalize(() => { }))
       .subscribe(() => {
-        this.notify.success('Saved Successfully');
+        this.notify.success('Updated Successfully');
       });
   }
   updateMedicalHistory() {
     this.clientService.editMedicalHistory(this.medicalHistory)
       .pipe(finalize(() => { }))
       .subscribe(() => {
-        this.notify.success('Saved Successfully');
+        this.notify.success('Updated Successfully');
       });
   }
   onContentChanged = (event) => {

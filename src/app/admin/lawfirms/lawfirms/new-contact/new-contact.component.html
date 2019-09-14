@@ -15,14 +15,22 @@
                                 <mat-form-field>
                                     <mat-label>First Name</mat-label>
                                     <input type="text" matInput name="fname" placeholder="First Name"
-                                        [(ngModel)]="contact.firstName">
+                                        [(ngModel)]="contact.firstName" required #firstName="ngModel">
+                                    <mat-error class="error-message"
+                                        *ngIf="firstName.hasError('required') && firstName.touched">
+                                        First Name is required
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                             <div class="col-lg-6">
                                 <mat-form-field>
                                     <mat-label>Last Name</mat-label>
-                                    <input type="text" matInput name="lname" placeholder="Last Name"
-                                        [(ngModel)]="contact.lastName">
+                                    <input type="text" matInput name="lname" #lastName="ngModel" placeholder="Last Name"
+                                        [(ngModel)]="contact.lastName" required>
+                                    <mat-error class="error-message"
+                                        *ngIf="lastName.hasError('required') && lastName.touched">
+                                        Last Name is required
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -31,7 +39,16 @@
                                 <mat-form-field>
                                     <mat-label>Email</mat-label>
                                     <input type="email" matInput name="email" placeholder="Email"
-                                        [(ngModel)]="contact.email">
+                                        [(ngModel)]="contact.email" required #email="ngModel" required email>
+                                    <mat-error class="error-message"
+                                        *ngIf="email.hasError('required') && email.touched">
+                                        Email is required
+                                    </mat-error>
+
+                                    <mat-error class="error-message"
+                                        *ngIf="(email.hasError('email') && email.touched) && (!email.hasError('required'))">
+                                        Please Enter a Valid Email Address
+                                    </mat-error>
                                 </mat-form-field>
 
                             </div>
@@ -40,7 +57,10 @@
                                 <mat-form-field>
                                     <mat-label>Role</mat-label>
                                     <input type="text" matInput name="role" placeholder="Role"
-                                        [(ngModel)]="contact.role">
+                                        [(ngModel)]="contact.role" #role="ngModel" required>
+                                    <mat-error class="error-message" *ngIf="role.hasError('required') && role.touched">
+                                        Role is required
+                                    </mat-error>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -48,7 +68,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" mat-raised-button (click)="modal.dismiss()">Close</button>
-                    <button type="submit" mat-raised-button color="primary">Add Contact</button>
+                    <button type="submit" mat-raised-button color="primary" [disabled]="!newContact.valid">Add
+                        Contact</button>
                 </div>
             </form>
         </ng-template>

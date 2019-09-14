@@ -20,8 +20,8 @@
               <div class="card card-hidden">
                 <div class="mat-table__wrapper">
                   <div class="example-container">
-                    <div class="example-loading-shade" *ngIf="isTableLoading || isUploading">
-                      <mat-spinner *ngIf="isTableLoading || isUploading"></mat-spinner>
+                    <div class="example-loading-shade" *ngIf="isLoading|| isUploading">
+                      <mat-spinner *ngIf="isLoading || isUploading"></mat-spinner>
                     </div>
                     <table mat-table [dataSource]="dataSource">
                       <!--Checkbox Column-->

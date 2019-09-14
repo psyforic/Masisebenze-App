@@ -41,11 +41,11 @@ export class EditAttorneyComponent extends AppComponentBase implements OnInit {
         this.editAttorneyForm = this.fb.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
-            cellPhone: ['', Validators.required],
-            email: ['', Validators.required],
+            cellPhone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
+            email: ['', [Validators.required, Validators.email]],
             fax: [''],
-            phone: ['', Validators.required],
-            lawFirmId: ['']
+            phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
+            lawFirmId: ['', Validators.required]
         });
     }
     open(id: string) {

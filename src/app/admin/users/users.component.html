@@ -5,15 +5,18 @@
                 <div class="card-title"> Users</div>
             </div>
             <div class="card-body">
+                <div class="example-loading-shade" *ngIf="isTableLoading">
+                    <mat-spinner *ngIf="isTableLoading"></mat-spinner>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-striped">
                         <thead>
                             <tr>
-                                <th>{{ "UserName"}}</th>
-                                <th>{{ "FullName"}}</th>
-                                <th>{{ "EmailAddress"}}</th>
+                                <th>{{ "Username"}}</th>
+                                <th>{{ "Full Name"}}</th>
+                                <th>{{ "Email Address"}}</th>
                                 <th>
-                                    <div style="text-align:center">{{ "IsActive" }}</div>
+                                    <div style="text-align:center">{{ "Is Active" }}</div>
                                 </th>
                                 <th>{{ "Actions"}}</th>
                             </tr>

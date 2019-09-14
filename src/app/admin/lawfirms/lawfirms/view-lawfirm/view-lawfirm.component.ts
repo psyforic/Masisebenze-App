@@ -62,6 +62,7 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
 
   lawFirmId: string;
   lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
+  isSaving = false;
   constructor(private injector: Injector,
     private route: ActivatedRoute,
     private lawFimService: LawFirmServiceProxy,
@@ -130,20 +131,19 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     this.getAttorneys();
     this.contactService.getByLawFirm(this.lawFirmId)
       .pipe(finalize(() => {
-        this.dataSource = new MatTableDataSource(this.contacts);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+
         finishedCallback();
       }))
       .subscribe((result) => {
         this.contacts = result.items;
+        this.dataSource.data = this.contacts;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
 
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
-        this.clientDataSource = new MatTableDataSource(this.clients);
-        this.clientDataSource.paginator = this.clientPaginator;
-        this.clientDataSource.sort = this.clientSort;
+
         finishedCallback();
       }))
       .subscribe((result) => {
@@ -152,6 +152,9 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
             this.clients.push(client);
           }
         });
+        this.clientDataSource = new MatTableDataSource(this.clients);
+        this.clientDataSource.paginator = this.clientPaginator;
+        this.clientDataSource.sort = this.clientSort;
         this.showPaging(result, pageNumber);
       });
   }

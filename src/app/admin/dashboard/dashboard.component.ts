@@ -34,11 +34,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     private dashBoardService: DashBoardServiceProxy) {
     super(injector);
   }
-  addEvent() {
-    this.calendarEvents.push({
-      title: 'Assessment 2', start: '2019-09-27'
-    });
-  }
+
   modifyTitle(eventIndex, newTitle) {
     const calendarEvents = this.calendarEvents.slice(); // a clone
     const singleEvent = Object.assign({}, calendarEvents[eventIndex]); // a clone

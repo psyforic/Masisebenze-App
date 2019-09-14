@@ -31,29 +31,15 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
   initializeForm() {
     this.lawFirmForm = this.fb.group({
       companyName: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
       fax: ['', Validators.required],
-      line1: [''],
+      line1: ['', Validators.required],
       line2: [''],
       city: ['', Validators.required],
       postalCode: ['', Validators.required],
       province: ['', Validators.required]
     });
-  }
-  initAddress() {
-    return this.fb.group({
-      line1: ['', Validators.required],
-      line: [''],
-      city: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      province: ['', Validators.required],
-    });
-  }
-  addPostalAddress() {
-    // add address to the list
-    const control = <FormArray>this.lawFirmForm.controls['addresses'];
-    control.push(this.initAddress());
   }
   open() {
     this.modalService.open(this.content).result.then((result) => {

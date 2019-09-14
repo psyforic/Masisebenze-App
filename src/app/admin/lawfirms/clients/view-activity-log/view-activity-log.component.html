@@ -16,9 +16,11 @@
 
       <!-- If no value is passed for the date, the current time is used. -->
 
-        <vertical-timeline-card *ngFor="let activity of activities" [dateValue]="activity.creationTime | date: 'short'">
-          <h3>{{activity.event?.name}}</h3>
-        </vertical-timeline-card>
+      <vertical-timeline-card *ngFor="let activity of activities" [dateValue]="activity.creationTime | date: 'short'">
+        <h3>{{activity.event?.name}}</h3>
+        <br />
+        <small>From {{activity.startTime | date: 'short'}} - {{activity.endTime | date: 'short'}}</small>
+      </vertical-timeline-card>
 
       <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
       <vertical-timeline-card [dateValue]="client.creationTime | date:'short'">

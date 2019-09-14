@@ -42,7 +42,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   lawFirmId: string;
   attorneyId: string;
   clientId: string;
-  initialValue = 'Select Client';
+  contactId: string;
   events: EventListDto[] = [];
   constructor(private injector: Injector, private modalService: NgbModal,
     private bookingService: BookingServiceProxy,
@@ -57,7 +57,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   }
   open(arg) {
     this.date = arg.dateStr;
-    this.modalService.open(this.content, {windowClass: 'slideInDown'}).result.then(() => { }, () => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown' }).result.then(() => { }, () => { });
   }
   save() {
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
@@ -92,21 +92,17 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     });
   }
   getLawFirmContacts() {
-    this.lawFirmService.getContacts(this.lawFirmId).subscribe((result) => {
+    this.lawFirmService.getContacts(this.lawFirmId).pipe(finalize(() => {
+    })).subscribe((result) => {
       this.contacts = result.items;
     });
   }
   getClients() {
-    const paging = new PagedRequestDto();
-    this.clientService.getAll(paging.sorting, paging.skipCount, paging.maxResultCount)
-      .pipe(finalize(() => {
-      })).subscribe((result) => {
-        this.clients = result.items;
-        this.filteredClients = this.clients.filter((value) => {
-          return value.attorneyId = this.attorneyId;
-        });
+    this.clientService.getByContactAttorneyId(this.attorneyId, this.contactId)
+      .pipe(finalize(() => { }))
+      .subscribe((result) => {
+        this.filteredClients = result.items;
       });
-    console.log(this.filteredClients);
   }
   getEvents() {
     this.bookingService.getAllEvents(this.filter).subscribe((result) => {
@@ -115,17 +111,17 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   }
   selectAttorneyId(event) {
     this.attorneyId = event.value;
-    this.getClients();
   }
   selectedClientId(event) {
     this.clientId = event.value;
   }
-  changeValue(name) {
-    this.initialValue = name;
-  }
-  selectedId(event) {
+  selectedLawFirmId(event) {
     this.lawFirmId = event.value;
     this.getLawFirmAttorneys();
     this.getLawFirmContacts();
+  }
+  selectedContactId(event) {
+    this.contactId = event.value;
+    this.getClients();
   }
 }

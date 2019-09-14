@@ -55,11 +55,10 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
       attorneyId: ['', Validators.required],
       contactId: ['', Validators.required],
       courtDate: ['', Validators.required],
-      caseNumber: ['', Validators.required],
       title: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      idNumber: ['', Validators.required],
+      idNumber: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
       assessmentDate: ['', Validators.required]
     });
   }

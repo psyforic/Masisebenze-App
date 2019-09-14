@@ -46,8 +46,8 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
   createNewLawFirm() {
     this.newLawFirm.open();
   }
-  editSelectedLawFirm() {
-    this.editLawFirm.open();
+  editSelectedLawFirm(id: string) {
+    this.editLawFirm.open(id);
   }
   list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.isTableLoading = true;

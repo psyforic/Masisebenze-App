@@ -47,22 +47,20 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   }
   initializeForm() {
     this.clientForm = this.fb.group({
-      lawFirmId: ['', Validators.required],
       attorneyId: ['', Validators.required],
       contactId: ['', Validators.required],
       courtDate: ['', Validators.required],
-      caseNumber: ['', Validators.required],
       title: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      idNumber: ['', Validators.required],
+      idNumber: ['', [Validators.required, Validators.minLength(13)]],
       assessmentDate: ['', Validators.required]
     });
   }
   open(id: string) {
     this.lawFirmId = id;
-    this.getLawFirmAttorneys();
     this.getLawFirmContacts();
+    this.getLawFirmAttorneys();
     this.modalService.open(this.content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -90,6 +88,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     const formattedAssessmentDate = moment(assessmentDate).format('YYYY-MM-DD');
     this.isSaving = true;
     this.clientInput = Object.assign({}, this.clientForm.value);
+    this.clientInput.lawFirmId = this.lawFirmId;
     this.clientInput.assessmentDate = moment(formattedAssessmentDate);
     this.clientInput.courtDate = moment(formattedCourtDate);
     this.clientService.createClient(this.clientInput)

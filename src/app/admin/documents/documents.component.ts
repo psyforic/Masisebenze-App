@@ -1,4 +1,4 @@
-import { Component, ViewChild, Injector, ElementRef } from '@angular/core';
+import { Component, ViewChild, Injector, ElementRef, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
+import { AppComponentBase } from '@shared/app-component-base';
 
 declare const $: any;
 @Component({
@@ -25,8 +26,7 @@ declare const $: any;
   styleUrls: ['./documents.component.scss'],
   providers: [DocumentServiceProxy, ClientServiceProxy, ContactServiceProxy]
 })
-export class DocumentsComponent extends PagedListingComponentBase<DocumentListDto> {
-
+export class DocumentsComponent extends AppComponentBase implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild('fileAuthor', { static: false }) authorName: ElementRef;
   @ViewChild('fileDate', { static: false }) authorDate: ElementRef;
@@ -51,9 +51,7 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
   input: DocumentDetailOutput;
   isUploading = false;
   uploadForm: FormGroup;
-  totalfiles: Array<File> = [];
-  totalFileName = [];
-  lengthCheckToaddMore = 0;
+  isLoading = false;
 
   constructor(injector: Injector,
     private route: ActivatedRoute,
@@ -68,11 +66,17 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
       this.contactId = params.get('contactId');
     });
   }
-  onUpload(event): void {
-    for (const file of event.files) {
-      this.uploadedFiles.push(file);
-    }
+  // onUpload(event): void {
+  //   for (const file of event.files) {
+  //     this.uploadedFiles.push(file);
+  //   }
+  // }
+
+
+  ngOnInit(): void {
+    this.getClientDocuments();
   }
+
   onBeforeSend(event): void {
     event.xhr.setRequestHeader('Authorization', 'Bearer ');
   }
@@ -140,29 +144,43 @@ export class DocumentsComponent extends PagedListingComponentBase<DocumentListDt
     this.input.identifier = 1;
 
     this.documentService.editDocument(this.input).pipe((finalize(() => {
-      this.refresh();
     }))).subscribe(() => {
       this.isUploading = false;
       abp.notify.success('File Uploaded Successfully');
+      this.getClientDocuments();
     });
   }
-  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this.documentService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+  // protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
+  //   this.documentService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+  //     .pipe(finalize(() => {
+  //       console.log(this.clientId);
+  //       finishedCallback();
+
+  //     })).subscribe((result) => {
+  //       // console.log(result);
+  //       this.uploadedFiles = result.items.filter((document) => {
+  //         return document.clientId === this.clientId;
+  //       });
+  //       console.log('Files', this.uploadedFiles);
+  //       this.dataSource.paginator = this.paginator;
+  //     });
+  //   this.dataSource.data = this.uploadedFiles;
+  //   console.log(this.dataSource.data);
+  //   this.getUsers();
+  // }
+  // protected delete(entity: DocumentListDto): void {
+  //   // TODO: Implement Method
+  // }
+  getClientDocuments() {
+    this.documentService.getAllUserDocuments(this.clientId)
       .pipe(finalize(() => {
-        finishedCallback();
-      })).subscribe((result) => {
-        console.log(result);
-        this.uploadedFiles = result.items.filter((client) => {
-          return client.clientId === this.clientId;
-        });
-        console.log('Files', result.items);
-        this.dataSource = new MatTableDataSource(this.uploadedFiles);
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.uploadedFiles = result.items;
+        this.dataSource.data = this.uploadedFiles;
         this.dataSource.paginator = this.paginator;
       });
-    this.getUsers();
   }
-  protected delete(entity: DocumentListDto): void {
-    // TODO: Implement Method
-  }
-
 }
+

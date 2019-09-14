@@ -1908,6 +1908,63 @@ export class ClientServiceProxy {
     }
 
     /**
+     * @param attorneyId (optional) 
+     * @param contactId (optional) 
+     * @return Success
+     */
+    getByContactAttorneyId(attorneyId: string | null | undefined, contactId: string | null | undefined): Observable<ListResultDtoOfClientListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Client/GetByContactAttorneyId?";
+        if (attorneyId !== undefined)
+            url_ += "AttorneyId=" + encodeURIComponent("" + attorneyId) + "&"; 
+        if (contactId !== undefined)
+            url_ += "ContactId=" + encodeURIComponent("" + contactId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByContactAttorneyId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByContactAttorneyId(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfClientListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfClientListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByContactAttorneyId(response: HttpResponseBase): Observable<ListResultDtoOfClientListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfClientListDto.fromJS(resultData200) : new ListResultDtoOfClientListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfClientListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -3570,20 +3627,11 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
      * @param clientId (optional) 
      * @return Success
      */
-    getAllUserDocuments(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined, clientId: string | null | undefined): Observable<PagedResultDtoOfDocumentListDto> {
+    getAllUserDocuments(clientId: string | null | undefined): Observable<ListResultDtoOfDocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetAllUserDocuments?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -3603,14 +3651,14 @@ export class DocumentServiceProxy {
                 try {
                     return this.processGetAllUserDocuments(<any>response_);
                 } catch (e) {
-                    return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfDocumentListDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfDocumentListDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAllUserDocuments(response: HttpResponseBase): Observable<PagedResultDtoOfDocumentListDto> {
+    protected processGetAllUserDocuments(response: HttpResponseBase): Observable<ListResultDtoOfDocumentListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3621,7 +3669,7 @@ export class DocumentServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfDocumentListDto.fromJS(resultData200) : new PagedResultDtoOfDocumentListDto();
+            result200 = resultData200 ? ListResultDtoOfDocumentListDto.fromJS(resultData200) : new ListResultDtoOfDocumentListDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3629,67 +3677,7 @@ export class DocumentServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PagedResultDtoOfDocumentListDto>(<any>null);
-    }
-
-    /**
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfDocumentListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Document/GetAll?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAll(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfDocumentListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfDocumentListDto.fromJS(resultData200) : new PagedResultDtoOfDocumentListDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfDocumentListDto>(<any>null);
+        return _observableOf<ListResultDtoOfDocumentListDto>(<any>null);
     }
 
     /**
@@ -3906,6 +3894,66 @@ export class DocumentServiceProxy {
             }));
         }
         return _observableOf<DocumentListDto>(<any>null);
+    }
+
+    /**
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfDocumentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Document/GetAll?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfDocumentListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfDocumentListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfDocumentListDto.fromJS(resultData200) : new PagedResultDtoOfDocumentListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfDocumentListDto>(<any>null);
     }
 
     /**
@@ -9826,6 +9874,57 @@ export interface IClientListDto {
     id: string | undefined;
 }
 
+export class ListResultDtoOfClientListDto implements IListResultDtoOfClientListDto {
+    items: ClientListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfClientListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ClientListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfClientListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfClientListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfClientListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfClientListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfClientListDto {
+    items: ClientListDto[] | undefined;
+}
+
 export class CreateWorkHistoryInput implements ICreateWorkHistoryInput {
     clientId: string | undefined;
     premorbid: string | undefined;
@@ -10653,57 +10752,6 @@ export interface IPagedResultDtoOfContactListDto {
     items: ContactListDto[] | undefined;
 }
 
-export class ListResultDtoOfClientListDto implements IListResultDtoOfClientListDto {
-    items: ClientListDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfClientListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(ClientListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfClientListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfClientListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfClientListDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfClientListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfClientListDto {
-    items: ClientListDto[] | undefined;
-}
-
 export class CreateDocumentInput implements ICreateDocumentInput {
     name: string | undefined;
     authorName: string | undefined;
@@ -10886,6 +10934,172 @@ export interface IDocumentDetailOutput {
     id: number | undefined;
 }
 
+export class ListResultDtoOfDocumentListDto implements IListResultDtoOfDocumentListDto {
+    items: DocumentListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfDocumentListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(DocumentListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfDocumentListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfDocumentListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfDocumentListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfDocumentListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfDocumentListDto {
+    items: DocumentListDto[] | undefined;
+}
+
+export class DocumentListDto implements IDocumentListDto {
+    name: string | undefined;
+    authorName: string | undefined;
+    authorDate: moment.Moment | undefined;
+    clientId: string | undefined;
+    client: Client | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
+    userId: number | undefined;
+    user: User | undefined;
+    fileUrl: string | undefined;
+    identifier: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+
+    constructor(data?: IDocumentListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.authorName = data["authorName"];
+            this.authorDate = data["authorDate"] ? moment(data["authorDate"].toString()) : <any>undefined;
+            this.clientId = data["clientId"];
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
+            this.contactId = data["contactId"];
+            this.contact = data["contact"] ? Contact.fromJS(data["contact"]) : <any>undefined;
+            this.userId = data["userId"];
+            this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
+            this.fileUrl = data["fileUrl"];
+            this.identifier = data["identifier"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): DocumentListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DocumentListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["authorName"] = this.authorName;
+        data["authorDate"] = this.authorDate ? this.authorDate.toISOString() : <any>undefined;
+        data["clientId"] = this.clientId;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["contactId"] = this.contactId;
+        data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
+        data["userId"] = this.userId;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["fileUrl"] = this.fileUrl;
+        data["identifier"] = this.identifier;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): DocumentListDto {
+        const json = this.toJSON();
+        let result = new DocumentListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDocumentListDto {
+    name: string | undefined;
+    authorName: string | undefined;
+    authorDate: moment.Moment | undefined;
+    clientId: string | undefined;
+    client: Client | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
+    userId: number | undefined;
+    user: User | undefined;
+    fileUrl: string | undefined;
+    identifier: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: number | undefined;
+}
+
 export class PagedResultDtoOfDocumentListDto implements IPagedResultDtoOfDocumentListDto {
     totalCount: number | undefined;
     items: DocumentListDto[] | undefined;
@@ -10938,160 +11152,6 @@ export class PagedResultDtoOfDocumentListDto implements IPagedResultDtoOfDocumen
 
 export interface IPagedResultDtoOfDocumentListDto {
     totalCount: number | undefined;
-    items: DocumentListDto[] | undefined;
-}
-
-export class DocumentListDto implements IDocumentListDto {
-    name: string | undefined;
-    authorName: string | undefined;
-    authorDate: moment.Moment | undefined;
-    clientId: string | undefined;
-    contactId: string | undefined;
-    userId: number | undefined;
-    fileUrl: string | undefined;
-    identifier: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-
-    constructor(data?: IDocumentListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.authorName = data["authorName"];
-            this.authorDate = data["authorDate"] ? moment(data["authorDate"].toString()) : <any>undefined;
-            this.clientId = data["clientId"];
-            this.contactId = data["contactId"];
-            this.userId = data["userId"];
-            this.fileUrl = data["fileUrl"];
-            this.identifier = data["identifier"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): DocumentListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new DocumentListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["authorName"] = this.authorName;
-        data["authorDate"] = this.authorDate ? this.authorDate.toISOString() : <any>undefined;
-        data["clientId"] = this.clientId;
-        data["contactId"] = this.contactId;
-        data["userId"] = this.userId;
-        data["fileUrl"] = this.fileUrl;
-        data["identifier"] = this.identifier;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): DocumentListDto {
-        const json = this.toJSON();
-        let result = new DocumentListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IDocumentListDto {
-    name: string | undefined;
-    authorName: string | undefined;
-    authorDate: moment.Moment | undefined;
-    clientId: string | undefined;
-    contactId: string | undefined;
-    userId: number | undefined;
-    fileUrl: string | undefined;
-    identifier: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: number | undefined;
-}
-
-export class ListResultDtoOfDocumentListDto implements IListResultDtoOfDocumentListDto {
-    items: DocumentListDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfDocumentListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(DocumentListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfDocumentListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfDocumentListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfDocumentListDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfDocumentListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfDocumentListDto {
     items: DocumentListDto[] | undefined;
 }
 
