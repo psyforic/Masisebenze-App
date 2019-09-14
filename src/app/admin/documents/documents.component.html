@@ -59,7 +59,7 @@
                           <mat-form-field>
                             <div>
                               <input [disabled]="file.identifier === 1" value="{{file.authorName}}" id="author{{i}}"
-                                #fileAuthor required type="text" matInput placeholder="File Author">
+                                (keyup)="isInValid(i)" required type="text" matInput placeholder="File Author" required>
                             </div>
                           </mat-form-field>
                         </mat-cell>
@@ -72,8 +72,9 @@
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file; let i = index;">
                           <mat-form-field *ngIf="!file.identifier">
-                            <input *ngIf="showInput" id="date{{i}}" #fileDate matInput [matDatepicker]="picker"
-                              placeholder="Choose a date" name="date">
+                            <input (keyup)="isInValid(i)" *ngIf="showInput" id="date{{i}}"
+                              #fileDate matInput
+                              [matDatepicker]="picker" placeholder="Choose a date" name="date">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
@@ -111,10 +112,12 @@
                       <ng-container matColumnDef="upload">
                         <mat-header-cell *matHeaderCellDef>Upload</mat-header-cell>
                         <mat-cell *matCellDef="let file; let i= index">
-                          <button class="file btn btn-sm btn-primary btn-round" [disabled]="file.identifier">
+                          <button class="file btn btn-sm btn-primary btn-round"
+                            [disabled]="file.identifier || isInValid(i)">
                             <i class="fa fa-cloud-upload"></i>
-                            <input [disabled]="file.identifier" type="file" name="file" class="form-control-file"
-                              (change)="upload($event, i, file.id)" accept=".pdf,.docx,.doc" />
+                            <input [disabled]="file.identifier || isInValid(i) " type="file" name="file"
+                              class="form-control-file" (change)="upload($event, i, file.id)"
+                              accept=".pdf,.docx,.doc" />
                           </button>
                         </mat-cell>
                       </ng-container>

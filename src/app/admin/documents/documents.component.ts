@@ -1,7 +1,6 @@
 import { Component, ViewChild, Injector, ElementRef, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import {
   DocumentListDto,
   DocumentServiceProxy,
@@ -66,15 +65,9 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
       this.contactId = params.get('contactId');
     });
   }
-  // onUpload(event): void {
-  //   for (const file of event.files) {
-  //     this.uploadedFiles.push(file);
-  //   }
-  // }
-
-
   ngOnInit(): void {
     this.getClientDocuments();
+    this.getUsers();
   }
 
   onBeforeSend(event): void {
@@ -149,6 +142,12 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
       abp.notify.success('File Uploaded Successfully');
       this.getClientDocuments();
     });
+  }
+  isInValid(index) {
+    const authorName = $('#author' + index).val();
+    const authorDate = $('#date' + index).val();
+
+    return authorName === 'undefined' || authorDate === 'undefined' ? false : true;
   }
   // protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
   //   this.documentService.getAll(request.sorting, request.skipCount, request.maxResultCount)
