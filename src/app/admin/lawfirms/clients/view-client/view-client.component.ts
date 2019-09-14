@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, ElementRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   ClientServiceProxy,
@@ -15,6 +15,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
+import { CameraModalComponent } from '../camera-modal/camera-modal.component';
 
 interface DocumentNode {
   name: string;
@@ -34,6 +35,7 @@ interface FlatNode {
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
+  @ViewChild('newPhoto', { static: false }) takePhoto: CameraModalComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
   documents: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
@@ -57,6 +59,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   downloadURL: Observable<string>;
   uploadState: Observable<string>;
   currentHistory = '';
+  uploadedImage = '';
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
@@ -127,7 +130,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.focused = true;
     this.blured = false;
   }
-
+  openCameraModal() {
+    this.takePhoto.open();
+  }
   blur($event) {
     // tslint:disable-next-line:no-console
     console.log('blur', $event);
@@ -172,7 +177,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.isUploading = true;
     const id = Math.random().toString(36).substring(2);
     this.ref = this.afStorage.ref(`/profilePics/${id}`);
-    this.task = this.ref.put(event.target.files[0]);
+    // this.task = this.ref.put(event.target.files[0]);
+    console.log(event.slice(22, event.length));
+    this.task = this.ref.putString(event.slice(23, event.length), 'base64');
     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
     this.uploadProgress = this.task.percentageChanges();
     this.task.snapshotChanges()
@@ -181,6 +188,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.downloadURL.subscribe((res) => {
           this.clientService.updateProfilePic(this.clientId, res)
             .pipe(finalize(() => {
+              this.isUploading = false;
               this.notify.success('Profile Pic Updated Successfully');
             })).subscribe(() => {
             });

@@ -1,0 +1,21 @@
+.actionBtn {
+    cursor: pointer;
+}
+
+.snapshot {
+    text-align: center;
+    // display: flex;
+    // align-items: center;
+    // align-content: center;
+
+    img {
+        max-width: 300px;
+        max-height: 300px;
+        border: 4px solid #808080;
+        border-radius: 2px;
+    }
+}
+
+ul.links {
+    padding-bottom: 20px;
+}

@@ -5120,6 +5120,13 @@ ngx-bootstrap@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.0.0.tgz#563368404dd71962e2ef8eee21794c6aeaab4490"
 
+ngx-image-cropper@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/ngx-image-cropper/-/ngx-image-cropper-1.4.1.tgz#66d9bd05b588322407fe1f7b845aa80c7e8dac2e"
+  integrity sha512-AeCIXj65V3V8jaYFc6MycRa/BCBv5CtIydSuVFnRQKL6LZzbqnyLvyEmpYvKJ4k9BuspfjeCkBeQXQWUVp0QqQ==
+  dependencies:
+    tslib "^1.9.0"
+
 ngx-material-timepicker@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/ngx-material-timepicker/-/ngx-material-timepicker-5.0.0.tgz#453a1c7912476df088d69d472a5d961627ea5579"
@@ -5137,6 +5144,13 @@ ngx-quill@^7.3.0:
   version "7.3.0"
   resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-7.3.0.tgz#f092f197edc0e62b5b5907fbf378bf570674864f"
   integrity sha512-f21fkV5gL1xbuXJG0UGXMzwCr0V+A1zfMrO328i0YcYdmSNDnsBpaLebT/TKyPwUDXnawoGMYqaediYUB5Okgw==
+  dependencies:
+    tslib "^1.9.0"
+
+ngx-webcam@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/ngx-webcam/-/ngx-webcam-0.2.6.tgz#a2ae07a0024d9cb72fbd6f0fc4a3cf617030a6ea"
+  integrity sha512-syf8YwjOswRyTq55Cw7rrjFAmdtkmVs5BGiifuudqYC9u8hVGMYiZNalVqTbNp7DMh8zy7qRzuACnJhKhbnmRA==
   dependencies:
     tslib "^1.9.0"
 

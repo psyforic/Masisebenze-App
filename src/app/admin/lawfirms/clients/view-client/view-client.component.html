@@ -35,11 +35,14 @@
                             <form #clientForm="ngForm" (ngSubmit)="save()">
                                 <div class="row">
                                     <div class="col-md-4">
+                                        <div class="example-loading-shade" *ngIf="isUploading">
+                                            <mat-spinner *ngIf="isUploading"></mat-spinner>
+                                        </div>
                                         <div class="card card-profile mt-3">
                                             <div class="card-avatar">
                                                 <a href="javascript:void(0)">
                                                     <img class="img"
-                                                        [src]="client.profilePictureId || '../../../../../assets/img/faces/face-0.jpg' "
+                                                        [src]="client.profilePictureId || uploadedImage || '../../../../../assets/img/faces/face-0.jpg' "
                                                         alt="Logo" />
                                                 </a>
                                             </div>
@@ -48,14 +51,15 @@
                                                 <h4 class="text tex-center">{{client.firstName}} {{client.lastName}}
                                                 </h4>
 
-                                                <!-- <a href="javascript:void(0)" class="btn btn-primary btn-round">Change
-                                                    Picture</a> -->
-                                                <button class="file btn btn-primary btn-round">Change
+                                                <a href="javascript:void(0)" (click)="openCameraModal()"
+                                                    class="btn btn-primary btn-round">Change
+                                                    Picture</a>
+                                                <!-- <button class="file btn btn-primary btn-round">Change
                                                     Picture
                                                     <i class="fa fa-cloud-upload"></i>
                                                     <input type="file" name="file" class="form-control-file"
                                                         (change)="upload($event)" accept=".jpg,.png" />
-                                                </button>
+                                                </button> -->
 
                                             </div>
                                         </div>
@@ -116,18 +120,21 @@
                                                     <div class="col-md-4">
                                                         <mat-form-field class="example-full-width">
                                                             <mat-label>Province</mat-label>
-                                                            <select matNativeControl required [(ngModel)]="province"
-                                                                name="province">
-                                                                <option value="Eastern Cape">Eastern Cape</option>
-                                                                <option value="Free State">Free State</option>
-                                                                <option value="Gauteng">Gauteng</option>
-                                                                <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-                                                                <option value="Limpopo">Limpopo</option>
-                                                                <option value="Mpumalanga">Mpumalanga</option>
-                                                                <option value="KwaZulu-Natal">Northern Cape</option>
-                                                                <option value="North West">North West</option>
-                                                                <option value="Western Cape">Western Cape</option>
-                                                            </select>
+                                                            <mat-select required [(ngModel)]="province" name="province">
+                                                                <mat-option value="Eastern Cape">Eastern Cape
+                                                                </mat-option>
+                                                                <mat-option value="Free State">Free State</mat-option>
+                                                                <mat-option value="Gauteng">Gauteng</mat-option>
+                                                                <mat-option value="KwaZulu-Natal">KwaZulu-Natal
+                                                                </mat-option>
+                                                                <mat-option value="Limpopo">Limpopo</mat-option>
+                                                                <mat-option value="Mpumalanga">Mpumalanga</mat-option>
+                                                                <mat-option value="Northern Cape">Northern Cape
+                                                                </mat-option>
+                                                                <mat-option value="North West">North West</mat-option>
+                                                                <mat-option value="Western Cape">Western Cape
+                                                                </mat-option>
+                                                            </mat-select>
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-4">
@@ -519,3 +526,4 @@
         </div>
     </div>
 </div>
+<app-camera-modal #newPhoto (pictureUpload)="upload($event)"></app-camera-modal>

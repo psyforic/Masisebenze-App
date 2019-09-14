@@ -24,12 +24,12 @@
                                 <div class="col-lg-12">
                                     <mat-form-field>
                                         <mat-label>Law Firm</mat-label>
-                                        <select matNativeControl required (change)="selectedId($event)"
+                                        <mat-select required (selectionChange)="selectedId($event)"
                                             formControlName="lawFirmId">
-                                            <option *ngFor="let lawFirm of lawFirms" value="{{lawFirm.id}}">
+                                            <mat-option *ngFor="let lawFirm of lawFirms" value="{{lawFirm.id}}">
                                                 {{lawFirm.companyName}}
-                                            </option>
-                                        </select>
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -37,11 +37,11 @@
                                 <div class="col-lg-12">
                                     <mat-form-field>
                                         <mat-label>Attorney</mat-label>
-                                        <select matNativeControl formControlName="attorneyId" required>
-                                            <option *ngFor="let attorney of attorneys" value="{{attorney.id}}">
+                                        <mat-select formControlName="attorneyId" required>
+                                            <mat-option *ngFor="let attorney of attorneys" value="{{attorney.id}}">
                                                 {{attorney.firstName}} {{attorney.lastName}}
-                                            </option>
-                                        </select>
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -49,11 +49,11 @@
                                 <div class="col-lg-12">
                                     <mat-form-field>
                                         <mat-label>Contact Person at Attorney</mat-label>
-                                        <select matNativeControl required formControlName="contactId">
-                                            <option *ngFor="let contact of contacts" value="{{contact.id}}">
+                                        <mat-select required formControlName="contactId">
+                                            <mat-option *ngFor="let contact of contacts" value="{{contact.id}}">
                                                 {{contact.firstName}} {{contact.lastName}}
-                                            </option>
-                                        </select>
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -103,11 +103,11 @@
                                 <div class="col-lg-2">
                                     <mat-form-field>
                                         <mat-label>Title</mat-label>
-                                        <select formControlName="title" matNativeControl required>
-                                            <option value="Mr.">Mr.</option>
-                                            <option value="Mrs.">Mrs.</option>
-                                            <option value="Mrs.">Ms.</option>
-                                        </select>
+                                        <mat-select formControlName="title" required>
+                                            <mat-option value="Mr.">Mr.</mat-option>
+                                            <mat-option value="Mrs.">Mrs.</mat-option>
+                                            <mat-option value="Mrs.">Ms.</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-lg-5">

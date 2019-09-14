@@ -87,12 +87,12 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     });
   }
   selectedId(event) {
-    this.lawFirmId = event.target.value;
+    this.lawFirmId = event.value;
     this.getLawFirmAttorneys();
     this.getLawFirmContacts();
   }
   selectedDate(event) {
-    console.log(event.target.value);
+    console.log(event.value);
   }
   save() {
     this.isSaving = true;

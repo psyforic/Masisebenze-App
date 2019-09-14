@@ -9,6 +9,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ViewActivityLogComponent } from './view-activity-log/view-activity-log.component';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
+import { CameraModalComponent } from './camera-modal/camera-modal.component';
+import { WebcamModule } from 'ngx-webcam';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -16,18 +19,21 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
     EditClientComponent,
     NewClientComponent,
     ViewClientComponent,
-    ViewActivityLogComponent
+    ViewActivityLogComponent,
+    CameraModalComponent
   ],
   imports: [
     CommonModule,
     MatAutocompleteModule,
     PartialsModule,
     BsDatepickerModule.forRoot(),
-    VerticalTimelineModule
+    VerticalTimelineModule,
+    WebcamModule,
+    ImageCropperModule
   ],
   exports: [
     NewClientComponent
   ],
-  entryComponents: [NewClientComponent]
+  entryComponents: [NewClientComponent, CameraModalComponent]
 })
 export class ClientsModule { }

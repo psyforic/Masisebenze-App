@@ -1,0 +1,53 @@
+<ng-template #content let-modal class="modal modal-fade">
+  <div class="modal-header">
+    <h4 class="modal-title">Take Photo</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div>
+              <webcam [height]="300" [width]="300" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                *ngIf="showWebcam" [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                [videoOptions]="videoOptions" (cameraSwitched)="cameraWasSwitched($event)"
+                (initError)="handleInitError($event)"></webcam>
+              <br />
+
+              <div class="pull-right">
+                <button mat-icon-button (click)="triggerSnapshot();" title="Take Picture"><i
+                    class="fa fa-camera fa-2x text-primary"></i></button>
+              </div>
+              <!-- <span class="actionBtn" (click)="triggerSnapshot();" title="Take Picture"><i
+                  class="fa fa-camera fa-3x"></i></span>
+              <span class="actionBtn" (click)="showNextWebcam(true);" title="Switch Camera"><i
+                  class="fa fa-rotate-left fa-3x"></i></span> -->
+            </div>
+          </div>
+
+          <div class="col-md-6">
+
+            <div class="snapshot">
+              <img [src]="webcamImage?.imageAsDataUrl || '../../../../../assets/img/faces/face-0.jpg'" />
+            </div>
+            <div class="pull-right">
+              <button mat-icon-button (click)="uploadImage(webcamImage);" title="Take Picture"><i
+                  class="fa fa-cloud-upload fa-2x text-primary"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h4 *ngIf="errors.length > 0">Messages:</h4>
+      <ul *ngFor="let error of errors">
+        <li>{{error | json}}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" mat-raised-button (click)="modal.close()">Close</button>
+  </div>
+</ng-template>

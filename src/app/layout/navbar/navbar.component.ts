@@ -3,6 +3,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { ROUTES } from '../sidebar/sidebar.component';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AppAuthService } from '@shared/auth/app-auth.service';
+import { UserServiceProxy, UserDto } from '@shared/service-proxies/service-proxies';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -13,10 +14,12 @@ declare var $: any;
 @Component({
   // moduleId: module.id,
   selector: 'app-navbar',
-  templateUrl: './navbar.component.html'
+  templateUrl: './navbar.component.html',
+  providers: [UserServiceProxy]
 })
 
 export class NavbarComponent extends AppComponentBase implements OnInit {
+  user: UserDto = new UserDto();
   location: Location;
   private listTitles: any[];
 
@@ -26,13 +29,15 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
   constructor(
     location: Location, private element: ElementRef,
     private injector: Injector,
-    private _authService: AppAuthService) {
+    private _authService: AppAuthService,
+    private userService: UserServiceProxy) {
     super(injector);
     this.location = location;
     this.sidebarVisible = false;
   }
 
   ngOnInit() {
+    this.getUserName();
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
     this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
@@ -109,5 +114,13 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
 
   logout(): void {
     this._authService.logout();
+  }
+
+  getUserName() {
+    const id = abp.session.userId;
+    this.userService.get(id)
+      .subscribe((result) => {
+        this.user = result;
+      });
   }
 }
