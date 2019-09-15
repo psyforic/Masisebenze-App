@@ -114,7 +114,6 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
       .pipe(finalize(() => {
         this.downloadURL = this.ref.getDownloadURL();
         this.downloadURL.subscribe((res) => {
-          // this.uploadUrl = res;
           this.uploadFile(index, docId, res);
         });
 
@@ -147,29 +146,10 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
     const authorName = $('#author' + index).val();
     const authorDate = $('#date' + index).val();
 
-    return authorName === 'undefined' || authorDate === 'undefined' ? false : true;
+    return ((authorName === 'undefined' || authorName === '')
+      || (authorDate === 'undefined' || authorDate === ''))
+      ? true : false;
   }
-  // protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-  //   this.documentService.getAll(request.sorting, request.skipCount, request.maxResultCount)
-  //     .pipe(finalize(() => {
-  //       console.log(this.clientId);
-  //       finishedCallback();
-
-  //     })).subscribe((result) => {
-  //       // console.log(result);
-  //       this.uploadedFiles = result.items.filter((document) => {
-  //         return document.clientId === this.clientId;
-  //       });
-  //       console.log('Files', this.uploadedFiles);
-  //       this.dataSource.paginator = this.paginator;
-  //     });
-  //   this.dataSource.data = this.uploadedFiles;
-  //   console.log(this.dataSource.data);
-  //   this.getUsers();
-  // }
-  // protected delete(entity: DocumentListDto): void {
-  //   // TODO: Implement Method
-  // }
   getClientDocuments() {
     this.documentService.getAllUserDocuments(this.clientId)
       .pipe(finalize(() => {

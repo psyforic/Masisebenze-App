@@ -15,6 +15,8 @@ import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { PagedRequestDto } from '@shared/paged-listing-component-base';
 import { AppComponentBase } from '@shared/app-component-base';
+import { NgForm } from '@angular/forms';
+import { log } from 'util';
 
 @Component({
   selector: 'app-new-event',
@@ -27,6 +29,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() newBookingInput = new EventEmitter();
   @Output() newBottomSheetClient = new EventEmitter();
+  @ViewChild('newEvent', { static: false }) newEventForm: NgForm;
 
   date: string;
   startTime: any;
@@ -55,7 +58,6 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
     this.getEvents();
     this.getLawFirms();
-
   }
   open(arg) {
     this.date = arg.dateStr;
@@ -129,10 +131,11 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     this.showHeader = true;
   }
   openBottomSheet() {
+    console.log(this.newEventForm);
     const clientInfo = {
-      lawFirmId: this.lawFirmId,
-      attorneyId: this.attorneyId,
-      contactId: this.contactId,
+      lawFirmId: this.booking.lawFirmId,
+      attorneyId: this.booking.attorneyId,
+      contactId: this.booking.contactId
     };
     this.newBottomSheetClient.emit(clientInfo);
   }

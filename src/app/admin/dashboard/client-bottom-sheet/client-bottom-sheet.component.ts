@@ -43,6 +43,10 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     this.bottomSheetRef.dismiss();
   }
   save() {
+    if (this.data.lawFirmId === '' || this.data.attorneyId === '' || this.data.contactId === '') {
+      this.notify.error('Form Not Valid Not All Check Your Event Form');
+      return;
+    }
     this.isSaving = true;
     this.clientInput = Object.assign({}, this.clientForm.value);
     this.clientInput.lawFirmId = this.data.lawFirmId;
