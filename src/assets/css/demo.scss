@@ -237,7 +237,7 @@ mat-tab-group .card {
     left: 0;
     bottom: 56px;
     right: 0;
-    background: rgba(0, 0, 0, 0.15);
+    // background: rgba(0, 0, 0, 0.15);
     z-index: 1;
     display: flex;
     align-items: center;
@@ -340,4 +340,11 @@ mat-tab-group .card {
 .modal-content {
     animation-duration: 3s;
     animation-delay: 10s;
+}
+
+@media(min-width: 1080px) {
+    .mat-bottom-sheet-container-large {
+        min-width: 512px;
+        min-height: 400px !important;
+    }
 }

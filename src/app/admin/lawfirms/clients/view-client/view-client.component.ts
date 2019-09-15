@@ -16,6 +16,7 @@ import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { CameraModalComponent } from '../camera-modal/camera-modal.component';
+import { GeneralService } from '@app/admin/services/general.service';
 
 interface DocumentNode {
   name: string;
@@ -60,11 +61,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   uploadState: Observable<string>;
   currentHistory = '';
   uploadedImage = '';
+  photoUrl: string;
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
+    private generalService: GeneralService
   ) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -99,6 +102,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       .subscribe((result) => {
         this.workHistory = result;
       });
+    this.generalService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
   getClient() {
     this.clientService.getDetail(this.clientId)
@@ -188,6 +192,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.downloadURL.subscribe((res) => {
           this.clientService.updateProfilePic(this.clientId, res)
             .pipe(finalize(() => {
+              this.photoUrl = res;
               this.isUploading = false;
               this.notify.success('Profile Pic Updated Successfully');
             })).subscribe(() => {

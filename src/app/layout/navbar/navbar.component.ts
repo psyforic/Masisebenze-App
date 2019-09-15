@@ -3,7 +3,8 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { ROUTES } from '../sidebar/sidebar.component';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AppAuthService } from '@shared/auth/app-auth.service';
-import { UserServiceProxy, UserDto } from '@shared/service-proxies/service-proxies';
+import { AppSessionService } from '@shared/session/app-session.service';
+import { UserLoginInfoDto } from '@shared/service-proxies/service-proxies';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -15,11 +16,11 @@ declare var $: any;
   // moduleId: module.id,
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  providers: [UserServiceProxy]
+  providers: [AppSessionService]
 })
 
 export class NavbarComponent extends AppComponentBase implements OnInit {
-  user: UserDto = new UserDto();
+  user: UserLoginInfoDto = new UserLoginInfoDto();
   location: Location;
   private listTitles: any[];
 
@@ -30,7 +31,7 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
     location: Location, private element: ElementRef,
     private injector: Injector,
     private _authService: AppAuthService,
-    private userService: UserServiceProxy) {
+    private appSessionService: AppSessionService) {
     super(injector);
     this.location = location;
     this.sidebarVisible = false;
@@ -117,10 +118,7 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
   }
 
   getUserName() {
-    const id = abp.session.userId;
-    this.userService.get(id)
-      .subscribe((result) => {
-        this.user = result;
-      });
+    this.user = this.appSessionService.user;
+    console.log('User', this.appSessionService.user);
   }
 }

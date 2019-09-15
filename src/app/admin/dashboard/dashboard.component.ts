@@ -10,6 +10,8 @@ import { BookingServiceProxy, BookingListDto, DashBoardServiceProxy, ClientListD
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 import { NewEventComponent } from './new-event/new-event.component';
+import { MatBottomSheet } from '@angular/material';
+import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-sheet.component';
 
 declare const $: any;
 @Component({
@@ -31,7 +33,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   calendarEvents: EventInput[] = [];
   constructor(private injector: Injector,
     private bookingService: BookingServiceProxy,
-    private dashBoardService: DashBoardServiceProxy) {
+    private dashBoardService: DashBoardServiceProxy,
+    private _bottomSheet: MatBottomSheet) {
     super(injector);
   }
 
@@ -161,6 +164,10 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     // start animation for the Emails Subscription Chart
     this.startAnimationForBarChart(websiteViewsChart);
   }
-
+  openBottomSheet(event) {
+    this._bottomSheet.open(ClientBottomSheetComponent, {
+      data: event
+    });
+  }
 }
 

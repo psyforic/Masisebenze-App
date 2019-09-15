@@ -30,7 +30,7 @@
                                                 {{lawFirm.companyName}}
                                             </mat-option>
                                         </mat-select>
-                                        <mat-error *ngIf="clientForm.get('lawFirmId').touched 
+                                        <mat-error *ngIf="clientForm.get('lawFirmId').touched
                                         && clientForm.get('lawFirmId').hasError('required')">
                                             Law Firm is Required
                                         </mat-error>
@@ -46,7 +46,7 @@
                                                 {{attorney.firstName}} {{attorney.lastName}}
                                             </mat-option>
                                         </mat-select>
-                                        <mat-error *ngIf="clientForm.get('attorneyId').touched 
+                                        <mat-error *ngIf="clientForm.get('attorneyId').touched
                                         && clientForm.get('attorneyId').hasError('required')">
                                             Attorney is Required
                                         </mat-error>
@@ -62,7 +62,7 @@
                                                 {{contact.firstName}} {{contact.lastName}}
                                             </mat-option>
                                         </mat-select>
-                                        <mat-error *ngIf="clientForm.get('contactId').touched 
+                                        <mat-error *ngIf="clientForm.get('contactId').touched
                                         && clientForm.get('contactId').hasError('required')">
                                             Contact is Required
                                         </mat-error>
@@ -84,7 +84,7 @@
                                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                         <mat-datepicker #picker></mat-datepicker>
 
-                                        <mat-error *ngIf="clientForm.get('courtDate').touched 
+                                        <mat-error *ngIf="clientForm.get('courtDate').touched
                                         && clientForm.get('courtDate').hasError('required')">
                                             Court Date Required
                                         </mat-error>
@@ -125,7 +125,7 @@
                                             <mat-option value="Mrs.">Mrs.</mat-option>
                                             <mat-option value="Mrs.">Ms.</mat-option>
                                         </mat-select>
-                                        <mat-error *ngIf="clientForm.get('title').touched 
+                                        <mat-error *ngIf="clientForm.get('title').touched
                                         && clientForm.get('title').hasError('required')">
                                             Title is Required
                                         </mat-error>
@@ -136,7 +136,7 @@
                                         <mat-label>First Name</mat-label>
                                         <input type="text" matInput placeholder="Enter First Name"
                                             formControlName="firstName" required>
-                                        <mat-error *ngIf="clientForm.get('firstName').touched 
+                                        <mat-error *ngIf="clientForm.get('firstName').touched
                                         && clientForm.get('firstName').hasError('required')">
                                             First Name is Required
                                         </mat-error>
@@ -147,7 +147,7 @@
                                         <mat-label>Last Name</mat-label>
                                         <input type="text" matInput placeholder="Enter Last Name"
                                             formControlName="lastName" required>
-                                        <mat-error *ngIf="clientForm.get('lastName').touched 
+                                        <mat-error *ngIf="clientForm.get('lastName').touched
                                         && clientForm.get('lastName').hasError('required')">
                                             Last Name is Required
                                         </mat-error>
@@ -160,17 +160,17 @@
                                     <mat-form-field>
                                         <mat-label>Id Number</mat-label>
                                         <input type="text" matInput placeholder="Enter Id Number"
-                                            formControlName="idNumber" required>
-                                        <mat-error *ngIf="clientForm.get('idNumber').touched 
+                                            formControlName="idNumber" required maxlength="13">
+                                        <mat-error *ngIf="clientForm.get('idNumber').touched
                                         && clientForm.get('idNumber').hasError('required')">
                                             Id No. is Required
                                         </mat-error>
-                                        <mat-error *ngIf="clientForm.get('idNumber').touched 
-                                        && clientForm.get('idNumber').hasError('minlength') 
+                                        <mat-error *ngIf="clientForm.get('idNumber').touched
+                                        && clientForm.get('idNumber').hasError('minlength')
                                         && !clientForm.get('idNumber').hasError('required')">
                                             Number Of Characters must be 13
                                         </mat-error>
-                                        <mat-error *ngIf="clientForm.get('idNumber').touched 
+                                        <mat-error *ngIf="clientForm.get('idNumber').touched
                                         && clientForm.get('idNumber').hasError('maxlength')
                                         && !clientForm.get('idNumber').hasError('required')">
                                             Maximum Number Of Characters must be 13
@@ -193,7 +193,7 @@
                                             placeholder="Date Of Assessment" required>
                                         <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
                                         <mat-datepicker #datePicker></mat-datepicker>
-                                        <mat-error *ngIf="clientForm.get('assessmentDate').touched 
+                                        <mat-error *ngIf="clientForm.get('assessmentDate').touched
                                         && clientForm.get('assessmentDate').hasError('required')">
                                             Assessment Date Required
                                         </mat-error>

@@ -28,7 +28,9 @@ import {
   MatTooltipModule,
   MatDialogModule,
   MatExpansionModule,
-  MatTreeModule
+  MatTreeModule,
+  MatBottomSheetModule,
+  MAT_BOTTOM_SHEET_DEFAULT_OPTIONS
 } from '@angular/material';
 import { QuillModule } from 'ngx-quill';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
@@ -79,6 +81,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     MatExpansionModule,
     NgxMaterialTimepickerModule,
     MatTreeModule,
+    MatBottomSheetModule,
     BsDropdownModule.forRoot()
   ],
   exports: [
@@ -109,10 +112,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     MatDialogModule,
     MatExpansionModule,
     QuillModule,
+    MatBottomSheetModule,
     NgxMaterialTimepickerModule,
     MatTreeModule,
     BsDropdownModule
   ],
-  providers: [BsModalService]
+  providers: [BsModalService,
+    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }]
 })
 export class PartialsModule { }

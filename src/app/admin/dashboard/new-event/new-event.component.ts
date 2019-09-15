@@ -26,6 +26,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() newBookingInput = new EventEmitter();
+  @Output() newBottomSheetClient = new EventEmitter();
 
   date: string;
   startTime: any;
@@ -44,6 +45,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   clientId: string;
   contactId: string;
   events: EventListDto[] = [];
+  showHeader = false;
   constructor(private injector: Injector, private modalService: NgbModal,
     private bookingService: BookingServiceProxy,
     private clientService: ClientServiceProxy,
@@ -57,7 +59,8 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   }
   open(arg) {
     this.date = arg.dateStr;
-    this.modalService.open(this.content, { windowClass: 'slideInDown' }).result.then(() => { }, () => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then(() => { }, () => { });
   }
   save() {
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
@@ -123,5 +126,14 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   selectedContactId(event) {
     this.contactId = event.value;
     this.getClients();
+    this.showHeader = true;
+  }
+  openBottomSheet() {
+    const clientInfo = {
+      lawFirmId: this.lawFirmId,
+      attorneyId: this.attorneyId,
+      contactId: this.contactId,
+    };
+    this.newBottomSheetClient.emit(clientInfo);
   }
 }

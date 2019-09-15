@@ -106,7 +106,8 @@
                 <th>Date Added</th>
               </thead>
               <tbody class="text-white">
-                <tr *ngFor="let client of clients.slice(0, 4)" [routerLink]="['/admin/clients/view', client.id]" class="cursor-pointer">
+                <tr *ngFor="let client of clients.slice(0, 4)" [routerLink]="['/admin/clients/view', client.id]"
+                  class="cursor-pointer">
                   <td>{{client?.firstName}} {{client?.lastName}}</td>
                   <td>{{client.lawFirm?.companyName}}</td>
                   <td>{{client.contact?.firstName}}</td>
@@ -151,4 +152,5 @@
     </div>
   </div>
 </div>
-<app-new-event #newEvent (newBookingInput)="addBooking($event)"></app-new-event>
+<app-new-event #newEvent (newBookingInput)="addBooking($event)" (newBottomSheetClient)="openBottomSheet($event)">
+</app-new-event>
