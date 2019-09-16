@@ -63,6 +63,7 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
   lawFirmId: string;
   lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
   isSaving = false;
+  isLoading = false;
   constructor(private injector: Injector,
     private route: ActivatedRoute,
     private lawFimService: LawFirmServiceProxy,
@@ -79,9 +80,14 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
 
 
   getLawFirm() {
-    this.lawFimService.getDetail(this.lawFirmId).subscribe((result) => {
-      this.lawFirm = result;
-    });
+    this.isLoading = true;
+    this.lawFimService.getDetail(this.lawFirmId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.lawFirm = result;
+      });
   }
   addContact() {
     this.newContactRef.open();

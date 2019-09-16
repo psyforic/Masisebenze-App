@@ -14,6 +14,9 @@
             </div>
 
             <div class="card-body">
+                <div class="example-loading-shade" *ngIf="isLoading">
+                    <mat-spinner *ngIf="isLoading"></mat-spinner>
+                </div>
                 <mat-tab-group mat-stretch-tabs>
 
                     <mat-tab>

@@ -198,6 +198,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
             .pipe(finalize(() => {
               this.photoUrl = res;
               this.isUploading = false;
+              this.client.profilePictureId = res;
               this.notify.success('Profile Pic Updated Successfully');
             })).subscribe(() => {
             });
