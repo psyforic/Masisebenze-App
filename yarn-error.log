@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add pizzip-utils
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Lundi Mapundu\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\nodejs;C:\WINDOWS\System32\OpenSSH;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\ManagementStudio;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn;C:\Program Files\PostgreSQL\11\bin;C:\Program Files\PostgreSQL\11\lib;C:\Android\Sdk\platform-tools;C:\Program Files (x86)\Yarn\bin;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32;C:\tizen-sdk\tools\ide\bin;C:\Users\Lundi Mapundu\AppData\Roaming\npm;C:\Users\Lundi Mapundu\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Android\Sdk\platform-tools;C:\Users\Lundi Mapundu\.dotnet\tools;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Users\Lundi Mapundu\AppData\Local\Programs\Azure Data Studio\bin;C:\Users\Lundi Mapundu\AppData\Local\Yarn\bin
@@ -14,7 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Lundi Mapundu\source\repos\MasisebenzeFCE\masisebenze\node_modules\xml-js\types'
+  Error: https://registry.yarnpkg.com/pizzip-utils: Not found
+      at Request.params.callback [as _callback] (C:\Program Files (x86)\Yarn\lib\cli.js:65939:18)
+      at Request.self.callback (C:\Program Files (x86)\Yarn\lib\cli.js:140464:22)
+      at Request.emit (events.js:189:13)
+      at Request.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141436:10)
+      at Request.emit (events.js:189:13)
+      at IncomingMessage.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141358:12)
+      at Object.onceWrapper (events.js:277:13)
+      at IncomingMessage.emit (events.js:194:15)
+      at endReadableNT (_stream_readable.js:1125:12)
+      at process._tickCallback (internal/process/next_tick.js:63:19)
 
 npm manifest: 
   {
@@ -62,6 +72,8 @@ npm manifest:
       "@types/toastr": "^2.1.33",
       "abp-ng2-module": "^4.0.0",
       "abp-web-resources": "^3.8.2",
+      "angular-expressions": "^1.0.0",
+      "angular-vertical-timeline": "^0.6.0",
       "animate.css": "^3.5.2",
       "arrive": "2.4.1",
       "block-ui": "^2.70.1",
@@ -71,29 +83,38 @@ npm manifest:
       "chart.js": "^2.6.0",
       "chartist": "0.11.2",
       "core-js": "^2.4.1",
-      "docx": "4.3.0",
+      "docx": "^5.0.0-rc5",
+      "docxtemplater": "^3.14.3",
       "famfamfam-flags": "^1.0.0",
-      "file-saver": "^1.3.8",
+      "file-saver": "^2.0.2",
       "firebase": "^6.6.0",
       "flot": "^0.8.0-alpha",
       "font-awesome": "^4.7.0",
+      "fs": "^0.0.1-security",
+      "generate-docx": "^2.1.1",
       "hammerjs": "^2.0.8",
+      "highlightjs": "^9.12.0",
       "jquery": "^3.1.1",
       "jquery-countto": "^1.2.0",
       "jquery-migrate": "^3.0.0",
       "jquery-slimscroll": "^1.3.8",
       "jquery-sparkline": "^2.4.0",
       "js-cookie": "^2.1.4",
+      "jszip": "^3.2.2",
+      "jszip-utils": "^0.1.0",
       "lodash": "^4.17.4",
       "moment": "^2.18.1",
       "moment-timezone": "^0.5.13",
       "morris.js": "^0.5.0",
       "ngx-bootstrap": "^3.0.0",
+      "ngx-image-cropper": "^1.4.1",
       "ngx-material-timepicker": "^5.0.0",
       "ngx-pagination": "^3.0.3",
       "ngx-quill": "^7.3.0",
+      "ngx-webcam": "^0.2.6",
       "node-waves": "^0.7.5",
       "perfect-scrollbar": "1.1.0",
+      "pizzip": "^3.0.6",
       "popper.js": "1.15.0",
       "push.js": "1.0.9",
       "quill": "^1.3.6",
@@ -1204,6 +1225,16 @@ Lockfile:
   amdefine@>=0.0.4:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+  
+  angular-expressions@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/angular-expressions/-/angular-expressions-1.0.0.tgz#3430436e4d8108ff7cf30c6b8b9dbfa7b437d395"
+    integrity sha512-ihYJFCr1S7vfBJTS7dE+zGQ3oNAMIL+NJ5aWs52Cz7frmvpVVA1NTMXBP9BFSP/Wk/zIJBeYn2o5Fo8txCka3A==
+  
+  angular-vertical-timeline@^0.6.0:
+    version "0.6.0"
+    resolved "https://registry.yarnpkg.com/angular-vertical-timeline/-/angular-vertical-timeline-0.6.0.tgz#5e949741c2a2ceee37a30c5245195c86745da90d"
+    integrity sha1-XpSXQcKizu43owxSRRlchnRdqQ0=
   
   animate.css@^3.5.2:
     version "3.6.1"
@@ -2755,6 +2786,20 @@ Lockfile:
       xml "^1.0.1"
       xml-js "^1.6.8"
   
+  docxtemplater@3.9.6:
+    version "3.9.6"
+    resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.9.6.tgz#c1e2ae876074df30f089bb30a965b0a6bf400ec2"
+    integrity sha512-745WBeA75UIeeoT2kSqx/Lp0UwRw0zkJpzRO8fMVWK0HTsTGm/6DOEwbsF3PqfMungvtsHYRKjxgdziKRm89Bw==
+    dependencies:
+      xmldom "^0.1.27"
+  
+  docxtemplater@^3.14.3:
+    version "3.14.3"
+    resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.14.3.tgz#d0c90c7b3e859531ad875c9cd72763451e2f01d0"
+    integrity sha512-rHOIJ+/QEU71My81F0qG7ACKnjINCcjeYyZXMhbh5jvDmjwlDtBW10Wetjz6PEUja5vTlc1e9WrnkCFt+iEXFw==
+    dependencies:
+      xmldom "^0.1.27"
+  
   dom-serialize@^2.2.0:
     version "2.2.1"
     resolved "https://registry.yarnpkg.com/dom-serialize/-/dom-serialize-2.2.1.tgz#562ae8999f44be5ea3076f5419dcd59eb43ac95b"
@@ -3487,6 +3532,11 @@ Lockfile:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   
+  fs@^0.0.1-security:
+    version "0.0.1-security"
+    resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+    integrity sha1-invTcYa23d84E/I4WLV+yq9eQdQ=
+  
   fsevents@^1.1.2:
     version "1.2.4"
     resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.4.tgz#f41dcb1af2582af3692da36fc55cbd8e1041c426"
@@ -3529,6 +3579,14 @@ Lockfile:
       string-width "^1.0.1"
       strip-ansi "^3.0.1"
       wide-align "^1.1.0"
+  
+  generate-docx@^2.1.1:
+    version "2.1.1"
+    resolved "https://registry.yarnpkg.com/generate-docx/-/generate-docx-2.1.1.tgz#df374d3a77126e9cbb6051ea18f509a9d938722f"
+    integrity sha512-/XaeasppP5NoEf/jL6faMVke6AuP3dLlyzN3NdzQxr4QHUbzt2hc7LgVGAy2DgFxtVQNic7NHTHA4+eCwRv+VA==
+    dependencies:
+      docxtemplater "3.9.6"
+      jszip "2.6.1"
   
   genfun@^5.0.0:
     version "5.0.0"
@@ -3809,6 +3867,11 @@ Lockfile:
     dependencies:
       inherits "^2.0.3"
       minimalistic-assert "^1.0.0"
+  
+  highlightjs@^9.12.0:
+    version "9.12.0"
+    resolved "https://registry.yarnpkg.com/highlightjs/-/highlightjs-9.12.0.tgz#9b84eb42a7aa8488eb69ac79fec44cf495bf72a1"
+    integrity sha512-eAhWMtDZaOZIQdxIP4UEB1vNp/CVXQPdMSihTSuaExhFIRC0BVpXbtP3mTP1hDoGOyh7nbB3cuC3sOPhG5wGDA==
   
   hmac-drbg@^1.0.0:
     version "1.0.1"
@@ -4585,6 +4648,18 @@ Lockfile:
       json-schema "0.2.3"
       verror "1.10.0"
   
+  jszip-utils@^0.1.0:
+    version "0.1.0"
+    resolved "https://registry.yarnpkg.com/jszip-utils/-/jszip-utils-0.1.0.tgz#8c04cdedcdb291e83f055f5b261b3a3188ceca0b"
+    integrity sha512-tBNe0o3HAf8vo0BrOYnLPnXNo5A3KsRMnkBFYjh20Y3GPYGfgyoclEMgvVchx0nnL+mherPi74yLPIusHUQpZg==
+  
+  jszip@2.6.1:
+    version "2.6.1"
+    resolved "https://registry.yarnpkg.com/jszip/-/jszip-2.6.1.tgz#b88f3a7b2e67a2a048152982c7a3756d9c4828f0"
+    integrity sha1-uI86ey5noqBIFSmCx6N1bZxIKPA=
+    dependencies:
+      pako "~1.0.2"
+  
   jszip@^3.1.3:
     version "3.1.5"
     resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.1.5.tgz#e3c2a6c6d706ac6e603314036d43cd40beefdf37"
@@ -4595,7 +4670,7 @@ Lockfile:
       pako "~1.0.2"
       readable-stream "~2.0.6"
   
-  jszip@^3.1.5:
+  jszip@^3.1.5, jszip@^3.2.2:
     version "3.2.2"
     resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
     integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
@@ -5257,6 +5332,13 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.0.0.tgz#563368404dd71962e2ef8eee21794c6aeaab4490"
   
+  ngx-image-cropper@^1.4.1:
+    version "1.4.1"
+    resolved "https://registry.yarnpkg.com/ngx-image-cropper/-/ngx-image-cropper-1.4.1.tgz#66d9bd05b588322407fe1f7b845aa80c7e8dac2e"
+    integrity sha512-AeCIXj65V3V8jaYFc6MycRa/BCBv5CtIydSuVFnRQKL6LZzbqnyLvyEmpYvKJ4k9BuspfjeCkBeQXQWUVp0QqQ==
+    dependencies:
+      tslib "^1.9.0"
+  
   ngx-material-timepicker@^5.0.0:
     version "5.0.0"
     resolved "https://registry.yarnpkg.com/ngx-material-timepicker/-/ngx-material-timepicker-5.0.0.tgz#453a1c7912476df088d69d472a5d961627ea5579"
@@ -5274,6 +5356,13 @@ Lockfile:
     version "7.3.0"
     resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-7.3.0.tgz#f092f197edc0e62b5b5907fbf378bf570674864f"
     integrity sha512-f21fkV5gL1xbuXJG0UGXMzwCr0V+A1zfMrO328i0YcYdmSNDnsBpaLebT/TKyPwUDXnawoGMYqaediYUB5Okgw==
+    dependencies:
+      tslib "^1.9.0"
+  
+  ngx-webcam@^0.2.6:
+    version "0.2.6"
+    resolved "https://registry.yarnpkg.com/ngx-webcam/-/ngx-webcam-0.2.6.tgz#a2ae07a0024d9cb72fbd6f0fc4a3cf617030a6ea"
+    integrity sha512-syf8YwjOswRyTq55Cw7rrjFAmdtkmVs5BGiifuudqYC9u8hVGMYiZNalVqTbNp7DMh8zy7qRzuACnJhKhbnmRA==
     dependencies:
       tslib "^1.9.0"
   
@@ -5912,6 +6001,13 @@ Lockfile:
   pinkie@^2.0.0:
     version "2.0.4"
     resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
+  
+  pizzip@^3.0.6:
+    version "3.0.6"
+    resolved "https://registry.yarnpkg.com/pizzip/-/pizzip-3.0.6.tgz#223485511f9e23abbb2888fd67734e12fc7861a8"
+    integrity sha512-CYmQJQ6ShNhScp2zrpGetRfamQ2CtUdsfcXaauqsQ0h/HVdQTTlHNUaNzMO0i+l8XTNctHJ6PrmFP+YZoF4iZw==
+    dependencies:
+      pako "~1.0.2"
   
   pkg-dir@^3.0.0:
     version "3.0.0"
@@ -8186,6 +8282,11 @@ Lockfile:
   xmlbuilder@~9.0.1:
     version "9.0.7"
     resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+  
+  xmldom@^0.1.27:
+    version "0.1.27"
+    resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.27.tgz#d501f97b3bdb403af8ef9ecc20573187aadac0e9"
+    integrity sha1-1QH5ezvbQDr4757MIFcxh6rawOk=
   
   xmlhttprequest-ssl@~1.5.4:
     version "1.5.5"

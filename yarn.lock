@@ -1058,6 +1058,11 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+angular-expressions@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/angular-expressions/-/angular-expressions-1.0.0.tgz#3430436e4d8108ff7cf30c6b8b9dbfa7b437d395"
+  integrity sha512-ihYJFCr1S7vfBJTS7dE+zGQ3oNAMIL+NJ5aWs52Cz7frmvpVVA1NTMXBP9BFSP/Wk/zIJBeYn2o5Fo8txCka3A==
+
 angular-vertical-timeline@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/angular-vertical-timeline/-/angular-vertical-timeline-0.6.0.tgz#5e949741c2a2ceee37a30c5245195c86745da90d"
@@ -2613,6 +2618,20 @@ docx@^5.0.0-rc5:
     xml "^1.0.1"
     xml-js "^1.6.8"
 
+docxtemplater@3.9.6:
+  version "3.9.6"
+  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.9.6.tgz#c1e2ae876074df30f089bb30a965b0a6bf400ec2"
+  integrity sha512-745WBeA75UIeeoT2kSqx/Lp0UwRw0zkJpzRO8fMVWK0HTsTGm/6DOEwbsF3PqfMungvtsHYRKjxgdziKRm89Bw==
+  dependencies:
+    xmldom "^0.1.27"
+
+docxtemplater@^3.14.3:
+  version "3.14.3"
+  resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.14.3.tgz#d0c90c7b3e859531ad875c9cd72763451e2f01d0"
+  integrity sha512-rHOIJ+/QEU71My81F0qG7ACKnjINCcjeYyZXMhbh5jvDmjwlDtBW10Wetjz6PEUja5vTlc1e9WrnkCFt+iEXFw==
+  dependencies:
+    xmldom "^0.1.27"
+
 dom-serialize@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/dom-serialize/-/dom-serialize-2.2.1.tgz#562ae8999f44be5ea3076f5419dcd59eb43ac95b"
@@ -2679,6 +2698,11 @@ elliptic@^6.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
+
+emitter-component@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/emitter-component/-/emitter-component-1.1.1.tgz#065e2dbed6959bf470679edabeaf7981d1003ab6"
+  integrity sha1-Bl4tvtaVm/RwZ57avq95gdEAOrY=
 
 emoji-data-css@^1.0.1:
   version "1.0.1"
@@ -3345,6 +3369,11 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
 
+fs@^0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+  integrity sha1-invTcYa23d84E/I4WLV+yq9eQdQ=
+
 fsevents@^1.1.2:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-1.2.4.tgz#f41dcb1af2582af3692da36fc55cbd8e1041c426"
@@ -3387,6 +3416,14 @@ gauge@~2.7.3:
     string-width "^1.0.1"
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
+
+generate-docx@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/generate-docx/-/generate-docx-2.1.1.tgz#df374d3a77126e9cbb6051ea18f509a9d938722f"
+  integrity sha512-/XaeasppP5NoEf/jL6faMVke6AuP3dLlyzN3NdzQxr4QHUbzt2hc7LgVGAy2DgFxtVQNic7NHTHA4+eCwRv+VA==
+  dependencies:
+    docxtemplater "3.9.6"
+    jszip "2.6.1"
 
 genfun@^5.0.0:
   version "5.0.0"
@@ -4448,6 +4485,18 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jszip-utils@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/jszip-utils/-/jszip-utils-0.1.0.tgz#8c04cdedcdb291e83f055f5b261b3a3188ceca0b"
+  integrity sha512-tBNe0o3HAf8vo0BrOYnLPnXNo5A3KsRMnkBFYjh20Y3GPYGfgyoclEMgvVchx0nnL+mherPi74yLPIusHUQpZg==
+
+jszip@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-2.6.1.tgz#b88f3a7b2e67a2a048152982c7a3756d9c4828f0"
+  integrity sha1-uI86ey5noqBIFSmCx6N1bZxIKPA=
+  dependencies:
+    pako "~1.0.2"
+
 jszip@^3.1.3:
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.1.5.tgz#e3c2a6c6d706ac6e603314036d43cd40beefdf37"
@@ -4458,7 +4507,7 @@ jszip@^3.1.3:
     pako "~1.0.2"
     readable-stream "~2.0.6"
 
-jszip@^3.1.5:
+jszip@^3.1.5, jszip@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
   integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
@@ -5789,6 +5838,13 @@ pinkie-promise@^2.0.0:
 pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
+
+pizzip@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/pizzip/-/pizzip-3.0.6.tgz#223485511f9e23abbb2888fd67734e12fc7861a8"
+  integrity sha512-CYmQJQ6ShNhScp2zrpGetRfamQ2CtUdsfcXaauqsQ0h/HVdQTTlHNUaNzMO0i+l8XTNctHJ6PrmFP+YZoF4iZw==
+  dependencies:
+    pako "~1.0.2"
 
 pkg-dir@^3.0.0:
   version "3.0.0"
@@ -7160,6 +7216,13 @@ stream-shift@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/stream-shift/-/stream-shift-1.0.0.tgz#d5c752825e5367e786f78e18e445ea223a155952"
 
+stream@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/stream/-/stream-0.0.2.tgz#7f5363f057f6592c5595f00bc80a27f5cec1f0ef"
+  integrity sha1-f1Nj8Ff2WSxVlfALyAon9c7B8O8=
+  dependencies:
+    emitter-component "^1.1.1"
+
 streamroller@0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/streamroller/-/streamroller-0.7.0.tgz#a1d1b7cf83d39afb0d63049a5acbf93493bdf64b"
@@ -8063,6 +8126,11 @@ xmlbuilder@>=1.0.0:
 xmlbuilder@~9.0.1:
   version "9.0.7"
   resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
+
+xmldom@^0.1.27:
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.1.27.tgz#d501f97b3bdb403af8ef9ecc20573187aadac0e9"
+  integrity sha1-1QH5ezvbQDr4757MIFcxh6rawOk=
 
 xmlhttprequest-ssl@~1.5.4:
   version "1.5.5"

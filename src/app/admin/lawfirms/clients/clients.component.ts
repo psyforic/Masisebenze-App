@@ -14,6 +14,7 @@ import { Packer } from 'docx';
 // import { saveAs } from 'file-saver/FileSaver';
 import { saveAs } from 'file-saver';
 import { NewClientComponent } from './new-client/new-client.component';
+import { DocumentCreator } from '@app/admin/partials/document-creator';
 
 @Component({
   selector: 'app-clients',
@@ -53,13 +54,21 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.workData.description = 'Provide';
     this.medicalData.currentHistory = 'Provide';
     const doc = reportGenerator.create([entity, address, this.workData, this.medicalData]);
+    const docCreator = new DocumentCreator();
+    // Packer.toBlob(doc).then(blob => {
+    //   console.log(blob);
+    //   saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
+    //   console.log('Document created successfully');
+    // });
 
-    const packer = new Packer();
-    Packer.toBlob(doc).then(blob => {
-      console.log(blob);
-      saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
-      console.log('Document created successfully');
-    });
+    // saveAs(report, entity.firstName + '_' + entity.lastName + '.docx');
+
+
+    // const blob = docCreator.generate();
+    // saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
+    docCreator.generateDoc();
+    console.log('Document created successfully');
+
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
