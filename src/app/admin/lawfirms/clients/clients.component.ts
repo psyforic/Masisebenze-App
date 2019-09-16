@@ -5,7 +5,10 @@ import {
   ClientListDto,
   ClientServiceProxy,
   WorkHistoryListDto,
-  MedicalHistoryListDto
+  MedicalHistoryListDto,
+  CreateAddressInput,
+  MedicalHistoryDetailOutput,
+  WorkHistoryDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
@@ -30,6 +33,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   dataSource: MatTableDataSource<ClientListDto>;
   displayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
   clients: ClientListDto[] = [];
+  client: ClientListDto = new ClientListDto();
   workData: WorkHistoryListDto = new WorkHistoryListDto();
   medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
   constructor(private injector: Injector,
@@ -47,13 +51,43 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   generate(entity: ClientListDto) {
     this.getMedicalHistory(entity.id);
     this.getWorkHistory(entity.id);
-    const address = '29  7th Avenue, Newton Park';
-    const reportGenerator = new ReportGenerator();
+    this.getClientHistory(entity.id);
+    const address: CreateAddressInput = new CreateAddressInput();
+    const medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
+    const workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
+
+    this.clientService.getDetail(entity.id)
+      .pipe(finalize(() => {
+        this.clientService.getMedicalHistoryByClientId(entity.id)
+          .subscribe((result) => {
+            this.medicalData = result;
+            console.log(result);
+          });
+        this.clientService.getWorkHistoryByClientId(entity.id)
+          .subscribe((result) => {
+            this.workData = result;
+            console.log(result);
+          });
+      }))
+      .subscribe((result) => {
+        address.line1 = result.address.line1;
+        address.line2 = result.address.line2;
+        address.city = result.address.city;
+        address.postalCode = result.address.postalCode;
+        address.province = result.address.province;
+        console.log(result.address);
+
+      });
+
+
+    // const address = '29  7th Avenue, Newton Park';
+    // const reportGenerator = new ReportGenerator();
     console.log('WorData', this.workData);
     console.log('MedicalData', this.medicalData);
-    this.workData.description = 'Provide';
-    this.medicalData.currentHistory = 'Provide';
-    const doc = reportGenerator.create([entity, address, this.workData, this.medicalData]);
+    console.log('ClientData', entity);
+    // this.workData.description = 'Provide';
+    // this.medicalData.currentHistory = 'Provide';
+    // const doc = reportGenerator.create([entity, address, this.workData, this.medicalData]);
     const docCreator = new DocumentCreator();
     // Packer.toBlob(doc).then(blob => {
     //   console.log(blob);
@@ -66,24 +100,37 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
     // const blob = docCreator.generate();
     // saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
-    const today = new Date('dd-mm-yyyy').toString();
-    docCreator.generateDoc([entity, this.medicalData, this.workData], today);
-    console.log('Document created successfully');
+    setTimeout(() => {
+      const today = new Date('dd-mm-yyyy').toString();
+      docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
+      console.log('Document created successfully');
+    }, 5000);
 
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
+      .pipe(finalize(() => {
+      }))
       .subscribe((result) => {
         this.medicalData = result;
+        console.log(result);
       });
   }
   getWorkHistory(id) {
     this.clientService.getWorkHistoryByClientId(id)
+      .pipe(finalize(() => {
+
+      }))
       .subscribe((result) => {
         this.workData = result;
       });
   }
-
+  getClientHistory(id) {
+    this.clientService.getById(id)
+      .subscribe((result) => {
+        this.client = result;
+      });
+  }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {

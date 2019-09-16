@@ -89,9 +89,19 @@
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <mat-form-field class="example-full-width">
+                                                        <!-- <mat-form-field class="example-full-width">
                                                             <input matInput placeholder="Case Number" type="text"
                                                                 name="caseNumber" [(ngModel)]="client.caseNumber">
+                                                        </mat-form-field> -->
+
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="picker" id="dateValue"
+                                                                placeholder="Date of Injury"
+                                                                [(ngModel)]="client.dateOfInjury">
+                                                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #picker></mat-datepicker>
+
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
@@ -280,6 +290,7 @@
                                                         <input matInput placeholder="Court Date" type="text"
                                                             value="{{client?.courtDate | date: 'short'}}" disabled>
                                                     </mat-form-field>
+
                                                 </div>
                                             </div>
                                         </form>

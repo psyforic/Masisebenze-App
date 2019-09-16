@@ -7,8 +7,9 @@ export class DocumentCreator {
 
     generateDoc(data, today) {
         const clientData = data[0];
-        const workData = data[1];
-        const medicalData = data[2];
+        const address = data[1];
+        const workData = data[2];
+        const medicalData = data[3];
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
         }
@@ -21,16 +22,16 @@ export class DocumentCreator {
                 fullName: clientData.firstName + ' ' + clientData.lastName,
                 dateOfBirth: clientData.dob,
                 age: clientData.age,
-                line1: '',
-                line2: 'clientData.address.line2',
-                city: 'clientData.address.city',
-                postalCode: 'clientData.address.postalCode',
+                line1: address.line1,
+                line2: address.line2,
+                city: address.city,
+                postalCode: address.postalCode,
                 dateOfInjury: clientData.dateOfInjury,
                 assessmentDate: clientData.assessmentDate,
                 today: today,
-                attorney: clientData.attorney.firstName + ' ' + clientData.attorney.lastName,
-                lawFirm: clientData.lawFirm.companyName,
-                lawFirmCity: clientData.lawFirm.physicalAddress.city,
+                attorney: 'my Attorney',
+                lawFirm: 'clientData.lawFirm.companyName,',
+                lawFirmCity: 'clientData.lawFirm.physicalAddress.city,',
                 earlyChildhood: clientData.earlyChildhood,
                 family: clientData.family,
                 homeEnvironment: clientData.homeEnvironment,
@@ -63,7 +64,7 @@ export class DocumentCreator {
                 type: 'blob',
                 mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             });
-            saveAs(out, clientData.firstName + ' ' + clientData.lastName + '.docx');
+            saveAs(out, 'report.docx');
         });
     }
 }
