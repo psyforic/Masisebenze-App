@@ -66,7 +66,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
     // const blob = docCreator.generate();
     // saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
-    docCreator.generateDoc();
+    const today = new Date('dd-mm-yyyy').toString();
+    docCreator.generateDoc([entity, this.medicalData, this.workData], today);
     console.log('Document created successfully');
 
   }
