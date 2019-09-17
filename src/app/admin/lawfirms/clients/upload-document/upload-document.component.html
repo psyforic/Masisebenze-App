@@ -1,0 +1,74 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="card-title">{{client.firstName}} {{client.lastName}}</h1>
+        <div class="header-toolbar">
+          <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary" matTooltip="Back">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </button>
+        </div>
+      </div>
+      <form [formGroup]="documentForm">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field>
+                <mat-label>Parent Document</mat-label>
+                <mat-select required (selectionChange)="selectedId($event)" formControlName="parentDocId" required>
+                  <mat-option *ngFor="let document of documents" value="{{document.id}}">
+                    {{document.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="documentForm.get('parentDocId').touched
+                                        && documentForm.get('parentDocId').hasError('required')">
+                  Parent Document is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6">
+              <mat-form-field>
+                <mat-label>File Name</mat-label>
+                <input type="text" matInput formControlName="name">
+                <mat-error *ngIf="documentForm.get('name').touched
+                                        && documentForm.get('name').hasError('required')">
+                  File Name is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field>
+                <input required type="text" matInput placeholder="File Author" formControlName="authorName" required>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker" formControlName="authorDate" placeholder="Date Authored"
+                  name="date" readonly>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row pull-right">
+            <div class="col-lg-12">
+              <button class="file btn btn-primary btn-round">Choose File
+                <i class="fa fa-cloud-upload"></i>
+                <input type="file" name="file" class="form-control-file" accept=".pdf" />
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

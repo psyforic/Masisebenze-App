@@ -73,7 +73,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       }))
       .subscribe((result) => {
         this.bookings = result.items;
-        console.log(this.bookings);
       });
   }
   getNumFiles() {
