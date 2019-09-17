@@ -16,6 +16,9 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
   @Output() editedLawFirm = new EventEmitter();
   closeResult: string;
   lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
+  lawFirmId: string;
+  physicalAddressId: number;
+  postalAddressId: number;
   public lawFirmForm: FormGroup;
   constructor(
     private injector: Injector,
@@ -45,6 +48,9 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
     this.lawFirmService.getDetail(id).pipe(finalize(() => {
     })).subscribe((result) => {
       this.lawFirm = result;
+      this.lawFirmId = result.id;
+      this.physicalAddressId = this.lawFirm.physicalAddressId;
+      this.postalAddressId = this.lawFirm.postalAddressId;
       this.lawFirmForm.patchValue(result);
       this.lawFirmForm.get('line1').setValue(result.physicalAddress.line1);
       this.lawFirmForm.get('line2').setValue(result.physicalAddress.line2);
@@ -71,6 +77,9 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
     this.lawFirm.physicalAddress.city = this.lawFirmForm.get('city').value;
     this.lawFirm.physicalAddress.postalCode = this.lawFirmForm.get('postalCode').value;
     this.lawFirm.physicalAddress.province = this.lawFirmForm.get('province').value;
+    this.lawFirm.id = this.lawFirmId;
+    this.lawFirm.physicalAddressId = this.physicalAddressId;
+    this.lawFirm.postalAddressId = this.postalAddressId;
     this.lawFirmService.editLawFirm(this.lawFirm)
       .pipe(finalize(() => { }))
       .subscribe(() => {
