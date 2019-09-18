@@ -23,6 +23,7 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
   document: CreateDocumentInput = new CreateDocumentInput();
   documents: DocumentListDto[] = [];
   documentForm: FormGroup;
+  parentDocId: string;
   constructor(private injector: Injector,
     private route: ActivatedRoute,
     private clientService: ClientServiceProxy,
@@ -59,7 +60,10 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
         console.log(result);
       });
   }
-  selectedId($event) {
+  selectedId(event) {
+    this.parentDocId = event.value;
+  }
+  save() {
 
   }
 

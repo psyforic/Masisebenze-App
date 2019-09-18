@@ -9,7 +9,7 @@
           </button>
         </div>
       </div>
-      <form [formGroup]="documentForm">
+      <form [formGroup]="documentForm" novalidate (ngSubmit)="save()">
         <div class="card-body">
           <div class="row">
             <div class="col-lg-6">
@@ -54,19 +54,20 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="row pull-right">
-            <div class="col-lg-12">
-              <button class="file btn btn-primary btn-round">Choose File
-                <i class="fa fa-cloud-upload"></i>
-                <input type="file" name="file" class="form-control-file" accept=".pdf" />
-              </button>
-
-            </div>
-          </div>
         </div>
 
-        <div class="card-footer">
-
+        <div>
+          <div class="card-header">
+            <div class="card-title">
+              <button [disabled]="!documentForm.valid" class="file btn btn-primary btn-round">Choose File
+                <i class="fa fa-cloud-upload"></i>
+                <input [disabled]="!documentForm.valid" type="file" name="file" class="form-control-file" accept=".pdf" />
+              </button>
+            </div>
+            <div class="header-toolbar">
+              <button type="submit" mat-raised-button color="primary" class="pull-right"[disabled]="!documentForm.valid" >Save</button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
