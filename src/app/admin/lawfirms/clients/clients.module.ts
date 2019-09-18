@@ -12,7 +12,9 @@ import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import { CameraModalComponent } from './camera-modal/camera-modal.component';
 import { WebcamModule } from 'ngx-webcam';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { UploadDocumentComponent } from './upload-document/upload-document.component';
 
+import { MatFileUploadModule } from 'angular-material-fileupload';
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -20,7 +22,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     NewClientComponent,
     ViewClientComponent,
     ViewActivityLogComponent,
-    CameraModalComponent
+    CameraModalComponent,
+    UploadDocumentComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +32,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     BsDatepickerModule.forRoot(),
     VerticalTimelineModule,
     WebcamModule,
-    ImageCropperModule
+    ImageCropperModule,
+    MatFileUploadModule
   ],
   exports: [
     NewClientComponent

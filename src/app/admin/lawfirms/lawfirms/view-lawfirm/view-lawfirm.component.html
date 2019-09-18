@@ -4,16 +4,21 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    {{lawFirm.companyName}}
+                    <button mat-icon-button [routerLink]="['../../']">
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button> {{lawFirm.companyName}}
                 </div>
                 <div class="header-toolbar">
-                    <button [routerLink]="['../../']" mat-icon-button color="primary" matTooltip="Back">
+                    <!-- <button [routerLink]="['../../']" mat-icon-button color="primary" matTooltip="Back">
                         <mat-icon>arrow_back</mat-icon>
-                    </button>
+                    </button> -->
                 </div>
             </div>
 
             <div class="card-body">
+                <div class="example-loading-shade" *ngIf="isLoading">
+                    <mat-spinner *ngIf="isLoading"></mat-spinner>
+                </div>
                 <mat-tab-group mat-stretch-tabs>
 
                     <mat-tab>

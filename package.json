@@ -44,6 +44,7 @@
     "abp-ng2-module": "^4.0.0",
     "abp-web-resources": "^3.8.2",
     "angular-expressions": "^1.0.0",
+    "angular-material-fileupload": "^2.0.0",
     "angular-vertical-timeline": "^0.6.0",
     "animate.css": "^3.5.2",
     "arrive": "2.4.1",

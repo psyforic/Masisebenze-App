@@ -61,12 +61,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.clientService.getMedicalHistoryByClientId(entity.id)
           .subscribe((result) => {
             this.medicalData = result;
-            console.log(result);
+            console.log(this.medicalData);
           });
         this.clientService.getWorkHistoryByClientId(entity.id)
           .subscribe((result) => {
             this.workData = result;
-            console.log(result);
+            console.log(this.workData);
           });
       }))
       .subscribe((result) => {
@@ -79,27 +79,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
       });
 
-
-    // const address = '29  7th Avenue, Newton Park';
-    // const reportGenerator = new ReportGenerator();
-    console.log('WorData', this.workData);
-    console.log('MedicalData', this.medicalData);
-    console.log('ClientData', entity);
-    // this.workData.description = 'Provide';
-    // this.medicalData.currentHistory = 'Provide';
-    // const doc = reportGenerator.create([entity, address, this.workData, this.medicalData]);
     const docCreator = new DocumentCreator();
-    // Packer.toBlob(doc).then(blob => {
-    //   console.log(blob);
-    //   saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
-    //   console.log('Document created successfully');
-    // });
-
-    // saveAs(report, entity.firstName + '_' + entity.lastName + '.docx');
-
-
-    // const blob = docCreator.generate();
-    // saveAs(blob, entity.firstName + '_' + entity.lastName + '.docx');
     setTimeout(() => {
       const today = new Date('dd-mm-yyyy').toString();
       docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);

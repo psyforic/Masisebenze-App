@@ -427,6 +427,66 @@ export class AttorneyServiceProxy {
     }
 
     /**
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAttorneyListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attorney/GetAll?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfAttorneyListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfAttorneyListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfAttorneyListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfAttorneyListDto.fromJS(resultData200) : new PagedResultDtoOfAttorneyListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfAttorneyListDto>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -638,66 +698,6 @@ export class AttorneyServiceProxy {
             }));
         }
         return _observableOf<AttorneyListDto>(<any>null);
-    }
-
-    /**
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAttorneyListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Attorney/GetAll?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAll(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfAttorneyListDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfAttorneyListDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfAttorneyListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfAttorneyListDto.fromJS(resultData200) : new PagedResultDtoOfAttorneyListDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfAttorneyListDto>(<any>null);
     }
 
     /**
@@ -7888,7 +7888,62 @@ export interface ICreateAttorneyInput {
     fax: string | undefined;
 }
 
-export class AttorneyDetailOutput implements IAttorneyDetailOutput {
+export class PagedResultDtoOfAttorneyListDto implements IPagedResultDtoOfAttorneyListDto {
+    totalCount: number | undefined;
+    items: AttorneyListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfAttorneyListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AttorneyListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfAttorneyListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfAttorneyListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfAttorneyListDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfAttorneyListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfAttorneyListDto {
+    totalCount: number | undefined;
+    items: AttorneyListDto[] | undefined;
+}
+
+export class AttorneyListDto implements IAttorneyListDto {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     firstName: string | undefined;
@@ -7906,7 +7961,7 @@ export class AttorneyDetailOutput implements IAttorneyDetailOutput {
     creatorUserId: number | undefined;
     id: string | undefined;
 
-    constructor(data?: IAttorneyDetailOutput) {
+    constructor(data?: IAttorneyListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -7936,9 +7991,9 @@ export class AttorneyDetailOutput implements IAttorneyDetailOutput {
         }
     }
 
-    static fromJS(data: any): AttorneyDetailOutput {
+    static fromJS(data: any): AttorneyListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new AttorneyDetailOutput();
+        let result = new AttorneyListDto();
         result.init(data);
         return result;
     }
@@ -7964,15 +8019,15 @@ export class AttorneyDetailOutput implements IAttorneyDetailOutput {
         return data; 
     }
 
-    clone(): AttorneyDetailOutput {
+    clone(): AttorneyListDto {
         const json = this.toJSON();
-        let result = new AttorneyDetailOutput();
+        let result = new AttorneyListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IAttorneyDetailOutput {
+export interface IAttorneyListDto {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     firstName: string | undefined;
@@ -8414,6 +8469,7 @@ export class Client implements IClient {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
@@ -8457,6 +8513,7 @@ export class Client implements IClient {
             this.caseNumber = data["caseNumber"];
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
+            this.title = data["title"];
             this.idNumber = data["idNumber"];
             this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.addressId = data["addressId"];
@@ -8500,6 +8557,7 @@ export class Client implements IClient {
         data["caseNumber"] = this.caseNumber;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["title"] = this.title;
         data["idNumber"] = this.idNumber;
         data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["addressId"] = this.addressId;
@@ -8543,6 +8601,7 @@ export interface IClient {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
@@ -8566,7 +8625,7 @@ export interface IClient {
     id: string | undefined;
 }
 
-export class AttorneyListDto implements IAttorneyListDto {
+export class AttorneyDetailOutput implements IAttorneyDetailOutput {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     firstName: string | undefined;
@@ -8584,7 +8643,7 @@ export class AttorneyListDto implements IAttorneyListDto {
     creatorUserId: number | undefined;
     id: string | undefined;
 
-    constructor(data?: IAttorneyListDto) {
+    constructor(data?: IAttorneyDetailOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -8614,9 +8673,9 @@ export class AttorneyListDto implements IAttorneyListDto {
         }
     }
 
-    static fromJS(data: any): AttorneyListDto {
+    static fromJS(data: any): AttorneyDetailOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new AttorneyListDto();
+        let result = new AttorneyDetailOutput();
         result.init(data);
         return result;
     }
@@ -8642,15 +8701,15 @@ export class AttorneyListDto implements IAttorneyListDto {
         return data; 
     }
 
-    clone(): AttorneyListDto {
+    clone(): AttorneyDetailOutput {
         const json = this.toJSON();
-        let result = new AttorneyListDto();
+        let result = new AttorneyDetailOutput();
         result.init(json);
         return result;
     }
 }
 
-export interface IAttorneyListDto {
+export interface IAttorneyDetailOutput {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     firstName: string | undefined;
@@ -8667,61 +8726,6 @@ export interface IAttorneyListDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfAttorneyListDto implements IPagedResultDtoOfAttorneyListDto {
-    totalCount: number | undefined;
-    items: AttorneyListDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfAttorneyListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(AttorneyListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfAttorneyListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfAttorneyListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): PagedResultDtoOfAttorneyListDto {
-        const json = this.toJSON();
-        let result = new PagedResultDtoOfAttorneyListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPagedResultDtoOfAttorneyListDto {
-    totalCount: number | undefined;
-    items: AttorneyListDto[] | undefined;
 }
 
 export class CreateBookingInput implements ICreateBookingInput {
@@ -9386,6 +9390,7 @@ export class CreateClientInput implements ICreateClientInput {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
@@ -9417,6 +9422,7 @@ export class CreateClientInput implements ICreateClientInput {
             this.caseNumber = data["caseNumber"];
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
+            this.title = data["title"];
             this.idNumber = data["idNumber"];
             this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.addressId = data["addressId"];
@@ -9448,6 +9454,7 @@ export class CreateClientInput implements ICreateClientInput {
         data["caseNumber"] = this.caseNumber;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["title"] = this.title;
         data["idNumber"] = this.idNumber;
         data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["addressId"] = this.addressId;
@@ -9479,6 +9486,7 @@ export interface ICreateClientInput {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
@@ -9504,6 +9512,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
@@ -9547,6 +9556,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
             this.caseNumber = data["caseNumber"];
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
+            this.title = data["title"];
             this.idNumber = data["idNumber"];
             this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.dateOfInjury = data["dateOfInjury"] ? moment(data["dateOfInjury"].toString()) : <any>undefined;
@@ -9590,6 +9600,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
         data["caseNumber"] = this.caseNumber;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["title"] = this.title;
         data["idNumber"] = this.idNumber;
         data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["dateOfInjury"] = this.dateOfInjury ? this.dateOfInjury.toISOString() : <any>undefined;
@@ -9633,6 +9644,7 @@ export interface IClientDetailOutput {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
@@ -9726,6 +9738,7 @@ export class ClientListDto implements IClientListDto {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
@@ -9768,6 +9781,7 @@ export class ClientListDto implements IClientListDto {
             this.caseNumber = data["caseNumber"];
             this.firstName = data["firstName"];
             this.lastName = data["lastName"];
+            this.title = data["title"];
             this.idNumber = data["idNumber"];
             this.dob = data["dob"] ? moment(data["dob"].toString()) : <any>undefined;
             this.dateOfInjury = data["dateOfInjury"] ? moment(data["dateOfInjury"].toString()) : <any>undefined;
@@ -9810,6 +9824,7 @@ export class ClientListDto implements IClientListDto {
         data["caseNumber"] = this.caseNumber;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["title"] = this.title;
         data["idNumber"] = this.idNumber;
         data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["dateOfInjury"] = this.dateOfInjury ? this.dateOfInjury.toISOString() : <any>undefined;
@@ -9852,6 +9867,7 @@ export interface IClientListDto {
     caseNumber: string | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
+    title: string | undefined;
     idNumber: number | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;

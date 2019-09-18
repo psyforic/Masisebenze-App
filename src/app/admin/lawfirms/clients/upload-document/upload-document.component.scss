@@ -1,0 +1,15 @@
+.file {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+}
+
+.file>input {
+    position: absolute;
+    font-size: 30px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+}

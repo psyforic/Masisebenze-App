@@ -1,9 +1,12 @@
 <div class="main-content">
     <div class="container-fluid">
+
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    {{client.firstName}} {{client.lastName}}
+                    <button mat-icon-button [routerLink]="['../../']">
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button> {{client.firstName}} {{client.lastName}}
                 </div>
                 <div class="header-toolbar">
                     <div class="btn-group" dropdown>
@@ -11,11 +14,15 @@
                             aria-controls="dropdown-basic">
                             Actions<span class="caret"></span>
                         </button>
-                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu"
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu"
                             aria-labelledby="button-basic">
                             <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
                                     [routerLink]="['/admin/clients/activity-log', client.id]"
                                     routerLinkActive="router-link-active">Activity Log</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                    [routerLink]="['/admin/clients/documents/upload', client.id]"
+                                    routerLinkActive="router-link-active">Upload</a>
                             </li>
 
                         </ul>
@@ -97,7 +104,7 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker" id="dateValue"
                                                                 placeholder="Date of Injury"
-                                                                [(ngModel)]="client.dateOfInjury">
+                                                                [(ngModel)]="client.dateOfInjury" name="dateOfInjurty">
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker></mat-datepicker>

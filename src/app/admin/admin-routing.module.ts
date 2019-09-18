@@ -15,6 +15,7 @@ import { ViewClientComponent } from './lawfirms/clients/view-client/view-client.
 import { ViewActivityLogComponent } from './lawfirms/clients/view-activity-log/view-activity-log.component';
 import { UsersComponent } from './users/users.component';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
+import { UploadDocumentComponent } from './lawfirms/clients/upload-document/upload-document.component';
 
 @NgModule({
 
@@ -38,6 +39,7 @@ import { AppRouteGuard } from '@shared/auth/auth-route-guard';
                     { path: 'attorneys/new', component: NewAttorneyComponent, canActivate: [AppRouteGuard] },
                     { path: 'lawfirms/view/:id', component: ViewLawfirmComponent, canActivate: [AppRouteGuard] },
                     { path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard] },
+                    { path: 'clients/documents/upload/:id', component: UploadDocumentComponent, canActivate: [AppRouteGuard] },
                     { path: 'clients/activity-log/:id', component: ViewActivityLogComponent, canActivate: [AppRouteGuard] }
                 ]
             }
