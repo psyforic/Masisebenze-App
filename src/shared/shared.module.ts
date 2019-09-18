@@ -3,6 +3,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { AbpModule } from '@abp/abp.module';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FooterComponent } from '@app/layout/footer/footer.component'
 
 import { AppSessionService } from './session/app-session.service';
 import { AppUrlService } from './nav/app-url.service';
@@ -54,6 +55,8 @@ import {
 import { BlockDirective } from './directives/block.directive';
 import { BusyDirective } from './directives/busy.directive';
 import { EqualValidator } from './directives/equal-validator.directive';
+import { NavbarComponent } from '../app/layout/navbar/navbar.component';
+import { SidebarComponent } from '../app/layout/sidebar/sidebar.component';
 @NgModule({
     imports: [
         CommonModule,
@@ -95,13 +98,17 @@ import { EqualValidator } from './directives/equal-validator.directive';
         MatToolbarModule,
         MatTooltipModule,
         MatTreeModule,
+
     ],
     declarations: [
         AbpPaginationControlsComponent,
         LocalizePipe,
         BlockDirective,
         BusyDirective,
-        EqualValidator
+        EqualValidator,
+        FooterComponent,
+        NavbarComponent,
+        SidebarComponent,
     ],
     exports: [
         AbpPaginationControlsComponent,
@@ -148,6 +155,9 @@ import { EqualValidator } from './directives/equal-validator.directive';
         MatTooltipModule,
         MatTreeModule,
         ScrollingModule,
+        FooterComponent,
+        NavbarComponent,
+        SidebarComponent,
     ]
 })
 export class SharedModule {

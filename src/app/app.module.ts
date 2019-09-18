@@ -40,9 +40,9 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
     AppComponent,
     HomeComponent,
     AboutComponent,
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent,
+    //FooterComponent,
+    //NavbarComponent,
+    //SidebarComponent,
     // tenants
     TenantsComponent,
     CreateTenantDialogComponent,
@@ -69,7 +69,11 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
     AppRoutingModule,
     ServiceProxyModule,
     SharedModule,
-    NgxPaginationModule
+      NgxPaginationModule,
+      //FooterComponent,
+      //NavbarComponent,
+      //SidebarComponent,
+
   ],
   providers: [],
   entryComponents: [
