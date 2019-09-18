@@ -18,6 +18,7 @@ import { Packer } from 'docx';
 import { saveAs } from 'file-saver';
 import { NewClientComponent } from './new-client/new-client.component';
 import { DocumentCreator } from '@app/admin/partials/document-creator';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-clients',
@@ -36,6 +37,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   client: ClientListDto = new ClientListDto();
   workData: WorkHistoryListDto = new WorkHistoryListDto();
   medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
+  isSaving = false;
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy) {
     super(injector);
@@ -49,16 +51,26 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.newClientRef.open();
   }
   generate(entity: ClientListDto) {
+    this.isSaving = true;
     this.getMedicalHistory(entity.id);
     this.getWorkHistory(entity.id);
     this.getClientHistory(entity.id);
     const address: CreateAddressInput = new CreateAddressInput();
-    const medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
-    const workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
+    // const medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
+    // const workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
 
     this.clientService.getDetail(entity.id)
       .pipe(finalize(() => {
         this.clientService.getMedicalHistoryByClientId(entity.id)
+          .pipe(finalize(() => {
+            const docCreator = new DocumentCreator();
+            setTimeout(() => {
+              const today = moment().format('LL');
+              docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
+              console.log('Document created successfully');
+              this.isSaving = false;
+            }, 5000);
+          }))
           .subscribe((result) => {
             this.medicalData = result;
             console.log(this.medicalData);
@@ -78,13 +90,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         console.log(result.address);
 
       });
-
-    const docCreator = new DocumentCreator();
-    setTimeout(() => {
-      const today = new Date('dd-mm-yyyy').toString();
-      docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
-      console.log('Document created successfully');
-    }, 5000);
 
   }
   getMedicalHistory(id) {
@@ -111,6 +116,29 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.client = result;
       });
   }
+
+  // getDob() {
+  //   const tempDate = new Date(clientData.idNumber.substring(0, 2), clientData.substring(2, 4) - 1, clientData.substring(4, 6));
+  //   const id_date = tempDate.getDate();
+  //   const id_month = tempDate.getMonth();
+  //   const id_year = tempDate.getFullYear();
+  //   const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+
+  //   return fullDate;
+  // }
+  // getAge() {
+  //   const tempDate = new Date(clientData.idNumber.substring(0, 2), clientData.substring(2, 4) - 1, clientData.substring(4, 6));
+  //   const id_date = tempDate.getDate();
+  //   const id_month = tempDate.getMonth();
+  //   const id_year = tempDate.getFullYear();
+  //   const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+  //   let currentAge = new Date().getFullYear() - id_year;
+  //   if (id_month > new Date().getMonth()) {
+  //     currentAge = currentAge - 1;
+  //   }
+
+  //   return currentAge;
+  // }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
@@ -137,6 +165,4 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       }
     );
   }
-
-
 }

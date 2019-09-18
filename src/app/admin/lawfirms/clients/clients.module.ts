@@ -13,8 +13,6 @@ import { CameraModalComponent } from './camera-modal/camera-modal.component';
 import { WebcamModule } from 'ngx-webcam';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { UploadDocumentComponent } from './upload-document/upload-document.component';
-
-import { MatFileUploadModule } from 'angular-material-fileupload';
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -32,8 +30,7 @@ import { MatFileUploadModule } from 'angular-material-fileupload';
     BsDatepickerModule.forRoot(),
     VerticalTimelineModule,
     WebcamModule,
-    ImageCropperModule,
-    MatFileUploadModule
+    ImageCropperModule
   ],
   exports: [
     NewClientComponent

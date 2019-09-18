@@ -3843,6 +3843,60 @@ export class DocumentServiceProxy {
     }
 
     /**
+     * @param documentId (optional) 
+     * @return Success
+     */
+    getChildDocuments(documentId: number | null | undefined): Observable<ListResultDtoOfDocumentListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Document/GetChildDocuments?";
+        if (documentId !== undefined)
+            url_ += "documentId=" + encodeURIComponent("" + documentId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetChildDocuments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetChildDocuments(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfDocumentListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfDocumentListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetChildDocuments(response: HttpResponseBase): Observable<ListResultDtoOfDocumentListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfDocumentListDto.fromJS(resultData200) : new ListResultDtoOfDocumentListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfDocumentListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -10774,6 +10828,7 @@ export class CreateDocumentInput implements ICreateDocumentInput {
     authorDate: moment.Moment | undefined;
     clientId: string | undefined;
     contactId: string | undefined;
+    parentDocId: number | undefined;
     userId: number | undefined;
     fileUrl: string | undefined;
     identifier: number | undefined;
@@ -10794,6 +10849,7 @@ export class CreateDocumentInput implements ICreateDocumentInput {
             this.authorDate = data["authorDate"] ? moment(data["authorDate"].toString()) : <any>undefined;
             this.clientId = data["clientId"];
             this.contactId = data["contactId"];
+            this.parentDocId = data["parentDocId"];
             this.userId = data["userId"];
             this.fileUrl = data["fileUrl"];
             this.identifier = data["identifier"];
@@ -10814,6 +10870,7 @@ export class CreateDocumentInput implements ICreateDocumentInput {
         data["authorDate"] = this.authorDate ? this.authorDate.toISOString() : <any>undefined;
         data["clientId"] = this.clientId;
         data["contactId"] = this.contactId;
+        data["parentDocId"] = this.parentDocId;
         data["userId"] = this.userId;
         data["fileUrl"] = this.fileUrl;
         data["identifier"] = this.identifier;
@@ -10834,6 +10891,7 @@ export interface ICreateDocumentInput {
     authorDate: moment.Moment | undefined;
     clientId: string | undefined;
     contactId: string | undefined;
+    parentDocId: number | undefined;
     userId: number | undefined;
     fileUrl: string | undefined;
     identifier: number | undefined;
@@ -10844,6 +10902,7 @@ export class DocumentDetailOutput implements IDocumentDetailOutput {
     authorName: string | undefined;
     authorDate: moment.Moment | undefined;
     clientId: string | undefined;
+    parentDocId: number | undefined;
     client: Client | undefined;
     contactId: string | undefined;
     contact: Contact | undefined;
@@ -10874,6 +10933,7 @@ export class DocumentDetailOutput implements IDocumentDetailOutput {
             this.authorName = data["authorName"];
             this.authorDate = data["authorDate"] ? moment(data["authorDate"].toString()) : <any>undefined;
             this.clientId = data["clientId"];
+            this.parentDocId = data["parentDocId"];
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.contactId = data["contactId"];
             this.contact = data["contact"] ? Contact.fromJS(data["contact"]) : <any>undefined;
@@ -10904,6 +10964,7 @@ export class DocumentDetailOutput implements IDocumentDetailOutput {
         data["authorName"] = this.authorName;
         data["authorDate"] = this.authorDate ? this.authorDate.toISOString() : <any>undefined;
         data["clientId"] = this.clientId;
+        data["parentDocId"] = this.parentDocId;
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["contactId"] = this.contactId;
         data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
@@ -10934,6 +10995,7 @@ export interface IDocumentDetailOutput {
     authorName: string | undefined;
     authorDate: moment.Moment | undefined;
     clientId: string | undefined;
+    parentDocId: number | undefined;
     client: Client | undefined;
     contactId: string | undefined;
     contact: Contact | undefined;
@@ -11008,6 +11070,7 @@ export class DocumentListDto implements IDocumentListDto {
     clientId: string | undefined;
     client: Client | undefined;
     contactId: string | undefined;
+    parentDocId: number | undefined;
     contact: Contact | undefined;
     userId: number | undefined;
     user: User | undefined;
@@ -11039,6 +11102,7 @@ export class DocumentListDto implements IDocumentListDto {
             this.clientId = data["clientId"];
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.contactId = data["contactId"];
+            this.parentDocId = data["parentDocId"];
             this.contact = data["contact"] ? Contact.fromJS(data["contact"]) : <any>undefined;
             this.userId = data["userId"];
             this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
@@ -11070,6 +11134,7 @@ export class DocumentListDto implements IDocumentListDto {
         data["clientId"] = this.clientId;
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["contactId"] = this.contactId;
+        data["parentDocId"] = this.parentDocId;
         data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
         data["userId"] = this.userId;
         data["user"] = this.user ? this.user.toJSON() : <any>undefined;
@@ -11101,6 +11166,7 @@ export interface IDocumentListDto {
     clientId: string | undefined;
     client: Client | undefined;
     contactId: string | undefined;
+    parentDocId: number | undefined;
     contact: Contact | undefined;
     userId: number | undefined;
     user: User | undefined;
