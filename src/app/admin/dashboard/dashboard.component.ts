@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { NewEventComponent } from './new-event/new-event.component';
 import { MatBottomSheet } from '@angular/material';
 import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-sheet.component';
+import { EditEventComponent } from './edit-event/edit-event.component';
 
 declare const $: any;
 @Component({
@@ -23,6 +24,7 @@ declare const $: any;
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit {
   @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent;
   @ViewChild('newEvent', { static: false }) newEventModal: NewEventComponent;
+  @ViewChild('editEvent', { static: false }) editEventModal: EditEventComponent;
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
   bookings: BookingListDto[] = [];
   newEvents: EventInput[] = [];
@@ -48,12 +50,20 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   handleDateClick(arg) {
     this.newEventModal.open(arg);
   }
+  handleEventClick(arg) {
+    const date = moment(arg.event.start).format('YYYY-MM-DD');
+    this.editEventModal.open(date, arg.event.id);
+    console.log(arg.event);
+  }
   addBooking(booking: any[]) {
     this.calendarEvents = this.calendarEvents.concat({
       title: booking[1],
       start: moment(booking[0].startTime).format('YYYY-MM-DD HH:mm:ss'),
       end: moment(booking[0].endTime).format('YYYY-MM-DD HH:mm:ss')
     });
+  }
+  editSelectedEvent(event) {
+    // this.calendarEvents.
   }
   ngAfterViewInit(): void {
   }
@@ -66,7 +76,9 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
           event = {
             title: el.client.firstName + ' ' + el.client.lastName,
             start: moment(el.startTime).format('YYYY-MM-DD HH:mm:ss'),
-            end: moment(el.endTime).format('YYYY-MM-DD HH:mm:ss')
+            end: moment(el.endTime).format('YYYY-MM-DD HH:mm:ss'),
+            id: el.id,
+            date: moment(el.startTime).format('yyyy-MM-dd')
           };
           this.calendarEvents.push(event);
         });

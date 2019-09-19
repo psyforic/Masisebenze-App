@@ -85,7 +85,8 @@
               center: 'title',
               right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             }" deepChangeDetection="true" defaultView="dayGridMonth" (dateClick)="handleDateClick($event)"
-              [plugins]="calendarPlugins" [weekends]="false"></full-calendar>
+              [plugins]="calendarPlugins" [weekends]="false" [editable]="true" (eventClick)="handleEventClick($event)">
+            </full-calendar>
           </div>
         </div>
       </div>
@@ -154,3 +155,4 @@
 </div>
 <app-new-event #newEvent (newBookingInput)="addBooking($event)" (newBottomSheetClient)="openBottomSheet($event)">
 </app-new-event>
+<app-edit-event #editEvent (editBookingInput)="editSelectedEvent($event)"></app-edit-event>

@@ -86,7 +86,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         const filtered = this.documents.map((value) => {
           return { name: value.name, children: [{ name: value.fileUrl }] };
         });
-
         this.fileDataSource.data = filtered;
       });
   }

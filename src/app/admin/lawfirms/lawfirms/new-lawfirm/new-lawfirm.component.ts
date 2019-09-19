@@ -71,6 +71,7 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
       .subscribe(() => {
         this.notify.success('Saved Successfully');
         this.newContact.emit(this.lawFirm);
+        this.lawFirmForm.reset();
         this.modalService.dismissAll();
       });
   }
