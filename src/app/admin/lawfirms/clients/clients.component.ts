@@ -1,21 +1,14 @@
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-// import { NewClientComponent } from '../lawfirms/new-client/new-client.component';
 import {
   ClientListDto,
   ClientServiceProxy,
   WorkHistoryListDto,
   MedicalHistoryListDto,
   CreateAddressInput,
-  MedicalHistoryDetailOutput,
-  WorkHistoryDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
-import { ReportGenerator } from '@app/admin/partials/report-generator';
-import { Packer } from 'docx';
-// import { saveAs } from 'file-saver/FileSaver';
-import { saveAs } from 'file-saver';
 import { NewClientComponent } from './new-client/new-client.component';
 import { DocumentCreator } from '@app/admin/partials/document-creator';
 import * as moment from 'moment';
@@ -73,12 +66,10 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           }))
           .subscribe((result) => {
             this.medicalData = result;
-            console.log(this.medicalData);
           });
         this.clientService.getWorkHistoryByClientId(entity.id)
           .subscribe((result) => {
             this.workData = result;
-            console.log(this.workData);
           });
       }))
       .subscribe((result) => {
@@ -116,29 +107,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.client = result;
       });
   }
-
-  // getDob() {
-  //   const tempDate = new Date(clientData.idNumber.substring(0, 2), clientData.substring(2, 4) - 1, clientData.substring(4, 6));
-  //   const id_date = tempDate.getDate();
-  //   const id_month = tempDate.getMonth();
-  //   const id_year = tempDate.getFullYear();
-  //   const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
-
-  //   return fullDate;
-  // }
-  // getAge() {
-  //   const tempDate = new Date(clientData.idNumber.substring(0, 2), clientData.substring(2, 4) - 1, clientData.substring(4, 6));
-  //   const id_date = tempDate.getDate();
-  //   const id_month = tempDate.getMonth();
-  //   const id_year = tempDate.getFullYear();
-  //   const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
-  //   let currentAge = new Date().getFullYear() - id_year;
-  //   if (id_month > new Date().getMonth()) {
-  //     currentAge = currentAge - 1;
-  //   }
-
-  //   return currentAge;
-  // }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {

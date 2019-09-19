@@ -31,18 +31,18 @@ import { CreateUserDialogComponent } from '@app/users/create-user/create-user-di
 import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
-import { FooterComponent } from './layout/footer/footer.component';
-import { NavbarComponent } from './layout/navbar/navbar.component';
-import { SidebarComponent } from './layout/sidebar/sidebar.component';
+// import { FooterComponent } from './layout/footer/footer.component';
+// import { NavbarComponent } from './layout/navbar/navbar.component';
+// import { SidebarComponent } from './layout/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AboutComponent,
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent,
+    // FooterComponent,
+    // NavbarComponent,
+    // SidebarComponent,
     // tenants
     TenantsComponent,
     CreateTenantDialogComponent,
