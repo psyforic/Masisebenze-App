@@ -38,18 +38,14 @@
               "src/assets/scss/material-dashboard.scss",
               "node_modules/toastr/build/toastr.css",
               "src/assets/css/demo.scss",
-              "node_modules/quill/dist/quill.core.css",
-              "node_modules/quill/dist/quill.bubble.css",
-              "node_modules/quill/dist/quill.snow.css",
-              "node_modules/quill-emoji/dist/quill-emoji.css",
-              "node_modules/quill-mention/dist/quill.mention.min.css"
+              "node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+              "node_modules/froala-editor/css/froala_style.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/quill/dist/quill.min.js",
               "node_modules/toastr/toastr.js",
               "node_modules/jquery-migrate/dist/jquery-migrate.min.js",
               "node_modules/chartist/dist/chartist.js",

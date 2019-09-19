@@ -56,13 +56,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       .pipe(finalize(() => {
         this.clientService.getMedicalHistoryByClientId(entity.id)
           .pipe(finalize(() => {
-            const docCreator = new DocumentCreator();
-            setTimeout(() => {
-              const today = moment().format('LL');
-              docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
-              console.log('Document created successfully');
-              this.isSaving = false;
-            }, 5000);
+
           }))
           .subscribe((result) => {
             this.medicalData = result;
@@ -81,7 +75,13 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         console.log(result.address);
 
       });
-
+    const docCreator = new DocumentCreator();
+    setTimeout(() => {
+      const today = moment().format('LL');
+      docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
+      console.log('Document created successfully');
+      this.isSaving = false;
+    }, 5000);
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
@@ -106,6 +106,37 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       .subscribe((result) => {
         this.client = result;
       });
+  }
+  getAge(entity: ClientListDto) {
+    const idNumber: string = '' + entity.idNumber;
+    const tempDate = new Date(
+      +idNumber.substr(0, 2),
+      +(idNumber.substring(2, 4)) - 1,
+      +idNumber.substring(4, 6));
+    const id_date = tempDate.getDate();
+    const id_month = tempDate.getMonth();
+    const id_year = tempDate.getFullYear();
+    const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+    let currentAge = new Date().getFullYear() - id_year;
+    if (id_month > new Date().getMonth()) {
+      currentAge = currentAge - 1;
+    }
+
+    return currentAge;
+  }
+
+  getDob(entity: ClientListDto) {
+    const idNumber: string = '' + entity.idNumber;
+    const tempDate = new Date(
+      +idNumber.substr(0, 2),
+      +(idNumber.substring(2, 4)) - 1,
+      +idNumber.substring(4, 6));
+    const id_date = tempDate.getDate();
+    const id_month = tempDate.getMonth();
+    const id_year = tempDate.getFullYear();
+    const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+
+    return fullDate;
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)

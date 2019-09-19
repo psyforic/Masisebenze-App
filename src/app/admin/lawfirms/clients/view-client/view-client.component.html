@@ -361,10 +361,11 @@
                                                                 Work History
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}"
+                                                        <!-- <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="workHistory.description" [sanitize]="true"
                                                             name="description">
-                                                        </quill-editor>
+                                                        </quill-editor> -->
+                                                        <div [froalaEditor]>Hello, WorkHistory!</div>
 
                                                     </mat-expansion-panel>
                                                     <mat-expansion-panel>
@@ -439,11 +440,12 @@
                                                                 Current History
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}"
+                                                        <!-- <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="currentHistory" [sanitize]="true"
                                                             placeholder="Enter Text" name="history"
                                                             (onContentChanged)="onContentChanged($event)">
-                                                        </quill-editor>
+                                                        </quill-editor> -->
+                                                        <div [froalaEditor]>Hello, Froala!</div>
                                                         <div>
                                                             <pre>{{currentHistory}} Lundi</pre>
                                                         </div>

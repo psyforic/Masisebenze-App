@@ -28,8 +28,8 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     FirstName
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let user">
-                                    <h6><a [routerLink]="['/admin/clients/view', user.id]">{{ user.firstName }}</a></h6>
+                                <mat-cell *matCellDef="let client">
+                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.firstName }}</a></h6>
                                 </mat-cell>
                             </ng-container>
                             <!-- Name Column -->
@@ -37,8 +37,8 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     LastName
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let user">
-                                    <h6><a [routerLink]="['/admin/clients/view', user.id]">{{ user.lastName }}</a></h6>
+                                <mat-cell *matCellDef="let client">
+                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.lastName }}</a></h6>
                                 </mat-cell>
                             </ng-container>
                             <!-- Color Column -->
@@ -46,35 +46,35 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     D.O.B
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let user">
-                                    {{ user.dob }}
+                                <mat-cell *matCellDef="let client">
+                                    {{getDob(client)}}
                                 </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="age">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     Age
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let user">
-                                    {{ user.age }}
+                                <mat-cell *matCellDef="let client">
+                                    {{getAge(client)}}
                                 </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="dateOfInjury">
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     Date Of Injury
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let user">
-                                    {{ user.dateOfInjury | date: 'dd/MM/yyyy'}}
+                                <mat-cell *matCellDef="let client">
+                                    {{ client.dateOfInjury | date: 'dd/MM/yyyy'}}
                                 </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="actions">
                                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                                 <mat-cell *matCellDef="let client">
                                     <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button
-                                        color="primary" matTooltip="Edit user">
+                                        color="primary" matTooltip="Edit Client">
                                         <mat-icon>create</mat-icon>
                                     </button>&nbsp;
                                     <button (click)="delete(client)" mat-icon-button color="warn"
-                                        matTooltip="Delete user" type="button">
+                                        matTooltip="Delete Client" type="button">
                                         <mat-icon>delete</mat-icon>
                                     </button>
 

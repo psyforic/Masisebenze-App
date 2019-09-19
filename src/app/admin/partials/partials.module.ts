@@ -32,10 +32,9 @@ import {
   MatBottomSheetModule,
   MAT_BOTTOM_SHEET_DEFAULT_OPTIONS
 } from '@angular/material';
-import { QuillModule } from 'ngx-quill';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 @NgModule({
   declarations: [],
   imports: [
@@ -45,19 +44,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ReactiveFormsModule,
     NgbModule,
     ModalModule.forRoot(),
-    QuillModule.forRoot({
-      modules: {
-        syntax: true,
-        toolbar: [
-          ['bold', 'italic', 'underline'],        // toggled buttons
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'font': [] }],
-          [{ 'align': [] }],
-
-          ['clean']
-        ]
-      }
-    }),
     MatButtonModule,
     MatMenuModule,
     MatSelectModule,
@@ -82,7 +68,9 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     NgxMaterialTimepickerModule,
     MatTreeModule,
     MatBottomSheetModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    FroalaEditorModule.forRoot(),
+    FroalaViewModule.forRoot()
   ],
   exports: [
     CommonModule,
@@ -111,11 +99,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     MatTooltipModule,
     MatDialogModule,
     MatExpansionModule,
-    QuillModule,
     MatBottomSheetModule,
     NgxMaterialTimepickerModule,
     MatTreeModule,
-    BsDropdownModule
+    BsDropdownModule,
+    FroalaEditorModule,
+    FroalaViewModule
   ],
   providers: [BsModalService,
     { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }]
