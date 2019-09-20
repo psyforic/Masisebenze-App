@@ -11,6 +11,9 @@
       </div>
       <form [formGroup]="documentForm" novalidate (ngSubmit)="save()">
         <div class="card-body">
+          <div class="example-loading-shade" *ngIf="isUploading">
+            <mat-spinner *ngIf="isUploading"></mat-spinner>
+          </div>
           <div class="row">
             <div class="col-lg-6">
               <mat-form-field>
@@ -30,7 +33,7 @@
             <div class="col-lg-6">
               <mat-form-field>
                 <mat-label>File Name</mat-label>
-                <input type="text" matInput formControlName="name">
+                <input type="text" matInput formControlName="name" required>
                 <mat-error *ngIf="documentForm.get('name').touched
                                         && documentForm.get('name').hasError('required')">
                   File Name is Required
@@ -42,15 +45,23 @@
             <div class="col-lg-6">
               <mat-form-field>
                 <input required type="text" matInput placeholder="File Author" formControlName="authorName" required>
+                <mat-error *ngIf="documentForm.get('authorName').touched
+                                        && documentForm.get('authorName').hasError('required')">
+                  File Author is Required
+                </mat-error>
               </mat-form-field>
-            </div>
 
+            </div>
             <div class="col-lg-6">
               <mat-form-field>
                 <input matInput [matDatepicker]="picker" formControlName="authorDate" placeholder="Date Authored"
                   name="date" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="documentForm.get('authorDate').touched
+                                        && documentForm.get('authorDate').hasError('required')">
+                  File Author Date is Required
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -59,13 +70,15 @@
         <div>
           <div class="card-header">
             <div class="card-title">
-              <button [disabled]="!documentForm.valid" class="file btn btn-primary btn-round">Choose File
+              <button class="file btn btn-primary btn-round">Choose File
                 <i class="fa fa-cloud-upload"></i>
-                <input [disabled]="!documentForm.valid" type="file" name="file" class="form-control-file" accept=".pdf" />
+                <input type="file" (change)="upload($event)" name="file" class="form-control-file" accept=".pdf" />
+                <input type="hidden" name="fileHidden" formControlName="fileInput" />
               </button>
             </div>
             <div class="header-toolbar">
-              <button type="submit" mat-raised-button color="primary" class="pull-right"[disabled]="!documentForm.valid" >Save</button>
+              <button type="submit" mat-raised-button color="primary" class="pull-right"
+                [disabled]="!documentForm.valid">Save</button>
             </div>
           </div>
         </div>

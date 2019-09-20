@@ -10,6 +10,22 @@ export class DocumentCreator {
         const address = data[1];
         const workData = data[2];
         const medicalData = data[3];
+
+        console.log(clientData.idNumber);
+        const idNumber: string = '' + clientData.idNumber;
+
+        const tempDate = new Date(
+            +idNumber.substr(0, 2),
+            +(idNumber.substring(2, 4)) - 1,
+            +idNumber.substring(4, 6));
+        const id_date = tempDate.getDate();
+        const id_month = tempDate.getMonth();
+        const id_year = tempDate.getFullYear();
+        const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+        let currentAge = new Date().getFullYear() - id_year;
+        if (id_month > new Date().getMonth()) {
+            currentAge = currentAge - 1;
+        }
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
         }
@@ -20,8 +36,9 @@ export class DocumentCreator {
             const doc = new Docxtemplater().loadZip(zip);
             doc.setData({
                 fullName: clientData.firstName + ' ' + clientData.lastName,
-                dateOfBirth: clientData.dob,
-                age: clientData.age,
+                dateOfBirth: fullDate,
+                age: currentAge,
+                idNumber: clientData.idNumber,
                 line1: address.line1,
                 line2: address.line2,
                 city: address.city,

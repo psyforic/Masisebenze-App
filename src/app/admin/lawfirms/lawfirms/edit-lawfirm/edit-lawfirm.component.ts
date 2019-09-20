@@ -36,7 +36,7 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
       companyName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      fax: ['', Validators.required],
+      fax: [''],
       line1: ['', Validators.required],
       line2: [''],
       city: ['', Validators.required],
