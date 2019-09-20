@@ -64,7 +64,7 @@ export class DocumentCreator {
             });
 
             try {
-                // render the document (replace all occurences of {first_name} by John, {last_name} by Doe, ...)
+
                 doc.render();
             } catch (error) {
                 const e = {
