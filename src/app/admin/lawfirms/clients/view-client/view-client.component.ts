@@ -76,8 +76,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.clientId = paramMap.get('id');
 
     });
-
-    // this.fileDataSource.data = TREE_DATA;
   }
   getFileData() {
     this.documentService.getClientDocuments(this.clientId)

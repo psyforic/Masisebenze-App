@@ -6,6 +6,9 @@ import {
   WorkHistoryListDto,
   MedicalHistoryListDto,
   CreateAddressInput,
+  DocumentServiceProxy,
+  DocumentListDto,
+  WorkHistoryDetailOutput,
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
@@ -17,7 +20,7 @@ import * as moment from 'moment';
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
-  providers: [ClientServiceProxy]
+  providers: [ClientServiceProxy, DocumentServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -27,12 +30,16 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   dataSource: MatTableDataSource<ClientListDto>;
   displayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
   clients: ClientListDto[] = [];
-  client: ClientListDto = new ClientListDto();
-  workData: WorkHistoryListDto = new WorkHistoryListDto();
+  client: ClientListDto;
+  workData: WorkHistoryListDto = new WorkHistoryDetailOutput();
   medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
   isSaving = false;
+  documents: DocumentListDto[] = [];
+  filteredDocuments;
+  lawFirmCity: string;
   constructor(private injector: Injector,
-    private clientService: ClientServiceProxy) {
+    private clientService: ClientServiceProxy,
+    private documentService: DocumentServiceProxy) {
     super(injector);
   }
   applyFilter(filterValue: string) {
@@ -48,16 +55,20 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.getMedicalHistory(entity.id);
     this.getWorkHistory(entity.id);
     this.getClientHistory(entity.id);
+    this.getFileData(entity.id);
+    this.lawFirmCity = 'Port Elizabeth';
     const address: CreateAddressInput = new CreateAddressInput();
-    // const medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
-    // const workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
-
+    const docCreator = new DocumentCreator();
+    setTimeout(() => {
+      const today = moment().format('LL');
+      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
+      console.log('Document created successfully');
+      this.isSaving = false;
+    }, 5000);
     this.clientService.getDetail(entity.id)
       .pipe(finalize(() => {
         this.clientService.getMedicalHistoryByClientId(entity.id)
-          .pipe(finalize(() => {
-
-          }))
+          .pipe(finalize(() => { }))
           .subscribe((result) => {
             this.medicalData = result;
           });
@@ -72,16 +83,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         address.city = result.address.city;
         address.postalCode = result.address.postalCode;
         address.province = result.address.province;
-        console.log(result.address);
-
       });
-    const docCreator = new DocumentCreator();
-    setTimeout(() => {
-      const today = moment().format('LL');
-      docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
-      console.log('Document created successfully');
-      this.isSaving = false;
-    }, 5000);
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
@@ -92,11 +94,20 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         console.log(result);
       });
   }
+  getFileData(id) {
+    this.documentService.getClientDocuments(id)
+      .pipe(finalize(() => { }))
+      .subscribe((result) => {
+        this.documents = result.items;
+        const filtered = this.documents.map((value) => {
+          return { date_authored: moment(value.authorDate).format('YYYY-MM-DD'), file_name: value.name, author_name: value.authorName };
+        });
+        this.filteredDocuments = filtered;
+      });
+  }
   getWorkHistory(id) {
     this.clientService.getWorkHistoryByClientId(id)
-      .pipe(finalize(() => {
-
-      }))
+      .pipe(finalize(() => { }))
       .subscribe((result) => {
         this.workData = result;
       });
@@ -113,15 +124,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       +idNumber.substr(0, 2),
       +(idNumber.substring(2, 4)) - 1,
       +idNumber.substring(4, 6));
-    const id_date = tempDate.getDate();
     const id_month = tempDate.getMonth();
     const id_year = tempDate.getFullYear();
-    const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
     let currentAge = new Date().getFullYear() - id_year;
     if (id_month > new Date().getMonth()) {
       currentAge = currentAge - 1;
     }
-
     return currentAge;
   }
 
@@ -135,7 +143,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     const id_month = tempDate.getMonth();
     const id_year = tempDate.getFullYear();
     const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
-
     return fullDate;
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {

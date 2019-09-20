@@ -3,17 +3,17 @@ import * as JSZipUtils from 'jszip-utils';
 import * as Docxtemplater from 'docxtemplater';
 import { saveAs } from 'file-saver';
 import * as Pizzip from 'pizzip';
+import * as moment from 'moment';
 export class DocumentCreator {
 
     generateDoc(data, today) {
         const clientData = data[0];
         const address = data[1];
-        const workData = data[2];
+        const filteredDocuments = data[2];
         const medicalData = data[3];
-
-        console.log(clientData.idNumber);
+        const workData = data[4];
+        const city = data[5];
         const idNumber: string = '' + clientData.idNumber;
-
         const tempDate = new Date(
             +idNumber.substr(0, 2),
             +(idNumber.substring(2, 4)) - 1,
@@ -42,13 +42,14 @@ export class DocumentCreator {
                 line1: address.line1,
                 line2: address.line2,
                 city: address.city,
+                documents: filteredDocuments,
                 postalCode: address.postalCode,
                 dateOfInjury: clientData.dateOfInjury,
-                assessmentDate: clientData.assessmentDate,
+                assessmentdate: clientData.assessmentDate,
                 today: today,
                 attorney: clientData.attorney.firstName + ' ' + clientData.attorney.lastName,
                 lawFirm: clientData.lawFirm.companyName,
-                lawFirmCity: 'clientData.lawFirm.physicalAddress.city',
+                lawFirmCity: city,
                 earlyChildhood: clientData.earlyChildhood,
                 family: clientData.family,
                 homeEnvironment: clientData.homeEnvironment,
