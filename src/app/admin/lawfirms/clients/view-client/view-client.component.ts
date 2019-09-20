@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 import { CameraModalComponent } from '../camera-modal/camera-modal.component';
 import { GeneralService } from '@app/admin/services/general.service';
 import * as moment from 'moment';
-declare const $:any;
+declare const $: any;
 interface DocumentNode {
   name: string;
   children?: DocumentNode[];
@@ -63,6 +63,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   currentHistory = '';
   uploadedImage = '';
   photoUrl: string;
+  dateOfInjury: string;
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
@@ -112,6 +113,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.city = this.client.address.city;
         this.postalCode = this.client.address.postalCode;
         this.province = this.client.address.province;
+        this.dateOfInjury = moment(this.client.dateOfInjury).format('YYYY-MM-DD');
       })))
       .subscribe((result) => {
         this.client = result;
@@ -151,8 +153,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.client.address.postalCode = this.postalCode;
     this.client.address.province = this.province;
     const injuryDate = $('#dateValue').val();
-    const formattedinjuryDate = moment(injuryDate).format('YYYY-MM-DD');
-    this.client.dateOfInjury = moment(formattedinjuryDate);
+    const formattedInjuryDate = moment(injuryDate).format('YYYY-MM-DD');
+    this.client.dateOfInjury = moment(formattedInjuryDate);
     if (this.addressId !== 0) {
       this.client.addressId = this.addressId;
     }

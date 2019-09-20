@@ -55,7 +55,7 @@ export class EditAttorneyComponent extends AppComponentBase implements OnInit {
                 this.attorneyId = result.id;
                 this.editAttorneyForm.patchValue(result);
             });
-        this.modalService.open(this.content).result.then(() => { });
+        this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false }).result.then(() => { });
     }
     getLawFirms() {
         this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {

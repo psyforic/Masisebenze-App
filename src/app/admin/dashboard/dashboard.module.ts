@@ -7,6 +7,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NewEventComponent } from './new-event/new-event.component';
 import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-sheet.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { EditEventComponent } from './edit-event/edit-event.component';
   imports: [
     CommonModule,
     PartialsModule,
+    FormsModule,
     NgbModule,
     FullCalendarModule,
   ],

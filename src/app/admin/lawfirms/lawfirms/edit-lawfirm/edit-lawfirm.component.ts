@@ -58,11 +58,12 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
       this.lawFirmForm.get('postalCode').setValue(result.physicalAddress.postalCode);
       this.lawFirmForm.get('province').setValue(result.physicalAddress.province);
     });
-    this.modalService.open(this.content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
   }
   removeAddress(i: number) {
     // remove address from the list

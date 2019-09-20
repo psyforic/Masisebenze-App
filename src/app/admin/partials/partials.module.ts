@@ -73,11 +73,10 @@ import { QuillModule } from 'ngx-quill';
       modules: {
         syntax: false,
         toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],
+          ['bold', 'italic'],
           [{ 'header': 1 }, { 'header': 2 }],               // custom button values
           [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-          [{ 'direction': 'rtl' }],
+          [{ 'indent': '-1' }, { 'indent': '+1' }],
           [{ 'align': [] }],                        // link and image, video]
         ]
       }

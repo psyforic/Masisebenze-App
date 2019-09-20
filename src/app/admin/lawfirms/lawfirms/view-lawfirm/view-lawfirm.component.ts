@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { NewContactComponent } from '../new-contact/new-contact.component';
 import { NewClientComponent } from '../new-client/new-client.component';
-import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
 import {
   LawFirmServiceProxy,
@@ -11,7 +10,10 @@ import {
   ContactServiceProxy,
   ClientServiceProxy,
   ClientListDto,
-  AttorneyListDto
+  AttorneyListDto,
+  CreateAddressInput,
+  WorkHistoryDetailOutput,
+  MedicalHistoryDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
@@ -19,6 +21,8 @@ import { NewAttorneyComponent } from '../../attorneys/new-attorney/new-attorney.
 import { ViewAttorneyComponent } from '../../attorneys/view-attorney/view-attorney.component';
 import { EditAttorneyComponent } from '../../attorneys/edit-attorney/edit-attorney.component';
 import { EditContactComponent } from '../../contacts/edit-contact/edit-contact.component';
+import { DocumentCreator } from '@app/admin/partials/document-creator';
+import * as moment from 'moment';
 
 
 @Component({
@@ -64,6 +68,8 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
   lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
   isSaving = false;
   isLoading = false;
+  workData: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
+  medicalData: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
   constructor(private injector: Injector,
     private route: ActivatedRoute,
     private lawFimService: LawFirmServiceProxy,
@@ -132,6 +138,90 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     this.editAttorneyRef.delete(entity);
     this.refresh();
   }
+  getAge(entity: ClientListDto) {
+    const idNumber: string = '' + entity.idNumber;
+    const tempDate = new Date(
+      +idNumber.substr(0, 2),
+      +(idNumber.substring(2, 4)) - 1,
+      +idNumber.substring(4, 6));
+    const id_month = tempDate.getMonth();
+    const id_year = tempDate.getFullYear();
+    let currentAge = new Date().getFullYear() - id_year;
+    if (id_month > new Date().getMonth()) {
+      currentAge = currentAge - 1;
+    }
+
+    return currentAge;
+  }
+
+  getDob(entity: ClientListDto) {
+    const idNumber: string = '' + entity.idNumber;
+    const tempDate = new Date(
+      +idNumber.substr(0, 2),
+      +(idNumber.substring(2, 4)) - 1,
+      +idNumber.substring(4, 6));
+    const id_date = tempDate.getDate();
+    const id_month = tempDate.getMonth();
+    const id_year = tempDate.getFullYear();
+    const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+
+    return fullDate;
+  }
+  generate(entity: ClientListDto) {
+    this.isSaving = true;
+    this.getMedicalHistory(entity.id);
+    this.getWorkHistory(entity.id);
+    const address: CreateAddressInput = new CreateAddressInput();
+    this.clientService.getDetail(entity.id)
+      .pipe(finalize(() => {
+        this.clientService.getMedicalHistoryByClientId(entity.id)
+          .pipe(finalize(() => {
+
+          }))
+          .subscribe((result) => {
+            this.medicalData = result;
+          });
+        this.clientService.getWorkHistoryByClientId(entity.id)
+          .subscribe((result) => {
+            this.workData = result;
+          });
+      }))
+      .subscribe((result) => {
+        address.line1 = result.address.line1;
+        address.line2 = result.address.line2;
+        address.city = result.address.city;
+        address.postalCode = result.address.postalCode;
+        address.province = result.address.province;
+        console.log(result.address);
+
+      });
+    const docCreator = new DocumentCreator();
+    setTimeout(() => {
+      const today = moment().format('LL');
+      docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
+      console.log('Document created successfully');
+      this.isSaving = false;
+    }, 5000);
+  }
+  getMedicalHistory(id) {
+    this.clientService.getMedicalHistoryByClientId(id)
+      .pipe(finalize(() => {
+      }))
+      .subscribe((result) => {
+        this.medicalData = result;
+        console.log(result);
+      });
+  }
+  getWorkHistory(id) {
+    this.clientService.getWorkHistoryByClientId(id)
+      .pipe(finalize(() => {
+
+      }))
+      .subscribe((result) => {
+        this.workData = result;
+      });
+  }
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.getLawFirm();
     this.getAttorneys();

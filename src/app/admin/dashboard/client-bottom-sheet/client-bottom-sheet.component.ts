@@ -4,6 +4,7 @@ import { ClientServiceProxy, CreateClientInput } from '@shared/service-proxies/s
 import { MAT_BOTTOM_SHEET_DATA, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatBottomSheetRef } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-client-bottom-sheet',
@@ -16,6 +17,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   clientForm: FormGroup;
   clientInput: CreateClientInput = new CreateClientInput();
   isSaving = false;
+  date: string;
   constructor(
     private injector: Injector,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -26,7 +28,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   }
 
   ngOnInit() {
-    console.log(this.data);
+    this.date = this.data.date;
     this.initializeForm();
   }
   initializeForm() {
@@ -36,7 +38,6 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       idNumber: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
-      assessmentDate: ['', Validators.required]
     });
   }
   close() {
@@ -44,7 +45,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   }
   save() {
     if (this.data.lawFirmId === '' || this.data.attorneyId === '' || this.data.contactId === '') {
-      this.notify.error('Form Not Valid Not All Check Your Event Form');
+      this.notify.error('Form Not Valid Check Your Event Form');
       return;
     }
     this.isSaving = true;
@@ -52,6 +53,8 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     this.clientInput.lawFirmId = this.data.lawFirmId;
     this.clientInput.attorneyId = this.data.attorneyId;
     this.clientInput.contactId = this.data.contactId;
+    const newDate = moment(this.date).format('YYYY-MM-DD');
+    this.clientInput.assessmentDate = moment(newDate);
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;

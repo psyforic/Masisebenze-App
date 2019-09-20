@@ -24,8 +24,9 @@ export class EditContactComponent extends AppComponentBase {
     this.contactService.getDetail(id).subscribe((result) => {
       this.contact = result;
     });
-    this.modalService.open(this.content).result.then(() => { },
-      () => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then(() => { },
+        () => { });
   }
   save() {
     this.contactService.editContact(this.contact)

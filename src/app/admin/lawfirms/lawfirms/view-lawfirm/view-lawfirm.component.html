@@ -177,7 +177,7 @@
                                 <div class="col-lg-12 mt-1">
                                     <button class="pull-right" (click)="addAttorney()" mat-raised-button color="primary"
                                         type="button">
-                                        Add New Attorney
+                                        New Attorney
                                     </button>
                                 </div>
                                 <div class="mat-table__wrapper" *ngIf="attorneys.length > 0">
@@ -265,7 +265,7 @@
                                 <div class="col-lg-12 mt-1">
                                     <button class="pull-right" (click)="addContact()" mat-raised-button color="primary"
                                         type="button">
-                                        Add New Contact
+                                        New Contact
                                     </button>
                                 </div>
                                 <div class="mat-table__wrapper" *ngIf="contacts.length > 0">
@@ -361,16 +361,6 @@
                                             <mat-spinner *ngIf="isTableLoading || isSaving"></mat-spinner>
                                         </div>
                                         <mat-table [dataSource]="clientDataSource" matSort>
-                                            <!-- ID Column -->
-                                            <!-- <ng-container matColumnDef="id">
-                                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                    ID
-                                                </mat-header-cell>
-                                                <mat-cell *matCellDef="let user">
-                                                    {{ user.id }}
-                                                </mat-cell>
-                                            </ng-container> -->
-                                            <!-- Progress Column -->
                                             <ng-container matColumnDef="firstName">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                     FirstName
@@ -393,35 +383,35 @@
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                     D.O.B
                                                 </mat-header-cell>
-                                                <mat-cell *matCellDef="let user">
-                                                    {{ user.dob }}
+                                                <mat-cell *matCellDef="let client">
+                                                    {{ getDob(client) }}
                                                 </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="age">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                     Age
                                                 </mat-header-cell>
-                                                <mat-cell *matCellDef="let user">
-                                                    {{ user.age }}
+                                                <mat-cell *matCellDef="let client">
+                                                    {{getAge(client)}}
                                                 </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="dateOfInjury">
                                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                                     Date Of Injury
                                                 </mat-header-cell>
-                                                <mat-cell *matCellDef="let user">
-                                                    {{ user.dateOfInjury | date: 'dd-MM-yyyy' }}
+                                                <mat-cell *matCellDef="let client">
+                                                    {{ client.dateOfInjury | date: 'dd-MM-yyyy' }}
                                                 </mat-cell>
                                             </ng-container>
                                             <ng-container matColumnDef="actions">
                                                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-                                                <mat-cell *matCellDef="let user">
-                                                    <button [routerLink]="['/admin/clients/view', user.id]"
-                                                        mat-icon-button color="primary" matTooltip="Edit user">
+                                                <mat-cell *matCellDef="let client">
+                                                    <button [routerLink]="['/admin/clients/view', client.id]"
+                                                        mat-icon-button color="primary" matTooltip="Edit Client">
                                                         <mat-icon>create</mat-icon>
                                                     </button>&nbsp;
-                                                    <button mat-icon-button color="warn" matTooltip="Delete user"
-                                                        type="button">
+                                                    <button (click)="deleteClient(client)" mat-icon-button color="warn"
+                                                        matTooltip="Delete Client" type="button">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
 

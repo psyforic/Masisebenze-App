@@ -46,7 +46,8 @@ export class CameraModalComponent extends AppComponentBase implements OnInit {
       });
   }
   open() {
-    this.modalService.open(this.content, { size: 'xl' }).result.then(() => { }, () => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then(() => { }, () => { });
   }
   public triggerSnapshot(): void {
     this.trigger.next();

@@ -48,6 +48,6 @@ export class ViewAttorneyComponent extends AppComponentBase implements OnInit {
         this.editAttorneyForm.patchValue(result);
         this.editAttorneyForm.get('lawFirm').setValue(result.lawFirm.companyName);
       });
-    this.modalService.open(this.content).result.then(() => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false }).result.then(() => { });
   }
 }

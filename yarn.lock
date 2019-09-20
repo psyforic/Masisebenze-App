@@ -1063,13 +1063,6 @@ angular-expressions@^1.0.0:
   resolved "https://registry.yarnpkg.com/angular-expressions/-/angular-expressions-1.0.0.tgz#3430436e4d8108ff7cf30c6b8b9dbfa7b437d395"
   integrity sha512-ihYJFCr1S7vfBJTS7dE+zGQ3oNAMIL+NJ5aWs52Cz7frmvpVVA1NTMXBP9BFSP/Wk/zIJBeYn2o5Fo8txCka3A==
 
-angular-froala-wysiwyg@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/angular-froala-wysiwyg/-/angular-froala-wysiwyg-3.0.5.tgz#f3770eeba6b91aae2d299b3bf9fe7756d0c0e334"
-  integrity sha512-ZcwZg7O93pL5IqV/4HBxH4nD0N/udfg61BpL++IzZnxA9V9a7Mii9SxuZxbvDsL91eUaNmjhtiZ1Axu5DcpuQA==
-  dependencies:
-    froala-editor "^3.0.5"
-
 angular-vertical-timeline@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/angular-vertical-timeline/-/angular-vertical-timeline-0.6.0.tgz#5e949741c2a2ceee37a30c5245195c86745da90d"
@@ -3315,11 +3308,6 @@ fragment-cache@^0.2.1:
 fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
-
-froala-editor@^3.0.5:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.0.5.tgz#abcfb93c1133de3870de727cc1d16fa194aeb8aa"
-  integrity sha512-DWdKuhtRnI/OSOVaC03Vqc3Y9AiqZVCPQ/D8Si/3yu/FJgxdjFVGluseAEVmz2AhHe2lh6ni2S7SqDOuk/8XJg==
 
 from2@^2.1.0:
   version "2.3.0"

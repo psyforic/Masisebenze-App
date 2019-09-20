@@ -87,14 +87,10 @@
         </div>
         <div class="col-sm-6">
           <mat-form-field>
-            <input matInput formControlName="assessmentDate" [matDatepicker]="datePicker"
-              placeholder="Date Of Assessment" required readonly>
-            <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <input matInput [matDatepicker]="datePicker"
+              placeholder="Date Of Assessment" required readonly [value]="date" readonly>
+            <mat-datepicker-toggle matSuffix [for]="datePicker" [disabled]="true"></mat-datepicker-toggle>
             <mat-datepicker #datePicker></mat-datepicker>
-            <mat-error *ngIf="clientForm.get('assessmentDate').touched
-                      && clientForm.get('assessmentDate').hasError('required')">
-              Assessment Date Required
-            </mat-error>
           </mat-form-field>
         </div>
       </div>

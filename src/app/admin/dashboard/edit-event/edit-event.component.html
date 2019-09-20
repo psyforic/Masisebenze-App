@@ -14,14 +14,7 @@
               <div class="col-lg-12">
                 <mat-form-field>
                   <mat-label>Law Firm</mat-label>
-                  <mat-select (selectionChange)="selectedLawFirmId($event)" #lawFirmId="ngModel" required
-                    name="lawFirmId" [(ngModel)]="booking.lawFirmId" required>
-                    <mat-option *ngFor="let lawFirm of lawFirms" value="{{lawFirm.id}}">{{lawFirm.companyName}}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error class="error-message" *ngIf="lawFirmId.touched && lawFirmId.hasError('required')">
-                    Law Firm is Required
-                  </mat-error>
+                  <input matInput type="text" name="lawFirmName" [(ngModel)]="lawFirmName" readonly>
                 </mat-form-field>
               </div>
             </div>
@@ -29,14 +22,7 @@
               <div class="col-lg-12">
                 <mat-form-field>
                   <mat-label>Attorney</mat-label>
-                  <mat-select (selectionChange)="selectAttorneyId($event)" name="attorneyId" #attorneyId="ngModel"
-                    [(ngModel)]="booking.attorneyId" required>
-                    <mat-option *ngFor="let attorney of attorneys" value="{{attorney.id}}">{{attorney.firstName}}
-                      {{attorney.lastName}}</mat-option>
-                  </mat-select>
-                  <mat-error class="error-message" *ngIf="attorneyId.touched && attorneyId.hasError('required')">
-                    Attorney is Required
-                  </mat-error>
+                  <input matInput type="text" name="attorneyName" [(ngModel)]="attorneyName" readonly>
                 </mat-form-field>
               </div>
             </div>
@@ -44,14 +30,7 @@
               <div class="col-lg-12">
                 <mat-form-field>
                   <mat-label>Contact Name</mat-label>
-                  <mat-select (selectionChange)="selectedContactId($event)" #contactId="ngModel" required
-                    name="contactId" [(ngModel)]="booking.contactId" required>
-                    <mat-option *ngFor="let contact of contacts" value="{{contact.id}}">{{contact.firstName}}
-                      {{contact.lastName}}</mat-option>
-                  </mat-select>
-                  <mat-error class="error-message" *ngIf="contactId.touched && contactId.hasError('required')">
-                    Contact Person is Required
-                  </mat-error>
+                  <input matInput type="text" name="contactName" [(ngModel)]="contactName" readonly>
                 </mat-form-field>
               </div>
             </div>
@@ -63,15 +42,7 @@
               <div class="col-lg-12">
                 <mat-form-field>
                   <mat-label>Client</mat-label>
-                  <input matInput type="text" name="client" [(ngModel)]="clientName">
-                  <!-- <mat-select (selectionChange)="selectedClientId($event)" required name="clientId" #clientId="ngModel"
-                    [(ngModel)]="booking.clientId" required>
-                    <mat-option *ngFor="let client of filteredClients" value="{{client.id}}">{{client.firstName}}
-                      {{client.lastName}}</mat-option>
-                  </mat-select>
-                  <mat-error class="error-message" *ngIf="clientId.touched && clientId.hasError('required')">
-                    Client is Required
-                  </mat-error> -->
+                  <input matInput type="text" name="client" [(ngModel)]="clientName" readonly>
                 </mat-form-field>
               </div>
             </div>
@@ -80,7 +51,8 @@
                 <mat-form-field>
                   <mat-label>Event Name</mat-label>
                   <mat-select required name="eventId" [(ngModel)]="booking.eventId" #eventId="ngModel" required>
-                    <mat-option *ngFor="let event of events" value="{{event.id}}">{{event.name}}</mat-option>
+                    <mat-option *ngFor="let event of events" [value]="event.id"
+                      selected="booking.event.id === event.id">{{event.name}}</mat-option>
                   </mat-select>
                   <mat-error class="error-message" *ngIf="eventId.touched && eventId.hasError('required')">
                     Event Name is required
@@ -92,8 +64,13 @@
               <div class="col-lg-12">
                 <mat-form-field>
                   <mat-label>Event Date</mat-label>
-                  <input type="text" matInput name="date" placeholder="Date" [(ngModel)]="date" disabled>
-
+                  <input matInput #eventDate [value]="date" [(ngModel)]="date" [matDatepicker]="picker" name="event"
+                    required readonly>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error *ngIf="eventDate.touched && eventDate.hasError('required')">
+                    Event Date is Required
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>
@@ -124,7 +101,10 @@
 
       <div class="modal-footer">
         <button type="button" mat-raised-button (click)="modal.dismiss()">Close</button>
-        <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid">Update Event</button>
+        <button type="button" mat-raised-button (click)="deleteEvent()" color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid">Update</button>
       </div>
     </div>
   </form>

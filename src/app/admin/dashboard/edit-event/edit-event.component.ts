@@ -1,15 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import {
-  CreateBookingInput,
-  ClientListDto,
-  LawFirmListDto,
-  AttorneyListDto,
-  ContactListDto,
   EventListDto,
   BookingServiceProxy,
-  ClientServiceProxy,
-  LawFirmServiceProxy,
   BookingDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,13 +14,13 @@ import { AppComponentBase } from '@shared/app-component-base';
   selector: 'app-edit-event',
   templateUrl: './edit-event.component.html',
   styleUrls: ['./edit-event.component.scss'],
-  providers: [BookingServiceProxy, ClientServiceProxy, LawFirmServiceProxy]
+  providers: [BookingServiceProxy]
 })
 export class EditEventComponent extends AppComponentBase implements OnInit {
 
 
   @ViewChild('content', { static: false }) content: ElementRef;
-  @Output() newBookingInput = new EventEmitter();
+  @Output() editBookingInput = new EventEmitter();
   @Output() newBottomSheetClient = new EventEmitter();
   @ViewChild('newEvent', { static: false }) newEventForm: NgForm;
 
@@ -36,26 +29,17 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
   endTime: any;
   bookingName: string;
   booking: BookingDetailOutput = new BookingDetailOutput();
-  clients: ClientListDto[] = [];
-  lawFirms: LawFirmListDto[] = [];
-  attorneys: AttorneyListDto[] = [];
-  contacts: ContactListDto[] = [];
-  filteredClients: ClientListDto[] = [];
   filter = '';
   isActive = true;
-  lawFirmId: string;
-  attorneyId: string;
-  clientId: string;
-  contactId: string;
   events: EventListDto[] = [];
   fromTime: string;
   toTime: string;
-  showHeader = false;
   clientName: string;
+  attorneyName: string;
+  lawFirmName: string;
+  contactName: string;
   constructor(private injector: Injector, private modalService: NgbModal,
-    private bookingService: BookingServiceProxy,
-    private clientService: ClientServiceProxy,
-    private lawFirmService: LawFirmServiceProxy) {
+    private bookingService: BookingServiceProxy) {
     super(injector);
   }
   ngOnInit(): void {
@@ -66,22 +50,24 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
       .pipe(finalize(() => {
         this.toTime = moment(this.booking.endTime).format('h:mm a');
         this.fromTime = moment(this.booking.startTime).format('h:mm a');
+        this.getEvents();
       }))
       .subscribe((result) => {
         this.booking = result;
         this.clientName = result.client.firstName + ' ' + result.client.lastName;
+        this.lawFirmName = result.lawFirm.companyName;
+        this.attorneyName = result.attorney.firstName + ' ' + result.attorney.lastName;
+        this.contactName = result.contact.firstName + ' ' + result.contact.lastName;
+        this.startTime = moment(result.startTime).format('h:mm');
+        this.endTime = moment(result.endTime).format('h:mm');
       });
-    this.getEvents();
-    this.getLawFirms();
-    this.getLawFirmAttorneys();
-    this.getClients();
-    this.getLawFirmContacts();
-    this.date = date;
 
+    this.date = date;
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
   save() {
+    this.date = moment(this.date).format('YYYY-MM-DD');
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.bookingService.editBooking(this.booking)
@@ -89,6 +75,7 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe(() => {
         this.notify.success('Event Updated Successfully');
+        this.editBookingInput.emit([this.booking, this.booking.client.firstName + ' ' + this.booking.client.lastName]);
         this.modalService.dismissAll();
       });
   }
@@ -99,58 +86,24 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
   setEndTime(event) {
     this.endTime = event;
   }
-  getLawFirms() {
-    this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
-      this.lawFirms = result.items;
-      this.lawFirmId = this.booking.lawFirmId;
-    });
-  }
-  getLawFirmAttorneys() {
-    this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {
-      this.attorneys = result.items;
-    });
-  }
-  getLawFirmContacts() {
-    this.lawFirmService.getContacts(this.lawFirmId).pipe(finalize(() => {
-    })).subscribe((result) => {
-      this.contacts = result.items;
-    });
-  }
-  getClients() {
-    this.clientService.getByContactAttorneyId(this.attorneyId, this.contactId)
-      .pipe(finalize(() => { }))
-      .subscribe((result) => {
-        this.filteredClients = result.items;
-      });
-  }
   getEvents() {
     this.bookingService.getAllEvents(this.filter).subscribe((result) => {
       this.events = result.items;
     });
   }
-  selectAttorneyId(event) {
-    this.attorneyId = event.value;
+  protected deleteEvent(): void {
+    abp.message.confirm(
+      'Delete \'' + this.booking.event.name + '\'' + ' For ' + this.booking.client.firstName + ' ' + this.booking.client.lastName + '?',
+      (result: boolean) => {
+        if (result) {
+          this.bookingService.delete(this.booking.id).pipe(finalize(() => {
+            abp.notify.success('Deleted Event: ' + this.booking.client.firstName + ' ' + this.booking.client.lastName);
+          })).subscribe(() => {
+            this.editBookingInput.emit(null);
+            this.modalService.dismissAll();
+          });
+        }
+      }
+    );
   }
-  selectedClientId(event) {
-    this.clientId = event.value;
-  }
-  selectedLawFirmId(event) {
-    this.lawFirmId = event.value;
-    this.getLawFirmAttorneys();
-    this.getLawFirmContacts();
-  }
-  selectedContactId(event) {
-    this.contactId = event.value;
-    this.getClients();
-    this.showHeader = true;
-  }
-  openBottomSheet() {
-    const clientInfo = {
-      lawFirmId: this.booking.lawFirmId,
-      attorneyId: this.booking.attorneyId,
-      contactId: this.booking.contactId
-    };
-    this.newBottomSheetClient.emit(clientInfo);
-  }
-
 }

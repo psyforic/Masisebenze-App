@@ -7,7 +7,7 @@
                 </div>
                 <div class="header-toolbar">
                     <button (click)="createClient()" mat-raised-button color="primary" matTooltip="Create new Client">
-                        New Client
+                        <mat-icon>add</mat-icon>
                     </button>
                 </div>
             </div>
@@ -29,7 +29,8 @@
                                     FirstName
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let client">
-                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.firstName }}</a></h6>
+                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.firstName }}</a>
+                                    </h6>
                                 </mat-cell>
                             </ng-container>
                             <!-- Name Column -->
@@ -38,7 +39,8 @@
                                     LastName
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let client">
-                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.lastName }}</a></h6>
+                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.lastName }}</a>
+                                    </h6>
                                 </mat-cell>
                             </ng-container>
                             <!-- Color Column -->
@@ -81,7 +83,6 @@
 
                                     <mat-menu #appMenu="matMenu">
                                         <button mat-menu-item (click)="generate(client)">
-                                            <!-- <mat-icon>rate_review</mat-icon> -->
                                             <i class="fa fa-file-word-o mr-1"></i>
                                             <span>Generate Word Report</span>
                                         </button>

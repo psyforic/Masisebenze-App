@@ -131,11 +131,11 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     this.showHeader = true;
   }
   openBottomSheet() {
-    console.log(this.newEventForm);
     const clientInfo = {
       lawFirmId: this.booking.lawFirmId,
       attorneyId: this.booking.attorneyId,
-      contactId: this.booking.contactId
+      contactId: this.booking.contactId,
+      date: this.date
     };
     this.newBottomSheetClient.emit(clientInfo);
   }

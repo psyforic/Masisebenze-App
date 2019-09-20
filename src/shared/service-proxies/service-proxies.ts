@@ -1854,6 +1854,66 @@ export class ClientServiceProxy {
     }
 
     /**
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
+     * @return Success
+     */
+    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfClientListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Client/GetAll?";
+        if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
+        if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
+        if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfClientListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfClientListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfClientListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PagedResultDtoOfClientListDto.fromJS(resultData200) : new PagedResultDtoOfClientListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfClientListDto>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -2494,66 +2554,6 @@ export class ClientServiceProxy {
             }));
         }
         return _observableOf<ClientListDto>(<any>null);
-    }
-
-    /**
-     * @param sorting (optional) 
-     * @param skipCount (optional) 
-     * @param maxResultCount (optional) 
-     * @return Success
-     */
-    getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfClientListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Client/GetAll?";
-        if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
-        if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
-        if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetAll(<any>response_);
-                } catch (e) {
-                    return <Observable<PagedResultDtoOfClientListDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<PagedResultDtoOfClientListDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfClientListDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PagedResultDtoOfClientListDto.fromJS(resultData200) : new PagedResultDtoOfClientListDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<PagedResultDtoOfClientListDto>(<any>null);
     }
 
     /**
@@ -8862,6 +8862,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     eventId: number | undefined;
+    event: Event | undefined;
     attorneyId: string | undefined;
     attorney: Attorney | undefined;
     contactId: string | undefined;
@@ -8894,6 +8895,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
             this.lawFirmId = data["lawFirmId"];
             this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
             this.eventId = data["eventId"];
+            this.event = data["event"] ? Event.fromJS(data["event"]) : <any>undefined;
             this.attorneyId = data["attorneyId"];
             this.attorney = data["attorney"] ? Attorney.fromJS(data["attorney"]) : <any>undefined;
             this.contactId = data["contactId"];
@@ -8926,6 +8928,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
         data["lawFirmId"] = this.lawFirmId;
         data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
         data["eventId"] = this.eventId;
+        data["event"] = this.event ? this.event.toJSON() : <any>undefined;
         data["attorneyId"] = this.attorneyId;
         data["attorney"] = this.attorney ? this.attorney.toJSON() : <any>undefined;
         data["contactId"] = this.contactId;
@@ -8958,6 +8961,7 @@ export interface IBookingDetailOutput {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     eventId: number | undefined;
+    event: Event | undefined;
     attorneyId: string | undefined;
     attorney: Attorney | undefined;
     contactId: string | undefined;
@@ -8970,6 +8974,53 @@ export interface IBookingDetailOutput {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class Event implements IEvent {
+    name: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEvent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Event {
+        data = typeof data === 'object' ? data : {};
+        let result = new Event();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Event {
+        const json = this.toJSON();
+        let result = new Event();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEvent {
+    name: string | undefined;
+    id: number | undefined;
 }
 
 export class BookingListDto implements IBookingListDto {
@@ -9093,53 +9144,6 @@ export interface IBookingListDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
-}
-
-export class Event implements IEvent {
-    name: string | undefined;
-    id: number | undefined;
-
-    constructor(data?: IEvent) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): Event {
-        data = typeof data === 'object' ? data : {};
-        let result = new Event();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): Event {
-        const json = this.toJSON();
-        let result = new Event();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IEvent {
-    name: string | undefined;
-    id: number | undefined;
 }
 
 export class ListResultDtoOfBookingListDto implements IListResultDtoOfBookingListDto {
@@ -9781,6 +9785,61 @@ export interface ICreateAddressInput {
     province: string | undefined;
 }
 
+export class PagedResultDtoOfClientListDto implements IPagedResultDtoOfClientListDto {
+    totalCount: number | undefined;
+    items: ClientListDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfClientListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.totalCount = data["totalCount"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ClientListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfClientListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfClientListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): PagedResultDtoOfClientListDto {
+        const json = this.toJSON();
+        let result = new PagedResultDtoOfClientListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPagedResultDtoOfClientListDto {
+    totalCount: number | undefined;
+    items: ClientListDto[] | undefined;
+}
+
 export class ClientListDto implements IClientListDto {
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
@@ -10367,61 +10426,6 @@ export interface IMedicalHistoryListDto {
     currentHistory: string | undefined;
     medication: string | undefined;
     id: string | undefined;
-}
-
-export class PagedResultDtoOfClientListDto implements IPagedResultDtoOfClientListDto {
-    totalCount: number | undefined;
-    items: ClientListDto[] | undefined;
-
-    constructor(data?: IPagedResultDtoOfClientListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.totalCount = data["totalCount"];
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(ClientListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): PagedResultDtoOfClientListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new PagedResultDtoOfClientListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["totalCount"] = this.totalCount;
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): PagedResultDtoOfClientListDto {
-        const json = this.toJSON();
-        let result = new PagedResultDtoOfClientListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPagedResultDtoOfClientListDto {
-    totalCount: number | undefined;
-    items: ClientListDto[] | undefined;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {

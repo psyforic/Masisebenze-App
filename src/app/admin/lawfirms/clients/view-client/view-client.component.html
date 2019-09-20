@@ -103,8 +103,7 @@
 
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker" id="dateValue"
-                                                                placeholder="Date of Injury"
-                                                                [(ngModel)]="client.dateOfInjury" name="dateOfInjurty">
+                                                                placeholder="Date of Injury" [value]="dateOfInjury" name="dateOfInjury">
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker></mat-datepicker>
@@ -372,10 +371,10 @@
                                                             <mat-panel-title>
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}"
+                                                        <!-- <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="workHistory.description" [sanitize]="true"
                                                             name="description">
-                                                        </quill-editor>
+                                                        </quill-editor> -->
 
                                                     </mat-expansion-panel>
                                                 </mat-accordion>

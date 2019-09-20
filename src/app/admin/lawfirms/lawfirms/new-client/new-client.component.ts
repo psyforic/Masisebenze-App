@@ -61,11 +61,12 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.lawFirmId = id;
     this.getLawFirmContacts();
     this.getLawFirmAttorneys();
-    this.modalService.open(this.content).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then((result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
   }
   getLawFirmAttorneys() {
     this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {

@@ -61,14 +61,16 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       start: moment(booking[0].startTime).format('YYYY-MM-DD HH:mm:ss'),
       end: moment(booking[0].endTime).format('YYYY-MM-DD HH:mm:ss')
     });
+    this.getBookings();
   }
   editSelectedEvent(event) {
-    // this.calendarEvents.
+    this.getBookings();
   }
   ngAfterViewInit(): void {
   }
 
   getBookings() {
+    this.calendarEvents = []; // to avoid duplicates
     this.bookingService.getBookings('')
       .pipe(finalize(() => {
         this.bookings.forEach((el) => {
