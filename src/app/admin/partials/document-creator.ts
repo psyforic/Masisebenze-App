@@ -60,12 +60,11 @@ export class DocumentCreator {
                 previousInjuries: medicalData.previousInjuries,
                 medicalConditions: medicalData.medicalConditions,
                 currentHistory: medicalData.currentHistory,
-                medication: medicalData.description,
+                medication: medicalData.medication,
                 workHistory: workData.description,
             });
 
             try {
-
                 doc.render();
             } catch (error) {
                 const e = {

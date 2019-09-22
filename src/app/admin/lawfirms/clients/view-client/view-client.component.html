@@ -91,19 +91,16 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Id Number" type="text"
+                                                            <input matInput placeholder="Id Number" type="number"
                                                                 name="idNumber" [(ngModel)]="client.idNumber">
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <!-- <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Case Number" type="text"
-                                                                name="caseNumber" [(ngModel)]="client.caseNumber">
-                                                        </mat-form-field> -->
 
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker" id="dateValue"
-                                                                placeholder="Date of Injury" [value]="dateOfInjury" name="dateOfInjury">
+                                                                placeholder="Date of Injury" [value]="dateOfInjury"
+                                                                name="dateOfInjury">
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker></mat-datepicker>
@@ -155,8 +152,8 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Postal Code" type="text"
-                                                                [(ngModel)]="postalCode" name="postalCode">
+                                                            <input matInput placeholder="Postal Code" type="number"
+                                                                maxlength="8" [(ngModel)]="postalCode" name="postalCode">
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
@@ -245,7 +242,7 @@
                                 <div class="row">
                                     <div class="col-lg-12 mt-3">
                                         <button mat-raised-button type="submit" color="primary"
-                                            class="btn-round pull-right">Update
+                                            class="btn btn-round pull-right">Update
                                             Client</button>
                                         <div class="clearfix"></div>
                                     </div>
@@ -367,15 +364,10 @@
 
                                                     </mat-expansion-panel>
                                                     <mat-expansion-panel>
-                                                        <mat-expansion-panel-header>
+                                                        <!-- <mat-expansion-panel-header>
                                                             <mat-panel-title>
                                                             </mat-panel-title>
-                                                        </mat-expansion-panel-header>
-                                                        <!-- <quill-editor [styles]="{height: '200px'}"
-                                                            [(ngModel)]="workHistory.description" [sanitize]="true"
-                                                            name="description">
-                                                        </quill-editor> -->
-
+                                                        </mat-expansion-panel-header> -->
                                                     </mat-expansion-panel>
                                                 </mat-accordion>
 
@@ -439,14 +431,10 @@
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
                                                         <quill-editor [styles]="{height: '200px'}"
-                                                            [(ngModel)]="medicalHistory.currentHistory" [sanitize]="true"
-                                                            placeholder="Enter Text" name="history"
+                                                            [(ngModel)]="medicalHistory.currentHistory"
+                                                            [sanitize]="true" placeholder="Enter Text" name="history"
                                                             (onContentChanged)="onContentChanged($event)">
                                                         </quill-editor>
-
-                                                        <!-- <div>
-                                                            <pre>{{currentHistory}}</pre>
-                                                        </div> -->
                                                     </mat-expansion-panel>
 
                                                     <mat-expansion-panel>
@@ -509,11 +497,6 @@
                                             {{treeControl.isExpanded(node) ? 'expand_more' : 'folder'}}
                                         </mat-icon>
                                     </button>
-                                    <!-- <button mat-icon-button>
-                                        <a href="{{node.name}}">
-                                            <mat-icon>insert_drive_file</mat-icon>
-                                        </a>
-                                    </button> -->
                                     {{node.name}}
                                 </mat-tree-node>
                             </mat-tree>

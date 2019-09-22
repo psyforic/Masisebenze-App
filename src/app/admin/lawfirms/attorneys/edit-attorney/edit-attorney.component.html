@@ -1,6 +1,6 @@
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">View Attorney</h4>
+        <h4 class="modal-title" id="modal-basic-title">Edit Attorney</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -19,7 +19,7 @@
                                             {{firm.companyName}}
                                         </mat-option>
                                     </mat-select>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('lawFirmId').touched 
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('lawFirmId').touched
                                             && editAttorneyForm.get('lawFirmId').hasError('required')">
                                         Law Firm is Required
                                     </mat-error>
@@ -30,7 +30,7 @@
                             <div class="col-md-6">
                                 <mat-form-field class="example-full-width">
                                     <input matInput placeholder="First Name" formControlName="firstName" required>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('firstName').touched 
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('firstName').touched
                                             && editAttorneyForm.get('firstName').hasError('required')">
                                         First Name is Required
                                     </mat-error>
@@ -39,7 +39,7 @@
                             <div class="col-md-6">
                                 <mat-form-field class="example-full-width">
                                     <input matInput placeholder="Last Name" formControlName="lastName" required>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('lastName').touched 
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('lastName').touched
                                             && editAttorneyForm.get('lastName').hasError('required')">
                                         Last Name is Required
                                     </mat-error>
@@ -51,7 +51,7 @@
                                 <mat-form-field class="example-full-width">
                                     <input matInput placeholder="Email address" type="email" formControlName="email"
                                         required>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('email').touched 
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('email').touched
                                             && editAttorneyForm.get('email').hasError('required')">
                                         Email Address is Required
                                     </mat-error>
@@ -65,20 +65,20 @@
                             </div>
                             <div class="col-lg-6">
                                 <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Cell Phone" type="text" formControlName="cellPhone"
+                                    <input matInput placeholder="Cell Phone" type="text" formControlName="cellphone"
                                         required>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('cellPhone').touched 
-                                            && editAttorneyForm.get('cellPhone').hasError('required')">
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('cellphone').touched
+                                            && editAttorneyForm.get('cellphone').hasError('required')">
                                         Cellphone is Required
                                     </mat-error>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('cellPhone').touched
-                                            && editAttorneyForm.get('cellPhone').hasError('maxlength') &&
-                                            !editAttorneyForm.get('cellPhone').hasError('required')">
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('cellphone').touched
+                                            && editAttorneyForm.get('cellphone').hasError('maxlength') &&
+                                            !editAttorneyForm.get('cellphone').hasError('required')">
                                         Maximum Length is 10
                                     </mat-error>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('cellPhone').touched
-                                            && editAttorneyForm.get('cellPhone').hasError('minlength') &&
-                                            !editAttorneyForm.get('cellPhone').hasError('required')">
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('cellphone').touched
+                                            && editAttorneyForm.get('cellphone').hasError('minlength') &&
+                                            !editAttorneyForm.get('cellphone').hasError('required')">
                                         Minimum Length is 10
                                     </mat-error>
                                 </mat-form-field>
@@ -88,7 +88,7 @@
                             <div class="col-md-6">
                                 <mat-form-field class="example-full-width">
                                     <input matInput placeholder="Phone" type="text" formControlName="phone" required>
-                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('phone').touched 
+                                    <mat-error class="error-message" *ngIf="editAttorneyForm.get('phone').touched
                                             && editAttorneyForm.get('phone').hasError('required')">
                                         Phone is Required
                                     </mat-error>
