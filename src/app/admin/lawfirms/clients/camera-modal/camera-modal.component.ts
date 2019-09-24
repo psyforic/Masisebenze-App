@@ -70,7 +70,6 @@ export class CameraModalComponent extends AppComponentBase implements OnInit {
   public handleImage(event): void {
     this.imageChangedEvent = event;
     const webcamImage = event as WebcamImage;
-    console.log('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
     // this.showCropper = true;
     this.pictureTaken.emit(webcamImage);
@@ -81,7 +80,6 @@ export class CameraModalComponent extends AppComponentBase implements OnInit {
   }
 
   public cameraWasSwitched(deviceId: string): void {
-    console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
 

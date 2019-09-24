@@ -83,11 +83,13 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
       });
   }
 
-  setStartTime(event) {
+  setStartTime(event, form: NgForm) {
     this.startTime = event;
+    form.control.markAsDirty();
   }
-  setEndTime(event) {
+  setEndTime(event, form: NgForm) {
     this.endTime = event;
+    form.control.markAsDirty();
   }
   getEvents() {
     this.bookingService.getAllEvents(this.filter).subscribe((result) => {

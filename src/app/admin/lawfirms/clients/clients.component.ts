@@ -91,7 +91,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       }))
       .subscribe((result) => {
         this.medicalData = result;
-        console.log(result);
       });
   }
   getFileData(id) {
@@ -159,11 +158,13 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
   protected delete(entity: ClientListDto): void {
+    this.isSaving = true;
     abp.message.confirm(
       'Delete Client \'' + entity.firstName + ' ' + entity.lastName + '\'?',
       (result: boolean) => {
         if (result) {
           this.clientService.delete(entity.id).pipe(finalize(() => {
+            this.isSaving = false;
             abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
             this.refresh();
           })).subscribe(() => { });

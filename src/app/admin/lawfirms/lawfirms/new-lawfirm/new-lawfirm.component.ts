@@ -16,6 +16,7 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
   @Output() newContact = new EventEmitter();
   closeResult: string;
   lawFirm: CreateLawFirmInput = new CreateLawFirmInput();
+  sameAddress = true;
 
   public lawFirmForm: FormGroup;
   constructor(
@@ -64,16 +65,27 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
     this.newContact.emit(this.lawFirm);
     this.modalService.dismissAll();
   }
+  checkedChange() {
+    this.sameAddress = !this.sameAddress;
+  }
   save() {
     this.lawFirm = Object.assign({}, this.lawFirmForm.value);
     this.lawFirm.physicalAddress = new CreateAddressInput();
-    this.lawFirm.sameAddress = true;
     this.lawFirm.physicalAddress.line1 = this.lawFirmForm.get('line1').value;
     this.lawFirm.physicalAddress.line2 = this.lawFirmForm.get('line2').value;
     this.lawFirm.physicalAddress.city = this.lawFirmForm.get('city').value;
     this.lawFirm.physicalAddress.postalCode = this.lawFirmForm.get('postalCode').value;
     this.lawFirm.physicalAddress.province = this.lawFirmForm.get('province').value;
-    this.lawFirmService.create(this.lawFirm)
+    this.lawFirm.sameAddress = this.sameAddress;
+    if (!this.sameAddress) {
+      this.lawFirm.postalAddress = new CreateAddressInput();
+      this.lawFirm.postalAddress.line1 = this.lawFirmForm.get('postLine1').value;
+      this.lawFirm.postalAddress.line2 = this.lawFirmForm.get('postLine2').value;
+      this.lawFirm.postalAddress.city = this.lawFirmForm.get('postCity').value;
+      this.lawFirm.postalAddress.postalCode = this.lawFirmForm.get('postPostalCode').value;
+      this.lawFirm.postalAddress.province = this.lawFirmForm.get('postProvince').value;
+    }
+    this.lawFirmService.createLawFirm(this.lawFirm)
       .pipe(finalize(() => { }))
       .subscribe(() => {
         this.notify.success('Saved Successfully');

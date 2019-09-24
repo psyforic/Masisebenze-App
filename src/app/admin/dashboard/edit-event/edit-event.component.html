@@ -86,7 +86,7 @@
               <mat-label>From</mat-label>
               <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue" [value]="fromTime"
                 readonly>
-              <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event)">
+              <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event,newEvent)">
               </ngx-material-timepicker>
             </mat-form-field>
           </div>
@@ -95,7 +95,7 @@
             <mat-form-field>
               <mat-label>To</mat-label>
               <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value" [value]="toTime" readonly>
-              <ngx-material-timepicker #Value (timeSet)="setEndTime($event)">
+              <ngx-material-timepicker #Value (timeSet)="setEndTime($event,newEvent)">
               </ngx-material-timepicker>
             </mat-form-field>
           </div>
@@ -107,7 +107,8 @@
         <button type="button" mat-raised-button (click)="deleteEvent()" color="warn">
           <mat-icon>delete</mat-icon>
         </button>
-        <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid">Update</button>
+        <button type="submit" mat-raised-button color="primary"
+          [disabled]="!newEvent.valid || !newEvent.dirty">Update</button>
       </div>
     </div>
   </form>

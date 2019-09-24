@@ -92,7 +92,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.getLawFirmContacts();
   }
   selectedDate(event) {
-    console.log(event.value);
   }
   save() {
     this.isSaving = true;

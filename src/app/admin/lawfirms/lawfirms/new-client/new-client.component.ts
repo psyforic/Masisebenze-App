@@ -79,7 +79,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     });
   }
   selectedDate(event) {
-    console.log(event.target.value);
   }
   save() {
     const courtDate = new Date(this.clientForm.get('courtDate').value);

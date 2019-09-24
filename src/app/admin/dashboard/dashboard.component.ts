@@ -53,7 +53,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   handleEventClick(arg) {
     const date = moment(arg.event.start).format('YYYY-MM-DD');
     this.editEventModal.open(date, arg.event.id);
-    console.log(arg.event);
   }
   addBooking(booking: any[]) {
     this.calendarEvents = this.calendarEvents.concat({

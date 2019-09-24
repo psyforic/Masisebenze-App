@@ -96,7 +96,6 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   getLawFirmAttorneys() {
     this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {
       this.attorneys = result.items;
-      console.log(this.attorneys);
     });
   }
   getLawFirmContacts() {

@@ -13,6 +13,7 @@ import { LawfirmsModule } from './lawfirms/lawfirms.module';
 import { PartialsModule } from './partials/partials.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
+import { RolesModule } from './roles/roles.module';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { UsersModule } from './users/users.module';
     ActivityLogModule,
     PartialsModule,
     DashboardModule,
-    UsersModule
+    UsersModule,
+    RolesModule
   ],
   declarations: [
     FooterComponent,

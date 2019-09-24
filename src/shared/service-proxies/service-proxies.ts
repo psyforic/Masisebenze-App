@@ -1854,6 +1854,56 @@ export class ClientServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Client/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param sorting (optional) 
      * @param skipCount (optional) 
      * @param maxResultCount (optional) 
@@ -2666,56 +2716,6 @@ export class ClientServiceProxy {
             }));
         }
         return _observableOf<ClientListDto>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
-    delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Client/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
     }
 }
 
@@ -4737,6 +4737,56 @@ export class LawFirmServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LawFirm/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param input (optional) 
      * @return Success
      */
@@ -5283,39 +5333,49 @@ export class LawFirmServiceProxy {
         }
         return _observableOf<LawFirmListDto>(<any>null);
     }
+}
+
+@Injectable()
+export class ProfileServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
 
     /**
-     * @param id (optional) 
      * @return Success
      */
-    delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/LawFirm/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+    getUserProfile(): Observable<ProfileDto> {
+        let url_ = this.baseUrl + "/api/services/app/Profile/GetUserProfile";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Accept": "application/json"
             })
         };
 
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUserProfile(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDelete(<any>response_);
+                    return this.processGetUserProfile(<any>response_);
                 } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
+                    return <Observable<ProfileDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<void>><any>_observableThrow(response_);
+                return <Observable<ProfileDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processDelete(response: HttpResponseBase): Observable<void> {
+    protected processGetUserProfile(response: HttpResponseBase): Observable<ProfileDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -5324,14 +5384,17 @@ export class LawFirmServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ProfileDto.fromJS(resultData200) : new ProfileDto();
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<void>(<any>null);
+        return _observableOf<ProfileDto>(<any>null);
     }
 }
 
@@ -11591,9 +11654,9 @@ export interface ICreateLawFirmInput {
 export class LawFirmDetailOutput implements ILawFirmDetailOutput {
     companyName: string | undefined;
     physicalAddressId: number | undefined;
-    physicalAddress: CreateAddressInput | undefined;
+    physicalAddress: AddressDetailOutput | undefined;
     postalAddressId: number | undefined;
-    postalAddress: CreateAddressInput | undefined;
+    postalAddress: AddressDetailOutput | undefined;
     email: string | undefined;
     phone: string | undefined;
     fax: string | undefined;
@@ -11620,9 +11683,9 @@ export class LawFirmDetailOutput implements ILawFirmDetailOutput {
         if (data) {
             this.companyName = data["companyName"];
             this.physicalAddressId = data["physicalAddressId"];
-            this.physicalAddress = data["physicalAddress"] ? CreateAddressInput.fromJS(data["physicalAddress"]) : <any>undefined;
+            this.physicalAddress = data["physicalAddress"] ? AddressDetailOutput.fromJS(data["physicalAddress"]) : <any>undefined;
             this.postalAddressId = data["postalAddressId"];
-            this.postalAddress = data["postalAddress"] ? CreateAddressInput.fromJS(data["postalAddress"]) : <any>undefined;
+            this.postalAddress = data["postalAddress"] ? AddressDetailOutput.fromJS(data["postalAddress"]) : <any>undefined;
             this.email = data["email"];
             this.phone = data["phone"];
             this.fax = data["fax"];
@@ -11678,9 +11741,9 @@ export class LawFirmDetailOutput implements ILawFirmDetailOutput {
 export interface ILawFirmDetailOutput {
     companyName: string | undefined;
     physicalAddressId: number | undefined;
-    physicalAddress: CreateAddressInput | undefined;
+    physicalAddress: AddressDetailOutput | undefined;
     postalAddressId: number | undefined;
-    postalAddress: CreateAddressInput | undefined;
+    postalAddress: AddressDetailOutput | undefined;
     email: string | undefined;
     phone: string | undefined;
     fax: string | undefined;
@@ -11693,6 +11756,69 @@ export interface ILawFirmDetailOutput {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class AddressDetailOutput implements IAddressDetailOutput {
+    line1: string | undefined;
+    line2: string | undefined;
+    city: string | undefined;
+    postalCode: string | undefined;
+    province: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: IAddressDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.line1 = data["line1"];
+            this.line2 = data["line2"];
+            this.city = data["city"];
+            this.postalCode = data["postalCode"];
+            this.province = data["province"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AddressDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new AddressDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["line1"] = this.line1;
+        data["line2"] = this.line2;
+        data["city"] = this.city;
+        data["postalCode"] = this.postalCode;
+        data["province"] = this.province;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AddressDetailOutput {
+        const json = this.toJSON();
+        let result = new AddressDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAddressDetailOutput {
+    line1: string | undefined;
+    line2: string | undefined;
+    city: string | undefined;
+    postalCode: string | undefined;
+    province: string | undefined;
+    id: number | undefined;
 }
 
 export class LawFirmListDto implements ILawFirmListDto {
@@ -11945,6 +12071,89 @@ export class PagedResultDtoOfLawFirmListDto implements IPagedResultDtoOfLawFirmL
 export interface IPagedResultDtoOfLawFirmListDto {
     totalCount: number | undefined;
     items: LawFirmListDto[] | undefined;
+}
+
+export class ProfileDto implements IProfileDto {
+    userName: string | undefined;
+    name: string | undefined;
+    surname: string | undefined;
+    emailAddress: string | undefined;
+    isActive: boolean | undefined;
+    fullName: string | undefined;
+    lastLoginTime: moment.Moment | undefined;
+    creationTime: moment.Moment | undefined;
+    roleNames: string[] | undefined;
+
+    constructor(data?: IProfileDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userName = data["userName"];
+            this.name = data["name"];
+            this.surname = data["surname"];
+            this.emailAddress = data["emailAddress"];
+            this.isActive = data["isActive"];
+            this.fullName = data["fullName"];
+            this.lastLoginTime = data["lastLoginTime"] ? moment(data["lastLoginTime"].toString()) : <any>undefined;
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            if (data["roleNames"] && data["roleNames"].constructor === Array) {
+                this.roleNames = [];
+                for (let item of data["roleNames"])
+                    this.roleNames.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): ProfileDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProfileDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userName"] = this.userName;
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["emailAddress"] = this.emailAddress;
+        data["isActive"] = this.isActive;
+        data["fullName"] = this.fullName;
+        data["lastLoginTime"] = this.lastLoginTime ? this.lastLoginTime.toISOString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        if (this.roleNames && this.roleNames.constructor === Array) {
+            data["roleNames"] = [];
+            for (let item of this.roleNames)
+                data["roleNames"].push(item);
+        }
+        return data; 
+    }
+
+    clone(): ProfileDto {
+        const json = this.toJSON();
+        let result = new ProfileDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IProfileDto {
+    userName: string | undefined;
+    name: string | undefined;
+    surname: string | undefined;
+    emailAddress: string | undefined;
+    isActive: boolean | undefined;
+    fullName: string | undefined;
+    lastLoginTime: moment.Moment | undefined;
+    creationTime: moment.Moment | undefined;
+    roleNames: string[] | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {

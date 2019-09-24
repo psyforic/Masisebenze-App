@@ -153,14 +153,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       });
   }
   onContentChanged = (event) => {
-    console.log(event);
   }
   upload(event) {
     this.isUploading = true;
     const id = Math.random().toString(36).substring(2);
     this.ref = this.afStorage.ref(`/profilePics/${id}`);
-    // this.task = this.ref.put(event.target.files[0]);
-    console.log(event.slice(22, event.length));
     this.task = this.ref.putString(event.slice(23, event.length), 'base64');
     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
     this.uploadProgress = this.task.percentageChanges();

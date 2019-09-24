@@ -192,7 +192,6 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
         address.city = result.address.city;
         address.postalCode = result.address.postalCode;
         address.province = result.address.province;
-        console.log(result.address);
 
       });
     const docCreator = new DocumentCreator();
@@ -209,9 +208,9 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
       }))
       .subscribe((result) => {
         this.medicalData = result;
-        console.log(result);
       });
   }
+
   getWorkHistory(id) {
     this.clientService.getWorkHistoryByClientId(id)
       .pipe(finalize(() => {
@@ -227,7 +226,6 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     this.getAttorneys();
     this.contactService.getByLawFirm(this.lawFirmId)
       .pipe(finalize(() => {
-
         finishedCallback();
       }))
       .subscribe((result) => {
@@ -239,8 +237,11 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
 
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
-
+        this.clientDataSource = new MatTableDataSource(this.clients);
+        this.clientDataSource.paginator = this.clientPaginator;
+        this.clientDataSource.sort = this.clientSort;
         finishedCallback();
+
       }))
       .subscribe((result) => {
         result.items.forEach((client) => {
@@ -248,10 +249,7 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
             this.clients.push(client);
           }
         });
-        this.clientDataSource = new MatTableDataSource(this.clients);
-        this.clientDataSource.paginator = this.clientPaginator;
-        this.clientDataSource.sort = this.clientSort;
-        this.showPaging(result, pageNumber);
+
       });
   }
 

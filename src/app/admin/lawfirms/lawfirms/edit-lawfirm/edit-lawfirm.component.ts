@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector } from '@angular/core';
-import { LawFirmDetailOutput, LawFirmServiceProxy, CreateAddressInput } from '@shared/service-proxies/service-proxies';
+import { LawFirmDetailOutput, LawFirmServiceProxy, AddressDetailOutput } from '@shared/service-proxies/service-proxies';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
@@ -72,7 +72,7 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.lawFirm = Object.assign({}, this.lawFirmForm.value);
-    this.lawFirm.physicalAddress = new CreateAddressInput();
+    this.lawFirm.physicalAddress = new AddressDetailOutput();
     this.lawFirm.physicalAddress.line1 = this.lawFirmForm.get('line1').value;
     this.lawFirm.physicalAddress.line2 = this.lawFirmForm.get('line2').value;
     this.lawFirm.physicalAddress.city = this.lawFirmForm.get('city').value;

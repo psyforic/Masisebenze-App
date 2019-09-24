@@ -78,7 +78,7 @@
                                                 <mat-form-field>
                                                     <mat-label>Line 2</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.line2" name="line2"
+                                                        [(ngModel)]="lawFirm?.physicalAddress.line2" name="line2"
                                                         disabled>
                                                 </mat-form-field>
                                             </div>
@@ -88,14 +88,14 @@
                                                 <mat-form-field>
                                                     <mat-label>City</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.city" name="city" disabled>
+                                                        [(ngModel)]="lawFirm?.physicalAddress.city" name="city" disabled>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Province</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.province" name="province"
+                                                        [(ngModel)]="lawFirm?.physicalAddress.province" name="province"
                                                         disabled>
                                                 </mat-form-field>
                                             </div>
@@ -105,7 +105,7 @@
                                                 <mat-form-field>
                                                     <mat-label>Postal Code</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.postalCode" name="line1"
+                                                        [(ngModel)]="lawFirm?.physicalAddress.postalCode" name="postalCode"
                                                         disabled>
                                                 </mat-form-field>
                                             </div>
@@ -118,16 +118,14 @@
                                                 <mat-form-field>
                                                     <mat-label>Line 1</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.line1" name="line1"
-                                                        disabled>
+                                                        [(ngModel)]="lawFirm?.postalAddress.line1" name="postLine1" disabled>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Line 2</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.line2" name="line2"
-                                                        disabled>
+                                                        [(ngModel)]="lawFirm?.postalAddress.line2" name="postLine2" disabled>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -135,15 +133,15 @@
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>City</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.city" name="city" disabled>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.postalAddress.city"
+                                                        name="postCity" disabled>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Province</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.province" name="province"
+                                                        [(ngModel)]="lawFirm?.postalAddress.province" name="postProvince"
                                                         disabled>
                                                 </mat-form-field>
                                             </div>
@@ -153,7 +151,7 @@
                                                 <mat-form-field>
                                                     <mat-label>Postal Code</mat-label>
                                                     <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.physicalAddress.postalCode" name="line1"
+                                                        [(ngModel)]="lawFirm?.postalAddress.postalCode" name="postPostalCode"
                                                         disabled>
                                                 </mat-form-field>
                                             </div>

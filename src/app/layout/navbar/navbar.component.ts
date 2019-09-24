@@ -1,11 +1,11 @@
-import { Component, OnInit, ElementRef, Injector } from '@angular/core';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { ROUTES } from '../sidebar/sidebar.component';
+import { Location } from '@angular/common';
+import { Component, ElementRef, Injector, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AppAuthService } from '@shared/auth/app-auth.service';
+import { ProfileDto, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
-import { UserLoginInfoDto } from '@shared/service-proxies/service-proxies';
-import { Router } from '@angular/router';
+import { ROUTES } from '../sidebar/sidebar.component';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -14,14 +14,13 @@ const misc: any = {
 };
 declare var $: any;
 @Component({
-  // moduleId: module.id,
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  providers: [AppSessionService]
+  providers: [AppSessionService, ProfileServiceProxy]
 })
 
 export class NavbarComponent extends AppComponentBase implements OnInit {
-  user: UserLoginInfoDto = new UserLoginInfoDto();
+  user: ProfileDto = new ProfileDto();
   location: Location;
   mobile_menu_visible: any = 0;
   private listTitles: any[];
@@ -33,6 +32,7 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
     private injector: Injector,
     private _authService: AppAuthService,
     private appSessionService: AppSessionService,
+    private profileService: ProfileServiceProxy,
     private router: Router) {
     super(injector);
     this.location = location;
@@ -171,7 +171,8 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
   }
 
   getUserName() {
-    this.user = this.appSessionService.user;
-    console.log('User', this.appSessionService.user);
+    this.profileService.getUserProfile().subscribe((result) => {
+      this.user = result;
+    });
   }
 }

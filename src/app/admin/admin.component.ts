@@ -19,7 +19,6 @@ export class AdminComponent implements OnInit, AfterViewInit {
   constructor(public location: Location, private router: Router) { }
 
   ngOnInit() {
-    console.log(this.router);
     const isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
     if (isWindows) {

@@ -16,6 +16,7 @@ import { ViewActivityLogComponent } from './lawfirms/clients/view-activity-log/v
 import { UsersComponent } from './users/users.component';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { UploadDocumentComponent } from './lawfirms/clients/upload-document/upload-document.component';
+import { RolesComponent } from './roles/roles.component';
 
 @NgModule({
 
@@ -29,6 +30,7 @@ import { UploadDocumentComponent } from './lawfirms/clients/upload-document/uplo
                 children: [
                     { path: 'dashboard', component: DashboardComponent, canActivate: [AppRouteGuard] },
                     { path: 'users', component: UsersComponent },
+                    { path: 'roles', component: RolesComponent },
                     { path: 'lawfirms', component: LawfirmsComponent, canActivate: [AppRouteGuard] },
                     { path: 'job-descriptions', component: JobDescriptionsComponent, canActivate: [AppRouteGuard] },
                     { path: 'reports', component: ReportsComponent, canActivate: [AppRouteGuard] },

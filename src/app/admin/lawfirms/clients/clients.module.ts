@@ -6,7 +6,6 @@ import { ViewClientComponent } from './view-client/view-client.component';
 import { NewClientComponent } from './new-client/new-client.component';
 import { PartialsModule } from '@app/admin/partials/partials.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ViewActivityLogComponent } from './view-activity-log/view-activity-log.component';
 import { VerticalTimelineModule } from 'angular-vertical-timeline';
 import { CameraModalComponent } from './camera-modal/camera-modal.component';
@@ -27,7 +26,6 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
     CommonModule,
     MatAutocompleteModule,
     PartialsModule,
-    BsDatepickerModule.forRoot(),
     VerticalTimelineModule,
     WebcamModule,
     ImageCropperModule
