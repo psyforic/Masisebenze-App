@@ -34,7 +34,7 @@ export class ViewAttorneyComponent extends AppComponentBase implements OnInit {
     this.editAttorneyForm = this.fb.group({
       firstName: [],
       lastName: [],
-      cellPhone: [],
+      cellphone: [],
       email: [],
       fax: [''],
       phone: [],

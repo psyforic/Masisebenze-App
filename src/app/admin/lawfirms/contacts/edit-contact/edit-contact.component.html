@@ -42,7 +42,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" mat-raised-button (click)="modal.dismiss()">Close</button>
-      <button type="submit" mat-raised-button color="primary">Update</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="!newContact.dirty">Update</button>
     </div>
   </form>
 </ng-template>

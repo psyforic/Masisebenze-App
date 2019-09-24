@@ -7,6 +7,9 @@
   </div>
   <form #newEvent="ngForm" (ngSubmit)="save()">
     <div class="modal-body">
+      <div class="example-loading-shade" *ngIf="isSaving">
+        <mat-spinner *ngIf="isSaving"></mat-spinner>
+      </div>
       <div class="card">
         <div class="row">
           <div class="col-lg-6">

@@ -16,6 +16,7 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
   @Output() newContact = new EventEmitter();
   closeResult: string;
   lawFirm: CreateLawFirmInput = new CreateLawFirmInput();
+
   public lawFirmForm: FormGroup;
   constructor(
     private injector: Injector,
@@ -38,7 +39,12 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
       line2: [''],
       city: ['', Validators.required],
       postalCode: ['', Validators.required],
-      province: ['', Validators.required]
+      province: ['', Validators.required],
+      postLine1: [''],
+      postLine2: [''],
+      postCity: [''],
+      postPostalCode: [''],
+      postProvince: [''],
     });
   }
   open() {

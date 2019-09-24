@@ -41,7 +41,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   client: ClientDetailOutput = new ClientDetailOutput();
   documents: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
-  medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();;
+  medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
   clientId = '';
   line1 = '';
   line2 = '';
@@ -49,10 +49,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   province = '';
   addressId = 0;
   postalCode = '';
-  blured = false;
-  focused = false;
-  isWorkUpdate = false;
-  isMedicalUpdate = false;
   panelOpenState = false;
   isUploading = false;
   ref: AngularFireStorageReference;
@@ -118,30 +114,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.addressId = result.addressId;
       });
   }
-  created(event) {
-    // tslint:disable-next-line:no-console
-    console.log('editor-created', event);
-  }
 
-  changedEditor(event) {
-    // tslint:disable-next-line:no-console
-    console.log('editor-change', event);
-  }
-
-  focus($event) {
-    // tslint:disable-next-line:no-console
-    console.log('focus', $event);
-    this.focused = true;
-    this.blured = false;
-  }
   openCameraModal() {
     this.takePhoto.open();
-  }
-  blur($event) {
-    // tslint:disable-next-line:no-console
-    console.log('blur', $event);
-    this.focused = false;
-    this.blured = true;
   }
   save() {
     this.client.address = new CreateAddressInput();

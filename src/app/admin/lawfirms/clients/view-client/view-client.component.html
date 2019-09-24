@@ -153,7 +153,8 @@
                                                     <div class="col-md-4">
                                                         <mat-form-field class="example-full-width">
                                                             <input matInput placeholder="Postal Code" type="number"
-                                                                maxlength="8" [(ngModel)]="postalCode" name="postalCode">
+                                                                maxlength="8" [(ngModel)]="postalCode"
+                                                                name="postalCode">
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
@@ -241,9 +242,10 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 mt-3">
-                                        <button mat-raised-button type="submit" color="primary"
-                                            class="btn btn-round pull-right">Update
-                                            Client</button>
+                                        <button [disabled]="!clientForm.dirty" mat-raised-button type="submit"
+                                            color="primary" class="pull-right">
+                                            Update Client
+                                        </button>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>

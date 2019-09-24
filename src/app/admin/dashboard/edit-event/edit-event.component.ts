@@ -35,6 +35,7 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
   fromTime: string;
   toTime: string;
   clientName: string;
+  isSaving = false;
   attorneyName: string;
   lawFirmName: string;
   contactName: string;
@@ -67,11 +68,13 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
       .result.then(() => { }, () => { });
   }
   save() {
+    this.isSaving = true;
     this.date = moment(this.date).format('YYYY-MM-DD');
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.bookingService.editBooking(this.booking)
       .pipe(finalize(() => {
+        this.isSaving = false;
       }))
       .subscribe(() => {
         this.notify.success('Event Updated Successfully');

@@ -47,6 +47,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   attorneyId: string;
   clientId: string;
   contactId: string;
+  isSaving = false;
   events: EventListDto[] = [];
   showHeader = false;
   constructor(private injector: Injector, private modalService: NgbModal,
@@ -65,10 +66,12 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
       .result.then(() => { }, () => { });
   }
   save() {
+    this.isSaving = true;
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.bookingService.createBooking(this.booking)
       .pipe(finalize(() => {
+        this.isSaving = false;
       }))
       .subscribe(() => {
         this.notify.success('Event Booking Created Successfully');

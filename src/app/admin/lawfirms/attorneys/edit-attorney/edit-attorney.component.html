@@ -115,7 +115,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <button type="submit" mat-raised-button color="primary" [disabled]="!editAttorneyForm.valid">Update</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!editAttorneyForm.valid || !editAttorneyForm.dirty">Update</button>
         </div>
     </form>
 </ng-template>

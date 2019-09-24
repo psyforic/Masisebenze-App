@@ -80,7 +80,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
             start: moment(el.startTime).format('YYYY-MM-DD HH:mm:ss'),
             end: moment(el.endTime).format('YYYY-MM-DD HH:mm:ss'),
             id: el.id,
-            date: moment(el.startTime).format('yyyy-MM-dd')
+            date: moment(el.startTime).format('yyyy-MM-dd'),
+            color: this.getEventColor(el.eventId)
           };
           this.calendarEvents.push(event);
         });
@@ -104,6 +105,16 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     this.dashBoardService.getLatestActivity(this.filter).subscribe((result) => {
       this.activities = result.items;
     });
+  }
+  getEventColor(id: number) {
+    switch (id) {
+      case 1: return '#2962ff';
+      case 2: return '#03a9f4';
+      case 3: return '#e91e63';
+      case 4: return '#ff5722';
+      case 5: return '#00e676';
+      default: return '#378006';
+    }
   }
 
   startAnimationForBarChart(chart) {
