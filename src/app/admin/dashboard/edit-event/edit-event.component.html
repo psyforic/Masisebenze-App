@@ -100,6 +100,16 @@
             </mat-form-field>
           </div>
         </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <quill-editor [required]="true" #reason="ngModel" [styles]="{height: '200px'}" [(ngModel)]="booking.reason"
+              [placeholder]="'Please Enter Reason'" [sanitize]="true" name="reason">
+            </quill-editor>
+            <mat-error class="error-message" *ngIf="reason.touched && reason.hasError('required')">
+              Reason For Change is Required
+            </mat-error>
+          </div>
+        </div>
       </div>
 
       <div class="modal-footer">

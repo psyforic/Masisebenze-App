@@ -8,7 +8,9 @@ import {
   ContactListDto,
   AttorneyListDto,
   LawFirmServiceProxy,
-  LawFirmListDto
+  LawFirmListDto,
+  CreateBookingInput,
+  BookingServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
@@ -18,7 +20,7 @@ import * as moment from 'moment';
   selector: 'app-new-client',
   templateUrl: './new-client.component.html',
   styleUrls: ['./new-client.component.scss'],
-  providers: [ClientServiceProxy, LawFirmServiceProxy]
+  providers: [ClientServiceProxy, LawFirmServiceProxy, BookingServiceProxy]
 })
 export class NewClientComponent extends AppComponentBase implements OnInit {
   datePickerConfig: Partial<BsDatepickerConfig>;
@@ -35,12 +37,16 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   lawFirms: LawFirmListDto[] = [];
   lawFirmId: string;
   dateModel: Date;
+  startTime: any;
+  endTime: any;
   clientInput: CreateClientInput = new CreateClientInput();
+  booking: CreateBookingInput = new CreateBookingInput();
   constructor(private injector: Injector,
     private modalService: NgbModal,
     private fb: FormBuilder,
     private clientService: ClientServiceProxy,
-    private lawFirmService: LawFirmServiceProxy) {
+    private lawFirmService: LawFirmServiceProxy,
+    private bookingService: BookingServiceProxy) {
     super(injector);
   }
   ngOnInit(): void {
@@ -54,7 +60,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
       lawFirmId: ['', Validators.required],
       attorneyId: ['', Validators.required],
       contactId: ['', Validators.required],
-      courtDate: ['', Validators.required],
+      courtDate: [''],
       title: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -92,6 +98,12 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.getLawFirmContacts();
   }
   selectedDate(event) {
+  }
+  setStartTime(event) {
+    this.startTime = event;
+  }
+  setEndTime(event) {
+    this.endTime = event;
   }
   save() {
     this.isSaving = true;

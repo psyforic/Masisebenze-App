@@ -41,7 +41,12 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
       line2: [''],
       city: ['', Validators.required],
       postalCode: ['', Validators.required],
-      province: ['', Validators.required]
+      province: ['', Validators.required],
+      postLine1: [''],
+      postLine2: [''],
+      postCity: [''],
+      postPostalCode: [''],
+      postProvince: [''],
     });
   }
   open(id: string) {
@@ -57,6 +62,13 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
       this.lawFirmForm.get('city').setValue(result.physicalAddress.city);
       this.lawFirmForm.get('postalCode').setValue(result.physicalAddress.postalCode);
       this.lawFirmForm.get('province').setValue(result.physicalAddress.province);
+
+
+      this.lawFirmForm.get('postLine1').setValue(result.postalAddress.line1);
+      this.lawFirmForm.get('postLine2').setValue(result.postalAddress.line2);
+      this.lawFirmForm.get('postCity').setValue(result.postalAddress.city);
+      this.lawFirmForm.get('postPostalCode').setValue(result.postalAddress.postalCode);
+      this.lawFirmForm.get('postProvince').setValue(result.postalAddress.province);
     });
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then((result) => {
@@ -81,6 +93,16 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
     this.lawFirm.id = this.lawFirmId;
     this.lawFirm.physicalAddressId = this.physicalAddressId;
     this.lawFirm.postalAddressId = this.postalAddressId;
+
+
+    if (this.lawFirm.physicalAddressId !== this.lawFirm.physicalAddressId) {
+      this.lawFirm.postalAddress = new AddressDetailOutput();
+      this.lawFirm.postalAddress.line1 = this.lawFirmForm.get('postLine1').value;
+      this.lawFirm.postalAddress.line2 = this.lawFirmForm.get('postLine2').value;
+      this.lawFirm.postalAddress.city = this.lawFirmForm.get('postCity').value;
+      this.lawFirm.postalAddress.postalCode = this.lawFirmForm.get('postPostalCode').value;
+      this.lawFirm.postalAddress.province = this.lawFirmForm.get('postProvince').value;
+    }
     this.lawFirmService.editLawFirm(this.lawFirm)
       .pipe(finalize(() => { }))
       .subscribe(() => {

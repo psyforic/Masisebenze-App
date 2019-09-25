@@ -20,6 +20,7 @@
         <h3>{{activity.event?.name}}</h3>
         <br />
         <small>From {{activity.startTime | date: 'short'}} - {{activity.endTime | date: 'short'}}</small>
+        <p *ngIf="activity.reason" class="text text-success">{{activity?.reason}}</p>
       </vertical-timeline-card>
 
       <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
