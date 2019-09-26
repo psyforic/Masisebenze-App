@@ -102,6 +102,15 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
       this.lawFirm.postalAddress.city = this.lawFirmForm.get('postCity').value;
       this.lawFirm.postalAddress.postalCode = this.lawFirmForm.get('postPostalCode').value;
       this.lawFirm.postalAddress.province = this.lawFirmForm.get('postProvince').value;
+      this.lawFirm.sameAddress = false;
+    } else {
+      this.lawFirm.postalAddress = new AddressDetailOutput();
+      this.lawFirm.postalAddress.line1 = this.lawFirmForm.get('postLine1').value;
+      this.lawFirm.postalAddress.line2 = this.lawFirmForm.get('postLine2').value;
+      this.lawFirm.postalAddress.city = this.lawFirmForm.get('postCity').value;
+      this.lawFirm.postalAddress.postalCode = this.lawFirmForm.get('postPostalCode').value;
+      this.lawFirm.postalAddress.province = this.lawFirmForm.get('postProvince').value;
+      this.lawFirm.sameAddress = true;
     }
     this.lawFirmService.editLawFirm(this.lawFirm)
       .pipe(finalize(() => { }))

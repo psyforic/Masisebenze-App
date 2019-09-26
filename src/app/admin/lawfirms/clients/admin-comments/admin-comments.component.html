@@ -11,11 +11,40 @@
       </div>
 
       <div class="card-body">
+        <div class="example-loading-shade" *ngIf="isSaving">
+          <mat-spinner *ngIf="isSaving"></mat-spinner>
+        </div>
+        <form *ngIf="!editing" #newComment="ngForm">
+          <div class="row">
+            <div class="col-lg-12">
+              <quill-editor [styles]="{height: '200px'}" [(ngModel)]="commentInput.text" [sanitize]="true"
+                name="description">
+              </quill-editor>
+            </div>
+          </div>
+        </form>
+
+        <form #editComment="ngForm" *ngIf="editing">
+          <div class="row">
+            <div class="col-lg-12">
+              <quill-editor [styles]="{height: '200px'}" [(ngModel)]="commentEdit.text" [sanitize]="true" name="text">
+              </quill-editor>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="card-footer pull-right">
         <div class="row">
           <div class="col-lg-12">
-            <quill-editor [styles]="{height: '200px'}" [(ngModel)]="comment.text" [sanitize]="true"
-              name="description">
-            </quill-editor>
+            <button *ngIf="!editing === undefined" mat-raised-button type="button" (click)="save()"
+              color="primary" class="pull-right">
+              Save
+            </button>
+            <button *ngIf="commentEdit.text != undefined" mat-raised-button type="button" (click)="edit()"
+              color="primary" class="pull-right">
+              Edit
+            </button>
           </div>
         </div>
       </div>

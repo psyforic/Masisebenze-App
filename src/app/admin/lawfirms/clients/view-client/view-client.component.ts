@@ -125,8 +125,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.client.address.city = this.city;
     this.client.address.postalCode = this.postalCode;
     this.client.address.province = this.province;
-    const injuryDate = $('#dateValue').val();
-    const formattedInjuryDate = moment(injuryDate).format('YYYY-MM-DD');
+    const injuryDate = new Date($('#dateValue').val());
+    injuryDate.setDate(injuryDate.getDate() + 1);
+    const formattedInjuryDate = moment(injuryDate).format('YYYY/MM/DD');
     this.client.dateOfInjury = moment(formattedInjuryDate);
     if (this.addressId !== 0) {
       this.client.addressId = this.addressId;

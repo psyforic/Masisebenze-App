@@ -12526,7 +12526,7 @@ export class LawFirmDetailOutput implements ILawFirmDetailOutput {
     email: string | undefined;
     phone: string | undefined;
     fax: string | undefined;
-    sameAddress: string | undefined;
+    sameAddress: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -12613,7 +12613,7 @@ export interface ILawFirmDetailOutput {
     email: string | undefined;
     phone: string | undefined;
     fax: string | undefined;
-    sameAddress: string | undefined;
+    sameAddress: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
