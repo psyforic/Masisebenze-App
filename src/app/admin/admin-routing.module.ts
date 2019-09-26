@@ -17,6 +17,7 @@ import { UsersComponent } from './users/users.component';
 import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { UploadDocumentComponent } from './lawfirms/clients/upload-document/upload-document.component';
 import { RolesComponent } from './roles/roles.component';
+import { AdminCommentsComponent } from './lawfirms/clients/admin-comments/admin-comments.component';
 
 @NgModule({
 
@@ -42,7 +43,8 @@ import { RolesComponent } from './roles/roles.component';
                     { path: 'lawfirms/view/:id', component: ViewLawfirmComponent, canActivate: [AppRouteGuard] },
                     { path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard] },
                     { path: 'clients/documents/upload/:id', component: UploadDocumentComponent, canActivate: [AppRouteGuard] },
-                    { path: 'clients/activity-log/:id', component: ViewActivityLogComponent, canActivate: [AppRouteGuard] }
+                    { path: 'clients/activity-log/:id', component: ViewActivityLogComponent, canActivate: [AppRouteGuard] },
+                    { path: 'comments/clients/:id', component: AdminCommentsComponent, canActivate: [AppRouteGuard] }
                 ]
             }
         ])

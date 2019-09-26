@@ -12,6 +12,7 @@ import { CameraModalComponent } from './camera-modal/camera-modal.component';
 import { WebcamModule } from 'ngx-webcam';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { UploadDocumentComponent } from './upload-document/upload-document.component';
+import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -20,7 +21,8 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
     ViewClientComponent,
     ViewActivityLogComponent,
     CameraModalComponent,
-    UploadDocumentComponent
+    UploadDocumentComponent,
+    AdminCommentsComponent
   ],
   imports: [
     CommonModule,

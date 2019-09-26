@@ -1,0 +1,24 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="card-title">{{client.firstName}} {{client.lastName}}</h1>
+        <div class="header-toolbar">
+          <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary" matTooltip="Back">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <quill-editor [styles]="{height: '200px'}" [(ngModel)]="comment.text" [sanitize]="true"
+              name="description">
+            </quill-editor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
