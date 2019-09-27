@@ -1,7 +1,7 @@
 <form autocomplete="off" #createRoleForm="ngForm" (ngSubmit)="save()">
-  <h1 mat-dialog-title>{{ "CreateNewRole" }}</h1>
+  <h1 mat-dialog-title>{{ "Create New Role" }}</h1>
   <mat-dialog-content style="width:600px;height:300px;">
-    <mat-tab-group>
+    <mat-tab-group mat-stretch-tabs>
       <mat-tab [label]="'Details'">
         <br />
         <div class="row-fluid">
