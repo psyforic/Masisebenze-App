@@ -10,19 +10,22 @@ import {
   ContactListDto,
   EventListDto
 } from '@shared/service-proxies/service-proxies';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
-import { PagedRequestDto } from '@shared/paged-listing-component-base';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgForm } from '@angular/forms';
-import { log } from 'util';
 
 @Component({
   selector: 'app-new-event',
   templateUrl: './new-event.component.html',
   styleUrls: ['./new-event.component.scss'],
-  providers: [LawFirmServiceProxy, ClientServiceProxy, BookingServiceProxy]
+  providers: [
+    LawFirmServiceProxy,
+    ClientServiceProxy,
+    BookingServiceProxy,
+    NgbActiveModal
+  ]
 })
 export class NewEventComponent extends AppComponentBase implements OnInit {
 
@@ -50,7 +53,10 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   isSaving = false;
   events: EventListDto[] = [];
   showHeader = false;
-  constructor(private injector: Injector, private modalService: NgbModal,
+  constructor(
+    private injector: Injector,
+    private modalService: NgbModal,
+    private activeModal: NgbActiveModal,
     private bookingService: BookingServiceProxy,
     private clientService: ClientServiceProxy,
     private lawFirmService: LawFirmServiceProxy) {
@@ -65,7 +71,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
-  save() {
+  save(form: NgForm) {
     this.isSaving = true;
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
@@ -77,7 +83,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
         this.notify.success('Event Booking Created Successfully');
         const client = this.filteredClients.find(x => x.id === this.clientId);
         this.newBookingInput.emit([this.booking, client.firstName + ' ' + client.lastName]);
-        this.modalService.dismissAll();
+        this.close(form);
       });
   }
 
@@ -140,5 +146,11 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
       date: this.date
     };
     this.newBottomSheetClient.emit(clientInfo);
+  }
+  close(form: NgForm) {
+    form.reset();
+    form.control.markAsUntouched();
+    this.showHeader = false;
+    this.modalService.dismissAll();
   }
 }

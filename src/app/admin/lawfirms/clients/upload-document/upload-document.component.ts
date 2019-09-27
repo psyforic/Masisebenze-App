@@ -102,6 +102,7 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
               this.notify.success('Document Added Successfully');
               this.isUploading = false;
               this.documentForm.reset();
+              this.documentForm.markAsUntouched();
             });
         });
       })).subscribe(() => {

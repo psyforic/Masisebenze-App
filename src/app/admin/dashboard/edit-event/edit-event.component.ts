@@ -37,6 +37,7 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
   clientName: string;
   isSaving = false;
   attorneyName: string;
+  reason: string;
   lawFirmName: string;
   contactName: string;
   constructor(private injector: Injector, private modalService: NgbModal,
@@ -67,19 +68,35 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
-  save() {
+  // save() {
+  //   this.isSaving = true;
+  //   this.date = moment(this.date).format('YYYY-MM-DD');
+  //   this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+  //   this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+  //   this.bookingService.editBooking(this.booking)
+  //     .pipe(finalize(() => {
+  //       this.isSaving = false;
+  //     }))
+  //     .subscribe(() => {
+  //       this.notify.success('Event Updated Successfully');
+  //       this.editBookingInput.emit([this.booking, this.booking.client.firstName + ' ' + this.booking.client.lastName]);
+  //       this.modalService.dismissAll();
+  //     });
+  // }
+  save(form: NgForm) {
     this.isSaving = true;
     this.date = moment(this.date).format('YYYY-MM-DD');
     this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
-    this.bookingService.editBooking(this.booking)
+    this.booking.reason = this.reason;
+    this.bookingService.createBooking(this.booking)
       .pipe(finalize(() => {
         this.isSaving = false;
       }))
       .subscribe(() => {
-        this.notify.success('Event Updated Successfully');
+        this.notify.success('Event Booking Updated Successfully');
         this.editBookingInput.emit([this.booking, this.booking.client.firstName + ' ' + this.booking.client.lastName]);
-        this.modalService.dismissAll();
+        this.close(form);
       });
   }
 
@@ -96,7 +113,12 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
       this.events = result.items;
     });
   }
-  protected deleteEvent(): void {
+  close(form: NgForm) {
+    form.reset();
+    form.control.markAsUntouched();
+    this.modalService.dismissAll();
+  }
+  protected deleteEvent(form: NgForm): void {
     abp.message.confirm(
       'Delete \'' + this.booking.event.name + '\'' + ' For ' + this.booking.client.firstName + ' ' + this.booking.client.lastName + '?',
       (result: boolean) => {
@@ -105,7 +127,7 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
             abp.notify.success('Deleted Event: ' + this.booking.client.firstName + ' ' + this.booking.client.lastName);
           })).subscribe(() => {
             this.editBookingInput.emit(null);
-            this.modalService.dismissAll();
+            this.close(form);
           });
         }
       }

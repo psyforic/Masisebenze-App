@@ -33,7 +33,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   }
   initializeForm() {
     this.clientForm = this.fb.group({
-      courtDate: ['', Validators.required],
+      courtDate: [''],
       title: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],

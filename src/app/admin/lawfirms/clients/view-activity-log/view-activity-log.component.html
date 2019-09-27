@@ -19,8 +19,10 @@
       <vertical-timeline-card *ngFor="let activity of activities" [dateValue]="activity.creationTime | date: 'short'">
         <h3>{{activity.event?.name}}</h3>
         <br />
-        <small>From {{activity.startTime | date: 'short'}} - {{activity.endTime | date: 'short'}}</small>
-        <p *ngIf="activity.reason" class="text text-success">{{activity?.reason}}</p>
+        <small>From {{activity.startTime | date: 'short'}} - {{activity.endTime | date: 'short'}}</small><br>
+        <p *ngIf="activity.reason" class="text text-success" [innerHTML]="activity?.reason">
+        </p>
+        <small class="text text-black-50 fw-600"> by {{activity.user.fullName | titlecase}}</small>
       </vertical-timeline-card>
 
       <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->

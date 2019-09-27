@@ -9480,6 +9480,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    user: User | undefined;
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     eventId: number | undefined;
@@ -9515,6 +9516,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
             this.clientId = data["clientId"];
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.userId = data["userId"];
+            this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
             this.lawFirmId = data["lawFirmId"];
             this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
             this.eventId = data["eventId"];
@@ -9550,6 +9552,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
         data["clientId"] = this.clientId;
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["userId"] = this.userId;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["lawFirmId"] = this.lawFirmId;
         data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
         data["eventId"] = this.eventId;
@@ -9585,6 +9588,7 @@ export interface IBookingDetailOutput {
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    user: User | undefined;
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     eventId: number | undefined;
@@ -9658,6 +9662,7 @@ export class BookingListDto implements IBookingListDto {
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    user: User | undefined;
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     eventId: number | undefined;
@@ -9693,6 +9698,7 @@ export class BookingListDto implements IBookingListDto {
             this.clientId = data["clientId"];
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.userId = data["userId"];
+            this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
             this.lawFirmId = data["lawFirmId"];
             this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
             this.eventId = data["eventId"];
@@ -9728,6 +9734,7 @@ export class BookingListDto implements IBookingListDto {
         data["clientId"] = this.clientId;
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["userId"] = this.userId;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["lawFirmId"] = this.lawFirmId;
         data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
         data["eventId"] = this.eventId;
@@ -9763,6 +9770,7 @@ export interface IBookingListDto {
     clientId: string | undefined;
     client: Client | undefined;
     userId: number | undefined;
+    user: User | undefined;
     lawFirmId: string | undefined;
     lawFirm: LawFirm | undefined;
     eventId: number | undefined;

@@ -1,11 +1,11 @@
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title">New Event</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <button type="button" class="close" aria-label="Close" (click)="close(newEvent)">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <form #newEvent="ngForm" (ngSubmit)="save()">
+  <form #newEvent="ngForm" (ngSubmit)="save(newEvent)">
     <div class="modal-body">
       <div class="example-loading-shade" *ngIf="isSaving">
         <mat-spinner *ngIf="isSaving"></mat-spinner>
@@ -133,7 +133,7 @@
       </div>
 
       <div class="modal-footer">
-        <button type="button" mat-raised-button (click)="modal.dismiss()">Close</button>
+        <button type="button" mat-raised-button (click)="close(newEvent)">Close</button>
         <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid">Add Event</button>
       </div>
     </div>

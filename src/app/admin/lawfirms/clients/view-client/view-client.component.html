@@ -104,7 +104,8 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="picker" id="dateValue"
                                                                 placeholder="Date of Injury" [value]="dateOfInjury"
-                                                                name="dateOfInjury" >
+                                                                name="dateOfInjury"
+                                                                (dateChange)="setFormTouched(clientForm)">
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker></mat-datepicker>

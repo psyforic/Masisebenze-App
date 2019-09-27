@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   ClientServiceProxy,
@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 import { CameraModalComponent } from '../camera-modal/camera-modal.component';
 import { GeneralService } from '@app/admin/services/general.service';
 import * as moment from 'moment';
+import { NgForm } from '@angular/forms';
 declare const $: any;
 interface DocumentNode {
   name: string;
@@ -60,6 +61,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   uploadedImage = '';
   photoUrl: string;
   dateOfInjury: string;
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  showCropper = false;
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
@@ -79,7 +84,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       .subscribe((result) => {
         this.documents = result.items;
         const filtered = this.documents.map((value) => {
-          return { name: value.name, children: [{ name: value.fileUrl }] };
+          return { name: value.name, children: [{ name: value.fileUrl}] };
         });
         this.fileDataSource.data = filtered;
       });
@@ -155,11 +160,14 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   onContentChanged = (event) => {
   }
+  setFormTouched(clientForm: NgForm) {
+    clientForm.control.markAsDirty();
+  }
   upload(event) {
     this.isUploading = true;
     const id = Math.random().toString(36).substring(2);
     this.ref = this.afStorage.ref(`/profilePics/${id}`);
-    this.task = this.ref.putString(event.slice(23, event.length), 'base64');
+    this.task = this.ref.putString(event, 'data_url');
     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
     this.uploadProgress = this.task.percentageChanges();
     this.task.snapshotChanges()

@@ -142,12 +142,12 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
       this.getClientDocuments();
     });
   }
-  isInValid(index) {
+  isInValid(index, fileName) {
     const authorName = $('#author' + index).val();
     const authorDate = $('#date' + index).val();
 
     return ((authorName === 'undefined' || authorName === '')
-      || (authorDate === 'undefined' || authorDate === ''))
+      || (authorDate === 'undefined' || authorDate === '')) && fileName !== 'Copy of Id or smartcard'
       ? true : false;
   }
   getClientDocuments() {

@@ -33,6 +33,9 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   lawFirms: LawFirmListDto[] = [];
   lawFirmId: string;
   dateModel: Date;
+  startTime: any;
+  endTime: any;
+
   clientInput: CreateClientInput = new CreateClientInput();
   constructor(private injector: Injector,
     private modalService: NgbModal,
@@ -49,7 +52,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.clientForm = this.fb.group({
       attorneyId: ['', Validators.required],
       contactId: ['', Validators.required],
-      courtDate: ['', Validators.required],
+      courtDate: [''],
       title: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -79,6 +82,12 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     });
   }
   selectedDate(event) {
+  }
+  setStartTime(event) {
+    this.startTime = event;
+  }
+  setEndTime(event) {
+    this.endTime = event;
   }
   save() {
     const courtDate = new Date(this.clientForm.get('courtDate').value);
