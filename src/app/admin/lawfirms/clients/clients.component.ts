@@ -99,7 +99,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       .subscribe((result) => {
         this.documents = result.items;
         const filtered = this.documents.map((value) => {
-          return { date_authored: moment(value.authorDate).format('YYYY-MM-DD'), file_name: value.name, author_name: value.authorName };
+          return { date_authored: moment(value.authorDate).format('DD/MM/YYYY'), file_name: value.name, author_name: value.authorName };
         });
         this.filteredDocuments = filtered;
       });
@@ -128,6 +128,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     let currentAge = new Date().getFullYear() - id_year;
     if (id_month > new Date().getMonth()) {
       currentAge = currentAge - 1;
+    } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
+      currentAge = currentAge - 1;
     }
     return currentAge;
   }
@@ -138,10 +140,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       +idNumber.substr(0, 2),
       +(idNumber.substring(2, 4)) - 1,
       +idNumber.substring(4, 6));
-    const id_date = tempDate.getDate();
-    const id_month = tempDate.getMonth();
-    const id_year = tempDate.getFullYear();
-    const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+    const fullDate = moment(tempDate).format('DD/MM/YYYY');
     return fullDate;
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
@@ -158,16 +157,19 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
   protected delete(entity: ClientListDto): void {
-    this.isSaving = true;
+
     abp.message.confirm(
       'Delete Client \'' + entity.firstName + ' ' + entity.lastName + '\'?',
       (result: boolean) => {
         if (result) {
+          this.isSaving = true;
           this.clientService.delete(entity.id).pipe(finalize(() => {
             this.isSaving = false;
             abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
             this.refresh();
           })).subscribe(() => { });
+        } else {
+          this.isSaving = false;
         }
       }
     );

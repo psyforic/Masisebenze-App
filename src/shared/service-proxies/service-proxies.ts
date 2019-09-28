@@ -10106,6 +10106,8 @@ export class CreateClientInput implements ICreateClientInput {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
 
     constructor(data?: ICreateClientInput) {
         if (data) {
@@ -10138,6 +10140,8 @@ export class CreateClientInput implements ICreateClientInput {
             this.socialHabits = data["socialHabits"];
             this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
+            this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
+            this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
         }
     }
 
@@ -10170,6 +10174,8 @@ export class CreateClientInput implements ICreateClientInput {
         data["socialHabits"] = this.socialHabits;
         data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
+        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
+        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
         return data; 
     }
 
@@ -10202,6 +10208,8 @@ export interface ICreateClientInput {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
 }
 
 export class ClientDetailOutput implements IClientDetailOutput {

@@ -106,8 +106,11 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   upload(event, index, docId) {
     this.isUploading = true;
     const id = Math.random().toString(36).substring(2);
+    const metaData = {
+      contentType: 'application/pdf'
+    };
     this.ref = this.afStorage.ref(id);
-    this.task = this.ref.put(event.target.files[0]);
+    this.task = this.ref.put(event.target.files[0], metaData);
     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
     this.uploadProgress = this.task.percentageChanges();
     this.task.snapshotChanges()
@@ -127,7 +130,6 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
     const authorDate = $('#date' + index).val();
     const momentDate = new Date(authorDate);
     const formattedDate = moment(momentDate).format('YYYY-MM-DD');
-
     this.input = new DocumentDetailOutput();
     this.input.id = id;
     this.input.authorName = authorName;

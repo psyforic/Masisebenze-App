@@ -65,7 +65,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       idNumber: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
-      assessmentDate: ['', Validators.required]
+      assessmentDate: ['', Validators.required],
     });
   }
   open() {
@@ -109,13 +109,14 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.isSaving = true;
     const courtDate = new Date(this.clientForm.get('courtDate').value);
     const formattedCourtDate = moment(courtDate).format('YYYY-MM-DD');
-
     const assessmentDate = new Date(this.clientForm.get('assessmentDate').value);
     const formattedAssessmentDate = moment(assessmentDate).format('YYYY-MM-DD');
     this.isSaving = true;
     this.clientInput = Object.assign({}, this.clientForm.value);
     this.clientInput.assessmentDate = moment(formattedAssessmentDate);
     this.clientInput.courtDate = moment(formattedCourtDate);
+    this.clientInput.startTime = moment(formattedCourtDate + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.clientInput.endTime = moment(formattedCourtDate + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;

@@ -13,7 +13,9 @@ import {
   AttorneyListDto,
   CreateAddressInput,
   WorkHistoryDetailOutput,
-  MedicalHistoryDetailOutput
+  MedicalHistoryDetailOutput,
+  DocumentListDto,
+  DocumentServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
@@ -29,7 +31,7 @@ import * as moment from 'moment';
   selector: 'app-view-lawfirm',
   templateUrl: './view-lawfirm.component.html',
   styleUrls: ['./view-lawfirm.component.scss'],
-  providers: [LawFirmServiceProxy, ContactServiceProxy, ClientServiceProxy]
+  providers: [LawFirmServiceProxy, ContactServiceProxy, ClientServiceProxy, DocumentServiceProxy]
 })
 export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListDto> implements AfterViewInit {
 
@@ -70,11 +72,15 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
   isLoading = false;
   workData: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
   medicalData: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
+  lawFirmCity: string;
+  documents: DocumentListDto[] = [];
+  filteredDocuments;
   constructor(private injector: Injector,
     private route: ActivatedRoute,
     private lawFimService: LawFirmServiceProxy,
     private contactService: ContactServiceProxy,
-    private clientService: ClientServiceProxy) {
+    private clientService: ClientServiceProxy,
+    private documentService: DocumentServiceProxy) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.lawFirmId = paramMap.get('id');
@@ -83,8 +89,6 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
   ngAfterViewInit(): void {
     // this.refresh();
   }
-
-
   getLawFirm() {
     this.isLoading = true;
     this.lawFimService.getDetail(this.lawFirmId)
@@ -93,6 +97,17 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
       }))
       .subscribe((result) => {
         this.lawFirm = result;
+      });
+  }
+  getFileData(id) {
+    this.documentService.getClientDocuments(id)
+      .pipe(finalize(() => { }))
+      .subscribe((result) => {
+        this.documents = result.items;
+        const filtered = this.documents.map((value) => {
+          return { date_authored: moment(value.authorDate).format('DD/MM/YYYY'), file_name: value.name, author_name: value.authorName };
+        });
+        this.filteredDocuments = filtered;
       });
   }
   addContact() {
@@ -149,8 +164,9 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     let currentAge = new Date().getFullYear() - id_year;
     if (id_month > new Date().getMonth()) {
       currentAge = currentAge - 1;
+    } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
+      currentAge = currentAge - 1;
     }
-
     return currentAge;
   }
 
@@ -160,24 +176,27 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
       +idNumber.substr(0, 2),
       +(idNumber.substring(2, 4)) - 1,
       +idNumber.substring(4, 6));
-    const id_date = tempDate.getDate();
-    const id_month = tempDate.getMonth();
-    const id_year = tempDate.getFullYear();
-    const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
-
+    const fullDate = moment(tempDate).format('DD/MM/YYYY');
     return fullDate;
   }
   generate(entity: ClientListDto) {
     this.isSaving = true;
     this.getMedicalHistory(entity.id);
     this.getWorkHistory(entity.id);
+    this.getFileData(entity.id);
+    this.lawFirmCity = 'Port Elizabeth';
     const address: CreateAddressInput = new CreateAddressInput();
+    const docCreator = new DocumentCreator();
+    setTimeout(() => {
+      const today = moment().format('LL');
+      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
+      console.log('Document created successfully');
+      this.isSaving = false;
+    }, 5000);
     this.clientService.getDetail(entity.id)
       .pipe(finalize(() => {
         this.clientService.getMedicalHistoryByClientId(entity.id)
-          .pipe(finalize(() => {
-
-          }))
+          .pipe(finalize(() => { }))
           .subscribe((result) => {
             this.medicalData = result;
           });
@@ -192,15 +211,7 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
         address.city = result.address.city;
         address.postalCode = result.address.postalCode;
         address.province = result.address.province;
-
       });
-    const docCreator = new DocumentCreator();
-    setTimeout(() => {
-      const today = moment().format('LL');
-      docCreator.generateDoc([entity, address, this.medicalData, this.workData], today);
-      console.log('Document created successfully');
-      this.isSaving = false;
-    }, 5000);
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
@@ -252,7 +263,6 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
 
       });
   }
-
 
   protected delete(entity: ContactListDto): void {
     abp.message.confirm(

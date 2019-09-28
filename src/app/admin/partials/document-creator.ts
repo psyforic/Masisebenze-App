@@ -18,12 +18,13 @@ export class DocumentCreator {
             +idNumber.substr(0, 2),
             +(idNumber.substring(2, 4)) - 1,
             +idNumber.substring(4, 6));
-        const id_date = tempDate.getDate();
         const id_month = tempDate.getMonth();
         const id_year = tempDate.getFullYear();
-        const fullDate = id_date + '-' + (id_month + 1) + '-' + id_year;
+        const fullDate = moment(tempDate).format('DD/MM/YYYY');
         let currentAge = new Date().getFullYear() - id_year;
         if (id_month > new Date().getMonth()) {
+            currentAge = currentAge - 1;
+        } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
             currentAge = currentAge - 1;
         }
         function loadFile(url, callback) {
@@ -32,7 +33,6 @@ export class DocumentCreator {
         loadFile('../../../assets/doc/template.docx', function (error, content) {
             if (error) { throw error; }
             const zip = new Pizzip(content);
-            // const zip = JSZip.loadAsync(content);
             const doc = new Docxtemplater().loadZip(zip);
             doc.setData({
                 fullName: clientData.firstName + ' ' + clientData.lastName,
@@ -44,9 +44,9 @@ export class DocumentCreator {
                 city: address.city,
                 documents: filteredDocuments,
                 postalCode: address.postalCode,
-                dateOfInjury: clientData.dateOfInjury,
-                assessmentdate: clientData.assessmentDate,
-                today: today,
+                dateOfInjury: moment(clientData.dateOfInjury).format('DD/MM/YYYY'),
+                assessmentDate: moment(clientData.assessmentDate).format('DD/MM/YYYY'),
+                today: moment(today).format('DD/MM/YYYY'),
                 attorney: clientData.attorney.firstName + ' ' + clientData.attorney.lastName,
                 lawFirm: clientData.lawFirm.companyName,
                 lawFirmCity: city,
@@ -81,7 +81,7 @@ export class DocumentCreator {
                 type: 'blob',
                 mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             });
-            saveAs(out, 'report.docx');
+            saveAs(out, clientData.firstName + '_' + clientData.lastName + '_' + 'Report.docx');
         });
     }
 }
