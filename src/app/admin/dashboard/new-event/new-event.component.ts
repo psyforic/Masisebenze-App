@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgForm } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-new-event',
@@ -43,7 +44,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   lawFirms: LawFirmListDto[] = [];
   attorneys: AttorneyListDto[] = [];
   contacts: ContactListDto[] = [];
-  filteredClients: ClientListDto[] = [];
+  filteredClients: BehaviorSubject<ClientListDto[]>;
   filter = '';
   isActive = true;
   lawFirmId: string;
@@ -61,12 +62,14 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     private clientService: ClientServiceProxy,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
+    this.filteredClients = <BehaviorSubject<ClientListDto[]>>new BehaviorSubject([]);
   }
   ngOnInit(): void {
-    this.getEvents();
-    this.getLawFirms();
+
   }
   open(arg) {
+    this.getEvents();
+    this.getLawFirms();
     this.date = arg.dateStr;
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
@@ -81,7 +84,12 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe(() => {
         this.notify.success('Event Booking Created Successfully');
-        const client = this.filteredClients.find(x => x.id === this.clientId);
+        let client = null;
+        this.filteredClients.pipe(finalize(() => {
+
+        })).subscribe((results) => {
+          client = results.find(x => x.id === this.clientId);
+        });
         this.newBookingInput.emit([this.booking, client.firstName + ' ' + client.lastName]);
         this.close(form);
       });
@@ -94,33 +102,51 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     this.endTime = event;
   }
   getLawFirms() {
-    this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
-      this.lawFirms = result.items;
-      this.lawFirmId = this.lawFirms[0].id;
-    });
+    this.isSaving = true;
+    this.lawFirmService.getLawFirms(this.filter)
+      .pipe(finalize(() => {
+        this.isSaving = false;
+      }))
+      .subscribe((result) => {
+        this.lawFirms = result.items;
+        this.lawFirmId = this.lawFirms[0].id;
+      });
   }
   getLawFirmAttorneys() {
-    this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {
-      this.attorneys = result.items;
-    });
+    this.isSaving = true;
+    this.lawFirmService.getAttorneys(this.lawFirmId)
+      .pipe(finalize(() => {
+        this.isSaving = false;
+      }))
+      .subscribe((result) => {
+        this.attorneys = result.items;
+      });
   }
   getLawFirmContacts() {
+    this.isSaving = true;
     this.lawFirmService.getContacts(this.lawFirmId).pipe(finalize(() => {
+      this.isSaving = false;
     })).subscribe((result) => {
       this.contacts = result.items;
     });
   }
   getClients() {
+    this.isSaving = true;
     this.clientService.getByContactAttorneyId(this.attorneyId, this.contactId)
-      .pipe(finalize(() => { }))
+      .pipe(finalize(() => { this.isSaving = false; }))
       .subscribe((result) => {
-        this.filteredClients = result.items;
+        this.filteredClients = new BehaviorSubject(result.items);
       });
   }
   getEvents() {
-    this.bookingService.getAllEvents(this.filter).subscribe((result) => {
-      this.events = result.items;
-    });
+    this.isSaving = true;
+    this.bookingService.getAllEvents(this.filter)
+      .pipe(finalize(() => {
+        this.isSaving = true;
+      }))
+      .subscribe((result) => {
+        this.events = result.items;
+      });
   }
   selectAttorneyId(event) {
     this.attorneyId = event.value;

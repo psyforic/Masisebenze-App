@@ -34,7 +34,6 @@ export class EditAttorneyComponent extends AppComponentBase implements OnInit {
         super(injector);
     }
     ngOnInit(): void {
-        this.getLawFirms();
         this.initializeForm();
     }
     initializeForm() {
@@ -49,6 +48,8 @@ export class EditAttorneyComponent extends AppComponentBase implements OnInit {
         });
     }
     open(id: string) {
+
+        this.getLawFirms();
         this.attorneyService.getDetail(id)
             .subscribe((result) => {
                 this.attorneyInput = result;

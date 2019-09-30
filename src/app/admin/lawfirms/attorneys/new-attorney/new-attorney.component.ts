@@ -38,7 +38,6 @@ export class NewAttorneyComponent extends AppComponentBase implements OnInit {
         super(injector);
     }
     ngOnInit(): void {
-        this.getLawFirms();
         this.initializeForm();
     }
     initializeForm() {
@@ -53,6 +52,7 @@ export class NewAttorneyComponent extends AppComponentBase implements OnInit {
         });
     }
     open() {
+        this.getLawFirms();
         this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false }).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
         }, (reason) => {

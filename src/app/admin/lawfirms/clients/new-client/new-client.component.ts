@@ -51,9 +51,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   }
   ngOnInit(): void {
     this.initializeForm();
-    this.getLawFirms();
-    this.getLawFirmAttorneys();
-    this.getLawFirmContacts();
+
   }
   initializeForm() {
     this.clientForm = this.fb.group({
@@ -65,10 +63,13 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       idNumber: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
-      assessmentDate: ['', Validators.required],
+      assessmentDate: ['', Validators.required]
     });
   }
   open() {
+    this.getLawFirms();
+    this.getLawFirmAttorneys();
+    this.getLawFirmContacts();
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then((result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -77,10 +78,15 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
       });
   }
   getLawFirms() {
-    this.lawFirmService.getLawFirms(this.filter).subscribe((result) => {
-      this.lawFirms = result.items;
-      this.lawFirmId = this.lawFirms[0].id;
-    });
+    this.isSaving = true;
+    this.lawFirmService.getLawFirms(this.filter)
+      .pipe(finalize(() => {
+        this.isSaving = false;
+      }))
+      .subscribe((result) => {
+        this.lawFirms = result.items;
+        this.lawFirmId = this.lawFirms[0].id;
+      });
   }
   getLawFirmAttorneys() {
     this.lawFirmService.getAttorneys(this.lawFirmId).subscribe((result) => {
@@ -109,14 +115,13 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.isSaving = true;
     const courtDate = new Date(this.clientForm.get('courtDate').value);
     const formattedCourtDate = moment(courtDate).format('YYYY-MM-DD');
+
     const assessmentDate = new Date(this.clientForm.get('assessmentDate').value);
     const formattedAssessmentDate = moment(assessmentDate).format('YYYY-MM-DD');
     this.isSaving = true;
     this.clientInput = Object.assign({}, this.clientForm.value);
     this.clientInput.assessmentDate = moment(formattedAssessmentDate);
     this.clientInput.courtDate = moment(formattedCourtDate);
-    this.clientInput.startTime = moment(formattedCourtDate + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
-    this.clientInput.endTime = moment(formattedCourtDate + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;
