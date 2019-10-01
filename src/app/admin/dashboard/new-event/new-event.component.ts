@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector, Input } from '@angular/core';
 import {
   CreateBookingInput,
   ClientListDto,
@@ -15,7 +15,7 @@ import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgForm } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { GeneralService } from '@app/admin/services/general.service';
 
 @Component({
   selector: 'app-new-event',
@@ -33,6 +33,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() newBookingInput = new EventEmitter();
   @Output() newBottomSheetClient = new EventEmitter();
+  @Input() clients: ClientListDto[] = [];
   @ViewChild('newEvent', { static: false }) newEventForm: NgForm;
 
   date: string;
@@ -40,11 +41,11 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   endTime: any;
   bookingName: string;
   booking: CreateBookingInput = new CreateBookingInput();
-  clients: ClientListDto[] = [];
+
   lawFirms: LawFirmListDto[] = [];
   attorneys: AttorneyListDto[] = [];
   contacts: ContactListDto[] = [];
-  filteredClients: BehaviorSubject<ClientListDto[]>;
+  filteredClients: ClientListDto[] = [];
   filter = '';
   isActive = true;
   lawFirmId: string;
@@ -57,15 +58,17 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
-    private activeModal: NgbActiveModal,
+    private generalService: GeneralService,
     private bookingService: BookingServiceProxy,
     private clientService: ClientServiceProxy,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
-    this.filteredClients = <BehaviorSubject<ClientListDto[]>>new BehaviorSubject([]);
+
   }
   ngOnInit(): void {
-
+    this.generalService.componentMethodCalled$.subscribe(() => {
+      this.getClients();
+    });
   }
   open(arg) {
     this.getEvents();
@@ -84,12 +87,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe(() => {
         this.notify.success('Event Booking Created Successfully');
-        let client = null;
-        this.filteredClients.pipe(finalize(() => {
-
-        })).subscribe((results) => {
-          client = results.find(x => x.id === this.clientId);
-        });
+        const client = this.filteredClients.find(x => x.id === this.clientId);
         this.newBookingInput.emit([this.booking, client.firstName + ' ' + client.lastName]);
         this.close(form);
       });
@@ -131,11 +129,11 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     });
   }
   getClients() {
-    this.isSaving = true;
+
     this.clientService.getByContactAttorneyId(this.attorneyId, this.contactId)
       .pipe(finalize(() => { this.isSaving = false; }))
       .subscribe((result) => {
-        this.filteredClients = new BehaviorSubject(result.items);
+        this.filteredClients = result.items;
       });
   }
   getEvents() {

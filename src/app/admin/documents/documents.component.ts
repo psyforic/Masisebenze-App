@@ -17,6 +17,7 @@ import { map, finalize } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { AppComponentBase } from '@shared/app-component-base';
+import { NewDocumentComponent } from './new-document/new-document.component';
 
 declare const $: any;
 @Component({
@@ -29,6 +30,7 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild('fileAuthor', { static: false }) authorName: ElementRef;
   @ViewChild('fileDate', { static: false }) authorDate: ElementRef;
+  @ViewChild('newDocument', { static: false }) createDocument: NewDocumentComponent;
   uploadUrl: string;
   uploadedFiles: DocumentListDto[] = [];
   showInput = true;
@@ -124,7 +126,9 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
 
       });
   }
-
+  addNewFile() {
+    this.createDocument.open();
+  }
   uploadFile(index, id, uploadUrl) {
     const authorName = $('#author' + index).val();
     const authorDate = $('#date' + index).val();
@@ -159,7 +163,7 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe((result) => {
         this.uploadedFiles = result.items;
-        this.dataSource.data = this.uploadedFiles;
+        this.dataSource = new MatTableDataSource(this.uploadedFiles);
         this.dataSource.paginator = this.paginator;
       });
   }

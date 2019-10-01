@@ -61,8 +61,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   uploadedImage = '';
   photoUrl: string;
   dateOfInjury: string;
-  courtDate: string;
-  assessmentDate: string;
+  courtDate = '';
+  assessmentDate = '';
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
@@ -86,7 +86,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       .subscribe((result) => {
         this.documents = result.items;
         const filtered = this.documents.map((value) => {
-          return { name: value.name, children: [{ name: value.fileUrl}] };
+          return { name: value.name, children: [{ name: value.fileUrl }] };
         });
         this.fileDataSource.data = filtered;
       });
@@ -134,12 +134,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.client.address.city = this.city;
     this.client.address.postalCode = this.postalCode;
     this.client.address.province = this.province;
-    const injuryDate = new Date($('#dateValue').val());
+    const injuryDate = $('#dateValue').val();
     const courtDate = new Date($('#courtDateValue').val());
     const assessmentDate = new Date($('#assessmentDateValue').val());
-    injuryDate.setDate(injuryDate.getDate() + 1);
-    courtDate.setDate(injuryDate.getDate() + 1);
-    assessmentDate.setDate(injuryDate.getDate() + 1);
+    // injuryDate.setDate(injuryDate.getDate() + 1);
+    // courtDate.setDate(injuryDate.getDate() + 1);
+    // assessmentDate.setDate(injuryDate.getDate() + 1);
     const formattedInjuryDate = moment(injuryDate).format('YYYY/MM/DD');
     const formattedCourtDate = moment(courtDate).format('YYYY/MM/DD');
     const formattedAssessmentDate = moment(assessmentDate).format('YYYY/MM/DD');

@@ -4,6 +4,7 @@ import { DocumentsComponent } from './documents.component';
 import { PartialsModule } from '../partials/partials.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NewDocumentComponent } from './new-document/new-document.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { RouterModule } from '@angular/router';
       }
     ]),
   ],
-  declarations: [DocumentsComponent]
+  declarations: [DocumentsComponent, NewDocumentComponent],
+  entryComponents: [NewDocumentComponent]
 })
 export class DocumentsModule { }

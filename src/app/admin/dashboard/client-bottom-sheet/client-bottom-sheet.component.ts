@@ -5,12 +5,16 @@ import { MAT_BOTTOM_SHEET_DATA, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatBottomSheet
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import * as moment from 'moment';
+import { GeneralService } from '@app/admin/services/general.service';
 
 @Component({
   selector: 'app-client-bottom-sheet',
   templateUrl: './client-bottom-sheet.component.html',
   styleUrls: ['./client-bottom-sheet.component.scss'],
-  providers: [ClientServiceProxy, { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }]
+  providers: [
+    ClientServiceProxy,
+    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    GeneralService]
 })
 export class ClientBottomSheetComponent extends AppComponentBase implements OnInit {
 
@@ -23,6 +27,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private clientService: ClientServiceProxy,
     private bottomSheetRef: MatBottomSheetRef,
+    private generalService: GeneralService,
     private fb: FormBuilder) {
     super(injector);
   }
@@ -58,9 +63,14 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;
+        this.callMethod();
         this.close();
       })).subscribe(() => {
+        this.callMethod();
         this.notify.success('Client Added Successfully');
       });
+  }
+  callMethod() {
+    this.generalService.callComponentMethod();
   }
 }

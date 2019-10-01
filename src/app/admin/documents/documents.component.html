@@ -18,6 +18,16 @@
           <div class="col-md-12">
             <form #uploadForm="ngForm">
               <div class="card card-hidden">
+                <div class="card-header">
+                  <div class="card-title">
+
+                  </div>
+                  <div class="header-toolbar">
+                    <button (click)="addNewFile()" mat-raised-button color="primary">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                </div>
                 <div class="mat-table__wrapper">
                   <div class="example-container">
                     <div class="example-loading-shade" *ngIf="isLoading|| isUploading">
@@ -117,3 +127,5 @@
     </div>
   </div>
 </div>
+<app-new-document #newDocument (documentAdded)="getClientDocuments()" [clientId]="clientId" [contactId]="contactId">
+</app-new-document>

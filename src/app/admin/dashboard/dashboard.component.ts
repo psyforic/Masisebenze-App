@@ -1,4 +1,4 @@
-import { Component, OnInit, Injector, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, AfterViewInit, Output } from '@angular/core';
 import * as Chartist from 'chartist';
 import { AppComponentBase } from '@shared/app-component-base';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -13,6 +13,7 @@ import { NewEventComponent } from './new-event/new-event.component';
 import { MatBottomSheet } from '@angular/material';
 import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-sheet.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
+import { EventEmitter } from 'selenium-webdriver';
 
 declare const $: any;
 @Component({
@@ -94,7 +95,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       this.NoFiles = result;
     });
   }
-
   getNewClients() {
     this.dashBoardService.getNewClients(this.filter).subscribe((result) => {
       this.clients = result.items;

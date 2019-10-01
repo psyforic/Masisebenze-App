@@ -14,6 +14,7 @@ import { PartialsModule } from './partials/partials.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
+import { ClientServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { RolesModule } from './roles/roles.module';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    AdminComponent]
+    AdminComponent],
+    providers:[ClientServiceProxy]
 })
 export class AdminModule { }

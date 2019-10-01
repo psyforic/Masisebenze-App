@@ -131,7 +131,7 @@
                                                          <mat-form-field>
                                                              <input matInput [matDatepicker]="assessmentDatePicker"
                                                                  id="assessmentDateValue"
-                                                                 placeholder="Date of Injury" [value]="assessmentDate"
+                                                                 placeholder="Assessment Date" [value]="assessmentDate"
                                                                  name="assessmentDate"
                                                                  (dateChange)="setFormTouched(clientForm)">
                                                              <mat-datepicker-toggle matSuffix
@@ -344,10 +344,10 @@
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <mat-form-field class="example-full-width">
+                                                    <!-- <mat-form-field class="example-full-width">
                                                         <input matInput placeholder="Court Date" type="text"
                                                             value="{{client?.courtDate | date: 'short'}}" disabled>
-                                                    </mat-form-field>
+                                                    </mat-form-field> -->
 
                                                 </div>
                                             </div>

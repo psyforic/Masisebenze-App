@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { ClientListDto, ClientServiceProxy } from '@shared/service-proxies/service-proxies';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,27 +8,16 @@ export class GeneralService {
 
   photoUrl = new BehaviorSubject<string>('../../../assets/img/faces/face-0.jpg');
   currentPhotoUrl = this.photoUrl.asObservable();
-  private clients = new BehaviorSubject<ClientListDto[]>([]);
-  constructor(private clientService: ClientServiceProxy) {
+  private componentMethodCallSource = new Subject<any>();
 
-  }
+  // tslint:disable-next-line: member-ordering
+  public myFunc: () => void;
+  // tslint:disable-next-line: member-ordering
+  componentMethodCalled$ = this.componentMethodCallSource.asObservable();
   changeClientPhoto(photoUrl: string) {
     this.photoUrl.next(photoUrl);
   }
-  fetchClients(attorneyId: string, contactId: string) {
-    this.clientService.getByContactAttorneyId(attorneyId, contactId)
-      .subscribe((result) => {
-        this.clients.next(result.items);
-      });
-  }
-  get clientList() {
-    return this.clients.asObservable();
-  }
-  addClient(client: ClientListDto) {
-    let list: ClientListDto[] = [];
-    this.clients.subscribe((result) => {
-      list = result;
-    })
-    this.clients.next(list.concat(client));
+  callComponentMethod() {
+    this.componentMethodCallSource.next();
   }
 }
