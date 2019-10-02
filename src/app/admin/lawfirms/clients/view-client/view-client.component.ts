@@ -1,5 +1,6 @@
 import { Component, OnInit, Injector, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {
   ClientServiceProxy,
   ClientDetailOutput,
@@ -12,7 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map } from 'rxjs/operators';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material';
+import { MatTreeFlattener, MatTreeFlatDataSource, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { CameraModalComponent } from '../camera-modal/camera-modal.component';
@@ -20,6 +21,17 @@ import { GeneralService } from '@app/admin/services/general.service';
 import * as moment from 'moment';
 import { NgForm } from '@angular/forms';
 declare const $: any;
+export const DD_MM_YYYY_Format = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 interface DocumentNode {
   name: string;
   children?: DocumentNode[];
@@ -34,7 +46,10 @@ interface FlatNode {
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy]
+  providers: [ClientServiceProxy, DocumentServiceProxy,
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE], useValue: { useUtc: true } },
+
+    { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYYY_Format }]
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
@@ -77,7 +92,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.clientId = paramMap.get('id');
-
     });
   }
   getFileData() {
@@ -136,7 +150,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.client.address.province = this.province;
     // const injuryDate = $('#dateValue').val();
     // const courtDate = new Date($('#courtDateValue').val());
-    const formattedInjuryDate = moment(new Date(this.dateOfInjury)).format('YYYY-MM-DD');
+    const newDate = new Date(this.dateOfInjury);
+    newDate.setDate(newDate.getDate() + 1);
+    const formattedInjuryDate = moment(newDate).toLocaleString();
     // const formattedCourtDate = moment(courtDate).format('YYYY/MM/DD');
     this.client.dateOfInjury = moment(formattedInjuryDate);
     // this.client.courtDate = moment(formattedCourtDate);
