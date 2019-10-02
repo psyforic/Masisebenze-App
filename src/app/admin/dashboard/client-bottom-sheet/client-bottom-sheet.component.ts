@@ -1,11 +1,10 @@
-import { Component, OnInit, Inject, Injector } from '@angular/core';
+import { Component, OnInit, Inject, Injector, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ClientServiceProxy, CreateClientInput } from '@shared/service-proxies/service-proxies';
 import { MAT_BOTTOM_SHEET_DATA, MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, MatBottomSheetRef } from '@angular/material';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import * as moment from 'moment';
-import { GeneralService } from '@app/admin/services/general.service';
 
 @Component({
   selector: 'app-client-bottom-sheet',
@@ -13,11 +12,11 @@ import { GeneralService } from '@app/admin/services/general.service';
   styleUrls: ['./client-bottom-sheet.component.scss'],
   providers: [
     ClientServiceProxy,
-    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
-    GeneralService]
+    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }]
 })
 export class ClientBottomSheetComponent extends AppComponentBase implements OnInit {
 
+  @Output() clientAdded = new EventEmitter();
   clientForm: FormGroup;
   clientInput: CreateClientInput = new CreateClientInput();
   isSaving = false;
@@ -27,7 +26,6 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private clientService: ClientServiceProxy,
     private bottomSheetRef: MatBottomSheetRef,
-    private generalService: GeneralService,
     private fb: FormBuilder) {
     super(injector);
   }
@@ -63,14 +61,9 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;
-        this.callMethod();
         this.close();
       })).subscribe(() => {
-        this.callMethod();
         this.notify.success('Client Added Successfully');
       });
-  }
-  callMethod() {
-    this.generalService.callComponentMethod();
   }
 }

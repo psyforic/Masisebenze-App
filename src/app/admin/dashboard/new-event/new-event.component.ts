@@ -1,4 +1,16 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter,
+  Injector,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  SimpleChange
+} from '@angular/core';
 import {
   CreateBookingInput,
   ClientListDto,
@@ -28,12 +40,13 @@ import { GeneralService } from '@app/admin/services/general.service';
     NgbActiveModal
   ]
 })
-export class NewEventComponent extends AppComponentBase implements OnInit {
+export class NewEventComponent extends AppComponentBase implements OnInit, OnChanges {
 
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() newBookingInput = new EventEmitter();
   @Output() newBottomSheetClient = new EventEmitter();
-  @Input() clients: ClientListDto[] = [];
+  clients: ClientListDto[] = [];
+  @Input() clientsChanged = false;
   @ViewChild('newEvent', { static: false }) newEventForm: NgForm;
 
   date: string;
@@ -69,6 +82,12 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     this.generalService.componentMethodCalled$.subscribe(() => {
       this.getClients();
     });
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    const clientsChanged: SimpleChange = changes.clientsChanged;
+    if (clientsChanged) {
+      this.getClients();
+    }
   }
   open(arg) {
     this.getEvents();
@@ -129,7 +148,6 @@ export class NewEventComponent extends AppComponentBase implements OnInit {
     });
   }
   getClients() {
-
     this.clientService.getByContactAttorneyId(this.attorneyId, this.contactId)
       .pipe(finalize(() => { this.isSaving = false; }))
       .subscribe((result) => {

@@ -32,6 +32,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   NoFiles: number;
   clients: ClientListDto[] = [];
   filter = '';
+  clientsChanged = false;
   activities: BookingListDto[] = [];
   calendarEvents: EventInput[] = [];
   constructor(private injector: Injector,
@@ -188,8 +189,11 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     this.startAnimationForBarChart(websiteViewsChart);
   }
   openBottomSheet(event) {
-    this._bottomSheet.open(ClientBottomSheetComponent, {
+    const bottomSheetRef = this._bottomSheet.open(ClientBottomSheetComponent, {
       data: event
+    });
+    bottomSheetRef.afterDismissed().subscribe(() => {
+      this.clientsChanged = true;
     });
   }
 }
