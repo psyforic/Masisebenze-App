@@ -1,5 +1,5 @@
 import { Component, ViewChild, Injector } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import {
   ClientListDto,
   ClientServiceProxy,
@@ -37,6 +37,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   documents: DocumentListDto[] = [];
   filteredDocuments;
   lawFirmCity: string;
+  pageEvent: PageEvent;
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy) {
@@ -143,6 +144,11 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     const fullDate = moment(tempDate).format('DD/MM/YYYY');
     return fullDate;
   }
+  handleChange(event) {
+    this.pageSize = event.pageSize;
+    this.totalItems = event.length;
+    this.getDataPage(event.pageIndex + 1);
+  }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
@@ -150,8 +156,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       }))
       .subscribe((result) => {
         this.clients = result.items;
-        this.dataSource = new MatTableDataSource(this.clients);
         this.showPaging(result, pageNumber);
+        this.dataSource = new MatTableDataSource(this.clients);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
