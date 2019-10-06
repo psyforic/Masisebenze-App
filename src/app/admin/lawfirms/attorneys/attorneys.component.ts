@@ -1,5 +1,5 @@
 import { Component, ViewChild, Injector } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { NewAttorneyComponent } from './new-attorney/new-attorney.component';
 import { EditAttorneyComponent } from './edit-attorney/edit-attorney.component';
 import { AttorneyListDto, AttorneyServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -15,7 +15,7 @@ import { ViewAttorneyComponent } from './view-attorney/view-attorney.component';
   providers: [AttorneyServiceProxy]
 })
 export class AttorneysComponent extends PagedListingComponentBase<AttorneyListDto> {
-  dataSource: MatTableDataSource<AttorneyListDto>;
+  dataSource: MatTableDataSource<AttorneyListDto> = new MatTableDataSource<AttorneyListDto>();
   displayedColumns = ['firstName', 'lastName', 'email', 'phone', 'lawFirm', 'actions'];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -43,16 +43,20 @@ export class AttorneysComponent extends PagedListingComponentBase<AttorneyListDt
   viewSelectedAttorney(id: string) {
     this.viewAttorney.open(id);
   }
+  handleChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.totalItems = event.length;
+    this.getDataPage(event.pageIndex + 1);
+  }
   list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.attorneyService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
         finishedCallback();
       })).subscribe((result) => {
         this.attorneys = result.items;
-        this.dataSource = new MatTableDataSource(this.attorneys);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
         this.showPaging(result, pageNumber);
+        this.dataSource.data = this.attorneys;
+        this.dataSource.sort = this.sort;
       });
   }
   protected delete(entity: AttorneyListDto): void {

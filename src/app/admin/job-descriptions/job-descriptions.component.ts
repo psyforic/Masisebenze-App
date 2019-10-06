@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { EditJobDescriptionComponent } from './edit-job-description/edit-job-description.component';
 import { NewJobDescriptionComponent } from './new-job-description/new-job-description.component';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
@@ -36,16 +36,21 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
   newJobTitle() {
     this.newJob.open();
   }
+  handleChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.totalItems = event.length;
+    this.getDataPage(event.pageIndex + 1);
+  }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.jobDescriptionService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
         finishedCallback();
       })).subscribe((result) => {
         this.jobDescriptions = result.items;
-        this.dataSource = new MatTableDataSource(this.jobDescriptions);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
         this.showPaging(result, pageNumber);
+        this.dataSource = new MatTableDataSource(this.jobDescriptions);
+        this.dataSource.sort = this.sort;
+
       });
   }
   protected delete(entity: JobDescriptionListDto): void {

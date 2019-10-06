@@ -34,6 +34,8 @@ export const DD_MM_YYYY_Format = {
 };
 interface DocumentNode {
   name: string;
+  url?: string;
+  parentDocId?: number;
   children?: DocumentNode[];
 }
 /** Flat node with expandable and level information */
@@ -41,6 +43,7 @@ interface FlatNode {
   expandable: boolean;
   name: string;
   level: number;
+  parentId?: number;
 }
 @Component({
   selector: 'kt-view-client',
@@ -100,7 +103,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       .subscribe((result) => {
         this.documents = result.items;
         const filtered = this.documents.map((value) => {
-          return { name: value.name, children: [{ name: value.fileUrl }] };
+          return {
+            name: value.name, url: value.fileUrl,
+            children: [{ name: value.name, url: value.fileUrl, parentId: value.parentDocId },
+            { name: value.name, url: value.fileUrl, parentId: value.parentDocId }],
+            parentId: value.parentDocId
+          };
         });
         this.fileDataSource.data = filtered;
       });
@@ -214,6 +222,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      url: node.url
     };
   }
   // tslint:disable-next-line:member-ordering

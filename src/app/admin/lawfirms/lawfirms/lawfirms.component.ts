@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
 import { NewAttorneyComponent } from '../attorneys/new-attorney/new-attorney.component';
 import { EditAttorneyComponent } from '../attorneys/edit-attorney/edit-attorney.component';
@@ -49,6 +49,11 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
   editSelectedLawFirm(id: string) {
     this.editLawFirm.open(id);
   }
+  handleChange(event: PageEvent) {
+    this.pageSize = event.pageSize;
+    this.totalItems = event.length;
+    this.getDataPage(event.pageIndex + 1);
+  }
   list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.isTableLoading = true;
     this.lawFirmService.getAll(request.sorting, request.skipCount, request.maxResultCount)
@@ -57,7 +62,6 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
       })).subscribe((result) => {
         this.lawFirms = result.items;
         this.dataSource = new MatTableDataSource(this.lawFirms);
-        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.showPaging(result, pageNumber);
       });

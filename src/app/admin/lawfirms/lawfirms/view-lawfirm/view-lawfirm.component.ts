@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { NewContactComponent } from '../new-contact/new-contact.component';
 import { NewClientComponent } from '../new-client/new-client.component';
@@ -15,9 +15,9 @@ import {
   WorkHistoryDetailOutput,
   MedicalHistoryDetailOutput,
   DocumentListDto,
-  DocumentServiceProxy
+  DocumentServiceProxy,
+  AddressDetailOutput
 } from '@shared/service-proxies/service-proxies';
-import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
 import { NewAttorneyComponent } from '../../attorneys/new-attorney/new-attorney.component';
 import { ViewAttorneyComponent } from '../../attorneys/view-attorney/view-attorney.component';
@@ -25,6 +25,7 @@ import { EditAttorneyComponent } from '../../attorneys/edit-attorney/edit-attorn
 import { EditContactComponent } from '../../contacts/edit-contact/edit-contact.component';
 import { DocumentCreator } from '@app/admin/partials/document-creator';
 import * as moment from 'moment';
+import { AppComponentBase } from '@shared/app-component-base';
 
 
 @Component({
@@ -33,7 +34,7 @@ import * as moment from 'moment';
   styleUrls: ['./view-lawfirm.component.scss'],
   providers: [LawFirmServiceProxy, ContactServiceProxy, ClientServiceProxy, DocumentServiceProxy]
 })
-export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListDto> implements AfterViewInit {
+export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -84,13 +85,19 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.lawFirmId = paramMap.get('id');
+
     });
   }
-  ngAfterViewInit(): void {
-    // this.refresh();
+  ngOnInit() {
+    this.getLawFirm();
+    this.getAttorneys();
+    this.getContacts();
+    this.getClients();
   }
   getLawFirm() {
     this.isLoading = true;
+    this.lawFirm.physicalAddress = new AddressDetailOutput();
+    this.lawFirm.postalAddress = new AddressDetailOutput();
     this.lawFimService.getDetail(this.lawFirmId)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -126,7 +133,6 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     this.newAttorneyRef.open();
   }
   displayContact(contact) {
-    this.refresh();
     this.dataSource._updateChangeSubscription();
   }
   viewSelectedAttorney(id: string) {
@@ -141,17 +147,21 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
     this.clientDataSource.filter = filterValue;
   }
   getAttorneys() {
+    this.isLoading = true;
     this.lawFimService.getAttorneys(this.lawFirmId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe((result) => {
         this.attorneys = result.items;
-        this.attorneyDataSource = new MatTableDataSource(this.attorneys);
+        this.attorneyDataSource.data = result.items;
         this.attorneyDataSource.paginator = this.attorneyPaginator;
         this.attorneySort = this.attorneySort;
       });
   }
   deleteAttorney(entity: any) {
     this.editAttorneyRef.delete(entity);
-    this.refresh();
+    this.getAttorneys();
   }
   getAge(entity: ClientListDto) {
     const idNumber: string = '' + entity.idNumber;
@@ -231,13 +241,11 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
         this.workData = result;
       });
   }
-
-  protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
-    this.getLawFirm();
-    this.getAttorneys();
+  getContacts() {
+    this.isLoading = true;
     this.contactService.getByLawFirm(this.lawFirmId)
       .pipe(finalize(() => {
-        finishedCallback();
+        this.isLoading = false;
       }))
       .subscribe((result) => {
         this.contacts = result.items;
@@ -245,22 +253,18 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
-
-    this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
+  }
+  getClients() {
+    this.isLoading = true;
+    this.lawFimService.getClients(this.lawFirmId)
       .pipe(finalize(() => {
-        this.clientDataSource = new MatTableDataSource(this.clients);
-        this.clientDataSource.paginator = this.clientPaginator;
-        this.clientDataSource.sort = this.clientSort;
-        finishedCallback();
-
+        this.isLoading = false;
       }))
       .subscribe((result) => {
-        result.items.forEach((client) => {
-          if (client.lawFirmId === this.lawFirmId) {
-            this.clients.push(client);
-          }
-        });
-
+        this.clients = result.items;
+        this.clientDataSource.data = result.items;
+        this.clientDataSource.paginator = this.clientPaginator;
+        this.clientDataSource.sort = this.clientSort;
       });
   }
 
@@ -271,8 +275,9 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
         if (result) {
           this.contactService.delete(entity.id).pipe(finalize(() => {
             abp.notify.success('Deleted Contact: ' + entity.firstName);
-            this.refresh();
-          })).subscribe(() => { });
+          })).subscribe(() => {
+            this.getContacts();
+          });
         }
       }
     );
@@ -285,8 +290,9 @@ export class ViewLawfirmComponent extends PagedListingComponentBase<ContactListD
         if (result) {
           this.contactService.delete(entity.id).pipe(finalize(() => {
             abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
-            this.refresh();
-          })).subscribe(() => { });
+          })).subscribe(() => {
+            this.getClients();
+          });
         }
       }
     );

@@ -37,7 +37,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   documents: DocumentListDto[] = [];
   filteredDocuments;
   lawFirmCity: string;
-  pageEvent: PageEvent;
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy) {
@@ -144,7 +143,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     const fullDate = moment(tempDate).format('DD/MM/YYYY');
     return fullDate;
   }
-  handleChange(event) {
+  handleChange(event: PageEvent) {
     this.pageSize = event.pageSize;
     this.totalItems = event.length;
     this.getDataPage(event.pageIndex + 1);
@@ -158,7 +157,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.clients = result.items;
         this.showPaging(result, pageNumber);
         this.dataSource = new MatTableDataSource(this.clients);
-        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
   }

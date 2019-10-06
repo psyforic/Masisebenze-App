@@ -46,7 +46,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   }
   ngOnInit(): void {
     this.initializeForm();
-    // this.getLawFirms();
   }
   initializeForm() {
     this.clientForm = this.fb.group({
@@ -80,8 +79,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.lawFirmService.getContacts(this.lawFirmId).subscribe((result) => {
       this.contacts = result.items;
     });
-  }
-  selectedDate(event) {
   }
   setStartTime(event) {
     this.startTime = event;

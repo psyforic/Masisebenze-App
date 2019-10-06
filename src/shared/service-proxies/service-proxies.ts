@@ -5663,6 +5663,60 @@ export class LawFirmServiceProxy {
     }
 
     /**
+     * @param lawFirmId (optional) 
+     * @return Success
+     */
+    getClients(lawFirmId: string | null | undefined): Observable<ListResultDtoOfClientListDto> {
+        let url_ = this.baseUrl + "/api/services/app/LawFirm/GetClients?";
+        if (lawFirmId !== undefined)
+            url_ += "LawFirmId=" + encodeURIComponent("" + lawFirmId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetClients(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetClients(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfClientListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfClientListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetClients(response: HttpResponseBase): Observable<ListResultDtoOfClientListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfClientListDto.fromJS(resultData200) : new ListResultDtoOfClientListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfClientListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */

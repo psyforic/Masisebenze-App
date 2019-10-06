@@ -63,15 +63,9 @@
                                                 </h4>
 
                                                 <a href="javascript:void(0)" (click)="openCameraModal()"
-                                                    class="btn btn-primary btn-round">Change
-                                                    Picture</a>
-                                                <!-- <button class="file btn btn-primary btn-round">Change
-                                                    Picture
-                                                    <i class="fa fa-cloud-upload"></i>
-                                                    <input type="file" name="file" class="form-control-file"
-                                                        (change)="upload($event)" accept=".jpg,.png" />
-                                                </button> -->
-
+                                                    class="btn btn-primary btn-round">
+                                                    Change Picture
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
@@ -113,32 +107,32 @@
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
-                                                   <div class="row">
-                                                       <div class="col-md-6">
-                                                          <mat-form-field>
-                                                              <input matInput [matDatepicker]="courtDatePicker"
-                                                                  id="courtDateValue"
-                                                                  placeholder="Court Date" [value]="courtDate"
-                                                                  name="courtDate"
-                                                                  (dateChange)="setFormTouched(clientForm)">
-                                                              <mat-datepicker-toggle matSuffix [for]="courtDatePicker">
-                                                              </mat-datepicker-toggle>
-                                                              <mat-datepicker #courtDatePicker></mat-datepicker>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="courtDatePicker"
+                                                                id="courtDateValue" placeholder="Court Date"
+                                                                [value]="courtDate" name="courtDate"
+                                                                (dateChange)="setFormTouched(clientForm)">
+                                                            <mat-datepicker-toggle matSuffix [for]="courtDatePicker">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #courtDatePicker></mat-datepicker>
 
-                                                          </mat-form-field>
-                                                       </div>
-                                                       <div class="col-md-6">
-                                                         <mat-form-field>
-                                                             <input matInput [matDatepicker]="assessmentDatePicker"
-                                                                 placeholder="Assessment Date" [value]="assessmentDate" disabled>
-                                                             <mat-datepicker-toggle matSuffix
-                                                                 [for]="assessmentDatePicker">
-                                                             </mat-datepicker-toggle>
-                                                             <mat-datepicker #assessmentDatePicker></mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <mat-form-field>
+                                                            <input matInput [matDatepicker]="assessmentDatePicker"
+                                                                placeholder="Assessment Date" [value]="assessmentDate"
+                                                                disabled>
+                                                            <mat-datepicker-toggle matSuffix
+                                                                [for]="assessmentDatePicker">
+                                                            </mat-datepicker-toggle>
+                                                            <mat-datepicker #assessmentDatePicker></mat-datepicker>
 
-                                                         </mat-form-field>
-                                                       </div>
-                                                   </div>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
                                                 <hr />
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -206,13 +200,6 @@
                                                         <!-- Type your name and age -->
                                                     </mat-panel-description>
                                                 </mat-expansion-panel-header>
-
-                                                <!-- <mat-form-field>
-                                                    <textarea rows="3" matInput placeholder="Description"
-                                                        [(ngModel)]="client.earlyChildhood" name="earlyChildhood">
-                                                        </textarea>
-                                                </mat-form-field> -->
-
                                                 <quill-editor [styles]="{height: '200px'}"
                                                     [(ngModel)]="client.earlyChildhood" [sanitize]="true"
                                                     name="earlyChildhood">
@@ -225,11 +212,6 @@
                                                         Family
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
-                                                <!-- <mat-form-field>
-                                                    <textarea rows="3" matInput placeholder="Description"
-                                                        [(ngModel)]="client.family" name="family">
-                                                    </textarea>
-                                                </mat-form-field> -->
                                                 <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.family"
                                                     [sanitize]="true" name="family">
                                                 </quill-editor>
@@ -241,11 +223,6 @@
                                                         Home Environment
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
-                                                <!-- <mat-form-field>
-                                                    <textarea rows="3" matInput placeholder="Description"
-                                                        [(ngModel)]="client.homeEnvironment" name="homeEnvironment">
-                                                </textarea>
-                                                </mat-form-field> -->
                                                 <quill-editor [styles]="{height: '200px'}"
                                                     [(ngModel)]="client.homeEnvironment" [sanitize]="true"
                                                     name="homeEnvironment">
@@ -258,10 +235,6 @@
                                                         Education
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
-                                                <!-- <mat-form-field>
-                                                    <textarea rows="3" matInput placeholder="Description"
-                                                        [(ngModel)]="client.education" name="education"></textarea>
-                                                </mat-form-field> -->
 
                                                 <quill-editor [styles]="{height: '200px'}"
                                                     [(ngModel)]="client.education" [sanitize]="true" name="education">
@@ -274,12 +247,6 @@
                                                         Social Habits
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
-
-                                                <!-- <mat-form-field>
-                                                    <textarea rows="3" matInput placeholder="Description"
-                                                        [(ngModel)]="client.socialHabits" name="socialHabits">
-                                                </textarea>
-                                                </mat-form-field> -->
 
                                                 <quill-editor [styles]="{height: '200px'}"
                                                     [(ngModel)]="client.socialHabits" [sanitize]="true"
@@ -340,13 +307,6 @@
                                                             disabled>
                                                     </mat-form-field>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <!-- <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Court Date" type="text"
-                                                            value="{{client?.courtDate | date: 'short'}}" disabled>
-                                                    </mat-form-field> -->
-
-                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -381,11 +341,6 @@
                                                                 Premorbid
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <!-- <mat-form-field>
-                                                            <textarea rows="3" matInput placeholder="Description"
-                                                                name="premorbid"
-                                                                [(ngModel)]="workHistory.premorbid"></textarea>
-                                                        </mat-form-field> -->
                                                         <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="workHistory.premorbid" [sanitize]="true"
                                                             name="premorbid">
@@ -397,11 +352,6 @@
                                                                 Postmorbid
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <!-- <mat-form-field>
-                                                            <textarea row="3" matInput placeholder="Description"
-                                                                name="postMorbid"
-                                                                [(ngModel)]="workHistory.postMorbid"></textarea>
-                                                        </mat-form-field> -->
                                                         <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="workHistory.postMorbid" [sanitize]="true"
                                                             name="postMorbid">
@@ -421,10 +371,6 @@
 
                                                     </mat-expansion-panel>
                                                     <mat-expansion-panel>
-                                                        <!-- <mat-expansion-panel-header>
-                                                            <mat-panel-title>
-                                                            </mat-panel-title>
-                                                        </mat-expansion-panel-header> -->
                                                     </mat-expansion-panel>
                                                 </mat-accordion>
 
@@ -459,11 +405,6 @@
                                                                 Previous Injuries
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <!-- <mat-form-field>
-                                                            <textarea name="previousInjuries" rows="3" matInput
-                                                                placeholder="Description"
-                                                                [(ngModel)]="medicalHistory.previousInjuries"></textarea>
-                                                        </mat-form-field> -->
                                                         <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="medicalHistory.previousInjuries"
                                                             [sanitize]="true" placeholder="Enter Text"
@@ -477,11 +418,6 @@
                                                                 Medical Conditions
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <!-- <mat-form-field>
-                                                            <textarea row="3" matInput placeholder="Description"
-                                                                name="medicalConditions"
-                                                                [(ngModel)]="medicalHistory.medicalConditions"></textarea>
-                                                        </mat-form-field> -->
                                                         <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="medicalHistory.medicalConditions"
                                                             [sanitize]="true" placeholder="Enter Text"
@@ -509,11 +445,6 @@
                                                                 Medication
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <!-- <mat-form-field>
-                                                            <textarea row="3" matInput name="medication"
-                                                                placeholder="Description"
-                                                                [(ngModel)]="medicalHistory.medication"></textarea>
-                                                        </mat-form-field> -->
                                                         <quill-editor [styles]="{height: '200px'}"
                                                             [(ngModel)]="medicalHistory.medication" [sanitize]="true"
                                                             placeholder="Enter Text" name="medication"
@@ -554,12 +485,12 @@
                                     <button mat-icon-button disabled></button>
                                     <!-- {{node.name}} -->
                                     <button mat-icon-button>
-                                        <a href="{{node.name}}" target="_blank" class="text text-black-50">
-                                            <mat-icon>insert_drive_file</mat-icon> View File
+                                        <a href="{{node.url}}" target="_blank" class="text text-black-50">
+                                            <mat-icon>insert_drive_file</mat-icon> {{node.name}}
                                         </a>
-
                                     </button>
                                 </mat-tree-node>
+
                                 <!-- This is the tree node template for expandable nodes -->
                                 <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
                                     <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">

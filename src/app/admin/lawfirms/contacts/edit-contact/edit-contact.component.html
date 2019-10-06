@@ -12,13 +12,13 @@
           <div class="col-lg-6">
             <mat-form-field>
               <mat-label>First Name</mat-label>
-              <input type="text" matInput name="fname" placeholder="First Name" [(ngModel)]="contact.firstName">
+              <input type="text" matInput name="fname" placeholder="First Name" [(ngModel)]="contact.firstName" required>
             </mat-form-field>
           </div>
           <div class="col-lg-6">
             <mat-form-field>
               <mat-label>Last Name</mat-label>
-              <input type="text" matInput name="lname" placeholder="Last Name" [(ngModel)]="contact.lastName">
+              <input type="text" matInput name="lname" placeholder="Last Name" [(ngModel)]="contact.lastName" required>
             </mat-form-field>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <div class="col-lg-6">
             <mat-form-field>
               <mat-label>Email</mat-label>
-              <input type="email" matInput name="email" placeholder="Email" [(ngModel)]="contact.email">
+              <input type="email" matInput name="email" placeholder="Email" [(ngModel)]="contact.email" required>
             </mat-form-field>
 
           </div>
@@ -34,7 +34,7 @@
           <div class="col-lg-6">
             <mat-form-field>
               <mat-label>Role</mat-label>
-              <input type="text" matInput name="role" placeholder="Role" [(ngModel)]="contact.role">
+              <input type="text" matInput name="role" placeholder="Role" [(ngModel)]="contact.role" required>
             </mat-form-field>
           </div>
         </div>
@@ -42,7 +42,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" mat-raised-button (click)="modal.dismiss()">Close</button>
-      <button type="submit" mat-raised-button color="primary" [disabled]="!newContact.dirty">Update</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]="!newContact.dirty || !newContact.valid">Update</button>
     </div>
   </form>
 </ng-template>
