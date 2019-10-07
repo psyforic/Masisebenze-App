@@ -23,7 +23,6 @@ export class AttorneysComponent extends PagedListingComponentBase<AttorneyListDt
   @ViewChild('newAttorney', { static: true }) newAttorney: NewAttorneyComponent;
   @ViewChild('editAttorney', { static: true }) editAttorney: EditAttorneyComponent;
   @ViewChild('viewAttorney', { static: true }) viewAttorney: ViewAttorneyComponent;
-
   attorneys: AttorneyListDto[] = [];
   constructor(private injector: Injector,
     private attorneyService: AttorneyServiceProxy) {

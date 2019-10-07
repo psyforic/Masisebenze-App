@@ -31,7 +31,6 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild('newLawFirm', { static: true }) newLawFirm: NewLawfirmComponent;
   @ViewChild('editLawFirm', { static: true }) editLawFirm: EditLawfirmComponent;
-
   lawFirms: LawFirmListDto[] = [];
   constructor(private injector: Injector,
     private router: Router,

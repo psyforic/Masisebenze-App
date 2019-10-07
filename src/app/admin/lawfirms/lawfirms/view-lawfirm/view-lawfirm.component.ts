@@ -16,7 +16,8 @@ import {
   MedicalHistoryDetailOutput,
   DocumentListDto,
   DocumentServiceProxy,
-  AddressDetailOutput
+  AddressDetailOutput,
+  ClientDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { NewAttorneyComponent } from '../../attorneys/new-attorney/new-attorney.component';
@@ -189,28 +190,27 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     const fullDate = moment(tempDate).format('DD/MM/YYYY');
     return fullDate;
   }
-  generate(entity: ClientListDto) {
+  generate(clientId: string) {
     this.isSaving = true;
-    this.getMedicalHistory(entity.id);
-    this.getWorkHistory(entity.id);
-    this.getFileData(entity.id);
+    let entity: ClientDetailOutput = new ClientDetailOutput();
+    this.clientService.getDetail(clientId).pipe(finalize(() => {
+    })).subscribe((result) => {
+      entity = result;
+    });
+    this.getMedicalHistory(clientId);
+    this.getWorkHistory(clientId);
+    this.getFileData(clientId);
     this.lawFirmCity = 'Port Elizabeth';
     const address: CreateAddressInput = new CreateAddressInput();
-    const docCreator = new DocumentCreator();
-    setTimeout(() => {
-      const today = moment().format('LL');
-      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
-      console.log('Document created successfully');
-      this.isSaving = false;
-    }, 5000);
-    this.clientService.getDetail(entity.id)
+
+    this.clientService.getDetail(clientId)
       .pipe(finalize(() => {
-        this.clientService.getMedicalHistoryByClientId(entity.id)
+        this.clientService.getMedicalHistoryByClientId(clientId)
           .pipe(finalize(() => { }))
           .subscribe((result) => {
             this.medicalData = result;
           });
-        this.clientService.getWorkHistoryByClientId(entity.id)
+        this.clientService.getWorkHistoryByClientId(clientId)
           .subscribe((result) => {
             this.workData = result;
           });
@@ -222,6 +222,14 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         address.postalCode = result.address.postalCode;
         address.province = result.address.province;
       });
+
+    const docCreator = new DocumentCreator();
+    setTimeout(() => {
+      const today = moment().format('LL');
+      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
+      this.notify.success('Document created successfully');
+      this.isSaving = false;
+    }, 5000);
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)

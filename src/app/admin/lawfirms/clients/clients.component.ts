@@ -9,6 +9,9 @@ import {
   DocumentServiceProxy,
   DocumentListDto,
   WorkHistoryDetailOutput,
+  ClientDetailOutput,
+  AddressDetailOutput,
+  Address,
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
@@ -50,29 +53,28 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   createClient() {
     this.newClientRef.open();
   }
-  generate(entity: ClientListDto) {
+  generate(clientId: string) {
+    let entity: ClientDetailOutput = new ClientDetailOutput();
+    this.clientService.getDetail(clientId).pipe(finalize(() => {
+
+    })).subscribe((result) => {
+      entity = result;
+    });
     this.isSaving = true;
-    this.getMedicalHistory(entity.id);
-    this.getWorkHistory(entity.id);
-    this.getClientHistory(entity.id);
-    this.getFileData(entity.id);
+    this.getMedicalHistory(clientId);
+    this.getWorkHistory(clientId);
+    this.getClientHistory(clientId);
+    this.getFileData(clientId);
     this.lawFirmCity = 'Port Elizabeth';
     const address: CreateAddressInput = new CreateAddressInput();
-    const docCreator = new DocumentCreator();
-    setTimeout(() => {
-      const today = moment().format('LL');
-      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
-      console.log('Document created successfully');
-      this.isSaving = false;
-    }, 5000);
-    this.clientService.getDetail(entity.id)
+    this.clientService.getDetail(clientId)
       .pipe(finalize(() => {
-        this.clientService.getMedicalHistoryByClientId(entity.id)
+        this.clientService.getMedicalHistoryByClientId(clientId)
           .pipe(finalize(() => { }))
           .subscribe((result) => {
             this.medicalData = result;
           });
-        this.clientService.getWorkHistoryByClientId(entity.id)
+        this.clientService.getWorkHistoryByClientId(clientId)
           .subscribe((result) => {
             this.workData = result;
           });
@@ -84,6 +86,13 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         address.postalCode = result.address.postalCode;
         address.province = result.address.province;
       });
+    const docCreator = new DocumentCreator();
+    setTimeout(() => {
+      const today = moment().format('LL');
+      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
+      this.notify.success('Document created successfully');
+      this.isSaving = false;
+    }, 5000);
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
@@ -161,7 +170,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
   protected delete(entity: ClientListDto): void {
-
     abp.message.confirm(
       'Delete Client \'' + entity.firstName + ' ' + entity.lastName + '\'?',
       (result: boolean) => {
