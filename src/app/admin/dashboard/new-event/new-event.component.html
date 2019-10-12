@@ -113,7 +113,7 @@
           <div class="col-lg-6">
             <mat-form-field>
               <mat-label>From</mat-label>
-              <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue"
+              <input #fromTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue"
                 [value]="'00:00 am'" readonly>
               <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event)">
               </ngx-material-timepicker>
@@ -123,7 +123,7 @@
           <div class="col-lg-6">
             <mat-form-field>
               <mat-label>To</mat-label>
-              <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value" [value]="'00:00 am'"
+              <input #toTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value" [value]="'00:00 am'"
                 readonly>
               <ngx-material-timepicker #Value (timeSet)="setEndTime($event)">
               </ngx-material-timepicker>
@@ -134,7 +134,8 @@
 
       <div class="modal-footer">
         <button type="button" mat-raised-button (click)="close(newEvent)">Close</button>
-        <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid">Add Event</button>
+        <button type="submit" mat-raised-button color="primary"
+          [disabled]="!newEvent.valid || fromTime.value === '00:00' || toTime.value === '00:00'">Add Event</button>
       </div>
     </div>
   </form>

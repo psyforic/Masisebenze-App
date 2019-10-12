@@ -7,6 +7,9 @@
     </div>
     <form [formGroup]="clientForm" (ngSubmit)="save()">
         <div class="modal-body">
+            <div class="example-loading-shade" *ngIf="isSaving">
+                <mat-spinner *ngIf="isSaving"></mat-spinner>
+            </div>
             <mat-tab-group mat-stretch-tabs>
                 <mat-tab>
                     <ng-template mat-tab-label>
@@ -16,9 +19,7 @@
                         Attorney Information
                     </ng-template>
                     <div class="col-lg-12">
-                        <div class="example-loading-shade" *ngIf="isSaving">
-                            <mat-spinner *ngIf="isSaving"></mat-spinner>
-                        </div>
+
                         <div class="card">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -151,26 +152,26 @@
                             </div>
 
                             <div class="row">
-                                    <div class="col-lg-6">
-                                        <mat-form-field>
-                                            <mat-label>From</mat-label>
-                                            <input matInput aria-label="default time" [format]="24"
-                                                [ngxTimepicker]="defaultValue" [value]="'00:00 am'" readonly>
-                                            <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event)">
-                                            </ngx-material-timepicker>
-                                        </mat-form-field>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <mat-form-field>
-                                            <mat-label>To</mat-label>
-                                            <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value"
-                                                [value]="'00:00 am'" readonly>
-                                            <ngx-material-timepicker #Value (timeSet)="setEndTime($event)">
-                                            </ngx-material-timepicker>
-                                        </mat-form-field>
-                                    </div>
+                                <div class="col-lg-6">
+                                    <mat-form-field>
+                                        <mat-label>From</mat-label>
+                                        <input #fromTime matInput aria-label="default time" [format]="24"
+                                            [ngxTimepicker]="defaultValue" [value]="'00:00 am'" readonly>
+                                        <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event)">
+                                        </ngx-material-timepicker>
+                                    </mat-form-field>
                                 </div>
+
+                                <div class="col-lg-6">
+                                    <mat-form-field>
+                                        <mat-label>To</mat-label>
+                                        <input #toTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value"
+                                            [value]="'00:00 am'" readonly>
+                                        <ngx-material-timepicker #Value (timeSet)="setEndTime($event)">
+                                        </ngx-material-timepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </mat-tab>
@@ -178,7 +179,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" mat-raised-button (click)="modal.close()">Close</button>
-            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid">Save</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid || fromTime.value === '00:00' || toTime.value === '00:00'">Save</button>
         </div>
     </form>
 </ng-template>

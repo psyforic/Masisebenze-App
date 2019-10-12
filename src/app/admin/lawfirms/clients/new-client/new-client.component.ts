@@ -45,8 +45,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private clientService: ClientServiceProxy,
-    private lawFirmService: LawFirmServiceProxy,
-    private bookingService: BookingServiceProxy) {
+    private lawFirmService: LawFirmServiceProxy) {
     super(injector);
   }
   ngOnInit(): void {
@@ -103,8 +102,6 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.getLawFirmAttorneys();
     this.getLawFirmContacts();
   }
-  selectedDate(event) {
-  }
   setStartTime(event) {
     this.startTime = event;
   }
@@ -115,13 +112,14 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.isSaving = true;
     const courtDate = new Date(this.clientForm.get('courtDate').value);
     const formattedCourtDate = moment(courtDate).format('YYYY-MM-DD');
-
     const assessmentDate = new Date(this.clientForm.get('assessmentDate').value);
     const formattedAssessmentDate = moment(assessmentDate).format('YYYY-MM-DD');
-    this.isSaving = true;
+
     this.clientInput = Object.assign({}, this.clientForm.value);
     this.clientInput.assessmentDate = moment(formattedAssessmentDate);
     this.clientInput.courtDate = moment(formattedCourtDate);
+    this.clientInput.startTime = moment(formattedAssessmentDate + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.clientInput.endTime = moment(formattedAssessmentDate + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;
