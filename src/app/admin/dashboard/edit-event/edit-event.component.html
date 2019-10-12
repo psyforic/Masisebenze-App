@@ -7,8 +7,8 @@
   </div>
   <form #newEvent="ngForm" (ngSubmit)="save(newEvent)">
     <div class="modal-body">
-      <div class="example-loading-shade" *ngIf="isSaving">
-        <mat-spinner *ngIf="isSaving"></mat-spinner>
+      <div class="example-loading-shade" *ngIf="isSaving || isLoading">
+        <mat-spinner *ngIf="isSaving || isLoading"></mat-spinner>
       </div>
       <div class="card">
         <div class="row">

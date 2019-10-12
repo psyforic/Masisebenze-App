@@ -22,6 +22,9 @@
                         <div class="example-loading-shade" *ngIf="isTableLoading || isSaving">
                             <mat-spinner *ngIf="isTableLoading || isSaving"></mat-spinner>
                         </div>
+                        <div class="example-loading-shade" *ngIf="isGenerating">
+                                <mat-spinner *ngIf="isGenerating"></mat-spinner>
+                            </div>
                         <mat-table [dataSource]="dataSource" matSort>
                             <!-- Progress Column -->
                             <ng-container matColumnDef="firstName">

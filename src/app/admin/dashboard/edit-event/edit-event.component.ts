@@ -36,6 +36,7 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
   toTime: string;
   clientName: string;
   isSaving = false;
+  isLoading = false;
   attorneyName: string;
   reason: string;
   lawFirmName: string;
@@ -48,11 +49,13 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
 
   }
   open(date, id) {
+    this.isLoading = true;
     this.bookingService.getDetail(id)
       .pipe(finalize(() => {
         this.toTime = moment(this.booking.endTime).format('h:mm a');
         this.fromTime = moment(this.booking.startTime).format('h:mm a');
         this.getEvents();
+        this.isLoading = false;
       }))
       .subscribe((result) => {
         this.booking = result;
@@ -68,21 +71,6 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
-  // save() {
-  //   this.isSaving = true;
-  //   this.date = moment(this.date).format('YYYY-MM-DD');
-  //   this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
-  //   this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
-  //   this.bookingService.editBooking(this.booking)
-  //     .pipe(finalize(() => {
-  //       this.isSaving = false;
-  //     }))
-  //     .subscribe(() => {
-  //       this.notify.success('Event Updated Successfully');
-  //       this.editBookingInput.emit([this.booking, this.booking.client.firstName + ' ' + this.booking.client.lastName]);
-  //       this.modalService.dismissAll();
-  //     });
-  // }
   save(form: NgForm) {
     this.isSaving = true;
     this.date = moment(this.date).format('YYYY-MM-DD');

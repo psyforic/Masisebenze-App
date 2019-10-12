@@ -37,6 +37,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   workData: WorkHistoryListDto = new WorkHistoryDetailOutput();
   medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
   isSaving = false;
+  isGenerating = false;
   documents: DocumentListDto[] = [];
   filteredDocuments;
   lawFirmCity: string;
@@ -60,7 +61,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     })).subscribe((result) => {
       entity = result;
     });
-    this.isSaving = true;
+    this.isGenerating = true;
     this.getMedicalHistory(clientId);
     this.getWorkHistory(clientId);
     this.getClientHistory(clientId);
@@ -91,7 +92,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       const today = moment().format('LL');
       docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
       this.notify.success('Document created successfully');
-      this.isSaving = false;
+      this.isGenerating = false;
     }, 5000);
   }
   getMedicalHistory(id) {
