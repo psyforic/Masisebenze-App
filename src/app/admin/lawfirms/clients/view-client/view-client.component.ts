@@ -8,7 +8,11 @@ import {
   MedicalHistoryDetailOutput,
   DocumentServiceProxy,
   DocumentListDto,
-  CreateAddressInput
+  CreateAddressInput,
+  AssessmentServiceProxy,
+  GripStrengthDto,
+  MusclePowerDto,
+  BorgBalanceOptionListDto
 } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute } from '@angular/router';
 import { finalize, map } from 'rxjs/operators';
@@ -49,7 +53,7 @@ interface FlatNode {
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy,
+  providers: [ClientServiceProxy, DocumentServiceProxy, AssessmentServiceProxy,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE], useValue: { useUtc: true } },
 
     { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYYY_Format }]
@@ -70,6 +74,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   postalCode = '';
   panelOpenState = false;
   isUploading = false;
+  isLoading = false;
+  loaded = false;
+  borgLoaded = false;
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
@@ -85,12 +92,17 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   showCropper = false;
+
+  gripStrength: GripStrengthDto = new GripStrengthDto();
+  musclePower: MusclePowerDto = new MusclePowerDto();
+  borgBalance: BorgBalanceOptionListDto[] = [];
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private assessmentService: AssessmentServiceProxy
   ) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -127,6 +139,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.workHistory = result;
       });
     this.generalService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+    this.getClientGripStrength();
   }
   getClient() {
     this.clientService.getDetail(this.clientId)
@@ -188,7 +201,81 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.notify.success('Updated Successfully');
       });
   }
-  onContentChanged = (event) => {
+  getAge() {
+    const idNumber: string = '' + this.client.idNumber;
+    const tempDate = new Date(
+      +idNumber.substr(0, 2),
+      +(idNumber.substring(2, 4)) - 1,
+      +idNumber.substring(4, 6));
+    const id_month = tempDate.getMonth();
+    const id_year = tempDate.getFullYear();
+    let currentAge = new Date().getFullYear() - id_year;
+    if (id_month > new Date().getMonth()) {
+      currentAge = currentAge - 1;
+    } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
+      currentAge = currentAge - 1;
+    }
+    return currentAge;
+  }
+  getGender() {
+    const idNumber = '' + this.client.idNumber;
+    const genderIdentifier = idNumber.charAt(6);
+    if (Number.parseInt(genderIdentifier) < 5) {
+      return 'Female';
+    }
+    return 'Male';
+  }
+  getPain(painLevel: number) {
+    switch (painLevel) {
+      case 0:
+        return 'No Pain';
+      case 1:
+        return 'Hurts a Little';
+      case 2:
+        return 'Hurts a Little More';
+      case 3:
+        return 'Hurts Even More';
+      case 4:
+        return 'Hurts a Whole Lot';
+      case 5:
+        return 'Hurts Worse';
+      default:
+        break;
+    }
+  }
+  decodeMusclePower(result: number) {
+    switch (result) {
+      case 0:
+        return 'No Contradiction';
+      case 1:
+        return 'Flickering';
+      case 2:
+        return 'Movement Without Gravity';
+      case 3:
+        return 'Against Gravity';
+      case 4:
+        return 'Resistance';
+      case 5:
+        return 'Normal';
+      default:
+        break;
+    }
+  }
+  decodeBorgBalance(result: number) {
+    switch (result) {
+      case 0:
+        return 'Able to stand without using hands and stabilize independently';
+      case 1:
+        return 'Able to stand independently using hands';
+      case 3:
+        return 'Needs Minimal Aid to stand or to Stabilize';
+      case 2:
+        return 'Able to stand using using hands after several tries';
+      case 4:
+        return 'Needs Moderate or Maximal Assist to Stand';
+      default:
+        break;
+    }
   }
   setFormTouched(clientForm: NgForm) {
     clientForm.control.markAsDirty();
@@ -215,6 +302,37 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         });
       })).subscribe(() => {
 
+      });
+  }
+
+  getClientGripStrength() {
+    this.assessmentService.getClientGripStrength(this.clientId)
+      .pipe(finalize(() => {
+
+      })).subscribe((result) => {
+        this.gripStrength = result;
+      });
+  }
+  getMusclePower(event) {
+    this.isLoading = true;
+    this.assessmentService.getClientMusclePower(this.clientId)
+      .pipe(finalize(() => {
+        this.isUploading = false;
+        this.loaded = true;
+      }))
+      .subscribe((result) => {
+        this.musclePower = result;
+      });
+  }
+  getBorgBalance(event) {
+    this.isLoading = true;
+    this.assessmentService.getClientBorgBalance(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.borgLoaded = true;
+      }))
+      .subscribe((result) => {
+        this.borgBalance = result.items;
       });
   }
   private _transformer = (node: DocumentNode, level: number) => {
