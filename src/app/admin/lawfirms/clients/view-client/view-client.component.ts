@@ -1,29 +1,31 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
-import { AppComponentBase } from '@shared/app-component-base';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import {
-  ClientServiceProxy,
-  ClientDetailOutput,
-  WorkHistoryDetailOutput,
-  MedicalHistoryDetailOutput,
-  DocumentServiceProxy,
-  DocumentListDto,
-  CreateAddressInput,
-  AssessmentServiceProxy,
-  GripStrengthDto,
-  MusclePowerDto,
-  BorgBalanceOptionListDto
-} from '@shared/service-proxies/service-proxies';
-import { ActivatedRoute } from '@angular/router';
-import { finalize, map } from 'rxjs/operators';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlattener, MatTreeFlatDataSource, MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material';
+import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
-import { Observable } from 'rxjs';
-import { CameraModalComponent } from '../camera-modal/camera-modal.component';
-import { GeneralService } from '@app/admin/services/general.service';
-import * as moment from 'moment';
 import { NgForm } from '@angular/forms';
+import { DateAdapter, MatTreeFlatDataSource, MatTreeFlattener, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { ActivatedRoute } from '@angular/router';
+import { GeneralService } from '@app/admin/services/general.service';
+import { AppComponentBase } from '@shared/app-component-base';
+import {
+  AssessmentServiceProxy,
+  BorgBalanceOptionListDto,
+  ClientDetailOutput,
+  ClientServiceProxy,
+  CreateAddressInput,
+  DocumentListDto,
+  DocumentServiceProxy,
+  GripStrengthDto,
+  MedicalHistoryDetailOutput,
+  MusclePowerDto,
+  WorkHistoryDetailOutput
+} from '@shared/service-proxies/service-proxies';
+import * as moment from 'moment';
+import { Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
+import { GaitComponent } from '../assessments/gait/gait.component';
+import { GripStrengthComponent } from '../assessments/grip-strength/grip-strength.component';
+import { CameraModalComponent } from '../camera-modal/camera-modal.component';
 declare const $: any;
 export const DD_MM_YYYY_Format = {
   parse: {
@@ -61,6 +63,8 @@ interface FlatNode {
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('newPhoto', { static: false }) takePhoto: CameraModalComponent;
+  @ViewChild('gripStrength', { static: false }) openGripStrength: GripStrengthComponent;
+  @ViewChild('gait', { static: false }) openGait: GaitComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
   documents: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
@@ -139,7 +143,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.workHistory = result;
       });
     this.generalService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
-    this.getClientGripStrength();
   }
   getClient() {
     this.clientService.getDetail(this.clientId)
@@ -305,35 +308,25 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       });
   }
 
-  getClientGripStrength() {
-    this.assessmentService.getClientGripStrength(this.clientId)
-      .pipe(finalize(() => {
-
-      })).subscribe((result) => {
-        this.gripStrength = result;
-      });
+  getGripStrength() {
+    this.openGripStrength.open();
   }
-  getMusclePower(event) {
-    this.isLoading = true;
-    this.assessmentService.getClientMusclePower(this.clientId)
-      .pipe(finalize(() => {
-        this.isUploading = false;
-        this.loaded = true;
-      }))
-      .subscribe((result) => {
-        this.musclePower = result;
-      });
+  getMusclePower() {
   }
-  getBorgBalance(event) {
-    this.isLoading = true;
-    this.assessmentService.getClientBorgBalance(this.clientId)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-        this.borgLoaded = true;
-      }))
-      .subscribe((result) => {
-        this.borgBalance = result.items;
-      });
+  getRangeOfMotion() {
+  }
+  getBorgBalance() {
+  }
+  getSensation() {
+  }
+  getCoordination() {
+  }
+  getPosture() {
+  }
+  getRepetitiveToleranceProtocol() {
+  }
+  getGait() {
+    this.openGait.open();
   }
   private _transformer = (node: DocumentNode, level: number) => {
     return {

@@ -13,6 +13,8 @@ import { WebcamModule } from 'ngx-webcam';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { UploadDocumentComponent } from './upload-document/upload-document.component';
 import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
+import { AssessmentsModule } from './assessments/assessments.module';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -30,11 +32,13 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
     PartialsModule,
     VerticalTimelineModule,
     WebcamModule,
-    ImageCropperModule
+    ImageCropperModule,
+    AssessmentsModule
   ],
   exports: [
     NewClientComponent
   ],
-  entryComponents: [NewClientComponent, CameraModalComponent]
+  entryComponents: [NewClientComponent, CameraModalComponent],
+  providers: [NgbActiveModal]
 })
 export class ClientsModule { }

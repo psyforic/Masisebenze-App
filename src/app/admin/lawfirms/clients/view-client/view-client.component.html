@@ -520,282 +520,184 @@
                                                     </ng-template>
                                                     <div class="col-lg-12">
 
-                                                        <mat-accordion>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header>
-                                                                    <mat-panel-title>
-                                                                        <strong>Grip Strength</strong>
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <div class="example-loading-shade"
-                                                                    *ngIf="isLoading && loaded==false">
-                                                                    <mat-spinner *ngIf="isLoading && loaded==false">
-                                                                    </mat-spinner>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Age"
-                                                                                type="text" name="age"
-                                                                                value="{{getAge()}}" readonly>
-                                                                        </mat-form-field>
+                                                        <div class="row">
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Grip Strength</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
                                                                     </div>
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Gender"
-                                                                                type="text" name="gender"
-                                                                                value="{{getGender()}}" readonly>
-                                                                        </mat-form-field>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getGripStrength()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="row">
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Weight"
-                                                                                type="text" name="weight"
-                                                                                value="{{gripStrength.weight}}"
-                                                                                readonly>
-                                                                        </mat-form-field>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Muscle Power</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
                                                                     </div>
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Machine Test"
-                                                                                type="text" name="machineTest"
-                                                                                value="{{gripStrength.machineTest}}"
-                                                                                readonly>
-                                                                        </mat-form-field>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Pain Level"
-                                                                                type="text" name="weight"
-                                                                                value="{{getPain(gripStrength.painLevel)}}"
-                                                                                readonly>
-                                                                        </mat-form-field>
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <textarea matInput placeholder="Comments"
-                                                                                type="text" name="comments"
-                                                                                value="{{gripStrength.comment}}"
-                                                                                readonly>
-                                                                            </textarea>
-                                                                        </mat-form-field>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getMusclePower()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-lg-6">
-                                                                        <label> <strong>Result: </strong></label>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Range Of Motion</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getRangeOfMotion()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header
-                                                                    (click)="getMusclePower($event)">
-                                                                    <mat-panel-title>
-                                                                        <strong>Muscle Power</strong>
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <div class="example-loading-shade"
-                                                                    *ngIf="isLoading && loaded==false">
-                                                                    <mat-spinner *ngIf="isLoading && loaded==false">
-                                                                    </mat-spinner>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Left Arm"
-                                                                                type="text" name="leftArm"
-                                                                                value="{{decodeMusclePower(musclePower.leftArmResult)}}"
-                                                                                readonly>
-                                                                        </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Borg Balance</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
                                                                     </div>
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Pain Level"
-                                                                                type="text" name="painLevel"
-                                                                                value="{{getPain(musclePower.leftPainLevel)}}"
-                                                                                readonly>
-                                                                        </mat-form-field>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getBorgBalance()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <textarea matInput placeholder="Comments"
-                                                                                type="text" name="comments"
-                                                                                value="{{musclePower.leftSideComment}}"
-                                                                                readonly>
-                                                                                        </textarea>
-                                                                        </mat-form-field>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Sensation</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getSensation()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Left Leg"
-                                                                                type="text" name="leftArm"
-                                                                                value="{{decodeMusclePower(musclePower.leftLegResult)}}"
-                                                                                readonly>
-                                                                        </mat-form-field>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Coordination</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
                                                                     </div>
-                                                                    <div class="col-lg-6">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <input matInput placeholder="Pain Level"
-                                                                                type="text" name="painLevel"
-                                                                                value="{{getPain(musclePower.leftPainLevel)}}"
-                                                                                readonly>
-                                                                        </mat-form-field>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <mat-form-field class="example-full-width">
-                                                                            <textarea matInput placeholder="Comments"
-                                                                                type="text" name="comments"
-                                                                                value="{{musclePower.leftSideComment}}"
-                                                                                readonly>
-                                                                                    </textarea>
-                                                                        </mat-form-field>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getCoordination()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                                <div class="row justify-content-end">
-                                                                    <div class="col-lg-6">
-                                                                        <label> <strong>Result: </strong></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Posture</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getPosture()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header>
-                                                                    <mat-panel-title>
-                                                                        Range Of Motion
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <quill-editor [styles]="{height: '200px'}"
-                                                                    [(ngModel)]="medicalHistory.medication"
-                                                                    [sanitize]="true" placeholder="Enter Text"
-                                                                    name="medication">
-                                                                </quill-editor>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header
-                                                                    (click)="getBorgBalance($event)">
-                                                                    <strong>
-                                                                        <strong>Borg Balance Scale</strong>
-                                                                    </strong>
-                                                                </mat-expansion-panel-header>
-                                                                <div class="example-loading-shade"
-                                                                    *ngIf="isLoading && borgLoaded==false">
-                                                                    <mat-spinner *ngIf="isLoading && borgLoaded==false">
-                                                                    </mat-spinner>
-                                                                </div>
-                                                                <div class="row" *ngFor="let option of borgBalance">
-                                                                    <div class="col-lg-12">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12 text-left mb-2">
-                                                                                <h6>{{option.name}}</h6>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-lg-6">
-                                                                                <mat-form-field
-                                                                                    class="example-full-width">
-                                                                                    <input matInput placeholder="Result"
-                                                                                        type="text" name="painLevel"
-                                                                                        value="{{decodeBorgBalance(option.borgBalanceOptionScore)}}"
-                                                                                        readonly>
-                                                                                </mat-form-field>
-                                                                            </div>
-                                                                            <div class="col-lg-6">
-                                                                                <mat-form-field
-                                                                                    class="example-full-width">
-                                                                                    <input matInput
-                                                                                        placeholder="Pain Level"
-                                                                                        type="text" name="painLevel"
-                                                                                        value="{{getPain(option.painLevel)}}"
-                                                                                        readonly>
-                                                                                </mat-form-field>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12">
-                                                                                <mat-form-field
-                                                                                    class="example-full-width">
-                                                                                    <input matInput
-                                                                                        placeholder="Comment"
-                                                                                        type="text" name="painLevel"
-                                                                                        value="{{option.comment}}"
-                                                                                        readonly>
-                                                                                </mat-form-field>
-                                                                            </div>
-                                                                        </div>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Repetitive Tolerance
+                                                                        Protocol</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i class="fa fa-file-text-o fa-5x
+                                                                                icon-primary"></i>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getRepetitiveToleranceProtocol()">
+                                                                            View
+                                                                        </a>
                                                                     </div>
                                                                 </div>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header>
-                                                                    <mat-panel-title>
-                                                                        Sensation
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <quill-editor [styles]="{height: '200px'}"
-                                                                    [(ngModel)]="medicalHistory.medication"
-                                                                    [sanitize]="true" placeholder="Enter Text"
-                                                                    name="medication">
-                                                                </quill-editor>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header>
-                                                                    <mat-panel-title>
-                                                                        Coordination
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <quill-editor [styles]="{height: '200px'}"
-                                                                    [(ngModel)]="medicalHistory.medication"
-                                                                    [sanitize]="true" placeholder="Enter Text"
-                                                                    name="medication">
-                                                                </quill-editor>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header>
-                                                                    <mat-panel-title>
-                                                                        Posture
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <quill-editor [styles]="{height: '200px'}"
-                                                                    [(ngModel)]="medicalHistory.medication"
-                                                                    [sanitize]="true" placeholder="Enter Text"
-                                                                    name="medication">
-                                                                </quill-editor>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header>
-                                                                    <mat-panel-title>
-                                                                        Mobility
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <quill-editor [styles]="{height: '200px'}"
-                                                                    [(ngModel)]="medicalHistory.medication"
-                                                                    [sanitize]="true" placeholder="Enter Text"
-                                                                    name="medication">
-                                                                </quill-editor>
-                                                            </mat-expansion-panel>
-                                                            <mat-expansion-panel>
-                                                                <mat-expansion-panel-header>
-                                                                    <mat-panel-title>
-                                                                        Gait
-                                                                    </mat-panel-title>
-                                                                </mat-expansion-panel-header>
-                                                                <quill-editor [styles]="{height: '200px'}"
-                                                                    [(ngModel)]="medicalHistory.medication"
-                                                                    [sanitize]="true" placeholder="Enter Text"
-                                                                    name="medication">
-                                                                </quill-editor>
-                                                            </mat-expansion-panel>
-                                                        </mat-accordion>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
+                                                                    <h6 class="card-category">Gait</h6>
+                                                                    <div class="card-body text-center">
+                                                                        <p class="card-description">
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="card-footer justify-content-center ">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getGait()">
+                                                                            View
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </mat-tab>
                                                 <mat-tab label="Cognitive Assessment"> Content 2 </mat-tab>
@@ -806,6 +708,7 @@
 
                                     </div>
                                 </div>
+
                             </div>
 
                         </div>
@@ -816,3 +719,5 @@
     </div>
 </div>
 <app-camera-modal #newPhoto (pictureUpload)="upload($event)"></app-camera-modal>
+<app-grip-strength #gripStrength [clientId]="clientId"></app-grip-strength>
+<app-gait #gait></app-gait>

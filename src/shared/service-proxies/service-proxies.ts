@@ -535,14 +535,67 @@ export class AssessmentServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    createGripStrength(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateGripStrength?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateGripStrength(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateGripStrength(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateGripStrength(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @param input (optional) 
      * @return Success
      */
-    updateGripStrength(clientId: string | null | undefined, input: GripStrengthDto | null | undefined): Observable<void> {
+    updateGripStrength(clientId: string | null | undefined, side: number | null | undefined, input: GripStrengthDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateGripStrength?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -571,6 +624,113 @@ export class AssessmentServiceProxy {
     }
 
     protected processUpdateGripStrength(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @return Success
+     */
+    getGripStrength(clientId: string | null | undefined, side: number | null | undefined): Observable<GripStrengthDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetGripStrength?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGripStrength(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGripStrength(<any>response_);
+                } catch (e) {
+                    return <Observable<GripStrengthDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GripStrengthDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetGripStrength(response: HttpResponseBase): Observable<GripStrengthDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GripStrengthDetailOutput.fromJS(resultData200) : new GripStrengthDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GripStrengthDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    createMusclePower(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateMusclePower?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateMusclePower(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateMusclePower(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateMusclePower(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -646,37 +806,44 @@ export class AssessmentServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @param type (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    getClientGripStrength(clientId: string | null | undefined): Observable<GripStrengthDetailOutput> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetClientGripStrength?";
+    updateMusclePowerOption(clientId: string | null | undefined, type: number | null | undefined, input: MusclePowerOptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateMusclePowerOption?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (type !== undefined)
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(input);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
+                "Content-Type": "application/json", 
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetClientGripStrength(response_);
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateMusclePowerOption(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetClientGripStrength(<any>response_);
+                    return this.processUpdateMusclePowerOption(<any>response_);
                 } catch (e) {
-                    return <Observable<GripStrengthDetailOutput>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GripStrengthDetailOutput>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetClientGripStrength(response: HttpResponseBase): Observable<GripStrengthDetailOutput> {
+    protected processUpdateMusclePowerOption(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -685,27 +852,27 @@ export class AssessmentServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GripStrengthDetailOutput.fromJS(resultData200) : new GripStrengthDetailOutput();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GripStrengthDetailOutput>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
     /**
      * @param clientId (optional) 
+     * @param type (optional) 
      * @return Success
      */
-    getClientMusclePower(clientId: string | null | undefined): Observable<MusclePowerDetailOutput> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetClientMusclePower?";
+    getMusclePowerOption(clientId: string | null | undefined, type: number | null | undefined): Observable<MusclePowerOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetMusclePowerOption?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (type !== undefined)
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -717,20 +884,20 @@ export class AssessmentServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetClientMusclePower(response_);
+            return this.processGetMusclePowerOption(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetClientMusclePower(<any>response_);
+                    return this.processGetMusclePowerOption(<any>response_);
                 } catch (e) {
-                    return <Observable<MusclePowerDetailOutput>><any>_observableThrow(e);
+                    return <Observable<MusclePowerOptionDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<MusclePowerDetailOutput>><any>_observableThrow(response_);
+                return <Observable<MusclePowerOptionDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetClientMusclePower(response: HttpResponseBase): Observable<MusclePowerDetailOutput> {
+    protected processGetMusclePowerOption(response: HttpResponseBase): Observable<MusclePowerOptionDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -741,7 +908,7 @@ export class AssessmentServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? MusclePowerDetailOutput.fromJS(resultData200) : new MusclePowerDetailOutput();
+            result200 = resultData200 ? MusclePowerOptionDto.fromJS(resultData200) : new MusclePowerOptionDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -749,42 +916,41 @@ export class AssessmentServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<MusclePowerDetailOutput>(<any>null);
+        return _observableOf<MusclePowerOptionDto>(<any>null);
     }
 
     /**
-     * @param clientId (optional) 
+     * @param id (optional) 
      * @return Success
      */
-    getClientGait(clientId: string | null | undefined): Observable<GaitDto> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetClientGait?";
-        if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+    createGait(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateGait?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetClientGait(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateGait(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetClientGait(<any>response_);
+                    return this.processCreateGait(<any>response_);
                 } catch (e) {
-                    return <Observable<GaitDto>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<GaitDto>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetClientGait(response: HttpResponseBase): Observable<GaitDto> {
+    protected processCreateGait(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -793,17 +959,14 @@ export class AssessmentServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? GaitDto.fromJS(resultData200) : new GaitDto();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<GaitDto>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -843,6 +1006,110 @@ export class AssessmentServiceProxy {
     }
 
     protected processUpdateGait(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getGait(clientId: string | null | undefined): Observable<GaitDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetGait?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGait(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGait(<any>response_);
+                } catch (e) {
+                    return <Observable<GaitDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GaitDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetGait(response: HttpResponseBase): Observable<GaitDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? GaitDto.fromJS(resultData200) : new GaitDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GaitDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    createPosture(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreatePosture?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreatePosture(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreatePosture(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreatePosture(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -920,8 +1187,8 @@ export class AssessmentServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getClientPosture(clientId: string | null | undefined): Observable<ListResultDtoOfPostureOptionListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetClientPosture?";
+    getPosture(clientId: string | null | undefined): Observable<ListResultDtoOfPostureOptionListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetPosture?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -935,11 +1202,11 @@ export class AssessmentServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetClientPosture(response_);
+            return this.processGetPosture(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetClientPosture(<any>response_);
+                    return this.processGetPosture(<any>response_);
                 } catch (e) {
                     return <Observable<ListResultDtoOfPostureOptionListDto>><any>_observableThrow(e);
                 }
@@ -948,7 +1215,7 @@ export class AssessmentServiceProxy {
         }));
     }
 
-    protected processGetClientPosture(response: HttpResponseBase): Observable<ListResultDtoOfPostureOptionListDto> {
+    protected processGetPosture(response: HttpResponseBase): Observable<ListResultDtoOfPostureOptionListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -968,6 +1235,56 @@ export class AssessmentServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfPostureOptionListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    createBorgBalance(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateBorgBalance?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateBorgBalance(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateBorgBalance(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateBorgBalance(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -1029,8 +1346,8 @@ export class AssessmentServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getClientBorgBalance(clientId: string | null | undefined): Observable<ListResultDtoOfBorgBalanceOptionListDto> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetClientBorgBalance?";
+    getBorgBalance(clientId: string | null | undefined): Observable<ListResultDtoOfBorgBalanceOptionListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetBorgBalance?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -1044,11 +1361,11 @@ export class AssessmentServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetClientBorgBalance(response_);
+            return this.processGetBorgBalance(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetClientBorgBalance(<any>response_);
+                    return this.processGetBorgBalance(<any>response_);
                 } catch (e) {
                     return <Observable<ListResultDtoOfBorgBalanceOptionListDto>><any>_observableThrow(e);
                 }
@@ -1057,7 +1374,7 @@ export class AssessmentServiceProxy {
         }));
     }
 
-    protected processGetClientBorgBalance(response: HttpResponseBase): Observable<ListResultDtoOfBorgBalanceOptionListDto> {
+    protected processGetBorgBalance(response: HttpResponseBase): Observable<ListResultDtoOfBorgBalanceOptionListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1080,41 +1397,37 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional) 
-     * @param side (optional) 
+     * @param id (optional) 
      * @return Success
      */
-    getUpperExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetUpperExtremity?";
-        if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
+    createSensation(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateSensation?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/json"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetUpperExtremity(response_);
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateSensation(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetUpperExtremity(<any>response_);
+                    return this.processCreateSensation(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfSensationOptionDto>><any>_observableThrow(e);
+                    return <Observable<void>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfSensationOptionDto>><any>_observableThrow(response_);
+                return <Observable<void>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetUpperExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
+    protected processCreateSensation(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1123,17 +1436,14 @@ export class AssessmentServiceProxy {
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfSensationOptionDto.fromJS(resultData200) : new ListResultDtoOfSensationOptionDto();
-            return _observableOf(result200);
+            return _observableOf<void>(<any>null);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfSensationOptionDto>(<any>null);
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -1199,8 +1509,8 @@ export class AssessmentServiceProxy {
      * @param side (optional) 
      * @return Success
      */
-    getTrunkExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetTrunkExtremity?";
+    getUpperExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetUpperExtremity?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
@@ -1216,11 +1526,11 @@ export class AssessmentServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetTrunkExtremity(response_);
+            return this.processGetUpperExtremity(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetTrunkExtremity(<any>response_);
+                    return this.processGetUpperExtremity(<any>response_);
                 } catch (e) {
                     return <Observable<ListResultDtoOfSensationOptionDto>><any>_observableThrow(e);
                 }
@@ -1229,7 +1539,7 @@ export class AssessmentServiceProxy {
         }));
     }
 
-    protected processGetTrunkExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
+    protected processGetUpperExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1314,12 +1624,12 @@ export class AssessmentServiceProxy {
      * @param side (optional) 
      * @return Success
      */
-    getLowerExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/GetLowerExtremity?";
+    getTrunkExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetTrunkExtremity?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1331,11 +1641,11 @@ export class AssessmentServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetLowerExtremity(response_);
+            return this.processGetTrunkExtremity(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetLowerExtremity(<any>response_);
+                    return this.processGetTrunkExtremity(<any>response_);
                 } catch (e) {
                     return <Observable<ListResultDtoOfSensationOptionDto>><any>_observableThrow(e);
                 }
@@ -1344,7 +1654,7 @@ export class AssessmentServiceProxy {
         }));
     }
 
-    protected processGetLowerExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
+    protected processGetTrunkExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1422,6 +1732,384 @@ export class AssessmentServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @return Success
+     */
+    getLowerExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetLowerExtremity?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLowerExtremity(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLowerExtremity(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfSensationOptionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfSensationOptionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLowerExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfSensationOptionDto.fromJS(resultData200) : new ListResultDtoOfSensationOptionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfSensationOptionDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    createCoordination(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateCoordination?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateCoordination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateCoordination(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateCoordination(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param coordinationId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    updateCoordinationOption(coordinationId: string | null | undefined, input: CoordinationOptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateCoordinationOption?";
+        if (coordinationId !== undefined)
+            url_ += "coordinationId=" + encodeURIComponent("" + coordinationId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateCoordinationOption(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateCoordinationOption(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateCoordinationOption(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCoordination(clientId: string | null | undefined): Observable<ListResultDtoOfCoordinationOptionListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetCoordination?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCoordination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCoordination(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfCoordinationOptionListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfCoordinationOptionListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCoordination(response: HttpResponseBase): Observable<ListResultDtoOfCoordinationOptionListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfCoordinationOptionListDto.fromJS(resultData200) : new ListResultDtoOfCoordinationOptionListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfCoordinationOptionListDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    createCoordinationIncomplete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateCoordinationIncomplete?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateCoordinationIncomplete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateCoordinationIncomplete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateCoordinationIncomplete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    updateCoordinationIncomplete(clientId: string | null | undefined, input: CoordinationIncompleteDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateCoordinationIncomplete?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateCoordinationIncomplete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateCoordinationIncomplete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateCoordinationIncomplete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @return Success
+     */
+    getCoordinationIncomplete(clientId: string | null | undefined, side: number | null | undefined): Observable<CoordinationIncompleteDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetCoordinationIncomplete?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCoordinationIncomplete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCoordinationIncomplete(<any>response_);
+                } catch (e) {
+                    return <Observable<CoordinationIncompleteDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CoordinationIncompleteDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCoordinationIncomplete(response: HttpResponseBase): Observable<CoordinationIncompleteDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CoordinationIncompleteDto.fromJS(resultData200) : new CoordinationIncompleteDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CoordinationIncompleteDto>(<any>null);
     }
 }
 
@@ -1906,6 +2594,177 @@ export class AttorneyServiceProxy {
     }
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class BalanceProtocolServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfBalanceProtocolOptionListDto> {
+        let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/Get?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfBalanceProtocolOptionListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfBalanceProtocolOptionListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfBalanceProtocolOptionListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfBalanceProtocolOptionListDto.fromJS(resultData200) : new ListResultDtoOfBalanceProtocolOptionListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfBalanceProtocolOptionListDto>(<any>null);
+    }
+
+    /**
+     * @param balanceProtocolOptionId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    update(balanceProtocolOptionId: string | null | undefined, input: BalanceProtocolOptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/Update?";
+        if (balanceProtocolOptionId !== undefined)
+            url_ += "BalanceProtocolOptionId=" + encodeURIComponent("" + balanceProtocolOptionId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -2744,6 +3603,141 @@ export class BookingServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class CalculationsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param age (optional) 
+     * @param gender (optional) 
+     * @param side (optional) 
+     * @param weight (optional) 
+     * @param machineTest (optional) 
+     * @return Success
+     */
+    getGripStrengthResults(age: number | null | undefined, gender: number | null | undefined, side: number | null | undefined, weight: number | null | undefined, machineTest: number | null | undefined): Observable<AssessmentResult> {
+        let url_ = this.baseUrl + "/api/services/app/Calculations/GetGripStrengthResults?";
+        if (age !== undefined)
+            url_ += "Age=" + encodeURIComponent("" + age) + "&"; 
+        if (gender !== undefined)
+            url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
+        if (weight !== undefined)
+            url_ += "Weight=" + encodeURIComponent("" + weight) + "&"; 
+        if (machineTest !== undefined)
+            url_ += "MachineTest=" + encodeURIComponent("" + machineTest) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGripStrengthResults(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGripStrengthResults(<any>response_);
+                } catch (e) {
+                    return <Observable<AssessmentResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AssessmentResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetGripStrengthResults(response: HttpResponseBase): Observable<AssessmentResult> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AssessmentResult.fromJS(resultData200) : new AssessmentResult();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AssessmentResult>(<any>null);
+    }
+
+    /**
+     * @param seconds (optional) 
+     * @param type (optional) 
+     * @return Success
+     */
+    getCoordinationCompleteResults(seconds: number | null | undefined, type: number | null | undefined): Observable<AssessmentResult> {
+        let url_ = this.baseUrl + "/api/services/app/Calculations/GetCoordinationCompleteResults?";
+        if (seconds !== undefined)
+            url_ += "Seconds=" + encodeURIComponent("" + seconds) + "&"; 
+        if (type !== undefined)
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCoordinationCompleteResults(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCoordinationCompleteResults(<any>response_);
+                } catch (e) {
+                    return <Observable<AssessmentResult>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AssessmentResult>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCoordinationCompleteResults(response: HttpResponseBase): Observable<AssessmentResult> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AssessmentResult.fromJS(resultData200) : new AssessmentResult();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AssessmentResult>(<any>null);
     }
 }
 
@@ -4954,6 +5948,177 @@ export class ContactServiceProxy {
 }
 
 @Injectable()
+export class CrawlingProtocolServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    get(clientId: string | null | undefined): Observable<CrawlingProtocolDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Get?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<CrawlingProtocolDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CrawlingProtocolDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<CrawlingProtocolDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CrawlingProtocolDetailOutput.fromJS(resultData200) : new CrawlingProtocolDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CrawlingProtocolDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param crawlingProtocolId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    update(crawlingProtocolId: string | null | undefined, input: CrawlingProtocolDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Update?";
+        if (crawlingProtocolId !== undefined)
+            url_ += "crawlingProtocolId=" + encodeURIComponent("" + crawlingProtocolId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class DashBoardServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -5790,6 +6955,368 @@ export class DocumentServiceProxy {
 }
 
 @Injectable()
+export class FirebaseServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateGripStrength(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateGripStrength?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateGripStrength(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateGripStrength(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateGripStrength(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateMusclePower(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateMusclePower?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateMusclePower(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateMusclePower(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateMusclePower(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateBorgBalance(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateBorgBalance?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateBorgBalance(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateBorgBalance(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateBorgBalance(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updatePosture(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Firebase/UpdatePosture?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdatePosture(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdatePosture(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdatePosture(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateSensation(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateSensation?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateSensation(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateSensation(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateSensation(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateRangeOfMotion(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateRangeOfMotion?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateRangeOfMotion(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateRangeOfMotion(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateRangeOfMotion(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateCoordination(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateCoordination?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateCoordination(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateCoordination(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateCoordination(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class JobDescriptionServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -6270,6 +7797,177 @@ export class JobDescriptionServiceProxy {
     }
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LadderWorkProtocolServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LadderWorkProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    get(clientId: string | null | undefined): Observable<LadderWorkProtocolDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LadderWorkProtocol/Get?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<LadderWorkProtocolDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LadderWorkProtocolDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<LadderWorkProtocolDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LadderWorkProtocolDetailOutput.fromJS(resultData200) : new LadderWorkProtocolDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LadderWorkProtocolDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param ladderWorkProtocolId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    update(ladderWorkProtocolId: string | null | undefined, input: LadderWorkProtocolDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LadderWorkProtocol/Update?";
+        if (ladderWorkProtocolId !== undefined)
+            url_ += "ladderWorkProtocolId=" + encodeURIComponent("" + ladderWorkProtocolId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8025,6 +9723,413 @@ export class RangeOfMotionServiceProxy {
 }
 
 @Injectable()
+export class RepetitiveFootMotionProtocolServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @return Success
+     */
+    get(clientId: string | null | undefined, side: number | null | undefined): Observable<RepetitiveFootMotionProtocolDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Get?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveFootMotionProtocolDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveFootMotionProtocolDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<RepetitiveFootMotionProtocolDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveFootMotionProtocolDetailOutput.fromJS(resultData200) : new RepetitiveFootMotionProtocolDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveFootMotionProtocolDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param repetitiveFootMotionProtocolId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    update(repetitiveFootMotionProtocolId: string | null | undefined, input: RepetitiveFootMotionProtocolDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Update?";
+        if (repetitiveFootMotionProtocolId !== undefined)
+            url_ += "repetitiveFootMotionProtocolId=" + encodeURIComponent("" + repetitiveFootMotionProtocolId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class RepetitiveSquattingProtocolServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveSquattingProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    get(clientId: string | null | undefined): Observable<RepetitiveSquattingProtocolDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveSquattingProtocol/Get?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveSquattingProtocolDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveSquattingProtocolDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<RepetitiveSquattingProtocolDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveSquattingProtocolDetailOutput.fromJS(resultData200) : new RepetitiveSquattingProtocolDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveSquattingProtocolDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param repetitiveSquattingProtocolId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    update(repetitiveSquattingProtocolId: string | null | undefined, input: RepetitiveSquattingProtocolDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveSquattingProtocol/Update?";
+        if (repetitiveSquattingProtocolId !== undefined)
+            url_ += "repetitiveSquattingProtocolId=" + encodeURIComponent("" + repetitiveSquattingProtocolId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class RepetitiveToleranceServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateRepetitiveTolerance(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveTolerance/UpdateRepetitiveTolerance?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateRepetitiveTolerance(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateRepetitiveTolerance(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateRepetitiveTolerance(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -8531,6 +10636,177 @@ export class SessionServiceProxy {
             }));
         }
         return _observableOf<GetCurrentLoginInformationsOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class StairClimbingProtocolServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/StairClimbingProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    get(clientId: string | null | undefined): Observable<StairClimbingProtocolDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/StairClimbingProtocol/Get?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<StairClimbingProtocolDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<StairClimbingProtocolDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<StairClimbingProtocolDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? StairClimbingProtocolDetailOutput.fromJS(resultData200) : new StairClimbingProtocolDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<StairClimbingProtocolDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param stairClimbingProtocolId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    update(stairClimbingProtocolId: string | null | undefined, input: StairClimbingProtocolDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/StairClimbingProtocol/Update?";
+        if (stairClimbingProtocolId !== undefined)
+            url_ += "stairClimbingProtocolId=" + encodeURIComponent("" + stairClimbingProtocolId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -9507,6 +11783,177 @@ export class UserServiceProxy {
             }));
         }
         return _observableOf<PagedResultDtoOfUserDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class WalkingProtocolServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WalkingProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    get(clientId: string | null | undefined): Observable<WalkingProtocolDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/WalkingProtocol/Get?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<WalkingProtocolDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WalkingProtocolDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<WalkingProtocolDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WalkingProtocolDetailOutput.fromJS(resultData200) : new WalkingProtocolDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WalkingProtocolDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param walkingProtocolId (optional) 
+     * @param input (optional) 
+     * @return Success
+     */
+    update(walkingProtocolId: string | null | undefined, input: WalkingProtocolDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WalkingProtocol/Update?";
+        if (walkingProtocolId !== undefined)
+            url_ += "walkingProtocolId=" + encodeURIComponent("" + walkingProtocolId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -10612,8 +13059,8 @@ export interface ICreateClientAssessmentInput {
 }
 
 export class ClientAssessmentDetailOutput implements IClientAssessmentDetailOutput {
-    client: Client | undefined;
-    user: User | undefined;
+    clientId: string | undefined;
+    userId: number | undefined;
 
     constructor(data?: IClientAssessmentDetailOutput) {
         if (data) {
@@ -10626,8 +13073,8 @@ export class ClientAssessmentDetailOutput implements IClientAssessmentDetailOutp
 
     init(data?: any) {
         if (data) {
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
+            this.clientId = data["clientId"];
+            this.userId = data["userId"];
         }
     }
 
@@ -10640,8 +13087,8 @@ export class ClientAssessmentDetailOutput implements IClientAssessmentDetailOutp
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["clientId"] = this.clientId;
+        data["userId"] = this.userId;
         return data; 
     }
 
@@ -10654,8 +13101,308 @@ export class ClientAssessmentDetailOutput implements IClientAssessmentDetailOutp
 }
 
 export interface IClientAssessmentDetailOutput {
+    clientId: string | undefined;
+    userId: number | undefined;
+}
+
+export class ListResultDtoOfClientAssessmentListDto implements IListResultDtoOfClientAssessmentListDto {
+    items: ClientAssessmentListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfClientAssessmentListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ClientAssessmentListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfClientAssessmentListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfClientAssessmentListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfClientAssessmentListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfClientAssessmentListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfClientAssessmentListDto {
+    items: ClientAssessmentListDto[] | undefined;
+}
+
+export class ClientAssessmentListDto implements IClientAssessmentListDto {
+    name: string | undefined;
+    category: AssessmentCategory | undefined;
+    painCommentId: string | undefined;
+    painComment: PainComment | undefined;
     client: Client | undefined;
-    user: User | undefined;
+    side: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IClientAssessmentListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
+            this.painCommentId = data["painCommentId"];
+            this.painComment = data["painComment"] ? PainComment.fromJS(data["painComment"]) : <any>undefined;
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
+            this.side = data["side"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ClientAssessmentListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ClientAssessmentListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["painCommentId"] = this.painCommentId;
+        data["painComment"] = this.painComment ? this.painComment.toJSON() : <any>undefined;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["side"] = this.side;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): ClientAssessmentListDto {
+        const json = this.toJSON();
+        let result = new ClientAssessmentListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IClientAssessmentListDto {
+    name: string | undefined;
+    category: AssessmentCategory | undefined;
+    painCommentId: string | undefined;
+    painComment: PainComment | undefined;
+    client: Client | undefined;
+    side: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class AssessmentCategory implements IAssessmentCategory {
+    name: string | undefined;
+    assessments: Assessment[] | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessmentCategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            if (data["assessments"] && data["assessments"].constructor === Array) {
+                this.assessments = [];
+                for (let item of data["assessments"])
+                    this.assessments.push(Assessment.fromJS(item));
+            }
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentCategory {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentCategory();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        if (this.assessments && this.assessments.constructor === Array) {
+            data["assessments"] = [];
+            for (let item of this.assessments)
+                data["assessments"].push(item.toJSON());
+        }
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AssessmentCategory {
+        const json = this.toJSON();
+        let result = new AssessmentCategory();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentCategory {
+    name: string | undefined;
+    assessments: Assessment[] | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class PainComment implements IPainComment {
+    painLevel: number | undefined;
+    comment: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IPainComment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PainComment {
+        data = typeof data === 'object' ? data : {};
+        let result = new PainComment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): PainComment {
+        const json = this.toJSON();
+        let result = new PainComment();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPainComment {
+    painLevel: number | undefined;
+    comment: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
 }
 
 export class Client implements IClient {
@@ -10683,6 +13430,9 @@ export class Client implements IClient {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -10727,6 +13477,9 @@ export class Client implements IClient {
             this.socialHabits = data["socialHabits"];
             this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
+            this.affect = data["affect"];
+            this.jobDescription = data["jobDescription"];
+            this.motivation = data["motivation"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -10771,6 +13524,9 @@ export class Client implements IClient {
         data["socialHabits"] = this.socialHabits;
         data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
+        data["affect"] = this.affect;
+        data["jobDescription"] = this.jobDescription;
+        data["motivation"] = this.motivation;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -10815,6 +13571,108 @@ export interface IClient {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class Assessment implements IAssessment {
+    name: string | undefined;
+    categoryId: string | undefined;
+    category: AssessmentCategory | undefined;
+    clientId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.categoryId = data["categoryId"];
+            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
+            this.clientId = data["clientId"];
+            this.side = data["side"];
+            this.chosen = data["chosen"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Assessment {
+        data = typeof data === 'object' ? data : {};
+        let result = new Assessment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["categoryId"] = this.categoryId;
+        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["clientId"] = this.clientId;
+        data["side"] = this.side;
+        data["chosen"] = this.chosen;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Assessment {
+        const json = this.toJSON();
+        let result = new Assessment();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessment {
+    name: string | undefined;
+    categoryId: string | undefined;
+    category: AssessmentCategory | undefined;
+    clientId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -11237,397 +14095,6 @@ export interface IAddress {
     id: number | undefined;
 }
 
-export class ListResultDtoOfClientAssessmentListDto implements IListResultDtoOfClientAssessmentListDto {
-    items: ClientAssessmentListDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfClientAssessmentListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(ClientAssessmentListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfClientAssessmentListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfClientAssessmentListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfClientAssessmentListDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfClientAssessmentListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfClientAssessmentListDto {
-    items: ClientAssessmentListDto[] | undefined;
-}
-
-export class ClientAssessmentListDto implements IClientAssessmentListDto {
-    name: string | undefined;
-    category: AssessmentCategory | undefined;
-    painCommentId: string | undefined;
-    painComment: PainComment | undefined;
-    client: Client | undefined;
-    side: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IClientAssessmentListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
-            this.painCommentId = data["painCommentId"];
-            this.painComment = data["painComment"] ? PainComment.fromJS(data["painComment"]) : <any>undefined;
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.side = data["side"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): ClientAssessmentListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ClientAssessmentListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
-        data["painCommentId"] = this.painCommentId;
-        data["painComment"] = this.painComment ? this.painComment.toJSON() : <any>undefined;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["side"] = this.side;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): ClientAssessmentListDto {
-        const json = this.toJSON();
-        let result = new ClientAssessmentListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IClientAssessmentListDto {
-    name: string | undefined;
-    category: AssessmentCategory | undefined;
-    painCommentId: string | undefined;
-    painComment: PainComment | undefined;
-    client: Client | undefined;
-    side: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class AssessmentCategory implements IAssessmentCategory {
-    name: string | undefined;
-    assessments: Assessment[] | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessmentCategory) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            if (data["assessments"] && data["assessments"].constructor === Array) {
-                this.assessments = [];
-                for (let item of data["assessments"])
-                    this.assessments.push(Assessment.fromJS(item));
-            }
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): AssessmentCategory {
-        data = typeof data === 'object' ? data : {};
-        let result = new AssessmentCategory();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        if (this.assessments && this.assessments.constructor === Array) {
-            data["assessments"] = [];
-            for (let item of this.assessments)
-                data["assessments"].push(item.toJSON());
-        }
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): AssessmentCategory {
-        const json = this.toJSON();
-        let result = new AssessmentCategory();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessmentCategory {
-    name: string | undefined;
-    assessments: Assessment[] | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class PainComment implements IPainComment {
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IPainComment) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.painLevel = data["painLevel"];
-            this.comment = data["comment"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): PainComment {
-        data = typeof data === 'object' ? data : {};
-        let result = new PainComment();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["painLevel"] = this.painLevel;
-        data["comment"] = this.comment;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): PainComment {
-        const json = this.toJSON();
-        let result = new PainComment();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IPainComment {
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class Assessment implements IAssessment {
-    name: string | undefined;
-    categoryId: string | undefined;
-    category: AssessmentCategory | undefined;
-    clientId: string | undefined;
-    side: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessment) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.categoryId = data["categoryId"];
-            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
-            this.clientId = data["clientId"];
-            this.side = data["side"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): Assessment {
-        data = typeof data === 'object' ? data : {};
-        let result = new Assessment();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["categoryId"] = this.categoryId;
-        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
-        data["clientId"] = this.clientId;
-        data["side"] = this.side;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): Assessment {
-        const json = this.toJSON();
-        let result = new Assessment();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessment {
-    name: string | undefined;
-    categoryId: string | undefined;
-    category: AssessmentCategory | undefined;
-    clientId: string | undefined;
-    side: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
 export class GripStrengthDto implements IGripStrengthDto {
     age: number | undefined;
     weight: number | undefined;
@@ -11635,6 +14102,8 @@ export class GripStrengthDto implements IGripStrengthDto {
     machineTest: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
     id: string | undefined;
 
     constructor(data?: IGripStrengthDto) {
@@ -11654,6 +14123,8 @@ export class GripStrengthDto implements IGripStrengthDto {
             this.machineTest = data["machineTest"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.side = data["side"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -11673,6 +14144,8 @@ export class GripStrengthDto implements IGripStrengthDto {
         data["machineTest"] = this.machineTest;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["side"] = this.side;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -11692,6 +14165,87 @@ export interface IGripStrengthDto {
     machineTest: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
+    id: string | undefined;
+}
+
+export class GripStrengthDetailOutput implements IGripStrengthDetailOutput {
+    assessment: Assessment | undefined;
+    age: number | undefined;
+    weight: number | undefined;
+    gender: number | undefined;
+    machineTest: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IGripStrengthDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.age = data["age"];
+            this.weight = data["weight"];
+            this.gender = data["gender"];
+            this.machineTest = data["machineTest"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.side = data["side"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): GripStrengthDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GripStrengthDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["age"] = this.age;
+        data["weight"] = this.weight;
+        data["gender"] = this.gender;
+        data["machineTest"] = this.machineTest;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["side"] = this.side;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): GripStrengthDetailOutput {
+        const json = this.toJSON();
+        let result = new GripStrengthDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGripStrengthDetailOutput {
+    assessment: Assessment | undefined;
+    age: number | undefined;
+    weight: number | undefined;
+    gender: number | undefined;
+    machineTest: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
     id: string | undefined;
 }
 
@@ -11704,6 +14258,8 @@ export class MusclePowerDto implements IMusclePowerDto {
     rightPainLevel: number | undefined;
     leftSideComment: string | undefined;
     rightSideComment: string | undefined;
+    type: number | undefined;
+    status: number | undefined;
     id: string | undefined;
 
     constructor(data?: IMusclePowerDto) {
@@ -11725,6 +14281,8 @@ export class MusclePowerDto implements IMusclePowerDto {
             this.rightPainLevel = data["rightPainLevel"];
             this.leftSideComment = data["leftSideComment"];
             this.rightSideComment = data["rightSideComment"];
+            this.type = data["type"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -11746,6 +14304,8 @@ export class MusclePowerDto implements IMusclePowerDto {
         data["rightPainLevel"] = this.rightPainLevel;
         data["leftSideComment"] = this.leftSideComment;
         data["rightSideComment"] = this.rightSideComment;
+        data["type"] = this.type;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -11767,20 +14327,23 @@ export interface IMusclePowerDto {
     rightPainLevel: number | undefined;
     leftSideComment: string | undefined;
     rightSideComment: string | undefined;
+    type: number | undefined;
+    status: number | undefined;
     id: string | undefined;
 }
 
-export class GripStrengthDetailOutput implements IGripStrengthDetailOutput {
-    assessment: Assessment | undefined;
-    age: number | undefined;
-    weight: number | undefined;
-    gender: number | undefined;
-    machineTest: number | undefined;
+export class MusclePowerOptionDto implements IMusclePowerOptionDto {
+    name: string | undefined;
+    optionResult: number | undefined;
+    side: number | undefined;
     painLevel: number | undefined;
+    musclePowerId: string | undefined;
     comment: string | undefined;
+    type: number | undefined;
+    status: number | undefined;
     id: string | undefined;
 
-    constructor(data?: IGripStrengthDetailOutput) {
+    constructor(data?: IMusclePowerOptionDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -11791,132 +14354,56 @@ export class GripStrengthDetailOutput implements IGripStrengthDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.age = data["age"];
-            this.weight = data["weight"];
-            this.gender = data["gender"];
-            this.machineTest = data["machineTest"];
+            this.name = data["name"];
+            this.optionResult = data["optionResult"];
+            this.side = data["side"];
             this.painLevel = data["painLevel"];
+            this.musclePowerId = data["musclePowerId"];
             this.comment = data["comment"];
+            this.type = data["type"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): GripStrengthDetailOutput {
+    static fromJS(data: any): MusclePowerOptionDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GripStrengthDetailOutput();
+        let result = new MusclePowerOptionDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["age"] = this.age;
-        data["weight"] = this.weight;
-        data["gender"] = this.gender;
-        data["machineTest"] = this.machineTest;
+        data["name"] = this.name;
+        data["optionResult"] = this.optionResult;
+        data["side"] = this.side;
         data["painLevel"] = this.painLevel;
+        data["musclePowerId"] = this.musclePowerId;
         data["comment"] = this.comment;
+        data["type"] = this.type;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
 
-    clone(): GripStrengthDetailOutput {
+    clone(): MusclePowerOptionDto {
         const json = this.toJSON();
-        let result = new GripStrengthDetailOutput();
+        let result = new MusclePowerOptionDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IGripStrengthDetailOutput {
-    assessment: Assessment | undefined;
-    age: number | undefined;
-    weight: number | undefined;
-    gender: number | undefined;
-    machineTest: number | undefined;
+export interface IMusclePowerOptionDto {
+    name: string | undefined;
+    optionResult: number | undefined;
+    side: number | undefined;
     painLevel: number | undefined;
+    musclePowerId: string | undefined;
     comment: string | undefined;
-    id: string | undefined;
-}
-
-export class MusclePowerDetailOutput implements IMusclePowerDetailOutput {
-    assessment: Assessment | undefined;
-    leftArmResult: number | undefined;
-    rightArmResult: number | undefined;
-    leftLegResult: number | undefined;
-    rightLegResult: number | undefined;
-    leftPainLevel: number | undefined;
-    rightPainLevel: number | undefined;
-    leftSideComment: string | undefined;
-    rightSideComment: string | undefined;
-    id: string | undefined;
-
-    constructor(data?: IMusclePowerDetailOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.leftArmResult = data["leftArmResult"];
-            this.rightArmResult = data["rightArmResult"];
-            this.leftLegResult = data["leftLegResult"];
-            this.rightLegResult = data["rightLegResult"];
-            this.leftPainLevel = data["leftPainLevel"];
-            this.rightPainLevel = data["rightPainLevel"];
-            this.leftSideComment = data["leftSideComment"];
-            this.rightSideComment = data["rightSideComment"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): MusclePowerDetailOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new MusclePowerDetailOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["leftArmResult"] = this.leftArmResult;
-        data["rightArmResult"] = this.rightArmResult;
-        data["leftLegResult"] = this.leftLegResult;
-        data["rightLegResult"] = this.rightLegResult;
-        data["leftPainLevel"] = this.leftPainLevel;
-        data["rightPainLevel"] = this.rightPainLevel;
-        data["leftSideComment"] = this.leftSideComment;
-        data["rightSideComment"] = this.rightSideComment;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): MusclePowerDetailOutput {
-        const json = this.toJSON();
-        let result = new MusclePowerDetailOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IMusclePowerDetailOutput {
-    assessment: Assessment | undefined;
-    leftArmResult: number | undefined;
-    rightArmResult: number | undefined;
-    leftLegResult: number | undefined;
-    rightLegResult: number | undefined;
-    leftPainLevel: number | undefined;
-    rightPainLevel: number | undefined;
-    leftSideComment: string | undefined;
-    rightSideComment: string | undefined;
+    type: number | undefined;
+    status: number | undefined;
     id: string | undefined;
 }
 
@@ -11929,6 +14416,7 @@ export class GaitDto implements IGaitDto {
     comment: string | undefined;
     videoUrl: string | undefined;
     otObservationComments: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -11957,6 +14445,7 @@ export class GaitDto implements IGaitDto {
             this.comment = data["comment"];
             this.videoUrl = data["videoUrl"];
             this.otObservationComments = data["otObservationComments"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -11985,6 +14474,7 @@ export class GaitDto implements IGaitDto {
         data["comment"] = this.comment;
         data["videoUrl"] = this.videoUrl;
         data["otObservationComments"] = this.otObservationComments;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -12013,6 +14503,7 @@ export interface IGaitDto {
     comment: string | undefined;
     videoUrl: string | undefined;
     otObservationComments: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -12028,6 +14519,7 @@ export class PostureOptionDto implements IPostureOptionDto {
     postureOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     id: string | undefined;
 
     constructor(data?: IPostureOptionDto) {
@@ -12045,6 +14537,7 @@ export class PostureOptionDto implements IPostureOptionDto {
             this.postureOptionScore = data["postureOptionScore"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -12062,6 +14555,7 @@ export class PostureOptionDto implements IPostureOptionDto {
         data["postureOptionScore"] = this.postureOptionScore;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -12079,6 +14573,7 @@ export interface IPostureOptionDto {
     postureOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     id: string | undefined;
 }
 
@@ -12139,6 +14634,7 @@ export class PostureOptionListDto implements IPostureOptionListDto {
     postureOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     id: string | undefined;
 
     constructor(data?: IPostureOptionListDto) {
@@ -12157,6 +14653,7 @@ export class PostureOptionListDto implements IPostureOptionListDto {
             this.postureOptionScore = data["postureOptionScore"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -12175,6 +14672,7 @@ export class PostureOptionListDto implements IPostureOptionListDto {
         data["postureOptionScore"] = this.postureOptionScore;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -12193,6 +14691,7 @@ export interface IPostureOptionListDto {
     postureOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     id: string | undefined;
 }
 
@@ -12202,6 +14701,7 @@ export class BorgBalanceOptionDto implements IBorgBalanceOptionDto {
     borgBalanceOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
 
     constructor(data?: IBorgBalanceOptionDto) {
         if (data) {
@@ -12219,6 +14719,7 @@ export class BorgBalanceOptionDto implements IBorgBalanceOptionDto {
             this.borgBalanceOptionScore = data["borgBalanceOptionScore"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
         }
     }
 
@@ -12236,6 +14737,7 @@ export class BorgBalanceOptionDto implements IBorgBalanceOptionDto {
         data["borgBalanceOptionScore"] = this.borgBalanceOptionScore;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         return data; 
     }
 
@@ -12253,6 +14755,7 @@ export interface IBorgBalanceOptionDto {
     borgBalanceOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
 }
 
 export class ListResultDtoOfBorgBalanceOptionListDto implements IListResultDtoOfBorgBalanceOptionListDto {
@@ -12312,6 +14815,7 @@ export class BorgBalanceOptionListDto implements IBorgBalanceOptionListDto {
     borgBalanceOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     id: string | undefined;
 
     constructor(data?: IBorgBalanceOptionListDto) {
@@ -12330,6 +14834,7 @@ export class BorgBalanceOptionListDto implements IBorgBalanceOptionListDto {
             this.borgBalanceOptionScore = data["borgBalanceOptionScore"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.id = data["id"];
         }
     }
@@ -12348,6 +14853,7 @@ export class BorgBalanceOptionListDto implements IBorgBalanceOptionListDto {
         data["borgBalanceOptionScore"] = this.borgBalanceOptionScore;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["id"] = this.id;
         return data; 
     }
@@ -12366,6 +14872,78 @@ export interface IBorgBalanceOptionListDto {
     borgBalanceOptionScore: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
+    id: string | undefined;
+}
+
+export class SensationOptionDto implements ISensationOptionDto {
+    name: string | undefined;
+    sensationCategoryId: string | undefined;
+    sensationOptionScore: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ISensationOptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.sensationCategoryId = data["sensationCategoryId"];
+            this.sensationOptionScore = data["sensationOptionScore"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.side = data["side"];
+            this.status = data["status"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SensationOptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SensationOptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["sensationCategoryId"] = this.sensationCategoryId;
+        data["sensationOptionScore"] = this.sensationOptionScore;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["side"] = this.side;
+        data["status"] = this.status;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): SensationOptionDto {
+        const json = this.toJSON();
+        let result = new SensationOptionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISensationOptionDto {
+    name: string | undefined;
+    sensationCategoryId: string | undefined;
+    sensationOptionScore: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
     id: string | undefined;
 }
 
@@ -12420,16 +14998,19 @@ export interface IListResultDtoOfSensationOptionDto {
     items: SensationOptionDto[] | undefined;
 }
 
-export class SensationOptionDto implements ISensationOptionDto {
+export class CoordinationOptionDto implements ICoordinationOptionDto {
+    index: number | undefined;
     name: string | undefined;
-    sensationCategoryId: string | undefined;
-    sensationOptionScore: number | undefined;
-    painLevel: number | undefined;
+    coordinationId: string | undefined;
+    time: number | undefined;
+    workRate: number | undefined;
+    result: string | undefined;
+    numPieces: number | undefined;
+    status: number | undefined;
     comment: string | undefined;
-    side: number | undefined;
     id: string | undefined;
 
-    constructor(data?: ISensationOptionDto) {
+    constructor(data?: ICoordinationOptionDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -12440,50 +15021,316 @@ export class SensationOptionDto implements ISensationOptionDto {
 
     init(data?: any) {
         if (data) {
+            this.index = data["index"];
             this.name = data["name"];
-            this.sensationCategoryId = data["sensationCategoryId"];
-            this.sensationOptionScore = data["sensationOptionScore"];
-            this.painLevel = data["painLevel"];
+            this.coordinationId = data["coordinationId"];
+            this.time = data["time"];
+            this.workRate = data["workRate"];
+            this.result = data["result"];
+            this.numPieces = data["numPieces"];
+            this.status = data["status"];
             this.comment = data["comment"];
-            this.side = data["side"];
             this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): SensationOptionDto {
+    static fromJS(data: any): CoordinationOptionDto {
         data = typeof data === 'object' ? data : {};
-        let result = new SensationOptionDto();
+        let result = new CoordinationOptionDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["index"] = this.index;
         data["name"] = this.name;
-        data["sensationCategoryId"] = this.sensationCategoryId;
-        data["sensationOptionScore"] = this.sensationOptionScore;
-        data["painLevel"] = this.painLevel;
+        data["coordinationId"] = this.coordinationId;
+        data["time"] = this.time;
+        data["workRate"] = this.workRate;
+        data["result"] = this.result;
+        data["numPieces"] = this.numPieces;
+        data["status"] = this.status;
         data["comment"] = this.comment;
-        data["side"] = this.side;
         data["id"] = this.id;
         return data; 
     }
 
-    clone(): SensationOptionDto {
+    clone(): CoordinationOptionDto {
         const json = this.toJSON();
-        let result = new SensationOptionDto();
+        let result = new CoordinationOptionDto();
         result.init(json);
         return result;
     }
 }
 
-export interface ISensationOptionDto {
+export interface ICoordinationOptionDto {
+    index: number | undefined;
     name: string | undefined;
-    sensationCategoryId: string | undefined;
-    sensationOptionScore: number | undefined;
-    painLevel: number | undefined;
+    coordinationId: string | undefined;
+    time: number | undefined;
+    workRate: number | undefined;
+    result: string | undefined;
+    numPieces: number | undefined;
+    status: number | undefined;
     comment: string | undefined;
+    id: string | undefined;
+}
+
+export class ListResultDtoOfCoordinationOptionListDto implements IListResultDtoOfCoordinationOptionListDto {
+    items: CoordinationOptionListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfCoordinationOptionListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(CoordinationOptionListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfCoordinationOptionListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfCoordinationOptionListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfCoordinationOptionListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfCoordinationOptionListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfCoordinationOptionListDto {
+    items: CoordinationOptionListDto[] | undefined;
+}
+
+export class CoordinationOptionListDto implements ICoordinationOptionListDto {
+    index: number | undefined;
+    name: string | undefined;
+    coordinationId: string | undefined;
+    time: number | undefined;
+    workRate: number | undefined;
+    result: string | undefined;
+    numPieces: number | undefined;
+    status: number | undefined;
+    comment: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ICoordinationOptionListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.index = data["index"];
+            this.name = data["name"];
+            this.coordinationId = data["coordinationId"];
+            this.time = data["time"];
+            this.workRate = data["workRate"];
+            this.result = data["result"];
+            this.numPieces = data["numPieces"];
+            this.status = data["status"];
+            this.comment = data["comment"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CoordinationOptionListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CoordinationOptionListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["index"] = this.index;
+        data["name"] = this.name;
+        data["coordinationId"] = this.coordinationId;
+        data["time"] = this.time;
+        data["workRate"] = this.workRate;
+        data["result"] = this.result;
+        data["numPieces"] = this.numPieces;
+        data["status"] = this.status;
+        data["comment"] = this.comment;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CoordinationOptionListDto {
+        const json = this.toJSON();
+        let result = new CoordinationOptionListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICoordinationOptionListDto {
+    index: number | undefined;
+    name: string | undefined;
+    coordinationId: string | undefined;
+    time: number | undefined;
+    workRate: number | undefined;
+    result: string | undefined;
+    numPieces: number | undefined;
+    status: number | undefined;
+    comment: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class CoordinationIncompleteDto implements ICoordinationIncompleteDto {
+    clientId: string | undefined;
+    completedPieces: number | undefined;
+    timeTaken: number | undefined;
+    holeType: number | undefined;
+    mtm: number | undefined;
+    status: number | undefined;
     side: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ICoordinationIncompleteDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.completedPieces = data["completedPieces"];
+            this.timeTaken = data["timeTaken"];
+            this.holeType = data["holeType"];
+            this.mtm = data["mtm"];
+            this.status = data["status"];
+            this.side = data["side"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CoordinationIncompleteDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CoordinationIncompleteDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["completedPieces"] = this.completedPieces;
+        data["timeTaken"] = this.timeTaken;
+        data["holeType"] = this.holeType;
+        data["mtm"] = this.mtm;
+        data["status"] = this.status;
+        data["side"] = this.side;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CoordinationIncompleteDto {
+        const json = this.toJSON();
+        let result = new CoordinationIncompleteDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICoordinationIncompleteDto {
+    clientId: string | undefined;
+    completedPieces: number | undefined;
+    timeTaken: number | undefined;
+    holeType: number | undefined;
+    mtm: number | undefined;
+    status: number | undefined;
+    side: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -12805,6 +15652,259 @@ export interface IAttorneyDetailOutput {
     phone: string | undefined;
     email: string | undefined;
     fax: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class ListResultDtoOfBalanceProtocolOptionListDto implements IListResultDtoOfBalanceProtocolOptionListDto {
+    items: BalanceProtocolOptionListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfBalanceProtocolOptionListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(BalanceProtocolOptionListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfBalanceProtocolOptionListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfBalanceProtocolOptionListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfBalanceProtocolOptionListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfBalanceProtocolOptionListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfBalanceProtocolOptionListDto {
+    items: BalanceProtocolOptionListDto[] | undefined;
+}
+
+export class BalanceProtocolOptionListDto implements IBalanceProtocolOptionListDto {
+    balanceProtocolId: string | undefined;
+    direction: string | undefined;
+    timeTaken: number | undefined;
+    numErrors: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IBalanceProtocolOptionListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.balanceProtocolId = data["balanceProtocolId"];
+            this.direction = data["direction"];
+            this.timeTaken = data["timeTaken"];
+            this.numErrors = data["numErrors"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): BalanceProtocolOptionListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BalanceProtocolOptionListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["balanceProtocolId"] = this.balanceProtocolId;
+        data["direction"] = this.direction;
+        data["timeTaken"] = this.timeTaken;
+        data["numErrors"] = this.numErrors;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): BalanceProtocolOptionListDto {
+        const json = this.toJSON();
+        let result = new BalanceProtocolOptionListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBalanceProtocolOptionListDto {
+    balanceProtocolId: string | undefined;
+    direction: string | undefined;
+    timeTaken: number | undefined;
+    numErrors: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class BalanceProtocolOptionDto implements IBalanceProtocolOptionDto {
+    direction: string | undefined;
+    timeTaken: number | undefined;
+    numErrors: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IBalanceProtocolOptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.direction = data["direction"];
+            this.timeTaken = data["timeTaken"];
+            this.numErrors = data["numErrors"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): BalanceProtocolOptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BalanceProtocolOptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["direction"] = this.direction;
+        data["timeTaken"] = this.timeTaken;
+        data["numErrors"] = this.numErrors;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): BalanceProtocolOptionDto {
+        const json = this.toJSON();
+        let result = new BalanceProtocolOptionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBalanceProtocolOptionDto {
+    direction: string | undefined;
+    timeTaken: number | undefined;
+    numErrors: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -13501,6 +16601,53 @@ export interface IPagedResultDtoOfBookingListDto {
     items: BookingListDto[] | undefined;
 }
 
+export class AssessmentResult implements IAssessmentResult {
+    result: number | undefined;
+    comment: string | undefined;
+
+    constructor(data?: IAssessmentResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.result = data["result"];
+            this.comment = data["comment"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["result"] = this.result;
+        data["comment"] = this.comment;
+        return data; 
+    }
+
+    clone(): AssessmentResult {
+        const json = this.toJSON();
+        let result = new AssessmentResult();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentResult {
+    result: number | undefined;
+    comment: string | undefined;
+}
+
 export class CreateClientInput implements ICreateClientInput {
     lawFirmId: string | undefined;
     contactId: string | undefined;
@@ -13522,6 +16669,9 @@ export class CreateClientInput implements ICreateClientInput {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
 
@@ -13556,6 +16706,9 @@ export class CreateClientInput implements ICreateClientInput {
             this.socialHabits = data["socialHabits"];
             this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
+            this.affect = data["affect"];
+            this.jobDescription = data["jobDescription"];
+            this.motivation = data["motivation"];
             this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
             this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
         }
@@ -13590,6 +16743,9 @@ export class CreateClientInput implements ICreateClientInput {
         data["socialHabits"] = this.socialHabits;
         data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
+        data["affect"] = this.affect;
+        data["jobDescription"] = this.jobDescription;
+        data["motivation"] = this.motivation;
         data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
         return data; 
@@ -13624,6 +16780,9 @@ export interface ICreateClientInput {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
 }
@@ -13653,6 +16812,9 @@ export class ClientDetailOutput implements IClientDetailOutput {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -13697,6 +16859,9 @@ export class ClientDetailOutput implements IClientDetailOutput {
             this.socialHabits = data["socialHabits"];
             this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
+            this.affect = data["affect"];
+            this.jobDescription = data["jobDescription"];
+            this.motivation = data["motivation"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -13741,6 +16906,9 @@ export class ClientDetailOutput implements IClientDetailOutput {
         data["socialHabits"] = this.socialHabits;
         data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
+        data["affect"] = this.affect;
+        data["jobDescription"] = this.jobDescription;
+        data["motivation"] = this.motivation;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -13785,6 +16953,9 @@ export interface IClientDetailOutput {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -13933,6 +17104,9 @@ export class ClientListDto implements IClientListDto {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -13976,6 +17150,9 @@ export class ClientListDto implements IClientListDto {
             this.socialHabits = data["socialHabits"];
             this.currentComplaints = data["currentComplaints"];
             this.profilePictureId = data["profilePictureId"];
+            this.affect = data["affect"];
+            this.jobDescription = data["jobDescription"];
+            this.motivation = data["motivation"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -14019,6 +17196,9 @@ export class ClientListDto implements IClientListDto {
         data["socialHabits"] = this.socialHabits;
         data["currentComplaints"] = this.currentComplaints;
         data["profilePictureId"] = this.profilePictureId;
+        data["affect"] = this.affect;
+        data["jobDescription"] = this.jobDescription;
+        data["motivation"] = this.motivation;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -14062,6 +17242,9 @@ export interface IClientListDto {
     socialHabits: string | undefined;
     currentComplaints: string | undefined;
     profilePictureId: string | undefined;
+    affect: string | undefined;
+    jobDescription: string | undefined;
+    motivation: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -15187,6 +18370,216 @@ export interface IPagedResultDtoOfContactListDto {
     items: ContactListDto[] | undefined;
 }
 
+export class CrawlingProtocolDetailOutput implements ICrawlingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    numTests: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ICrawlingProtocolDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.numTests = data["numTests"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CrawlingProtocolDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CrawlingProtocolDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["numTests"] = this.numTests;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CrawlingProtocolDetailOutput {
+        const json = this.toJSON();
+        let result = new CrawlingProtocolDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICrawlingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    numTests: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class CrawlingProtocolDto implements ICrawlingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    numTests: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ICrawlingProtocolDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.numTests = data["numTests"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CrawlingProtocolDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CrawlingProtocolDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["numTests"] = this.numTests;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CrawlingProtocolDto {
+        const json = this.toJSON();
+        let result = new CrawlingProtocolDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICrawlingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    numTests: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
 export class CreateDocumentInput implements ICreateDocumentInput {
     name: string | undefined;
     authorName: string | undefined;
@@ -15874,6 +19267,224 @@ export interface IPagedResultDtoOfJobDescriptionListDto {
     items: JobDescriptionListDto[] | undefined;
 }
 
+export class LadderWorkProtocolDetailOutput implements ILadderWorkProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    numTests: number | undefined;
+    numSets: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ILadderWorkProtocolDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.numTests = data["numTests"];
+            this.numSets = data["numSets"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LadderWorkProtocolDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new LadderWorkProtocolDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["numTests"] = this.numTests;
+        data["numSets"] = this.numSets;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): LadderWorkProtocolDetailOutput {
+        const json = this.toJSON();
+        let result = new LadderWorkProtocolDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILadderWorkProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    numTests: number | undefined;
+    numSets: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class LadderWorkProtocolDto implements ILadderWorkProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    numTests: number | undefined;
+    numSets: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ILadderWorkProtocolDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.numTests = data["numTests"];
+            this.numSets = data["numSets"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LadderWorkProtocolDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LadderWorkProtocolDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["numTests"] = this.numTests;
+        data["numSets"] = this.numSets;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): LadderWorkProtocolDto {
+        const json = this.toJSON();
+        let result = new LadderWorkProtocolDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILadderWorkProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    numTests: number | undefined;
+    numSets: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
 export class CreateLawFirmInput implements ICreateLawFirmInput {
     companyName: string | undefined;
     physicalAddressId: number | undefined;
@@ -16457,6 +20068,7 @@ export interface IProfileDto {
 export class RangeOfMotionDto implements IRangeOfMotionDto {
     clientId: string | undefined;
     assessmentId: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16479,6 +20091,7 @@ export class RangeOfMotionDto implements IRangeOfMotionDto {
         if (data) {
             this.clientId = data["clientId"];
             this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -16501,6 +20114,7 @@ export class RangeOfMotionDto implements IRangeOfMotionDto {
         data = typeof data === 'object' ? data : {};
         data["clientId"] = this.clientId;
         data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -16523,6 +20137,7 @@ export class RangeOfMotionDto implements IRangeOfMotionDto {
 export interface IRangeOfMotionDto {
     clientId: string | undefined;
     assessmentId: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16543,6 +20158,7 @@ export class AnkleDto implements IAnkleDto {
     eversion: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16572,6 +20188,7 @@ export class AnkleDto implements IAnkleDto {
             this.eversion = data["eversion"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -16601,6 +20218,7 @@ export class AnkleDto implements IAnkleDto {
         data["eversion"] = this.eversion;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -16630,6 +20248,7 @@ export interface IAnkleDto {
     eversion: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16650,6 +20269,7 @@ export class ElbowDto implements IElbowDto {
     supination: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16679,6 +20299,7 @@ export class ElbowDto implements IElbowDto {
             this.supination = data["supination"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -16708,6 +20329,7 @@ export class ElbowDto implements IElbowDto {
         data["supination"] = this.supination;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -16737,6 +20359,7 @@ export interface IElbowDto {
     supination: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16759,6 +20382,7 @@ export class ForearmWristDto implements IForearmWristDto {
     ulnarDeviation: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16790,6 +20414,7 @@ export class ForearmWristDto implements IForearmWristDto {
             this.ulnarDeviation = data["ulnarDeviation"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -16821,6 +20446,7 @@ export class ForearmWristDto implements IForearmWristDto {
         data["ulnarDeviation"] = this.ulnarDeviation;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -16852,6 +20478,7 @@ export interface IForearmWristDto {
     ulnarDeviation: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16874,6 +20501,7 @@ export class HipDto implements IHipDto {
     externalRotation: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16905,6 +20533,7 @@ export class HipDto implements IHipDto {
             this.externalRotation = data["externalRotation"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -16936,6 +20565,7 @@ export class HipDto implements IHipDto {
         data["externalRotation"] = this.externalRotation;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -16967,6 +20597,7 @@ export interface IHipDto {
     externalRotation: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -16985,6 +20616,7 @@ export class KneeDto implements IKneeDto {
     flexion: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17012,6 +20644,7 @@ export class KneeDto implements IKneeDto {
             this.flexion = data["flexion"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -17039,6 +20672,7 @@ export class KneeDto implements IKneeDto {
         data["flexion"] = this.flexion;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -17066,6 +20700,7 @@ export interface IKneeDto {
     flexion: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17088,6 +20723,7 @@ export class ShoulderDto implements IShoulderDto {
     externalRotation: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17119,6 +20755,7 @@ export class ShoulderDto implements IShoulderDto {
             this.externalRotation = data["externalRotation"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -17150,6 +20787,7 @@ export class ShoulderDto implements IShoulderDto {
         data["externalRotation"] = this.externalRotation;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -17181,6 +20819,7 @@ export interface IShoulderDto {
     externalRotation: string | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17193,13 +20832,19 @@ export interface IShoulderDto {
 
 export class HandDto implements IHandDto {
     name: string | undefined;
-    side: number | undefined;
     rangeOfMotionId: string | undefined;
-    mp: string | undefined;
-    pip: string | undefined;
-    dip: string | undefined;
+    indexFinger: string | undefined;
+    indexFingerScore: number | undefined;
+    middleFinger: string | undefined;
+    middleFingerScore: number | undefined;
+    ringFinger: string | undefined;
+    ringFingerScore: number | undefined;
+    littleFinger: string | undefined;
+    littleFingerScore: number | undefined;
+    side: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17221,13 +20866,19 @@ export class HandDto implements IHandDto {
     init(data?: any) {
         if (data) {
             this.name = data["name"];
-            this.side = data["side"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
-            this.mp = data["mp"];
-            this.pip = data["pip"];
-            this.dip = data["dip"];
+            this.indexFinger = data["indexFinger"];
+            this.indexFingerScore = data["indexFingerScore"];
+            this.middleFinger = data["middleFinger"];
+            this.middleFingerScore = data["middleFingerScore"];
+            this.ringFinger = data["ringFinger"];
+            this.ringFingerScore = data["ringFingerScore"];
+            this.littleFinger = data["littleFinger"];
+            this.littleFingerScore = data["littleFingerScore"];
+            this.side = data["side"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.status = data["status"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -17249,13 +20900,19 @@ export class HandDto implements IHandDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        data["side"] = this.side;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
-        data["mp"] = this.mp;
-        data["pip"] = this.pip;
-        data["dip"] = this.dip;
+        data["indexFinger"] = this.indexFinger;
+        data["indexFingerScore"] = this.indexFingerScore;
+        data["middleFinger"] = this.middleFinger;
+        data["middleFingerScore"] = this.middleFingerScore;
+        data["ringFinger"] = this.ringFinger;
+        data["ringFingerScore"] = this.ringFingerScore;
+        data["littleFinger"] = this.littleFinger;
+        data["littleFingerScore"] = this.littleFingerScore;
+        data["side"] = this.side;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["status"] = this.status;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -17277,13 +20934,479 @@ export class HandDto implements IHandDto {
 
 export interface IHandDto {
     name: string | undefined;
-    side: number | undefined;
     rangeOfMotionId: string | undefined;
-    mp: string | undefined;
-    pip: string | undefined;
-    dip: string | undefined;
+    indexFinger: string | undefined;
+    indexFingerScore: number | undefined;
+    middleFinger: string | undefined;
+    middleFingerScore: number | undefined;
+    ringFinger: string | undefined;
+    ringFingerScore: number | undefined;
+    littleFinger: string | undefined;
+    littleFingerScore: number | undefined;
+    side: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class RepetitiveFootMotionProtocolDetailOutput implements IRepetitiveFootMotionProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    numTests: number | undefined;
+    comment: string | undefined;
+    numDepressions: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IRepetitiveFootMotionProtocolDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.side = data["side"];
+            this.painLevel = data["painLevel"];
+            this.numTests = data["numTests"];
+            this.comment = data["comment"];
+            this.numDepressions = data["numDepressions"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RepetitiveFootMotionProtocolDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new RepetitiveFootMotionProtocolDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["side"] = this.side;
+        data["painLevel"] = this.painLevel;
+        data["numTests"] = this.numTests;
+        data["comment"] = this.comment;
+        data["numDepressions"] = this.numDepressions;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): RepetitiveFootMotionProtocolDetailOutput {
+        const json = this.toJSON();
+        let result = new RepetitiveFootMotionProtocolDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRepetitiveFootMotionProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    numTests: number | undefined;
+    comment: string | undefined;
+    numDepressions: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    numTests: number | undefined;
+    comment: string | undefined;
+    numDepressions: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IRepetitiveFootMotionProtocolDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.side = data["side"];
+            this.painLevel = data["painLevel"];
+            this.numTests = data["numTests"];
+            this.comment = data["comment"];
+            this.numDepressions = data["numDepressions"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RepetitiveFootMotionProtocolDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RepetitiveFootMotionProtocolDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["side"] = this.side;
+        data["painLevel"] = this.painLevel;
+        data["numTests"] = this.numTests;
+        data["comment"] = this.comment;
+        data["numDepressions"] = this.numDepressions;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): RepetitiveFootMotionProtocolDto {
+        const json = this.toJSON();
+        let result = new RepetitiveFootMotionProtocolDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRepetitiveFootMotionProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    numTests: number | undefined;
+    comment: string | undefined;
+    numDepressions: number | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class RepetitiveSquattingProtocolDetailOutput implements IRepetitiveSquattingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    numSquats: number | undefined;
+    numPegsFirstTime: number | undefined;
+    numPegsSecondTime: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IRepetitiveSquattingProtocolDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.initialHeartRate = data["initialHeartRate"];
+            this.secondHeartRate = data["secondHeartRate"];
+            this.numSquats = data["numSquats"];
+            this.numPegsFirstTime = data["numPegsFirstTime"];
+            this.numPegsSecondTime = data["numPegsSecondTime"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RepetitiveSquattingProtocolDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new RepetitiveSquattingProtocolDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["initialHeartRate"] = this.initialHeartRate;
+        data["secondHeartRate"] = this.secondHeartRate;
+        data["numSquats"] = this.numSquats;
+        data["numPegsFirstTime"] = this.numPegsFirstTime;
+        data["numPegsSecondTime"] = this.numPegsSecondTime;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): RepetitiveSquattingProtocolDetailOutput {
+        const json = this.toJSON();
+        let result = new RepetitiveSquattingProtocolDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRepetitiveSquattingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    numSquats: number | undefined;
+    numPegsFirstTime: number | undefined;
+    numPegsSecondTime: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class RepetitiveSquattingProtocolDto implements IRepetitiveSquattingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    numSquats: number | undefined;
+    numPegsFirstTime: number | undefined;
+    numPegsSecondTime: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IRepetitiveSquattingProtocolDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.initialHeartRate = data["initialHeartRate"];
+            this.secondHeartRate = data["secondHeartRate"];
+            this.numSquats = data["numSquats"];
+            this.numPegsFirstTime = data["numPegsFirstTime"];
+            this.numPegsSecondTime = data["numPegsSecondTime"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RepetitiveSquattingProtocolDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RepetitiveSquattingProtocolDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["initialHeartRate"] = this.initialHeartRate;
+        data["secondHeartRate"] = this.secondHeartRate;
+        data["numSquats"] = this.numSquats;
+        data["numPegsFirstTime"] = this.numPegsFirstTime;
+        data["numPegsSecondTime"] = this.numPegsSecondTime;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): RepetitiveSquattingProtocolDto {
+        const json = this.toJSON();
+        let result = new RepetitiveSquattingProtocolDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRepetitiveSquattingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    numSquats: number | undefined;
+    numPegsFirstTime: number | undefined;
+    numPegsSecondTime: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -18106,6 +22229,248 @@ export interface ITenantLoginInfoDto {
     tenancyName: string | undefined;
     name: string | undefined;
     id: number | undefined;
+}
+
+export class StairClimbingProtocolDetailOutput implements IStairClimbingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    thirdHeartRate: number | undefined;
+    fourthHeartRate: number | undefined;
+    numStairs: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IStairClimbingProtocolDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.initialHeartRate = data["initialHeartRate"];
+            this.secondHeartRate = data["secondHeartRate"];
+            this.thirdHeartRate = data["thirdHeartRate"];
+            this.fourthHeartRate = data["fourthHeartRate"];
+            this.numStairs = data["numStairs"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): StairClimbingProtocolDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new StairClimbingProtocolDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["initialHeartRate"] = this.initialHeartRate;
+        data["secondHeartRate"] = this.secondHeartRate;
+        data["thirdHeartRate"] = this.thirdHeartRate;
+        data["fourthHeartRate"] = this.fourthHeartRate;
+        data["numStairs"] = this.numStairs;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): StairClimbingProtocolDetailOutput {
+        const json = this.toJSON();
+        let result = new StairClimbingProtocolDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IStairClimbingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    thirdHeartRate: number | undefined;
+    fourthHeartRate: number | undefined;
+    numStairs: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class StairClimbingProtocolDto implements IStairClimbingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    thirdHeartRate: number | undefined;
+    fourthHeartRate: number | undefined;
+    numStairs: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IStairClimbingProtocolDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.initialHeartRate = data["initialHeartRate"];
+            this.secondHeartRate = data["secondHeartRate"];
+            this.thirdHeartRate = data["thirdHeartRate"];
+            this.fourthHeartRate = data["fourthHeartRate"];
+            this.numStairs = data["numStairs"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): StairClimbingProtocolDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StairClimbingProtocolDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["initialHeartRate"] = this.initialHeartRate;
+        data["secondHeartRate"] = this.secondHeartRate;
+        data["thirdHeartRate"] = this.thirdHeartRate;
+        data["fourthHeartRate"] = this.fourthHeartRate;
+        data["numStairs"] = this.numStairs;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): StairClimbingProtocolDto {
+        const json = this.toJSON();
+        let result = new StairClimbingProtocolDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IStairClimbingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    initialHeartRate: number | undefined;
+    secondHeartRate: number | undefined;
+    thirdHeartRate: number | undefined;
+    fourthHeartRate: number | undefined;
+    numStairs: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
 }
 
 export class CreateTenantDto implements ICreateTenantDto {
@@ -18943,6 +23308,208 @@ export class PagedResultDtoOfUserDto implements IPagedResultDtoOfUserDto {
 export interface IPagedResultDtoOfUserDto {
     totalCount: number | undefined;
     items: UserDto[] | undefined;
+}
+
+export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IWalkingProtocolDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WalkingProtocolDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new WalkingProtocolDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): WalkingProtocolDetailOutput {
+        const json = this.toJSON();
+        let result = new WalkingProtocolDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWalkingProtocolDetailOutput {
+    assessment: Assessment | undefined;
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class WalkingProtocolDto implements IWalkingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IWalkingProtocolDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentId = data["assessmentId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.result = data["result"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WalkingProtocolDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WalkingProtocolDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentId"] = this.assessmentId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["result"] = this.result;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): WalkingProtocolDto {
+        const json = this.toJSON();
+        let result = new WalkingProtocolDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWalkingProtocolDto {
+    assessmentId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    result: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
 }
 
 export enum IsTenantAvailableOutputState {

@@ -20,3 +20,8 @@
     top: 0;
     cursor: pointer;
 }
+
+.card .card-category:not([class*=text-]) {
+    color: #000 !important;
+    font-size: 18px !important;
+}
