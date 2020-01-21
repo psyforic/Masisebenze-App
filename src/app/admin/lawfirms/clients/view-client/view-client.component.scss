@@ -9,7 +9,6 @@
     position: relative;
     overflow: hidden;
     cursor: pointer;
-
 }
 
 .file>input {
@@ -24,4 +23,15 @@
 .card .card-category:not([class*=text-]) {
     color: #000 !important;
     font-size: 18px !important;
+}
+
+.example-tree-invisible {
+    display: none;
+}
+
+.example-tree ul,
+.example-tree li {
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style-type: none;
 }

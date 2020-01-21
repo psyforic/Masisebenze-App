@@ -1,14 +1,13 @@
-import { FlatTreeControl } from '@angular/cdk/tree';
+import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
-import { DateAdapter, MatTreeFlatDataSource, MatTreeFlattener, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
+import { DateAdapter, MatTreeFlatDataSource, MatTreeFlattener, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatTreeNestedDataSource } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ActivatedRoute } from '@angular/router';
 import { GeneralService } from '@app/admin/services/general.service';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
-  AssessmentServiceProxy,
   BorgBalanceOptionListDto,
   ClientDetailOutput,
   ClientServiceProxy,
@@ -41,21 +40,16 @@ export const DD_MM_YYYY_Format = {
 interface DocumentNode {
   name: string;
   url?: string;
+  id: number;
   parentDocId?: number;
   children?: DocumentNode[];
 }
-/** Flat node with expandable and level information */
-interface FlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-  parentId?: number;
-}
+
 @Component({
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy, AssessmentServiceProxy,
+  providers: [ClientServiceProxy, DocumentServiceProxy,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE], useValue: { useUtc: true } },
 
     { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYYY_Format }]
@@ -69,6 +63,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   documents: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
   medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
+  treeControl = new NestedTreeControl<DocumentNode>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<DocumentNode>();
   clientId = '';
   line1 = '';
   line2 = '';
@@ -100,13 +96,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   gripStrength: GripStrengthDto = new GripStrengthDto();
   musclePower: MusclePowerDto = new MusclePowerDto();
   borgBalance: BorgBalanceOptionListDto[] = [];
+  childDocuments: DocumentListDto[] = [];
   constructor(private injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
     private generalService: GeneralService,
-    private assessmentService: AssessmentServiceProxy
   ) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -117,21 +113,30 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.documentService.getClientDocuments(this.clientId)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
-        this.documents = result.items;
+        this.documents = result.items.filter(x => x.parentDocId === null);
         const filtered = this.documents.map((value) => {
           return {
-            name: value.name, url: value.fileUrl,
-            children: [{ name: value.name, url: value.fileUrl, parentId: value.parentDocId },
-            { name: value.name, url: value.fileUrl, parentId: value.parentDocId }],
-            parentId: value.parentDocId
+            name: value.name,
+            url: value.fileUrl,
+            id: value.id,
+            parentDocId: value.parentDocId,
+            children: [{ name: value.name, url: value.fileUrl, id: value.id }]
           };
         });
-        this.fileDataSource.data = filtered;
+        this.dataSource.data = filtered;
+      });
+  }
+  getChildDocuments() {
+    this.documentService.getAllChildDocuments(this.clientId)
+      .subscribe(result => {
+        this.childDocuments = result.items;
+        console.log(this.childDocuments);
       });
   }
   ngOnInit() {
     this.getClient();
     this.getFileData();
+    this.getChildDocuments();
     this.clientService.getMedicalHistoryByClientId(this.clientId)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
@@ -143,6 +148,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.workHistory = result;
       });
     this.generalService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+  }
+  getDocuments(documentId: number) {
+    return this.childDocuments.filter(x => x.parentDocId === documentId);
   }
   getClient() {
     this.clientService.getDetail(this.clientId)
@@ -336,14 +344,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       url: node.url
     };
   }
-  // tslint:disable-next-line:member-ordering
-  treeControl = new FlatTreeControl<FlatNode>(
-    node => node.level, node => node.expandable);
-  // tslint:disable-next-line:member-ordering
-  treeFlattener = new MatTreeFlattener(
-    this._transformer, node => node.level, node => node.expandable, node => node.children);
   // tslint:disable-next-line: member-ordering
-  fileDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-  // tslint:disable-next-line:member-ordering
-  hasChild = (_: number, node: FlatNode) => node.expandable;
+  hasChild = (_: number, node: DocumentNode) => !!node.children && node.children.length > 0;
 }

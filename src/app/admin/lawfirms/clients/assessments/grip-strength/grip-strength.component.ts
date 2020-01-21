@@ -1,9 +1,7 @@
 import { Component, OnInit, Injector, ViewChild, ElementRef, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { GeneralService } from '@app/admin/services/general.service';
-import { AssessmentService } from '@app/admin/services/assessment.service';
-import { GripStrengthDto } from '@shared/service-proxies/service-proxies';
+import { GripStrengthDto, AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'app-grip-strength',
@@ -19,23 +17,31 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
     private injector: Injector,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
-    private _assessmentService: AssessmentService) {
+    private _assessmentService: AssessmentServiceProxy) {
     super(injector);
   }
 
   ngOnInit() {
+    this.getGripStrength();
   }
   open() {
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => {
-        this.getGripStrength();
-      }, () => { });
+      }, () => {
+      });
+
   }
   close() {
     this.activeModal.close();
   }
   getGripStrength() {
-    this.gripStrengthLeft = this._assessmentService.getGripStrength(this.clientId, 0);
-    this.gripStrengthRight = this._assessmentService.getGripStrength(this.clientId, 1);
+    this._assessmentService.getGripStrength(this.clientId, 0)
+      .subscribe(result => {
+        this.gripStrengthLeft = result;
+      });
+    this._assessmentService.getGripStrength(this.clientId, 1)
+      .subscribe(result => {
+        this.gripStrengthRight = result;
+      });
   }
 }

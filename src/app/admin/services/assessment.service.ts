@@ -9,8 +9,10 @@ import {
   RepetitiveSquattingProtocolServiceProxy,
   RepetitiveFootMotionProtocolServiceProxy,
   CrawlingProtocolServiceProxy,
-  GripStrengthDetailOutput
+  GripStrengthDetailOutput,
+  StairClimbingProtocolDetailOutput
 } from '@shared/service-proxies/service-proxies';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,13 +29,8 @@ export class AssessmentService {
     private _repetitiveFootMotionProtocolService: RepetitiveFootMotionProtocolServiceProxy,
     private _crawlingProtocolService: CrawlingProtocolServiceProxy) { }
 
-  getGripStrength(clientId: string, side: number): GripStrengthDetailOutput {
-    let gripStrength = new GripStrengthDetailOutput();
-    this._assessmentService.getGripStrength(clientId, side)
-      .subscribe((result) => {
-        gripStrength = result;
-      });
-    return gripStrength;
+  getGripStrength(clientId: string, side: number): Observable<GripStrengthDetailOutput> {
+    return this._assessmentService.getGripStrength(clientId, side);
   }
   getMusclePower(clientId: string, type: number) {
     this._assessmentService
@@ -137,11 +134,8 @@ export class AssessmentService {
       });
   }
 
-  getStairClimbingProtocol(clientId: string) {
-    this._stairClimbingProtocolService.get(clientId)
-      .subscribe(result => {
-        return result;
-      });
+  getStairClimbingProtocol(clientId: string): Observable<StairClimbingProtocolDetailOutput> {
+    return this._stairClimbingProtocolService.get(clientId);
   }
   getBalanceProtocol(clientId: string) {
     this._balanceProtocolService.get(clientId)
