@@ -1,3 +1,23 @@
-<p>
-  posture works!
-</p>
+<ng-template #content let-modal class="modal modal-fade">
+  <div class="modal-header">
+    <h4 class="modal-title"><b>{{'Lundi Mapundu'}} </b>Posture</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <mat-tab-group mat-stretch-tabs>
+          <mat-tab label="Left Side">
+          </mat-tab>
+          <mat-tab label="Right Side">
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" mat-raised-button (click)="modal.close()">Close</button>
+  </div>
+</ng-template>

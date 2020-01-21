@@ -167,6 +167,25 @@ export class AssessmentService {
         return result;
       });
   }
+  getPain(painLevel: number) {
+    switch (painLevel) {
+      case 0:
+        return 'No Pain';
+      case 1:
+        return 'Hurts a Little';
+      case 2:
+        return 'Hurts a Little More';
+      case 3:
+        return 'Hurts Even More';
+      case 4:
+        return 'Hurts a Whole Lot';
+      case 5:
+        return 'Hurts Worse';
+      default:
+        return '';
+        break;
+    }
+  }
 
 }
 

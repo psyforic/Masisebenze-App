@@ -2,7 +2,14 @@ import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
-import { DateAdapter, MatTreeFlatDataSource, MatTreeFlattener, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatTreeNestedDataSource } from '@angular/material';
+import {
+  DateAdapter,
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MatTreeNestedDataSource
+} from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ActivatedRoute } from '@angular/router';
 import { GeneralService } from '@app/admin/services/general.service';
@@ -25,6 +32,13 @@ import { finalize, map } from 'rxjs/operators';
 import { GaitComponent } from '../assessments/gait/gait.component';
 import { GripStrengthComponent } from '../assessments/grip-strength/grip-strength.component';
 import { CameraModalComponent } from '../camera-modal/camera-modal.component';
+import { RangeOfMotionComponent } from '../assessments/range-of-motion/range-of-motion.component';
+import { BorgBalanceComponent } from '../assessments/borg-balance/borg-balance.component';
+import { SensationComponent } from '../assessments/sensation/sensation.component';
+import { CoordinationComponent } from '../assessments/coordination/coordination.component';
+import { PostureComponent } from '../assessments/posture/posture.component';
+import { RepetitiveToleranceProtocolComponent } from '../assessments/repetitive-tolerance-protocol/repetitive-tolerance-protocol.component';
+import { MusclePowerComponent } from '../assessments/muscle-power/muscle-power.component';
 declare const $: any;
 export const DD_MM_YYYY_Format = {
   parse: {
@@ -58,7 +72,14 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('newPhoto', { static: false }) takePhoto: CameraModalComponent;
   @ViewChild('gripStrength', { static: false }) openGripStrength: GripStrengthComponent;
+  @ViewChild('musclePower', { static: false }) openMusclePower: MusclePowerComponent;
   @ViewChild('gait', { static: false }) openGait: GaitComponent;
+  @ViewChild('rangeOfMotion', { static: false }) openRoM: RangeOfMotionComponent;
+  @ViewChild('borgBalance', { static: false }) openBorgBalance: BorgBalanceComponent;
+  @ViewChild('sensation', { static: false }) openSensation: SensationComponent;
+  @ViewChild('coordination', { static: false }) openCoordination: CoordinationComponent;
+  @ViewChild('posture', { static: false }) openPosture: PostureComponent;
+  @ViewChild('rtp', { static: false }) openRTP: RepetitiveToleranceProtocolComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
   documents: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
@@ -236,24 +257,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     }
     return 'Male';
   }
-  getPain(painLevel: number) {
-    switch (painLevel) {
-      case 0:
-        return 'No Pain';
-      case 1:
-        return 'Hurts a Little';
-      case 2:
-        return 'Hurts a Little More';
-      case 3:
-        return 'Hurts Even More';
-      case 4:
-        return 'Hurts a Whole Lot';
-      case 5:
-        return 'Hurts Worse';
-      default:
-        break;
-    }
-  }
+
   decodeMusclePower(result: number) {
     switch (result) {
       case 0:
@@ -320,18 +324,25 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.openGripStrength.open();
   }
   getMusclePower() {
+    this.openMusclePower.open();
   }
   getRangeOfMotion() {
+    this.openRoM.open();
   }
   getBorgBalance() {
+    this.openBorgBalance.open();
   }
   getSensation() {
+    this.openSensation.open();
   }
   getCoordination() {
+    this.openCoordination.open();
   }
   getPosture() {
+    this.openPosture.open();
   }
   getRepetitiveToleranceProtocol() {
+    this.openRTP.open();
   }
   getGait() {
     this.openGait.open();
