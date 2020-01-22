@@ -64,7 +64,7 @@ interface DocumentNode {
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE], useValue: { useUtc: true } },
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE], useValue: { useUtc: false } },
 
     { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYYY_Format }]
 })
@@ -194,6 +194,14 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   openCameraModal() {
     this.takePhoto.open();
   }
+  injuryDateChanged(event) {
+    console.log(event);
+  }
+  courtDateChanged(event) {
+    console.log(event);
+  }
+
+
   save() {
     this.client.address = new CreateAddressInput();
     this.client.address.line1 = this.line1;
@@ -204,11 +212,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     // const injuryDate = $('#dateValue').val();
     // const courtDate = new Date($('#courtDateValue').val());
     const newDate = new Date(this.dateOfInjury);
-    newDate.setDate(newDate.getDate() + 1);
-    const formattedInjuryDate = moment(newDate).toLocaleString();
-    // const formattedCourtDate = moment(courtDate).format('YYYY/MM/DD');
-    this.client.dateOfInjury = moment(formattedInjuryDate);
-    // this.client.courtDate = moment(formattedCourtDate);
+    const courtDate = new Date(this.courtDate);
+    // newDate.setDate(newDate.getDate() + 1);
+    const formattedInjuryDate = moment(newDate,"YYYY-MM-DD");
+    const formattedCourtDate = moment(courtDate, "YYYY-MM-DD");
+    this.client.dateOfInjury = formattedInjuryDate;
+    this.client.courtDate = formattedCourtDate;
     if (this.addressId !== 0) {
       this.client.addressId = this.addressId;
     }
