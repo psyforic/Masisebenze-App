@@ -1,4 +1,4 @@
-<ng-template #content>
+<ng-template #content class="modal-lg">
   <div class="modal-header">
     <h4 class="modal-title">New Job Title</h4>
     <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-12"> 
+          <div class="col-lg-12">
             <label class="mat-tab-label">Job Description</label>
             <quill-editor [styles]="{height: '200px'}" formControlName="description" [sanitize]="true"
               placeholder="Job Description">

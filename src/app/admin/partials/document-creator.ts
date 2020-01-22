@@ -74,7 +74,6 @@ export class DocumentCreator {
                     properties: error.properties,
                 };
                 console.log(JSON.stringify({ error: e }));
-                // The error thrown here contains additional information when logged with JSON.stringify (it contains a property object).
                 throw error;
             }
             const out = doc.getZip().generate({

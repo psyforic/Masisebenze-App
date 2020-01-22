@@ -21,7 +21,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   ngOnInit() {
   }
   open() {
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xxl' })
       .result.then(() => { }, () => { });
   }
   close() {

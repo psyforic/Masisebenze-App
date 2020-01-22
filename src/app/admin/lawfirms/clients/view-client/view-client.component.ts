@@ -214,8 +214,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     const newDate = new Date(this.dateOfInjury);
     const courtDate = new Date(this.courtDate);
     // newDate.setDate(newDate.getDate() + 1);
-    const formattedInjuryDate = moment(newDate,"YYYY-MM-DD");
-    const formattedCourtDate = moment(courtDate, "YYYY-MM-DD");
+    const formattedInjuryDate = moment(newDate, 'YYYY-MM-DD');
+    const formattedCourtDate = moment(courtDate, 'YYYY-MM-DD');
     this.client.dateOfInjury = formattedInjuryDate;
     this.client.courtDate = formattedCourtDate;
     if (this.addressId !== 0) {

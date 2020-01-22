@@ -47,7 +47,7 @@ export class NewDocumentComponent extends AppComponentBase implements OnInit {
     });
   }
   open() {
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then((result) => {
       }, (reason) => {
       });

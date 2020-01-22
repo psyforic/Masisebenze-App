@@ -21,7 +21,7 @@ export class MusclePowerComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
   }
   open() {
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => { }, () => { });
   }
   close() {

@@ -210,7 +210,7 @@ mat-tab-group .card {
 
 @media (min-width: 576px) {
     .modal-dialog {
-        max-width: 700px;
+        min-width: 700px;
         margin: 1.75rem auto;
     }
 }
@@ -288,4 +288,10 @@ mat-tab-group .card {
     color: #4FC3F7;
     border-color: #1E1E2D;
     box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14), 0 3px 1px -2px rgba(156, 39, 176, 0.2), 0 1px 5px 0 rgba(156, 39, 176, 0.12);
+}
+
+@media (min-width: 1200px) {
+    .modal-xxl {
+        max-width: 1300px;
+    }
 }

@@ -42,7 +42,7 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
     this.getGripStrength();
   }
   open() {
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => {
 
       }, () => {

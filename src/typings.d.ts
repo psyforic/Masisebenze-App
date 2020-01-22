@@ -29,3 +29,9 @@ interface JQuery {
 interface JQueryStatic {
     AdminBSB: any;
 }
+interface NgbModalOptions {
+    /**
+    * Size of a new modal window.
+    */
+    size?: 'sm' | 'lg' | 'xl' | 'xxl';
+}

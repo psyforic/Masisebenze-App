@@ -93,7 +93,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
     this.getEvents();
     this.getLawFirms();
     this.date = arg.dateStr;
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => { }, () => { });
   }
   save(form: NgForm) {

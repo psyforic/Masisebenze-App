@@ -54,7 +54,7 @@ export class AttorneysComponent extends PagedListingComponentBase<AttorneyListDt
       })).subscribe((result) => {
         this.attorneys = result.items;
         this.showPaging(result, pageNumber);
-        this.dataSource.data = this.attorneys;
+        this.dataSource = new MatTableDataSource(this.attorneys);
         this.dataSource.sort = this.sort;
       });
   }
