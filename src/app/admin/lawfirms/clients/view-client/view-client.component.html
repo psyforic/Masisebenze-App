@@ -732,12 +732,13 @@
     </div>
 </div>
 <app-camera-modal #newPhoto (pictureUpload)="upload($event)"></app-camera-modal>
-<app-grip-strength #gripStrength [clientId]="clientId" [age]="getAge()" [gender]="getGender()"></app-grip-strength>
-<app-gait #gait></app-gait>
-<app-muscle-power #musclePower></app-muscle-power>
-<app-range-of-motion #rangeOfMotion></app-range-of-motion>
-<app-borg-balance #borgBalance></app-borg-balance>
-<app-sensation #sensation></app-sensation>
-<app-coordination #coordination></app-coordination>
-<app-posture #posture></app-posture>
-<app-repetitive-tolerance-protocol #rtp></app-repetitive-tolerance-protocol>
+<app-grip-strength #gripStrength [clientId]="clientId" [age]="getAge()" [fullName]="fullName" [gender]="getGender()">
+</app-grip-strength>
+<app-gait #gait [fullName]="fullName" [clientId]="clientId"></app-gait>
+<app-muscle-power #musclePower [clientId]="clientId" [fullName]="fullName"></app-muscle-power>
+<app-range-of-motion #rangeOfMotion [fullName]="fullName"></app-range-of-motion>
+<app-borg-balance #borgBalance [clientId]="clientId" [fullName]="fullName"></app-borg-balance>
+<app-sensation #sensation [fullName]="fullName"></app-sensation>
+<app-coordination #coordination [fullName]="fullName" [clientId]="clientId"></app-coordination>
+<app-posture #posture [fullName]="fullName"></app-posture>
+<app-repetitive-tolerance-protocol #rtp [fullName]="fullName"></app-repetitive-tolerance-protocol>

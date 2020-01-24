@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Injector } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,7 +10,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class SensationComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
-
+  @Input() fullName: string;
   constructor(
     private injector: Injector,
     private modalService: NgbModal,

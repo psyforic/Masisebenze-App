@@ -1,38 +1,45 @@
 <ng-template #content let-modal class="modal modal-fade">
-    <div class="modal-header">
-        <h4 class="modal-title"><b>{{'Lundi Mapundu'}} </b>Gait</h4>
+    <div class="modal-header bg-color">
+        <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Gait</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-            <span aria-hidden="true">&times;</span>
+            <span class="text-white" aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
         <div class="card">
             <div class="card-body">
+                <div class="example-loading-shade" *ngIf="isLoading">
+                    <mat-spinner *ngIf="isLoading"></mat-spinner>
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Time Taken" type="text" name="timeTaken" value="" readonly>
+                            <input matInput placeholder="Time Taken" type="text" name="timeTaken"
+                                value="{{getTotalTIme(gait?.timeRecorded)}}" readonly>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Result" type="text" name="result" value="" readonly>
+                            <input matInput placeholder="Result" type="text" name="result"
+                                value="{{getResult(gait.walkingTime)}}" readonly>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Pain" type="text" name="pain" value="" readonly>
+                            <input matInput placeholder="Pain" type="text" name="pain"
+                                value="{{getPain(gait.painLevel)}}" readonly>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="OT Observation" type="text" name="observation" value="" readonly>
+                            <input matInput placeholder="OT Observation" type="text" name="observation"
+                                value="{{getObservation(gait.otObservationComments)}}" readonly>
                         </mat-form-field>
                     </div>
                 </div>
@@ -40,6 +47,6 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" mat-raised-button (click)="modal.close()">Close</button>
+        <button type="button" mat-button color="primary" (click)="modal.close()">Close</button>
     </div>
 </ng-template>

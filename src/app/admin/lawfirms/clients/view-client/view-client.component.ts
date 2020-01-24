@@ -113,7 +113,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   showCropper = false;
-
+  fullName: string;
   gripStrength: GripStrengthDto = new GripStrengthDto();
   musclePower: MusclePowerDto = new MusclePowerDto();
   borgBalance: BorgBalanceOptionListDto[] = [];
@@ -187,6 +187,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       })))
       .subscribe((result) => {
         this.client = result;
+        this.fullName = result.firstName + ' ' + result.lastName;
         this.addressId = result.addressId;
       });
   }

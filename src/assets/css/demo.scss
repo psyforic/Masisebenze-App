@@ -295,3 +295,12 @@ mat-tab-group .card {
         max-width: 1300px;
     }
 }
+
+.bg-color {
+    background: #4fc3f7;
+    color: #fff;
+}
+
+.bg-color>.modal-title {
+    text-align: center;
+}

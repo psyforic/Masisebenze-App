@@ -7,7 +7,7 @@ import {
   CalculationsServiceProxy,
   AssessmentResult
 } from '@shared/service-proxies/service-proxies';
-
+import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-grip-strength',
   templateUrl: './grip-strength.component.html',
@@ -19,11 +19,13 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
   @Input() clientId: string;
   @Input() age: number;
   @Input() gender: string;
-  numAge: number;
+  @Input() fullName: string;
+  numGender: number;
   gripStrengthLeft: GripStrengthDto = new GripStrengthDto();
   gripStrengthRight: GripStrengthDto = new GripStrengthDto();
   leftResult: AssessmentResult = new AssessmentResult();
   rightResult: AssessmentResult = new AssessmentResult();
+  isLoading = false;
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
@@ -34,14 +36,16 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
   }
 
   ngOnInit() {
-    if (this.gender === 'Female') {
-      this.numAge = 0;
-    } else {
-      this.numAge = 1;
-    }
-    this.getGripStrength();
+
   }
   open() {
+    if (this.gender === 'Female') {
+      this.numGender = 0;
+    } else {
+      this.numGender = 1;
+    }
+    this.getGripStrength();
+    this.getResult();
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => {
 
@@ -54,11 +58,15 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
     this.activeModal.close();
   }
   getGripStrength() {
+    this.isLoading = true;
     this._assessmentService.getGripStrength(this.clientId, 0)
       .subscribe(result => {
         this.gripStrengthLeft = result;
       });
     this._assessmentService.getGripStrength(this.clientId, 1)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe(result => {
         this.gripStrengthRight = result;
       });
@@ -79,17 +87,16 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
         return 'Hurts Worse';
       default:
         return '';
-        break;
     }
   }
   getResult() {
     this._calculationService
-      .getGripStrengthResults(this.age, this.numAge, 0, 40, 55)
+      .getGripStrengthResults(this.age, this.numGender, 0, this.gripStrengthLeft.weight, this.gripStrengthLeft.machineTest)
       .subscribe((result) => {
         this.leftResult = result;
       });
     this._calculationService
-      .getGripStrengthResults(this.age, this.numAge, 1, 40, 55)
+      .getGripStrengthResults(this.age, this.numGender, 1, this.gripStrengthRight.weight, this.gripStrengthRight.machineTest)
       .subscribe((result) => {
         this.rightResult = result;
       });

@@ -1,27 +1,36 @@
 <ng-template #content let-modal class="modal modal-fade">
-  <div class="modal-header">
-    <h4 class="modal-title">Borg Balance</h4>
+  <div class="modal-header bg-color">
+    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Borg Balance <small
+        class="text-primary">{{current_step}} of {{MAX_STEP}}</small></h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-      <span aria-hidden="true">&times;</span>
+      <span class="text-white" aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="card">
       <div class="card-body">
+        <div class="example-loading-shade" *ngIf="isLoading">
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </div>
         <div class="col-lg-12">
-          <h3 class="text-center">Title</h3>
-          <p>result</p>
+          <h4 class="text-center"><strong>{{options[current_step-1]?.name}}</strong></h4>
+          <p class="text-center text-primary">
+            <i class="fa fa-info"></i>
+            <b class="ml-2">{{decodeResult(current_step-1,options[current_step-1]?.borgBalanceOptionScore)}}</b>
+          </p>
           <div class="row">
             <div class="col-lg-12">
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Pain" type="text" name="pain" value="" readonly>
+                <input matInput placeholder="Pain" type="text" name="pain"
+                  value="{{decodePainLevel(options[current_step-1]?.painLevel)}}" readonly>
               </mat-form-field>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <mat-form-field class="example-full-width">
-                <textarea matInput placeholder="Comments" type="text" name="comments" readonly></textarea>
+                <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                  value="{{options[current_step-1]?.comment}}"></textarea>
               </mat-form-field>
             </div>
           </div>
@@ -30,16 +39,13 @@
     </div>
     <div class="card-footer">
       <div class="row">
-        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
-            (click)="modal.close()">Prev</button>
+        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary" *ngIf="current_step !== 1"
+            (click)="prev()">Prev</button>
         </div>
-        <div class="col-lg-6 pull-right"> <button class="pull-right" type="button" mat-button color="primary"
-            (click)="modal.close()">Next</button>
+        <div class="col-lg-6 pull-right"> <button class="pull-right" type="button" *ngIf="current_step !== MAX_STEP"
+            mat-button color="primary" (click)="next()">Next</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- <div class="modal-footer">
-    <button type="button" mat-raised-button (click)="modal.close()">Close</button>
-  </div> -->
 </ng-template>

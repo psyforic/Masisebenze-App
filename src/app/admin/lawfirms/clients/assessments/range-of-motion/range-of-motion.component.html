@@ -1,6 +1,6 @@
 <ng-template #content let-modal class="modal modal-fade">
-  <div class="modal-header">
-    <h4 class="modal-title"><b>{{'Lundi Mapundu'}} </b>Range Of Motion</h4>
+  <div class="modal-header bg-color">
+    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Range Of Motion</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -18,6 +18,6 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" mat-raised-button (click)="modal.close()">Close</button>
+    <button type="button" mat-button color="primary" (click)="modal.close()">Close</button>
   </div>
 </ng-template>
