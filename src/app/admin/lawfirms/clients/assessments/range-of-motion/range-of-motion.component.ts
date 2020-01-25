@@ -11,6 +11,7 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() fullName: string;
+  @Input() clientId: string;
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
