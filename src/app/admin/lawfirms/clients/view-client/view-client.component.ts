@@ -151,7 +151,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.documentService.getAllChildDocuments(this.clientId)
       .subscribe(result => {
         this.childDocuments = result.items;
-        console.log(this.childDocuments);
+        // console.log(this.childDocuments);
       });
   }
   ngOnInit() {
