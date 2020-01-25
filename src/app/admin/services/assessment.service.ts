@@ -134,9 +134,9 @@ export class AssessmentService {
       });
   }
 
-  getStairClimbingProtocol(clientId: string): Observable<StairClimbingProtocolDetailOutput> {
-    return this._stairClimbingProtocolService.get(clientId);
-  }
+  // getStairClimbingProtocol(clientId: string): Observable<StairClimbingProtocolDetailOutput> {
+  //   return this._stairClimbingProtocolService.get(clientId);
+  // }
   getBalanceProtocol(clientId: string) {
     this._balanceProtocolService.get(clientId)
       .subscribe(result => {

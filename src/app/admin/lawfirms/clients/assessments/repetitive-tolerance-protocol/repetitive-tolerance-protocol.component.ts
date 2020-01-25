@@ -1,6 +1,8 @@
 
 import {
-  BalanceProtocolServiceProxy, BalanceProtocolOptionListDto, WalkingProtocolServiceProxy,
+  BalanceProtocolServiceProxy,
+  BalanceProtocolOptionListDto,
+  WalkingProtocolServiceProxy,
   WalkingProtocolDetailOutput,
   StairClimbingProtocolServiceProxy,
   StairClimbingProtocolDetailOutput,
@@ -41,7 +43,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   current_step = 1;
   MAX_STEP = 4;
   isLoading = false;
-  balalanceProtocolResult: BalanceProtocolOptionListDto[] = [];
+  balanceProtocolResult: BalanceProtocolOptionListDto[] = [];
   stairClimbingProtocolResult: StairClimbingProtocolDetailOutput[] = [];
   repetitiveSquattingProtocolResult: RepetitiveSquattingProtocolDetailOutput[] = [];
   repetitiveLeftFootMotionProtocolResult: RepetitiveFootMotionProtocolDetailOutput[] = [];
@@ -68,7 +70,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   }
   open() {
     this.getRepetitiveSquattingProtocol();
-    this.getBalalanceProtocol();
+    this.getBalanceProtocol();
     this.getWalkingProtocol();
     this.getStairClimbingProtocol();
     this.getLadderWorkProtocol();
@@ -91,15 +93,14 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   close() {
     this.activeModal.close();
   }
-  getBalalanceProtocol() {
+  getBalanceProtocol() {
     this.isLoading = true;
     this._balanceProtocolService.get(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        this.balalanceProtocolResult = result.items;
-        // console.log(this.balalanceProtocolResult);
+        this.balanceProtocolResult = result.items;
       });
   }
   getWalkingProtocol() {

@@ -16,7 +16,11 @@
 
 .card .card-header {
     border-bottom: none;
-    background: #4fc3f7;
+    background: #fff;
+}
+
+.card .card-title {
+    color: #040f3d;
 }
 
 .card .card-body+.card-footer,
@@ -60,6 +64,7 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
 .fc-unthemed td.fc-today {
     background: #4FC3F7 !important;
 }
