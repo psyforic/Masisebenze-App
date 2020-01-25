@@ -8,59 +8,126 @@
   <div class="modal-body">
     <div class="card">
       <div class="card-body">
+        <div class="example-loading-shade" *ngIf="isLoading">
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </div>
         <mat-tab-group mat-stretch-tabs>
           <mat-tab label="Upper Extremity">
             <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container">
+              <div class="nav-container mt-4">
                 <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item active">
-                    <a class="nav-link" href="#description-logo" role="tab" data-toggle="tab">
-                      <i class="fa fa-info-circle"></i><br>
-                      Description
+                  <li class="nav-item">
+                    <a class="nav-link text-center  active" href="#left-side" role="tab" data-toggle="tab">
+                      <i class="fa fa-hand-o-left"></i><br>
+                      <h5>Left Side</h5>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#map-logo" role="tab" data-toggle="tab">
-                      <i class="fa fa-map-marker"></i><br>
-                      Location
+                    <a class="nav-link text-center" href="#right-side" role="tab" data-toggle="tab">
+                      <i class="fa fa-hand-o-right"></i><br>
+                      <h5>Right Side</h5>
                     </a>
                   </li>
                 </ul>
               </div>
               <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="description-logo">
+                <div class="tab-pane active" id="left-side">
                   <div class="card">
                     <div class="card-header">
-                      <h4 class="card-title">Description about product</h4>
-                      <p class="category">More information here</p>
+                      <h4 class="card-title text-center">{{upperLeftSide[upper_left_current_step-1]?.name}}</h4>
                     </div>
 
                     <div class="card-body">
-                      <p>Larger, yet dramatically thinner. More powerful, but remarkably power efficient. With a smooth
-                        metal surface that seamlessly meets the new Retina HD display.</p>
-                      <p>The first thing you notice when you hold the phone is how great it feels in your hand. There
-                        are
-                        no distinct edges. No gaps. Just a smooth, seamless bond of metal and glass that feels like one
-                        continuous surface.</p>
+                      <div class="col-lg-12 pt-2">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Result" type="text" name="result"
+                                value="{{getResult(upperLeftSide[upper_left_current_step-1]?.sensationOptionScore)}}"
+                                readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Pain Level" type="text" name="painLevel"
+                                value="{{getPain(upperLeftSide[upper_left_current_step-1]?.painLevel)}}" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                value="{{upperLeftSide[upper_left_current_step-1]?.comment}}"> </textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                            *ngIf="upper_right_current_step !== 1" (click)="prevUpperLeft()">Prev</button>
+                        </div>
+                        <div class=" col-lg-6 pull-right"> <button class="pull-right" type="button"
+                            *ngIf="upper_right_current_step !== MAX_STEP_UPPER" mat-button color="primary"
+                            (click)="nextUpperLeft()">Next</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
 
-                <div class="tab-pane" id="map-logo">
+                <div class="tab-pane" id="right-side">
                   <div class="card">
                     <div class="card-header">
-                      <h4 class="card-title">Location of product</h4>
-                      <p class="category">Here is some text</p>
+                      <h4 class="card-title">{{upperRightSide[upper_right_current_step-1]?.name}}</h4>
                     </div>
 
                     <div class="card-body">
-                      <p>Another Text. The first thing you notice when you hold the phone is how great it feels in your
-                        hand. The cover glass curves down around the sides to meet the anodized aluminum enclosure in a
-                        remarkable, simplified design.</p>
-                      <p>Larger, yet dramatically thinner.It’s one continuous form where hardware and software function
-                        in
-                        perfect unison, creating a new generation of phone that’s better by any measure.</p>
+                      <div class="col-lg-12 pt-2">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Result" type="text" name="result"
+                                value="{{getResult(upperRightSide[upper_right_current_step-1]?.sensationOptionScore)}}"
+                                readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Pain Level" type="text" name="painLevel"
+                                value="{{getPain(upperRightSide[upper_right_current_step-1]?.painLevel)}}" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                value="{{upperRightSide[upper_right_current_step-1]?.comment}}"> </textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                            *ngIf="upper_right_current_step !== 1" (click)="prevUpperRight()">Prev</button>
+                        </div>
+                        <div class=" col-lg-6 pull-right"> <button class="pull-right" type="button"
+                            *ngIf="upper_right_current_step !== MAX_STEP_UPPER" mat-button color="primary"
+                            (click)="nextUpperRight()">Next</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -68,8 +135,249 @@
             </div>
           </mat-tab>
           <mat-tab label="Trunk Extremity">
+            <div class="col-md-10 ml-auto mr-auto">
+              <div class="nav-container mt-4">
+                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link text-center  active" href="#trunk_left-side" role="tab" data-toggle="tab">
+                      <i class="fa fa-hand-o-left"></i><br>
+                      <h5>Left Side</h5>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-center" href="#trunk-right-side" role="tab" data-toggle="tab">
+                      <i class="fa fa-hand-o-right"></i><br>
+                      <h5>Right Side</h5>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="tab-content tab-space tab-subcategories">
+                <div class="tab-pane active" id="trunk-left-side">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title text-center">{{trunkLeftSide[trunk_left_current_step-1]?.name}}</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-lg-12 pt-2">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Result" type="text" name="result"
+                                value="{{getResult(trunkLeftSide[trunk_left_current_step-1]?.sensationOptionScore)}}"
+                                readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Pain Level" type="text" name="painLevel"
+                                value="{{getPain(trunkLeftSide[trunk_left_current_step-1]?.painLevel)}}" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                value="{{trunkLeftSide[trunk_left_current_step-1]?.comment}}"> </textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                            *ngIf="trunk_left_current_step !== 1" (click)="prevTrunkLeft()">Prev</button>
+                        </div>
+                        <div class=" col-lg-6 pull-right"> <button class="pull-right" type="button"
+                            *ngIf="trunk_left_current_step !== MAX_STEP_TRUNK" mat-button color="primary"
+                            (click)="nextTrunkLeft()">Next</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="tab-pane" id="trunk-right-side">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title">{{trunkRightSide[trunk_right_current_step-1]?.name}}</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-lg-12 pt-2">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Result" type="text" name="result"
+                                value="{{getResult(trunkRightSide[trunk_right_current_step-1]?.sensationOptionScore)}}"
+                                readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Pain Level" type="text" name="painLevel"
+                                value="{{getPain(trunkRightSide[trunk_right_current_step-1]?.painLevel)}}" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                value="{{trunkRightSide[trunk_right_current_step-1]?.comment}}"> </textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                            *ngIf="trunk_right_current_step !== 1" (click)="prevTrunkRight()">Prev</button>
+                        </div>
+                        <div class=" col-lg-6 pull-right"> <button class="pull-right" type="button"
+                            *ngIf="trunk_right_current_step !== MAX_STEP_TRUNK" mat-button color="primary"
+                            (click)="nextTrunkRight()">Next</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </mat-tab>
           <mat-tab label="Lower Extremity">
+
+            <div class="col-md-10 ml-auto mr-auto">
+              <div class="nav-container mt-4">
+                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link text-center  active" href="#lower_left-side" role="tab" data-toggle="tab">
+                      <i class="fa fa-hand-o-left"></i><br>
+                      <h5>Left Side</h5>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-center" href="#lower-right-side" role="tab" data-toggle="tab">
+                      <i class="fa fa-hand-o-right"></i><br>
+                      <h5>Right Side</h5>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="tab-content tab-space tab-subcategories">
+                <div class="tab-pane active" id="lower-left-side">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title text-center">{{lowerLeftSide[lower_left_current_step-1]?.name}}</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-lg-12 pt-2">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Result" type="text" name="result"
+                                value="{{getResult(lowerLeftSide[lower_left_current_step-1]?.sensationOptionScore)}}"
+                                readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Pain Level" type="text" name="painLevel"
+                                value="{{getPain(lowerLeftSide[lower_left_current_step-1]?.painLevel)}}" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                value="{{lowerLeftSide[lower_left_current_step-1]?.comment}}"> </textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                            *ngIf="lower_left_current_step !== 1" (click)="prevLowerLeft()">Prev</button>
+                        </div>
+                        <div class=" col-lg-6 pull-right"> <button class="pull-right" type="button"
+                            *ngIf="lower_left_current_step !== MAX_STEP_LOWER" mat-button color="primary"
+                            (click)="nextLowerLeft()">Next</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="tab-pane" id="lower-right-side">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title">{{lowerRightSide[lower_right_current_step-1]?.name}}</h4>
+                    </div>
+
+                    <div class="card-body">
+                      <div class="col-lg-12 pt-2">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Result" type="text" name="result"
+                                value="{{getResult(lowerRightSide[lower_right_current_step-1]?.sensationOptionScore)}}"
+                                readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <input matInput placeholder="Pain Level" type="text" name="painLevel"
+                                value="{{getPain(lowerRightSide[lower_right_current_step-1]?.painLevel)}}" readonly>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <mat-form-field class="example-full-width">
+                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                value="{{lowerRightSide[lower_right_current_step-1]?.comment}}"> </textarea>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="card-footer">
+                      <div class="row">
+                        <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                            *ngIf="lower_right_current_step !== 1" (click)="prevLowerRight()">Prev</button>
+                        </div>
+                        <div class=" col-lg-6 pull-right"> <button class="pull-right" type="button"
+                            *ngIf="lower_right_current_step !== MAX_STEP_LOWER" mat-button color="primary"
+                            (click)="nextLowerRight()">Next</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </mat-tab>
         </mat-tab-group>
       </div>

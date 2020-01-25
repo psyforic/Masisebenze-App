@@ -58,9 +58,11 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
       });
   }
   getResult(seconds: number) {
+    this.isLoading = true;
     this.calculationService.getCoordinationCompleteResults(seconds, this.types[this.current_step - 1])
       .pipe(finalize(() => {
-        this.getResult(this.coordinationOptions[0].numPieces);
+        // this.getResult(this.coordinationOptions[0].numPieces);
+        this.isLoading = false;
       }))
       .subscribe((result) => {
         this.result = result;

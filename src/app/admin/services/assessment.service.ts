@@ -367,5 +367,39 @@ export class AssessmentService {
         break;
     }
   }
+  decodeSensationOption(option: number): string {
+    switch (option) {
+      case 0:
+        return 'Absent, no response';
+      case 1:
+        return 'Decreased, delayed response';
+      case 2:
+        return 'Increased, exaggerated response';
+      case 3:
+        return 'Inconsistent response';
+      case 4:
+        return 'Intact normal response';
+      case 5:
+        return 'Unable to test';
+      case 6:
+        return 'Proximal';
+      case 7:
+        return 'Distal';
+      default:
+        break;
+    }
+  }
+  decodeRoMHandOption(option: number): string {
+    switch (option) {
+      case 0:
+        return 'MP';
+      case 1:
+        return 'PIP';
+      case 2:
+        return 'DIP';
+      default:
+        return 'NIL';
+    }
+  }
 }
 
