@@ -7,11 +7,13 @@
   </div>
   <div class="modal-body">
     <div class="card">
-      <div class="example-loading-shade" *ngIf="isLoading">
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
-      </div>
+
       <div class="card-body">
-        <mat-tab-group mat-align-tabs="center">
+        
+        <mat-tab-group mat-align-tabs="center" (selectedTabChange)="handleTabChange($event)">
+          <div class="example-loading-shade" *ngIf="isLoading">
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+          </div>
           <mat-tab label="Shoulder">
             <div class="col-md-10 ml-auto mr-auto">
               <div class="nav-container mt-4">
