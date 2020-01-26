@@ -13,7 +13,19 @@ import { RootRoutingModule } from './root-routing.module';
 
 import { AppConsts } from '@shared/AppConsts';
 import { AppSessionService } from '@shared/session/app-session.service';
-import { API_BASE_URL, AssessmentServiceProxy, RangeOfMotionServiceProxy, WalkingProtocolServiceProxy, BalanceProtocolServiceProxy, StairClimbingProtocolServiceProxy, LadderWorkProtocolServiceProxy, RepetitiveSquattingProtocolServiceProxy, RepetitiveFootMotionProtocolServiceProxy, CrawlingProtocolServiceProxy } from '@shared/service-proxies/service-proxies';
+import {
+    API_BASE_URL,
+    AssessmentServiceProxy,
+    RangeOfMotionServiceProxy,
+    WalkingProtocolServiceProxy,
+    BalanceProtocolServiceProxy,
+    StairClimbingProtocolServiceProxy,
+    LadderWorkProtocolServiceProxy,
+    RepetitiveSquattingProtocolServiceProxy,
+    RepetitiveFootMotionProtocolServiceProxy,
+    CrawlingProtocolServiceProxy,
+    ReportServiceProxy
+} from '@shared/service-proxies/service-proxies';
 
 import { RootComponent } from './root.component';
 import { AppPreBootstrap } from './AppPreBootstrap';
@@ -131,7 +143,7 @@ export function getCurrentLanguage(): string {
         AssessmentServiceProxy, RangeOfMotionServiceProxy, WalkingProtocolServiceProxy,
         BalanceProtocolServiceProxy, StairClimbingProtocolServiceProxy, LadderWorkProtocolServiceProxy,
         RepetitiveSquattingProtocolServiceProxy, RepetitiveFootMotionProtocolServiceProxy,
-        CrawlingProtocolServiceProxy
+        CrawlingProtocolServiceProxy, ReportServiceProxy
     ],
     bootstrap: [RootComponent]
 })

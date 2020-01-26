@@ -10,15 +10,13 @@ import {
   DocumentListDto,
   WorkHistoryDetailOutput,
   ClientDetailOutput,
-  AddressDetailOutput,
-  Address,
+  ReportServiceProxy,
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
 import { NewClientComponent } from './new-client/new-client.component';
 import { DocumentCreator } from '@app/admin/partials/document-creator';
 import * as moment from 'moment';
-
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -32,23 +30,31 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   dataSource: MatTableDataSource<ClientListDto>;
   displayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
-  clients: ClientListDto[] = [];
-  client: ClientListDto;
+  clients: ClientListDto[] = []; client: ClientListDto;
   workData: WorkHistoryListDto = new WorkHistoryDetailOutput();
   medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
-  isSaving = false;
-  isGenerating = false;
-  documents: DocumentListDto[] = [];
-  filteredDocuments;
-  lawFirmCity: string;
-  constructor(private injector: Injector,
+  isSaving = false; isGenerating = false; documents: DocumentListDto[] = [];
+  filteredDocuments; lawFirmCity: string;
+  gripStrengthReport: string; musclePowerReport: string; shouldersReport: string;
+  forearmWristReport: string; elbowReport: string; handReport: string;
+  hipReport: string; kneeReport: string; ankleReport: string;
+  borgBalanceReport: string; sensationUpperReport: string; sensationLowerReport: string;
+  sensationTrunkReport: string; coordinationReport: string; postureReport: string;
+  gaitReport: string; walkingReport: string; stairClimbing: string;
+  balanceReport: string; ladderWork: string; repetitiveSquatting: string;
+  repetitiveFootMotionReport: string; crawlingReport: string;
+
+  assessmentReport: string[] = [];
+
+  constructor(injector: Injector,
     private clientService: ClientServiceProxy,
-    private documentService: DocumentServiceProxy) {
+    private documentService: DocumentServiceProxy,
+    private _reportService: ReportServiceProxy) {
     super(injector);
   }
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
   createClient() {
@@ -87,13 +93,15 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         address.postalCode = result.address.postalCode;
         address.province = result.address.province;
       });
+    this.getReportData(clientId);
     const docCreator = new DocumentCreator();
     setTimeout(() => {
       const today = moment().format('LL');
-      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData, this.workData, this.lawFirmCity], today);
+      console.log(this.assessmentReport);
+      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData,
+        this.workData, this.lawFirmCity, this.assessmentReport], today);
       this.notify.success('Document created successfully');
-      this.isGenerating = false;
-    }, 5000);
+    }, 15000);
   }
   getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
@@ -157,6 +165,210 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.pageSize = event.pageSize;
     this.totalItems = event.length;
     this.getDataPage(event.pageIndex + 1);
+  }
+
+  getReportData(clientId: string) {
+    this.getGripStrength(clientId);
+    this.getMusclePower(clientId);
+    this.getShoulders(clientId);
+    this.getForearmWrist(clientId);
+    this.getElbow(clientId);
+    this.getHand(clientId);
+    this.getHip(clientId);
+    this.getKnee(clientId);
+    this.getAnkle(clientId);
+    this.getBorgBalance(clientId);
+    this.getSensationUpper(clientId);
+    this.getSensationTrunk(clientId);
+    this.getSensationLower(clientId);
+    this.getCoordination(clientId);
+    this.getPosture(clientId);
+    this.getGait(clientId);
+    this.getWalking(clientId);
+    this.getStairClimbing(clientId);
+    this.getBalance(clientId);
+    this.getLadderWork(clientId);
+    this.getRepetitiveSquatting(clientId);
+    this.getRepetitiveFootMotion(clientId);
+    this.getCrawling(clientId);
+  }
+  getGripStrength(clientId: string) {
+    this._reportService.getGripStrengthReport(clientId)
+      .subscribe((result) => {
+        this.gripStrengthReport = result;
+        this.assessmentReport[0] = result;
+      });
+  }
+  getMusclePower(clientId: string) {
+    this._reportService.getMusclePowerReport(clientId)
+      .subscribe((result) => {
+        this.musclePowerReport = result;
+        this.assessmentReport[1] = result;
+      });
+  }
+  getShoulders(clientId: string) {
+    this._reportService.getRoMShoulderReport(clientId)
+      .subscribe((result) => {
+        this.shouldersReport = result;
+        this.assessmentReport[2] = result;
+      });
+  }
+  getForearmWrist(clientId: string) {
+    this._reportService.getRoMForearmWristReport(clientId)
+      .subscribe((result) => {
+        this.forearmWristReport = result;
+        this.assessmentReport[3] = result;
+      });
+  }
+  getElbow(clientId: string) {
+    this._reportService.getRoMElbowReport(clientId)
+      .subscribe((result) => {
+        this.elbowReport = result;
+        this.assessmentReport[4] = result;
+      });
+  }
+  getHand(clientId: string) {
+    this._reportService.getRoMHandReport(clientId)
+      .subscribe((result) => {
+        this.handReport = result;
+        this.assessmentReport[5] = result;
+      });
+  }
+
+  getHip(clientId: string) {
+    this._reportService.getRoMHipReport(clientId)
+      .subscribe((result) => {
+        this.hipReport = result;
+        this.assessmentReport[6] = result;
+      });
+  }
+
+  getKnee(clientId: string) {
+    this._reportService.getRoMKneeReport(clientId)
+      .subscribe((result) => {
+        this.kneeReport = result;
+        this.assessmentReport[7] = result;
+      });
+  }
+
+  getAnkle(clientId: string) {
+    this._reportService.getRoMAnkleReport(clientId)
+      .subscribe((result) => {
+        this.ankleReport = result;
+        this.assessmentReport[8] = result;
+      });
+  }
+
+  getBorgBalance(clientId: string) {
+    this._reportService.getBorgBalanceReport(clientId)
+      .subscribe((result) => {
+        this.borgBalanceReport = result;
+        this.assessmentReport[9] = result;
+      });
+  }
+
+  getSensationUpper(clientId: string) {
+    this._reportService.getSensationUpperReport(clientId)
+      .subscribe((result) => {
+        this.sensationUpperReport = result;
+        this.assessmentReport[10] = result;
+      });
+  }
+
+  getSensationTrunk(clientId: string) {
+    this._reportService.getSensationTrunkReport(clientId)
+      .subscribe((result) => {
+        this.sensationTrunkReport = result;
+        this.assessmentReport[11] = result;
+      });
+  }
+
+  getSensationLower(clientId: string) {
+    this._reportService.getSensationLowerReport(clientId)
+      .subscribe((result) => {
+        this.sensationLowerReport = result;
+        this.assessmentReport[12] = result;
+      });
+  }
+
+  getCoordination(clientId: string) {
+    this._reportService.getCoordinationReport(clientId)
+      .subscribe((result) => {
+        this.coordinationReport = result;
+        this.assessmentReport[13] = result;
+      });
+  }
+
+  getPosture(clientId: string) {
+    this._reportService.getPostureReport(clientId)
+      .subscribe((result) => {
+        this.postureReport = result;
+        this.assessmentReport[14] = result;
+      });
+  }
+
+  getGait(clientId: string) {
+    this._reportService.getGaitReport(clientId)
+      .subscribe((result) => {
+        this.gaitReport = result;
+        this.assessmentReport[15] = result;
+      });
+  }
+
+  getWalking(clientId: string) {
+    this._reportService.getWalkingProtocolReport(clientId)
+      .subscribe((result) => {
+        this.walkingReport = result;
+        this.assessmentReport[16] = result;
+      });
+  }
+  getStairClimbing(clientId: string) {
+    this._reportService.getStairClimbingProtocolReport(clientId)
+      .subscribe((result) => {
+        this.stairClimbing = result;
+        this.assessmentReport[17] = result;
+      });
+  }
+  getBalance(clientId: string) {
+    this._reportService.getBalanceProtocolReport(clientId)
+      .subscribe((result) => {
+        this.balanceReport = result;
+        this.assessmentReport[18] = result;
+      });
+  }
+
+  getLadderWork(clientId: string) {
+    this._reportService.getLadderWorkProtocolReport(clientId)
+      .subscribe((result) => {
+        this.ladderWork = result;
+        this.assessmentReport[19] = result;
+      });
+  }
+
+  getRepetitiveSquatting(clientId: string) {
+    this._reportService.getRepetitiveSquattingProtocolReport(clientId)
+      .subscribe((result) => {
+        this.repetitiveSquatting = result;
+        this.assessmentReport[20] = result;
+      });
+  }
+
+  getRepetitiveFootMotion(clientId: string) {
+    this._reportService.getRepetitiveFootMotionProtocolReport(clientId)
+      .subscribe((result) => {
+        this.repetitiveFootMotionReport = result;
+        this.assessmentReport[21] = result;
+      });
+  }
+  getCrawling(clientId: string) {
+    this._reportService.getCrawlingProtocolReport(clientId)
+      .pipe(finalize(() => {
+        this.isGenerating = false;
+      }))
+      .subscribe((result) => {
+        this.crawlingReport = result;
+        this.assessmentReport[22] = result;
+      });
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)

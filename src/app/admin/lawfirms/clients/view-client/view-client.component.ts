@@ -1,14 +1,13 @@
-import { FlatTreeControl, NestedTreeControl } from '@angular/cdk/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
 import {
   DateAdapter,
-  MatTreeFlatDataSource,
-  MatTreeFlattener,
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
-  MatTreeNestedDataSource
+  MatTreeNestedDataSource,
+  MatTabChangeEvent
 } from '@angular/material';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ActivatedRoute } from '@angular/router';
@@ -24,7 +23,10 @@ import {
   GripStrengthDto,
   MedicalHistoryDetailOutput,
   MusclePowerDto,
-  WorkHistoryDetailOutput
+  WorkHistoryDetailOutput,
+  ContactListDto,
+  LawFirmServiceProxy,
+  AttorneyListDto
 } from '@shared/service-proxies/service-proxies';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
@@ -39,7 +41,6 @@ import { CoordinationComponent } from '../assessments/coordination/coordination.
 import { PostureComponent } from '../assessments/posture/posture.component';
 import { RepetitiveToleranceProtocolComponent } from '../assessments/repetitive-tolerance-protocol/repetitive-tolerance-protocol.component';
 import { MusclePowerComponent } from '../assessments/muscle-power/muscle-power.component';
-declare const $: any;
 export const DD_MM_YYYY_Format = {
   parse: {
     dateInput: 'LL',
@@ -63,7 +64,7 @@ interface DocumentNode {
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy,
+  providers: [ClientServiceProxy, DocumentServiceProxy, LawFirmServiceProxy,
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE], useValue: { useUtc: false } },
 
     { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYYY_Format }]
@@ -118,12 +119,16 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   musclePower: MusclePowerDto = new MusclePowerDto();
   borgBalance: BorgBalanceOptionListDto[] = [];
   childDocuments: DocumentListDto[] = [];
-  constructor(private injector: Injector,
+  contacts: ContactListDto[] = [];
+  attorneys: AttorneyListDto[] = [];
+
+  constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
+    private _lawFirmService: LawFirmServiceProxy,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    private generalService: GeneralService,
+    private generalService: GeneralService
   ) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -151,13 +156,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.documentService.getAllChildDocuments(this.clientId)
       .subscribe(result => {
         this.childDocuments = result.items;
-        // console.log(this.childDocuments);
       });
   }
   ngOnInit() {
     this.getClient();
-    this.getFileData();
-    this.getChildDocuments();
     this.clientService.getMedicalHistoryByClientId(this.clientId)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
@@ -174,6 +176,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     return this.childDocuments.filter(x => x.parentDocId === documentId);
   }
   getClient() {
+    this.isLoading = true;
     this.clientService.getDetail(this.clientId)
       .pipe((finalize(() => {
         this.line1 = this.client.address.line1;
@@ -184,6 +187,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.dateOfInjury = moment(this.client.dateOfInjury).format('YYYY-MM-DD');
         this.courtDate = moment(this.client.courtDate).format('YYYY-MM-DD');
         this.assessmentDate = moment(this.client.assessmentDate).format('YYYY-MM-DD');
+        this.isLoading = false;
       })))
       .subscribe((result) => {
         this.client = result;
@@ -191,7 +195,22 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.addressId = result.addressId;
       });
   }
-
+  getContacts() {
+    this.isLoading = true;
+    this._lawFirmService.getContacts(this.client.lawFirmId)
+      .subscribe((result) => {
+        this.contacts = result.items;
+      });
+  }
+  getAttorneys() {
+    this._lawFirmService.getAttorneys(this.client.lawFirmId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.attorneys = result.items;
+      });
+  }
   openCameraModal() {
     this.takePhoto.open();
   }
@@ -201,20 +220,15 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   courtDateChanged(event) {
     console.log(event);
   }
-
-
   save() {
-    this.client.address = new CreateAddressInput();
+    this.isLoading = true;
     this.client.address.line1 = this.line1;
     this.client.address.line2 = this.line2;
     this.client.address.city = this.city;
     this.client.address.postalCode = this.postalCode;
     this.client.address.province = this.province;
-    // const injuryDate = $('#dateValue').val();
-    // const courtDate = new Date($('#courtDateValue').val());
     const newDate = new Date(this.dateOfInjury);
     const courtDate = new Date(this.courtDate);
-    // newDate.setDate(newDate.getDate() + 1);
     const formattedInjuryDate = moment(newDate, 'YYYY-MM-DD');
     const formattedCourtDate = moment(courtDate, 'YYYY-MM-DD');
     this.client.dateOfInjury = formattedInjuryDate;
@@ -223,7 +237,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.client.addressId = this.addressId;
     }
     this.clientService.editClient(this.client)
-      .pipe(finalize(() => { }))
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe(() => {
         this.notify.success('Updated Successfully');
         this.getClient();
@@ -267,43 +283,26 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     }
     return 'Male';
   }
-
-  decodeMusclePower(result: number) {
-    switch (result) {
-      case 0:
-        return 'No Contradiction';
-      case 1:
-        return 'Flickering';
-      case 2:
-        return 'Movement Without Gravity';
-      case 3:
-        return 'Against Gravity';
-      case 4:
-        return 'Resistance';
-      case 5:
-        return 'Normal';
-      default:
-        break;
-    }
-  }
-  decodeBorgBalance(result: number) {
-    switch (result) {
-      case 0:
-        return 'Able to stand without using hands and stabilize independently';
-      case 1:
-        return 'Able to stand independently using hands';
-      case 3:
-        return 'Needs Minimal Aid to stand or to Stabilize';
-      case 2:
-        return 'Able to stand using using hands after several tries';
-      case 4:
-        return 'Needs Moderate or Maximal Assist to Stand';
-      default:
-        break;
-    }
-  }
   setFormTouched(clientForm: NgForm) {
     clientForm.control.markAsDirty();
+  }
+  handleTabChange(event: MatTabChangeEvent) {
+    switch (event.index) {
+      case 0:
+        break;
+      case 1:
+        this.getContacts();
+        this.getAttorneys();
+        break;
+      case 2:
+        break;
+      case 3:
+        this.getFileData();
+        this.getChildDocuments();
+        break;
+      default:
+        break;
+    }
   }
   upload(event) {
     this.isUploading = true;
@@ -357,14 +356,5 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   getGait() {
     this.openGait.open();
   }
-  private _transformer = (node: DocumentNode, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      name: node.name,
-      level: level,
-      url: node.url
-    };
-  }
-  // tslint:disable-next-line: member-ordering
   hasChild = (_: number, node: DocumentNode) => !!node.children && node.children.length > 0;
 }

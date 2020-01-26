@@ -5959,21 +5959,19 @@ export class CrawlingProtocolServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param clientId (optional) 
      * @return Success
      */
-    create(input: CrawlingCreateInput | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Create";
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -6014,7 +6012,7 @@ export class CrawlingProtocolServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<ListResultDtoOfCrawlingProtocolDetailOutput> {
+    get(clientId: string | null | undefined): Observable<CrawlingProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -6035,14 +6033,14 @@ export class CrawlingProtocolServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfCrawlingProtocolDetailOutput>><any>_observableThrow(e);
+                    return <Observable<CrawlingProtocolDetailOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfCrawlingProtocolDetailOutput>><any>_observableThrow(response_);
+                return <Observable<CrawlingProtocolDetailOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfCrawlingProtocolDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<CrawlingProtocolDetailOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6053,7 +6051,7 @@ export class CrawlingProtocolServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfCrawlingProtocolDetailOutput.fromJS(resultData200) : new ListResultDtoOfCrawlingProtocolDetailOutput();
+            result200 = resultData200 ? CrawlingProtocolDetailOutput.fromJS(resultData200) : new CrawlingProtocolDetailOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -6061,7 +6059,7 @@ export class CrawlingProtocolServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfCrawlingProtocolDetailOutput>(<any>null);
+        return _observableOf<CrawlingProtocolDetailOutput>(<any>null);
     }
 
     /**
@@ -9900,21 +9898,19 @@ export class RepetitiveFootMotionProtocolServiceProxy {
     }
 
     /**
-     * @param input (optional) 
+     * @param clientId (optional) 
      * @return Success
      */
-    create(input: RepetitiveFootMotionCreateInput | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Create";
+    create(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Create?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(input);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json", 
             })
         };
 
@@ -9953,15 +9949,12 @@ export class RepetitiveFootMotionProtocolServiceProxy {
 
     /**
      * @param clientId (optional) 
-     * @param side (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10009,13 +10002,16 @@ export class RepetitiveFootMotionProtocolServiceProxy {
     }
 
     /**
-     * @param id (optional) 
+     * @param parentId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getById(id: string | null | undefined): Observable<RepetitiveFootMotionProtocolDto> {
+    getById(parentId: string | null | undefined, side: number | null | undefined): Observable<RepetitiveFootMotionOptionDto> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/GetById?";
-        if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        if (parentId !== undefined)
+            url_ += "parentId=" + encodeURIComponent("" + parentId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10033,14 +10029,14 @@ export class RepetitiveFootMotionProtocolServiceProxy {
                 try {
                     return this.processGetById(<any>response_);
                 } catch (e) {
-                    return <Observable<RepetitiveFootMotionProtocolDto>><any>_observableThrow(e);
+                    return <Observable<RepetitiveFootMotionOptionDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<RepetitiveFootMotionProtocolDto>><any>_observableThrow(response_);
+                return <Observable<RepetitiveFootMotionOptionDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetById(response: HttpResponseBase): Observable<RepetitiveFootMotionProtocolDto> {
+    protected processGetById(response: HttpResponseBase): Observable<RepetitiveFootMotionOptionDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -10051,7 +10047,7 @@ export class RepetitiveFootMotionProtocolServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? RepetitiveFootMotionProtocolDto.fromJS(resultData200) : new RepetitiveFootMotionProtocolDto();
+            result200 = resultData200 ? RepetitiveFootMotionOptionDto.fromJS(resultData200) : new RepetitiveFootMotionOptionDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -10059,18 +10055,18 @@ export class RepetitiveFootMotionProtocolServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<RepetitiveFootMotionProtocolDto>(<any>null);
+        return _observableOf<RepetitiveFootMotionOptionDto>(<any>null);
     }
 
     /**
-     * @param repetitiveFootMotionProtocolId (optional) 
+     * @param repetitiveFootMotionOptionId (optional) 
      * @param input (optional) 
      * @return Success
      */
-    update(repetitiveFootMotionProtocolId: string | null | undefined, input: RepetitiveFootMotionProtocolDto | null | undefined): Observable<void> {
+    update(repetitiveFootMotionOptionId: string | null | undefined, input: RepetitiveFootMotionOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Update?";
-        if (repetitiveFootMotionProtocolId !== undefined)
-            url_ += "repetitiveFootMotionProtocolId=" + encodeURIComponent("" + repetitiveFootMotionProtocolId) + "&"; 
+        if (repetitiveFootMotionOptionId !== undefined)
+            url_ += "repetitiveFootMotionOptionId=" + encodeURIComponent("" + repetitiveFootMotionOptionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -10404,6 +10400,1260 @@ export class RepetitiveToleranceServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class ReportServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBalanceProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetBalanceProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBalanceProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBalanceProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBalanceProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBorgBalanceReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetBorgBalanceReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBorgBalanceReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBorgBalanceReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBorgBalanceReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCoordinationReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetCoordinationReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCoordinationReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCoordinationReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCoordinationReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCrawlingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetCrawlingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCrawlingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCrawlingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCrawlingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getGaitReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetGaitReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGaitReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGaitReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetGaitReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getGripStrengthReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetGripStrengthReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGripStrengthReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGripStrengthReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetGripStrengthReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getLadderWorkProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetLadderWorkProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLadderWorkProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLadderWorkProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLadderWorkProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getMusclePowerReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetMusclePowerReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMusclePowerReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMusclePowerReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMusclePowerReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPostureReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetPostureReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPostureReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPostureReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPostureReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRepetitiveFootMotionProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRepetitiveFootMotionProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveFootMotionProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveFootMotionProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveFootMotionProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRepetitiveSquattingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRepetitiveSquattingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveSquattingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveSquattingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveSquattingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMAnkleReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMAnkleReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMAnkleReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMAnkleReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMAnkleReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMElbowReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMElbowReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMElbowReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMElbowReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMElbowReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMForearmWristReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMForearmWristReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMForearmWristReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMForearmWristReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMForearmWristReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMHandReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHandReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMHandReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMHandReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMHandReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMHipReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHipReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMHipReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMHipReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMHipReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMKneeReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMKneeReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMKneeReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMKneeReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMKneeReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMShoulderReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMShoulderReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMShoulderReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMShoulderReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMShoulderReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSensationLowerReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetSensationLowerReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSensationLowerReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSensationLowerReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSensationLowerReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSensationTrunkReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetSensationTrunkReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSensationTrunkReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSensationTrunkReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSensationTrunkReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSensationUpperReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetSensationUpperReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSensationUpperReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSensationUpperReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSensationUpperReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getStairClimbingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetStairClimbingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStairClimbingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStairClimbingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStairClimbingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getWalkingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetWalkingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWalkingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWalkingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWalkingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
     }
 }
 
@@ -13767,6 +15017,7 @@ export class Client implements IClient {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -13814,6 +15065,7 @@ export class Client implements IClient {
             this.affect = data["affect"];
             this.jobDescription = data["jobDescription"];
             this.motivation = data["motivation"];
+            this.generalAppearance = data["generalAppearance"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -13861,6 +15113,7 @@ export class Client implements IClient {
         data["affect"] = this.affect;
         data["jobDescription"] = this.jobDescription;
         data["motivation"] = this.motivation;
+        data["generalAppearance"] = this.generalAppearance;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -13908,6 +15161,7 @@ export interface IClient {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17006,6 +18260,7 @@ export class CreateClientInput implements ICreateClientInput {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
 
@@ -17043,6 +18298,7 @@ export class CreateClientInput implements ICreateClientInput {
             this.affect = data["affect"];
             this.jobDescription = data["jobDescription"];
             this.motivation = data["motivation"];
+            this.generalAppearance = data["generalAppearance"];
             this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
             this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
         }
@@ -17080,6 +18336,7 @@ export class CreateClientInput implements ICreateClientInput {
         data["affect"] = this.affect;
         data["jobDescription"] = this.jobDescription;
         data["motivation"] = this.motivation;
+        data["generalAppearance"] = this.generalAppearance;
         data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
         return data; 
@@ -17117,6 +18374,7 @@ export interface ICreateClientInput {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
 }
@@ -17149,6 +18407,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17196,6 +18455,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
             this.affect = data["affect"];
             this.jobDescription = data["jobDescription"];
             this.motivation = data["motivation"];
+            this.generalAppearance = data["generalAppearance"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -17243,6 +18503,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
         data["affect"] = this.affect;
         data["jobDescription"] = this.jobDescription;
         data["motivation"] = this.motivation;
+        data["generalAppearance"] = this.generalAppearance;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -17290,6 +18551,7 @@ export interface IClientDetailOutput {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17441,6 +18703,7 @@ export class ClientListDto implements IClientListDto {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -17487,6 +18750,7 @@ export class ClientListDto implements IClientListDto {
             this.affect = data["affect"];
             this.jobDescription = data["jobDescription"];
             this.motivation = data["motivation"];
+            this.generalAppearance = data["generalAppearance"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -17533,6 +18797,7 @@ export class ClientListDto implements IClientListDto {
         data["affect"] = this.affect;
         data["jobDescription"] = this.jobDescription;
         data["motivation"] = this.motivation;
+        data["generalAppearance"] = this.generalAppearance;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -17579,6 +18844,7 @@ export interface IClientListDto {
     affect: string | undefined;
     jobDescription: string | undefined;
     motivation: string | undefined;
+    generalAppearance: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -18702,124 +19968,6 @@ export class PagedResultDtoOfContactListDto implements IPagedResultDtoOfContactL
 export interface IPagedResultDtoOfContactListDto {
     totalCount: number | undefined;
     items: ContactListDto[] | undefined;
-}
-
-export class CrawlingCreateInput implements ICrawlingCreateInput {
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    numTests: number | undefined;
-    result: string | undefined;
-    status: number | undefined;
-
-    constructor(data?: ICrawlingCreateInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.clientId = data["clientId"];
-            this.timeTaken = data["timeTaken"];
-            this.painLevel = data["painLevel"];
-            this.comment = data["comment"];
-            this.numTests = data["numTests"];
-            this.result = data["result"];
-            this.status = data["status"];
-        }
-    }
-
-    static fromJS(data: any): CrawlingCreateInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new CrawlingCreateInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["timeTaken"] = this.timeTaken;
-        data["painLevel"] = this.painLevel;
-        data["comment"] = this.comment;
-        data["numTests"] = this.numTests;
-        data["result"] = this.result;
-        data["status"] = this.status;
-        return data; 
-    }
-
-    clone(): CrawlingCreateInput {
-        const json = this.toJSON();
-        let result = new CrawlingCreateInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICrawlingCreateInput {
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    numTests: number | undefined;
-    result: string | undefined;
-    status: number | undefined;
-}
-
-export class ListResultDtoOfCrawlingProtocolDetailOutput implements IListResultDtoOfCrawlingProtocolDetailOutput {
-    items: CrawlingProtocolDetailOutput[] | undefined;
-
-    constructor(data?: IListResultDtoOfCrawlingProtocolDetailOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(CrawlingProtocolDetailOutput.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfCrawlingProtocolDetailOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfCrawlingProtocolDetailOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfCrawlingProtocolDetailOutput {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfCrawlingProtocolDetailOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfCrawlingProtocolDetailOutput {
-    items: CrawlingProtocolDetailOutput[] | undefined;
 }
 
 export class CrawlingProtocolDetailOutput implements ICrawlingProtocolDetailOutput {
@@ -21531,81 +22679,6 @@ export interface IHandDto {
     id: string | undefined;
 }
 
-export class RepetitiveFootMotionCreateInput implements IRepetitiveFootMotionCreateInput {
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
-    result: string | undefined;
-    status: number | undefined;
-
-    constructor(data?: IRepetitiveFootMotionCreateInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.clientId = data["clientId"];
-            this.timeTaken = data["timeTaken"];
-            this.side = data["side"];
-            this.painLevel = data["painLevel"];
-            this.numTests = data["numTests"];
-            this.comment = data["comment"];
-            this.numDepressions = data["numDepressions"];
-            this.result = data["result"];
-            this.status = data["status"];
-        }
-    }
-
-    static fromJS(data: any): RepetitiveFootMotionCreateInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new RepetitiveFootMotionCreateInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["timeTaken"] = this.timeTaken;
-        data["side"] = this.side;
-        data["painLevel"] = this.painLevel;
-        data["numTests"] = this.numTests;
-        data["comment"] = this.comment;
-        data["numDepressions"] = this.numDepressions;
-        data["result"] = this.result;
-        data["status"] = this.status;
-        return data; 
-    }
-
-    clone(): RepetitiveFootMotionCreateInput {
-        const json = this.toJSON();
-        let result = new RepetitiveFootMotionCreateInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IRepetitiveFootMotionCreateInput {
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
-    result: string | undefined;
-    status: number | undefined;
-}
-
 export class ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput implements IListResultDtoOfRepetitiveFootMotionProtocolDetailOutput {
     items: RepetitiveFootMotionProtocolDetailOutput[] | undefined;
 
@@ -21661,14 +22734,8 @@ export class RepetitiveFootMotionProtocolDetailOutput implements IRepetitiveFoot
     assessment: Assessment | undefined;
     assessmentId: string | undefined;
     clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
     result: string | undefined;
-    status: number | undefined;
+    otComments: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -21692,14 +22759,8 @@ export class RepetitiveFootMotionProtocolDetailOutput implements IRepetitiveFoot
             this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
             this.assessmentId = data["assessmentId"];
             this.clientId = data["clientId"];
-            this.timeTaken = data["timeTaken"];
-            this.side = data["side"];
-            this.painLevel = data["painLevel"];
-            this.numTests = data["numTests"];
-            this.comment = data["comment"];
-            this.numDepressions = data["numDepressions"];
             this.result = data["result"];
-            this.status = data["status"];
+            this.otComments = data["otComments"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -21723,14 +22784,8 @@ export class RepetitiveFootMotionProtocolDetailOutput implements IRepetitiveFoot
         data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
         data["assessmentId"] = this.assessmentId;
         data["clientId"] = this.clientId;
-        data["timeTaken"] = this.timeTaken;
-        data["side"] = this.side;
-        data["painLevel"] = this.painLevel;
-        data["numTests"] = this.numTests;
-        data["comment"] = this.comment;
-        data["numDepressions"] = this.numDepressions;
         data["result"] = this.result;
-        data["status"] = this.status;
+        data["otComments"] = this.otComments;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -21754,14 +22809,8 @@ export interface IRepetitiveFootMotionProtocolDetailOutput {
     assessment: Assessment | undefined;
     assessmentId: string | undefined;
     clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
     result: string | undefined;
-    status: number | undefined;
+    otComments: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -21772,8 +22821,8 @@ export interface IRepetitiveFootMotionProtocolDetailOutput {
     id: string | undefined;
 }
 
-export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionProtocolDto {
-    assessmentId: string | undefined;
+export class RepetitiveFootMotionOptionDto implements IRepetitiveFootMotionOptionDto {
+    repetitiveFootMotionProtocolId: string | undefined;
     clientId: string | undefined;
     timeTaken: number | undefined;
     side: number | undefined;
@@ -21792,7 +22841,7 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
     creatorUserId: number | undefined;
     id: string | undefined;
 
-    constructor(data?: IRepetitiveFootMotionProtocolDto) {
+    constructor(data?: IRepetitiveFootMotionOptionDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -21803,7 +22852,7 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
 
     init(data?: any) {
         if (data) {
-            this.assessmentId = data["assessmentId"];
+            this.repetitiveFootMotionProtocolId = data["repetitiveFootMotionProtocolId"];
             this.clientId = data["clientId"];
             this.timeTaken = data["timeTaken"];
             this.side = data["side"];
@@ -21824,16 +22873,16 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
         }
     }
 
-    static fromJS(data: any): RepetitiveFootMotionProtocolDto {
+    static fromJS(data: any): RepetitiveFootMotionOptionDto {
         data = typeof data === 'object' ? data : {};
-        let result = new RepetitiveFootMotionProtocolDto();
+        let result = new RepetitiveFootMotionOptionDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["assessmentId"] = this.assessmentId;
+        data["repetitiveFootMotionProtocolId"] = this.repetitiveFootMotionProtocolId;
         data["clientId"] = this.clientId;
         data["timeTaken"] = this.timeTaken;
         data["side"] = this.side;
@@ -21854,16 +22903,16 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
         return data; 
     }
 
-    clone(): RepetitiveFootMotionProtocolDto {
+    clone(): RepetitiveFootMotionOptionDto {
         const json = this.toJSON();
-        let result = new RepetitiveFootMotionProtocolDto();
+        let result = new RepetitiveFootMotionOptionDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IRepetitiveFootMotionProtocolDto {
-    assessmentId: string | undefined;
+export interface IRepetitiveFootMotionOptionDto {
+    repetitiveFootMotionProtocolId: string | undefined;
     clientId: string | undefined;
     timeTaken: number | undefined;
     side: number | undefined;

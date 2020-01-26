@@ -27,6 +27,8 @@ export class DocumentCreator {
         } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
             currentAge = currentAge - 1;
         }
+        const assessmentReport = data[6];
+        console.log(assessmentReport[0]);
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
         }
@@ -62,6 +64,30 @@ export class DocumentCreator {
                 currentHistory: medicalData.currentHistory,
                 medication: medicalData.medication,
                 workHistory: workData.description,
+                generalAppearance: 'Appearance',
+                gripStrength: assessmentReport[0],
+                musclePower: assessmentReport[1],
+                shoulders: assessmentReport[2],
+                forearmWrist: assessmentReport[3],
+                elbow: assessmentReport[4],
+                hand: assessmentReport[5],
+                hip: assessmentReport[6],
+                knee: assessmentReport[7],
+                ankle: assessmentReport[8],
+                borgBalance: assessmentReport[9],
+                sensationUpper: assessmentReport[10],
+                sensationTrunk: assessmentReport[11],
+                sensationLower: assessmentReport[12],
+                coordination: assessmentReport[13],
+                posture: assessmentReport[14],
+                gait: assessmentReport[15],
+                walking: assessmentReport[16],
+                stairClimbing: assessmentReport[17],
+                balance: assessmentReport[18],
+                ladderWork: assessmentReport[19],
+                repetitiveSquatting: assessmentReport[20],
+                repetitiveFootMotion: assessmentReport[21],
+                crawling: assessmentReport[22]
             });
 
             try {

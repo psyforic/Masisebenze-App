@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <mat-tab-group mat-stretch-tabs>
+                <mat-tab-group mat-stretch-tabs (selectedTabChange)="handleTabChange($event)">
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">
@@ -43,6 +43,9 @@
                             Personal Information
                         </ng-template>
                         <div class="col-lg-12">
+                            <div class="example-loading-shade" *ngIf="isLoading">
+                                <mat-spinner *ngIf="isLoading"></mat-spinner>
+                            </div>
                             <form #clientForm="ngForm" (ngSubmit)="save()">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -126,7 +129,7 @@
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="assessmentDatePicker"
                                                                 placeholder="Assessment Date" [value]="assessmentDate"
-                                                                disabled>
+                                                                readonly>
                                                             <mat-datepicker-toggle matSuffix
                                                                 [for]="assessmentDatePicker">
                                                             </mat-datepicker-toggle>
@@ -281,37 +284,58 @@
                             Attorney Information
                         </ng-template>
                         <div class="col-lg-12">
+                            <div class="example-loading-shade" *ngIf="isLoading">
+                                <mat-spinner *ngIf="isLoading"></mat-spinner>
+                            </div>
                             <div class="row">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form>
+                                        <form #attorneyForm="ngForm" (ngSubmit)="save()">
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
                                                         <input matInput placeholder="Law Firm" type="text"
                                                             name="LawFirm" value="{{client.lawFirm?.companyName}}"
-                                                            disabled>
+                                                            readonly>
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Attorney" type="text"
-                                                            value="{{client.attorney?.firstName}} {{client.attorney?.lastName}}"
-                                                            disabled>
+                                                        <mat-select required [(ngModel)]="client.attorneyId"
+                                                            name="attorney">
+                                                            <mat-option *ngFor="let attorney of attorneys"
+                                                                [value]="attorney.id">
+                                                                {{attorney.firstName}} {{attorney.lastName}}
+                                                            </mat-option>
+                                                        </mat-select>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Law Firm Contact" type="text"
-                                                            value="{{client.contact?.firstName}} {{client.contact?.lastName}}"
-                                                            disabled>
+                                                        <mat-select required [(ngModel)]="client.contactId"
+                                                            name="contact">
+                                                            <mat-option *ngFor="let contact of contacts"
+                                                                [value]="contact.id">
+                                                                {{contact.firstName}} {{contact.lastName}}
+                                                            </mat-option>
+                                                        </mat-select>
                                                     </mat-form-field>
                                                 </div>
+
+                                                <div class="col-md-6 mt-3 pull-right">
+                                                    <button [disabled]="!attorneyForm.dirty" mat-raised-button
+                                                        type="submit" color="primary" class=" pull-right">
+                                                        Update
+                                                    </button>
+                                                    <div class="clearfix"></div>
+                                                </div>
+
                                             </div>
                                         </form>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

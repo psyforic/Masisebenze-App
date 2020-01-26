@@ -156,7 +156,7 @@ export class AssessmentService {
       });
   }
   getRepetitiveFootMotionProtocol(clientId: string, side: number) {
-    this._repetitiveFootMotionProtocolService.get(clientId, side)
+    this._repetitiveFootMotionProtocolService.get(clientId)
       .subscribe(result => {
         return result;
       });

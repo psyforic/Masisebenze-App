@@ -50,7 +50,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   repetitiveRightFootMotionProtocolResult: RepetitiveFootMotionProtocolDetailOutput[] = [];
   ladderWorkProtocolResult: LadderWorkProtocolDetailOutput[] = [];
   walkingProtocol: WalkingProtocolDetailOutput = new WalkingProtocolDetailOutput();
-  crawlingProtocolResult: CrawlingProtocolDetailOutput[] = [];
+  crawlingProtocolResult: CrawlingProtocolDetailOutput = new CrawlingProtocolDetailOutput();
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
@@ -146,7 +146,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   }
   getRepetitiveLeftFootMotionProtocol() {
     this.isLoading = true;
-    this._repetitiveFootMotionProtocolService.get(this.clientId, 0)
+    this._repetitiveFootMotionProtocolService.get(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
@@ -156,7 +156,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   }
   getRepetitiveRightFootMotionProtocol() {
     this.isLoading = true;
-    this._repetitiveFootMotionProtocolService.get(this.clientId, 1)
+    this._repetitiveFootMotionProtocolService.get(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
@@ -171,7 +171,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        this.crawlingProtocolResult = result.items;
+        this.crawlingProtocolResult = result;
       });
   }
   decodeResult(index: number, result: number) {
