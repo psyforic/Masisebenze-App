@@ -139,7 +139,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.documentService.getClientDocuments(this.clientId)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
-        this.documents = result.items.filter(x => x.parentDocId === null);
+        // this.documents = result.items.filter(x => x.parentDocId === null);
+        this.documents = result.items;
         const filtered = this.documents.map((value) => {
           return {
             name: value.name,
@@ -193,6 +194,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.client = result;
         this.fullName = result.firstName + ' ' + result.lastName;
         this.addressId = result.addressId;
+        this.isLoading = false;
       });
   }
   getContacts() {
@@ -222,6 +224,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.isLoading = true;
+    this.client.address = new CreateAddressInput();
     this.client.address.line1 = this.line1;
     this.client.address.line2 = this.line2;
     this.client.address.city = this.city;
@@ -231,6 +234,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     const courtDate = new Date(this.courtDate);
     const formattedInjuryDate = moment(newDate, 'YYYY-MM-DD');
     const formattedCourtDate = moment(courtDate, 'YYYY-MM-DD');
+    console.log(newDate);
+    console.log(formattedInjuryDate);
+    console.log(courtDate);
+    console.log(formattedCourtDate);
     this.client.dateOfInjury = formattedInjuryDate;
     this.client.courtDate = formattedCourtDate;
     if (this.addressId !== 0) {
@@ -243,6 +250,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       .subscribe(() => {
         this.notify.success('Updated Successfully');
         this.getClient();
+        this.isLoading = false;
+      }, error => {
+        this.isLoading = false;
       });
   }
   updateWorkHistory() {

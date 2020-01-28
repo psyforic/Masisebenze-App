@@ -5,12 +5,13 @@ export const environment = {
     hmr: false,
     appConfig: 'appconfig.production.json',
     firebase: {
-        apiKey: 'AIzaSyBNVk4X3dZl6uonfAU2vKGoyAITYag1TXY',
-        authDomain: 'masisebenzefce.firebaseapp.com',
-        databaseURL: 'https://masisebenzefce.firebaseio.com',
-        projectId: 'masisebenzefce',
-        storageBucket: 'masisebenzefce.appspot.com',
-        messagingSenderId: '81682531252',
-        appId: '1:484971481636:web:dd0c9128b55fbf421e66b1'
+        apiKey: 'AIzaSyCPvyJjDUeagsSAuqQzhiJfieZlRDvEXes',
+        authDomain: 'masisebenzefce-6be71.firebaseapp.com',
+        databaseURL: 'https://masisebenzefce-6be71.firebaseio.com',
+        projectId: 'masisebenzefce-6be71',
+        storageBucket: 'masisebenzefce-6be71.appspot.com',
+        messagingSenderId: '330556941362',
+        appId: '1:330556941362:web:3ae5f60e256189d1e7482b',
+        measurementId: 'G-VLHM8GWBHF'
     },
 };

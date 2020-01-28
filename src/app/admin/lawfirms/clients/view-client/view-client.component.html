@@ -258,6 +258,19 @@
                                                     name="socialHabits">
                                                 </quill-editor>
                                             </mat-expansion-panel>
+
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        General Appearance
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+
+                                                <quill-editor [styles]="{height: '200px'}"
+                                                    [(ngModel)]="client.generalAppearance" [sanitize]="true"
+                                                    name="generalAppearance">
+                                                </quill-editor>
+                                            </mat-expansion-panel>
                                         </mat-accordion>
 
                                     </div>
@@ -535,7 +548,13 @@
 
                         </div>
 
-
+                        <div class="col-lg-12 mt-4" *ngIf="documents.length == 0">
+                            <div class="text-center">
+                                <i class="fa fa-hourglass-3 fa-5x">
+                                </i>
+                                <h4 class="text-center">No Documents Added</h4>
+                            </div>
+                        </div>
                     </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
@@ -737,9 +756,9 @@
                                                         </div>
                                                     </div>
                                                 </mat-tab>
-                                                <mat-tab label="Cognitive Assessment"> Content 2 </mat-tab>
-                                                <mat-tab label="Functional Assessment"> Content 3 </mat-tab>
-                                                <mat-tab label="FCE Assessment"> Content 3 </mat-tab>
+                                                <mat-tab label="Cognitive Assessment"> Coming Soon </mat-tab>
+                                                <mat-tab label="Functional Assessment"> Coming Soon </mat-tab>
+                                                <mat-tab label="FCE Assessment"> Coming Soon </mat-tab>
                                             </mat-tab-group>
                                         </div>
 

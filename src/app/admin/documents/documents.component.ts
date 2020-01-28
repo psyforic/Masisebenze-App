@@ -111,7 +111,7 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
     const metaData = {
       contentType: 'application/pdf'
     };
-    this.ref = this.afStorage.ref(id);
+    this.ref = this.afStorage.ref(id + 'pdf');
     this.task = this.ref.put(event.target.files[0], metaData);
     this.uploadState = this.task.snapshotChanges().pipe(map(s => s.state));
     this.uploadProgress = this.task.percentageChanges();

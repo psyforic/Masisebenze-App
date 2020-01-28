@@ -64,7 +64,7 @@ export class DocumentCreator {
                 currentHistory: medicalData.currentHistory,
                 medication: medicalData.medication,
                 workHistory: workData.description,
-                generalAppearance: 'Appearance',
+                generalAppearance: clientData.generalAppearance,
                 gripStrength: assessmentReport[0],
                 musclePower: assessmentReport[1],
                 shoulders: assessmentReport[2],

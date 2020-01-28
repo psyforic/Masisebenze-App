@@ -13,7 +13,8 @@ import {
   RepetitiveSquattingProtocolDetailOutput,
   RepetitiveFootMotionProtocolDetailOutput,
   CrawlingProtocolServiceProxy,
-  CrawlingProtocolDetailOutput
+  CrawlingProtocolDetailOutput,
+  RepetitiveFootMotionOptionDto
 } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -46,8 +47,9 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   balanceProtocolResult: BalanceProtocolOptionListDto[] = [];
   stairClimbingProtocolResult: StairClimbingProtocolDetailOutput[] = [];
   repetitiveSquattingProtocolResult: RepetitiveSquattingProtocolDetailOutput[] = [];
-  repetitiveLeftFootMotionProtocolResult: RepetitiveFootMotionProtocolDetailOutput[] = [];
-  repetitiveRightFootMotionProtocolResult: RepetitiveFootMotionProtocolDetailOutput[] = [];
+  repetitiveLeftFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
+  repetitiveFootMotion: RepetitiveFootMotionProtocolDetailOutput[] = [];
+  repetitiveRightFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
   ladderWorkProtocolResult: LadderWorkProtocolDetailOutput[] = [];
   walkingProtocol: WalkingProtocolDetailOutput = new WalkingProtocolDetailOutput();
   crawlingProtocolResult: CrawlingProtocolDetailOutput = new CrawlingProtocolDetailOutput();
@@ -74,8 +76,6 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
     this.getWalkingProtocol();
     this.getStairClimbingProtocol();
     this.getLadderWorkProtocol();
-    this.getRepetitiveLeftFootMotionProtocol();
-    this.getRepetitiveRightFootMotionProtocol();
     this.getCrawlingProtocol();
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => { }, () => { });
@@ -151,19 +151,19 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        this.repetitiveLeftFootMotionProtocolResult = result.items;
+        this.repetitiveFootMotion = result.items;
       });
   }
-  getRepetitiveRightFootMotionProtocol() {
-    this.isLoading = true;
-    this._repetitiveFootMotionProtocolService.get(this.clientId)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
-      .subscribe((result) => {
-        this.repetitiveRightFootMotionProtocolResult = result.items;
-      });
-  }
+  // getRepetitiveRightFootMotionProtocol(id: string, side: number) {
+  //   this.isLoading = true;
+  //   this._repetitiveFootMotionProtocolService.getById(id, side)
+  //     .pipe(finalize(() => {
+  //       this.isLoading = false;
+  //     }))
+  //     .subscribe((result) => {
+  //       this.repetitiveRightFootMotionProtocolResult = result;
+  //     });
+  // }
   getCrawlingProtocol() {
     this.isLoading = true;
     this._crawlingProtocolService.get(this.clientId)
