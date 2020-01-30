@@ -15,6 +15,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() fullName: string;
   @Input() clientId: string;
+  sensation: string;
   upperLeftSide: SensationOptionDto[] = [];
   upperRightSide: SensationOptionDto[] = [];
   trunkLeftSide: SensationOptionDto[] = [];
@@ -47,7 +48,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
     this.getUpperExtremity();
     this.getLowerExtremity();
     this.getTrunkExtremity();
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => { }, () => { });
   }
   close() {

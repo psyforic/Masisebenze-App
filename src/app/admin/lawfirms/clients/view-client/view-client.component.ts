@@ -41,6 +41,8 @@ import { CoordinationComponent } from '../assessments/coordination/coordination.
 import { PostureComponent } from '../assessments/posture/posture.component';
 import { RepetitiveToleranceProtocolComponent } from '../assessments/repetitive-tolerance-protocol/repetitive-tolerance-protocol.component';
 import { MusclePowerComponent } from '../assessments/muscle-power/muscle-power.component';
+import { AffectComponent } from '../assessments/affect/affect.component';
+import { MobilityComponent } from '../assessments/mobility/mobility.component';
 export const DD_MM_YYYY_Format = {
   parse: {
     dateInput: 'LL',
@@ -81,6 +83,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('coordination', { static: false }) openCoordination: CoordinationComponent;
   @ViewChild('posture', { static: false }) openPosture: PostureComponent;
   @ViewChild('rtp', { static: false }) openRTP: RepetitiveToleranceProtocolComponent;
+  @ViewChild('affect', { static: false }) openAffect: AffectComponent;
+  @ViewChild('mobility', { static: false }) openMobility: MobilityComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
   documents: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
@@ -121,6 +125,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   childDocuments: DocumentListDto[] = [];
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
+  hidden = true;
 
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
@@ -188,6 +193,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.dateOfInjury = moment(this.client.dateOfInjury).format('YYYY-MM-DD');
         this.courtDate = moment(this.client.courtDate).format('YYYY-MM-DD');
         this.assessmentDate = moment(this.client.assessmentDate).format('YYYY-MM-DD');
+        console.log(this.client.assessmentDate);
         this.isLoading = false;
       })))
       .subscribe((result) => {
@@ -365,6 +371,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   getGait() {
     this.openGait.open();
+  }
+  getMobility() {
+    this.openMobility.open();
+  }
+  getAffect() {
+    this.openAffect.open();
   }
   hasChild = (_: number, node: DocumentNode) => !!node.children && node.children.length > 0;
 }

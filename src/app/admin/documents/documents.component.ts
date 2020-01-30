@@ -11,7 +11,11 @@ import {
   DocumentDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFireStorageReference, AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
+import {
+  AngularFireStorageReference,
+  AngularFireUploadTask,
+  AngularFireStorage
+} from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';

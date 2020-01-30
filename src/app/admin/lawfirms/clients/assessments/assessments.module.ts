@@ -11,6 +11,8 @@ import { PostureComponent } from './posture/posture.component';
 import { RepetitiveToleranceProtocolComponent } from './repetitive-tolerance-protocol/repetitive-tolerance-protocol.component';
 import { GaitComponent } from './gait/gait.component';
 import { PartialsModule } from '@app/admin/partials/partials.module';
+import { MobilityComponent } from './mobility/mobility.component';
+import { AffectComponent } from './affect/affect.component';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { PartialsModule } from '@app/admin/partials/partials.module';
     CoordinationComponent,
     PostureComponent,
     RepetitiveToleranceProtocolComponent,
-    GaitComponent],
+    GaitComponent,
+    MobilityComponent,
+    AffectComponent],
 
   exports: [GripStrengthComponent,
     MusclePowerComponent,
@@ -37,7 +41,9 @@ import { PartialsModule } from '@app/admin/partials/partials.module';
     CoordinationComponent,
     PostureComponent,
     RepetitiveToleranceProtocolComponent,
-    GaitComponent],
+    GaitComponent,
+    MobilityComponent,
+    AffectComponent],
 
   entryComponents: [
     GripStrengthComponent,
