@@ -9,6 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 @Component({
   selector: 'app-edit-event',

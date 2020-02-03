@@ -36,15 +36,9 @@
                                     <mat-form-field>
                                         <mat-label>Email</mat-label>
                                         <input type="email" matInput placeholder="email@example.com"
-                                            formControlName="email" required>
+                                            formControlName="email">
                                         <mat-error class="error-message" *ngIf="lawFirmForm.get('email').touched
-                                            && lawFirmForm.get('email').hasError('required')">
-                                            Email Address is Required
-                                        </mat-error>
-
-                                        <mat-error class="error-message" *ngIf="lawFirmForm.get('email').touched
-                                            && lawFirmForm.get('email').hasError('email')
-                                            && !lawFirmForm.get('email').hasError('required')">
+                                            && lawFirmForm.get('email').hasError('email')">
                                             Please Enter a Valid Email Address
                                         </mat-error>
                                     </mat-form-field>

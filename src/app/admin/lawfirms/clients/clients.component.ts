@@ -21,7 +21,7 @@ import * as moment from 'moment';
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy]
+  providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 

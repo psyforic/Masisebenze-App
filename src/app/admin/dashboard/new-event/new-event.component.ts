@@ -1,3 +1,4 @@
+import { MAT_DATE_LOCALE } from '@angular/material';
 import {
   Component,
   OnInit,
@@ -92,14 +93,14 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
   open(arg) {
     this.getEvents();
     this.getLawFirms();
-    this.date = arg.dateStr;
+    this.date = moment(arg.dateStr).format('DD/MM/YYYY');
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => { }, () => { });
   }
   save(form: NgForm) {
     this.isSaving = true;
-    this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
-    this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'DD-MM-YYYY HH:mm Z');
+    this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'DD-MM-YYYY HH:mm Z');
     this.bookingService.createBooking(this.booking)
       .pipe(finalize(() => {
         this.isSaving = false;

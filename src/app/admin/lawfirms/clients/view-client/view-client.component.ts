@@ -1,3 +1,4 @@
+import { Event } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
@@ -66,10 +67,7 @@ interface DocumentNode {
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy, LawFirmServiceProxy,
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE], useValue: { useUtc: false } },
-
-    { provide: MAT_DATE_FORMATS, useValue: DD_MM_YYYY_Format }]
+  providers: [ClientServiceProxy, DocumentServiceProxy, LawFirmServiceProxy]
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
@@ -111,9 +109,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   currentHistory = '';
   uploadedImage = '';
   photoUrl: string;
-  dateOfInjury: string;
-  courtDate = '';
-  assessmentDate = '';
+  dateOfInjury: any;
+  courtDate: any;
+  assessmentDate: any;
 
   imageChangedEvent: any = '';
   croppedImage: any = '';
@@ -190,10 +188,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.city = this.client.address.city;
         this.postalCode = this.client.address.postalCode;
         this.province = this.client.address.province;
-        this.dateOfInjury = moment(this.client.dateOfInjury).format('YYYY-MM-DD');
-        this.courtDate = moment(this.client.courtDate).format('YYYY-MM-DD');
-        this.assessmentDate = moment(this.client.assessmentDate).format('YYYY-MM-DD');
-        console.log(this.client.assessmentDate);
+        this.dateOfInjury = this.client.dateOfInjury.toDate();
+        this.courtDate = this.client.courtDate.toDate();
+        this.assessmentDate = this.client.assessmentDate.toDate();
         this.isLoading = false;
       })))
       .subscribe((result) => {
@@ -222,11 +219,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   openCameraModal() {
     this.takePhoto.open();
   }
-  injuryDateChanged(event) {
-    console.log(event);
+  injuryDateChanged(event, ctrl) {
+    this.dateOfInjury = ctrl.value;
   }
-  courtDateChanged(event) {
-    console.log(event);
+  courtDateChanged(event, crtl) {
+    this.courtDate = crtl.value;
   }
   save() {
     this.isLoading = true;
@@ -236,18 +233,42 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.client.address.city = this.city;
     this.client.address.postalCode = this.postalCode;
     this.client.address.province = this.province;
-    const newDate = new Date(this.dateOfInjury);
-    const courtDate = new Date(this.courtDate);
-    const formattedInjuryDate = moment(newDate, 'YYYY-MM-DD');
-    const formattedCourtDate = moment(courtDate, 'YYYY-MM-DD');
-    console.log(newDate);
-    console.log(formattedInjuryDate);
-    console.log(courtDate);
-    console.log(formattedCourtDate);
-    this.client.dateOfInjury = formattedInjuryDate;
-    this.client.courtDate = formattedCourtDate;
+    this.client.dateOfInjury = this.dateOfInjury;
+    this.client.courtDate = this.courtDate;
+    this.client.assessmentDate = this.assessmentDate;
     if (this.addressId !== 0) {
       this.client.addressId = this.addressId;
+    }
+    let hoursDiff;
+    let minutesDiff;
+    // set Date of injury
+    if (this.dateOfInjury !== null && this.dateOfInjury !== 'undefined') {
+      this.dateOfInjury = new Date(this.dateOfInjury);
+      hoursDiff = this.dateOfInjury.getHours() - this.dateOfInjury.getTimezoneOffset() / 60;
+      minutesDiff = (this.dateOfInjury.getHours() - this.dateOfInjury.getTimezoneOffset()) % 60;
+      this.dateOfInjury.setHours(hoursDiff);
+      this.dateOfInjury.setMinutes(minutesDiff);
+      this.client.dateOfInjury = this.dateOfInjury;
+    }
+
+    // set Court date
+    if (this.courtDate !== null && this.courtDate !== 'undefined') {
+      this.courtDate = new Date(this.courtDate);
+      hoursDiff = this.dateOfInjury.getHours() - this.courtDate.getTimezoneOffset() / 60;
+      minutesDiff = (this.courtDate.getHours() - this.courtDate.getTimezoneOffset()) % 60;
+      this.courtDate.setHours(hoursDiff);
+      this.courtDate.setMinutes(minutesDiff);
+      this.client.courtDate = this.courtDate;
+    }
+
+    // set Assessment date
+    if (this.assessmentDate != null && this.assessmentDate !== 'undefined') {
+      this.assessmentDate = new Date(this.assessmentDate);
+      hoursDiff = this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset() / 60;
+      minutesDiff = (this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset()) % 60;
+      this.assessmentDate.setHours(hoursDiff);
+      this.assessmentDate.setMinutes(minutesDiff);
+      this.client.assessmentDate = this.assessmentDate;
     }
     this.clientService.editClient(this.client)
       .pipe(finalize(() => {

@@ -8,6 +8,7 @@ import { NewEventComponent } from './new-event/new-event.component';
 import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-sheet.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { FormsModule } from '@angular/forms';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 
 @NgModule({
@@ -18,6 +19,9 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     NgbModule,
     FullCalendarModule,
+  ],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   entryComponents: [NewEventComponent, ClientBottomSheetComponent, EditEventComponent]
 })

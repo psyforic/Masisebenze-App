@@ -33,7 +33,7 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
   initializeForm() {
     this.lawFirmForm = this.fb.group({
       companyName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.email]],
       phone: ['', Validators.required],
       fax: [''],
       line1: ['', Validators.required],

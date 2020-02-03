@@ -15,6 +15,8 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
 import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
 import { AssessmentsModule } from './assessments/assessments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { MAT_DATE_LOCALE } from '@angular/material';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -39,6 +41,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     NewClientComponent
   ],
   entryComponents: [NewClientComponent, CameraModalComponent],
-  providers: [NgbActiveModal]
+  providers: [NgbActiveModal,
+      {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+      {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}]
 })
 export class ClientsModule { }
