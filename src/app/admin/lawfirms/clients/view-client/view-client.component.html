@@ -99,10 +99,10 @@
                                                     <div class="col-md-6">
 
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="picker" id="dateValue"
+                                                            <input matInput #injuryDate="ngModel" [matDatepicker]="picker" id="dateValue"
                                                                 placeholder="Date of Injury" [(ngModel)]="dateOfInjury"
                                                                 name="dateOfInjury"
-                                                                (dateInput)="injuryDateChanged($event)"
+                                                                (dateInput)="injuryDateChanged($event,injuryDate)"
                                                                 (dateChange)="setFormTouched(clientForm)" readonly>
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
@@ -114,10 +114,10 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="courtDatePicker"
+                                                            <input matInput #cDate = "ngModel" [matDatepicker]="courtDatePicker"
                                                                 id="courtDateValue" placeholder="Court Date"
                                                                 [(ngModel)]="courtDate" name="courtDate"
-                                                                (dateInput)="courtDateChanged($event)"
+                                                                (dateInput)="courtDateChanged($event,cDate)"
                                                                 (dateChange)="setFormTouched(clientForm)" readonly>
                                                             <mat-datepicker-toggle matSuffix [for]="courtDatePicker">
                                                             </mat-datepicker-toggle>
@@ -128,7 +128,9 @@
                                                     <div class="col-md-6">
                                                         <mat-form-field>
                                                             <input matInput [matDatepicker]="assessmentDatePicker"
-                                                                placeholder="Assessment Date" [value]="assessmentDate"
+                                                                placeholder="Assessment Date" [(ngModel)]="assessmentDate"
+                                                                name="assessmentDate" id="assessmentDate"
+                                                                (dateChange)="setFormTouched(clientForm)"
                                                                 readonly>
                                                             <mat-datepicker-toggle matSuffix
                                                                 [for]="assessmentDatePicker">

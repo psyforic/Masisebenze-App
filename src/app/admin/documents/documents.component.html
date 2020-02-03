@@ -77,9 +77,10 @@
                           Date Authored
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file; let i = index;">
-                          <mat-form-field *ngIf="!file.identifier && file.name !=='Copy of Id or smartcard'">
+                          <mat-form-field *ngIf="!file.identifier && (file.name !=='Copy of Id or smartcard' &&
+                          file.name !=='Copy of passport' && file.name !== 'Hospital records' && file.name !=='Clinical notes')">
                             <input *ngIf="showInput" id="date{{i}}" #fileDate matInput [matDatepicker]="picker"
-                              placeholder="Choose a date" name="date" readonly>
+                              placeholder="Choose a date" name="date" readonly required>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
