@@ -85,6 +85,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('mobility', { static: false }) openMobility: MobilityComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
   documents: DocumentListDto[] = [];
+  allDocuments: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
   medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
   treeControl = new NestedTreeControl<DocumentNode>(node => node.children);
@@ -159,7 +160,33 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   getChildDocuments() {
     this.documentService.getAllChildDocuments(this.clientId)
       .subscribe(result => {
+        let isChild = false;
         this.childDocuments = result.items;
+        // this.childDocuments.forEach((cd) => {
+        //   const myList: string[] = [];;
+        //   this.dataSource.data.forEach((data) => {
+        //     const list = this.childDocuments.filter(x => x.parentDocId === data.id);
+        //     if (list.filter(f => f.id == cd.id).length > 0) {
+        //       isChild = true;
+        //     } else {
+
+        //     }
+        //   });
+        //   //console.log(list);
+        //   if (isChild) {
+        //     //
+        //     const filtered =  {
+        //         name: cd.name,
+        //         url: cd.fileUrl,
+        //         id: cd.id,
+        //         parentDocId: cd.parentDocId,
+        //         children: [{ name: cd.name, url: cd.fileUrl, id: cd.id }]
+        //     };
+        //     this.dataSource.data.push(filtered);
+
+        //   }
+        // });
+        // console.log(this.dataSource.data);
       });
   }
   ngOnInit() {
@@ -183,14 +210,21 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.isLoading = true;
     this.clientService.getDetail(this.clientId)
       .pipe((finalize(() => {
-        this.line1 = this.client.address.line1;
-        this.line2 = this.client.address.line2;
-        this.city = this.client.address.city;
-        this.postalCode = this.client.address.postalCode;
-        this.province = this.client.address.province;
-        this.dateOfInjury = this.client.dateOfInjury.toDate();
-        this.courtDate = this.client.courtDate.toDate();
-        this.assessmentDate = this.client.assessmentDate.toDate();
+        this.line1 = this.client.address ? this.client.address.line1 : '';
+        this.line2 = this.client.address ? this.client.address.line2 : '';
+        this.city = this.client.address ? this.client.address.city : '';
+        this.postalCode = this.client.address ? this.client.address.postalCode : '';
+        this.province = this.client.address ? this.client.address.province : '';
+        if (this.client.dateOfInjury != null) {
+          this.dateOfInjury = this.client.dateOfInjury.toDate();
+        }
+        if (this.client.courtDate != null) {
+          this.courtDate = this.client.courtDate.toDate();
+        }
+        if (this.client.assessmentDate != null) {
+          this.assessmentDate = this.client.assessmentDate.toDate();
+        }
+
         this.isLoading = false;
       })))
       .subscribe((result) => {
@@ -262,7 +296,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     }
 
     // set Assessment date
-    if (this.assessmentDate != null && this.assessmentDate !== 'undefined') {
+    if (this.assessmentDate !== null && this.assessmentDate !== 'undefined') {
       this.assessmentDate = new Date(this.assessmentDate);
       hoursDiff = this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset() / 60;
       minutesDiff = (this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset()) % 60;

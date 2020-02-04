@@ -20,7 +20,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   clientForm: FormGroup;
   clientInput: CreateClientInput = new CreateClientInput();
   isSaving = false;
-  date: string;
+  date: any;
   constructor(
     private injector: Injector,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -31,7 +31,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   }
 
   ngOnInit() {
-    this.date = this.data.date;
+    this.date = new Date(this.data.date);
     this.initializeForm();
   }
   initializeForm() {
@@ -56,8 +56,16 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     this.clientInput.lawFirmId = this.data.lawFirmId;
     this.clientInput.attorneyId = this.data.attorneyId;
     this.clientInput.contactId = this.data.contactId;
-    const newDate = moment(this.date).format('YYYY-MM-DD');
-    this.clientInput.assessmentDate = moment(newDate);
+    let hoursDiff;
+    let minutesDiff;
+    if (this.date !== null && this.date !== 'undefined') {
+      this.date = new Date(this.date);
+      hoursDiff = this.date.getHours() - this.date.getTimezoneOffset() / 60;
+      minutesDiff = (this.date.getHours() - this.date.getTimezoneOffset()) % 60;
+      this.date.setHours(hoursDiff);
+      this.date.setMinutes(minutesDiff);
+      this.clientInput.assessmentDate = this.date;
+    }
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;

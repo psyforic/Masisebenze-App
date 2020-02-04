@@ -18,8 +18,8 @@
             <div class="col-lg-6">
               <mat-form-field>
                 <mat-label>Parent Document</mat-label>
-                <mat-select required (selectionChange)="selectedId($event)" formControlName="parentDocId" required>
-                  <mat-option *ngFor="let document of documents" value="{{document.id}}">
+                <mat-select  required formControlName="parentDocId">
+                  <mat-option *ngFor="let document of documents" value="{{document.id}}" (onSelectionChange)="selectedId($event, document.name)">
                     {{document.name}}
                   </mat-option>
                 </mat-select>
@@ -52,10 +52,10 @@
               </mat-form-field>
 
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" [hidden]="!isRequired(fileName)">
               <mat-form-field>
-                <input matInput [matDatepicker]="picker" formControlName="authorDate" placeholder="Date Authored"
-                  name="date" readonly>
+                <input [required]="isRequired(fileName)" matInput [matDatepicker]="picker" formControlName="authorDate"
+                  placeholder="Date Authored" name="date" readonly>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
                 <mat-error *ngIf="documentForm.get('authorDate').touched
