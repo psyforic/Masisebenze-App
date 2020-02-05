@@ -124,7 +124,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   childDocuments: DocumentListDto[] = [];
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
-  hidden = true;
+  hidden = false;
 
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
@@ -313,6 +313,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getClient();
         this.isLoading = false;
       }, error => {
+        console.log(error);
         this.isLoading = false;
       });
   }

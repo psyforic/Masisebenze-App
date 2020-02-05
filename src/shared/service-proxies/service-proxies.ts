@@ -27,7 +27,7 @@ export class AccountServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     isTenantAvailable(input: IsTenantAvailableInput | null | undefined): Observable<IsTenantAvailableOutput> {
@@ -41,7 +41,7 @@ export class AccountServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -62,8 +62,8 @@ export class AccountServiceProxy {
 
     protected processIsTenantAvailable(response: HttpResponseBase): Observable<IsTenantAvailableOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -83,7 +83,7 @@ export class AccountServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     register(input: RegisterInput | null | undefined): Observable<RegisterOutput> {
@@ -97,7 +97,7 @@ export class AccountServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -118,8 +118,8 @@ export class AccountServiceProxy {
 
     protected processRegister(response: HttpResponseBase): Observable<RegisterOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -151,7 +151,7 @@ export class ActivityServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createActivityLog(input: CreateActivityLogInput | null | undefined): Observable<void> {
@@ -165,7 +165,7 @@ export class ActivityServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -185,8 +185,8 @@ export class ActivityServiceProxy {
 
     protected processCreateActivityLog(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -203,7 +203,7 @@ export class ActivityServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editActivityLog(input: ActivityLogDetailOutput | null | undefined): Observable<void> {
@@ -217,7 +217,7 @@ export class ActivityServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -237,8 +237,8 @@ export class ActivityServiceProxy {
 
     protected processEditActivityLog(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -255,13 +255,13 @@ export class ActivityServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getById(input: string | null | undefined): Observable<ActivityLogListDto> {
         let url_ = this.baseUrl + "/api/services/app/Activity/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -288,8 +288,8 @@ export class ActivityServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<ActivityLogListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -309,13 +309,13 @@ export class ActivityServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: string | null | undefined): Observable<ActivityLogDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Activity/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -342,8 +342,8 @@ export class ActivityServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<ActivityLogDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -375,7 +375,7 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createClientAssessment(input: CreateClientAssessmentInput | null | undefined): Observable<void> {
@@ -389,7 +389,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -409,8 +409,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateClientAssessment(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -427,13 +427,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getClientAssessment(clientId: string | null | undefined): Observable<ClientAssessmentDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetClientAssessment?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -460,8 +460,8 @@ export class AssessmentServiceProxy {
 
     protected processGetClientAssessment(response: HttpResponseBase): Observable<ClientAssessmentDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -481,13 +481,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getClientAssessments(id: string | null | undefined): Observable<ListResultDtoOfClientAssessmentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetClientAssessments?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -514,8 +514,8 @@ export class AssessmentServiceProxy {
 
     protected processGetClientAssessments(response: HttpResponseBase): Observable<ListResultDtoOfClientAssessmentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -535,13 +535,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createGripStrength(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateGripStrength?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -567,8 +567,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateGripStrength(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -585,17 +585,17 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateGripStrength(clientId: string | null | undefined, side: number | null | undefined, input: GripStrengthDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateGripStrength?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -605,7 +605,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -625,8 +625,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateGripStrength(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -643,16 +643,16 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getGripStrength(clientId: string | null | undefined, side: number | null | undefined): Observable<GripStrengthDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetGripStrength?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -679,8 +679,8 @@ export class AssessmentServiceProxy {
 
     protected processGetGripStrength(response: HttpResponseBase): Observable<GripStrengthDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -700,13 +700,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createMusclePower(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateMusclePower?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -732,8 +732,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateMusclePower(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -750,14 +750,14 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateMusclePower(clientId: string | null | undefined, input: MusclePowerDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateMusclePower?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -767,7 +767,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -787,8 +787,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateMusclePower(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -805,17 +805,17 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param type (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param type (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateMusclePowerOption(clientId: string | null | undefined, type: number | null | undefined, input: MusclePowerOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateMusclePowerOption?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (type !== undefined)
-            url_ += "Type=" + encodeURIComponent("" + type) + "&";
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -825,7 +825,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -845,8 +845,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateMusclePowerOption(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -863,16 +863,16 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param type (optional)
+     * @param clientId (optional) 
+     * @param type (optional) 
      * @return Success
      */
     getMusclePowerOption(clientId: string | null | undefined, type: number | null | undefined): Observable<MusclePowerOptionDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetMusclePowerOption?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (type !== undefined)
-            url_ += "Type=" + encodeURIComponent("" + type) + "&";
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -899,8 +899,8 @@ export class AssessmentServiceProxy {
 
     protected processGetMusclePowerOption(response: HttpResponseBase): Observable<MusclePowerOptionDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -920,13 +920,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createGait(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateGait?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -952,8 +952,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateGait(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -970,14 +970,14 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateGait(clientId: string | null | undefined, input: GaitDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateGait?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -987,7 +987,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -1007,8 +1007,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateGait(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1025,13 +1025,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getGait(clientId: string | null | undefined): Observable<GaitDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetGait?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1058,8 +1058,8 @@ export class AssessmentServiceProxy {
 
     protected processGetGait(response: HttpResponseBase): Observable<GaitDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1079,13 +1079,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createPosture(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreatePosture?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1111,8 +1111,8 @@ export class AssessmentServiceProxy {
 
     protected processCreatePosture(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1129,14 +1129,14 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param postureOptionId (optional)
-     * @param input (optional)
+     * @param postureOptionId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updatePostureOption(postureOptionId: string | null | undefined, input: PostureOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdatePostureOption?";
         if (postureOptionId !== undefined)
-            url_ += "postureOptionId=" + encodeURIComponent("" + postureOptionId) + "&";
+            url_ += "postureOptionId=" + encodeURIComponent("" + postureOptionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1146,7 +1146,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -1166,8 +1166,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdatePostureOption(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1184,13 +1184,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getPosture(clientId: string | null | undefined): Observable<ListResultDtoOfPostureOptionListDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetPosture?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1217,8 +1217,8 @@ export class AssessmentServiceProxy {
 
     protected processGetPosture(response: HttpResponseBase): Observable<ListResultDtoOfPostureOptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1238,13 +1238,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createBorgBalance(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateBorgBalance?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1270,8 +1270,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateBorgBalance(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1288,14 +1288,14 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param borgBalanceOptionId (optional)
-     * @param input (optional)
+     * @param borgBalanceOptionId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateBorgBalanceOption(borgBalanceOptionId: string | null | undefined, input: BorgBalanceOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateBorgBalanceOption?";
         if (borgBalanceOptionId !== undefined)
-            url_ += "borgBalanceOptionId=" + encodeURIComponent("" + borgBalanceOptionId) + "&";
+            url_ += "borgBalanceOptionId=" + encodeURIComponent("" + borgBalanceOptionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1305,7 +1305,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -1325,8 +1325,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateBorgBalanceOption(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1343,13 +1343,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getBorgBalance(clientId: string | null | undefined): Observable<ListResultDtoOfBorgBalanceOptionListDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetBorgBalance?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1376,8 +1376,8 @@ export class AssessmentServiceProxy {
 
     protected processGetBorgBalance(response: HttpResponseBase): Observable<ListResultDtoOfBorgBalanceOptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1397,13 +1397,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createSensation(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateSensation?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1429,8 +1429,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateSensation(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1447,17 +1447,17 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateUpperExtremity(clientId: string | null | undefined, side: number | null | undefined, input: SensationOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateUpperExtremity?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1467,7 +1467,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -1487,8 +1487,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateUpperExtremity(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1505,16 +1505,16 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getUpperExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetUpperExtremity?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1541,8 +1541,8 @@ export class AssessmentServiceProxy {
 
     protected processGetUpperExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1562,17 +1562,17 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateTrunkExtremity(clientId: string | null | undefined, side: number | null | undefined, input: SensationOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateTrunkExtremity?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1582,7 +1582,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -1602,8 +1602,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateTrunkExtremity(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1620,16 +1620,16 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getTrunkExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetTrunkExtremity?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1656,8 +1656,8 @@ export class AssessmentServiceProxy {
 
     protected processGetTrunkExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1677,17 +1677,17 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateLowerExtremity(clientId: string | null | undefined, side: number | null | undefined, input: SensationOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateLowerExtremity?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1697,7 +1697,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -1717,8 +1717,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateLowerExtremity(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1735,16 +1735,16 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getLowerExtremity(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfSensationOptionDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetLowerExtremity?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1771,8 +1771,8 @@ export class AssessmentServiceProxy {
 
     protected processGetLowerExtremity(response: HttpResponseBase): Observable<ListResultDtoOfSensationOptionDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1792,13 +1792,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createCoordination(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateCoordination?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1824,8 +1824,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateCoordination(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1842,14 +1842,14 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param coordinationId (optional)
-     * @param input (optional)
+     * @param coordinationId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateCoordinationOption(coordinationId: string | null | undefined, input: CoordinationOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateCoordinationOption?";
         if (coordinationId !== undefined)
-            url_ += "coordinationId=" + encodeURIComponent("" + coordinationId) + "&";
+            url_ += "coordinationId=" + encodeURIComponent("" + coordinationId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -1859,7 +1859,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -1879,8 +1879,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateCoordinationOption(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1897,13 +1897,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getCoordination(clientId: string | null | undefined): Observable<ListResultDtoOfCoordinationOptionListDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetCoordination?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1930,8 +1930,8 @@ export class AssessmentServiceProxy {
 
     protected processGetCoordination(response: HttpResponseBase): Observable<ListResultDtoOfCoordinationOptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -1951,13 +1951,13 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     createCoordinationIncomplete(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateCoordinationIncomplete?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1983,8 +1983,8 @@ export class AssessmentServiceProxy {
 
     protected processCreateCoordinationIncomplete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2001,14 +2001,14 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateCoordinationIncomplete(clientId: string | null | undefined, input: CoordinationIncompleteDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateCoordinationIncomplete?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -2018,7 +2018,7 @@ export class AssessmentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -2038,8 +2038,8 @@ export class AssessmentServiceProxy {
 
     protected processUpdateCoordinationIncomplete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2056,16 +2056,16 @@ export class AssessmentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getCoordinationIncomplete(clientId: string | null | undefined, side: number | null | undefined): Observable<CoordinationIncompleteDto> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/GetCoordinationIncomplete?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2092,8 +2092,8 @@ export class AssessmentServiceProxy {
 
     protected processGetCoordinationIncomplete(response: HttpResponseBase): Observable<CoordinationIncompleteDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2125,7 +2125,7 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createAttorney(input: CreateAttorneyInput | null | undefined): Observable<void> {
@@ -2139,7 +2139,7 @@ export class AttorneyServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -2159,8 +2159,8 @@ export class AttorneyServiceProxy {
 
     protected processCreateAttorney(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2177,19 +2177,19 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfAttorneyListDto> {
         let url_ = this.baseUrl + "/api/services/app/Attorney/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2216,8 +2216,8 @@ export class AttorneyServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfAttorneyListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2237,7 +2237,7 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editAttorney(input: AttorneyDetailOutput | null | undefined): Observable<void> {
@@ -2251,7 +2251,7 @@ export class AttorneyServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -2271,8 +2271,8 @@ export class AttorneyServiceProxy {
 
     protected processEditAttorney(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2289,13 +2289,63 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Attorney/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
      * @return Success
      */
     getById(input: string | null | undefined): Observable<AttorneyListDto> {
         let url_ = this.baseUrl + "/api/services/app/Attorney/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2322,8 +2372,8 @@ export class AttorneyServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<AttorneyListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2343,13 +2393,13 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: string | null | undefined): Observable<AttorneyDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Attorney/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2376,8 +2426,8 @@ export class AttorneyServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<AttorneyDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2397,13 +2447,13 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: string | null | undefined): Observable<AttorneyListDto> {
         let url_ = this.baseUrl + "/api/services/app/Attorney/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2430,8 +2480,8 @@ export class AttorneyServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<AttorneyListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2451,7 +2501,7 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateAttorneyInput | null | undefined): Observable<AttorneyListDto> {
@@ -2465,7 +2515,7 @@ export class AttorneyServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -2486,8 +2536,8 @@ export class AttorneyServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<AttorneyListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2507,7 +2557,7 @@ export class AttorneyServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: AttorneyListDto | null | undefined): Observable<AttorneyListDto> {
@@ -2521,7 +2571,7 @@ export class AttorneyServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -2542,8 +2592,8 @@ export class AttorneyServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<AttorneyListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2561,56 +2611,6 @@ export class AttorneyServiceProxy {
         }
         return _observableOf<AttorneyListDto>(<any>null);
     }
-
-    /**
-     * @param id (optional)
-     * @return Success
-     */
-    delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Attorney/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
 }
 
 @Injectable()
@@ -2625,13 +2625,13 @@ export class BalanceProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     create(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/Create?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2657,8 +2657,8 @@ export class BalanceProtocolServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2675,13 +2675,13 @@ export class BalanceProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     get(clientId: string | null | undefined): Observable<ListResultDtoOfBalanceProtocolOptionListDto> {
         let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/Get?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2708,8 +2708,8 @@ export class BalanceProtocolServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfBalanceProtocolOptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2729,14 +2729,14 @@ export class BalanceProtocolServiceProxy {
     }
 
     /**
-     * @param balanceProtocolOptionId (optional)
-     * @param input (optional)
+     * @param balanceProtocolOptionId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     update(balanceProtocolOptionId: string | null | undefined, input: BalanceProtocolOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/Update?";
         if (balanceProtocolOptionId !== undefined)
-            url_ += "BalanceProtocolOptionId=" + encodeURIComponent("" + balanceProtocolOptionId) + "&";
+            url_ += "BalanceProtocolOptionId=" + encodeURIComponent("" + balanceProtocolOptionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -2746,7 +2746,7 @@ export class BalanceProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -2766,8 +2766,8 @@ export class BalanceProtocolServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2796,7 +2796,7 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createBooking(input: CreateBookingInput | null | undefined): Observable<void> {
@@ -2810,7 +2810,7 @@ export class BookingServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -2830,8 +2830,8 @@ export class BookingServiceProxy {
 
     protected processCreateBooking(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2848,7 +2848,7 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editBooking(input: BookingDetailOutput | null | undefined): Observable<void> {
@@ -2862,7 +2862,7 @@ export class BookingServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -2882,8 +2882,8 @@ export class BookingServiceProxy {
 
     protected processEditBooking(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2900,13 +2900,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: string | null | undefined): Observable<BookingDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2933,8 +2933,8 @@ export class BookingServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<BookingDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -2954,13 +2954,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getById(input: string | null | undefined): Observable<BookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2987,8 +2987,8 @@ export class BookingServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<BookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3008,13 +3008,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getBookings(input: any | null | undefined): Observable<ListResultDtoOfBookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetBookings?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3041,8 +3041,8 @@ export class BookingServiceProxy {
 
     protected processGetBookings(response: HttpResponseBase): Observable<ListResultDtoOfBookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3062,7 +3062,7 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createEvent(input: CreateEventInput | null | undefined): Observable<void> {
@@ -3076,7 +3076,7 @@ export class BookingServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -3096,8 +3096,8 @@ export class BookingServiceProxy {
 
     protected processCreateEvent(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3114,13 +3114,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getAllEvents(input: any | null | undefined): Observable<ListResultDtoOfEventListDto> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetAllEvents?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3147,8 +3147,8 @@ export class BookingServiceProxy {
 
     protected processGetAllEvents(response: HttpResponseBase): Observable<ListResultDtoOfEventListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3168,13 +3168,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getEventDetail(id: number | null | undefined): Observable<EventDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetEventDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3201,8 +3201,8 @@ export class BookingServiceProxy {
 
     protected processGetEventDetail(response: HttpResponseBase): Observable<EventDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3222,13 +3222,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getEventById(input: number | null | undefined): Observable<EventListDto> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetEventById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3255,8 +3255,8 @@ export class BookingServiceProxy {
 
     protected processGetEventById(response: HttpResponseBase): Observable<EventListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3276,13 +3276,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getUserBookings(id: string | null | undefined): Observable<ListResultDtoOfBookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetUserBookings?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3309,8 +3309,8 @@ export class BookingServiceProxy {
 
     protected processGetUserBookings(response: HttpResponseBase): Observable<ListResultDtoOfBookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3330,13 +3330,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: string | null | undefined): Observable<BookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/Booking/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3363,8 +3363,8 @@ export class BookingServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<BookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3384,19 +3384,19 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfBookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/Booking/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3423,8 +3423,8 @@ export class BookingServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfBookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3444,7 +3444,7 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateBookingInput | null | undefined): Observable<BookingListDto> {
@@ -3458,7 +3458,7 @@ export class BookingServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -3479,8 +3479,8 @@ export class BookingServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<BookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3500,7 +3500,7 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: BookingListDto | null | undefined): Observable<BookingListDto> {
@@ -3514,7 +3514,7 @@ export class BookingServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -3535,8 +3535,8 @@ export class BookingServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<BookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3556,13 +3556,13 @@ export class BookingServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Booking/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3588,8 +3588,8 @@ export class BookingServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3618,25 +3618,25 @@ export class CalculationsServiceProxy {
     }
 
     /**
-     * @param age (optional)
-     * @param gender (optional)
-     * @param side (optional)
-     * @param weight (optional)
-     * @param machineTest (optional)
+     * @param age (optional) 
+     * @param gender (optional) 
+     * @param side (optional) 
+     * @param weight (optional) 
+     * @param machineTest (optional) 
      * @return Success
      */
     getGripStrengthResults(age: number | null | undefined, gender: number | null | undefined, side: number | null | undefined, weight: number | null | undefined, machineTest: number | null | undefined): Observable<AssessmentResult> {
         let url_ = this.baseUrl + "/api/services/app/Calculations/GetGripStrengthResults?";
         if (age !== undefined)
-            url_ += "Age=" + encodeURIComponent("" + age) + "&";
+            url_ += "Age=" + encodeURIComponent("" + age) + "&"; 
         if (gender !== undefined)
-            url_ += "Gender=" + encodeURIComponent("" + gender) + "&";
+            url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         if (weight !== undefined)
-            url_ += "Weight=" + encodeURIComponent("" + weight) + "&";
+            url_ += "Weight=" + encodeURIComponent("" + weight) + "&"; 
         if (machineTest !== undefined)
-            url_ += "MachineTest=" + encodeURIComponent("" + machineTest) + "&";
+            url_ += "MachineTest=" + encodeURIComponent("" + machineTest) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3663,8 +3663,8 @@ export class CalculationsServiceProxy {
 
     protected processGetGripStrengthResults(response: HttpResponseBase): Observable<AssessmentResult> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3684,16 +3684,16 @@ export class CalculationsServiceProxy {
     }
 
     /**
-     * @param seconds (optional)
-     * @param type (optional)
+     * @param seconds (optional) 
+     * @param type (optional) 
      * @return Success
      */
     getCoordinationCompleteResults(seconds: number | null | undefined, type: number | null | undefined): Observable<AssessmentResult> {
         let url_ = this.baseUrl + "/api/services/app/Calculations/GetCoordinationCompleteResults?";
         if (seconds !== undefined)
-            url_ += "Seconds=" + encodeURIComponent("" + seconds) + "&";
+            url_ += "Seconds=" + encodeURIComponent("" + seconds) + "&"; 
         if (type !== undefined)
-            url_ += "Type=" + encodeURIComponent("" + type) + "&";
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3720,8 +3720,8 @@ export class CalculationsServiceProxy {
 
     protected processGetCoordinationCompleteResults(response: HttpResponseBase): Observable<AssessmentResult> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3753,7 +3753,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createClient(input: CreateClientInput | null | undefined): Observable<void> {
@@ -3767,7 +3767,7 @@ export class ClientServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -3787,8 +3787,8 @@ export class ClientServiceProxy {
 
     protected processCreateClient(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3805,7 +3805,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editClient(input: ClientDetailOutput | null | undefined): Observable<void> {
@@ -3813,12 +3813,13 @@ export class ClientServiceProxy {
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
+
         let options_ : any = {
             body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -3838,8 +3839,8 @@ export class ClientServiceProxy {
 
     protected processEditClient(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3856,16 +3857,16 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param id (optional)
-     * @param url (optional)
+     * @param id (optional) 
+     * @param url (optional) 
      * @return Success
      */
     updateProfilePic(id: string | null | undefined, url: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Client/UpdateProfilePic?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         if (url !== undefined)
-            url_ += "url=" + encodeURIComponent("" + url) + "&";
+            url_ += "url=" + encodeURIComponent("" + url) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3891,8 +3892,8 @@ export class ClientServiceProxy {
 
     protected processUpdateProfilePic(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3909,13 +3910,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Client/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3941,8 +3942,8 @@ export class ClientServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -3959,19 +3960,19 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfClientListDto> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -3998,8 +3999,8 @@ export class ClientServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4019,13 +4020,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getById(input: string | null | undefined): Observable<ClientListDto> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4052,8 +4053,8 @@ export class ClientServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<ClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4073,16 +4074,16 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param attorneyId (optional)
-     * @param contactId (optional)
+     * @param attorneyId (optional) 
+     * @param contactId (optional) 
      * @return Success
      */
     getByContactAttorneyId(attorneyId: string | null | undefined, contactId: string | null | undefined): Observable<ListResultDtoOfClientListDto> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetByContactAttorneyId?";
         if (attorneyId !== undefined)
-            url_ += "AttorneyId=" + encodeURIComponent("" + attorneyId) + "&";
+            url_ += "AttorneyId=" + encodeURIComponent("" + attorneyId) + "&"; 
         if (contactId !== undefined)
-            url_ += "ContactId=" + encodeURIComponent("" + contactId) + "&";
+            url_ += "ContactId=" + encodeURIComponent("" + contactId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4109,8 +4110,8 @@ export class ClientServiceProxy {
 
     protected processGetByContactAttorneyId(response: HttpResponseBase): Observable<ListResultDtoOfClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4130,13 +4131,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: string | null | undefined): Observable<ClientDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4163,8 +4164,8 @@ export class ClientServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<ClientDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4184,7 +4185,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createWorkHistory(input: CreateWorkHistoryInput | null | undefined): Observable<void> {
@@ -4198,7 +4199,7 @@ export class ClientServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -4218,8 +4219,8 @@ export class ClientServiceProxy {
 
     protected processCreateWorkHistory(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4236,13 +4237,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getWorkHistoryDetail(id: string | null | undefined): Observable<WorkHistoryDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetWorkHistoryDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4269,8 +4270,8 @@ export class ClientServiceProxy {
 
     protected processGetWorkHistoryDetail(response: HttpResponseBase): Observable<WorkHistoryDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4290,13 +4291,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getWorkHistoryByClientId(input: string | null | undefined): Observable<WorkHistoryListDto> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetWorkHistoryByClientId?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4323,8 +4324,8 @@ export class ClientServiceProxy {
 
     protected processGetWorkHistoryByClientId(response: HttpResponseBase): Observable<WorkHistoryListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4344,7 +4345,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editWorkHistory(input: WorkHistoryDetailOutput | null | undefined): Observable<void> {
@@ -4358,7 +4359,7 @@ export class ClientServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -4378,8 +4379,8 @@ export class ClientServiceProxy {
 
     protected processEditWorkHistory(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4396,7 +4397,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createMedicalHistory(input: CreateMedicalHistoryInput | null | undefined): Observable<void> {
@@ -4410,7 +4411,7 @@ export class ClientServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -4430,8 +4431,8 @@ export class ClientServiceProxy {
 
     protected processCreateMedicalHistory(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4448,13 +4449,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getMedicalHistoryDetail(id: string | null | undefined): Observable<MedicalHistoryDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetMedicalHistoryDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4481,8 +4482,8 @@ export class ClientServiceProxy {
 
     protected processGetMedicalHistoryDetail(response: HttpResponseBase): Observable<MedicalHistoryDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4502,13 +4503,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getMedicalHistoryByClientId(input: string | null | undefined): Observable<MedicalHistoryListDto> {
         let url_ = this.baseUrl + "/api/services/app/Client/GetMedicalHistoryByClientId?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4535,8 +4536,8 @@ export class ClientServiceProxy {
 
     protected processGetMedicalHistoryByClientId(response: HttpResponseBase): Observable<MedicalHistoryListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4556,7 +4557,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editMedicalHistory(input: MedicalHistoryDetailOutput | null | undefined): Observable<void> {
@@ -4570,7 +4571,7 @@ export class ClientServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -4590,8 +4591,8 @@ export class ClientServiceProxy {
 
     protected processEditMedicalHistory(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4608,13 +4609,13 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: string | null | undefined): Observable<ClientListDto> {
         let url_ = this.baseUrl + "/api/services/app/Client/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4641,8 +4642,8 @@ export class ClientServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<ClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4662,7 +4663,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateClientInput | null | undefined): Observable<ClientListDto> {
@@ -4676,7 +4677,7 @@ export class ClientServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -4697,8 +4698,8 @@ export class ClientServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<ClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4718,7 +4719,7 @@ export class ClientServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: ClientListDto | null | undefined): Observable<ClientListDto> {
@@ -4732,7 +4733,7 @@ export class ClientServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -4753,8 +4754,8 @@ export class ClientServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<ClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4786,7 +4787,7 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createComment(input: CreateCommentInput | null | undefined): Observable<void> {
@@ -4800,7 +4801,7 @@ export class CommentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -4820,8 +4821,8 @@ export class CommentServiceProxy {
 
     protected processCreateComment(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4838,7 +4839,7 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editComment(input: CommentDetailOutput | null | undefined): Observable<void> {
@@ -4852,7 +4853,7 @@ export class CommentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -4872,8 +4873,8 @@ export class CommentServiceProxy {
 
     protected processEditComment(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4890,13 +4891,13 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getById(input: string | null | undefined): Observable<CommentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Comment/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4923,8 +4924,8 @@ export class CommentServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<CommentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4944,13 +4945,13 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: string | null | undefined): Observable<CommentDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Comment/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -4977,8 +4978,8 @@ export class CommentServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<CommentDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -4998,13 +4999,13 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param targetId (optional)
+     * @param targetId (optional) 
      * @return Success
      */
     getUserComments(targetId: string | null | undefined): Observable<CommentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Comment/GetUserComments?";
         if (targetId !== undefined)
-            url_ += "TargetId=" + encodeURIComponent("" + targetId) + "&";
+            url_ += "TargetId=" + encodeURIComponent("" + targetId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5031,8 +5032,8 @@ export class CommentServiceProxy {
 
     protected processGetUserComments(response: HttpResponseBase): Observable<CommentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5052,13 +5053,13 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: string | null | undefined): Observable<CommentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Comment/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5085,8 +5086,8 @@ export class CommentServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<CommentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5106,19 +5107,19 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfCommentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Comment/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5145,8 +5146,8 @@ export class CommentServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfCommentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5166,7 +5167,7 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateCommentInput | null | undefined): Observable<CommentListDto> {
@@ -5180,7 +5181,7 @@ export class CommentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -5201,8 +5202,8 @@ export class CommentServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<CommentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5222,7 +5223,7 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: CommentListDto | null | undefined): Observable<CommentListDto> {
@@ -5236,7 +5237,7 @@ export class CommentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -5257,8 +5258,8 @@ export class CommentServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<CommentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5278,13 +5279,13 @@ export class CommentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Comment/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5310,8 +5311,8 @@ export class CommentServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5340,7 +5341,7 @@ export class ConfigurationServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     changeUiTheme(input: ChangeUiThemeInput | null | undefined): Observable<void> {
@@ -5354,7 +5355,7 @@ export class ConfigurationServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -5374,8 +5375,8 @@ export class ConfigurationServiceProxy {
 
     protected processChangeUiTheme(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5404,7 +5405,7 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createContact(input: CreateContactInput | null | undefined): Observable<void> {
@@ -5418,7 +5419,7 @@ export class ContactServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -5438,8 +5439,8 @@ export class ContactServiceProxy {
 
     protected processCreateContact(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5456,7 +5457,7 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editContact(input: ContactDetailOutput | null | undefined): Observable<void> {
@@ -5470,7 +5471,7 @@ export class ContactServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -5490,8 +5491,8 @@ export class ContactServiceProxy {
 
     protected processEditContact(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5508,13 +5509,63 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Contact/Delete?";
+        if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
      * @return Success
      */
     getById(input: string | null | undefined): Observable<ContactListDto> {
         let url_ = this.baseUrl + "/api/services/app/Contact/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5541,8 +5592,8 @@ export class ContactServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<ContactListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5562,13 +5613,13 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: string | null | undefined): Observable<ContactDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Contact/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5595,8 +5646,8 @@ export class ContactServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<ContactDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5616,13 +5667,13 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getByLawFirm(input: string | null | undefined): Observable<ListResultDtoOfContactListDto> {
         let url_ = this.baseUrl + "/api/services/app/Contact/GetByLawFirm?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5649,8 +5700,8 @@ export class ContactServiceProxy {
 
     protected processGetByLawFirm(response: HttpResponseBase): Observable<ListResultDtoOfContactListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5670,13 +5721,13 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: string | null | undefined): Observable<ContactListDto> {
         let url_ = this.baseUrl + "/api/services/app/Contact/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5703,8 +5754,8 @@ export class ContactServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<ContactListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5724,19 +5775,19 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfContactListDto> {
         let url_ = this.baseUrl + "/api/services/app/Contact/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5763,8 +5814,8 @@ export class ContactServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfContactListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5784,7 +5835,7 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateContactInput | null | undefined): Observable<ContactListDto> {
@@ -5798,7 +5849,7 @@ export class ContactServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -5819,8 +5870,8 @@ export class ContactServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<ContactListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5840,7 +5891,7 @@ export class ContactServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: ContactListDto | null | undefined): Observable<ContactListDto> {
@@ -5854,7 +5905,7 @@ export class ContactServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -5875,8 +5926,8 @@ export class ContactServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<ContactListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -5894,56 +5945,6 @@ export class ContactServiceProxy {
         }
         return _observableOf<ContactListDto>(<any>null);
     }
-
-    /**
-     * @param id (optional)
-     * @return Success
-     */
-    delete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Contact/Delete?";
-        if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDelete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDelete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDelete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
 }
 
 @Injectable()
@@ -5958,13 +5959,13 @@ export class CrawlingProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     create(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Create?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5990,8 +5991,8 @@ export class CrawlingProtocolServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6008,13 +6009,13 @@ export class CrawlingProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     get(clientId: string | null | undefined): Observable<CrawlingProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Get?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6041,8 +6042,8 @@ export class CrawlingProtocolServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<CrawlingProtocolDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6062,13 +6063,13 @@ export class CrawlingProtocolServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getById(id: string | null | undefined): Observable<CrawlingProtocolDto> {
         let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/GetById?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6095,8 +6096,8 @@ export class CrawlingProtocolServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<CrawlingProtocolDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6116,14 +6117,14 @@ export class CrawlingProtocolServiceProxy {
     }
 
     /**
-     * @param crawlingProtocolId (optional)
-     * @param input (optional)
+     * @param crawlingProtocolId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     update(crawlingProtocolId: string | null | undefined, input: CrawlingProtocolDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/CrawlingProtocol/Update?";
         if (crawlingProtocolId !== undefined)
-            url_ += "crawlingProtocolId=" + encodeURIComponent("" + crawlingProtocolId) + "&";
+            url_ += "crawlingProtocolId=" + encodeURIComponent("" + crawlingProtocolId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -6133,7 +6134,7 @@ export class CrawlingProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -6153,8 +6154,8 @@ export class CrawlingProtocolServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6183,13 +6184,13 @@ export class DashBoardServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getLatestActivity(input: any | null | undefined): Observable<ListResultDtoOfBookingListDto> {
         let url_ = this.baseUrl + "/api/services/app/DashBoard/GetLatestActivity?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6216,8 +6217,8 @@ export class DashBoardServiceProxy {
 
     protected processGetLatestActivity(response: HttpResponseBase): Observable<ListResultDtoOfBookingListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6237,13 +6238,13 @@ export class DashBoardServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getNewClients(input: any | null | undefined): Observable<ListResultDtoOfClientListDto> {
         let url_ = this.baseUrl + "/api/services/app/DashBoard/GetNewClients?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6270,8 +6271,8 @@ export class DashBoardServiceProxy {
 
     protected processGetNewClients(response: HttpResponseBase): Observable<ListResultDtoOfClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6291,13 +6292,13 @@ export class DashBoardServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getNumberFiles(input: any | null | undefined): Observable<number> {
         let url_ = this.baseUrl + "/api/services/app/DashBoard/GetNumberFiles?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6324,8 +6325,8 @@ export class DashBoardServiceProxy {
 
     protected processGetNumberFiles(response: HttpResponseBase): Observable<number> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6357,7 +6358,7 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createDocument(input: CreateDocumentInput | null | undefined): Observable<void> {
@@ -6371,7 +6372,7 @@ export class DocumentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -6391,8 +6392,8 @@ export class DocumentServiceProxy {
 
     protected processCreateDocument(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6409,7 +6410,7 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editDocument(input: DocumentDetailOutput | null | undefined): Observable<void> {
@@ -6423,7 +6424,7 @@ export class DocumentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -6443,8 +6444,8 @@ export class DocumentServiceProxy {
 
     protected processEditDocument(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6461,13 +6462,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getAllUserDocuments(clientId: string | null | undefined): Observable<ListResultDtoOfDocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetAllUserDocuments?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6494,8 +6495,8 @@ export class DocumentServiceProxy {
 
     protected processGetAllUserDocuments(response: HttpResponseBase): Observable<ListResultDtoOfDocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6515,13 +6516,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getById(input: number | null | undefined): Observable<DocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6548,8 +6549,8 @@ export class DocumentServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<DocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6569,13 +6570,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: number | null | undefined): Observable<DocumentDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6602,8 +6603,8 @@ export class DocumentServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<DocumentDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6623,13 +6624,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getClientDocuments(clientId: string | null | undefined): Observable<ListResultDtoOfDocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetClientDocuments?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6656,8 +6657,8 @@ export class DocumentServiceProxy {
 
     protected processGetClientDocuments(response: HttpResponseBase): Observable<ListResultDtoOfDocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6677,13 +6678,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param documentId (optional)
+     * @param documentId (optional) 
      * @return Success
      */
     getChildDocuments(documentId: number | null | undefined): Observable<ListResultDtoOfDocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetChildDocuments?";
         if (documentId !== undefined)
-            url_ += "documentId=" + encodeURIComponent("" + documentId) + "&";
+            url_ += "documentId=" + encodeURIComponent("" + documentId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6710,8 +6711,8 @@ export class DocumentServiceProxy {
 
     protected processGetChildDocuments(response: HttpResponseBase): Observable<ListResultDtoOfDocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6731,13 +6732,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getAllChildDocuments(clientId: string | null | undefined): Observable<ListResultDtoOfDocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetAllChildDocuments?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6764,8 +6765,8 @@ export class DocumentServiceProxy {
 
     protected processGetAllChildDocuments(response: HttpResponseBase): Observable<ListResultDtoOfDocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6785,13 +6786,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: number | null | undefined): Observable<DocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6818,8 +6819,8 @@ export class DocumentServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<DocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6839,19 +6840,19 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfDocumentListDto> {
         let url_ = this.baseUrl + "/api/services/app/Document/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6878,8 +6879,8 @@ export class DocumentServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfDocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6899,7 +6900,7 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateDocumentInput | null | undefined): Observable<DocumentListDto> {
@@ -6913,7 +6914,7 @@ export class DocumentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -6934,8 +6935,8 @@ export class DocumentServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<DocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -6955,7 +6956,7 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: DocumentListDto | null | undefined): Observable<DocumentListDto> {
@@ -6969,7 +6970,7 @@ export class DocumentServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -6990,8 +6991,8 @@ export class DocumentServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<DocumentListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7011,13 +7012,13 @@ export class DocumentServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Document/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7043,8 +7044,8 @@ export class DocumentServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7073,13 +7074,13 @@ export class FirebaseServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updateGripStrength(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateGripStrength?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7105,8 +7106,8 @@ export class FirebaseServiceProxy {
 
     protected processUpdateGripStrength(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7123,13 +7124,13 @@ export class FirebaseServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updateMusclePower(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateMusclePower?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7155,8 +7156,8 @@ export class FirebaseServiceProxy {
 
     protected processUpdateMusclePower(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7173,13 +7174,13 @@ export class FirebaseServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updateBorgBalance(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateBorgBalance?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7205,8 +7206,8 @@ export class FirebaseServiceProxy {
 
     protected processUpdateBorgBalance(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7223,13 +7224,13 @@ export class FirebaseServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updatePosture(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Firebase/UpdatePosture?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7255,8 +7256,8 @@ export class FirebaseServiceProxy {
 
     protected processUpdatePosture(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7273,13 +7274,13 @@ export class FirebaseServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updateSensation(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateSensation?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7305,8 +7306,8 @@ export class FirebaseServiceProxy {
 
     protected processUpdateSensation(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7323,13 +7324,13 @@ export class FirebaseServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updateRangeOfMotion(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateRangeOfMotion?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7355,8 +7356,8 @@ export class FirebaseServiceProxy {
 
     protected processUpdateRangeOfMotion(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7373,13 +7374,13 @@ export class FirebaseServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updateCoordination(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Firebase/UpdateCoordination?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7405,8 +7406,8 @@ export class FirebaseServiceProxy {
 
     protected processUpdateCoordination(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7435,7 +7436,7 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createJobDescription(input: CreateJobDescriptionInput | null | undefined): Observable<void> {
@@ -7449,7 +7450,7 @@ export class JobDescriptionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -7469,8 +7470,8 @@ export class JobDescriptionServiceProxy {
 
     protected processCreateJobDescription(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7487,7 +7488,7 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editJobDescription(input: JobDescriptionDetailOutput | null | undefined): Observable<void> {
@@ -7501,7 +7502,7 @@ export class JobDescriptionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -7521,8 +7522,8 @@ export class JobDescriptionServiceProxy {
 
     protected processEditJobDescription(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7539,13 +7540,13 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getById(input: number | null | undefined): Observable<JobDescriptionListDto> {
         let url_ = this.baseUrl + "/api/services/app/JobDescription/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7572,8 +7573,8 @@ export class JobDescriptionServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<JobDescriptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7593,13 +7594,13 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: number | null | undefined): Observable<JobDescriptionDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/JobDescription/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7626,8 +7627,8 @@ export class JobDescriptionServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<JobDescriptionDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7647,13 +7648,13 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: number | null | undefined): Observable<JobDescriptionListDto> {
         let url_ = this.baseUrl + "/api/services/app/JobDescription/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7680,8 +7681,8 @@ export class JobDescriptionServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<JobDescriptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7701,19 +7702,19 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfJobDescriptionListDto> {
         let url_ = this.baseUrl + "/api/services/app/JobDescription/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7740,8 +7741,8 @@ export class JobDescriptionServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfJobDescriptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7761,7 +7762,7 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateJobDescriptionInput | null | undefined): Observable<JobDescriptionListDto> {
@@ -7775,7 +7776,7 @@ export class JobDescriptionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -7796,8 +7797,8 @@ export class JobDescriptionServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<JobDescriptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7817,7 +7818,7 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: JobDescriptionListDto | null | undefined): Observable<JobDescriptionListDto> {
@@ -7831,7 +7832,7 @@ export class JobDescriptionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -7852,8 +7853,8 @@ export class JobDescriptionServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<JobDescriptionListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7873,13 +7874,13 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/JobDescription/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7905,8 +7906,8 @@ export class JobDescriptionServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7935,7 +7936,7 @@ export class LadderWorkProtocolServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: LadderWorkCreateInput | null | undefined): Observable<void> {
@@ -7949,7 +7950,7 @@ export class LadderWorkProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -7969,8 +7970,8 @@ export class LadderWorkProtocolServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -7987,13 +7988,13 @@ export class LadderWorkProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     get(clientId: string | null | undefined): Observable<ListResultDtoOfLadderWorkProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/LadderWorkProtocol/Get?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8020,8 +8021,8 @@ export class LadderWorkProtocolServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfLadderWorkProtocolDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8041,13 +8042,13 @@ export class LadderWorkProtocolServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getById(id: string | null | undefined): Observable<LadderWorkProtocolDto> {
         let url_ = this.baseUrl + "/api/services/app/LadderWorkProtocol/GetById?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8074,8 +8075,8 @@ export class LadderWorkProtocolServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<LadderWorkProtocolDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8095,14 +8096,14 @@ export class LadderWorkProtocolServiceProxy {
     }
 
     /**
-     * @param ladderWorkProtocolId (optional)
-     * @param input (optional)
+     * @param ladderWorkProtocolId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     update(ladderWorkProtocolId: string | null | undefined, input: LadderWorkProtocolDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LadderWorkProtocol/Update?";
         if (ladderWorkProtocolId !== undefined)
-            url_ += "ladderWorkProtocolId=" + encodeURIComponent("" + ladderWorkProtocolId) + "&";
+            url_ += "ladderWorkProtocolId=" + encodeURIComponent("" + ladderWorkProtocolId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -8112,7 +8113,7 @@ export class LadderWorkProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -8132,8 +8133,8 @@ export class LadderWorkProtocolServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8162,7 +8163,7 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createLawFirm(input: CreateLawFirmInput | null | undefined): Observable<void> {
@@ -8176,7 +8177,7 @@ export class LawFirmServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -8196,8 +8197,8 @@ export class LawFirmServiceProxy {
 
     protected processCreateLawFirm(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8214,13 +8215,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8246,8 +8247,8 @@ export class LawFirmServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8264,7 +8265,7 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     editLawFirm(input: LawFirmDetailOutput | null | undefined): Observable<void> {
@@ -8278,7 +8279,7 @@ export class LawFirmServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -8298,8 +8299,8 @@ export class LawFirmServiceProxy {
 
     protected processEditLawFirm(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8316,13 +8317,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getById(input: string | null | undefined): Observable<LawFirmListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/GetById?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8349,8 +8350,8 @@ export class LawFirmServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<LawFirmListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8370,13 +8371,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getDetail(id: string | null | undefined): Observable<LawFirmDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/GetDetail?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8403,8 +8404,8 @@ export class LawFirmServiceProxy {
 
     protected processGetDetail(response: HttpResponseBase): Observable<LawFirmDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8424,13 +8425,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     getLawFirms(input: any | null | undefined): Observable<ListResultDtoOfLawFirmListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/GetLawFirms?";
         if (input !== undefined)
-            url_ += "input=" + encodeURIComponent("" + input) + "&";
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8457,8 +8458,8 @@ export class LawFirmServiceProxy {
 
     protected processGetLawFirms(response: HttpResponseBase): Observable<ListResultDtoOfLawFirmListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8478,13 +8479,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getAttorneys(id: string | null | undefined): Observable<ListResultDtoOfAttorneyListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/GetAttorneys?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8511,8 +8512,8 @@ export class LawFirmServiceProxy {
 
     protected processGetAttorneys(response: HttpResponseBase): Observable<ListResultDtoOfAttorneyListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8532,13 +8533,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getContacts(id: string | null | undefined): Observable<ListResultDtoOfContactListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/GetContacts?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8565,8 +8566,8 @@ export class LawFirmServiceProxy {
 
     protected processGetContacts(response: HttpResponseBase): Observable<ListResultDtoOfContactListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8586,13 +8587,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param lawFirmId (optional)
+     * @param lawFirmId (optional) 
      * @return Success
      */
     getClients(lawFirmId: string | null | undefined): Observable<ListResultDtoOfClientListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/GetClients?";
         if (lawFirmId !== undefined)
-            url_ += "LawFirmId=" + encodeURIComponent("" + lawFirmId) + "&";
+            url_ += "LawFirmId=" + encodeURIComponent("" + lawFirmId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8619,8 +8620,8 @@ export class LawFirmServiceProxy {
 
     protected processGetClients(response: HttpResponseBase): Observable<ListResultDtoOfClientListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8640,13 +8641,13 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: string | null | undefined): Observable<LawFirmListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8673,8 +8674,8 @@ export class LawFirmServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<LawFirmListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8694,19 +8695,19 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param sorting (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param sorting (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(sorting: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfLawFirmListDto> {
         let url_ = this.baseUrl + "/api/services/app/LawFirm/GetAll?";
         if (sorting !== undefined)
-            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8733,8 +8734,8 @@ export class LawFirmServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfLawFirmListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8754,7 +8755,7 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateLawFirmInput | null | undefined): Observable<LawFirmListDto> {
@@ -8768,7 +8769,7 @@ export class LawFirmServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -8789,8 +8790,8 @@ export class LawFirmServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<LawFirmListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8810,7 +8811,7 @@ export class LawFirmServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: LawFirmListDto | null | undefined): Observable<LawFirmListDto> {
@@ -8824,7 +8825,7 @@ export class LawFirmServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -8845,8 +8846,8 @@ export class LawFirmServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<LawFirmListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8908,8 +8909,8 @@ export class ProfileServiceProxy {
 
     protected processGetUserProfile(response: HttpResponseBase): Observable<ProfileDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8929,13 +8930,13 @@ export class ProfileServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getLoggedInUser(id: number | null | undefined): Observable<ProfileDto> {
         let url_ = this.baseUrl + "/api/services/app/Profile/GetLoggedInUser?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -8962,8 +8963,8 @@ export class ProfileServiceProxy {
 
     protected processGetLoggedInUser(response: HttpResponseBase): Observable<ProfileDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -8995,7 +8996,7 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     createClientRangeOfMotion(input: CreateClientAssessmentInput | null | undefined): Observable<void> {
@@ -9009,7 +9010,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9029,8 +9030,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processCreateClientRangeOfMotion(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9047,13 +9048,13 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getClientRangeOfMotion(clientId: string | null | undefined): Observable<RangeOfMotionDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetClientRangeOfMotion?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9080,8 +9081,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetClientRangeOfMotion(response: HttpResponseBase): Observable<RangeOfMotionDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9101,16 +9102,16 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getAnkle(clientId: string | null | undefined, side: number | null | undefined): Observable<AnkleDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetAnkle?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9137,8 +9138,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetAnkle(response: HttpResponseBase): Observable<AnkleDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9158,16 +9159,16 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getElbow(clientId: string | null | undefined, side: number | null | undefined): Observable<ElbowDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetElbow?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9194,8 +9195,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetElbow(response: HttpResponseBase): Observable<ElbowDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9215,16 +9216,16 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getForearmWrist(clientId: string | null | undefined, side: number | null | undefined): Observable<ForearmWristDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetForearmWrist?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9251,8 +9252,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetForearmWrist(response: HttpResponseBase): Observable<ForearmWristDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9272,16 +9273,16 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getHip(clientId: string | null | undefined, side: number | null | undefined): Observable<HipDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetHip?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9308,8 +9309,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetHip(response: HttpResponseBase): Observable<HipDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9329,16 +9330,16 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getKnee(clientId: string | null | undefined, side: number | null | undefined): Observable<KneeDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetKnee?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9365,8 +9366,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetKnee(response: HttpResponseBase): Observable<KneeDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9386,16 +9387,16 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getShoulder(clientId: string | null | undefined, side: number | null | undefined): Observable<ShoulderDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetShoulder?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9422,8 +9423,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetShoulder(response: HttpResponseBase): Observable<ShoulderDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9443,16 +9444,16 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param side (optional)
+     * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getHand(clientId: string | null | undefined, side: number | null | undefined): Observable<HandDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetHand?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (side !== undefined)
-            url_ += "side=" + encodeURIComponent("" + side) + "&";
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9479,8 +9480,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processGetHand(response: HttpResponseBase): Observable<HandDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9500,14 +9501,14 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateAnkle(clientId: string | null | undefined, input: AnkleDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/UpdateAnkle?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -9517,7 +9518,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9537,8 +9538,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processUpdateAnkle(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9555,14 +9556,14 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateElbow(clientId: string | null | undefined, input: ElbowDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/UpdateElbow?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -9572,7 +9573,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9592,8 +9593,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processUpdateElbow(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9610,14 +9611,14 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateForearmWrist(clientId: string | null | undefined, input: ForearmWristDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/UpdateForearmWrist?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -9627,7 +9628,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9647,8 +9648,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processUpdateForearmWrist(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9665,14 +9666,14 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateHip(clientId: string | null | undefined, input: HipDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/UpdateHip?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -9682,7 +9683,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9702,8 +9703,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processUpdateHip(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9720,14 +9721,14 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateKnee(clientId: string | null | undefined, input: KneeDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/UpdateKnee?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -9737,7 +9738,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9757,8 +9758,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processUpdateKnee(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9775,14 +9776,14 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateShoulder(clientId: string | null | undefined, input: ShoulderDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/UpdateShoulder?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -9792,7 +9793,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9812,8 +9813,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processUpdateShoulder(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9830,14 +9831,14 @@ export class RangeOfMotionServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
-     * @param input (optional)
+     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     updateHand(clientId: string | null | undefined, input: HandDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/UpdateHand?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -9847,7 +9848,7 @@ export class RangeOfMotionServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -9867,8 +9868,8 @@ export class RangeOfMotionServiceProxy {
 
     protected processUpdateHand(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9897,13 +9898,13 @@ export class RepetitiveFootMotionProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     create(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Create?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9929,8 +9930,8 @@ export class RepetitiveFootMotionProtocolServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -9947,13 +9948,13 @@ export class RepetitiveFootMotionProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     get(clientId: string | null | undefined): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Get?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -9980,8 +9981,8 @@ export class RepetitiveFootMotionProtocolServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10001,16 +10002,16 @@ export class RepetitiveFootMotionProtocolServiceProxy {
     }
 
     /**
-     * @param parentId (optional)
-     * @param side (optional)
+     * @param parentId (optional) 
+     * @param side (optional) 
      * @return Success
      */
     getById(parentId: string | null | undefined, side: number | null | undefined): Observable<RepetitiveFootMotionOptionDto> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/GetById?";
         if (parentId !== undefined)
-            url_ += "parentId=" + encodeURIComponent("" + parentId) + "&";
+            url_ += "parentId=" + encodeURIComponent("" + parentId) + "&"; 
         if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&";
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10037,8 +10038,8 @@ export class RepetitiveFootMotionProtocolServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<RepetitiveFootMotionOptionDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10058,14 +10059,14 @@ export class RepetitiveFootMotionProtocolServiceProxy {
     }
 
     /**
-     * @param repetitiveFootMotionOptionId (optional)
-     * @param input (optional)
+     * @param repetitiveFootMotionOptionId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     update(repetitiveFootMotionOptionId: string | null | undefined, input: RepetitiveFootMotionOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Update?";
         if (repetitiveFootMotionOptionId !== undefined)
-            url_ += "repetitiveFootMotionOptionId=" + encodeURIComponent("" + repetitiveFootMotionOptionId) + "&";
+            url_ += "repetitiveFootMotionOptionId=" + encodeURIComponent("" + repetitiveFootMotionOptionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -10075,7 +10076,7 @@ export class RepetitiveFootMotionProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -10095,8 +10096,8 @@ export class RepetitiveFootMotionProtocolServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10125,7 +10126,7 @@ export class RepetitiveSquattingProtocolServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: RepetitiveSquattingCreateInput | null | undefined): Observable<void> {
@@ -10139,7 +10140,7 @@ export class RepetitiveSquattingProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -10159,8 +10160,8 @@ export class RepetitiveSquattingProtocolServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10177,13 +10178,13 @@ export class RepetitiveSquattingProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     get(clientId: string | null | undefined): Observable<ListResultDtoOfRepetitiveSquattingProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveSquattingProtocol/Get?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10210,8 +10211,8 @@ export class RepetitiveSquattingProtocolServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfRepetitiveSquattingProtocolDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10231,13 +10232,13 @@ export class RepetitiveSquattingProtocolServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getById(id: string | null | undefined): Observable<RepetitiveSquattingProtocolDto> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveSquattingProtocol/GetById?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10264,8 +10265,8 @@ export class RepetitiveSquattingProtocolServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<RepetitiveSquattingProtocolDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10285,14 +10286,14 @@ export class RepetitiveSquattingProtocolServiceProxy {
     }
 
     /**
-     * @param repetitiveSquattingProtocolId (optional)
-     * @param input (optional)
+     * @param repetitiveSquattingProtocolId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     update(repetitiveSquattingProtocolId: string | null | undefined, input: RepetitiveSquattingProtocolDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveSquattingProtocol/Update?";
         if (repetitiveSquattingProtocolId !== undefined)
-            url_ += "repetitiveSquattingProtocolId=" + encodeURIComponent("" + repetitiveSquattingProtocolId) + "&";
+            url_ += "repetitiveSquattingProtocolId=" + encodeURIComponent("" + repetitiveSquattingProtocolId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -10302,7 +10303,7 @@ export class RepetitiveSquattingProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -10322,8 +10323,8 @@ export class RepetitiveSquattingProtocolServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10352,13 +10353,13 @@ export class RepetitiveToleranceServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     updateRepetitiveTolerance(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveTolerance/UpdateRepetitiveTolerance?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10384,8 +10385,8 @@ export class RepetitiveToleranceServiceProxy {
 
     protected processUpdateRepetitiveTolerance(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10414,13 +10415,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getBalanceProtocolReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetBalanceProtocolReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10447,8 +10448,8 @@ export class ReportServiceProxy {
 
     protected processGetBalanceProtocolReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10468,13 +10469,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getBorgBalanceReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetBorgBalanceReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10501,8 +10502,8 @@ export class ReportServiceProxy {
 
     protected processGetBorgBalanceReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10522,13 +10523,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getCoordinationReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetCoordinationReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10555,8 +10556,8 @@ export class ReportServiceProxy {
 
     protected processGetCoordinationReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10576,13 +10577,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getCrawlingProtocolReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetCrawlingProtocolReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10609,8 +10610,8 @@ export class ReportServiceProxy {
 
     protected processGetCrawlingProtocolReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10630,13 +10631,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getGaitReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetGaitReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10663,8 +10664,8 @@ export class ReportServiceProxy {
 
     protected processGetGaitReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10684,13 +10685,19 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
+     * @param age (optional) 
+     * @param gender (optional) 
      * @return Success
      */
-    getGripStrengthReport(clientId: string | null | undefined): Observable<string> {
+    getGripStrengthReport(clientId: string | null | undefined, age: number | null | undefined, gender: number | null | undefined): Observable<ReportGripStrength> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetGripStrengthReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (age !== undefined)
+            url_ += "Age=" + encodeURIComponent("" + age) + "&"; 
+        if (gender !== undefined)
+            url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10708,17 +10715,17 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetGripStrengthReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportGripStrength>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportGripStrength>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetGripStrengthReport(response: HttpResponseBase): Observable<string> {
+    protected processGetGripStrengthReport(response: HttpResponseBase): Observable<ReportGripStrength> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10726,7 +10733,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportGripStrength.fromJS(resultData200) : new ReportGripStrength();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -10734,17 +10741,17 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportGripStrength>(<any>null);
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getLadderWorkProtocolReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetLadderWorkProtocolReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10771,8 +10778,8 @@ export class ReportServiceProxy {
 
     protected processGetLadderWorkProtocolReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10792,13 +10799,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getMusclePowerReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetMusclePowerReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10825,8 +10832,8 @@ export class ReportServiceProxy {
 
     protected processGetMusclePowerReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10846,13 +10853,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getPostureReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetPostureReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10879,8 +10886,8 @@ export class ReportServiceProxy {
 
     protected processGetPostureReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10900,13 +10907,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRepetitiveFootMotionProtocolReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRepetitiveFootMotionProtocolReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10933,8 +10940,8 @@ export class ReportServiceProxy {
 
     protected processGetRepetitiveFootMotionProtocolReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -10954,13 +10961,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRepetitiveSquattingProtocolReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRepetitiveSquattingProtocolReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10987,8 +10994,8 @@ export class ReportServiceProxy {
 
     protected processGetRepetitiveSquattingProtocolReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11008,13 +11015,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRoMAnkleReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMAnkleReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11041,8 +11048,8 @@ export class ReportServiceProxy {
 
     protected processGetRoMAnkleReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11062,13 +11069,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRoMElbowReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMElbowReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11095,8 +11102,8 @@ export class ReportServiceProxy {
 
     protected processGetRoMElbowReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11116,13 +11123,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRoMForearmWristReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMForearmWristReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11149,8 +11156,8 @@ export class ReportServiceProxy {
 
     protected processGetRoMForearmWristReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11170,13 +11177,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRoMHandReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHandReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11203,8 +11210,8 @@ export class ReportServiceProxy {
 
     protected processGetRoMHandReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11224,13 +11231,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRoMHipReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHipReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11257,8 +11264,8 @@ export class ReportServiceProxy {
 
     protected processGetRoMHipReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11278,13 +11285,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRoMKneeReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMKneeReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11311,8 +11318,8 @@ export class ReportServiceProxy {
 
     protected processGetRoMKneeReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11332,13 +11339,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getRoMShoulderReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMShoulderReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11365,8 +11372,8 @@ export class ReportServiceProxy {
 
     protected processGetRoMShoulderReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11386,13 +11393,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getSensationLowerReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetSensationLowerReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11419,8 +11426,8 @@ export class ReportServiceProxy {
 
     protected processGetSensationLowerReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11440,13 +11447,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getSensationTrunkReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetSensationTrunkReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11473,8 +11480,8 @@ export class ReportServiceProxy {
 
     protected processGetSensationTrunkReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11494,13 +11501,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getSensationUpperReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetSensationUpperReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11527,8 +11534,8 @@ export class ReportServiceProxy {
 
     protected processGetSensationUpperReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11548,13 +11555,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getStairClimbingProtocolReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetStairClimbingProtocolReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11581,8 +11588,8 @@ export class ReportServiceProxy {
 
     protected processGetStairClimbingProtocolReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11602,13 +11609,13 @@ export class ReportServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     getWalkingProtocolReport(clientId: string | null | undefined): Observable<string> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetWalkingProtocolReport?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11635,8 +11642,8 @@ export class ReportServiceProxy {
 
     protected processGetWalkingProtocolReport(response: HttpResponseBase): Observable<string> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11668,7 +11675,7 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateRoleDto | null | undefined): Observable<RoleDto> {
@@ -11682,7 +11689,7 @@ export class RoleServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -11703,8 +11710,8 @@ export class RoleServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<RoleDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11724,13 +11731,13 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param permission (optional)
+     * @param permission (optional) 
      * @return Success
      */
     getRolesAsync(permission: string | null | undefined): Observable<ListResultDtoOfRoleListDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetRolesAsync?";
         if (permission !== undefined)
-            url_ += "Permission=" + encodeURIComponent("" + permission) + "&";
+            url_ += "Permission=" + encodeURIComponent("" + permission) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11757,8 +11764,8 @@ export class RoleServiceProxy {
 
     protected processGetRolesAsync(response: HttpResponseBase): Observable<ListResultDtoOfRoleListDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11778,7 +11785,7 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: RoleDto | null | undefined): Observable<RoleDto> {
@@ -11792,7 +11799,7 @@ export class RoleServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -11813,8 +11820,8 @@ export class RoleServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<RoleDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11834,13 +11841,13 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Role/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11866,8 +11873,8 @@ export class RoleServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11914,8 +11921,8 @@ export class RoleServiceProxy {
 
     protected processGetAllPermissions(response: HttpResponseBase): Observable<ListResultDtoOfPermissionDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11935,13 +11942,13 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getRoleForEdit(id: number | null | undefined): Observable<GetRoleForEditOutput> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetRoleForEdit?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11968,8 +11975,8 @@ export class RoleServiceProxy {
 
     protected processGetRoleForEdit(response: HttpResponseBase): Observable<GetRoleForEditOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -11989,13 +11996,13 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: number | null | undefined): Observable<RoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12022,8 +12029,8 @@ export class RoleServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<RoleDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12043,19 +12050,19 @@ export class RoleServiceProxy {
     }
 
     /**
-     * @param keyword (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param keyword (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(keyword: string | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfRoleDto> {
         let url_ = this.baseUrl + "/api/services/app/Role/GetAll?";
         if (keyword !== undefined)
-            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12082,8 +12089,8 @@ export class RoleServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfRoleDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12145,8 +12152,8 @@ export class SessionServiceProxy {
 
     protected processGetCurrentLoginInformations(response: HttpResponseBase): Observable<GetCurrentLoginInformationsOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12178,7 +12185,7 @@ export class StairClimbingProtocolServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: StairClimbingCreateInput | null | undefined): Observable<void> {
@@ -12192,7 +12199,7 @@ export class StairClimbingProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -12212,8 +12219,8 @@ export class StairClimbingProtocolServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12230,13 +12237,13 @@ export class StairClimbingProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     get(clientId: string | null | undefined): Observable<ListResultDtoOfStairClimbingProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/StairClimbingProtocol/Get?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12263,8 +12270,8 @@ export class StairClimbingProtocolServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfStairClimbingProtocolDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12284,13 +12291,13 @@ export class StairClimbingProtocolServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     getById(id: string | null | undefined): Observable<StairClimbingProtocolDto> {
         let url_ = this.baseUrl + "/api/services/app/StairClimbingProtocol/GetById?";
         if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12317,8 +12324,8 @@ export class StairClimbingProtocolServiceProxy {
 
     protected processGetById(response: HttpResponseBase): Observable<StairClimbingProtocolDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12338,14 +12345,14 @@ export class StairClimbingProtocolServiceProxy {
     }
 
     /**
-     * @param stairClimbingProtocolId (optional)
-     * @param input (optional)
+     * @param stairClimbingProtocolId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     update(stairClimbingProtocolId: string | null | undefined, input: StairClimbingProtocolDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/StairClimbingProtocol/Update?";
         if (stairClimbingProtocolId !== undefined)
-            url_ += "stairClimbingProtocolId=" + encodeURIComponent("" + stairClimbingProtocolId) + "&";
+            url_ += "stairClimbingProtocolId=" + encodeURIComponent("" + stairClimbingProtocolId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -12355,7 +12362,7 @@ export class StairClimbingProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -12375,8 +12382,8 @@ export class StairClimbingProtocolServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12405,7 +12412,7 @@ export class TenantServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateTenantDto | null | undefined): Observable<TenantDto> {
@@ -12419,7 +12426,7 @@ export class TenantServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -12440,8 +12447,8 @@ export class TenantServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<TenantDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12461,13 +12468,13 @@ export class TenantServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12493,8 +12500,8 @@ export class TenantServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12511,13 +12518,13 @@ export class TenantServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: number | null | undefined): Observable<TenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12544,8 +12551,8 @@ export class TenantServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<TenantDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12565,22 +12572,22 @@ export class TenantServiceProxy {
     }
 
     /**
-     * @param keyword (optional)
-     * @param isActive (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param keyword (optional) 
+     * @param isActive (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(keyword: string | null | undefined, isActive: boolean | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfTenantDto> {
         let url_ = this.baseUrl + "/api/services/app/Tenant/GetAll?";
         if (keyword !== undefined)
-            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
         if (isActive !== undefined)
-            url_ += "IsActive=" + encodeURIComponent("" + isActive) + "&";
+            url_ += "IsActive=" + encodeURIComponent("" + isActive) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -12607,8 +12614,8 @@ export class TenantServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfTenantDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12628,7 +12635,7 @@ export class TenantServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: TenantDto | null | undefined): Observable<TenantDto> {
@@ -12642,7 +12649,7 @@ export class TenantServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -12663,8 +12670,8 @@ export class TenantServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<TenantDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12696,7 +12703,7 @@ export class TokenAuthServiceProxy {
     }
 
     /**
-     * @param model (optional)
+     * @param model (optional) 
      * @return Success
      */
     authenticate(model: AuthenticateModel | null | undefined): Observable<AuthenticateResultModel> {
@@ -12710,7 +12717,7 @@ export class TokenAuthServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -12731,8 +12738,8 @@ export class TokenAuthServiceProxy {
 
     protected processAuthenticate(response: HttpResponseBase): Observable<AuthenticateResultModel> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12782,8 +12789,8 @@ export class TokenAuthServiceProxy {
 
     protected processGetExternalAuthenticationProviders(response: HttpResponseBase): Observable<ExternalLoginProviderInfoModel[]> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12807,7 +12814,7 @@ export class TokenAuthServiceProxy {
     }
 
     /**
-     * @param model (optional)
+     * @param model (optional) 
      * @return Success
      */
     externalAuthenticate(model: ExternalAuthenticateModel | null | undefined): Observable<ExternalAuthenticateResultModel> {
@@ -12821,7 +12828,7 @@ export class TokenAuthServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -12842,8 +12849,8 @@ export class TokenAuthServiceProxy {
 
     protected processExternalAuthenticate(response: HttpResponseBase): Observable<ExternalAuthenticateResultModel> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12875,7 +12882,7 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     create(input: CreateUserDto | null | undefined): Observable<UserDto> {
@@ -12889,7 +12896,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -12910,8 +12917,8 @@ export class UserServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<UserDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12931,7 +12938,7 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     update(input: UserDto | null | undefined): Observable<UserDto> {
@@ -12945,7 +12952,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -12966,8 +12973,8 @@ export class UserServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<UserDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -12987,13 +12994,13 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     delete(id: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/User/Delete?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13019,8 +13026,8 @@ export class UserServiceProxy {
 
     protected processDelete(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13067,8 +13074,8 @@ export class UserServiceProxy {
 
     protected processGetRoles(response: HttpResponseBase): Observable<ListResultDtoOfRoleDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13088,7 +13095,7 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     changeLanguage(input: ChangeUserLanguageDto | null | undefined): Observable<void> {
@@ -13102,7 +13109,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -13122,8 +13129,8 @@ export class UserServiceProxy {
 
     protected processChangeLanguage(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13140,7 +13147,7 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     changePassword(input: ChangePasswordDto | null | undefined): Observable<boolean> {
@@ -13154,7 +13161,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -13175,8 +13182,8 @@ export class UserServiceProxy {
 
     protected processChangePassword(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13196,7 +13203,7 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param input (optional)
+     * @param input (optional) 
      * @return Success
      */
     resetPassword(input: ResetPasswordDto | null | undefined): Observable<boolean> {
@@ -13210,7 +13217,7 @@ export class UserServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
                 "Accept": "application/json"
             })
         };
@@ -13231,8 +13238,8 @@ export class UserServiceProxy {
 
     protected processResetPassword(response: HttpResponseBase): Observable<boolean> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13252,13 +13259,13 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param id (optional)
+     * @param id (optional) 
      * @return Success
      */
     get(id: number | null | undefined): Observable<UserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/Get?";
         if (id !== undefined)
-            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+            url_ += "Id=" + encodeURIComponent("" + id) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13285,8 +13292,8 @@ export class UserServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<UserDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13306,22 +13313,22 @@ export class UserServiceProxy {
     }
 
     /**
-     * @param keyword (optional)
-     * @param isActive (optional)
-     * @param skipCount (optional)
-     * @param maxResultCount (optional)
+     * @param keyword (optional) 
+     * @param isActive (optional) 
+     * @param skipCount (optional) 
+     * @param maxResultCount (optional) 
      * @return Success
      */
     getAll(keyword: string | null | undefined, isActive: boolean | null | undefined, skipCount: number | null | undefined, maxResultCount: number | null | undefined): Observable<PagedResultDtoOfUserDto> {
         let url_ = this.baseUrl + "/api/services/app/User/GetAll?";
         if (keyword !== undefined)
-            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&"; 
         if (isActive !== undefined)
-            url_ += "IsActive=" + encodeURIComponent("" + isActive) + "&";
+            url_ += "IsActive=" + encodeURIComponent("" + isActive) + "&"; 
         if (skipCount !== undefined)
-            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&"; 
         if (maxResultCount !== undefined)
-            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13348,8 +13355,8 @@ export class UserServiceProxy {
 
     protected processGetAll(response: HttpResponseBase): Observable<PagedResultDtoOfUserDto> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13381,13 +13388,13 @@ export class WalkingProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     create(clientId: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WalkingProtocol/Create?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13413,8 +13420,8 @@ export class WalkingProtocolServiceProxy {
 
     protected processCreate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13431,13 +13438,13 @@ export class WalkingProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional)
+     * @param clientId (optional) 
      * @return Success
      */
     get(clientId: string | null | undefined): Observable<WalkingProtocolDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/WalkingProtocol/Get?";
         if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&";
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13464,8 +13471,8 @@ export class WalkingProtocolServiceProxy {
 
     protected processGet(response: HttpResponseBase): Observable<WalkingProtocolDetailOutput> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13485,14 +13492,14 @@ export class WalkingProtocolServiceProxy {
     }
 
     /**
-     * @param walkingProtocolId (optional)
-     * @param input (optional)
+     * @param walkingProtocolId (optional) 
+     * @param input (optional) 
      * @return Success
      */
     update(walkingProtocolId: string | null | undefined, input: WalkingProtocolDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/WalkingProtocol/Update?";
         if (walkingProtocolId !== undefined)
-            url_ += "walkingProtocolId=" + encodeURIComponent("" + walkingProtocolId) + "&";
+            url_ += "walkingProtocolId=" + encodeURIComponent("" + walkingProtocolId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -13502,7 +13509,7 @@ export class WalkingProtocolServiceProxy {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
+                "Content-Type": "application/json", 
             })
         };
 
@@ -13522,8 +13529,8 @@ export class WalkingProtocolServiceProxy {
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
         const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
@@ -13568,7 +13575,7 @@ export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["tenancyName"] = this.tenancyName;
-        return data;
+        return data; 
     }
 
     clone(): IsTenantAvailableInput {
@@ -13614,7 +13621,7 @@ export class IsTenantAvailableOutput implements IIsTenantAvailableOutput {
         data = typeof data === 'object' ? data : {};
         data["state"] = this.state;
         data["tenantId"] = this.tenantId;
-        return data;
+        return data; 
     }
 
     clone(): IsTenantAvailableOutput {
@@ -13673,7 +13680,7 @@ export class RegisterInput implements IRegisterInput {
         data["emailAddress"] = this.emailAddress;
         data["password"] = this.password;
         data["captchaResponse"] = this.captchaResponse;
-        return data;
+        return data; 
     }
 
     clone(): RegisterInput {
@@ -13721,7 +13728,7 @@ export class RegisterOutput implements IRegisterOutput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["canLogin"] = this.canLogin;
-        return data;
+        return data; 
     }
 
     clone(): RegisterOutput {
@@ -13776,7 +13783,7 @@ export class CreateActivityLogInput implements ICreateActivityLogInput {
         data["userId"] = this.userId;
         data["targetId"] = this.targetId;
         data["targetType"] = this.targetType;
-        return data;
+        return data; 
     }
 
     clone(): CreateActivityLogInput {
@@ -13838,7 +13845,7 @@ export class ActivityLogDetailOutput implements IActivityLogDetailOutput {
         data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["targetId"] = this.targetId;
         data["targetType"] = this.targetType;
-        return data;
+        return data; 
     }
 
     clone(): ActivityLogDetailOutput {
@@ -14048,7 +14055,7 @@ export class User implements IUser {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): User {
@@ -14147,7 +14154,7 @@ export class UserToken implements IUserToken {
         data["value"] = this.value;
         data["expireDate"] = this.expireDate ? this.expireDate.toISOString() : <any>undefined;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): UserToken {
@@ -14208,7 +14215,7 @@ export class UserLogin implements IUserLogin {
         data["loginProvider"] = this.loginProvider;
         data["providerKey"] = this.providerKey;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): UserLogin {
@@ -14270,7 +14277,7 @@ export class UserRole implements IUserRole {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): UserRole {
@@ -14336,7 +14343,7 @@ export class UserClaim implements IUserClaim {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): UserClaim {
@@ -14403,7 +14410,7 @@ export class UserPermissionSetting implements IUserPermissionSetting {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): UserPermissionSetting {
@@ -14476,7 +14483,7 @@ export class Setting implements ISetting {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): Setting {
@@ -14566,7 +14573,7 @@ export class ActivityLogListDto implements IActivityLogListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ActivityLogListDto {
@@ -14625,7 +14632,7 @@ export class CreateClientAssessmentInput implements ICreateClientAssessmentInput
         data = typeof data === 'object' ? data : {};
         data["clientId"] = this.clientId;
         data["userId"] = this.userId;
-        return data;
+        return data; 
     }
 
     clone(): CreateClientAssessmentInput {
@@ -14672,7 +14679,7 @@ export class ClientAssessmentDetailOutput implements IClientAssessmentDetailOutp
         data = typeof data === 'object' ? data : {};
         data["clientId"] = this.clientId;
         data["userId"] = this.userId;
-        return data;
+        return data; 
     }
 
     clone(): ClientAssessmentDetailOutput {
@@ -14724,7 +14731,7 @@ export class ListResultDtoOfClientAssessmentListDto implements IListResultDtoOfC
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfClientAssessmentListDto {
@@ -14806,7 +14813,7 @@ export class ClientAssessmentListDto implements IClientAssessmentListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ClientAssessmentListDto {
@@ -14888,7 +14895,7 @@ export class AssessmentCategory implements IAssessmentCategory {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): AssessmentCategory {
@@ -14964,7 +14971,7 @@ export class PainComment implements IPainComment {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): PainComment {
@@ -15121,7 +15128,7 @@ export class Client implements IClient {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): Client {
@@ -15241,7 +15248,7 @@ export class Assessment implements IAssessment {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): Assessment {
@@ -15376,7 +15383,7 @@ export class LawFirm implements ILawFirm {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): LawFirm {
@@ -15476,7 +15483,7 @@ export class Contact implements IContact {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): Contact {
@@ -15588,7 +15595,7 @@ export class Attorney implements IAttorney {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): Attorney {
@@ -15662,7 +15669,7 @@ export class Address implements IAddress {
         data["postalCode"] = this.postalCode;
         data["province"] = this.province;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): Address {
@@ -15734,7 +15741,7 @@ export class GripStrengthDto implements IGripStrengthDto {
         data["side"] = this.side;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): GripStrengthDto {
@@ -15812,7 +15819,7 @@ export class GripStrengthDetailOutput implements IGripStrengthDetailOutput {
         data["side"] = this.side;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): GripStrengthDetailOutput {
@@ -15894,7 +15901,7 @@ export class MusclePowerDto implements IMusclePowerDto {
         data["type"] = this.type;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): MusclePowerDto {
@@ -15971,7 +15978,7 @@ export class MusclePowerOptionDto implements IMusclePowerOptionDto {
         data["type"] = this.type;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): MusclePowerOptionDto {
@@ -16070,7 +16077,7 @@ export class GaitDto implements IGaitDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): GaitDto {
@@ -16144,7 +16151,7 @@ export class PostureOptionDto implements IPostureOptionDto {
         data["comment"] = this.comment;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): PostureOptionDto {
@@ -16200,7 +16207,7 @@ export class ListResultDtoOfPostureOptionListDto implements IListResultDtoOfPost
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfPostureOptionListDto {
@@ -16261,7 +16268,7 @@ export class PostureOptionListDto implements IPostureOptionListDto {
         data["comment"] = this.comment;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): PostureOptionListDto {
@@ -16325,7 +16332,7 @@ export class BorgBalanceOptionDto implements IBorgBalanceOptionDto {
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
         data["status"] = this.status;
-        return data;
+        return data; 
     }
 
     clone(): BorgBalanceOptionDto {
@@ -16381,7 +16388,7 @@ export class ListResultDtoOfBorgBalanceOptionListDto implements IListResultDtoOf
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfBorgBalanceOptionListDto {
@@ -16442,7 +16449,7 @@ export class BorgBalanceOptionListDto implements IBorgBalanceOptionListDto {
         data["comment"] = this.comment;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): BorgBalanceOptionListDto {
@@ -16512,7 +16519,7 @@ export class SensationOptionDto implements ISensationOptionDto {
         data["side"] = this.side;
         data["status"] = this.status;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): SensationOptionDto {
@@ -16570,7 +16577,7 @@ export class ListResultDtoOfSensationOptionDto implements IListResultDtoOfSensat
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfSensationOptionDto {
@@ -16640,7 +16647,7 @@ export class CoordinationOptionDto implements ICoordinationOptionDto {
         data["status"] = this.status;
         data["comment"] = this.comment;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): CoordinationOptionDto {
@@ -16700,7 +16707,7 @@ export class ListResultDtoOfCoordinationOptionListDto implements IListResultDtoO
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfCoordinationOptionListDto {
@@ -16791,7 +16798,7 @@ export class CoordinationOptionListDto implements ICoordinationOptionListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): CoordinationOptionListDto {
@@ -16892,7 +16899,7 @@ export class CoordinationIncompleteDto implements ICoordinationIncompleteDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): CoordinationIncompleteDto {
@@ -16967,7 +16974,7 @@ export class CreateAttorneyInput implements ICreateAttorneyInput {
         data["phone"] = this.phone;
         data["email"] = this.email;
         data["fax"] = this.fax;
-        return data;
+        return data; 
     }
 
     clone(): CreateAttorneyInput {
@@ -17027,7 +17034,7 @@ export class PagedResultDtoOfAttorneyListDto implements IPagedResultDtoOfAttorne
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfAttorneyListDto {
@@ -17116,7 +17123,7 @@ export class AttorneyListDto implements IAttorneyListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): AttorneyListDto {
@@ -17219,7 +17226,7 @@ export class AttorneyDetailOutput implements IAttorneyDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): AttorneyDetailOutput {
@@ -17285,7 +17292,7 @@ export class ListResultDtoOfBalanceProtocolOptionListDto implements IListResultD
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfBalanceProtocolOptionListDto {
@@ -17373,7 +17380,7 @@ export class BalanceProtocolOptionListDto implements IBalanceProtocolOptionListD
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): BalanceProtocolOptionListDto {
@@ -17473,7 +17480,7 @@ export class BalanceProtocolOptionDto implements IBalanceProtocolOptionDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): BalanceProtocolOptionDto {
@@ -17554,7 +17561,7 @@ export class CreateBookingInput implements ICreateBookingInput {
         data["attorneyId"] = this.attorneyId;
         data["contactId"] = this.contactId;
         data["reason"] = this.reason;
-        return data;
+        return data; 
     }
 
     clone(): CreateBookingInput {
@@ -17674,7 +17681,7 @@ export class BookingDetailOutput implements IBookingDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): BookingDetailOutput {
@@ -17743,7 +17750,7 @@ export class Event implements IEvent {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): Event {
@@ -17856,7 +17863,7 @@ export class BookingListDto implements IBookingListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): BookingListDto {
@@ -17930,7 +17937,7 @@ export class ListResultDtoOfBookingListDto implements IListResultDtoOfBookingLis
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfBookingListDto {
@@ -17973,7 +17980,7 @@ export class CreateEventInput implements ICreateEventInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
-        return data;
+        return data; 
     }
 
     clone(): CreateEventInput {
@@ -18024,7 +18031,7 @@ export class ListResultDtoOfEventListDto implements IListResultDtoOfEventListDto
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfEventListDto {
@@ -18070,7 +18077,7 @@ export class EventListDto implements IEventListDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): EventListDto {
@@ -18117,7 +18124,7 @@ export class EventDetailOutput implements IEventDetailOutput {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): EventDetailOutput {
@@ -18172,7 +18179,7 @@ export class PagedResultDtoOfBookingListDto implements IPagedResultDtoOfBookingL
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfBookingListDto {
@@ -18219,7 +18226,7 @@ export class AssessmentResult implements IAssessmentResult {
         data = typeof data === 'object' ? data : {};
         data["result"] = this.result;
         data["comment"] = this.comment;
-        return data;
+        return data; 
     }
 
     clone(): AssessmentResult {
@@ -18260,6 +18267,7 @@ export class CreateClientInput implements ICreateClientInput {
     jobDescription: string | undefined;
     motivation: string | undefined;
     generalAppearance: string | undefined;
+    address: CreateAddressInput | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
 
@@ -18298,6 +18306,7 @@ export class CreateClientInput implements ICreateClientInput {
             this.jobDescription = data["jobDescription"];
             this.motivation = data["motivation"];
             this.generalAppearance = data["generalAppearance"];
+            this.address = data["address"] ? CreateAddressInput.fromJS(data["address"]) : <any>undefined;
             this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
             this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
         }
@@ -18336,9 +18345,10 @@ export class CreateClientInput implements ICreateClientInput {
         data["jobDescription"] = this.jobDescription;
         data["motivation"] = this.motivation;
         data["generalAppearance"] = this.generalAppearance;
+        data["address"] = this.address ? this.address.toJSON() : <any>undefined;
         data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
-        return data;
+        return data; 
     }
 
     clone(): CreateClientInput {
@@ -18374,8 +18384,68 @@ export interface ICreateClientInput {
     jobDescription: string | undefined;
     motivation: string | undefined;
     generalAppearance: string | undefined;
+    address: CreateAddressInput | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
+}
+
+export class CreateAddressInput implements ICreateAddressInput {
+    line1: string | undefined;
+    line2: string | undefined;
+    city: string | undefined;
+    postalCode: string | undefined;
+    province: string | undefined;
+
+    constructor(data?: ICreateAddressInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.line1 = data["line1"];
+            this.line2 = data["line2"];
+            this.city = data["city"];
+            this.postalCode = data["postalCode"];
+            this.province = data["province"];
+        }
+    }
+
+    static fromJS(data: any): CreateAddressInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAddressInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["line1"] = this.line1;
+        data["line2"] = this.line2;
+        data["city"] = this.city;
+        data["postalCode"] = this.postalCode;
+        data["province"] = this.province;
+        return data; 
+    }
+
+    clone(): CreateAddressInput {
+        const json = this.toJSON();
+        let result = new CreateAddressInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateAddressInput {
+    line1: string | undefined;
+    line2: string | undefined;
+    city: string | undefined;
+    postalCode: string | undefined;
+    province: string | undefined;
 }
 
 export class ClientDetailOutput implements IClientDetailOutput {
@@ -18511,7 +18581,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ClientDetailOutput {
@@ -18561,65 +18631,6 @@ export interface IClientDetailOutput {
     id: string | undefined;
 }
 
-export class CreateAddressInput implements ICreateAddressInput {
-    line1: string | undefined;
-    line2: string | undefined;
-    city: string | undefined;
-    postalCode: string | undefined;
-    province: string | undefined;
-
-    constructor(data?: ICreateAddressInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.line1 = data["line1"];
-            this.line2 = data["line2"];
-            this.city = data["city"];
-            this.postalCode = data["postalCode"];
-            this.province = data["province"];
-        }
-    }
-
-    static fromJS(data: any): CreateAddressInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateAddressInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["line1"] = this.line1;
-        data["line2"] = this.line2;
-        data["city"] = this.city;
-        data["postalCode"] = this.postalCode;
-        data["province"] = this.province;
-        return data;
-    }
-
-    clone(): CreateAddressInput {
-        const json = this.toJSON();
-        let result = new CreateAddressInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICreateAddressInput {
-    line1: string | undefined;
-    line2: string | undefined;
-    city: string | undefined;
-    postalCode: string | undefined;
-    province: string | undefined;
-}
-
 export class PagedResultDtoOfClientListDto implements IPagedResultDtoOfClientListDto {
     totalCount: number | undefined;
     items: ClientListDto[] | undefined;
@@ -18659,7 +18670,7 @@ export class PagedResultDtoOfClientListDto implements IPagedResultDtoOfClientLis
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfClientListDto {
@@ -18805,7 +18816,7 @@ export class ClientListDto implements IClientListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ClientListDto {
@@ -18890,7 +18901,7 @@ export class ListResultDtoOfClientListDto implements IListResultDtoOfClientListD
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfClientListDto {
@@ -18942,7 +18953,7 @@ export class CreateWorkHistoryInput implements ICreateWorkHistoryInput {
         data["premorbid"] = this.premorbid;
         data["postMorbid"] = this.postMorbid;
         data["description"] = this.description;
-        return data;
+        return data; 
     }
 
     clone(): CreateWorkHistoryInput {
@@ -19003,7 +19014,7 @@ export class WorkHistoryDetailOutput implements IWorkHistoryDetailOutput {
         data["postMorbid"] = this.postMorbid;
         data["description"] = this.description;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): WorkHistoryDetailOutput {
@@ -19066,7 +19077,7 @@ export class WorkHistoryListDto implements IWorkHistoryListDto {
         data["postMorbid"] = this.postMorbid;
         data["description"] = this.description;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): WorkHistoryListDto {
@@ -19126,7 +19137,7 @@ export class CreateMedicalHistoryInput implements ICreateMedicalHistoryInput {
         data["medicalConditions"] = this.medicalConditions;
         data["currentHistory"] = this.currentHistory;
         data["medication"] = this.medication;
-        return data;
+        return data; 
     }
 
     clone(): CreateMedicalHistoryInput {
@@ -19191,7 +19202,7 @@ export class MedicalHistoryDetailOutput implements IMedicalHistoryDetailOutput {
         data["currentHistory"] = this.currentHistory;
         data["medication"] = this.medication;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): MedicalHistoryDetailOutput {
@@ -19258,7 +19269,7 @@ export class MedicalHistoryListDto implements IMedicalHistoryListDto {
         data["currentHistory"] = this.currentHistory;
         data["medication"] = this.medication;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): MedicalHistoryListDto {
@@ -19316,7 +19327,7 @@ export class CreateCommentInput implements ICreateCommentInput {
         data["text"] = this.text;
         data["targetId"] = this.targetId;
         data["targetType"] = this.targetType;
-        return data;
+        return data; 
     }
 
     clone(): CreateCommentInput {
@@ -19398,7 +19409,7 @@ export class CommentDetailOutput implements ICommentDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): CommentDetailOutput {
@@ -19489,7 +19500,7 @@ export class CommentListDto implements ICommentListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): CommentListDto {
@@ -19555,7 +19566,7 @@ export class PagedResultDtoOfCommentListDto implements IPagedResultDtoOfCommentL
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfCommentListDto {
@@ -19599,7 +19610,7 @@ export class ChangeUiThemeInput implements IChangeUiThemeInput {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["theme"] = this.theme;
-        return data;
+        return data; 
     }
 
     clone(): ChangeUiThemeInput {
@@ -19654,7 +19665,7 @@ export class CreateContactInput implements ICreateContactInput {
         data["lastName"] = this.lastName;
         data["email"] = this.email;
         data["role"] = this.role;
-        return data;
+        return data; 
     }
 
     clone(): CreateContactInput {
@@ -19740,7 +19751,7 @@ export class ContactDetailOutput implements IContactDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ContactDetailOutput {
@@ -19835,7 +19846,7 @@ export class ContactListDto implements IContactListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ContactListDto {
@@ -19899,7 +19910,7 @@ export class ListResultDtoOfContactListDto implements IListResultDtoOfContactLis
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfContactListDto {
@@ -19953,7 +19964,7 @@ export class PagedResultDtoOfContactListDto implements IPagedResultDtoOfContactL
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfContactListDto {
@@ -20045,7 +20056,7 @@ export class CrawlingProtocolDetailOutput implements ICrawlingProtocolDetailOutp
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): CrawlingProtocolDetailOutput {
@@ -20149,7 +20160,7 @@ export class CrawlingProtocolDto implements ICrawlingProtocolDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): CrawlingProtocolDto {
@@ -20231,7 +20242,7 @@ export class CreateDocumentInput implements ICreateDocumentInput {
         data["userId"] = this.userId;
         data["fileUrl"] = this.fileUrl;
         data["identifier"] = this.identifier;
-        return data;
+        return data; 
     }
 
     clone(): CreateDocumentInput {
@@ -20336,7 +20347,7 @@ export class DocumentDetailOutput implements IDocumentDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): DocumentDetailOutput {
@@ -20405,7 +20416,7 @@ export class ListResultDtoOfDocumentListDto implements IListResultDtoOfDocumentL
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfDocumentListDto {
@@ -20505,7 +20516,7 @@ export class DocumentListDto implements IDocumentListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): DocumentListDto {
@@ -20578,7 +20589,7 @@ export class PagedResultDtoOfDocumentListDto implements IPagedResultDtoOfDocumen
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfDocumentListDto {
@@ -20628,7 +20639,7 @@ export class CreateJobDescriptionInput implements ICreateJobDescriptionInput {
         data["code"] = this.code;
         data["description"] = this.description;
         data["title"] = this.title;
-        return data;
+        return data; 
     }
 
     clone(): CreateJobDescriptionInput {
@@ -20703,7 +20714,7 @@ export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): JobDescriptionDetailOutput {
@@ -20786,7 +20797,7 @@ export class JobDescriptionListDto implements IJobDescriptionListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): JobDescriptionListDto {
@@ -20850,7 +20861,7 @@ export class PagedResultDtoOfJobDescriptionListDto implements IPagedResultDtoOfJ
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfJobDescriptionListDto {
@@ -20915,7 +20926,7 @@ export class LadderWorkCreateInput implements ILadderWorkCreateInput {
         data["comment"] = this.comment;
         data["result"] = this.result;
         data["status"] = this.status;
-        return data;
+        return data; 
     }
 
     clone(): LadderWorkCreateInput {
@@ -20973,7 +20984,7 @@ export class ListResultDtoOfLadderWorkProtocolDetailOutput implements IListResul
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfLadderWorkProtocolDetailOutput {
@@ -21067,7 +21078,7 @@ export class LadderWorkProtocolDetailOutput implements ILadderWorkProtocolDetail
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): LadderWorkProtocolDetailOutput {
@@ -21175,7 +21186,7 @@ export class LadderWorkProtocolDto implements ILadderWorkProtocolDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): LadderWorkProtocolDto {
@@ -21258,7 +21269,7 @@ export class CreateLawFirmInput implements ICreateLawFirmInput {
         data["email"] = this.email;
         data["phone"] = this.phone;
         data["fax"] = this.fax;
-        return data;
+        return data; 
     }
 
     clone(): CreateLawFirmInput {
@@ -21357,7 +21368,7 @@ export class LawFirmDetailOutput implements ILawFirmDetailOutput {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): LawFirmDetailOutput {
@@ -21431,7 +21442,7 @@ export class AddressDetailOutput implements IAddressDetailOutput {
         data["postalCode"] = this.postalCode;
         data["province"] = this.province;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): AddressDetailOutput {
@@ -21518,7 +21529,7 @@ export class LawFirmListDto implements ILawFirmListDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): LawFirmListDto {
@@ -21582,7 +21593,7 @@ export class ListResultDtoOfLawFirmListDto implements IListResultDtoOfLawFirmLis
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfLawFirmListDto {
@@ -21633,7 +21644,7 @@ export class ListResultDtoOfAttorneyListDto implements IListResultDtoOfAttorneyL
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfAttorneyListDto {
@@ -21687,7 +21698,7 @@ export class PagedResultDtoOfLawFirmListDto implements IPagedResultDtoOfLawFirmL
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfLawFirmListDto {
@@ -21763,7 +21774,7 @@ export class ProfileDto implements IProfileDto {
             for (let item of this.roleNames)
                 data["roleNames"].push(item);
         }
-        return data;
+        return data; 
     }
 
     clone(): ProfileDto {
@@ -21844,7 +21855,7 @@ export class RangeOfMotionDto implements IRangeOfMotionDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RangeOfMotionDto {
@@ -21948,7 +21959,7 @@ export class AnkleDto implements IAnkleDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): AnkleDto {
@@ -22059,7 +22070,7 @@ export class ElbowDto implements IElbowDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ElbowDto {
@@ -22176,7 +22187,7 @@ export class ForearmWristDto implements IForearmWristDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ForearmWristDto {
@@ -22295,7 +22306,7 @@ export class HipDto implements IHipDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): HipDto {
@@ -22402,7 +22413,7 @@ export class KneeDto implements IKneeDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): KneeDto {
@@ -22517,7 +22528,7 @@ export class ShoulderDto implements IShoulderDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): ShoulderDto {
@@ -22642,7 +22653,7 @@ export class HandDto implements IHandDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): HandDto {
@@ -22714,7 +22725,7 @@ export class ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput implements 
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput {
@@ -22793,7 +22804,7 @@ export class RepetitiveFootMotionProtocolDetailOutput implements IRepetitiveFoot
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RepetitiveFootMotionProtocolDetailOutput {
@@ -22899,7 +22910,7 @@ export class RepetitiveFootMotionOptionDto implements IRepetitiveFootMotionOptio
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RepetitiveFootMotionOptionDto {
@@ -22995,7 +23006,7 @@ export class RepetitiveSquattingCreateInput implements IRepetitiveSquattingCreat
         data["comment"] = this.comment;
         data["result"] = this.result;
         data["status"] = this.status;
-        return data;
+        return data; 
     }
 
     clone(): RepetitiveSquattingCreateInput {
@@ -23058,7 +23069,7 @@ export class ListResultDtoOfRepetitiveSquattingProtocolDetailOutput implements I
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfRepetitiveSquattingProtocolDetailOutput {
@@ -23167,7 +23178,7 @@ export class RepetitiveSquattingProtocolDetailOutput implements IRepetitiveSquat
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RepetitiveSquattingProtocolDetailOutput {
@@ -23295,7 +23306,7 @@ export class RepetitiveSquattingProtocolDto implements IRepetitiveSquattingProto
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RepetitiveSquattingProtocolDto {
@@ -23329,6 +23340,61 @@ export interface IRepetitiveSquattingProtocolDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class ReportGripStrength implements IReportGripStrength {
+    rightHandWeight: number | undefined;
+    leftHandWeight: number | undefined;
+    normRight: number | undefined;
+    normLeft: number | undefined;
+
+    constructor(data?: IReportGripStrength) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.rightHandWeight = data["rightHandWeight"];
+            this.leftHandWeight = data["leftHandWeight"];
+            this.normRight = data["normRight"];
+            this.normLeft = data["normLeft"];
+        }
+    }
+
+    static fromJS(data: any): ReportGripStrength {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportGripStrength();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rightHandWeight"] = this.rightHandWeight;
+        data["leftHandWeight"] = this.leftHandWeight;
+        data["normRight"] = this.normRight;
+        data["normLeft"] = this.normLeft;
+        return data; 
+    }
+
+    clone(): ReportGripStrength {
+        const json = this.toJSON();
+        let result = new ReportGripStrength();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportGripStrength {
+    rightHandWeight: number | undefined;
+    leftHandWeight: number | undefined;
+    normRight: number | undefined;
+    normLeft: number | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
@@ -23379,7 +23445,7 @@ export class CreateRoleDto implements ICreateRoleDto {
             for (let item of this.grantedPermissions)
                 data["grantedPermissions"].push(item);
         }
-        return data;
+        return data; 
     }
 
     clone(): CreateRoleDto {
@@ -23449,7 +23515,7 @@ export class RoleDto implements IRoleDto {
                 data["grantedPermissions"].push(item);
         }
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RoleDto {
@@ -23505,7 +23571,7 @@ export class ListResultDtoOfRoleListDto implements IListResultDtoOfRoleListDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfRoleListDto {
@@ -23563,7 +23629,7 @@ export class RoleListDto implements IRoleListDto {
         data["isDefault"] = this.isDefault;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RoleListDto {
@@ -23619,7 +23685,7 @@ export class ListResultDtoOfPermissionDto implements IListResultDtoOfPermissionD
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfPermissionDto {
@@ -23671,7 +23737,7 @@ export class PermissionDto implements IPermissionDto {
         data["displayName"] = this.displayName;
         data["description"] = this.description;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): PermissionDto {
@@ -23739,7 +23805,7 @@ export class GetRoleForEditOutput implements IGetRoleForEditOutput {
             for (let item of this.grantedPermissionNames)
                 data["grantedPermissionNames"].push(item);
         }
-        return data;
+        return data; 
     }
 
     clone(): GetRoleForEditOutput {
@@ -23796,7 +23862,7 @@ export class RoleEditDto implements IRoleEditDto {
         data["description"] = this.description;
         data["isStatic"] = this.isStatic;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): RoleEditDto {
@@ -23849,7 +23915,7 @@ export class FlatPermissionDto implements IFlatPermissionDto {
         data["name"] = this.name;
         data["displayName"] = this.displayName;
         data["description"] = this.description;
-        return data;
+        return data; 
     }
 
     clone(): FlatPermissionDto {
@@ -23905,7 +23971,7 @@ export class PagedResultDtoOfRoleDto implements IPagedResultDtoOfRoleDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfRoleDto {
@@ -23955,7 +24021,7 @@ export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInform
         data["application"] = this.application ? this.application.toJSON() : <any>undefined;
         data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["tenant"] = this.tenant ? this.tenant.toJSON() : <any>undefined;
-        return data;
+        return data; 
     }
 
     clone(): GetCurrentLoginInformationsOutput {
@@ -24018,7 +24084,7 @@ export class ApplicationInfoDto implements IApplicationInfoDto {
                     data["features"][key] = this.features[key];
             }
         }
-        return data;
+        return data; 
     }
 
     clone(): ApplicationInfoDto {
@@ -24075,7 +24141,7 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["userName"] = this.userName;
         data["emailAddress"] = this.emailAddress;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): UserLoginInfoDto {
@@ -24128,7 +24194,7 @@ export class TenantLoginInfoDto implements ITenantLoginInfoDto {
         data["tenancyName"] = this.tenancyName;
         data["name"] = this.name;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): TenantLoginInfoDto {
@@ -24203,7 +24269,7 @@ export class StairClimbingCreateInput implements IStairClimbingCreateInput {
         data["comment"] = this.comment;
         data["result"] = this.result;
         data["status"] = this.status;
-        return data;
+        return data; 
     }
 
     clone(): StairClimbingCreateInput {
@@ -24264,7 +24330,7 @@ export class ListResultDtoOfStairClimbingProtocolDetailOutput implements IListRe
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfStairClimbingProtocolDetailOutput {
@@ -24367,7 +24433,7 @@ export class StairClimbingProtocolDetailOutput implements IStairClimbingProtocol
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): StairClimbingProtocolDetailOutput {
@@ -24487,7 +24553,7 @@ export class StairClimbingProtocolDto implements IStairClimbingProtocolDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): StairClimbingProtocolDto {
@@ -24561,7 +24627,7 @@ export class CreateTenantDto implements ICreateTenantDto {
         data["adminEmailAddress"] = this.adminEmailAddress;
         data["connectionString"] = this.connectionString;
         data["isActive"] = this.isActive;
-        return data;
+        return data; 
     }
 
     clone(): CreateTenantDto {
@@ -24617,7 +24683,7 @@ export class TenantDto implements ITenantDto {
         data["name"] = this.name;
         data["isActive"] = this.isActive;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): TenantDto {
@@ -24674,7 +24740,7 @@ export class PagedResultDtoOfTenantDto implements IPagedResultDtoOfTenantDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfTenantDto {
@@ -24724,7 +24790,7 @@ export class AuthenticateModel implements IAuthenticateModel {
         data["userNameOrEmailAddress"] = this.userNameOrEmailAddress;
         data["password"] = this.password;
         data["rememberClient"] = this.rememberClient;
-        return data;
+        return data; 
     }
 
     clone(): AuthenticateModel {
@@ -24778,7 +24844,7 @@ export class AuthenticateResultModel implements IAuthenticateResultModel {
         data["encryptedAccessToken"] = this.encryptedAccessToken;
         data["expireInSeconds"] = this.expireInSeconds;
         data["userId"] = this.userId;
-        return data;
+        return data; 
     }
 
     clone(): AuthenticateResultModel {
@@ -24827,7 +24893,7 @@ export class ExternalLoginProviderInfoModel implements IExternalLoginProviderInf
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["clientId"] = this.clientId;
-        return data;
+        return data; 
     }
 
     clone(): ExternalLoginProviderInfoModel {
@@ -24877,7 +24943,7 @@ export class ExternalAuthenticateModel implements IExternalAuthenticateModel {
         data["authProvider"] = this.authProvider;
         data["providerKey"] = this.providerKey;
         data["providerAccessCode"] = this.providerAccessCode;
-        return data;
+        return data; 
     }
 
     clone(): ExternalAuthenticateModel {
@@ -24931,7 +24997,7 @@ export class ExternalAuthenticateResultModel implements IExternalAuthenticateRes
         data["encryptedAccessToken"] = this.encryptedAccessToken;
         data["expireInSeconds"] = this.expireInSeconds;
         data["waitingForActivation"] = this.waitingForActivation;
-        return data;
+        return data; 
     }
 
     clone(): ExternalAuthenticateResultModel {
@@ -25003,7 +25069,7 @@ export class CreateUserDto implements ICreateUserDto {
                 data["roleNames"].push(item);
         }
         data["password"] = this.password;
-        return data;
+        return data; 
     }
 
     clone(): CreateUserDto {
@@ -25087,7 +25153,7 @@ export class UserDto implements IUserDto {
                 data["roleNames"].push(item);
         }
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): UserDto {
@@ -25147,7 +25213,7 @@ export class ListResultDtoOfRoleDto implements IListResultDtoOfRoleDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): ListResultDtoOfRoleDto {
@@ -25190,7 +25256,7 @@ export class ChangeUserLanguageDto implements IChangeUserLanguageDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["languageName"] = this.languageName;
-        return data;
+        return data; 
     }
 
     clone(): ChangeUserLanguageDto {
@@ -25236,7 +25302,7 @@ export class ChangePasswordDto implements IChangePasswordDto {
         data = typeof data === 'object' ? data : {};
         data["currentPassword"] = this.currentPassword;
         data["newPassword"] = this.newPassword;
-        return data;
+        return data; 
     }
 
     clone(): ChangePasswordDto {
@@ -25286,7 +25352,7 @@ export class ResetPasswordDto implements IResetPasswordDto {
         data["adminPassword"] = this.adminPassword;
         data["userId"] = this.userId;
         data["newPassword"] = this.newPassword;
-        return data;
+        return data; 
     }
 
     clone(): ResetPasswordDto {
@@ -25342,7 +25408,7 @@ export class PagedResultDtoOfUserDto implements IPagedResultDtoOfUserDto {
             for (let item of this.items)
                 data["items"].push(item.toJSON());
         }
-        return data;
+        return data; 
     }
 
     clone(): PagedResultDtoOfUserDto {
@@ -25431,7 +25497,7 @@ export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): WalkingProtocolDetailOutput {
@@ -25531,7 +25597,7 @@ export class WalkingProtocolDto implements IWalkingProtocolDto {
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
         data["creatorUserId"] = this.creatorUserId;
         data["id"] = this.id;
-        return data;
+        return data; 
     }
 
     clone(): WalkingProtocolDto {
@@ -25561,17 +25627,17 @@ export interface IWalkingProtocolDto {
 }
 
 export enum IsTenantAvailableOutputState {
-    _1 = 1,
-    _2 = 2,
-    _3 = 3,
+    _1 = 1, 
+    _2 = 2, 
+    _3 = 3, 
 }
 
 export class SwaggerException extends Error {
     message: string;
-    status: number;
-    response: string;
+    status: number; 
+    response: string; 
     headers: { [key: string]: any; };
-    result: any;
+    result: any; 
 
     constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
         super();
@@ -25603,12 +25669,12 @@ function blobToText(blob: any): Observable<string> {
             observer.next("");
             observer.complete();
         } else {
-            let reader = new FileReader();
-            reader.onload = event => {
+            let reader = new FileReader(); 
+            reader.onload = event => { 
                 observer.next((<any>event.target).result);
                 observer.complete();
             };
-            reader.readAsText(blob);
+            reader.readAsText(blob); 
         }
     });
 }
