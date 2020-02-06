@@ -12,9 +12,6 @@ export class AssessmentReportService {
 
   }
 
-  getGripStrengthReport(clientId: string): Observable<any> {
-    return this._reportService.getGripStrengthReport(clientId);
-  }
   getShoulderReport(clientId: string): string {
     let report: string;
     this._reportService.getRoMShoulderReport(clientId)

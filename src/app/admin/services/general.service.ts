@@ -20,4 +20,28 @@ export class GeneralService {
   callComponentMethod() {
     this.componentMethodCallSource.next();
   }
+
+  getAge(idNumber: string): number {
+    const tempDate = new Date(
+      +idNumber.substr(0, 2),
+      +(idNumber.substring(2, 4)) - 1,
+      +idNumber.substring(4, 6));
+    const id_month = tempDate.getMonth();
+    const id_year = tempDate.getFullYear();
+    let currentAge = new Date().getFullYear() - id_year;
+    if (id_month > new Date().getMonth()) {
+      currentAge = currentAge - 1;
+    } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
+      currentAge = currentAge - 1;
+    }
+    return currentAge;
+  }
+
+  getGender(idNumber: string): number {
+    const genderIdentifier = idNumber.charAt(6);
+    if (Number.parseInt(genderIdentifier) < 5) {
+      return 0;
+    }
+    return 1;
+  }
 }

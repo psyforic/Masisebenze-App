@@ -11,12 +11,14 @@ import {
   WorkHistoryDetailOutput,
   ClientDetailOutput,
   ReportServiceProxy,
+  ReportGripStrength,
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
 import { NewClientComponent } from './new-client/new-client.component';
 import { DocumentCreator } from '@app/admin/partials/document-creator';
 import * as moment from 'moment';
+import { GeneralService } from '@app/admin/services/general.service';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -35,7 +37,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
   isSaving = false; isGenerating = false; documents: DocumentListDto[] = [];
   filteredDocuments; lawFirmCity: string;
-  gripStrengthReport: string; musclePowerReport: string; shouldersReport: string;
+  gripStrengthReport: ReportGripStrength; musclePowerReport: string; shouldersReport: string;
   forearmWristReport: string; elbowReport: string; handReport: string;
   hipReport: string; kneeReport: string; ankleReport: string;
   borgBalanceReport: string; sensationUpperReport: string; sensationLowerReport: string;
@@ -44,12 +46,13 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   balanceReport: string; ladderWork: string; repetitiveSquatting: string;
   repetitiveFootMotionReport: string; crawlingReport: string;
 
-  assessmentReport: string[] = [];
+  assessmentReport: any[] = [];
 
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
-    private _reportService: ReportServiceProxy) {
+    private _reportService: ReportServiceProxy,
+    private _generalService: GeneralService) {
     super(injector);
   }
   applyFilter(filterValue: string) {
@@ -60,28 +63,28 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   createClient() {
     this.newClientRef.open();
   }
-  generate(clientId: string) {
+  generate(client) {
     let entity: ClientDetailOutput = new ClientDetailOutput();
-    this.clientService.getDetail(clientId).pipe(finalize(() => {
+    this.clientService.getDetail(client.id).pipe(finalize(() => {
 
     })).subscribe((result) => {
       entity = result;
     });
     this.isGenerating = true;
-    this.getMedicalHistory(clientId);
-    this.getWorkHistory(clientId);
-    this.getClientHistory(clientId);
-    this.getFileData(clientId);
+    this.getMedicalHistory(client.id);
+    this.getWorkHistory(client.id);
+    this.getClientHistory(client.id);
+    this.getFileData(client.id);
     this.lawFirmCity = 'Port Elizabeth';
     const address: CreateAddressInput = new CreateAddressInput();
-    this.clientService.getDetail(clientId)
+    this.clientService.getDetail(client.id)
       .pipe(finalize(() => {
-        this.clientService.getMedicalHistoryByClientId(clientId)
+        this.clientService.getMedicalHistoryByClientId(client.id)
           .pipe(finalize(() => { }))
           .subscribe((result) => {
             this.medicalData = result;
           });
-        this.clientService.getWorkHistoryByClientId(clientId)
+        this.clientService.getWorkHistoryByClientId(client.id)
           .subscribe((result) => {
             this.workData = result;
           });
@@ -93,11 +96,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         address.postalCode = result.address.postalCode;
         address.province = result.address.province;
       });
-    this.getReportData(clientId);
+    const age = this._generalService.getAge('' + client.idNumber);
+    const gender = this._generalService.getGender('' + client.idNumber);
+    this.getReportData(client.id, age, gender);
     const docCreator = new DocumentCreator();
     setTimeout(() => {
       const today = moment().format('LL');
-      console.log(this.assessmentReport);
       docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData,
         this.workData, this.lawFirmCity, this.assessmentReport], today);
       this.notify.success('Document created successfully');
@@ -167,8 +171,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.getDataPage(event.pageIndex + 1);
   }
 
-  getReportData(clientId: string) {
-    this.getGripStrength(clientId);
+  getReportData(clientId: string, age: number, gender: number) {
+    this.getGripStrength(clientId, age, gender);
     this.getMusclePower(clientId);
     this.getShoulders(clientId);
     this.getForearmWrist(clientId);
@@ -192,8 +196,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.getRepetitiveFootMotion(clientId);
     this.getCrawling(clientId);
   }
-  getGripStrength(clientId: string) {
-    this._reportService.getGripStrengthReport(clientId)
+  getGripStrength(clientId: string, age: number, gender: number) {
+    this._reportService.getGripStrengthReport(clientId, age, gender)
       .subscribe((result) => {
         this.gripStrengthReport = result;
         this.assessmentReport[0] = result;

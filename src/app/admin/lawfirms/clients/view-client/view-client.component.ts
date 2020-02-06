@@ -328,6 +328,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getClient();
         this.isLoading = false;
       }, error => {
+        console.log(error);
         this.isLoading = false;
       });
   }
