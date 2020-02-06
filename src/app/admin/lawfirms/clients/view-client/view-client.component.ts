@@ -1,5 +1,9 @@
-import { Event } from './../../../../../shared/service-proxies/service-proxies';
-import { NestedTreeControl } from '@angular/cdk/tree';
+import { registerLocaleData } from '@angular/common';
+import { Document } from 'docx';
+import { DocumentFolder } from './../../../documents/document-types';
+import { DocumentsModule } from './../../../documents/documents.module';
+import { Event, DocumentListDto } from './../../../../../shared/service-proxies/service-proxies';
+import { NestedTreeControl, FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
@@ -19,7 +23,6 @@ import {
   ClientDetailOutput,
   ClientServiceProxy,
   CreateAddressInput,
-  DocumentListDto,
   DocumentServiceProxy,
   GripStrengthDto,
   MedicalHistoryDetailOutput,
@@ -30,7 +33,7 @@ import {
   AttorneyListDto
 } from '@shared/service-proxies/service-proxies';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { GaitComponent } from '../assessments/gait/gait.component';
 import { GripStrengthComponent } from '../assessments/grip-strength/grip-strength.component';
@@ -44,6 +47,7 @@ import { RepetitiveToleranceProtocolComponent } from '../assessments/repetitive-
 import { MusclePowerComponent } from '../assessments/muscle-power/muscle-power.component';
 import { AffectComponent } from '../assessments/affect/affect.component';
 import { MobilityComponent } from '../assessments/mobility/mobility.component';
+import { groupBy, mergeMap, reduce } from 'rxjs/operators';
 export const DD_MM_YYYY_Format = {
   parse: {
     dateInput: 'LL',
@@ -59,10 +63,17 @@ interface DocumentNode {
   name: string;
   url?: string;
   id: number;
-  parentDocId?: number;
-  children?: DocumentNode[];
 }
-
+interface ExampleFlatNode {
+  expandable: boolean;
+  name: string;
+  level: number;
+}
+interface FolderNode {
+  id: number;
+  value: string;
+  children?: any[];
+}
 @Component({
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
@@ -84,12 +95,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('affect', { static: false }) openAffect: AffectComponent;
   @ViewChild('mobility', { static: false }) openMobility: MobilityComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
+  documentTypes = DocumentFolder.documentTypes;
   documents: DocumentListDto[] = [];
-  allDocuments: DocumentListDto[] = [];
   workHistory: WorkHistoryDetailOutput = new WorkHistoryDetailOutput();
   medicalHistory: MedicalHistoryDetailOutput = new MedicalHistoryDetailOutput();
-  treeControl = new NestedTreeControl<DocumentNode>(node => node.children);
-  dataSource = new MatTreeNestedDataSource<DocumentNode>();
+  treeControl = new NestedTreeControl<FolderNode>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<FolderNode>();
   clientId = '';
   line1 = '';
   line2 = '';
@@ -113,7 +124,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   dateOfInjury: any;
   courtDate: any;
   assessmentDate: any;
-
   imageChangedEvent: any = '';
   croppedImage: any = '';
   showCropper = false;
@@ -125,7 +135,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
   hidden = true;
-
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
@@ -140,53 +149,58 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     });
   }
   getFileData() {
-    this.documentService.getClientDocuments(this.clientId)
-      .pipe(finalize(() => { }))
-      .subscribe((result) => {
-        // this.documents = result.items.filter(x => x.parentDocId === null);
+    this.documentService.getClientDocuments(this.clientId).subscribe(
+      (result) => {
         this.documents = result.items;
-        const filtered = this.documents.map((value) => {
-          return {
-            name: value.name,
-            url: value.fileUrl,
-            id: value.id,
-            parentDocId: value.parentDocId,
-            children: [{ name: value.name, url: value.fileUrl, id: value.id }]
-          };
-        });
-        this.dataSource.data = filtered;
-      });
+        if (this.documents != null && this.documents.length > 0) {
+          const filtered = this.documentTypes.map((type) => {
+            return {
+              value: type.value,
+              id: type.id,
+              children: this.documents.filter(x => x.parentDocId == type.id).map(
+                (doc) => {
+                  return {
+                    name: doc.name,
+                    id: doc.id,
+                    url: doc.fileUrl
+                  };
+                }
+              )
+            };
+          });
+          this.dataSource.data = filtered.filter(x => x.children.length > 0);
+        }  else {
+          const filtered = this.documentTypes.map((type) => {
+            return {
+              value: type.value,
+              id: type.id,
+              children: []
+            };
+          });
+          this.dataSource.data = filtered.filter(x => x.children.length > 0);
+        }
+        // sconsole.log(this.dataSource.data);
+      }
+
+    );
+
+  }
+  getDoc(id): DocumentListDto[]  {
+    let docs:DocumentListDto[] = [];
+    this.documentService.getChildDocuments(id).subscribe(
+      (result) => {
+        docs = result.items;
+      }
+    );
+    return docs;
+  }
+  isInArray(value, array) {
+    return array.indexOf(value) > -1;
   }
   getChildDocuments() {
     this.documentService.getAllChildDocuments(this.clientId)
       .subscribe(result => {
-        let isChild = false;
         this.childDocuments = result.items;
-        // this.childDocuments.forEach((cd) => {
-        //   const myList: string[] = [];;
-        //   this.dataSource.data.forEach((data) => {
-        //     const list = this.childDocuments.filter(x => x.parentDocId === data.id);
-        //     if (list.filter(f => f.id == cd.id).length > 0) {
-        //       isChild = true;
-        //     } else {
-
-        //     }
-        //   });
-        //   //console.log(list);
-        //   if (isChild) {
-        //     //
-        //     const filtered =  {
-        //         name: cd.name,
-        //         url: cd.fileUrl,
-        //         id: cd.id,
-        //         parentDocId: cd.parentDocId,
-        //         children: [{ name: cd.name, url: cd.fileUrl, id: cd.id }]
-        //     };
-        //     this.dataSource.data.push(filtered);
-
-        //   }
-        // });
-        // console.log(this.dataSource.data);
       });
   }
   ngOnInit() {
@@ -215,16 +229,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.city = this.client.address ? this.client.address.city : '';
         this.postalCode = this.client.address ? this.client.address.postalCode : '';
         this.province = this.client.address ? this.client.address.province : '';
-        if (this.client.dateOfInjury != null) {
-          this.dateOfInjury = this.client.dateOfInjury.toDate();
-        }
-        if (this.client.courtDate != null) {
-          this.courtDate = this.client.courtDate.toDate();
-        }
-        if (this.client.assessmentDate != null) {
-          this.assessmentDate = this.client.assessmentDate.toDate();
-        }
-
+        this.dateOfInjury = this.client.dateOfInjury ? this.client.dateOfInjury.toDate() : '';
+        this.courtDate = this.client.courtDate ? this.client.courtDate.toDate() : '';
+        this.assessmentDate = this.client.assessmentDate ? this.client.assessmentDate.toDate() : '';
         this.isLoading = false;
       })))
       .subscribe((result) => {
@@ -276,34 +283,42 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     let hoursDiff;
     let minutesDiff;
     // set Date of injury
-    if (this.dateOfInjury !== null && this.dateOfInjury !== 'undefined') {
+    if (this.dateOfInjury !== null && this.dateOfInjury !== 'undefined' && !this.isValidDate(this.dateOfInjury)) {
       this.dateOfInjury = new Date(this.dateOfInjury);
       hoursDiff = this.dateOfInjury.getHours() - this.dateOfInjury.getTimezoneOffset() / 60;
       minutesDiff = (this.dateOfInjury.getHours() - this.dateOfInjury.getTimezoneOffset()) % 60;
       this.dateOfInjury.setHours(hoursDiff);
       this.dateOfInjury.setMinutes(minutesDiff);
-      this.client.dateOfInjury = this.dateOfInjury;
+    } else {
+      this.dateOfInjury = '';
     }
-
+    this.client.dateOfInjury = this.dateOfInjury;
     // set Court date
-    if (this.courtDate !== null && this.courtDate !== 'undefined') {
+    if (this.courtDate !== null && this.courtDate !== 'undefined' && !this.isValidDate(this.courtDate)) {
       this.courtDate = new Date(this.courtDate);
       hoursDiff = this.dateOfInjury.getHours() - this.courtDate.getTimezoneOffset() / 60;
       minutesDiff = (this.courtDate.getHours() - this.courtDate.getTimezoneOffset()) % 60;
       this.courtDate.setHours(hoursDiff);
       this.courtDate.setMinutes(minutesDiff);
-      this.client.courtDate = this.courtDate;
-    }
 
+    } else {
+      this.courtDate = '';
+    }
+    this.client.courtDate = this.courtDate;
     // set Assessment date
-    if (this.assessmentDate !== null && this.assessmentDate !== 'undefined') {
+    if (this.assessmentDate !== null && this.assessmentDate !== 'undefined' && !this.isValidDate(this.assessmentDate)) {
       this.assessmentDate = new Date(this.assessmentDate);
       hoursDiff = this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset() / 60;
       minutesDiff = (this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset()) % 60;
       this.assessmentDate.setHours(hoursDiff);
       this.assessmentDate.setMinutes(minutesDiff);
-      this.client.assessmentDate = this.assessmentDate;
+    } else {
+      this.assessmentDate = '';
     }
+    this.client.assessmentDate = this.assessmentDate;
+    // console.log(this.client.courtDate);
+    // console.log(this.client.dateOfInjury);
+    // console.log(this.client.assessmentDate);
     this.clientService.editClient(this.client)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -315,6 +330,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       }, error => {
         this.isLoading = false;
       });
+  }
+  isValidDate(d) {
+    let s = Date.parse(d)
+    return isNaN(s) == true;
   }
   updateWorkHistory() {
     this.clientService.editWorkHistory(this.workHistory)
@@ -433,5 +452,5 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   getAffect() {
     this.openAffect.open();
   }
-  hasChild = (_: number, node: DocumentNode) => !!node.children && node.children.length > 0;
+  hasChild = (_: number, node: FolderNode) => !!node.children && node.children.length > 0;
 }

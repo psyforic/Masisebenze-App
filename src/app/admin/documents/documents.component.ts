@@ -1,5 +1,5 @@
 import { Component, ViewChild, Injector, ElementRef, OnInit } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, MatOptionSelectionChange } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import {
   DocumentListDto,
@@ -22,8 +22,13 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import * as moment from 'moment';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NewDocumentComponent } from './new-document/new-document.component';
+import { DocumentFolder } from './document-types';
 
 declare const $: any;
+interface IDocType {
+  id: number;
+  value: string;
+}
 @Component({
   selector: 'app-documents',
   templateUrl: './documents.component.html',
@@ -38,10 +43,11 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   uploadUrl: string;
   uploadedFiles: DocumentListDto[] = [];
   showInput = true;
-  displayedColumns = ['select', 'name', 'author', 'authorDate', 'upload'];
-  selection = new SelectionModel<DocumentListDto>(true, []);
-  dataSource: MatTableDataSource<DocumentListDto> = new MatTableDataSource<DocumentListDto>();
-
+  displayedColumns = ['select', 'type', 'name', 'author', 'authorDate', 'upload'];
+  selection = new SelectionModel<IDocType>(true, []);
+  dataSource: MatTableDataSource<IDocType> = new MatTableDataSource<IDocType>();
+  documentTypes = DocumentFolder.documentTypes;
+  clientDocuments: DocumentDetailOutput[] = [];
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
@@ -72,6 +78,7 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
     });
   }
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.documentTypes);
     this.getClientDocuments();
     this.getUsers();
   }
@@ -79,6 +86,7 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   onBeforeSend(event): void {
     event.xhr.setRequestHeader('Authorization', 'Bearer ');
   }
+
   getUsers() {
     this.clientService.getById(this.clientId)
       .subscribe((result) => {
@@ -99,11 +107,11 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.dataSource.data.forEach(row => this.selection.select());
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: DocumentListDto): string {
+  checkboxLabel(row?: IDocType): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
@@ -133,24 +141,63 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   addNewFile() {
     this.createDocument.open();
   }
+  // uploadFile(index, id, uploadUrl) {
+  //   const authorName = $('#author' + index).val();
+  //   const authorDate = $('#date' + index).val();
+  //   const fileName = $('#filename' + index).val();
+  //   const momentDate = new Date(authorDate);
+  //   const formattedDate = moment(momentDate).format('YYYY-MM-DD');
+  //   this.input = new DocumentDetailOutput();
+  //   this.input.id = id;
+  //   this.input.parentDocId = id;
+  //   this.input.authorName = authorName;
+  //   this.input.authorDate = moment(formattedDate);
+  //   this.input.fileUrl = uploadUrl;
+  //   this.input.identifier = 1;
+  //   this.input.name = fileName;
+  //   this.documentService.editDocument(this.input).pipe((finalize(() => {
+  //   }))).subscribe(() => {
+  //     this.isUploading = false;
+  //     abp.notify.success('File Uploaded Successfully');
+  //     this.getClientDocuments();
+  //   });
+  // }
   uploadFile(index, id, uploadUrl) {
     const authorName = $('#author' + index).val();
-    const authorDate = $('#date' + index).val();
+    let authorDate = $('#date' + index).val();
+    const fileName = $('#filename' + index).val();
     const momentDate = new Date(authorDate);
-    const formattedDate = moment(momentDate).format('YYYY-MM-DD');
+    const formattedDate = authorDate;
     this.input = new DocumentDetailOutput();
     this.input.id = id;
+    this.input.contactId = this.contactId;
+    this.input.clientId = this.clientId;
+    this.input.parentDocId = id;
     this.input.authorName = authorName;
-    this.input.authorDate = moment(formattedDate);
+    let hoursDiff;
+    let minutesDiff;
+    if (authorDate !== null && authorDate !== 'undefined' && !this.isValidDate(authorDate)) {
+      authorDate = new Date(authorDate);
+      hoursDiff = authorDate.getHours() - authorDate.getTimezoneOffset() / 60;
+      minutesDiff = (authorDate.getHours() - authorDate.getTimezoneOffset()) % 60;
+      authorDate.setHours(hoursDiff);
+      authorDate.setMinutes(minutesDiff);
+
+    }
+    this.input.authorDate = authorDate;
     this.input.fileUrl = uploadUrl;
     this.input.identifier = 1;
-
-    this.documentService.editDocument(this.input).pipe((finalize(() => {
+    this.input.name = fileName;
+    this.documentService.createDocument(this.input).pipe((finalize(() => {
     }))).subscribe(() => {
       this.isUploading = false;
       abp.notify.success('File Uploaded Successfully');
       this.getClientDocuments();
     });
+  }
+  isValidDate(d) {
+    let s = Date.parse(d)
+    return isNaN(s) == true;
   }
   isInValid(index, fileName) {
     const authorName = $('#author' + index).val();
@@ -167,7 +214,16 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe((result) => {
         this.uploadedFiles = result.items;
-        this.dataSource = new MatTableDataSource(this.uploadedFiles);
+        this.documentTypes.forEach((documentType) => {
+          if (this.uploadedFiles.filter(f => f.parentDocId == documentType.id).length > 0) {
+            const file = this.uploadedFiles.filter(f => f.parentDocId == documentType.id)[0];
+            this.clientDocuments.push(file);
+          } else {
+            const file = new DocumentDetailOutput();
+            this.clientDocuments.push(file);
+          }
+        });
+        this.dataSource = new MatTableDataSource(this.documentTypes);
         this.dataSource.paginator = this.paginator;
       });
   }

@@ -19,8 +19,8 @@
               <mat-form-field>
                 <mat-label>Parent Document</mat-label>
                 <mat-select  required formControlName="parentDocId">
-                  <mat-option *ngFor="let document of documents" value="{{document.id}}" (onSelectionChange)="selectedId($event, document.name)">
-                    {{document.name}}
+                  <mat-option *ngFor="let document of documentTypes" value="{{document.id}}" (onSelectionChange)="selectedId($event,document.value)">
+                   {{document.value}}
                   </mat-option>
                 </mat-select>
                 <mat-error *ngIf="documentForm.get('parentDocId').touched

@@ -1,3 +1,4 @@
+import { DocumentFolder } from './../../../documents/document-types';
 import { Event } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewChild, ElementRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -24,11 +25,12 @@ import { MatOptionSelectionChange } from '@angular/material';
 export class UploadDocumentComponent extends AppComponentBase implements OnInit {
   @ViewChild('fileName', { static: false }) docName: ElementRef;
   clientId: string;
+  documentTypes =  DocumentFolder.documentTypes;
   client: ClientDetailOutput = new ClientDetailOutput();
   document: CreateDocumentInput = new CreateDocumentInput();
   documents: DocumentListDto[] = [];
   documentForm: FormGroup;
-  parentDocId: string;
+  parentDocId: number;
   contactId: string;
   isUploading = false;
   ref: AngularFireStorageReference;
@@ -75,10 +77,10 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
         this.documents = result.items.filter(x => x.parentDocId == null);
       });
   }
-  selectedId(event: MatOptionSelectionChange, fileName: string) {
+  selectedId(event: MatOptionSelectionChange, fileName) {
     if (event.source.selected) {
-      this.fileName = fileName;
       this.parentDocId = event.source.value;
+      this.fileName = fileName;
       this.documentForm.controls['fileInput'].setValue('');
     }
   }
@@ -113,6 +115,7 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
           this.document.fileUrl = res;
           this.document.contactId = this.contactId;
           this.document.clientId = this.clientId;
+          this.document.parentDocId = this.parentDocId;
           this.document.identifier = 1;
           this.documentService.createDocument(this.document)
             .pipe(finalize(() => {

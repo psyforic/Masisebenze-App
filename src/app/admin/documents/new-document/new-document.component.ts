@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { map, finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DocumentFolder } from '../document-types';
+import { MatOptionSelectionChange } from '@angular/material';
 
 @Component({
   selector: 'app-new-document',
@@ -22,12 +24,14 @@ export class NewDocumentComponent extends AppComponentBase implements OnInit {
   documentForm: FormGroup;
   parentDocId: string;
   isUploading = false;
+  documentTypes = DocumentFolder.documentTypes;
   ref: AngularFireStorageReference;
   task: AngularFireUploadTask;
   uploadProgress: Observable<number>;
   downloadURL: Observable<string>;
   uploadState: Observable<string>;
   file: any;
+  fileName = '';
   constructor(private injector: Injector,
     private documentService: DocumentServiceProxy,
     private afStorage: AngularFireStorage,
@@ -40,17 +44,31 @@ export class NewDocumentComponent extends AppComponentBase implements OnInit {
   }
   initializeForm() {
     this.documentForm = this.fb.group({
+      parentDocId:  ['', Validators.required],
       name: ['', Validators.required],
       authorName: ['', Validators.required],
       authorDate: ['', Validators.required],
       fileInput: ['', Validators.required]
     });
   }
+  selectedId(event: MatOptionSelectionChange, fileName) {
+    if (event.source.selected) {
+      this.parentDocId = event.source.value;
+      this.fileName = fileName;
+      this.documentForm.controls['fileInput'].setValue('');
+    }
+  }
   open() {
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then((result) => {
       }, (reason) => {
       });
+  }
+  isRequired(fileName: string): boolean {
+    if (fileName === 'Hospital records' || fileName === 'Clinical notes' || fileName === 'Copy of passport') {
+      return false;
+    }
+    return true;
   }
   upload(event) {
     this.file = event.target.files[0];
