@@ -19,6 +19,11 @@ import {
   ReportRoMHipDto,
   ReportRoMKneeDto,
   ReportRoMAnkleDto,
+  AssessmentServiceProxy,
+  AffectServiceProxy,
+  MobilityServiceProxy,
+  AffectDto,
+  MobilityDto,
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
@@ -30,7 +35,8 @@ import { GeneralService } from '@app/admin/services/general.service';
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy]
+  providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy,
+    MobilityServiceProxy, AffectServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -59,20 +65,26 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   kneeRightReport: ReportRoMKneeDto = new ReportRoMKneeDto();
   ankleLeftReport: ReportRoMAnkleDto = new ReportRoMAnkleDto();
   ankleRightReport: ReportRoMAnkleDto = new ReportRoMAnkleDto();
-  borgBalanceReport: string; sensationUpperReport: string; sensationLowerReport: string;
-  sensationTrunkReport: string; coordinationReport: string; postureReport: string;
+  borgBalanceReport: string; sensation: string; affectComment: string;
+  mobilityComment: string; coordinationReport: string; postureReport: string;
   gaitReport: string; walkingReport: string; stairClimbing: string;
   balanceReport: string; ladderWork: string; repetitiveSquatting: string;
   repetitiveFootMotionReport: string; crawlingReport: string;
 
   assessmentReport: any[] = [];
   rangeOfMotionReport: any[] = [];
+  comment: string;
+  affect: AffectDto = new AffectDto();
+  mobility: MobilityDto = new MobilityDto();
 
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private _reportService: ReportServiceProxy,
-    private _generalService: GeneralService) {
+    private _generalService: GeneralService,
+    private _affectService: AffectServiceProxy,
+    private _mobilityService: MobilityServiceProxy,
+    private _assessmentService: AssessmentServiceProxy) {
     super(injector);
   }
   applyFilter(filterValue: string) {
@@ -202,9 +214,9 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.getKnee(clientId);
     this.getAnkle(clientId);
     this.getBorgBalance(clientId);
-    this.getSensationUpper(clientId);
-    this.getSensationTrunk(clientId);
-    this.getSensationLower(clientId);
+    this.getSensation(clientId);
+    this.getMobility(clientId);
+    this.getAffect(clientId);
     this.getCoordination(clientId);
     this.getPosture(clientId);
     this.getGait(clientId);
@@ -328,28 +340,16 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getSensationUpper(clientId: string) {
-    this._reportService.getSensationUpperReport(clientId)
-      .subscribe((result) => {
-        this.sensationUpperReport = result;
-        this.assessmentReport[10] = result;
-      });
-  }
-
-  getSensationTrunk(clientId: string) {
-    this._reportService.getSensationTrunkReport(clientId)
-      .subscribe((result) => {
-        this.sensationTrunkReport = result;
-        this.assessmentReport[11] = result;
-      });
-  }
-
-  getSensationLower(clientId: string) {
-    this._reportService.getSensationLowerReport(clientId)
-      .subscribe((result) => {
-        this.sensationLowerReport = result;
-        this.assessmentReport[12] = result;
-      });
+  getSensation(clientId: string) {
+    this._assessmentService.getSensation(clientId)
+      .pipe(finalize(() => {
+      }))
+      .subscribe(
+        (sensation) => {
+          this.comment = sensation.otComment;
+          this.assessmentReport[10] = this.comment;
+        }
+      );
   }
 
   getCoordination(clientId: string) {
@@ -375,7 +375,29 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.assessmentReport[15] = result;
       });
   }
-
+  getMobility(clientId: string) {
+    this._mobilityService.getByClientAsync(clientId)
+      .pipe(finalize(() => {
+      }))
+      .subscribe(
+        (result) => {
+          this.mobility = result;
+          this.mobilityComment = result.comment;
+          this.assessmentReport[11] = result.comment;
+        }
+      );
+  }
+  getAffect(clientId: string) {
+    this._affectService.getByClientAsync(clientId)
+      .pipe(finalize(() => {
+      })).subscribe(
+        (affect) => {
+          this.affect = affect;
+          this.affectComment = affect.comment;
+          this.assessmentReport[12] = affect.comment;
+        }
+      );
+  }
   getWalking(clientId: string) {
     this._reportService.getWalkingProtocolReport(clientId)
       .subscribe((result) => {
@@ -431,6 +453,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.assessmentReport[22] = result;
       });
   }
+
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {

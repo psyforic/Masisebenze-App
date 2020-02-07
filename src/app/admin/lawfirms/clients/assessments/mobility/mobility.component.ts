@@ -34,14 +34,14 @@ export class MobilityComponent extends AppComponentBase implements OnInit {
   open() {
     this.isLoading = true;
     this._mobilityService.getByClientAsync(this.clientId)
-    .pipe(finalize(() => {
-      this.isLoading = false;
-    }))
-    .subscribe(
-      (result) => {
-        this.mobility = result;
-      }
-    );
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(
+        (result) => {
+          this.mobility = result;
+        }
+      );
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
@@ -51,14 +51,14 @@ export class MobilityComponent extends AppComponentBase implements OnInit {
     this.mobility.status = 0;
     this.mobility.isSelected = true;
     this._mobilityService.createAsync(this.mobility)
-    .pipe(finalize(() => {
-      this.isLoading = false;
-    })).subscribe(
-      () => {
-        this.notify.success('Saved successfully');
-        this.close();
-      }
-    );
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(
+        () => {
+          this.notify.success('Saved Successfully');
+          this.close();
+        }
+      );
   }
   close() {
     this.activeModal.close();

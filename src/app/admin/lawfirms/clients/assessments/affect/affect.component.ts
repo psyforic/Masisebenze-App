@@ -35,13 +35,13 @@ export class AffectComponent extends AppComponentBase implements OnInit {
   open() {
     this.isLoading = true;
     this._affectService.getByClientAsync(this.clientId)
-    .pipe(finalize(() => {
-      this.isLoading = false;
-    })).subscribe(
-      (affect) => {
-        this.affect = affect;
-      }
-    );
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(
+        (affect) => {
+          this.affect = affect;
+        }
+      );
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
@@ -51,16 +51,16 @@ export class AffectComponent extends AppComponentBase implements OnInit {
   save() {
     this.isLoading = true;
     this.affect.clientId = this.clientId;
-    this.affect.status = 0;
+    this.affect.status = 1;
     this.affect.isSelected = true;
     this._affectService.createAsync(this.affect)
-    .pipe(finalize(() => {
-      this.isLoading = false;
-    }))
-    .subscribe(() => {
-      this.notify.success('Saved sccessfully');
-      this.close();
-    })
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(() => {
+        this.notify.success('Saved Successfully');
+        this.close();
+      });
   }
   close() {
     this.activeModal.close();

@@ -50,17 +50,14 @@ export class SensationComponent extends AppComponentBase implements OnInit {
   open() {
     this.isLoading = true;
     this._assessmentService.getSensation(this.clientId)
-    .pipe(finalize(() => {
-      this.isLoading = false;
-    }))
-    .subscribe(
-      (sensation) => {
-        this.comment = sensation.otComment;
-      }
-    );
-    // this.getUpperExtremity();
-    // this.getLowerExtremity();
-    // this.getTrunkExtremity();
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(
+        (sensation) => {
+          this.comment = sensation.otComment;
+        }
+      );
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => { }, () => { });
   }
@@ -68,7 +65,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
     this.activeModal.close();
   }
   getUpperExtremity() {
-     this.isLoading = true;
+    this.isLoading = true;
     this._assessmentService.getUpperExtremity(this.clientId, 0)
       .pipe(finalize(() => {
 
@@ -108,12 +105,12 @@ export class SensationComponent extends AppComponentBase implements OnInit {
     this.sensation.clientId = this.clientId;
     this.sensation.otComment = this.comment;
     this._assessmentService.updateSensation(this.sensation)
-    .pipe(finalize(() => {
-      this.isLoading = false;
-    })).subscribe(() =>{
-      this.notify.success('Update Successful!');
-      this.close();
-    });
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(() => {
+        this.notify.success('Update Successful!');
+        this.close();
+      });
   }
 
   getLowerExtremity() {
