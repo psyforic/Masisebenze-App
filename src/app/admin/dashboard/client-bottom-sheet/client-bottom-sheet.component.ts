@@ -12,7 +12,7 @@ import * as moment from 'moment';
   styleUrls: ['./client-bottom-sheet.component.scss'],
   providers: [
     ClientServiceProxy,
-    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }]
+    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: true} }]
 })
 export class ClientBottomSheetComponent extends AppComponentBase implements OnInit {
 
@@ -66,7 +66,6 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     this.clientInput.lawFirmId = this.data.lawFirmId;
     this.clientInput.attorneyId = this.data.attorneyId;
     this.clientInput.contactId = this.data.contactId;
-    const formattedAssessmentDate = moment(this.date);
     this.clientInput.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.clientInput.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     let hoursDiff;

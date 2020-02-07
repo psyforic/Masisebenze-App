@@ -15045,6 +15045,7 @@ export class Client implements IClient {
     jobDescription: string | undefined;
     motivation: string | undefined;
     generalAppearance: string | undefined;
+    bookings: Booking[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -15093,6 +15094,11 @@ export class Client implements IClient {
             this.jobDescription = data["jobDescription"];
             this.motivation = data["motivation"];
             this.generalAppearance = data["generalAppearance"];
+            if (data["bookings"] && data["bookings"].constructor === Array) {
+                this.bookings = [];
+                for (let item of data["bookings"])
+                    this.bookings.push(Booking.fromJS(item));
+            }
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -15141,6 +15147,11 @@ export class Client implements IClient {
         data["jobDescription"] = this.jobDescription;
         data["motivation"] = this.motivation;
         data["generalAppearance"] = this.generalAppearance;
+        if (this.bookings && this.bookings.constructor === Array) {
+            data["bookings"] = [];
+            for (let item of this.bookings)
+                data["bookings"].push(item.toJSON());
+        }
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -15189,6 +15200,7 @@ export interface IClient {
     jobDescription: string | undefined;
     motivation: string | undefined;
     generalAppearance: string | undefined;
+    bookings: Booking[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -15707,6 +15719,188 @@ export interface IAddress {
     city: string | undefined;
     postalCode: string | undefined;
     province: string | undefined;
+    id: number | undefined;
+}
+
+export class Booking implements IBooking {
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
+    clientId: string | undefined;
+    userId: number | undefined;
+    user: User | undefined;
+    eventId: number | undefined;
+    event: Event | undefined;
+    client: Client | undefined;
+    lawFirmId: string | undefined;
+    lawFirm: LawFirm | undefined;
+    attorneyId: string | undefined;
+    attorney: Attorney | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
+    changed: number | undefined;
+    reason: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IBooking) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
+            this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
+            this.clientId = data["clientId"];
+            this.userId = data["userId"];
+            this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
+            this.eventId = data["eventId"];
+            this.event = data["event"] ? Event.fromJS(data["event"]) : <any>undefined;
+            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
+            this.lawFirmId = data["lawFirmId"];
+            this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
+            this.attorneyId = data["attorneyId"];
+            this.attorney = data["attorney"] ? Attorney.fromJS(data["attorney"]) : <any>undefined;
+            this.contactId = data["contactId"];
+            this.contact = data["contact"] ? Contact.fromJS(data["contact"]) : <any>undefined;
+            this.changed = data["changed"];
+            this.reason = data["reason"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Booking {
+        data = typeof data === 'object' ? data : {};
+        let result = new Booking();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
+        data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
+        data["clientId"] = this.clientId;
+        data["userId"] = this.userId;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["eventId"] = this.eventId;
+        data["event"] = this.event ? this.event.toJSON() : <any>undefined;
+        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
+        data["lawFirmId"] = this.lawFirmId;
+        data["lawFirm"] = this.lawFirm ? this.lawFirm.toJSON() : <any>undefined;
+        data["attorneyId"] = this.attorneyId;
+        data["attorney"] = this.attorney ? this.attorney.toJSON() : <any>undefined;
+        data["contactId"] = this.contactId;
+        data["contact"] = this.contact ? this.contact.toJSON() : <any>undefined;
+        data["changed"] = this.changed;
+        data["reason"] = this.reason;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Booking {
+        const json = this.toJSON();
+        let result = new Booking();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBooking {
+    startTime: moment.Moment | undefined;
+    endTime: moment.Moment | undefined;
+    clientId: string | undefined;
+    userId: number | undefined;
+    user: User | undefined;
+    eventId: number | undefined;
+    event: Event | undefined;
+    client: Client | undefined;
+    lawFirmId: string | undefined;
+    lawFirm: LawFirm | undefined;
+    attorneyId: string | undefined;
+    attorney: Attorney | undefined;
+    contactId: string | undefined;
+    contact: Contact | undefined;
+    changed: number | undefined;
+    reason: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class Event implements IEvent {
+    name: string | undefined;
+    id: number | undefined;
+
+    constructor(data?: IEvent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Event {
+        data = typeof data === 'object' ? data : {};
+        let result = new Event();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Event {
+        const json = this.toJSON();
+        let result = new Event();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IEvent {
+    name: string | undefined;
     id: number | undefined;
 }
 
@@ -17740,53 +17934,6 @@ export interface IBookingDetailOutput {
     id: string | undefined;
 }
 
-export class Event implements IEvent {
-    name: string | undefined;
-    id: number | undefined;
-
-    constructor(data?: IEvent) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): Event {
-        data = typeof data === 'object' ? data : {};
-        let result = new Event();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): Event {
-        const json = this.toJSON();
-        let result = new Event();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IEvent {
-    name: string | undefined;
-    id: number | undefined;
-}
-
 export class BookingListDto implements IBookingListDto {
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
@@ -18498,6 +18645,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
     jobDescription: string | undefined;
     motivation: string | undefined;
     generalAppearance: string | undefined;
+    bookings: Booking[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -18546,6 +18694,11 @@ export class ClientDetailOutput implements IClientDetailOutput {
             this.jobDescription = data["jobDescription"];
             this.motivation = data["motivation"];
             this.generalAppearance = data["generalAppearance"];
+            if (data["bookings"] && data["bookings"].constructor === Array) {
+                this.bookings = [];
+                for (let item of data["bookings"])
+                    this.bookings.push(Booking.fromJS(item));
+            }
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -18594,6 +18747,11 @@ export class ClientDetailOutput implements IClientDetailOutput {
         data["jobDescription"] = this.jobDescription;
         data["motivation"] = this.motivation;
         data["generalAppearance"] = this.generalAppearance;
+        if (this.bookings && this.bookings.constructor === Array) {
+            data["bookings"] = [];
+            for (let item of this.bookings)
+                data["bookings"].push(item.toJSON());
+        }
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -18642,6 +18800,7 @@ export interface IClientDetailOutput {
     jobDescription: string | undefined;
     motivation: string | undefined;
     generalAppearance: string | undefined;
+    bookings: Booking[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;

@@ -190,7 +190,12 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   }
   openBottomSheet(event) {
     const bottomSheetRef = this._bottomSheet.open(ClientBottomSheetComponent, {
-      data: event
+      data: event,
+      hasBackdrop: true,
+      autoFocus: true,
+      restoreFocus: true,
+      closeOnNavigation: false,
+      disableClose: true
     });
     bottomSheetRef.afterDismissed().subscribe(() => {
       this.clientsChanged = true;

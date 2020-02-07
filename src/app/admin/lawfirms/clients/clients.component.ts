@@ -66,6 +66,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   repetitiveFootMotionReport: string; crawlingReport: string;
 
   assessmentReport: any[] = [];
+  rangeOfMotionReport: any[] = [];
 
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
@@ -122,7 +123,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     setTimeout(() => {
       const today = moment().format('LL');
       docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData,
-        this.workData, this.lawFirmCity, this.assessmentReport], today);
+        this.workData, this.lawFirmCity, this.assessmentReport, this.rangeOfMotionReport], today);
       this.notify.success('Document created successfully');
     }, 15000);
   }
@@ -233,44 +234,50 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this._reportService.getRoMShoulderReport(clientId, 0)
       .subscribe((result) => {
         this.shoulderLeftReport = result;
-        this.assessmentReport[2] = result;
+        this.rangeOfMotionReport[0] = result;
       });
 
     this._reportService.getRoMShoulderReport(clientId, 1)
       .subscribe((result) => {
         this.shoulderRightReport = result;
-        this.assessmentReport[2] = result;
+        this.rangeOfMotionReport[1] = result;
       });
   }
   getForearmWrist(clientId: string) {
     this._reportService.getRoMForearmWristReport(clientId, 0)
       .subscribe((result) => {
         this.forearmWristLeftReport = result;
+        this.rangeOfMotionReport[2] = result;
       });
-    this._reportService.getRoMForearmWristReport(clientId, 0)
+    this._reportService.getRoMForearmWristReport(clientId, 1)
       .subscribe((result) => {
         this.forearmWristRightReport = result;
+        this.rangeOfMotionReport[3] = result;
       });
   }
   getElbow(clientId: string) {
     this._reportService.getRoMElbowReport(clientId, 0)
       .subscribe((result) => {
         this.elbowLeftReport = result;
+        this.rangeOfMotionReport[4] = result;
       });
     this._reportService.getRoMElbowReport(clientId, 1)
       .subscribe((result) => {
-        this.elbowLeftReport = result;
+        this.elbowRightReport = result;
+        this.rangeOfMotionReport[5] = result;
       });
   }
   getHand(clientId: string) {
     this._reportService.getRoMHandReport(clientId, 0)
       .subscribe((result) => {
         this.handLeftReport = result;
+        this.rangeOfMotionReport[6] = result;
       });
 
     this._reportService.getRoMHandReport(clientId, 1)
       .subscribe((result) => {
         this.handRightReport = result;
+        this.rangeOfMotionReport[7] = result;
       });
   }
 
@@ -278,10 +285,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this._reportService.getRoMHipReport(clientId, 0)
       .subscribe((result) => {
         this.hipLeftReport = result;
+        this.rangeOfMotionReport[8] = result;
       });
     this._reportService.getRoMHipReport(clientId, 1)
       .subscribe((result) => {
         this.hipRightReport = result;
+        this.rangeOfMotionReport[9] = result;
       });
   }
 
@@ -289,10 +298,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this._reportService.getRoMKneeReport(clientId, 0)
       .subscribe((result) => {
         this.kneeLeftReport = result;
+        this.rangeOfMotionReport[10] = result;
       });
     this._reportService.getRoMKneeReport(clientId, 1)
       .subscribe((result) => {
         this.kneeRightReport = result;
+        this.rangeOfMotionReport[11] = result;
       });
   }
 
@@ -300,10 +311,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this._reportService.getRoMAnkleReport(clientId, 0)
       .subscribe((result) => {
         this.ankleLeftReport = result;
+        this.rangeOfMotionReport[12] = result;
       });
     this._reportService.getRoMAnkleReport(clientId, 1)
       .subscribe((result) => {
         this.ankleRightReport = result;
+        this.rangeOfMotionReport[13] = result;
       });
   }
 

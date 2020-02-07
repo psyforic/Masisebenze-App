@@ -28,6 +28,8 @@ export class DocumentCreator {
             currentAge = currentAge - 1;
         }
         const assessmentReport = data[6];
+        const romReport = data[7];
+        console.log(romReport);
         console.log(assessmentReport[0]);
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
@@ -70,7 +72,69 @@ export class DocumentCreator {
                 dominantHand: assessmentReport[0].normRight,
                 nondominantHand: assessmentReport[0].normLeft,
                 musclePower: assessmentReport[1],
-                shoulders: assessmentReport[2],
+
+                shRFlexion: romReport[0].flexion,
+                shLFlexion: romReport[1].flexion,
+                shRExtension: romReport[0].extension,
+                shLExtension: romReport[1].extension,
+                shRAbduction: romReport[0].abduction,
+                shLAbduction: romReport[1].abduction,
+                shRAdduction: romReport[0].adduction,
+                shLAdduction: romReport[1].adduction,
+                shIrRight: romReport[0].internalRotation,
+                shIrLeft: romReport[1].internalRotation,
+                shErRight: romReport[0].externalRotation,
+                shErLeft: romReport[1].externalRotation,
+
+                fwRPronation: romReport[2].pronation,
+                fwLPronation: romReport[3].pronation,
+                fwRSupination: romReport[2].supination,
+                fwLSupination: romReport[3].supination,
+                fwExtension: romReport[2].extension,
+                fwLExtension: romReport[3].extension,
+                fwRFlexion: romReport[2].flexion,
+                fwLFlexion: romReport[3].flexion,
+                fwRRadialDeviation: romReport[2].radialDeviation,
+                fwLRadialDeviation: romReport[3].radialDeviation,
+                fwRUlnarDeviation: romReport[2].ulnarDeviation,
+                fwLUlnarDeviation: romReport[3].ulnarDeviation,
+
+                elRExtension: romReport[4].extension,
+                elLExtension: romReport[5].extension,
+                elRFlexion: romReport[4].flexion,
+                elLFlexion: romReport[5].flexion,
+                elRPronation: romReport[4].pronation,
+                elLPronation: romReport[5].pronation,
+                elRSupination: romReport[4].supination,
+                elLSupination: romReport[5].supination,
+
+                hipRFlexion: romReport[8].flexion,
+                hipLFlexion: romReport[9].flexion,
+                hipRExtension: romReport[8].extension,
+                hipLExtension: romReport[9].extension,
+                hipAbduction: romReport[8].abduction,
+                hipLAbduction: romReport[9].abduction,
+                hipRAdduction: romReport[8].adduction,
+                hipLAdduction: romReport[9].adduction,
+                hipIrRight: romReport[8].internalRotation,
+                hipLeft: romReport[9].internalRotation,
+                hipErRight: romReport[8].externalRotation,
+                hipErLeft: romReport[9].externalRotation,
+
+                knRFlexion: romReport[10].flexion,
+                knLFlexion: romReport[11].flexion,
+                knRExtension: romReport[10].extension,
+                knLExtension: romReport[11].extension,
+
+                anRDorsiflexion: romReport[12].dorsiflexion,
+                anLDorsiflexion: romReport[13].dorsiflexion,
+                anRPlantarflexion: romReport[12].plantarFlexion,
+                anPlantarflexion: romReport[13].plantarFlexion,
+                anRInversion: romReport[12].inversion,
+                anLInversion: romReport[13].inversion,
+                anREversion: romReport[12].eversion,
+                anLEversion: romReport[13].eversion,
+
                 forearmWrist: assessmentReport[3],
                 elbow: assessmentReport[4],
                 hand: assessmentReport[5],

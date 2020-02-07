@@ -94,7 +94,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
   open(arg) {
     this.getEvents();
     this.getLawFirms();
-    this.date = moment(arg.dateStr).format('DD/MM/YYYY');
+    this.date = arg.dateStr;
     this.paramDate = arg.dateStr;
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => { }, () => { });

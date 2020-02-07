@@ -10,15 +10,23 @@
                 </div>
                 <div class="header-toolbar">
                     <div class="btn-group" dropdown>
-                        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+                        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                            aria-controls="dropdown-basic">
                             Actions<span class="caret"></span>
                         </button>
-                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="button-basic">
-                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/activity-log', client.id]" routerLinkActive="router-link-active">Activity Log</a>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                    [routerLink]="['/admin/clients/activity-log', client.id]"
+                                    routerLinkActive="router-link-active">Activity Log</a>
                             </li>
-                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/documents/upload', client.id]" routerLinkActive="router-link-active">Upload</a>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                    [routerLink]="['/admin/clients/documents/upload', client.id]"
+                                    routerLinkActive="router-link-active">Upload</a>
                             </li>
-                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/comments/clients', client.id]" routerLinkActive="router-link-active">Comments</a>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                    [routerLink]="['/admin/comments/clients', client.id]"
+                                    routerLinkActive="router-link-active">Comments</a>
                             </li>
 
                         </ul>
@@ -47,7 +55,9 @@
                                         <div class="card card-profile mt-3">
                                             <div class="card-avatar">
                                                 <a href="javascript:void(0)">
-                                                    <img class="img" [src]="client.profilePictureId || photoUrl || '../../../../../assets/img/faces/face-0.jpg' " alt="Logo" />
+                                                    <img class="img"
+                                                        [src]="client.profilePictureId || photoUrl || '../../../../../assets/img/faces/face-0.jpg' "
+                                                        alt="Logo" />
                                                 </a>
                                             </div>
                                             <div class="card-body text-center">
@@ -55,7 +65,8 @@
                                                 <h4 class="text tex-center">{{client.firstName}} {{client.lastName}}
                                                 </h4>
 
-                                                <a href="javascript:void(0)" (click)="openCameraModal()" class="btn btn-primary btn-round">
+                                                <a href="javascript:void(0)" (click)="openCameraModal()"
+                                                    class="btn btn-primary btn-round">
                                                     Change Picture
                                                 </a>
                                             </div>
@@ -67,25 +78,33 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="First Name" [(ngModel)]="client.firstName" name="firstName">
+                                                            <input matInput placeholder="First Name"
+                                                                [(ngModel)]="client.firstName" name="firstName">
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Last Name" type="text" [(ngModel)]="client.lastName" name="lastName">
+                                                            <input matInput placeholder="Last Name" type="text"
+                                                                [(ngModel)]="client.lastName" name="lastName">
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Id Number" type="number" name="idNumber" [(ngModel)]="client.idNumber">
+                                                            <input matInput placeholder="Id Number" type="number"
+                                                                name="idNumber" [(ngModel)]="client.idNumber">
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-6">
 
                                                         <mat-form-field>
-                                                            <input matInput #injuryDate="ngModel" [matDatepicker]="picker" id="dateValue" placeholder="Date of Injury" [(ngModel)]="dateOfInjury" name="dateOfInjury" (dateInput)="injuryDateChanged($event)" (dateChange)="setFormTouched(clientForm)" readonly>
+                                                            <input matInput #injuryDate="ngModel"
+                                                                [matDatepicker]="picker" id="dateValue"
+                                                                placeholder="Date of Injury" [(ngModel)]="dateOfInjury"
+                                                                name="dateOfInjury"
+                                                                (dateInput)="injuryDateChanged($event)"
+                                                                (dateChange)="setFormTouched(clientForm)" readonly>
                                                             <mat-datepicker-toggle matSuffix [for]="picker">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #picker></mat-datepicker>
@@ -96,7 +115,11 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <mat-form-field>
-                                                            <input matInput #cDate="ngModel" [matDatepicker]="courtDatePicker" id="courtDateValue" placeholder="Court Date" [(ngModel)]="courtDate" name="courtDate" (dateInput)="courtDateChanged($event)" (dateChange)="setFormTouched(clientForm)" readonly>
+                                                            <input matInput #cDate="ngModel"
+                                                                [matDatepicker]="courtDatePicker" id="courtDateValue"
+                                                                placeholder="Court Date" [(ngModel)]="courtDate"
+                                                                name="courtDate" (dateInput)="courtDateChanged($event)"
+                                                                (dateChange)="setFormTouched(clientForm)" readonly>
                                                             <mat-datepicker-toggle matSuffix [for]="courtDatePicker">
                                                             </mat-datepicker-toggle>
                                                             <mat-datepicker #courtDatePicker></mat-datepicker>
@@ -105,10 +128,16 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <mat-form-field>
-                                                            <input matInput [matDatepicker]="assessmentDatePicker" placeholder="Assessment Date" [(ngModel)]="assessmentDate" name="assessmentDate" id="assessmentDate" (dateChange)="setFormTouched(clientForm)" readonly>
-                                                            <mat-datepicker-toggle matSuffix [for]="assessmentDatePicker">
+                                                            <input matInput [matDatepicker]="assessmentDatePicker"
+                                                                placeholder="Assessment Date"
+                                                                [(ngModel)]="assessmentDate" name="assessmentDate"
+                                                                id="assessmentDate"
+                                                                (dateChange)="setFormTouched(clientForm)" readonly>
+                                                            <mat-datepicker-toggle matSuffix
+                                                                [for]="assessmentDatePicker">
                                                             </mat-datepicker-toggle>
-                                                            <mat-datepicker #assessmentDatePicker></mat-datepicker>
+                                                            <mat-datepicker #assessmentDatePicker [disabled]="true">
+                                                            </mat-datepicker>
 
                                                         </mat-form-field>
                                                     </div>
@@ -117,19 +146,22 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Line 1" type="text" [(ngModel)]="line1" name="line1">
+                                                            <input matInput placeholder="Line 1" type="text"
+                                                                [(ngModel)]="line1" name="line1">
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Line 2" type="text" [(ngModel)]="line2" name="line2">
+                                                            <input matInput placeholder="Line 2" type="text"
+                                                                [(ngModel)]="line2" name="line2">
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-4">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="City" type="text" [(ngModel)]="city" name="city">
+                                                            <input matInput placeholder="City" type="text"
+                                                                [(ngModel)]="city" name="city">
                                                         </mat-form-field>
                                                     </div>
                                                     <div class="col-md-4">
@@ -154,7 +186,9 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Postal Code" type="number" maxlength="8" [(ngModel)]="postalCode" name="postalCode">
+                                                            <input matInput placeholder="Postal Code" type="number"
+                                                                maxlength="8" [(ngModel)]="postalCode"
+                                                                name="postalCode">
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
@@ -175,16 +209,20 @@
                                                         <!-- Type your name and age -->
                                                     </mat-panel-description>
                                                 </mat-expansion-panel-header>
-                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.earlyChildhood" [sanitize]="true" name="earlyChildhood">
+                                                <quill-editor [styles]="{height: '200px'}"
+                                                    [(ngModel)]="client.earlyChildhood" [sanitize]="true"
+                                                    name="earlyChildhood">
                                                 </quill-editor>
                                             </mat-expansion-panel>
-                                            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                            <mat-expansion-panel (opened)="panelOpenState = true"
+                                                (closed)="panelOpenState = false">
                                                 <mat-expansion-panel-header>
                                                     <mat-panel-title>
                                                         Family
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
-                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.family" [sanitize]="true" name="family">
+                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.family"
+                                                    [sanitize]="true" name="family">
                                                 </quill-editor>
                                             </mat-expansion-panel>
 
@@ -194,7 +232,9 @@
                                                         Home Environment
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
-                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.homeEnvironment" [sanitize]="true" name="homeEnvironment">
+                                                <quill-editor [styles]="{height: '200px'}"
+                                                    [(ngModel)]="client.homeEnvironment" [sanitize]="true"
+                                                    name="homeEnvironment">
                                                 </quill-editor>
                                             </mat-expansion-panel>
 
@@ -205,7 +245,8 @@
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
 
-                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.education" [sanitize]="true" name="education">
+                                                <quill-editor [styles]="{height: '200px'}"
+                                                    [(ngModel)]="client.education" [sanitize]="true" name="education">
                                                 </quill-editor>
                                             </mat-expansion-panel>
 
@@ -216,7 +257,9 @@
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
 
-                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.socialHabits" [sanitize]="true" name="socialHabits">
+                                                <quill-editor [styles]="{height: '200px'}"
+                                                    [(ngModel)]="client.socialHabits" [sanitize]="true"
+                                                    name="socialHabits">
                                                 </quill-editor>
                                             </mat-expansion-panel>
 
@@ -227,7 +270,9 @@
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
 
-                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.generalAppearance" [sanitize]="true" name="generalAppearance">
+                                                <quill-editor [styles]="{height: '200px'}"
+                                                    [(ngModel)]="client.generalAppearance" [sanitize]="true"
+                                                    name="generalAppearance">
                                                 </quill-editor>
                                             </mat-expansion-panel>
                                         </mat-accordion>
@@ -236,7 +281,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 mt-3">
-                                        <button [disabled]="!clientForm.dirty" mat-raised-button type="submit" color="primary" class="pull-right">
+                                        <button [disabled]="!clientForm.dirty" mat-raised-button type="submit"
+                                            color="primary" class="pull-right">
                                             Update Client
                                         </button>
                                         <div class="clearfix"></div>
@@ -265,14 +311,18 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Law Firm" type="text" name="LawFirm" value="{{client.lawFirm?.companyName}}" readonly>
+                                                        <input matInput placeholder="Law Firm" type="text"
+                                                            name="LawFirm" value="{{client.lawFirm?.companyName}}"
+                                                            readonly>
                                                     </mat-form-field>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
                                                         <mat-label>Attorney</mat-label>
-                                                        <mat-select required [(ngModel)]="client.attorneyId" name="attorney">
-                                                            <mat-option *ngFor="let attorney of attorneys" [value]="attorney.id">
+                                                        <mat-select required [(ngModel)]="client.attorneyId"
+                                                            name="attorney">
+                                                            <mat-option *ngFor="let attorney of attorneys"
+                                                                [value]="attorney.id">
                                                                 {{attorney.firstName}} {{attorney.lastName}}
                                                             </mat-option>
                                                         </mat-select>
@@ -283,8 +333,10 @@
                                                 <div class="col-md-6">
                                                     <mat-form-field class="example-full-width">
                                                         <mat-label>Contact</mat-label>
-                                                        <mat-select required [(ngModel)]="client.contactId" name="contact">
-                                                            <mat-option *ngFor="let contact of contacts" [value]="contact.id">
+                                                        <mat-select required [(ngModel)]="client.contactId"
+                                                            name="contact">
+                                                            <mat-option *ngFor="let contact of contacts"
+                                                                [value]="contact.id">
                                                                 {{contact.firstName}} {{contact.lastName}}
                                                             </mat-option>
                                                         </mat-select>
@@ -292,7 +344,8 @@
                                                 </div>
 
                                                 <div class="col-md-6 mt-3 pull-right">
-                                                    <button [disabled]="!attorneyForm.dirty" mat-raised-button type="submit" color="primary" class=" pull-right">
+                                                    <button [disabled]="!attorneyForm.dirty" mat-raised-button
+                                                        type="submit" color="primary" class=" pull-right">
                                                         Update
                                                     </button>
                                                     <div class="clearfix"></div>
@@ -333,7 +386,9 @@
                                                                 Premorbid
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="workHistory.premorbid" [sanitize]="true" name="premorbid">
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="workHistory.premorbid" [sanitize]="true"
+                                                            name="premorbid">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
                                                     <mat-expansion-panel>
@@ -342,7 +397,9 @@
                                                                 Postmorbid
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="workHistory.postMorbid" [sanitize]="true" name="postMorbid">
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="workHistory.postMorbid" [sanitize]="true"
+                                                            name="postMorbid">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -352,7 +409,9 @@
                                                                 Work History
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="workHistory.description" [sanitize]="true" name="description">
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="workHistory.description" [sanitize]="true"
+                                                            name="description">
                                                         </quill-editor>
 
                                                     </mat-expansion-panel>
@@ -365,7 +424,8 @@
                                             <div class="card-footer pull-right">
                                                 <div class="row">
                                                     <div class="col-lg-12 mt-3">
-                                                        <button mat-raised-button type="submit" color="primary" class="btn-round ">Update
+                                                        <button mat-raised-button type="submit" color="primary"
+                                                            class="btn-round ">Update
                                                         </button>
                                                         <div class="clearfix"></div>
                                                     </div>
@@ -390,7 +450,10 @@
                                                                 Previous Injuries
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.previousInjuries" [sanitize]="true" placeholder="Enter Text" name="previousInjuries">
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="medicalHistory.previousInjuries"
+                                                            [sanitize]="true" placeholder="Enter Text"
+                                                            name="previousInjuries">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
                                                     <mat-expansion-panel>
@@ -399,7 +462,10 @@
                                                                 Medical Conditions
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.medicalConditions" [sanitize]="true" placeholder="Enter Text" name="medicalConditions">
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="medicalHistory.medicalConditions"
+                                                            [sanitize]="true" placeholder="Enter Text"
+                                                            name="medicalConditions">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -409,7 +475,9 @@
                                                                 Current History
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.currentHistory" [sanitize]="true" placeholder="Enter Text" name="history">
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="medicalHistory.currentHistory"
+                                                            [sanitize]="true" placeholder="Enter Text" name="history">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -419,7 +487,9 @@
                                                                 Medication
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.medication" [sanitize]="true" placeholder="Enter Text" name="medication">
+                                                        <quill-editor [styles]="{height: '200px'}"
+                                                            [(ngModel)]="medicalHistory.medication" [sanitize]="true"
+                                                            placeholder="Enter Text" name="medication">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
                                                 </mat-accordion>
@@ -427,7 +497,8 @@
                                             <div class="card-footer pull-right">
                                                 <div class="row">
                                                     <div class="col-lg-12 mt-3">
-                                                        <button mat-raised-button type="submit" color="primary" class="btn-round">Update
+                                                        <button mat-raised-button type="submit" color="primary"
+                                                            class="btn-round">Update
                                                         </button>
                                                         <div class="clearfix"></div>
                                                     </div>
@@ -470,7 +541,8 @@
                                 <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
                                     <li>
                                         <div class="mat-tree-node">
-                                            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                                            <button mat-icon-button matTreeNodeToggle
+                                                [attr.aria-label]="'toggle ' + node.name">
                                                 <mat-icon class="mat-icon-rtl-mirror">
                                                     {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
                                                 </mat-icon>
@@ -514,60 +586,76 @@
 
                                                         <div class="row">
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Grip Strength</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getGripStrength()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getGripStrength()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Muscle Power</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getMusclePower()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getMusclePower()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Range Of Motion</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getRangeOfMotion()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getRangeOfMotion()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Borg Balance</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getBorgBalance()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getBorgBalance()">
                                                                             View
                                                                         </a>
                                                                     </div>
@@ -576,52 +664,65 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Sensation</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getSensation()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getSensation()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Coordination</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getCoordination()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getCoordination()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Posture</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getPosture()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getPosture()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Repetitive Tolerance
                                                                     </h6>
                                                                     <div class="card-body text-center">
@@ -631,7 +732,9 @@
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getRepetitiveToleranceProtocol()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getRepetitiveToleranceProtocol()">
                                                                             View
                                                                         </a>
                                                                     </div>
@@ -640,45 +743,57 @@
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Gait</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getGait()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getGait()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Mobility</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getMobility()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getMobility()">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
+                                                                <div
+                                                                    class="card card-pricing custom-shadow text-center">
                                                                     <h6 class="card-category">Affect</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                                                                            <i
+                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getAffect()">
+                                                                        <a class="btn btn-round btn-accent"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="getAffect()">
                                                                             View
                                                                         </a>
                                                                     </div>

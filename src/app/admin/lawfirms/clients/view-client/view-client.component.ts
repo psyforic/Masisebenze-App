@@ -1,5 +1,5 @@
 import { DocumentFolder } from './../../../documents/document-types';
-import { DocumentListDto } from './../../../../../shared/service-proxies/service-proxies';
+import { DocumentListDto, Booking } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
@@ -116,6 +116,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
   hidden = false;
+  bookings: Booking[] = [];
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
@@ -212,7 +213,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.province = this.client.address ? this.client.address.province : '';
         this.dateOfInjury = this.client.dateOfInjury ? this.client.dateOfInjury.toDate() : '';
         this.courtDate = this.client.courtDate ? this.client.courtDate.toDate() : '';
-        this.assessmentDate = this.client.assessmentDate ? this.client.assessmentDate.toDate() : '';
         this.isLoading = false;
       })))
       .subscribe((result) => {
@@ -220,6 +220,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.fullName = result.firstName + ' ' + result.lastName;
         this.addressId = result.addressId;
         this.isLoading = false;
+        this.bookings = result.bookings;
+        const bookings: Booking[] = this.bookings.filter(x => x.eventId === 1);
+        if (bookings.length > 1) {
+          this.assessmentDate = bookings[bookings.length - 1].startTime ? bookings[bookings.length - 1].startTime.toDate() : '';
+        } else {
+          this.assessmentDate = bookings[0].startTime ? bookings[0].startTime.toDate() : '';
+        }
       });
   }
   getContacts() {
@@ -274,10 +281,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.dateOfInjury = '';
     }
     this.client.dateOfInjury = this.dateOfInjury;
+    console.log(this.client.dateOfInjury);
     // set Court date
     if (this.courtDate !== null && this.courtDate !== 'undefined' && !this.isValidDate(this.courtDate)) {
       this.courtDate = new Date(this.courtDate);
-      hoursDiff = this.dateOfInjury.getHours() - this.courtDate.getTimezoneOffset() / 60;
+      hoursDiff = this.courtDate.getHours() - this.courtDate.getTimezoneOffset() / 60;
       minutesDiff = (this.courtDate.getHours() - this.courtDate.getTimezoneOffset()) % 60;
       this.courtDate.setHours(hoursDiff);
       this.courtDate.setMinutes(minutesDiff);
@@ -286,6 +294,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.courtDate = '';
     }
     this.client.courtDate = this.courtDate;
+    console.log(this.client.courtDate);
     // set Assessment date
     if (this.assessmentDate !== null && this.assessmentDate !== 'undefined' && !this.isValidDate(this.assessmentDate)) {
       this.assessmentDate = new Date(this.assessmentDate);
@@ -312,7 +321,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   isValidDate(d) {
     const s = Date.parse(d);
-    return isNaN(s) === true;
+    return isNaN(s);
   }
   updateWorkHistory() {
     this.clientService.editWorkHistory(this.workHistory)
