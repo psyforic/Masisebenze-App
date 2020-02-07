@@ -4842,7 +4842,7 @@ export class CommentServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    editComment(input: CommentDetailOutput | null | undefined): Observable<void> {
+    editComment(input: CreateCommentInput | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Comment/EditComment";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -11016,12 +11016,15 @@ export class ReportServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRoMAnkleReport(clientId: string | null | undefined): Observable<string> {
+    getRoMAnkleReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMAnkleDto> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMAnkleReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11039,14 +11042,14 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetRoMAnkleReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportRoMAnkleDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportRoMAnkleDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMAnkleReport(response: HttpResponseBase): Observable<string> {
+    protected processGetRoMAnkleReport(response: HttpResponseBase): Observable<ReportRoMAnkleDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -11057,7 +11060,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportRoMAnkleDto.fromJS(resultData200) : new ReportRoMAnkleDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11065,17 +11068,20 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportRoMAnkleDto>(<any>null);
     }
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRoMElbowReport(clientId: string | null | undefined): Observable<string> {
+    getRoMElbowReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMElbowDto> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMElbowReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11093,14 +11099,14 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetRoMElbowReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportRoMElbowDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportRoMElbowDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMElbowReport(response: HttpResponseBase): Observable<string> {
+    protected processGetRoMElbowReport(response: HttpResponseBase): Observable<ReportRoMElbowDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -11111,7 +11117,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportRoMElbowDto.fromJS(resultData200) : new ReportRoMElbowDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11119,17 +11125,20 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportRoMElbowDto>(<any>null);
     }
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRoMForearmWristReport(clientId: string | null | undefined): Observable<string> {
+    getRoMForearmWristReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMForearmWristDto> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMForearmWristReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11147,14 +11156,14 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetRoMForearmWristReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportRoMForearmWristDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportRoMForearmWristDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMForearmWristReport(response: HttpResponseBase): Observable<string> {
+    protected processGetRoMForearmWristReport(response: HttpResponseBase): Observable<ReportRoMForearmWristDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -11165,7 +11174,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportRoMForearmWristDto.fromJS(resultData200) : new ReportRoMForearmWristDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11173,17 +11182,20 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportRoMForearmWristDto>(<any>null);
     }
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRoMHandReport(clientId: string | null | undefined): Observable<string> {
+    getRoMHandReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMHandDto> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHandReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11201,14 +11213,14 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetRoMHandReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportRoMHandDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportRoMHandDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMHandReport(response: HttpResponseBase): Observable<string> {
+    protected processGetRoMHandReport(response: HttpResponseBase): Observable<ReportRoMHandDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -11219,7 +11231,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportRoMHandDto.fromJS(resultData200) : new ReportRoMHandDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11227,17 +11239,20 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportRoMHandDto>(<any>null);
     }
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRoMHipReport(clientId: string | null | undefined): Observable<string> {
+    getRoMHipReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMHipDto> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHipReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11255,14 +11270,14 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetRoMHipReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportRoMHipDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportRoMHipDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMHipReport(response: HttpResponseBase): Observable<string> {
+    protected processGetRoMHipReport(response: HttpResponseBase): Observable<ReportRoMHipDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -11273,7 +11288,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportRoMHipDto.fromJS(resultData200) : new ReportRoMHipDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11281,17 +11296,20 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportRoMHipDto>(<any>null);
     }
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRoMKneeReport(clientId: string | null | undefined): Observable<string> {
+    getRoMKneeReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMKneeDto> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMKneeReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11309,14 +11327,14 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetRoMKneeReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportRoMKneeDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportRoMKneeDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMKneeReport(response: HttpResponseBase): Observable<string> {
+    protected processGetRoMKneeReport(response: HttpResponseBase): Observable<ReportRoMKneeDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -11327,7 +11345,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportRoMKneeDto.fromJS(resultData200) : new ReportRoMKneeDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11335,17 +11353,20 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportRoMKneeDto>(<any>null);
     }
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRoMShoulderReport(clientId: string | null | undefined): Observable<string> {
+    getRoMShoulderReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMShoulderDto> {
         let url_ = this.baseUrl + "/api/services/app/Report/GetRoMShoulderReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -11363,14 +11384,14 @@ export class ReportServiceProxy {
                 try {
                     return this.processGetRoMShoulderReport(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ReportRoMShoulderDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ReportRoMShoulderDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMShoulderReport(response: HttpResponseBase): Observable<string> {
+    protected processGetRoMShoulderReport(response: HttpResponseBase): Observable<ReportRoMShoulderDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -11381,7 +11402,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ReportRoMShoulderDto.fromJS(resultData200) : new ReportRoMShoulderDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -11389,7 +11410,7 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ReportRoMShoulderDto>(<any>null);
     }
 
     /**
@@ -19295,6 +19316,14 @@ export class CreateCommentInput implements ICreateCommentInput {
     text: string | undefined;
     targetId: string | undefined;
     targetType: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
 
     constructor(data?: ICreateCommentInput) {
         if (data) {
@@ -19311,6 +19340,14 @@ export class CreateCommentInput implements ICreateCommentInput {
             this.text = data["text"];
             this.targetId = data["targetId"];
             this.targetType = data["targetType"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
         }
     }
 
@@ -19327,6 +19364,14 @@ export class CreateCommentInput implements ICreateCommentInput {
         data["text"] = this.text;
         data["targetId"] = this.targetId;
         data["targetType"] = this.targetType;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
         return data; 
     }
 
@@ -19340,89 +19385,6 @@ export class CreateCommentInput implements ICreateCommentInput {
 
 export interface ICreateCommentInput {
     userId: number | undefined;
-    text: string | undefined;
-    targetId: string | undefined;
-    targetType: string | undefined;
-}
-
-export class CommentDetailOutput implements ICommentDetailOutput {
-    userId: number | undefined;
-    user: User | undefined;
-    text: string | undefined;
-    targetId: string | undefined;
-    targetType: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: ICommentDetailOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userId = data["userId"];
-            this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
-            this.text = data["text"];
-            this.targetId = data["targetId"];
-            this.targetType = data["targetType"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): CommentDetailOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new CommentDetailOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userId"] = this.userId;
-        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
-        data["text"] = this.text;
-        data["targetId"] = this.targetId;
-        data["targetType"] = this.targetType;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): CommentDetailOutput {
-        const json = this.toJSON();
-        let result = new CommentDetailOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICommentDetailOutput {
-    userId: number | undefined;
-    user: User | undefined;
     text: string | undefined;
     targetId: string | undefined;
     targetType: string | undefined;
@@ -19512,6 +19474,97 @@ export class CommentListDto implements ICommentListDto {
 }
 
 export interface ICommentListDto {
+    userId: number | undefined;
+    user: User | undefined;
+    text: string | undefined;
+    targetId: string | undefined;
+    targetType: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class CommentDetailOutput implements ICommentDetailOutput {
+    userId: number | undefined;
+    user: User | undefined;
+    text: string | undefined;
+    targetId: string | undefined;
+    targetType: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ICommentDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userId = data["userId"];
+            this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
+            this.text = data["text"];
+            this.targetId = data["targetId"];
+            this.targetType = data["targetType"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CommentDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CommentDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["text"] = this.text;
+        data["targetId"] = this.targetId;
+        data["targetType"] = this.targetType;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CommentDetailOutput {
+        const json = this.toJSON();
+        let result = new CommentDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICommentDetailOutput {
     userId: number | undefined;
     user: User | undefined;
     text: string | undefined;
@@ -23395,6 +23448,407 @@ export interface IReportGripStrength {
     leftHandWeight: number | undefined;
     normRight: number | undefined;
     normLeft: number | undefined;
+}
+
+export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
+    dorsiflexion: string | undefined;
+    plantarFlexion: string | undefined;
+    inversion: string | undefined;
+    eversion: string | undefined;
+
+    constructor(data?: IReportRoMAnkleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.dorsiflexion = data["dorsiflexion"];
+            this.plantarFlexion = data["plantarFlexion"];
+            this.inversion = data["inversion"];
+            this.eversion = data["eversion"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMAnkleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMAnkleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dorsiflexion"] = this.dorsiflexion;
+        data["plantarFlexion"] = this.plantarFlexion;
+        data["inversion"] = this.inversion;
+        data["eversion"] = this.eversion;
+        return data; 
+    }
+
+    clone(): ReportRoMAnkleDto {
+        const json = this.toJSON();
+        let result = new ReportRoMAnkleDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMAnkleDto {
+    dorsiflexion: string | undefined;
+    plantarFlexion: string | undefined;
+    inversion: string | undefined;
+    eversion: string | undefined;
+}
+
+export class ReportRoMElbowDto implements IReportRoMElbowDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+
+    constructor(data?: IReportRoMElbowDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.pronation = data["pronation"];
+            this.supination = data["supination"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMElbowDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMElbowDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["pronation"] = this.pronation;
+        data["supination"] = this.supination;
+        return data; 
+    }
+
+    clone(): ReportRoMElbowDto {
+        const json = this.toJSON();
+        let result = new ReportRoMElbowDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMElbowDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+}
+
+export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+    radialDeviation: string | undefined;
+    ulnarDeviation: string | undefined;
+
+    constructor(data?: IReportRoMForearmWristDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.pronation = data["pronation"];
+            this.supination = data["supination"];
+            this.radialDeviation = data["radialDeviation"];
+            this.ulnarDeviation = data["ulnarDeviation"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMForearmWristDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMForearmWristDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["pronation"] = this.pronation;
+        data["supination"] = this.supination;
+        data["radialDeviation"] = this.radialDeviation;
+        data["ulnarDeviation"] = this.ulnarDeviation;
+        return data; 
+    }
+
+    clone(): ReportRoMForearmWristDto {
+        const json = this.toJSON();
+        let result = new ReportRoMForearmWristDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMForearmWristDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+    radialDeviation: string | undefined;
+    ulnarDeviation: string | undefined;
+}
+
+export class ReportRoMHandDto implements IReportRoMHandDto {
+    indexFingerScore: number | undefined;
+    littleFingerScore: number | undefined;
+    middleFingerScore: number | undefined;
+    ringFingerScore: number | undefined;
+
+    constructor(data?: IReportRoMHandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.indexFingerScore = data["indexFingerScore"];
+            this.littleFingerScore = data["littleFingerScore"];
+            this.middleFingerScore = data["middleFingerScore"];
+            this.ringFingerScore = data["ringFingerScore"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMHandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMHandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["indexFingerScore"] = this.indexFingerScore;
+        data["littleFingerScore"] = this.littleFingerScore;
+        data["middleFingerScore"] = this.middleFingerScore;
+        data["ringFingerScore"] = this.ringFingerScore;
+        return data; 
+    }
+
+    clone(): ReportRoMHandDto {
+        const json = this.toJSON();
+        let result = new ReportRoMHandDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMHandDto {
+    indexFingerScore: number | undefined;
+    littleFingerScore: number | undefined;
+    middleFingerScore: number | undefined;
+    ringFingerScore: number | undefined;
+}
+
+export class ReportRoMHipDto implements IReportRoMHipDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
+
+    constructor(data?: IReportRoMHipDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.abduction = data["abduction"];
+            this.adduction = data["adduction"];
+            this.internalRotation = data["internalRotation"];
+            this.externalRotation = data["externalRotation"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMHipDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMHipDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["abduction"] = this.abduction;
+        data["adduction"] = this.adduction;
+        data["internalRotation"] = this.internalRotation;
+        data["externalRotation"] = this.externalRotation;
+        return data; 
+    }
+
+    clone(): ReportRoMHipDto {
+        const json = this.toJSON();
+        let result = new ReportRoMHipDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMHipDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
+}
+
+export class ReportRoMKneeDto implements IReportRoMKneeDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+
+    constructor(data?: IReportRoMKneeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMKneeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMKneeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        return data; 
+    }
+
+    clone(): ReportRoMKneeDto {
+        const json = this.toJSON();
+        let result = new ReportRoMKneeDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMKneeDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+}
+
+export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
+
+    constructor(data?: IReportRoMShoulderDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.abduction = data["abduction"];
+            this.adduction = data["adduction"];
+            this.internalRotation = data["internalRotation"];
+            this.externalRotation = data["externalRotation"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMShoulderDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMShoulderDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["abduction"] = this.abduction;
+        data["adduction"] = this.adduction;
+        data["internalRotation"] = this.internalRotation;
+        data["externalRotation"] = this.externalRotation;
+        return data; 
+    }
+
+    clone(): ReportRoMShoulderDto {
+        const json = this.toJSON();
+        let result = new ReportRoMShoulderDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMShoulderDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {

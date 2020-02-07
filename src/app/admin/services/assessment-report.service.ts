@@ -12,16 +12,4 @@ export class AssessmentReportService {
 
   }
 
-  getShoulderReport(clientId: string): string {
-    let report: string;
-    this._reportService.getRoMShoulderReport(clientId)
-      .pipe(finalize(() => {
-        return report;
-      }))
-      .subscribe((result) => {
-        report = result;
-      });
-    return report;
-  }
-
 }

@@ -4,8 +4,7 @@ import {
   ClientServiceProxy,
   CommentServiceProxy,
   ClientDetailOutput,
-  CreateCommentInput,
-  CommentDetailOutput
+  CreateCommentInput
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { finalize } from 'rxjs/operators';
@@ -19,13 +18,11 @@ import { finalize } from 'rxjs/operators';
 export class AdminCommentsComponent extends AppComponentBase implements OnInit {
 
   clientId: string;
-  isSaving = false;
-  editing = true;
+  isLoading = false;
   client: ClientDetailOutput = new ClientDetailOutput();
   commentInput: CreateCommentInput = new CreateCommentInput();
-  commentEdit: CommentDetailOutput = new CommentDetailOutput();
   constructor(
-    private injector: Injector,
+    injector: Injector,
     private route: ActivatedRoute,
     private commentService: CommentServiceProxy,
     private clientService: ClientServiceProxy) {
@@ -45,36 +42,23 @@ export class AdminCommentsComponent extends AppComponentBase implements OnInit {
       });
   }
   getComments() {
-    this.commentService.getUserComments(this.client.id)
+    this.isLoading = true;
+    this.commentService.getUserComments(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe((result) => {
-        this.commentEdit = result;
-        this.editing = result.text === 'undefined' ? false : true;
+        this.commentInput = result;
       });
   }
   save() {
-    console.log('clicked');
-    this.isSaving = true;
+    this.isLoading = true;
     this.commentInput.targetId = this.clientId;
-    this.commentInput.text = this.commentEdit.text;
-    console.log(this.commentEdit.text);
     this.commentService.createComment(this.commentInput)
       .pipe(finalize(() => {
-        this.isSaving = false;
-        this.getClient();
+        this.isLoading = false;
       }))
-      .subscribe((result) => {
-        this.notify.success('Saved Successfully');
-      });
-  }
-
-  edit() {
-    this.isSaving = true;
-    this.commentService.editComment(this.commentEdit)
-      .pipe(finalize(() => {
-        this.isSaving = false;
-        this.getClient();
-      }))
-      .subscribe((result) => {
+      .subscribe(() => {
         this.notify.success('Saved Successfully');
       });
   }
