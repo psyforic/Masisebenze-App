@@ -66,6 +66,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
   attorneyId: string;
   clientId: string;
   contactId: string;
+  paramDate: string;
   isSaving = false;
   events: EventListDto[] = [];
   showHeader = false;
@@ -94,6 +95,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
     this.getEvents();
     this.getLawFirms();
     this.date = moment(arg.dateStr).format('DD/MM/YYYY');
+    this.paramDate = arg.dateStr;
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => { }, () => { });
   }
@@ -186,7 +188,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
       lawFirmId: this.booking.lawFirmId,
       attorneyId: this.booking.attorneyId,
       contactId: this.booking.contactId,
-      date: this.date
+      date: this.paramDate
     };
     this.newBottomSheetClient.emit(clientInfo);
   }

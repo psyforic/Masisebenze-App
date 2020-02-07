@@ -1,20 +1,13 @@
-import { registerLocaleData } from '@angular/common';
-import { Document } from 'docx';
 import { DocumentFolder } from './../../../documents/document-types';
-import { DocumentsModule } from './../../../documents/documents.module';
-import { Event, DocumentListDto } from './../../../../../shared/service-proxies/service-proxies';
-import { NestedTreeControl, FlatTreeControl } from '@angular/cdk/tree';
+import { DocumentListDto } from './../../../../../shared/service-proxies/service-proxies';
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
 import {
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE,
   MatTreeNestedDataSource,
   MatTabChangeEvent
 } from '@angular/material';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ActivatedRoute } from '@angular/router';
 import { GeneralService } from '@app/admin/services/general.service';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -32,8 +25,7 @@ import {
   LawFirmServiceProxy,
   AttorneyListDto
 } from '@shared/service-proxies/service-proxies';
-import * as moment from 'moment';
-import { Observable, of, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 import { GaitComponent } from '../assessments/gait/gait.component';
 import { GripStrengthComponent } from '../assessments/grip-strength/grip-strength.component';
@@ -47,7 +39,6 @@ import { RepetitiveToleranceProtocolComponent } from '../assessments/repetitive-
 import { MusclePowerComponent } from '../assessments/muscle-power/muscle-power.component';
 import { AffectComponent } from '../assessments/affect/affect.component';
 import { MobilityComponent } from '../assessments/mobility/mobility.component';
-import { groupBy, mergeMap, reduce } from 'rxjs/operators';
 export const DD_MM_YYYY_Format = {
   parse: {
     dateInput: 'LL',
@@ -59,16 +50,6 @@ export const DD_MM_YYYY_Format = {
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-interface DocumentNode {
-  name: string;
-  url?: string;
-  id: number;
-}
-interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
-}
 interface FolderNode {
   id: number;
   value: string;
@@ -134,7 +115,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   childDocuments: DocumentListDto[] = [];
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
-  hidden = true;
+  hidden = false;
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
@@ -149,6 +130,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     });
   }
   getFileData() {
+    this.isLoading = true;
     this.documentService.getClientDocuments(this.clientId).subscribe(
       (result) => {
         this.documents = result.items;
@@ -157,7 +139,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
             return {
               value: type.value,
               id: type.id,
-              children: this.documents.filter(x => x.parentDocId == type.id).map(
+              children: this.documents.filter(x => x.parentDocId === type.id).map(
                 (doc) => {
                   return {
                     name: doc.name,
@@ -169,7 +151,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
             };
           });
           this.dataSource.data = filtered.filter(x => x.children.length > 0);
-        }  else {
+        } else {
           const filtered = this.documentTypes.map((type) => {
             return {
               value: type.value,
@@ -179,14 +161,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           });
           this.dataSource.data = filtered.filter(x => x.children.length > 0);
         }
-        // sconsole.log(this.dataSource.data);
+        this.isLoading = false;
       }
-
     );
 
   }
-  getDoc(id): DocumentListDto[]  {
-    let docs:DocumentListDto[] = [];
+  getDoc(id: number): DocumentListDto[] {
+    let docs: DocumentListDto[] = [];
     this.documentService.getChildDocuments(id).subscribe(
       (result) => {
         docs = result.items;
@@ -260,10 +241,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   openCameraModal() {
     this.takePhoto.open();
   }
-  injuryDateChanged(event, ctrl) {
+  injuryDateChanged(ctrl) {
     this.dateOfInjury = ctrl.value;
   }
-  courtDateChanged(event, crtl) {
+  courtDateChanged(crtl) {
     this.courtDate = crtl.value;
   }
   save() {
@@ -316,9 +297,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.assessmentDate = '';
     }
     this.client.assessmentDate = this.assessmentDate;
-    // console.log(this.client.courtDate);
-    // console.log(this.client.dateOfInjury);
-    // console.log(this.client.assessmentDate);
     this.clientService.editClient(this.client)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -333,8 +311,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       });
   }
   isValidDate(d) {
-    let s = Date.parse(d)
-    return isNaN(s) == true;
+    const s = Date.parse(d);
+    return isNaN(s) === true;
   }
   updateWorkHistory() {
     this.clientService.editWorkHistory(this.workHistory)

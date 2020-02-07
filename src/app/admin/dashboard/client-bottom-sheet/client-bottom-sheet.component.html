@@ -1,98 +1,115 @@
 <div class="card">
-  <div class="card-header">
-    <div class="card-title">
-      New Client
+    <div class="card-header">
+        <div class="card-title">
+            New Client
+        </div>
     </div>
-  </div>
 
-  <form [formGroup]="clientForm" novalidate (ngSubmit)="save()">
-    <div class="card-body">
-      <div class="example-loading-shade" *ngIf="isSaving">
-        <mat-spinner *ngIf="isSaving"></mat-spinner>
-      </div>
-      <div class="row">
-        <div class="col-lg-6">
-          <mat-form-field>
-            <mat-label>Title</mat-label>
-            <mat-select formControlName="title" required>
-              <mat-option value="Mr.">Mr.</mat-option>
-              <mat-option value="Mrs.">Mrs.</mat-option>
-              <mat-option value="Mrs.">Ms.</mat-option>
-            </mat-select>
-            <mat-error *ngIf="clientForm.get('title').touched
+    <form [formGroup]="clientForm" novalidate (ngSubmit)="save()">
+        <div class="card-body">
+            <div class="example-loading-shade" *ngIf="isSaving">
+                <mat-spinner *ngIf="isSaving"></mat-spinner>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <mat-form-field>
+                        <mat-label>Title</mat-label>
+                        <mat-select formControlName="title" required>
+                            <mat-option value="Mr.">Mr.</mat-option>
+                            <mat-option value="Mrs.">Mrs.</mat-option>
+                            <mat-option value="Mrs.">Ms.</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="clientForm.get('title').touched
                     && clientForm.get('title').hasError('required')">
-              Title is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-lg-6">
-          <mat-form-field>
-            <mat-label>First Name</mat-label>
-            <input type="text" matInput placeholder="Enter First Name" formControlName="firstName" required>
-            <mat-error *ngIf="clientForm.get('firstName').touched
+                            Title is Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-lg-6">
+                    <mat-form-field>
+                        <mat-label>First Name</mat-label>
+                        <input type="text" matInput placeholder="Enter First Name" formControlName="firstName" required>
+                        <mat-error *ngIf="clientForm.get('firstName').touched
                     && clientForm.get('firstName').hasError('required')">
-              First Name is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
+                            First Name is Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
-      </div>
-      <div class="row">
-        <div class="col-lg-6">
-          <mat-form-field>
-            <mat-label>Last Name</mat-label>
-            <input type="text" matInput placeholder="Enter Last Name" formControlName="lastName" required>
-            <mat-error *ngIf="clientForm.get('lastName').touched
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <mat-form-field>
+                        <mat-label>Last Name</mat-label>
+                        <input type="text" matInput placeholder="Enter Last Name" formControlName="lastName" required>
+                        <mat-error *ngIf="clientForm.get('lastName').touched
                         && clientForm.get('lastName').hasError('required')">
-              Last Name is Required
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-sm-6">
-          <mat-form-field>
-            <mat-label>Id Number</mat-label>
-            <input type="text" matInput placeholder="Enter Id Number" formControlName="idNumber" required
-              maxlength="13">
-            <mat-error *ngIf="clientForm.get('idNumber').touched
+                            Last Name is Required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                    <mat-form-field>
+                        <mat-label>Id Number</mat-label>
+                        <input type="text" matInput placeholder="Enter Id Number" formControlName="idNumber" required maxlength="13">
+                        <mat-error *ngIf="clientForm.get('idNumber').touched
                   && clientForm.get('idNumber').hasError('required')">
-              Id No. is Required
-            </mat-error>
-            <mat-error *ngIf="clientForm.get('idNumber').touched
+                            Id No. is Required
+                        </mat-error>
+                        <mat-error *ngIf="clientForm.get('idNumber').touched
                   && clientForm.get('idNumber').hasError('minlength')
                   && !clientForm.get('idNumber').hasError('required')">
-              Number Of Characters must be 13
-            </mat-error>
-            <mat-error *ngIf="clientForm.get('idNumber').touched
+                            Number Of Characters must be 13
+                        </mat-error>
+                        <mat-error *ngIf="clientForm.get('idNumber').touched
                   && clientForm.get('idNumber').hasError('maxlength')
                   && !clientForm.get('idNumber').hasError('required')">
-              Maximum Number Of Characters must be 13
-            </mat-error>
-          </mat-form-field>
-        </div>
+                            Maximum Number Of Characters must be 13
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
-      </div>
-      <div class="row">
-        <div class="col-sm-6">
-          <mat-form-field>
-            <input matInput formControlName="courtDate" [matDatepicker]="picker" placeholder="Court Date"
-              readonly>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <mat-form-field>
+                        <input matInput formControlName="courtDate" [matDatepicker]="picker" placeholder="Court Date" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-sm-6">
+                    <mat-form-field>
+                        <input matInput [matDatepicker]="datePicker" placeholder="Date Of Assessment" required formControlName="assessmentDate" [value]="date" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="datePicker" [disabled]="true"></mat-datepicker-toggle>
+                        <mat-datepicker #datePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <mat-form-field>
+                        <mat-label>From</mat-label>
+                        <input #fromTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue" [value]="'00:00 am'" readonly>
+                        <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event)">
+                        </ngx-material-timepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-lg-6">
+                    <mat-form-field>
+                        <mat-label>To</mat-label>
+                        <input #toTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value" [value]="'00:00 am'" readonly>
+                        <ngx-material-timepicker #Value (timeSet)="setEndTime($event)">
+                        </ngx-material-timepicker>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-6">
-          <mat-form-field>
-            <input matInput [matDatepicker]="datePicker"
-              placeholder="Date Of Assessment" required readonly [value]="date" readonly>
-            <mat-datepicker-toggle matSuffix [for]="datePicker" [disabled]="true"></mat-datepicker-toggle>
-            <mat-datepicker #datePicker></mat-datepicker>
-          </mat-form-field>
+        <div class="card-footer pull-right">
+            <button type="button" mat-raised-button (click)="close()">Close</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid || fromTime.value === '00:00' || toTime.value === '00:00'">Add</button>
         </div>
-      </div>
-    </div>
-    <div class="card-footer pull-right">
-      <button type="button" mat-raised-button (click)="close()">Close</button>
-      <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid">Add</button>
-    </div>
-  </form>
+    </form>
 </div>

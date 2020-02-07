@@ -21,6 +21,8 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   clientInput: CreateClientInput = new CreateClientInput();
   isSaving = false;
   date: any;
+  startTime: any;
+  endTime: any;
   constructor(
     private injector: Injector,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -31,7 +33,8 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
   }
 
   ngOnInit() {
-    this.date = new Date(this.data.date);
+    this.date = this.data.date;
+    console.log(this.date);
     this.initializeForm();
   }
   initializeForm() {
@@ -41,10 +44,17 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       idNumber: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
+      assessmentDate: [this.date, Validators.required]
     });
   }
   close() {
     this.bottomSheetRef.dismiss();
+  }
+  setStartTime(event) {
+    this.startTime = event;
+  }
+  setEndTime(event) {
+    this.endTime = event;
   }
   save() {
     if (this.data.lawFirmId === '' || this.data.attorneyId === '' || this.data.contactId === '') {
@@ -56,6 +66,9 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
     this.clientInput.lawFirmId = this.data.lawFirmId;
     this.clientInput.attorneyId = this.data.attorneyId;
     this.clientInput.contactId = this.data.contactId;
+    const formattedAssessmentDate = moment(this.date);
+    this.clientInput.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.clientInput.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     let hoursDiff;
     let minutesDiff;
     if (this.date !== null && this.date !== 'undefined') {
@@ -71,7 +84,7 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
         this.isSaving = false;
         this.close();
       })).subscribe(() => {
-        this.notify.success('Client Added Successfully');
+        this.notify.success('Client Added Successfully\nAnd Also a new Assessment Booking has been created.');
       });
   }
 }

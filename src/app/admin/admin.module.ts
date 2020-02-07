@@ -15,6 +15,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { ClientServiceProxy, AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -34,6 +35,6 @@ import { ClientServiceProxy, AssessmentServiceProxy } from '@shared/service-prox
     NavbarComponent,
     SidebarComponent,
     AdminComponent],
-  providers: [ClientServiceProxy, AssessmentServiceProxy]
+  providers: [ClientServiceProxy, AssessmentServiceProxy,  {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}]
 })
 export class AdminModule { }
