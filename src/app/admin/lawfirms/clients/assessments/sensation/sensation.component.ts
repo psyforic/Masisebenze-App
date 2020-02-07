@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
+import { CreateSensationInput } from './../../../../../../shared/service-proxies/service-proxies';
+import { Component, OnInit, ViewChild, ElementRef, Injector, Input, Pipe } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssessmentServiceProxy, SensationOptionDto } from '@shared/service-proxies/service-proxies';
@@ -15,13 +16,15 @@ export class SensationComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() fullName: string;
   @Input() clientId: string;
-  sensation: string;
+  comment: string;
+  sensation: CreateSensationInput = new CreateSensationInput();
   upperLeftSide: SensationOptionDto[] = [];
   upperRightSide: SensationOptionDto[] = [];
   trunkLeftSide: SensationOptionDto[] = [];
   trunkRightSide: SensationOptionDto[] = [];
   lowerLeftSide: SensationOptionDto[] = [];
   lowerRightSide: SensationOptionDto[] = [];
+
   upper_left_current_step = 1;
   upper_right_current_step = 1;
   trunk_left_current_step = 1;
@@ -45,9 +48,19 @@ export class SensationComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
   }
   open() {
-    this.getUpperExtremity();
-    this.getLowerExtremity();
-    this.getTrunkExtremity();
+    this.isLoading = true;
+    this._assessmentService.getSensation(this.clientId)
+    .pipe(finalize(() => {
+      this.isLoading = false;
+    }))
+    .subscribe(
+      (sensation) => {
+        this.comment = sensation.otComment;
+      }
+    );
+    // this.getUpperExtremity();
+    // this.getLowerExtremity();
+    // this.getTrunkExtremity();
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'lg' })
       .result.then(() => { }, () => { });
   }
@@ -55,7 +68,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
     this.activeModal.close();
   }
   getUpperExtremity() {
-    this.isLoading = true;
+     this.isLoading = true;
     this._assessmentService.getUpperExtremity(this.clientId, 0)
       .pipe(finalize(() => {
 
@@ -90,6 +103,18 @@ export class SensationComponent extends AppComponentBase implements OnInit {
       });
   }
 
+  save() {
+    this.isLoading = true;
+    this.sensation.clientId = this.clientId;
+    this.sensation.otComment = this.comment;
+    this._assessmentService.updateSensation(this.sensation)
+    .pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(() =>{
+      this.notify.success('Update Successful!');
+      this.close();
+    });
+  }
 
   getLowerExtremity() {
     this._assessmentService.getLowerExtremity(this.clientId, 0)
@@ -128,9 +153,6 @@ export class SensationComponent extends AppComponentBase implements OnInit {
       this.upper_right_current_step--;
     }
   }
-
-
-
   nextTrunkLeft() {
     if (this.trunk_left_current_step !== this.MAX_STEP_TRUNK) {
       this.trunk_left_current_step++;

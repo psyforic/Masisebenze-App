@@ -364,6 +364,232 @@ export class ActivityServiceProxy {
 }
 
 @Injectable()
+export class AffectServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createAsync(input: AffectDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Affect/CreateAsync";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateAsync(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAsync(id: string | null | undefined): Observable<AffectDto> {
+        let url_ = this.baseUrl + "/api/services/app/Affect/GetAsync?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<AffectDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AffectDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAsync(response: HttpResponseBase): Observable<AffectDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AffectDto.fromJS(resultData200) : new AffectDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AffectDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getByClientAsync(clientId: string | null | undefined): Observable<AffectDto> {
+        let url_ = this.baseUrl + "/api/services/app/Affect/GetByClientAsync?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByClientAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByClientAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<AffectDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AffectDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByClientAsync(response: HttpResponseBase): Observable<AffectDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AffectDto.fromJS(resultData200) : new AffectDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AffectDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getListAsync(clientId: string | null | undefined): Observable<ListResultDtoOfAffectDto> {
+        let url_ = this.baseUrl + "/api/services/app/Affect/GetListAsync?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAffectDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAffectDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListAsync(response: HttpResponseBase): Observable<ListResultDtoOfAffectDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAffectDto.fromJS(resultData200) : new ListResultDtoOfAffectDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAffectDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class AssessmentServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -2053,6 +2279,112 @@ export class AssessmentServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    updateSensation(input: CreateSensationInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/UpdateSensation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateSensation(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateSensation(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateSensation(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSensation(clientId: string | null | undefined): Observable<SensationListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetSensation?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSensation(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSensation(<any>response_);
+                } catch (e) {
+                    return <Observable<SensationListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SensationListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSensation(response: HttpResponseBase): Observable<SensationListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? SensationListDto.fromJS(resultData200) : new SensationListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SensationListDto>(<any>null);
     }
 
     /**
@@ -8868,6 +9200,232 @@ export class LawFirmServiceProxy {
 }
 
 @Injectable()
+export class MobilityServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    createAsync(input: MobilityDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Mobility/CreateAsync";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateAsync(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAsync(id: string | null | undefined): Observable<MobilityDto> {
+        let url_ = this.baseUrl + "/api/services/app/Mobility/GetAsync?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<MobilityDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MobilityDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAsync(response: HttpResponseBase): Observable<MobilityDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MobilityDto.fromJS(resultData200) : new MobilityDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MobilityDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getByClientAsync(clientId: string | null | undefined): Observable<MobilityDto> {
+        let url_ = this.baseUrl + "/api/services/app/Mobility/GetByClientAsync?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByClientAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByClientAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<MobilityDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MobilityDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByClientAsync(response: HttpResponseBase): Observable<MobilityDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MobilityDto.fromJS(resultData200) : new MobilityDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MobilityDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getListAsync(clientId: string | null | undefined): Observable<ListResultDtoOfMobilityDto> {
+        let url_ = this.baseUrl + "/api/services/app/Mobility/GetListAsync?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetListAsync(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetListAsync(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfMobilityDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfMobilityDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetListAsync(response: HttpResponseBase): Observable<ListResultDtoOfMobilityDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfMobilityDto.fromJS(resultData200) : new ListResultDtoOfMobilityDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfMobilityDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class ProfileServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -14622,6 +15180,116 @@ export interface IActivityLogListDto {
     id: string | undefined;
 }
 
+export class AffectDto implements IAffectDto {
+    comment: string | undefined;
+    clientId: string | undefined;
+    status: number | undefined;
+    isSelected: boolean | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAffectDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.comment = data["comment"];
+            this.clientId = data["clientId"];
+            this.status = data["status"];
+            this.isSelected = data["isSelected"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AffectDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AffectDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["comment"] = this.comment;
+        data["clientId"] = this.clientId;
+        data["status"] = this.status;
+        data["isSelected"] = this.isSelected;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AffectDto {
+        const json = this.toJSON();
+        let result = new AffectDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAffectDto {
+    comment: string | undefined;
+    clientId: string | undefined;
+    status: number | undefined;
+    isSelected: boolean | undefined;
+    id: string | undefined;
+}
+
+export class ListResultDtoOfAffectDto implements IListResultDtoOfAffectDto {
+    items: AffectDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfAffectDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AffectDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfAffectDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfAffectDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfAffectDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfAffectDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfAffectDto {
+    items: AffectDto[] | undefined;
+}
+
 export class CreateClientAssessmentInput implements ICreateClientAssessmentInput {
     clientId: string | undefined;
     userId: number | undefined;
@@ -16946,6 +17614,100 @@ export interface ICoordinationIncompleteDto {
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class CreateSensationInput implements ICreateSensationInput {
+    otComment: string | undefined;
+    clientId: string | undefined;
+
+    constructor(data?: ICreateSensationInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.otComment = data["otComment"];
+            this.clientId = data["clientId"];
+        }
+    }
+
+    static fromJS(data: any): CreateSensationInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateSensationInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["otComment"] = this.otComment;
+        data["clientId"] = this.clientId;
+        return data; 
+    }
+
+    clone(): CreateSensationInput {
+        const json = this.toJSON();
+        let result = new CreateSensationInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateSensationInput {
+    otComment: string | undefined;
+    clientId: string | undefined;
+}
+
+export class SensationListDto implements ISensationListDto {
+    otComment: string | undefined;
+    id: string | undefined;
+
+    constructor(data?: ISensationListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.otComment = data["otComment"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): SensationListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SensationListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["otComment"] = this.otComment;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): SensationListDto {
+        const json = this.toJSON();
+        let result = new SensationListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISensationListDto {
+    otComment: string | undefined;
     id: string | undefined;
 }
 
@@ -21765,6 +22527,116 @@ export class PagedResultDtoOfLawFirmListDto implements IPagedResultDtoOfLawFirmL
 export interface IPagedResultDtoOfLawFirmListDto {
     totalCount: number | undefined;
     items: LawFirmListDto[] | undefined;
+}
+
+export class MobilityDto implements IMobilityDto {
+    comment: string | undefined;
+    clientId: string | undefined;
+    status: number | undefined;
+    isSelected: boolean | undefined;
+    id: string | undefined;
+
+    constructor(data?: IMobilityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.comment = data["comment"];
+            this.clientId = data["clientId"];
+            this.status = data["status"];
+            this.isSelected = data["isSelected"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): MobilityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MobilityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["comment"] = this.comment;
+        data["clientId"] = this.clientId;
+        data["status"] = this.status;
+        data["isSelected"] = this.isSelected;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): MobilityDto {
+        const json = this.toJSON();
+        let result = new MobilityDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMobilityDto {
+    comment: string | undefined;
+    clientId: string | undefined;
+    status: number | undefined;
+    isSelected: boolean | undefined;
+    id: string | undefined;
+}
+
+export class ListResultDtoOfMobilityDto implements IListResultDtoOfMobilityDto {
+    items: MobilityDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfMobilityDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(MobilityDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfMobilityDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfMobilityDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfMobilityDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfMobilityDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfMobilityDto {
+    items: MobilityDto[] | undefined;
 }
 
 export class ProfileDto implements IProfileDto {

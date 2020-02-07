@@ -13,7 +13,7 @@
         </div>
         <div class="row">
           <div class="col-lg-12">
-            <quill-editor [styles]="{height: '200px'}" [(ngModel)]="sensation" [sanitize]="true" name="homeEnvironment">
+            <quill-editor [styles]="{height: '200px'}" #sensationComment="ngModel" [(ngModel)]="comment" [sanitize]="true" name="homeEnvironment">
             </quill-editor>
           </div>
         </div>
@@ -24,7 +24,8 @@
 
             </div>
             <div class="col-g-6 pull-right">
-              <button type="button" mat-raised-button color="primary" (click)="modal.close()">Save Changes</button>
+              <button type="button" [disabled] ="((comment == null || comment =='') && sensationComment.touched) ||
+              !((comment == null || comment =='') && sensationComment.touched)" mat-raised-button color="primary" (click)="save()">Save Changes</button>
             </div>
           </div>
         </div>
