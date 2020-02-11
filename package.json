@@ -57,6 +57,7 @@
     "core-js": "^2.4.1",
     "docx": "^5.0.0-rc5",
     "docxtemplater": "^3.14.3",
+    "easy-template-x": "^0.10.0",
     "famfamfam-flags": "^1.0.0",
     "file-saver": "^2.0.2",
     "firebase": "^6.6.0",
