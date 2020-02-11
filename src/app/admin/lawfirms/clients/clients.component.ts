@@ -137,6 +137,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData,
         this.workData, this.lawFirmCity, this.assessmentReport, this.rangeOfMotionReport], today);
       this.notify.success('Document created successfully');
+      this.isGenerating = false;
     }, 15000);
   }
   getMedicalHistory(id) {
@@ -446,7 +447,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   getCrawling(clientId: string) {
     this._reportService.getCrawlingProtocolReport(clientId)
       .pipe(finalize(() => {
-        this.isGenerating = false;
       }))
       .subscribe((result) => {
         this.crawlingReport = result;
