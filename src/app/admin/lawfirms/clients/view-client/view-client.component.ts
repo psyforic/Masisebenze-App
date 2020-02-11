@@ -281,7 +281,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.dateOfInjury = '';
     }
     this.client.dateOfInjury = this.dateOfInjury;
-    console.log(this.client.dateOfInjury);
     // set Court date
     if (this.courtDate !== null && this.courtDate !== 'undefined' && !this.isValidDate(this.courtDate)) {
       this.courtDate = new Date(this.courtDate);
@@ -294,7 +293,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       this.courtDate = '';
     }
     this.client.courtDate = this.courtDate;
-    console.log(this.client.courtDate);
     // set Assessment date
     if (this.assessmentDate !== null && this.assessmentDate !== 'undefined' && !this.isValidDate(this.assessmentDate)) {
       this.assessmentDate = new Date(this.assessmentDate);

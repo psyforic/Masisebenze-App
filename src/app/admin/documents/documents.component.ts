@@ -54,12 +54,12 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   downloadURL: Observable<string>;
   uploadState: Observable<string>;
   author: string;
-  date: string;
+  date: any;
   client: ClientListDto = new ClientListDto();
   contact: ContactDetailOutput = new ContactDetailOutput();
   clientId: string;
   contactId: string;
-  input: DocumentDetailOutput;
+  input: DocumentDetailOutput = new DocumentDetailOutput();
   isUploading = false;
   uploadForm: FormGroup;
   isLoading = false;
@@ -141,50 +141,18 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   addNewFile() {
     this.createDocument.open();
   }
-  // uploadFile(index, id, uploadUrl) {
-  //   const authorName = $('#author' + index).val();
-  //   const authorDate = $('#date' + index).val();
-  //   const fileName = $('#filename' + index).val();
-  //   const momentDate = new Date(authorDate);
-  //   const formattedDate = moment(momentDate).format('YYYY-MM-DD');
-  //   this.input = new DocumentDetailOutput();
-  //   this.input.id = id;
-  //   this.input.parentDocId = id;
-  //   this.input.authorName = authorName;
-  //   this.input.authorDate = moment(formattedDate);
-  //   this.input.fileUrl = uploadUrl;
-  //   this.input.identifier = 1;
-  //   this.input.name = fileName;
-  //   this.documentService.editDocument(this.input).pipe((finalize(() => {
-  //   }))).subscribe(() => {
-  //     this.isUploading = false;
-  //     abp.notify.success('File Uploaded Successfully');
-  //     this.getClientDocuments();
-  //   });
-  // }
+
   uploadFile(index, id, uploadUrl) {
     const authorName = $('#author' + index).val();
-    let authorDate = $('#date' + index).val();
     const fileName = $('#filename' + index).val();
-    const momentDate = new Date(authorDate);
-    const formattedDate = authorDate;
     this.input = new DocumentDetailOutput();
     this.input.id = id;
     this.input.contactId = this.contactId;
     this.input.clientId = this.clientId;
     this.input.parentDocId = id;
     this.input.authorName = authorName;
-    let hoursDiff;
-    let minutesDiff;
-    if (authorDate !== null && authorDate !== 'undefined' && !this.isValidDate(authorDate)) {
-      authorDate = new Date(authorDate);
-      hoursDiff = authorDate.getHours() - authorDate.getTimezoneOffset() / 60;
-      minutesDiff = (authorDate.getHours() - authorDate.getTimezoneOffset()) % 60;
-      authorDate.setHours(hoursDiff);
-      authorDate.setMinutes(minutesDiff);
 
-    }
-    this.input.authorDate = authorDate;
+    this.input.authorDate = this.date;
     this.input.fileUrl = uploadUrl;
     this.input.identifier = 1;
     this.input.name = fileName;
@@ -196,16 +164,28 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
     });
   }
   isValidDate(d) {
-    let s = Date.parse(d)
-    return isNaN(s) == true;
+    const s = Date.parse(d);
+    return isNaN(s);
   }
   isInValid(index, fileName) {
     const authorName = $('#author' + index).val();
     const authorDate = $('#date' + index).val();
-
     return ((authorName === 'undefined' || authorName === '')
       || (authorDate === 'undefined' || authorDate === '')) && fileName !== 'Copy of Id or smartcard'
       ? true : false;
+  }
+  selectDate(event) {
+    this.date = event.value;
+    let hoursDiff;
+    let minutesDiff;
+    if (this.date !== null && this.date !== 'undefined' && !this.isValidDate(this.date)) {
+      this.date = new Date(this.date);
+      hoursDiff = this.date.getHours() - this.date.getTimezoneOffset() / 60;
+      minutesDiff = (this.date.getHours() - this.date.getTimezoneOffset()) % 60;
+      this.date.setHours(hoursDiff);
+      this.date.setMinutes(minutesDiff);
+    }
+    this.input.authorDate = this.date;
   }
   getClientDocuments() {
     this.documentService.getAllUserDocuments(this.clientId)
@@ -215,8 +195,8 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
       .subscribe((result) => {
         this.uploadedFiles = result.items;
         this.documentTypes.forEach((documentType) => {
-          if (this.uploadedFiles.filter(f => f.parentDocId == documentType.id).length > 0) {
-            const file = this.uploadedFiles.filter(f => f.parentDocId == documentType.id)[0];
+          if (this.uploadedFiles.filter(f => f.parentDocId === documentType.id).length > 0) {
+            const file = this.uploadedFiles.filter(f => f.parentDocId === documentType.id)[0];
             this.clientDocuments.push(file);
           } else {
             const file = new DocumentDetailOutput();

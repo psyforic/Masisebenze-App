@@ -56,15 +56,15 @@
                         </mat-cell>
                       </ng-container>
                       <!-- Progress Column -->
-                      <ng-container matColumnDef="name">
+                      <ng-container matColumnDef="name" style="display: none;">
                         <mat-header-cell *matHeaderCellDef>
                           File Name
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file; let i = index;">
-                          <mat-form-field >
+                          <mat-form-field>
                             <div>
-                              <input [disabled]="clientDocuments[i]?.identifier === 1" value="{{clientDocuments[i]?.name}}" id="filename{{i}}"
-                                required type="text" matInput placeholder="File Name" required>
+                              <input [disabled]="clientDocuments[i]?.identifier === 1" value="{{file.value}}"
+                                id="filename{{i}}" required type="text" matInput placeholder="File Name" required>
                             </div>
                           </mat-form-field>
                         </mat-cell>
@@ -77,8 +77,9 @@
                         <mat-cell *matCellDef="let file; let i = index;">
                           <mat-form-field *ngIf="file.value !=='Copy of Id or smartcard'">
                             <div>
-                              <input [disabled]="clientDocuments[i]?.identifier === 1" value="{{clientDocuments[i]?.authorName}}" id="author{{i}}"
-                                required type="text" matInput placeholder="File Author" required>
+                              <input [disabled]="clientDocuments[i]?.identifier === 1"
+                                value="{{clientDocuments[i]?.authorName}}" id="author{{i}}" required type="text"
+                                matInput placeholder="File Author" required>
                             </div>
                           </mat-form-field>
                         </mat-cell>
@@ -90,10 +91,11 @@
                           Date Authored
                         </mat-header-cell>
                         <mat-cell *matCellDef="let file; let i = index;">
-                          <mat-form-field *ngIf="!clientDocuments[i]?.identifier && (file.value !=='Copy of Id or smartcard' &&
+                          <mat-form-field
+                            *ngIf="!clientDocuments[i]?.identifier && (file.value !=='Copy of Id or smartcard' &&
                           file.value !=='Copy of passport' && file.value !== 'Hospital records' && file.value !=='Clinical notes')">
-                            <input *ngIf="showInput" id="date{{i}}" #fileDate matInput [matDatepicker]="picker"
-                              placeholder="Choose a date" name="date" readonly required>
+                            <input (dateChange)="selectDate($event)" *ngIf="showInput" id="date{{i}}" #fileDate matInput
+                              [matDatepicker]="picker" placeholder="Choose a date" name="date" readonly required>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
@@ -121,8 +123,9 @@
                           <button class="file btn btn-sm btn-primary btn-round" (mouseenter)="isInValid(i)"
                             [disabled]="clientDocuments[i]?.identifier || isInValid(i, file.value)">
                             <i class="fa fa-cloud-upload"></i>
-                            <input [disabled]="clientDocuments[i]?.identifier || isInValid(i, file.value)" type="file" name="file"
-                              class="form-control-file" (change)="upload($event, i, file.id)" accept=".pdf" />
+                            <input [disabled]="clientDocuments[i]?.identifier || isInValid(i, file.value)" type="file"
+                              name="file" class="form-control-file" (change)="upload($event, i, file.id)"
+                              accept=".pdf" />
                           </button>
                         </mat-cell>
                       </ng-container>
