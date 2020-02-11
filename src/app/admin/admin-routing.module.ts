@@ -18,6 +18,7 @@ import { AppRouteGuard } from '@shared/auth/auth-route-guard';
 import { UploadDocumentComponent } from './lawfirms/clients/upload-document/upload-document.component';
 import { RolesComponent } from './roles/roles.component';
 import { AdminCommentsComponent } from './lawfirms/clients/admin-comments/admin-comments.component';
+import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.guard';
 
 @NgModule({
 
@@ -41,7 +42,10 @@ import { AdminCommentsComponent } from './lawfirms/clients/admin-comments/admin-
                     { path: 'clients', component: ClientsComponent, canActivate: [AppRouteGuard] },
                     { path: 'attorneys/new', component: NewAttorneyComponent, canActivate: [AppRouteGuard] },
                     { path: 'lawfirms/view/:id', component: ViewLawfirmComponent, canActivate: [AppRouteGuard] },
-                    { path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard] },
+                    {
+                        path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard],
+                        canDeactivate: [PreventUnsavedChangesGuard]
+                    },
                     { path: 'clients/documents/upload/:id', component: UploadDocumentComponent, canActivate: [AppRouteGuard] },
                     { path: 'clients/activity-log/:id', component: ViewActivityLogComponent, canActivate: [AppRouteGuard] },
                     { path: 'comments/clients/:id', component: AdminCommentsComponent, canActivate: [AppRouteGuard] }

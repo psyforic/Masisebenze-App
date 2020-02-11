@@ -16,8 +16,8 @@ import { MatOptionSelectionChange } from '@angular/material';
 })
 export class NewDocumentComponent extends AppComponentBase implements OnInit {
 
-  @Input() clientId;
-  @Input() contactId;
+  @Input() clientId: string;
+  @Input() contactId: string;
   @ViewChild('content', { static: false }) content: ElementRef;
   @Output() documentAdded = new EventEmitter();
   document: CreateDocumentInput = new CreateDocumentInput();
@@ -44,8 +44,7 @@ export class NewDocumentComponent extends AppComponentBase implements OnInit {
   }
   initializeForm() {
     this.documentForm = this.fb.group({
-      parentDocId:  ['', Validators.required],
-      name: ['', Validators.required],
+      parentDocId: ['', Validators.required],
       authorName: ['', Validators.required],
       authorDate: ['', Validators.required],
       fileInput: ['', Validators.required]
@@ -93,6 +92,7 @@ export class NewDocumentComponent extends AppComponentBase implements OnInit {
           this.document.contactId = this.contactId;
           this.document.clientId = this.clientId;
           this.document.identifier = 1;
+          this.document.name = this.fileName;
           this.documentService.createDocument(this.document)
             .pipe(finalize(() => {
             }))

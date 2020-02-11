@@ -25,7 +25,7 @@ import { MatOptionSelectionChange } from '@angular/material';
 export class UploadDocumentComponent extends AppComponentBase implements OnInit {
   @ViewChild('fileName', { static: false }) docName: ElementRef;
   clientId: string;
-  documentTypes =  DocumentFolder.documentTypes;
+  documentTypes = DocumentFolder.documentTypes;
   client: ClientDetailOutput = new ClientDetailOutput();
   document: CreateDocumentInput = new CreateDocumentInput();
   documents: DocumentListDto[] = [];
@@ -59,7 +59,6 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
   initializeForm() {
     this.documentForm = this.fb.group({
       parentDocId: ['', Validators.required],
-      name: ['', Validators.required],
       authorName: ['', Validators.required],
       authorDate: [''],
       fileInput: ['', Validators.required]
@@ -117,6 +116,7 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
           this.document.clientId = this.clientId;
           this.document.parentDocId = this.parentDocId;
           this.document.identifier = 1;
+          this.document.name = this.fileName;
           this.documentService.createDocument(this.document)
             .pipe(finalize(() => {
             }))

@@ -17,6 +17,7 @@ import { AssessmentsModule } from './assessments/assessments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-changes.guard';
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -42,7 +43,8 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapte
   ],
   entryComponents: [NewClientComponent, CameraModalComponent],
   providers: [NgbActiveModal,
-      {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
-      {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}]
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    PreventUnsavedChangesGuard]
 })
 export class ClientsModule { }

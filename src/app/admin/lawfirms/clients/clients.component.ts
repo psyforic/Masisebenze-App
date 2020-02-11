@@ -130,17 +130,27 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
     const age = this._generalService.getAge('' + client.idNumber);
     const gender = this._generalService.getGender('' + client.idNumber);
-    this.getReportData(client.id, age, gender);
     const docCreator = new DocumentCreator();
-    setTimeout(() => {
-      const today = moment().format('LL');
-      docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData,
-        this.workData, this.lawFirmCity, this.assessmentReport, this.rangeOfMotionReport], today);
-      this.notify.success('Document created successfully');
-      this.isGenerating = false;
-    }, 15000);
+    this.getReportData(client.id, age, gender);
+    setTimeout(async () => {
+      await this.generateDocument(docCreator, entity, address)
+        .then(() => {
+          this.notify.success('Saved Successfully', 'Success');
+          this.isGenerating = false;
+        })
+        .catch(error => {
+          this.notify.error('An Error Occurred Please Try Again to Download');
+        });
+    }, 20000);
+
   }
-  getMedicalHistory(id) {
+  async generateDocument(docCreator: DocumentCreator, entity: ClientDetailOutput, address: CreateAddressInput) {
+    const today = moment().format('LL');
+    docCreator.generateDoc([entity, address, this.filteredDocuments, this.medicalData,
+      this.workData, this.lawFirmCity, this.assessmentReport, this.rangeOfMotionReport], today);
+
+  }
+  async getMedicalHistory(id) {
     this.clientService.getMedicalHistoryByClientId(id)
       .pipe(finalize(() => {
       }))
@@ -148,25 +158,29 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.medicalData = result;
       });
   }
-  getFileData(id) {
+  async getFileData(id) {
     this.documentService.getClientDocuments(id)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
         this.documents = result.items;
         const filtered = this.documents.map((value) => {
-          return { date_authored: moment(value.authorDate).format('DD/MM/YYYY'), file_name: value.name, author_name: value.authorName };
+          return {
+            date_authored: value.authorDate ? moment(value.authorDate).format('DD/MM/YYYY') : '',
+            file_name: value.name,
+            author_name: value.authorName
+          };
         });
         this.filteredDocuments = filtered;
       });
   }
-  getWorkHistory(id) {
+  async getWorkHistory(id) {
     this.clientService.getWorkHistoryByClientId(id)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
         this.workData = result;
       });
   }
-  getClientHistory(id) {
+  async getClientHistory(id) {
     this.clientService.getById(id)
       .subscribe((result) => {
         this.client = result;
@@ -204,46 +218,46 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.getDataPage(event.pageIndex + 1);
   }
 
-  getReportData(clientId: string, age: number, gender: number) {
-    this.getGripStrength(clientId, age, gender);
-    this.getMusclePower(clientId);
-    this.getShoulders(clientId);
-    this.getForearmWrist(clientId);
-    this.getElbow(clientId);
-    this.getHand(clientId);
-    this.getHip(clientId);
-    this.getKnee(clientId);
-    this.getAnkle(clientId);
-    this.getBorgBalance(clientId);
-    this.getSensation(clientId);
-    this.getMobility(clientId);
-    this.getAffect(clientId);
-    this.getCoordination(clientId);
-    this.getPosture(clientId);
-    this.getGait(clientId);
-    this.getWalking(clientId);
-    this.getStairClimbing(clientId);
-    this.getBalance(clientId);
-    this.getLadderWork(clientId);
-    this.getRepetitiveSquatting(clientId);
-    this.getRepetitiveFootMotion(clientId);
-    this.getCrawling(clientId);
+  async getReportData(clientId: string, age: number, gender: number) {
+    await this.getGripStrength(clientId, age, gender);
+    await this.getMusclePower(clientId);
+    await this.getShoulders(clientId);
+    await this.getForearmWrist(clientId);
+    await this.getElbow(clientId);
+    await this.getHand(clientId);
+    await this.getHip(clientId);
+    await this.getKnee(clientId);
+    await this.getAnkle(clientId);
+    await this.getBorgBalance(clientId);
+    await this.getSensation(clientId);
+    await this.getMobility(clientId);
+    await this.getAffect(clientId);
+    await this.getCoordination(clientId);
+    await this.getPosture(clientId);
+    await this.getGait(clientId);
+    await this.getWalking(clientId);
+    await this.getStairClimbing(clientId);
+    await this.getBalance(clientId);
+    await this.getLadderWork(clientId);
+    await this.getRepetitiveSquatting(clientId);
+    await this.getRepetitiveFootMotion(clientId);
+    await this.getCrawling(clientId);
   }
-  getGripStrength(clientId: string, age: number, gender: number) {
+  async getGripStrength(clientId: string, age: number, gender: number) {
     this._reportService.getGripStrengthReport(clientId, age, gender)
       .subscribe((result) => {
         this.gripStrengthReport = result;
         this.assessmentReport[0] = result;
       });
   }
-  getMusclePower(clientId: string) {
+  async getMusclePower(clientId: string) {
     this._reportService.getMusclePowerReport(clientId)
       .subscribe((result) => {
         this.musclePowerReport = result;
         this.assessmentReport[1] = result;
       });
   }
-  getShoulders(clientId: string) {
+  async getShoulders(clientId: string) {
     this._reportService.getRoMShoulderReport(clientId, 0)
       .subscribe((result) => {
         this.shoulderLeftReport = result;
@@ -256,7 +270,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.rangeOfMotionReport[1] = result;
       });
   }
-  getForearmWrist(clientId: string) {
+  async getForearmWrist(clientId: string) {
     this._reportService.getRoMForearmWristReport(clientId, 0)
       .subscribe((result) => {
         this.forearmWristLeftReport = result;
@@ -268,7 +282,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.rangeOfMotionReport[3] = result;
       });
   }
-  getElbow(clientId: string) {
+  async getElbow(clientId: string) {
     this._reportService.getRoMElbowReport(clientId, 0)
       .subscribe((result) => {
         this.elbowLeftReport = result;
@@ -280,7 +294,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.rangeOfMotionReport[5] = result;
       });
   }
-  getHand(clientId: string) {
+  async getHand(clientId: string) {
     this._reportService.getRoMHandReport(clientId, 0)
       .subscribe((result) => {
         this.handLeftReport = result;
@@ -294,7 +308,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getHip(clientId: string) {
+  async getHip(clientId: string) {
     this._reportService.getRoMHipReport(clientId, 0)
       .subscribe((result) => {
         this.hipLeftReport = result;
@@ -307,7 +321,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getKnee(clientId: string) {
+  async getKnee(clientId: string) {
     this._reportService.getRoMKneeReport(clientId, 0)
       .subscribe((result) => {
         this.kneeLeftReport = result;
@@ -320,7 +334,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getAnkle(clientId: string) {
+  async getAnkle(clientId: string) {
     this._reportService.getRoMAnkleReport(clientId, 0)
       .subscribe((result) => {
         this.ankleLeftReport = result;
@@ -333,7 +347,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getBorgBalance(clientId: string) {
+  async getBorgBalance(clientId: string) {
     this._reportService.getBorgBalanceReport(clientId)
       .subscribe((result) => {
         this.borgBalanceReport = result;
@@ -341,7 +355,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getSensation(clientId: string) {
+  async  getSensation(clientId: string) {
     this._assessmentService.getSensation(clientId)
       .pipe(finalize(() => {
       }))
@@ -353,7 +367,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       );
   }
 
-  getCoordination(clientId: string) {
+  async  getCoordination(clientId: string) {
     this._reportService.getCoordinationReport(clientId)
       .subscribe((result) => {
         this.coordinationReport = result;
@@ -361,7 +375,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getPosture(clientId: string) {
+  async  getPosture(clientId: string) {
     this._reportService.getPostureReport(clientId)
       .subscribe((result) => {
         this.postureReport = result;
@@ -369,14 +383,14 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getGait(clientId: string) {
+  async getGait(clientId: string) {
     this._reportService.getGaitReport(clientId)
       .subscribe((result) => {
         this.gaitReport = result;
         this.assessmentReport[15] = result;
       });
   }
-  getMobility(clientId: string) {
+  async getMobility(clientId: string) {
     this._mobilityService.getByClientAsync(clientId)
       .pipe(finalize(() => {
       }))
@@ -388,7 +402,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         }
       );
   }
-  getAffect(clientId: string) {
+  async getAffect(clientId: string) {
     this._affectService.getByClientAsync(clientId)
       .pipe(finalize(() => {
       })).subscribe(
@@ -399,21 +413,21 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         }
       );
   }
-  getWalking(clientId: string) {
+  async getWalking(clientId: string) {
     this._reportService.getWalkingProtocolReport(clientId)
       .subscribe((result) => {
         this.walkingReport = result;
         this.assessmentReport[16] = result;
       });
   }
-  getStairClimbing(clientId: string) {
+  async getStairClimbing(clientId: string) {
     this._reportService.getStairClimbingProtocolReport(clientId)
       .subscribe((result) => {
         this.stairClimbing = result;
         this.assessmentReport[17] = result;
       });
   }
-  getBalance(clientId: string) {
+  async  getBalance(clientId: string) {
     this._reportService.getBalanceProtocolReport(clientId)
       .subscribe((result) => {
         this.balanceReport = result;
@@ -421,7 +435,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getLadderWork(clientId: string) {
+  async getLadderWork(clientId: string) {
     this._reportService.getLadderWorkProtocolReport(clientId)
       .subscribe((result) => {
         this.ladderWork = result;
@@ -429,7 +443,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getRepetitiveSquatting(clientId: string) {
+  async getRepetitiveSquatting(clientId: string) {
     this._reportService.getRepetitiveSquattingProtocolReport(clientId)
       .subscribe((result) => {
         this.repetitiveSquatting = result;
@@ -437,16 +451,17 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
 
-  getRepetitiveFootMotion(clientId: string) {
+  async getRepetitiveFootMotion(clientId: string) {
     this._reportService.getRepetitiveFootMotionProtocolReport(clientId)
       .subscribe((result) => {
         this.repetitiveFootMotionReport = result;
         this.assessmentReport[21] = result;
       });
   }
-  getCrawling(clientId: string) {
+  async getCrawling(clientId: string) {
     this._reportService.getCrawlingProtocolReport(clientId)
       .pipe(finalize(() => {
+        this.isGenerating = false;
       }))
       .subscribe((result) => {
         this.crawlingReport = result;

@@ -43,7 +43,7 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   uploadUrl: string;
   uploadedFiles: DocumentListDto[] = [];
   showInput = true;
-  displayedColumns = ['select', 'type', 'name', 'author', 'authorDate', 'upload'];
+  displayedColumns = ['select', 'type', 'author', 'authorDate', 'upload'];
   selection = new SelectionModel<IDocType>(true, []);
   dataSource: MatTableDataSource<IDocType> = new MatTableDataSource<IDocType>();
   documentTypes = DocumentFolder.documentTypes;
@@ -151,7 +151,6 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
     this.input.clientId = this.clientId;
     this.input.parentDocId = id;
     this.input.authorName = authorName;
-
     this.input.authorDate = this.date;
     this.input.fileUrl = uploadUrl;
     this.input.identifier = 1;
@@ -176,8 +175,8 @@ export class DocumentsComponent extends AppComponentBase implements OnInit {
   }
   selectDate(event) {
     this.date = event.value;
-    let hoursDiff;
-    let minutesDiff;
+    let hoursDiff: number;
+    let minutesDiff: number;
     if (this.date !== null && this.date !== 'undefined' && !this.isValidDate(this.date)) {
       this.date = new Date(this.date);
       hoursDiff = this.date.getHours() - this.date.getTimezoneOffset() / 60;

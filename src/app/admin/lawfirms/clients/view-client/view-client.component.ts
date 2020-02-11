@@ -1,7 +1,7 @@
 import { DocumentFolder } from './../../../documents/document-types';
 import { DocumentListDto, Booking } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Injector, OnInit, ViewChild } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, HostListener } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
 import {
@@ -63,6 +63,7 @@ interface FolderNode {
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
+  @ViewChild('clientForm', { static: false }) clientForm: NgForm;
   @ViewChild('newPhoto', { static: false }) takePhoto: CameraModalComponent;
   @ViewChild('gripStrength', { static: false }) openGripStrength: GripStrengthComponent;
   @ViewChild('musclePower', { static: false }) openMusclePower: MusclePowerComponent;
@@ -129,6 +130,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.route.paramMap.subscribe((paramMap) => {
       this.clientId = paramMap.get('id');
     });
+  }
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.clientForm.dirty) {
+      $event.returnValue = true;
+    }
   }
   getFileData() {
     this.isLoading = true;
@@ -310,6 +317,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe(() => {
         this.notify.success('Updated Successfully');
+        this.clientForm.reset(this.client);
         this.getClient();
         this.isLoading = false;
       }, error => {

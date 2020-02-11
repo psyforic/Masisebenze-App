@@ -65,12 +65,25 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
+                                                        <mat-form-field>
+                                                            <mat-label>Title</mat-label>
+                                                            <mat-select name="title" [(ngModel)]="client.title">
+                                                                <mat-option value="Mr.">Mr.</mat-option>
+                                                                <mat-option value="Mrs.">Mrs.</mat-option>
+                                                                <mat-option value="Ms.">Ms.</mat-option>
+                                                                <mat-option value="Mast.">Mast.</mat-option>
+                                                                <mat-option value="Dr.">Dr.</mat-option>
+                                                                <mat-option value="Prof.">Prof.</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-4">
                                                         <mat-form-field class="example-full-width">
                                                             <input matInput placeholder="First Name" [(ngModel)]="client.firstName" name="firstName">
                                                         </mat-form-field>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <mat-form-field class="example-full-width">
                                                             <input matInput placeholder="Last Name" type="text" [(ngModel)]="client.lastName" name="lastName">
                                                         </mat-form-field>
@@ -456,15 +469,8 @@
                                 <!-- This is the tree node template for leaf nodes -->
                                 <mat-tree-node *matTreeNodeDef="let node;" matTreeNodeToggle>
                                     <li class="mat-tree-node">
-                                        <!-- use a disabled button to provide padding for tree leaf -->
-                                        <!-- <div > -->
-                                        <!-- <button style="display: block;" mat-icon-button disabled></button> -->
-                                        <h6><a href="{{node.url}}"><i class="fa fa-file-pdf-o"></i>
+                                        <h6><a href="{{node.url}}" target="_blank"><i class="fa fa-file-pdf-o"></i>
                                                 {{node.name}}</a></h6>
-                                        <!-- <h6 *ngFor="let doc of getDocuments(node.id)"><a href="{{doc.fileUrl}}"><i
-                                                        class="fa fa-file-pdf-o"></i> {{doc.name}}</a></h6> -->
-                                        <!-- </div> -->
-
                                     </li>
                                 </mat-tree-node>
                                 <!-- This is the tree node template for expandable nodes -->
