@@ -1,10 +1,14 @@
+import { TemplateRef } from '@angular/core';
+import { createReport } from 'docx-templates';
 import * as JSZip from 'jszip';
 import * as JSZipUtils from 'jszip-utils';
 import * as Docxtemplater from 'docxtemplater';
 import { saveAs } from 'file-saver';
 import * as Pizzip from 'pizzip';
 import * as moment from 'moment';
+
 export class DocumentCreator {
+
 
     generateDoc(data, today) {
         const clientData = data[0];
@@ -27,6 +31,7 @@ export class DocumentCreator {
         } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
             currentAge = currentAge - 1;
         }
+
         const assessmentReport = data[6];
         const romReport = data[7];
         console.log(romReport);
@@ -176,4 +181,5 @@ export class DocumentCreator {
             saveAs(out, clientData.firstName + '_' + clientData.lastName + '_' + 'Report.docx');
         });
     }
+
 }
