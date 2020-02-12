@@ -35,14 +35,14 @@
                                         <mat-form-field>
                                             <mat-label>Company Name</mat-label>
                                             <input type="text" matInput [(ngModel)]="lawFirm.companyName"
-                                                name="companyName" disabled>
+                                                name="companyName" readonly>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-lg-6">
                                         <mat-form-field>
                                             <mat-label>Email</mat-label>
                                             <input type="text" matInput [(ngModel)]="lawFirm.email" name="email"
-                                                disabled>
+                                                readonly>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -51,27 +51,27 @@
                                         <mat-form-field>
                                             <mat-label>Phone</mat-label>
                                             <input type="text" matInput [(ngModel)]="lawFirm.phone" name="phone"
-                                                disabled>
+                                                readonly>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-lg-6">
                                         <mat-form-field>
                                             <mat-label>Fax</mat-label>
-                                            <input type="text" matInput [(ngModel)]="lawFirm.fax" name="fax" disabled>
+                                            <input type="text" matInput [(ngModel)]="lawFirm.fax" name="fax" readonly>
                                         </mat-form-field>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <h4>Physical Address</h4>
+                                        <h4><strong>Physical Address</strong></h4>
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Line 1</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm.physicalAddress.line1" name="line1"
-                                                        disabled>
+                                                        readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
@@ -79,7 +79,7 @@
                                                     <mat-label>Line 2</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.physicalAddress.line2" name="line2"
-                                                        disabled>
+                                                        readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -89,7 +89,7 @@
                                                     <mat-label>City</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.physicalAddress.city" name="city"
-                                                        disabled>
+                                                        readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
@@ -97,7 +97,7 @@
                                                     <mat-label>Province</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.physicalAddress.province" name="province"
-                                                        disabled>
+                                                        readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -107,20 +107,20 @@
                                                     <mat-label>Postal Code</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.physicalAddress.postalCode"
-                                                        name="postalCode" disabled>
+                                                        name="postalCode" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <h4>Postal Address</h4>
+                                        <h4><strong>Postal Address</strong></h4>
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Line 1</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.postalAddress.line1" name="postLine1"
-                                                        disabled>
+                                                        readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
@@ -128,7 +128,7 @@
                                                     <mat-label>Line 2</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.postalAddress.line2" name="postLine2"
-                                                        disabled>
+                                                        readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -138,7 +138,7 @@
                                                     <mat-label>City</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.postalAddress.city" name="postCity"
-                                                        disabled>
+                                                        readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
@@ -146,7 +146,7 @@
                                                     <mat-label>Province</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.postalAddress.province"
-                                                        name="postProvince" disabled>
+                                                        name="postProvince" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -156,7 +156,7 @@
                                                     <mat-label>Postal Code</mat-label>
                                                     <input type="text" matInput
                                                         [(ngModel)]="lawFirm?.postalAddress.postalCode"
-                                                        name="postPostalCode" disabled>
+                                                        name="postPostalCode" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -250,6 +250,14 @@
                                         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-12 mt-4" *ngIf="attorneys.length == 0">
+                                    <div class="text-center">
+                                        <i class="fa fa-hourglass-3 fa-5x">
+                                        </i>
+                                        <h4 class="text-center">No Attorneys Added</h4>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </mat-tab>
@@ -334,6 +342,14 @@
                                         </mat-paginator>
                                     </div>
                                 </div>
+
+                                <div class="col-lg-12 mt-4" *ngIf="contacts.length == 0">
+                                    <div class="text-center">
+                                        <i class="fa fa-hourglass-3 fa-5x">
+                                        </i>
+                                        <h4 class="text-center">No Contacts Added</h4>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </mat-tab>
@@ -352,7 +368,7 @@
                                         color="primary">
                                         New Client</button>
                                 </div>
-                                <div class="mat-table__wrapper">
+                                <div class="mat-table__wrapper" *ngIf="clients.length > 0">
                                     <div class="example-header">
                                         <mat-form-field>
                                             <input matInput (keyup)="applyFilter($event.target.value)"
@@ -446,6 +462,13 @@
                                         </mat-table>
                                         <mat-paginator [length]="clients.length" [pageSizeOptions]="[5, 10, 25, 100]">
                                         </mat-paginator>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-4" *ngIf="clients.length == 0">
+                                    <div class="text-center">
+                                        <i class="fa fa-hourglass-3 fa-5x">
+                                        </i>
+                                        <h4 class="text-center">No Clients Added</h4>
                                     </div>
                                 </div>
                             </div>

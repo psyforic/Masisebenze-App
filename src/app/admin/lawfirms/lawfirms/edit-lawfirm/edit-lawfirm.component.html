@@ -161,7 +161,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="card" *ngIf="!sameAddress">
+                                    <div class="card">
                                         <div class="card-title">
                                             <h5>Postal Address</h5>
                                         </div>
@@ -228,7 +228,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" mat-raised-button color="default" (click)="modal.close()">Close</button>
-            <button type="submit" mat-raised-button color="primary" [disabled]="!lawFirmForm.valid">Save</button>
+            <button type="submit" mat-raised-button color="primary"
+                [disabled]="!lawFirmForm.valid || isLoading || !lawFirmForm.dirty">Save</button>
         </div>
     </form>
 </ng-template>

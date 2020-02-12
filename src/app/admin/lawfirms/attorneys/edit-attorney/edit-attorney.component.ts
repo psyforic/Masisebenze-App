@@ -27,6 +27,7 @@ export class EditAttorneyComponent extends AppComponentBase implements OnInit {
     editAttorneyForm: FormGroup;
     lawFirms: LawFirmListDto[] = [];
     attorneyInput: AttorneyDetailOutput = new AttorneyDetailOutput();
+    isLoading = false;
     constructor(private injector: Injector, private modalService: NgbModal,
         private lawFirmService: LawFirmServiceProxy,
         private attorneyService: AttorneyServiceProxy,
@@ -64,10 +65,13 @@ export class EditAttorneyComponent extends AppComponentBase implements OnInit {
         });
     }
     save() {
+        this.isLoading = true;
         this.attorneyInput = Object.assign({}, this.editAttorneyForm.value);
         this.attorneyInput.id = this.attorneyId;
         this.attorneyService.editAttorney(this.attorneyInput)
-            .pipe(finalize(() => { }))
+            .pipe(finalize(() => {
+                this.isLoading = false;
+            }))
             .subscribe(() => {
                 this.notify.success('Saved Successfully');
                 this.editedAttorney.emit(this.attorneyInput);

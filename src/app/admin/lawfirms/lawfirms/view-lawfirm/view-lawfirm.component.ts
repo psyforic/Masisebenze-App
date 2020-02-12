@@ -134,7 +134,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     this.newAttorneyRef.open();
   }
   displayContact(contact) {
-    this.dataSource._updateChangeSubscription();
+    this.getContacts();
   }
   viewSelectedAttorney(id: string) {
     this.viewAttorneyRef.open(id);

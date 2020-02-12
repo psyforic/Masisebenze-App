@@ -10,6 +10,9 @@
             <form #newContact="ngForm" (ngSubmit)="save()">
                 <div class="modal-body">
                     <div class="card">
+                        <div class="example-loading-shade" *ngIf="isSaving">
+                            <mat-spinner *ngIf="isSaving"></mat-spinner>
+                        </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <mat-form-field>
@@ -68,7 +71,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" mat-raised-button (click)="modal.dismiss()">Close</button>
-                    <button type="submit" mat-raised-button color="primary" [disabled]="!newContact.valid">Add
+                    <button type="submit" mat-raised-button color="primary"
+                        [disabled]="!newContact.valid || isSaving">Add
                         Contact</button>
                 </div>
             </form>

@@ -18,6 +18,7 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
   lawFirm: LawFirmDetailOutput = new LawFirmDetailOutput();
   lawFirmId: string;
   physicalAddressId: number;
+  isLoading = false;
   postalAddressId: number;
   public lawFirmForm: FormGroup;
   constructor(
@@ -83,6 +84,7 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
     control.removeAt(i);
   }
   save() {
+    this.isLoading = true;
     this.lawFirm = Object.assign({}, this.lawFirmForm.value);
     this.lawFirm.physicalAddress = new AddressDetailOutput();
     this.lawFirm.physicalAddress.line1 = this.lawFirmForm.get('line1').value;
@@ -96,6 +98,7 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
 
 
     if (this.lawFirm.physicalAddressId !== this.lawFirm.physicalAddressId) {
+      this.lawFirm.sameAddress = false;
       this.lawFirm.postalAddress = new AddressDetailOutput();
       this.lawFirm.postalAddress.line1 = this.lawFirmForm.get('postLine1').value;
       this.lawFirm.postalAddress.line2 = this.lawFirmForm.get('postLine2').value;
@@ -104,6 +107,7 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
       this.lawFirm.postalAddress.province = this.lawFirmForm.get('postProvince').value;
       this.lawFirm.sameAddress = false;
     } else {
+      this.lawFirm.sameAddress = true;
       this.lawFirm.postalAddress = new AddressDetailOutput();
       this.lawFirm.postalAddress.line1 = this.lawFirmForm.get('postLine1').value;
       this.lawFirm.postalAddress.line2 = this.lawFirmForm.get('postLine2').value;
@@ -113,7 +117,9 @@ export class EditLawfirmComponent extends AppComponentBase implements OnInit {
       this.lawFirm.sameAddress = true;
     }
     this.lawFirmService.editLawFirm(this.lawFirm)
-      .pipe(finalize(() => { }))
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe(() => {
         this.notify.success('Updated Successfully');
         this.editedLawFirm.emit(this.lawFirm);

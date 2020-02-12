@@ -17,6 +17,7 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
   closeResult: string;
   lawFirm: CreateLawFirmInput = new CreateLawFirmInput();
   sameAddress = true;
+  isLoading = false;
 
   public lawFirmForm: FormGroup;
   constructor(
@@ -69,6 +70,7 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
     this.sameAddress = !this.sameAddress;
   }
   save() {
+    this.isLoading = true;
     this.lawFirm = Object.assign({}, this.lawFirmForm.value);
     this.lawFirm.physicalAddress = new CreateAddressInput();
     this.lawFirm.physicalAddress.line1 = this.lawFirmForm.get('line1').value;
@@ -86,7 +88,9 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
       this.lawFirm.postalAddress.province = this.lawFirmForm.get('postProvince').value;
     }
     this.lawFirmService.createLawFirm(this.lawFirm)
-      .pipe(finalize(() => { }))
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
       .subscribe(() => {
         this.notify.success('Saved Successfully');
         this.newContact.emit(this.lawFirm);

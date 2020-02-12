@@ -25,8 +25,6 @@ import * as moment from 'moment';
 export class NewClientComponent extends AppComponentBase implements OnInit {
   datePickerConfig: Partial<BsDatepickerConfig>;
   @ViewChild('content', { static: false }) content: ElementRef;
-  @ViewChild('courtDate', { static: false }) courtDate: ElementRef;
-  @ViewChild('assessmentDate', { static: false }) assessmentDate: ElementRef;
   @Output() clientAdded = new EventEmitter();
   closeResult: string;
   filter = '';
@@ -37,6 +35,8 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   lawFirms: LawFirmListDto[] = [];
   lawFirmId: string;
   dateModel: Date;
+  courtDate: any;
+  assessmentDate: any;
   startTime: any;
   endTime: any;
   clientInput: CreateClientInput = new CreateClientInput();
@@ -110,14 +110,14 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
   }
   save() {
     this.isSaving = true;
-    const courtDate = new Date(this.clientForm.get('courtDate').value);
-    const formattedCourtDate = moment(courtDate).format('YYYY-MM-DD');
+    // const courtDate = new Date(this.clientForm.get('courtDate').value);
+    // const formattedCourtDate = moment(courtDate).format('YYYY-MM-DD');
     const assessmentDate = new Date(this.clientForm.get('assessmentDate').value);
     const formattedAssessmentDate = moment(assessmentDate).format('YYYY-MM-DD');
 
     this.clientInput = Object.assign({}, this.clientForm.value);
-    this.clientInput.assessmentDate = moment(formattedAssessmentDate);
-    this.clientInput.courtDate = moment(formattedCourtDate);
+    this.clientInput.assessmentDate = this.assessmentDate;
+    this.clientInput.courtDate = this.courtDate;
     this.clientInput.startTime = moment(formattedAssessmentDate + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.clientInput.endTime = moment(formattedAssessmentDate + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.clientService.createClient(this.clientInput)
@@ -129,6 +129,36 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
         this.clientAdded.emit(this.clientInput);
         this.modalService.dismissAll();
       });
+  }
+  courtDateChanged(event) {
+    this.courtDate = event.value;
+    let hoursDiff: number;
+    let minutesDiff: number;
+    if (this.courtDate !== null && this.courtDate !== 'undefined' && !this.isValidDate(this.courtDate)) {
+      this.courtDate = new Date(this.courtDate);
+      hoursDiff = this.courtDate.getHours() - this.courtDate.getTimezoneOffset() / 60;
+      minutesDiff = (this.courtDate.getHours() - this.courtDate.getTimezoneOffset()) % 60;
+      this.courtDate.setHours(hoursDiff);
+      this.courtDate.setMinutes(minutesDiff);
+    }
+    this.clientInput.courtDate = this.courtDate;
+  }
+  isValidDate(d) {
+    const s = Date.parse(d);
+    return isNaN(s);
+  }
+  assessmentDateChanged(event) {
+    this.assessmentDate = event.value;
+    let hoursDiff: number;
+    let minutesDiff: number;
+    if (this.assessmentDate !== null && this.assessmentDate !== 'undefined' && !this.isValidDate(this.assessmentDate)) {
+      this.assessmentDate = new Date(this.assessmentDate);
+      hoursDiff = this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset() / 60;
+      minutesDiff = (this.assessmentDate.getHours() - this.assessmentDate.getTimezoneOffset()) % 60;
+      this.assessmentDate.setHours(hoursDiff);
+      this.assessmentDate.setMinutes(minutesDiff);
+    }
+    this.assessmentDate.authorDate = this.assessmentDate;
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

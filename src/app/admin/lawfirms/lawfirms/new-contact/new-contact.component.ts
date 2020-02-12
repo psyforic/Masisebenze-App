@@ -18,6 +18,7 @@ export class NewContactComponent extends AppComponentBase implements OnInit {
   @Input() lawFirmId = new Input();
   closeResult: string;
   contact: CreateContactInput = new CreateContactInput();
+  isSaving = false;
   constructor(private injector: Injector, private modalService: NgbModal,
     private contactService: ContactServiceProxy) {
     super(injector);
@@ -39,8 +40,11 @@ export class NewContactComponent extends AppComponentBase implements OnInit {
     this.modalService.dismissAll();
   }
   save() {
+    this.isSaving = true;
     this.contactService.create(this.contact)
-      .pipe(finalize(() => { }))
+      .pipe(finalize(() => {
+        this.isSaving = false;
+      }))
       .subscribe(() => {
         this.notify.success('Saved Successfully');
         this.newContact.emit(this.contact);

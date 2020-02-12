@@ -4,9 +4,10 @@
             <div class="card-header">
                 <h1 class="card-title">{{client.firstName}} {{client.lastName}}</h1>
                 <div class="header-toolbar">
-                    <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary" matTooltip="Back">
-            <mat-icon>keyboard_backspace</mat-icon>
-          </button>
+                    <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary"
+                        matTooltip="Back">
+                        <mat-icon>keyboard_backspace</mat-icon>
+                    </button>
                 </div>
             </div>
             <form [formGroup]="documentForm" novalidate (ngSubmit)="save()">
@@ -19,7 +20,8 @@
                             <mat-form-field>
                                 <mat-label>Parent Document</mat-label>
                                 <mat-select required formControlName="parentDocId">
-                                    <mat-option *ngFor="let document of documentTypes" value="{{document.id}}" (onSelectionChange)="selectedId($event,document.value)">
+                                    <mat-option *ngFor="let document of documentTypes" value="{{document.id}}"
+                                        (onSelectionChange)="selectedId($event,document.value)">
                                         {{document.value}}
                                     </mat-option>
                                 </mat-select>
@@ -32,7 +34,8 @@
 
                         <div class="col-lg-6">
                             <mat-form-field>
-                                <input required type="text" matInput placeholder="File Author" formControlName="authorName" required>
+                                <input required type="text" matInput placeholder="File Author"
+                                    formControlName="authorName" required>
                                 <mat-error *ngIf="documentForm.get('authorName').touched
                                         && documentForm.get('authorName').hasError('required')">
                                     File Author is Required
@@ -43,7 +46,8 @@
                     <div class="row">
                         <div class="col-lg-6" [hidden]="!isRequired(fileName)">
                             <mat-form-field>
-                                <input [required]="isRequired(fileName)" matInput [matDatepicker]="picker" formControlName="authorDate" placeholder="Date Authored" name="date" readonly>
+                                <input [required]="isRequired(fileName)" matInput [matDatepicker]="picker"
+                                    formControlName="authorDate" placeholder="Date Authored" name="date" readonly>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                                 <mat-error *ngIf="documentForm.get('authorDate').touched
@@ -59,13 +63,15 @@
                     <div class="card-header">
                         <div class="card-title">
                             <button class="file btn btn-primary btn-round">Choose File
-                <i class="fa fa-cloud-upload"></i>
-                <input type="file" (change)="upload($event)" name="file" class="form-control-file" accept=".pdf" />
-                <input type="hidden" name="fileHidden" formControlName="fileInput" />
-              </button>
+                                <i class="fa fa-cloud-upload"></i>
+                                <input type="file" (change)="upload($event)" name="file" class="form-control-file"
+                                    accept=".pdf" />
+                                <input type="hidden" name="fileHidden" formControlName="fileInput" />
+                            </button>
                         </div>
                         <div class="header-toolbar">
-                            <button type="submit" mat-raised-button color="primary" class="pull-right" [disabled]="!documentForm.valid">Upload</button>
+                            <button type="submit" mat-raised-button color="primary" class="pull-right"
+                                [disabled]="!documentForm.valid || isUploading">Upload</button>
                         </div>
                     </div>
                 </div>
