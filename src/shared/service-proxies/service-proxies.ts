@@ -23754,7 +23754,7 @@ export interface IMedicalHistoryListDto {
 }
 
 export class CognitiveParentDto implements ICognitiveParentDto {
-    assessment: AssessmentListDto | undefined;
+    assessment: Assessment | undefined;
     assessmentId: string | undefined;
     clientId: string | undefined;
     status: number | undefined;
@@ -23773,7 +23773,7 @@ export class CognitiveParentDto implements ICognitiveParentDto {
 
     init(data?: any) {
         if (data) {
-            this.assessment = data["assessment"] ? AssessmentListDto.fromJS(data["assessment"]) : <any>undefined;
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
             this.assessmentId = data["assessmentId"];
             this.clientId = data["clientId"];
             this.status = data["status"];
@@ -23811,111 +23811,12 @@ export class CognitiveParentDto implements ICognitiveParentDto {
 }
 
 export interface ICognitiveParentDto {
-    assessment: AssessmentListDto | undefined;
+    assessment: Assessment | undefined;
     assessmentId: string | undefined;
     clientId: string | undefined;
     status: number | undefined;
     isSelected: boolean | undefined;
     options: ListResultDtoOfOptionListDto | undefined;
-    id: string | undefined;
-}
-
-export class AssessmentListDto implements IAssessmentListDto {
-    name: string | undefined;
-    category: AssessmentCategory | undefined;
-    painCommentId: string | undefined;
-    painComment: PainComment | undefined;
-    client: Client | undefined;
-    side: number | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessmentListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
-            this.painCommentId = data["painCommentId"];
-            this.painComment = data["painComment"] ? PainComment.fromJS(data["painComment"]) : <any>undefined;
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.side = data["side"];
-            this.status = data["status"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): AssessmentListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new AssessmentListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
-        data["painCommentId"] = this.painCommentId;
-        data["painComment"] = this.painComment ? this.painComment.toJSON() : <any>undefined;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["side"] = this.side;
-        data["status"] = this.status;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): AssessmentListDto {
-        const json = this.toJSON();
-        let result = new AssessmentListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessmentListDto {
-    name: string | undefined;
-    category: AssessmentCategory | undefined;
-    painCommentId: string | undefined;
-    painComment: PainComment | undefined;
-    client: Client | undefined;
-    side: number | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
