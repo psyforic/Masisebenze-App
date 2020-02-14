@@ -31,6 +31,9 @@ import { NewClientComponent } from './new-client/new-client.component';
 import { DocumentCreator } from '@app/admin/partials/document-creator';
 import * as moment from 'moment';
 import { GeneralService } from '@app/admin/services/general.service';
+import { Subject, Observable } from 'rxjs';
+import 'rxjs/add/operator/debounceTime';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
@@ -76,6 +79,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   comment: string;
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
+  searchTerm$ = new Subject<string>();
+  searchTerm: FormControl = new FormControl();
 
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
@@ -86,12 +91,27 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private _mobilityService: MobilityServiceProxy,
     private _assessmentService: AssessmentServiceProxy) {
     super(injector);
+    this.searchClients();
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
+  searchClients() {
+    this.searchTerm.valueChanges
+      .debounceTime(400)
+      .subscribe(data => {
+        this.clientService.clientSearch(data)
+          .subscribe(result => {
+            this.clients = result.items;
+            this.dataSource.data = this.clients;
+            this.totalItems = this.clients.length;
+            this.pageSize = 5;
+          });
+      });
+  }
+
   createClient() {
     this.newClientRef.open();
   }
