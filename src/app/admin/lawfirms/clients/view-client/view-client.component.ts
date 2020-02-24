@@ -1,5 +1,10 @@
+import { QuestionnaireComponent } from './../assessments/functional-assessment/questionnaire/questionnaire.component';
+import { FunctionalAssessmentComponent } from './../assessments/functional-assessment/functional-assessment.component';
 import { DocumentFolder } from './../../../documents/document-types';
-import { DocumentListDto, Booking } from './../../../../../shared/service-proxies/service-proxies';
+import {
+  DocumentListDto, Booking, FunctionalAssessmentServiceProxy,
+  QuestionnaireDto
+} from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild, HostListener } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
@@ -59,7 +64,7 @@ interface FolderNode {
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy, LawFirmServiceProxy]
+  providers: [ClientServiceProxy, DocumentServiceProxy, LawFirmServiceProxy, FunctionalAssessmentServiceProxy]
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
@@ -76,6 +81,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('rtp', { static: false }) openRTP: RepetitiveToleranceProtocolComponent;
   @ViewChild('affect', { static: false }) openAffect: AffectComponent;
   @ViewChild('mobility', { static: false }) openMobility: MobilityComponent;
+  @ViewChild('functional', { static: false }) addQestionnaire: FunctionalAssessmentComponent;
+  @ViewChild('questionnaire', { static: false }) questionnaire: QuestionnaireComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
   documentTypes = DocumentFolder.documentTypes;
   documents: DocumentListDto[] = [];
@@ -116,10 +123,20 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   childDocuments: DocumentListDto[] = [];
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
+  questionnairesDto: QuestionnaireDto[] = [];
   hidden = false;
   bookings: Booking[] = [];
+  questionnaires = [
+    { type: 1, description: 'PATIENT HEALTH' },
+    { type: 2, description: 'DEPRESSION' },
+    { type: 3, description: 'ACTIVITIES OF DAILY LIVING' },
+    { type: 4, description: 'INSTRUMENTAL ACTIVITIES OF DAILY LIVING' }
+  ];
+  questionnaireType: number;
+  questionnaireDescription: string;
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
+    private _functionAssessmentService: FunctionalAssessmentServiceProxy,
     private documentService: DocumentServiceProxy,
     private _lawFirmService: LawFirmServiceProxy,
     private route: ActivatedRoute,
@@ -194,6 +211,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   ngOnInit() {
     this.getClient();
+    // this.questionnaires = this.generalService.getQuestionnaires();
     this.clientService.getMedicalHistoryByClientId(this.clientId)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
@@ -384,6 +402,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getFileData();
         this.getChildDocuments();
         break;
+      case 4:
+        this.getQuestionnaires();
+        break;
       default:
         break;
     }
@@ -445,6 +466,32 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   getAffect() {
     this.openAffect.open();
+  }
+  addQuestionnaire() {
+    this.addQestionnaire.open();
+  }
+  createQuestionnaire(type, description) {
+    this.questionnaireType = type;
+    this.questionnaireDescription = description;
+    this.questionnaire.open(type);
+  }
+  getQuestionnaires() {
+    this.isLoading = true;
+    this._functionAssessmentService.getQuestionnaires(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(result => {
+        this.questionnairesDto = result.items;
+        const tempQuestionnaires = [];
+        this.questionnairesDto.forEach((questionnaire) => {
+          if (this.questionnaires.filter(x => x.type === questionnaire.type).length > 0) {
+            tempQuestionnaires.push(this.questionnaires.filter(x => x.type === questionnaire.type)[0]);
+          }
+        });
+        this.questionnaires = tempQuestionnaires;
+
+      });
   }
   hasChild = (_: number, node: FolderNode) => !!node.children && node.children.length > 0;
 }

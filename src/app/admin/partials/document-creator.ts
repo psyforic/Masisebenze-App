@@ -9,7 +9,6 @@ import * as moment from 'moment';
 
 export class DocumentCreator {
 
-
     generateDoc(data, today) {
         const clientData = data[0];
         const address = data[1];
@@ -34,8 +33,8 @@ export class DocumentCreator {
 
         const assessmentReport = data[6];
         const romReport = data[7];
-        console.log(romReport);
-        console.log(assessmentReport[0]);
+        // console.log(romReport);
+        // console.log(assessmentReport[0]);
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
         }
@@ -171,7 +170,7 @@ export class DocumentCreator {
                     stack: error.stack,
                     properties: error.properties,
                 };
-                console.log(JSON.stringify({ error: e }));
+                // console.log(JSON.stringify({ error: e }));
                 throw error;
             }
             const out = doc.getZip().generate({

@@ -1,3 +1,4 @@
+import { QuestionnaireComponent } from './functional-assessment/questionnaire/questionnaire.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AssessmentsComponent } from './assessments.component';
@@ -13,6 +14,7 @@ import { GaitComponent } from './gait/gait.component';
 import { PartialsModule } from '@app/admin/partials/partials.module';
 import { MobilityComponent } from './mobility/mobility.component';
 import { AffectComponent } from './affect/affect.component';
+import { FunctionalAssessmentComponent } from './functional-assessment/functional-assessment.component';
 
 @NgModule({
   imports: [
@@ -31,7 +33,10 @@ import { AffectComponent } from './affect/affect.component';
     RepetitiveToleranceProtocolComponent,
     GaitComponent,
     MobilityComponent,
-    AffectComponent],
+    AffectComponent,
+    FunctionalAssessmentComponent,
+    QuestionnaireComponent
+  ],
 
   exports: [GripStrengthComponent,
     MusclePowerComponent,
@@ -43,7 +48,10 @@ import { AffectComponent } from './affect/affect.component';
     RepetitiveToleranceProtocolComponent,
     GaitComponent,
     MobilityComponent,
-    AffectComponent],
+    AffectComponent,
+    FunctionalAssessmentComponent,
+    QuestionnaireComponent
+  ],
 
   entryComponents: [
     GripStrengthComponent,

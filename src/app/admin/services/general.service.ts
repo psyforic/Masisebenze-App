@@ -1,3 +1,4 @@
+import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
@@ -8,6 +9,12 @@ export class GeneralService {
 
   photoUrl = new BehaviorSubject<string>('../../../assets/img/faces/face-0.jpg');
   currentPhotoUrl = this.photoUrl.asObservable();
+  questionnaires = [
+    { type: 1, description: 'PATIENT HEALTH' },
+    { type: 2, description: 'DEPRESSION' },
+    { type: 3, description: 'ACTIVITIES OF DAILY LIVING' },
+    { type: 4, description: 'INSTRUMENTAL ACTIVITIES OF DAILY LIVING' }
+  ];
   private componentMethodCallSource = new Subject<any>();
 
   // tslint:disable-next-line: member-ordering
@@ -36,7 +43,9 @@ export class GeneralService {
     }
     return currentAge;
   }
-
+  getQuestionnaires() {
+    return this.questionnaires;
+  }
   getGender(idNumber: string): number {
     const genderIdentifier = idNumber.charAt(6);
     if (Number.parseInt(genderIdentifier) < 5) {
