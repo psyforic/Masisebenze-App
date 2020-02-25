@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientsComponent } from './clients.component';
@@ -27,7 +28,7 @@ import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-ch
     ViewActivityLogComponent,
     CameraModalComponent,
     UploadDocumentComponent,
-    AdminCommentsComponent
+    AdminCommentsComponent,
   ],
   imports: [
     CommonModule,

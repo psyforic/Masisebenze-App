@@ -1,0 +1,48 @@
+<ng-template #content let-modal class="modal modal-fade">
+  <div class="modal-header bg-color">
+    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>functional assessment</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span class="text-white" aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card">
+      <div class="card-body">
+        <div class="example-loading-shade" *ngIf="isLoading">
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngFor="let questionnaire of questionnaires">
+            <div class="card card-pricing custom-shadow text-center" >
+                <h6 class="card-category">{{questionnaire.description}}</h6>
+                <div class="card-body text-center">
+                    <p class="card-description">
+                        <i class="fa fa-file-text-o fa-5x icon-primary"></i>
+                    </p>
+                </div>
+                <div class="card-footer justify-content-center ">
+                    <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="addQuestionnaire(questionnaire.type)">
+                        Add
+                    </a>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer pull-right">
+          <div class="row pull-right">
+            <div class="col-g-6 pull-left">
+
+            </div>
+            <div class="col-g-6 pull-right">
+              <button type="button" [disabled]="addedQuestionnaires.length == 0" mat-raised-button color="primary" (click)="save()">Save Changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" mat-button color="primary" (click)="modal.close()">Close</button>
+  </div>
+</ng-template>
