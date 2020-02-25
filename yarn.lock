@@ -5199,6 +5199,14 @@ ngx-pagination@^3.0.3:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-3.1.1.tgz#fcde5cb5fd4a1bd6aa785ff062a55f3deefcd3ac"
 
+ngx-perfect-scrollbar@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-perfect-scrollbar/-/ngx-perfect-scrollbar-9.0.0.tgz#361c75010d2a560dd8aaadb799bdf04db5a1824b"
+  integrity sha512-jiFrOLONf/w2PjSKkEjQeTnMdlMVcQgjzIrYcsor1HWTmE+95J2sZAd/WF4zoutbpIqfU8VQQoAp8HOa7U1c/g==
+  dependencies:
+    perfect-scrollbar "1.5.0"
+    resize-observer-polyfill "^1.5.0"
+
 ngx-quill@^7.3.1:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-7.3.1.tgz#55fb1b87e55ef0145b478ed75dee514ee012e696"
@@ -5816,6 +5824,11 @@ perfect-scrollbar@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.1.0.tgz#8b213f51308f6b0131c07d67d0d01390a2b51a7f"
   integrity sha512-nd3qD1foPdQRDS6iUmlh8hfVQJGFit9eCc6HT8vQayCh8Xx2GH6tXflFyQnI+onDzJkmucSJBFNrGpG/0xzryQ==
+
+perfect-scrollbar@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.0.tgz#821d224ed8ff61990c23f26db63048cdc75b6b83"
+  integrity sha512-NrNHJn5mUGupSiheBTy6x+6SXCFbLlm8fVZh9moIzw/LgqElN5q4ncR4pbCBCYuCJ8Kcl9mYM0NgDxvW+b4LxA==
 
 performance-now@^2.1.0:
   version "2.1.0"
@@ -6453,6 +6466,11 @@ require-main-filename@^2.0.0:
 requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+
+resize-observer-polyfill@^1.5.0:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz#0e9020dd3d21024458d4ebd27e23e40269810464"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
 resolve-cwd@^2.0.0:
   version "2.0.0"

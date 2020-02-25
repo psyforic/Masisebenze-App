@@ -15,11 +15,18 @@ import { PartialsModule } from '@app/admin/partials/partials.module';
 import { MobilityComponent } from './mobility/mobility.component';
 import { AffectComponent } from './affect/affect.component';
 import { FunctionalAssessmentComponent } from './functional-assessment/functional-assessment.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 @NgModule({
   imports: [
     CommonModule,
-    PartialsModule
+    PartialsModule,
+    PerfectScrollbarModule
   ],
   declarations: [
     AssessmentsComponent,
@@ -50,9 +57,14 @@ import { FunctionalAssessmentComponent } from './functional-assessment/functiona
     MobilityComponent,
     AffectComponent,
     FunctionalAssessmentComponent,
-    QuestionnaireComponent
+    QuestionnaireComponent,
   ],
-
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
+  ],
   entryComponents: [
     GripStrengthComponent,
     MusclePowerComponent,
