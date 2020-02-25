@@ -56,7 +56,8 @@ export class CreateUserDialogComponent extends AppComponentBase
     });
   }
   open() {
-    this.modalService.open(this.content).result.then(() => { }, () => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then(() => { }, () => { });
   }
   setInitialRolesStatus(): void {
     _.map(this.roles, item => {

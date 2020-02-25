@@ -73,7 +73,8 @@ export class EditUserDialogComponent extends AppComponentBase
         this.setInitialRolesStatus();
       });
     });
-    this.modalService.open(this.content).result.then(() => { }, () => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then(() => { }, () => { });
   }
   getCheckedRoles(): string[] {
     const roles: string[] = [];

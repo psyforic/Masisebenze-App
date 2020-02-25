@@ -16,7 +16,7 @@ export class ResetPasswordDialogComponent extends AppComponentBase
   implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   public isLoading = false;
-  public resetPasswordDto: ResetPasswordDto;
+  public resetPasswordDto: ResetPasswordDto = new ResetPasswordDto();
   _userId: number;
   constructor(
     injector: Injector,
@@ -31,13 +31,10 @@ export class ResetPasswordDialogComponent extends AppComponentBase
   }
   open(id: number) {
     this.isLoading = true;
-    this.resetPasswordDto = new ResetPasswordDto();
-    this.resetPasswordDto.userId = this._userId;
-    this.resetPasswordDto.newPassword = Math.random()
-      .toString(36)
-      .substr(2, 10);
+    this.resetPasswordDto.userId = id;
     this.isLoading = false;
-    this.modalService.open(this.content).result.then(() => { }, () => { });
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+      .result.then(() => { }, () => { });
   }
   public resetPassword(): void {
     this.isLoading = true;
@@ -49,7 +46,7 @@ export class ResetPasswordDialogComponent extends AppComponentBase
         })
       )
       .subscribe(() => {
-        this.notify.info('Password Reset');
+        this.notify.success('Password Reset Successfully');
         this.modalService.dismissAll();
       });
   }

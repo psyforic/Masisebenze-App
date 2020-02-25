@@ -23,7 +23,7 @@ class PagedUsersRequestDto extends PagedRequestDto {
             padding: 10px;
           }
         `
-      ]
+    ]
 })
 export class UsersComponent extends PagedListingComponentBase<UserDto> {
     users: UserDto[] = [];
@@ -47,7 +47,8 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
     }
 
     public resetPassword(user: UserDto): void {
-        this.showResetPasswordUserDialog(user.id);
+        const userId = abp.session.userId;
+        this.showResetPasswordUserDialog(userId);
     }
 
     protected list(
