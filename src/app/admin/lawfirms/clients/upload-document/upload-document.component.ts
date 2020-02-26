@@ -91,7 +91,10 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
     this.documentForm.controls['fileInput'].setValue(this.file ? this.file.name : '');
   }
   isRequired(fileName: string): boolean {
-    if (fileName === 'Hospital records' || fileName === 'Clinical notes' || fileName === 'Copy of passport') {
+    if (fileName === 'Hospital records' ||
+      fileName === 'Clinical notes' ||
+      fileName === 'Copy of passport' ||
+      fileName === 'Copy of Id or smartcard') {
       return false;
     }
     return true;

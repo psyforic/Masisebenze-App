@@ -9,6 +9,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { LawFirmServiceProxy, LawFirmListDto } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 export interface User {
   id: number;
@@ -32,15 +33,34 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
   @ViewChild('newLawFirm', { static: true }) newLawFirm: NewLawfirmComponent;
   @ViewChild('editLawFirm', { static: true }) editLawFirm: EditLawfirmComponent;
   lawFirms: LawFirmListDto[] = [];
+  searchTerm: FormControl = new FormControl();
+  isSearching = false;
   constructor(private injector: Injector,
     private router: Router,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
+    this.searchLawFirms();
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
+  }
+  searchLawFirms() {
+    this.searchTerm.valueChanges
+      .debounceTime(400)
+      .subscribe(data => {
+        this.isSearching = true;
+        this.lawFirmService.search(data).pipe(finalize(() => {
+          this.isSearching = false;
+        }))
+          .subscribe(result => {
+            this.lawFirms = result.items;
+            this.dataSource.data = this.lawFirms;
+            this.totalItems = this.lawFirms.length;
+            this.pageSize = 5;
+          });
+      });
   }
   createNewLawFirm() {
     this.newLawFirm.open();

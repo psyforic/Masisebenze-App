@@ -112,7 +112,7 @@
                   <td>{{client?.firstName}} {{client?.lastName}}</td>
                   <td>{{client.lawFirm?.companyName}}</td>
                   <td>{{client.contact?.firstName}}</td>
-                  <td>{{client?.creationTime | date: 'short'}}</td>
+                  <td>{{l(client?.creationTime.utcOffset('+02:00') | date: 'dd/MM/yyyy,  h:mm a')}}</td>
                 </tr>
               </tbody>
             </table>
@@ -157,4 +157,3 @@
   (newBottomSheetClient)="openBottomSheet($event)">
 </app-new-event>
 <app-edit-event #editEvent (editBookingInput)="editSelectedEvent($event)"></app-edit-event>
-<!-- <app-client-bottom-sheet></app-client-bottom-sheet> -->

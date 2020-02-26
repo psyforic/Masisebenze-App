@@ -81,6 +81,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   mobility: MobilityDto = new MobilityDto();
   searchTerm$ = new Subject<string>();
   searchTerm: FormControl = new FormControl();
+  isSearching = false;
 
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
@@ -102,7 +103,10 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.searchTerm.valueChanges
       .debounceTime(400)
       .subscribe(data => {
-        this.clientService.clientSearch(data)
+        this.isSearching = true;
+        this.clientService.clientSearch(data).pipe(finalize(() => {
+          this.isSearching = false;
+        }))
           .subscribe(result => {
             this.clients = result.items;
             this.dataSource.data = this.clients;

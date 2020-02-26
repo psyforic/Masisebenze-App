@@ -6,6 +6,7 @@ import { AttorneyListDto, AttorneyServiceProxy } from '@shared/service-proxies/s
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize } from 'rxjs/operators';
 import { ViewAttorneyComponent } from './view-attorney/view-attorney.component';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -24,14 +25,34 @@ export class AttorneysComponent extends PagedListingComponentBase<AttorneyListDt
   @ViewChild('editAttorney', { static: true }) editAttorney: EditAttorneyComponent;
   @ViewChild('viewAttorney', { static: true }) viewAttorney: ViewAttorneyComponent;
   attorneys: AttorneyListDto[] = [];
+  searchTerm: FormControl = new FormControl();
+  isSearching = false;
   constructor(private injector: Injector,
     private attorneyService: AttorneyServiceProxy) {
     super(injector);
+    this.searchAttorneys();
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
+  }
+
+  searchAttorneys() {
+    this.searchTerm.valueChanges
+      .debounceTime(400)
+      .subscribe(data => {
+        this.isSearching = true;
+        this.attorneyService.search(data).pipe(finalize(() => {
+          this.isSearching = false;
+        }))
+          .subscribe(result => {
+            this.attorneys = result.items;
+            this.dataSource.data = this.attorneys;
+            this.totalItems = this.attorneys.length;
+            this.pageSize = 5;
+          });
+      });
   }
   createNewAttorney() {
     this.newAttorney.open();

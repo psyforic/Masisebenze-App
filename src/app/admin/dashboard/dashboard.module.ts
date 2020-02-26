@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { PartialsModule } from '../partials/partials.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -9,7 +9,9 @@ import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { FormsModule } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material';
+import localeZA from '@angular/common/locales/en-ZA';
 
+registerLocaleData(localeZA, 'en-ZA');
 
 @NgModule({
   declarations: [DashboardComponent, ClientBottomSheetComponent, EditEventComponent, NewEventComponent],

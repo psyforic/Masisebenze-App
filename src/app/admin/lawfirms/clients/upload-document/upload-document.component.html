@@ -2,7 +2,9 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h1 class="card-title">{{client.firstName}} {{client.lastName}}</h1>
+                <h1 class="card-title" *ngIf="client.firstName"><span class="text-black-50">Upload Documents for</span>
+                    <strong class="ml-2">{{client.firstName}} {{client.lastName}}</strong>
+                </h1>
                 <div class="header-toolbar">
                     <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary"
                         matTooltip="Back">
@@ -62,7 +64,7 @@
                 <div>
                     <div class="card-header">
                         <div class="card-title">
-                            <button class="file btn btn-primary btn-round">Choose File
+                            <button [ngClass]="'file btn btn-primary btn-round'">Choose File
                                 <i class="fa fa-cloud-upload"></i>
                                 <input type="file" (change)="upload($event)" name="file" class="form-control-file"
                                     accept=".pdf" />
