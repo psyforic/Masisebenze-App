@@ -26177,7 +26177,7 @@ export class QuestionDto implements IQuestionDto {
     type: number | undefined;
     position: number | undefined;
     answer: string | undefined;
-    options: ListResultDtoOfQuestionOptionDto | undefined;
+    options: QuestionOptionDto[] | undefined;
     id: string | undefined;
 
     constructor(data?: IQuestionDto) {
@@ -26197,7 +26197,11 @@ export class QuestionDto implements IQuestionDto {
             this.type = data["type"];
             this.position = data["position"];
             this.answer = data["answer"];
-            this.options = data["options"] ? ListResultDtoOfQuestionOptionDto.fromJS(data["options"]) : <any>undefined;
+            if (data["options"] && data["options"].constructor === Array) {
+                this.options = [];
+                for (let item of data["options"])
+                    this.options.push(QuestionOptionDto.fromJS(item));
+            }
             this.id = data["id"];
         }
     }
@@ -26217,7 +26221,11 @@ export class QuestionDto implements IQuestionDto {
         data["type"] = this.type;
         data["position"] = this.position;
         data["answer"] = this.answer;
-        data["options"] = this.options ? this.options.toJSON() : <any>undefined;
+        if (this.options && this.options.constructor === Array) {
+            data["options"] = [];
+            for (let item of this.options)
+                data["options"].push(item.toJSON());
+        }
         data["id"] = this.id;
         return data; 
     }
@@ -26237,59 +26245,8 @@ export interface IQuestionDto {
     type: number | undefined;
     position: number | undefined;
     answer: string | undefined;
-    options: ListResultDtoOfQuestionOptionDto | undefined;
+    options: QuestionOptionDto[] | undefined;
     id: string | undefined;
-}
-
-export class ListResultDtoOfQuestionOptionDto implements IListResultDtoOfQuestionOptionDto {
-    items: QuestionOptionDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfQuestionOptionDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(QuestionOptionDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfQuestionOptionDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfQuestionOptionDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfQuestionOptionDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfQuestionOptionDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfQuestionOptionDto {
-    items: QuestionOptionDto[] | undefined;
 }
 
 export class QuestionOptionDto implements IQuestionOptionDto {

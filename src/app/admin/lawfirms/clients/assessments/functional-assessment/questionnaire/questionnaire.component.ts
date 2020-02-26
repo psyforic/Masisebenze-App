@@ -1,6 +1,12 @@
 
 import { registerLocaleData } from '@angular/common';
-import { QuestionListDto, OptionListDto, QuestionOptionListDto } from './../../../../../../../shared/service-proxies/service-proxies';
+import {
+  QuestionListDto, OptionListDto, QuestionOptionListDto,
+  ClientAnswerListDto,
+  QuestionDto,
+  OptionDto,
+  QuestionOptionDto
+} from './../../../../../../../shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import { Component, OnInit, ViewChild, Input, ElementRef, Injector, Type } from '@angular/core';
@@ -10,6 +16,7 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralService } from '@app/admin/services/general.service';
+import { MatRadioChange } from '@angular/material';
 
 @Component({
   selector: 'app-questionnaire',
@@ -24,6 +31,8 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   @Input() type: number;
   @Input() description: string;
   questions: QuestionListDto[] = [];
+  questionDto: QuestionDto = new QuestionDto();
+  questionOptions: QuestionOptionDto[] = [];
   options: QuestionOptionListDto[] = [];
   questionnaireOptions = [
     {
@@ -130,7 +139,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       ]
     },
     {
-      type: 2, position: 8, optionPositon: 0, options: [
+      type: 2, position: 18, optionPositon: 0, options: [
         { text: 'very good, my life could hardly be better' },
         { text: 'pretty good, most things are going well' },
         { text: 'the good and bad parts are about equal' },
@@ -139,8 +148,11 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       ]
     },
   ];
+  clientAsnwers: ClientAnswerListDto[] = [];
   isLoading = false;
+  isSaved = false;
   index = 0;
+  answer: string;
   constructor(
     private _clientService: ClientServiceProxy,
     private injector: Injector,
@@ -156,44 +168,59 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   }
   open(type) {
     this.getQuestions(type);
+    this.getClientAnswers(type, this.clientId);
+    this.type = type;
     this.modalService.open(this.content, { windowClass: 'modal-height', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => { }, () => { });
   }
   save() {
-
+    this.isLoading = true;
+    this.questionDto.clientId = this.clientId;
+    this.questionDto.id = this.questions[this.index].id;
+    this.questionDto.position = this.questions[this.index].position;
+    this.questionDto.type = this.questions[this.index].type;
+    this.questionDto.options = this.questionOptions;
+    this.questionDto.answer = this.answer;
+    this._functionAssessmentService.updateAsync(this.questionDto).
+      pipe(finalize(() => {
+        this.isSaved = true;
+        this.isLoading = false;
+      })).subscribe(() => {
+        this.notify.success('Save successfully');
+      });
   }
   close() {
+    this.index = 0;
     this.activeModal.close();
   }
   next() {
     if (this.index < this.questions.length) {
       this.index++;
+      this.getQuestion(this.clientId, this.questions[this.index].id);
+    } else {
+      this.index = this.index;
     }
 
   }
   prev() {
     if (this.index > 0) {
       this.index--;
+      this.getQuestion(this.clientId, this.questions[this.index].id);
+    } else {
+      this.index = this.index;
     }
-
   }
   getQuestionOptions(position) {
-    switch (this.type) {
-      case 1:
-          if (this.questions.filter(q => q.position === position).length > 0) {
-            if (this.questions.filter(q => q.position === position)[0].options.length > 0) {
-              this.options = this.questions.filter(q => q.position === position)[0].options;
-              return this.options;
-            } else {
-              return this.questions.filter(q => q.position === position);
-            }
-          } else {
-            return null;
-          }
 
-        break;
-      default:
-        break;
+    if (this.questions.filter(q => q.position === position).length > 0) {
+      if (this.questions.filter(q => q.position === position)[0].options.length > 0) {
+        this.options = this.questions.filter(q => q.position === position)[0].options;
+        return this.options;
+      } else {
+        return this.questions.filter(q => q.position === position);
+      }
+    } else {
+      return null;
     }
   }
   getLetter(i: number) {
@@ -225,15 +252,90 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       }
     }
   }
-  getQuestions(type) {
+  async getQuestions(type) {
     this.index = 0;
     this.isLoading = true;
-    this._functionAssessmentService.getQuestionList(type)
+    await this._functionAssessmentService.getQuestionList(type)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
       .subscribe(result => {
         this.questions = result.items;
+        // this.questionDto = new QuestionDto();
+        // this.createQuestionDto(this.questions[this.index]);
+        this.getQuestion(this.clientId, this.questions[this.index].id);
       });
   }
+  async getClientAnswers(type, clientId) {
+    await this._functionAssessmentService.getListAsync(type, clientId).subscribe(
+      result => {
+        this.clientAsnwers = result.items;
+      });
+  }
+  createQuestionDto(question: QuestionListDto) {
+    if (question != null && question.options.length > 0) {
+      question.options.forEach((option) => {
+        if (this.questionOptions.filter(qo => qo.id == option.id).length == 0) {
+          const questionOption = new QuestionOptionDto();
+          questionOption.id = option.id;
+          this.questionOptions.push(questionOption);
+        }
+      });
+    }
+  }
+  async getQuestion(clientId, id) {
+    this.questionOptions = [];
+    this.isLoading = true;
+     await this._functionAssessmentService.getByQuestionIdAsync(clientId, id)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+        .subscribe(result => {
+          result.items.forEach((r) => {
+            this.setQuestionOption(r.questionOptionId, r.optionScore);
+          });
+        });
+    // const questions = this.clientAsnwers.filter(ca => ca.questionId == id && ca.clientId == clientId && ca.type == this.type);
+    // if (questions.length > 0) {
+    //   questions.forEach((r) => {
+    //     this.setQuestionOption(r.questionOptionId, r.optionScore);
+    //   });
+    // }
+    // console.log(this.questionOptions);
+  }
+  isOptionChecked(id, score) {
+    if (this.questionOptions.filter(qo => qo.optionScore === score && qo.id === id).length > 0) {
+      return true;
+    }
+    return false;
+  }
+  isSavable(question: QuestionListDto) {
+    if (question != null && question.options != null) {
+      if (this.questionOptions.filter(qo => qo.optionScore !== -1).length === question.options.length) {
+        return true;
+      }
+      return false;
+    }
+
+    return false;
+  }
+  setQuestionOption(id, value) {
+    if (this.questionOptions.filter(qo => qo.id === id).length === 0) {
+      const questionOption = new QuestionOptionDto();
+      questionOption.id = id;
+      questionOption.optionScore = value;
+      this.questionOptions.push(questionOption);
+    } else {
+      this.questionOptions.filter(qo => qo.id === id)[0].optionScore = value;
+    }
+  }
+  changedListener(event: MatRadioChange, questionId, optionId = null) {
+    if (event.source.checked) {
+      if (optionId != null && this.questions[this.index].options.length > 0) {
+        this.setQuestionOption(optionId, event.value);
+      }
+    }
+  }
+
 }
+

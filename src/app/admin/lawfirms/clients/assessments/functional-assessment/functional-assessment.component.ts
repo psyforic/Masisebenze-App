@@ -60,13 +60,17 @@ export class FunctionalAssessmentComponent extends AppComponentBase implements O
   addQuestionnaire(type) {
     if (this.addedQuestionnaires.indexOf(type) === -1) {
       this.addedQuestionnaires.push(type);
+      const index = this.questionnaires.indexOf(this.questionnaires.filter(q => q.type == type)[0]);
+      this.questionnaires.splice(index, 1);
     }
   }
   save() {
     this.saving = true;
+    this.isLoading = true;
     this._functionAssessmentService.createAsync(this.addedQuestionnaires, this.clientId)
       .pipe(finalize(() => {
         this.saving = false;
+        this.isLoading = false;
       })).subscribe(() => {
         this.notify.success('Saved successfully');
       });

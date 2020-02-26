@@ -1,20 +1,20 @@
 <ng-template #content let-modal class="modal modal-fade" style="height: 300px !important;">
   <div class="modal-header bg-color">
-    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b> {{description}}</h4>
+    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}} </b></h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span class="text-white" aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
+    <div class="example-loading-shade" *ngIf="isLoading">
+      <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </div>
     <perfect-scrollbar style="height: 400px;">
       <div class="card">
         <div class="card-body">
-          <div class="example-loading-shade" *ngIf="isLoading">
-            <mat-spinner *ngIf="isLoading"></mat-spinner>
-          </div>
-
-          <div class="row" *ngIf="type==1">
+          <h4 class="text-center" *ngIf="!isLoading"><b>{{description}}</b></h4>
+          <div class="row" *ngIf="type == 1">
             <div class="col-lg-12">
               <div class="row">
                 <div class="col-lg-12">
@@ -38,59 +38,93 @@
               </div>
 
               <div class="row" *ngFor="let option of getQuestionOptions(questions[index]?.position); let i = index;">
-                <div class="card p-3 m-1" *ngIf="questions[index]?.position != 6 && questions[index]?.position != 8">
+                <div class="card border p-3 m-1" *ngIf="questions[index]?.position != 6 && questions[index]?.position != 8">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        {{getLetter(option.position) +". "+ option.title}}
+                      </div>
+                      <div class="col-lg-6">
+
+                        <mat-radio-group class="row" (change)="changedListener($event,questions[index].id,option.id)" >
+                          <div
+                            class="col-lg-{{12 / getQuestionnaireOptions(type,questions[index]?.position,0).length}} text-center"
+                            *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,0); let j = index;">
+                            <mat-radio-button [value] ="j" [checked]="isOptionChecked(option.id,j)" [name]="option.id">
+                            </mat-radio-button>
+                          </div>
+                        </mat-radio-group>
+                      </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="questions[index]?.position == 8 && option.position == 1">
+                  <div class="col-lg-12">
+                    [<strong class="ml-1" *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,1); let j = index">
+                        {{j+". "+questionnaireOption.text}}</strong>]
+                  </div>
+                </div>
+                <div class="col-lg-12" *ngIf="questions[index]?.position == 8 && option.position == 1">
                   <div class="row">
-                    <div class="col-lg-6">
-                      {{getLetter(option.position) +". "+ option.title}}
-                    </div>
+                    <div class="col-lg-6"></div>
                     <div class="col-lg-6">
                       <div class="row">
+                        <div class="col-lg-1"></div>
                         <div
-                          class="col-lg-{{12 / getQuestionnaireOptions(type,questions[index]?.position,0).length}} text-center"
-                          *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,0)">
-                          <mat-checkbox [name]="option.id">
-                          </mat-checkbox>
+                          class="col-lg-2 text-center"
+                          *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,1); let j = index;">
+                          {{j}}
                         </div>
                       </div>
                     </div>
-                </div>
-              </div>
-              <div class="card p-3 m-1" *ngIf="questions[index]?.position == 8 && option.position == 1">
-                <div class="row">
-                  <div class="col-lg-12">
-                    <span *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,1)">
-                        {{questionnaireOption.text}}</span>
-                  </div>
-                  <div class="col-lg-6">
-                    {{option.title}}
-                  </div>
-                  <div class="col-lg-6" *ngIf="questions[index]?.position != 8">
-                    <div class="row">
-                      <div
-                        class="col-lg-2 text-center"
-                        *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,0)">
-                        <mat-checkbox [name]="option.id">
-                        </mat-checkbox>
-                      </div>
-                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="card p-3 ml-1" *ngIf="questions[index].position == 8 && option.position != 1">
+                <div class="card border p-3 m-1" *ngIf="questions[index]?.position == 8 && option.position == 1">
                   <div class="row">
                     <div class="col-lg-6">
                       {{option.title}}
                     </div>
                     <div class="col-lg-6">
-                      <div class="row" *ngIf="option.position != 1">
+                      <mat-radio-group (change)="changedListener($event,questions[index].id,option.id)" class="row">
+                        <div class="col-lg-1"></div>
+                        <div
+                          class="col-lg-2 text-center"
+                          *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,1); let j = index;">
+                          <mat-radio-button [checked]="isOptionChecked(option.id,j)" [value]="j" [name]="option.id">
+                          </mat-radio-button>
+                        </div>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="col-lg-12" *ngIf="questions[index]?.position == 8 && option.position == 1">
+                  <div class="row">
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6">
+                      <div class="row">
+                        <div
+                          class="col-lg-{{12 / getQuestionnaireOptions(type,questions[index]?.position,2).length}} text-center"
+                          *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,2)">
+                          {{questionnaireOption.text}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card border p-3 m-1" *ngIf="questions[index].position == 8 && option.position != 1">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      {{option.title}}
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-radio-group (change)="changedListener($event,questions[index].id,option.id)" class="row" *ngIf="option.position != 1">
                         <div
                           class="col-lg-{{12 / getQuestionnaireOptions(type,questions[index]?.position, option.position).length}} text-center"
-                          *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position, option.position)">
-                          <mat-checkbox [name]="option.id">
-                          </mat-checkbox>
+                          *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position, option.position); let j = index;">
+                          <mat-radio-button [checked]="isOptionChecked(option.id, j)" [value] = "j" [name]="option.id">
+                          </mat-radio-button>
                         </div>
 
-                      </div>
+                      </mat-radio-group>
                     </div>
                   </div>
               </div>
@@ -98,7 +132,7 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <mat-form-field>
-                      <input matInput type="text" placeholder="Type your answer here...."
+                      <input [ngModel]="answer" matInput type="text" placeholder="Type your answer here...."
                         [name]="questions[index].id" />
                     </mat-form-field>
                   </div>
@@ -107,8 +141,119 @@
             </div>
 
           </div>
+          </div>
+          <div class="row" *ngIf="type == 2">
+            <div class="col-lg-12">
+              <h5 class="uk-text-bold" *ngIf="!isLoading">INSTRUCTIONS</h5>
+              <p class="text-justify" *ngIf="!isLoading">
+                This questionnaire includes questions about symptoms of depression. For each item please indicate how
+                well it describes you during the PAST WEEK, INCLUDING TOD,AY. Check the box in the columns next
+                to the item that best describes you.
+              </p>
+              <div class="row" *ngFor="let question of questions;">
+                <div class="col-lg-12" *ngIf="question.position == 1">
+                  <div class="row col-lg-12 text-center">
+                    [<strong
+                    *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
+                      {{i+". "+questionOption.text}},
+                    </strong>]
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6">
+                      <div class="row">
+                        <div
+                          class="col-lg-2 text-center"
+                          *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
+                            {{ i}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12" *ngIf="question.position == 17">
+                  <div class="row col-lg-12 text-center">
+                    [<strong
+                    *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
+                      {{i+". "+questionOption.text}},
+                    </strong>]
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6"></div>
+                    <div class="col-lg-6">
+                      <div class="row">
+                        <div
+                          class="col-lg-2 text-center"
+                          *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
+                            {{i}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12" *ngIf="question.position == 18">
+                  <div class="row col-lg-12 text-center">
+                    [<strong
+                    *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
+                      {{i+". "+questionOption.text}},
+                    </strong>]
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6" >
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row">
+                        <div
+                          class="col-lg-2 text-center"
+                          *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
+                            {{i}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card border p-3 m-1" >
+                  <div class="row">
+                    <div class="col-lg-6" >
+                      {{question.position +". "+ question.title}}
+                    </div>
+                    <div class="col-lg-6">
+                      <mat-radio-group (change)="changedListener($event,question.id)" class="row">
+                        <div
+                          class="col-lg-2 text-center"
+                          *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0)">
+                          <mat-radio-button [name]="question.id">
+                          </mat-radio-button>
+                        </div>
+                      </mat-radio-group>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="type > 2">
+            <div class="col-lg-12">
+              <div class="row">
+                <div class="col-lg-12">
+                  <h5 *ngIf="!isLoading "><strong>{{questions[index]?.position+". "+questions[index]?.title}}</strong>
+                  </h5>
+                </div>
+              </div>
+              <mat-radio-group class="row" *ngFor="let option of getQuestionOptions(questions[index]?.position); let i = index;">
+                <div class="card border p-3 m-1">
+                  <div class="row">
+                    <div class="col-lg-12">
+
+                    <mat-radio-button (change)="changedListener($event,questions[index].id,option.id)" value="1"  name="questions[index].id"></mat-radio-button>
+                    {{option.title}}
+                    </div>
+                  </div>
+                </div>
+              </mat-radio-group>
+            </div>
+          </div>
         </div>
-      </div>
       </div>
     </perfect-scrollbar>
   </div>
@@ -121,13 +266,13 @@
       </div>
       <div class="col-lg-4 text-center">
         <button type="button" class="pull-center" mat-raised-button color="default" (click)="modal.close()">Close</button>
-        <button type="button" class="pull-center" [disabled]="1==1" mat-raised-button color="primary" (click)="save()">
+        <button type="button" class="pull-center" [disabled]="!isSavable(questions[index])" mat-raised-button color="primary" (click)="save()">
           Save
         </button>
 
       </div>
       <div class="col-lg-4">
-        <button mat-stroked-button color="primary" class="pull-right" type="button" (click)="next()">
+        <button *ngIf="isSavable(questions[index])" mat-stroked-button color="primary" class="pull-right" type="button" (click)="next()">
           Next
         </button>
       </div>
