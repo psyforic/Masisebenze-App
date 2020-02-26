@@ -14,7 +14,7 @@
       <div class="card">
         <div class="card-body">
           <h4 class="text-center" *ngIf="!isLoading"><b>{{description}}</b></h4>
-          <div class="row" *ngIf="type == 1">
+          <div class="row" *ngIf="type == 1 && !isLoading ">
             <div class="col-lg-12">
               <div class="row">
                 <div class="col-lg-12">

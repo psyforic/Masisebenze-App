@@ -179,7 +179,10 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     this.questionDto.id = this.questions[this.index].id;
     this.questionDto.position = this.questions[this.index].position;
     this.questionDto.type = this.questions[this.index].type;
-    this.questionDto.options = this.questionOptions;
+    if (this.questionDto.position != 6) {
+      this.questionDto.options = this.questionOptions;
+    }
+
     this.questionDto.answer = this.answer;
     this._functionAssessmentService.updateAsync(this.questionDto).
       pipe(finalize(() => {
@@ -256,9 +259,6 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     this.index = 0;
     this.isLoading = true;
     await this._functionAssessmentService.getQuestionList(type)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
       .subscribe(result => {
         this.questions = result.items;
         // this.questionDto = new QuestionDto();
@@ -286,15 +286,16 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   async getQuestion(clientId, id) {
     this.questionOptions = [];
     this.isLoading = true;
-     await this._functionAssessmentService.getByQuestionIdAsync(clientId, id)
+    await this._functionAssessmentService.getByQuestionIdAsync(clientId, id)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
-        .subscribe(result => {
-          result.items.forEach((r) => {
-            this.setQuestionOption(r.questionOptionId, r.optionScore);
-          });
+      .subscribe(result => {
+        result.items.forEach((r) => {
+          this.setQuestionOption(r.questionOptionId, r.optionScore);
         });
+        console.log(result);
+      });
     // const questions = this.clientAsnwers.filter(ca => ca.questionId == id && ca.clientId == clientId && ca.type == this.type);
     // if (questions.length > 0) {
     //   questions.forEach((r) => {
@@ -315,6 +316,12 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
         return true;
       }
       return false;
+    } else if (this.type === 1 && question != null && question.position === 6) {
+      if (this.answer) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     return false;
