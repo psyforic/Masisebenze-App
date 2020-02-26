@@ -99,6 +99,12 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   getNewClients() {
     this.dashBoardService.getNewClients(this.filter).subscribe((result) => {
       this.clients = result.items;
+      this.clients.forEach(x => {
+        console.log(x.creationTime.tz());
+        const localTime = moment.utc(x.creationTime).toDate();
+        const time = moment(localTime).format('YYYY-MM-DD HH:mm:ss');
+        console.log(time);
+      });
     });
   }
   getLatestActivity() {

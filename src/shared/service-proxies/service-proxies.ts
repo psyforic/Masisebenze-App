@@ -2779,6 +2779,60 @@ export class AttorneyServiceProxy {
     }
 
     /**
+     * @param input (optional) 
+     * @return Success
+     */
+    search(input: string | null | undefined): Observable<ListResultDtoOfAttorneyListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Attorney/Search?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAttorneyListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAttorneyListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<ListResultDtoOfAttorneyListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAttorneyListDto.fromJS(resultData200) : new ListResultDtoOfAttorneyListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAttorneyListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -11601,7 +11655,7 @@ export class FunctionalAssessmentServiceProxy {
      * @param questions (optional) 
      * @return Success
      */
-    updateQuestionList(questions: QuestionDto[] | null | undefined): Observable<void> {
+    updateQuestionList(questions: ClientAnswerListDto[] | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/FunctionalAssessment/UpdateQuestionList";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -12916,6 +12970,60 @@ export class LawFirmServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfClientListDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    search(input: string | null | undefined): Observable<ListResultDtoOfLawFirmListDto> {
+        let url_ = this.baseUrl + "/api/services/app/LawFirm/Search?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearch(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearch(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfLawFirmListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfLawFirmListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearch(response: HttpResponseBase): Observable<ListResultDtoOfLawFirmListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfLawFirmListDto.fromJS(resultData200) : new ListResultDtoOfLawFirmListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfLawFirmListDto>(<any>null);
     }
 
     /**
@@ -22179,6 +22287,57 @@ export interface IAttorneyDetailOutput {
     id: string | undefined;
 }
 
+export class ListResultDtoOfAttorneyListDto implements IListResultDtoOfAttorneyListDto {
+    items: AttorneyListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfAttorneyListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AttorneyListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfAttorneyListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfAttorneyListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfAttorneyListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfAttorneyListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfAttorneyListDto {
+    items: AttorneyListDto[] | undefined;
+}
+
 export class ListResultDtoOfBalanceProtocolOptionListDto implements IListResultDtoOfBalanceProtocolOptionListDto {
     items: BalanceProtocolOptionListDto[] | undefined;
 
@@ -26112,6 +26271,7 @@ export interface IListResultDtoOfQuestionnaireDto {
 }
 
 export class QuestionnaireDto implements IQuestionnaireDto {
+    assessment: AssessmentDto | undefined;
     assessmentId: string | undefined;
     clientId: string | undefined;
     status: number | undefined;
@@ -26129,6 +26289,7 @@ export class QuestionnaireDto implements IQuestionnaireDto {
 
     init(data?: any) {
         if (data) {
+            this.assessment = data["assessment"] ? AssessmentDto.fromJS(data["assessment"]) : <any>undefined;
             this.assessmentId = data["assessmentId"];
             this.clientId = data["clientId"];
             this.status = data["status"];
@@ -26146,6 +26307,7 @@ export class QuestionnaireDto implements IQuestionnaireDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
         data["assessmentId"] = this.assessmentId;
         data["clientId"] = this.clientId;
         data["status"] = this.status;
@@ -26163,10 +26325,94 @@ export class QuestionnaireDto implements IQuestionnaireDto {
 }
 
 export interface IQuestionnaireDto {
+    assessment: AssessmentDto | undefined;
     assessmentId: string | undefined;
     clientId: string | undefined;
     status: number | undefined;
     type: number | undefined;
+    id: string | undefined;
+}
+
+export class AssessmentDto implements IAssessmentDto {
+    name: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.side = data["side"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["side"] = this.side;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AssessmentDto {
+        const json = this.toJSON();
+        let result = new AssessmentDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentDto {
+    name: string | undefined;
+    side: number | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -27313,57 +27559,6 @@ export class ListResultDtoOfLawFirmListDto implements IListResultDtoOfLawFirmLis
 
 export interface IListResultDtoOfLawFirmListDto {
     items: LawFirmListDto[] | undefined;
-}
-
-export class ListResultDtoOfAttorneyListDto implements IListResultDtoOfAttorneyListDto {
-    items: AttorneyListDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfAttorneyListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(AttorneyListDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfAttorneyListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfAttorneyListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfAttorneyListDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfAttorneyListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfAttorneyListDto {
-    items: AttorneyListDto[] | undefined;
 }
 
 export class PagedResultDtoOfLawFirmListDto implements IPagedResultDtoOfLawFirmListDto {
