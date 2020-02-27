@@ -24,7 +24,8 @@ import {
     RepetitiveSquattingProtocolServiceProxy,
     RepetitiveFootMotionProtocolServiceProxy,
     CrawlingProtocolServiceProxy,
-    ReportServiceProxy
+    ReportServiceProxy,
+    FunctionalAssessmentServiceProxy
 } from '@shared/service-proxies/service-proxies';
 
 import { RootComponent } from './root.component';

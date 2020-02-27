@@ -2,7 +2,7 @@ import { GeneralService } from './../../../../services/general.service';
 import { registerLocaleData } from '@angular/common';
 import { ContactsComponent } from './../../../contacts/contacts.component';
 import { FunctionalAssessmentServiceProxy, QuestionnaireDto } from './../../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, ViewChild, ElementRef, Input, Injector, Type } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, Injector, Type, EventEmitter, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
   ClientDetailOutput, AffectDto, ClientServiceProxy, AssessmentServiceProxy,
@@ -21,6 +21,7 @@ import { finalize } from 'rxjs/operators';
 })
 export class FunctionalAssessmentComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
+  @Output() assessmentsAdded = new EventEmitter();
   client: ClientDetailOutput = new ClientDetailOutput();
   @Input() fullName: string;
   @Input() clientId: string;
@@ -34,6 +35,7 @@ export class FunctionalAssessmentComponent extends AppComponentBase implements O
   addedQuestionnaires: Array<number> = [];
   isLoading = false;
   saving = false;
+  modalRef: any;
   constructor(
     private _clientService: ClientServiceProxy,
     private injector: Injector,
@@ -51,7 +53,7 @@ export class FunctionalAssessmentComponent extends AppComponentBase implements O
     this.isLoading = true;
     // this.questionnaires = this._generalService.getQuestionnaires();
     this.getQuestionnaires();
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalRef = this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
   getAffect(clientId) {
@@ -60,8 +62,8 @@ export class FunctionalAssessmentComponent extends AppComponentBase implements O
   addQuestionnaire(type) {
     if (this.addedQuestionnaires.indexOf(type) === -1) {
       this.addedQuestionnaires.push(type);
-      const index = this.questionnaires.indexOf(this.questionnaires.filter(q => q.type == type)[0]);
-      this.questionnaires.splice(index, 1);
+      // const index = this.questionnaires.indexOf(this.questionnaires.filter(q => q.type == type)[0]);
+      // this.questionnaires.splice(index, 1);
     }
   }
   save() {
@@ -76,7 +78,8 @@ export class FunctionalAssessmentComponent extends AppComponentBase implements O
       });
   }
   close() {
-    this.activeModal.close();
+    this.assessmentsAdded.emit(null);
+    this.modalService.dismissAll();
   }
   isQuestionnaireAdded(type) {
     if (this.questionnaires != null) {

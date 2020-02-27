@@ -44,7 +44,8 @@ import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.gua
                     { path: 'lawfirms/view/:id', component: ViewLawfirmComponent, canActivate: [AppRouteGuard] },
                     {
                         path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard],
-                        canDeactivate: [PreventUnsavedChangesGuard]
+                        canDeactivate: [PreventUnsavedChangesGuard],
+
                     },
                     { path: 'clients/documents/upload/:id', component: UploadDocumentComponent, canActivate: [AppRouteGuard] },
                     { path: 'clients/activity-log/:id', component: ViewActivityLogComponent, canActivate: [AppRouteGuard] },

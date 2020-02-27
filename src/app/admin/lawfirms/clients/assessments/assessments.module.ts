@@ -1,3 +1,4 @@
+import { QuestionnaireResolverService } from './../../../resolvers/questionnaire-resolver.service';
 import { QuestionnaireComponent } from './functional-assessment/questionnaire/questionnaire.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';

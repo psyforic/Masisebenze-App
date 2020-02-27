@@ -1,3 +1,5 @@
+import { QuestionnaireResolverService } from './../../../../../resolvers/questionnaire-resolver.service';
+import { ActivatedRoute } from '@angular/router';
 
 import { registerLocaleData } from '@angular/common';
 import {
@@ -9,7 +11,7 @@ import {
 } from './../../../../../../../shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
-import { Component, OnInit, ViewChild, Input, ElementRef, Injector, Type } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef, Injector, Type, ChangeDetectorRef } from '@angular/core';
 import {
   ClientServiceProxy, AssessmentServiceProxy, FunctionalAssessmentServiceProxy,
   ClientDetailOutput
@@ -32,6 +34,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   @Input() description: string;
   questions: QuestionListDto[] = [];
   questionDto: QuestionDto = new QuestionDto();
+  questionDtos: QuestionDto[] = [];
   questionOptions: QuestionOptionDto[] = [];
   options: QuestionOptionListDto[] = [];
   questionnaireOptions = [
@@ -150,23 +153,29 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   ];
   clientAsnwers: ClientAnswerListDto[] = [];
   isLoading = false;
+  saving = false;
   isSaved = false;
   index = 0;
-  answer: string;
+  total = 0;
   constructor(
     private _clientService: ClientServiceProxy,
+    private cdr: ChangeDetectorRef,
     private injector: Injector,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
     private _generalService: GeneralService,
-    private _functionAssessmentService: FunctionalAssessmentServiceProxy) {
+    private _functionAssessmentService: FunctionalAssessmentServiceProxy,
+    private _activatedRoute: ActivatedRoute) {
     super(injector);
   }
 
   ngOnInit() {
   }
-  open(type) {
+  open(type: number) {
+    this.questions = [];
+    this.clientAsnwers = [];
+
     this.getQuestions(type);
     this.getClientAnswers(type, this.clientId);
     this.type = type;
@@ -174,43 +183,59 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       .result.then(() => { }, () => { });
   }
   save() {
-    this.isLoading = true;
-    this.questionDto.clientId = this.clientId;
-    this.questionDto.id = this.questions[this.index].id;
-    this.questionDto.position = this.questions[this.index].position;
-    this.questionDto.type = this.questions[this.index].type;
-    if (this.questionDto.position != 6) {
-      this.questionDto.options = this.questionOptions;
+    this.saving = true;
+    if (this.type !== 2) {
+      if (this.clientAsnwers != null && this.clientAsnwers.length > 0) {
+        this._functionAssessmentService.updateQuestionList(
+          this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id)
+        )
+          .pipe(finalize(() => {
+            this.isSaved = true;
+            this.saving = false;
+          }))
+          .subscribe(() => {
+            this.notify.success('Save successfully');
+          });
+      }
+
+    } else {
+      if (this.clientAsnwers != null && this.clientAsnwers.length > 0) {
+        this._functionAssessmentService.updateQuestionList(this.clientAsnwers)
+          .pipe(finalize(() => {
+            this.isSaved = true;
+            this.saving = false;
+          }))
+          .subscribe(() => {
+            this.notify.success('Save successfully');
+          });
+      }
     }
 
-    this.questionDto.answer = this.answer;
-    this._functionAssessmentService.updateAsync(this.questionDto).
-      pipe(finalize(() => {
-        this.isSaved = true;
-        this.isLoading = false;
-      })).subscribe(() => {
-        this.notify.success('Save successfully');
-      });
   }
   close() {
     this.index = 0;
-    this.activeModal.close();
+    this.clientAsnwers = [];
+    this.questions = [];
+    this.modalService.dismissAll();
   }
   next() {
     if (this.index < this.questions.length) {
       this.index++;
-      this.getQuestion(this.clientId, this.questions[this.index].id);
+      console.log(this.index);
+      // this.getQuestion(this.clientId, this.questions[this.index].id);
     } else {
       this.index = this.index;
+      return;
     }
 
   }
   prev() {
     if (this.index > 0) {
       this.index--;
-      this.getQuestion(this.clientId, this.questions[this.index].id);
+      // this.getQuestion(this.clientId, this.questions[this.index].id);
     } else {
       this.index = this.index;
+      return;
     }
   }
   getQuestionOptions(position) {
@@ -255,22 +280,33 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       }
     }
   }
-  async getQuestions(type) {
+  getQuestions(type: number) {
     this.index = 0;
     this.isLoading = true;
-    await this._functionAssessmentService.getQuestionList(type)
+    this._functionAssessmentService.getQuestionList(type)
       .subscribe(result => {
         this.questions = result.items;
-        // this.questionDto = new QuestionDto();
-        // this.createQuestionDto(this.questions[this.index]);
-        this.getQuestion(this.clientId, this.questions[this.index].id);
+        // if (this.type !== 2) {
+        //   this.getQuestion(this.clientId, this.questions[this.index].id);
+        // }
+
       });
   }
   async getClientAnswers(type, clientId) {
-    await this._functionAssessmentService.getListAsync(type, clientId).subscribe(
-      result => {
-        this.clientAsnwers = result.items;
-      });
+    this.clientAsnwers = [];
+    await this._functionAssessmentService.getListAsync(type, clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(
+        result => {
+          this.clientAsnwers = result.items;
+          this.clientAsnwers.forEach((clientAnswer) => {
+            if (clientAnswer.optionScore !== -1) {
+              this.total += clientAnswer.optionScore;
+            }
+          });
+        });
   }
   createQuestionDto(question: QuestionListDto) {
     if (question != null && question.options.length > 0) {
@@ -284,65 +320,130 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     }
   }
   async getQuestion(clientId, id) {
-    this.questionOptions = [];
-    this.isLoading = true;
-    await this._functionAssessmentService.getByQuestionIdAsync(clientId, id)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
-      .subscribe(result => {
-        result.items.forEach((r) => {
-          this.setQuestionOption(r.questionOptionId, r.optionScore);
-        });
-        console.log(result);
+    if (this.clientAsnwers.filter(ca => ca.questionId === id).length > 0) {
+      this.clientAsnwers.filter(ca => ca.questionId === id).forEach((r) => {
+        this.setQuestionOption(r.questionOptionId, r.optionScore);
       });
-    // const questions = this.clientAsnwers.filter(ca => ca.questionId == id && ca.clientId == clientId && ca.type == this.type);
-    // if (questions.length > 0) {
-    //   questions.forEach((r) => {
-    //     this.setQuestionOption(r.questionOptionId, r.optionScore);
-    //   });
-    // }
-    // console.log(this.questionOptions);
+    }
   }
   isOptionChecked(id, score) {
-    if (this.questionOptions.filter(qo => qo.optionScore === score && qo.id === id).length > 0) {
-      return true;
-    }
-    return false;
-  }
-  isSavable(question: QuestionListDto) {
-    if (question != null && question.options != null) {
-      if (this.questionOptions.filter(qo => qo.optionScore !== -1).length === question.options.length) {
+    if (this.type !== 2) {
+      if (this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id
+        && ca.questionOptionId === id && ca.optionScore === score).length > 0) {
         return true;
       }
       return false;
-    } else if (this.type === 1 && question != null && question.position === 6) {
-      if (this.answer) {
+    } else {
+      if (this.clientAsnwers.filter(ca => ca.questionId === id &&
+        ca.optionScore === score).length > 0) {
         return true;
-      } else {
+      }
+      return false;
+    }
+  }
+  isSavable(question: QuestionListDto) {
+    if (question != null) {
+      if (this.type === 1 && question.options != null && question.options.length > 0) {
+        if (this.clientAsnwers.filter(ca => ca.questionId == question.id && ca.optionScore !== -1).length === question.options.length) {
+          return true;
+        }
+        return false;
+      } else if (this.type === 1 && question != null && question.position === 6) {
+        if (this.clientAsnwers.filter(ca => ca.questionId === question.id && ca.answer != null).length > 0) {
+          return true;
+        }
+        return false;
+      } else if (this.type === 2) {
+        if (this.clientAsnwers.filter(ca => ca.optionScore !== -1).length === this.clientAsnwers.length) {
+          return true;
+        }
+        return false;
+      } else if (this.type > 2) {
+        if (this.clientAsnwers.filter(ca => ca.questionId == question.id && ca.optionScore !== -1).length > 0) {
+          return true;
+        }
         return false;
       }
     }
 
     return false;
   }
+  setTextValue(answer) {
+    if (this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id).length > 0) {
+      this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id)[0].answer = answer;
+    }
+  }
+  getTextValue(questionId) {
+    if (this.clientAsnwers.filter(ca => ca.questionId === questionId &&
+      ca.answer != null && ca.type === this.type).length > 0) {
+      return this.clientAsnwers.filter(ca => ca.answer != null
+        && ca.questionId === questionId && ca.type === this.type)[0].answer;
+    }
+    return ' ';
+  }
   setQuestionOption(id, value) {
-    if (this.questionOptions.filter(qo => qo.id === id).length === 0) {
-      const questionOption = new QuestionOptionDto();
-      questionOption.id = id;
-      questionOption.optionScore = value;
-      this.questionOptions.push(questionOption);
-    } else {
-      this.questionOptions.filter(qo => qo.id === id)[0].optionScore = value;
+    if (id != null) {
+      if (this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id
+        && ca.questionOptionId === id).length > 0) {
+        this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id
+          && ca.questionOptionId === id)[0].optionScore = value;
+        this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id
+          && ca.questionOptionId !== id).forEach((clientAnswer) => {
+            if (clientAnswer.optionScore !== -1) {
+              clientAnswer.optionScore = -1;
+            }
+          });
+      }
     }
   }
   changedListener(event: MatRadioChange, questionId, optionId = null) {
     if (event.source.checked) {
-      if (optionId != null && this.questions[this.index].options.length > 0) {
+      if (this.type !== 2 && optionId != null && this.questions[this.index].options.length > 0) {
         this.setQuestionOption(optionId, event.value);
+      } else if (this.type === 2) {
+        if (this.clientAsnwers.filter(ca => ca.questionId === questionId).length > 0) {
+          this.clientAsnwers.filter(ca => ca.questionId === questionId)[0].optionScore = event.value;
+        }
       }
     }
   }
-
+  setOptionValue(questionPosition, optionPosition) {
+    if (questionPosition != null && optionPosition != null) {
+      switch (questionPosition) {
+        case 1:
+          if (optionPosition === 4) {
+            return 0;
+          } else {
+            return 1;
+          }
+        case 2:
+        case 3:
+        case 7:
+          if (optionPosition === 1) {
+            return 1;
+          } else {
+            return 0;
+          }
+        case 4:
+          if (optionPosition === 5) {
+            return 0;
+          } else {
+            return 1;
+          }
+        case 5:
+        case 6:
+        case 8:
+          if (optionPosition === 3 || optionPosition === 4) {
+            return 0;
+          } else {
+            return 1;
+          }
+        default:
+          break;
+      }
+    } else {
+      return -1;
+    }
+  }
 }
 

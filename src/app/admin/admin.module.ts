@@ -14,7 +14,7 @@ import { PartialsModule } from './partials/partials.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
-import { ClientServiceProxy, AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { ClientServiceProxy, AssessmentServiceProxy, FunctionalAssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
@@ -35,6 +35,6 @@ import { MAT_DATE_LOCALE } from '@angular/material';
     NavbarComponent,
     SidebarComponent,
     AdminComponent],
-  providers: [ClientServiceProxy, AssessmentServiceProxy,  {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}]
+  providers: [ClientServiceProxy, AssessmentServiceProxy, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }]
 })
 export class AdminModule { }
