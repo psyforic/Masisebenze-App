@@ -1,3 +1,4 @@
+import { QuestionnaireCommentComponent } from './assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,6 +30,7 @@ import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-ch
     CameraModalComponent,
     UploadDocumentComponent,
     AdminCommentsComponent,
+    QuestionnaireCommentComponent
   ],
   imports: [
     CommonModule,

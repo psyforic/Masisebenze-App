@@ -843,7 +843,12 @@
                                                                         <a class="btn btn-round btn-accent"
                                                                             href="javascript:void(0)"
                                                                             (click)="createQuestionnaire(questionnaire.type, questionnaire.description)">
-                                                                            Create
+                                                                            Complete
+                                                                        </a>
+                                                                        <a class="btn btn-round btn-default"
+                                                                            href="javascript:void(0)"
+                                                                            (click)="viewQuestionnaireComment(questionnaire.type)">
+                                                                            Comment
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -889,3 +894,5 @@
     (assessmentsAdded)="loadList($event)"></app-functional-assessment>
 <app-questionnaire #questionnaire [fullName]="fullName" [clientId]="clientId" [type]="questionnaireType"
     [description]="questionnaireDescription"></app-questionnaire>
+<app-questionnaire-comment #questionnaireComment [fullName]="fullName" [clientId]="clientId" [type]="questionnaireType"
+    [description]="questionnaireDescription"></app-questionnaire-comment>

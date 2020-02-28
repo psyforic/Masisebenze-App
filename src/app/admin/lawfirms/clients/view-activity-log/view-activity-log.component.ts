@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BookingServiceProxy, ClientServiceProxy, ClientDetailOutput, BookingListDto } from '@shared/service-proxies/service-proxies';
@@ -37,5 +38,11 @@ export class ViewActivityLogComponent implements OnInit {
       .subscribe((result) => {
         this.activities = result.items;
       });
+  }
+  getdate(creationTime: Moment) {
+    if (creationTime != null) {
+      return new Date(creationTime.toDate()).setHours(creationTime.toDate().getHours() + 2);
+    }
+    return new Date();
   }
 }

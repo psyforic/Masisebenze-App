@@ -172,12 +172,12 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
   }
-  open(type: number) {
+  async open(type: number) {
     this.questions = [];
     this.clientAsnwers = [];
 
-    this.getQuestions(type);
-    this.getClientAnswers(type, this.clientId);
+    await this.getQuestions(type);
+    await this.getClientAnswers(type, this.clientId);
     this.type = type;
     this.modalService.open(this.content, { windowClass: 'modal-height', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => { }, () => { });
@@ -292,9 +292,9 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
 
       });
   }
-  async getClientAnswers(type, clientId) {
+  getClientAnswers(type, clientId) {
     this.clientAsnwers = [];
-    await this._functionAssessmentService.getListAsync(type, clientId)
+    this._functionAssessmentService.getListAsync(type, clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
@@ -319,7 +319,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       });
     }
   }
-  async getQuestion(clientId, id) {
+  getQuestion(clientId, id) {
     if (this.clientAsnwers.filter(ca => ca.questionId === id).length > 0) {
       this.clientAsnwers.filter(ca => ca.questionId === id).forEach((r) => {
         this.setQuestionOption(r.questionOptionId, r.optionScore);
@@ -387,12 +387,14 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
         && ca.questionOptionId === id).length > 0) {
         this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id
           && ca.questionOptionId === id)[0].optionScore = value;
-        this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id
-          && ca.questionOptionId !== id).forEach((clientAnswer) => {
-            if (clientAnswer.optionScore !== -1) {
-              clientAnswer.optionScore = -1;
-            }
-          });
+        if (this.type > 2) {
+          this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id
+            && ca.questionOptionId !== id).forEach((clientAnswer) => {
+              if (clientAnswer.optionScore !== -1) {
+                clientAnswer.optionScore = -1;
+              }
+            });
+        }
       }
     }
   }

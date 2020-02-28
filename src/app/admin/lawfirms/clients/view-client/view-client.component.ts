@@ -1,3 +1,4 @@
+import { QuestionnaireCommentComponent } from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { QuestionnaireComponent } from './../assessments/functional-assessment/questionnaire/questionnaire.component';
 import { FunctionalAssessmentComponent } from './../assessments/functional-assessment/functional-assessment.component';
 import { DocumentFolder } from './../../../documents/document-types';
@@ -83,6 +84,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('mobility', { static: false }) openMobility: MobilityComponent;
   @ViewChild('functional', { static: false }) addQestionnaire: FunctionalAssessmentComponent;
   @ViewChild('questionnaire', { static: false }) questionnaire: QuestionnaireComponent;
+  @ViewChild('questionnaireComment', { static: false }) questionnaireComment: QuestionnaireCommentComponent;
   client: ClientDetailOutput = new ClientDetailOutput();
   documentTypes = DocumentFolder.documentTypes;
   documents: DocumentListDto[] = [];
@@ -477,6 +479,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.questionnaireType = type;
     this.questionnaireDescription = description;
     this.questionnaire.open(type);
+  }
+  viewQuestionnaireComment(type, description) {
+    this.questionnaireDescription = description;
+    this.questionnaireComment.open(type);
   }
   getQuestionnaires() {
     this.isLoading = true;

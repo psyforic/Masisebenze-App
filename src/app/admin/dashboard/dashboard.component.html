@@ -112,7 +112,7 @@
                   <td>{{client?.firstName}} {{client?.lastName}}</td>
                   <td>{{client.lawFirm?.companyName}}</td>
                   <td>{{client.contact?.firstName}}</td>
-                  <td>{{l(client?.creationTime.utcOffset('+02:00') | date: 'dd/MM/yyyy,  h:mm a')}}</td>
+                  <td>{{l(client?.creationTime.toDate().setHours(client.creationTime.toDate().getHours()+2)| date: 'dd/MM/yyyy,  h:mm a')}}</td>
                 </tr>
               </tbody>
             </table>

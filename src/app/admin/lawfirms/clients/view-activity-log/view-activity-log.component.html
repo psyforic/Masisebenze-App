@@ -16,7 +16,7 @@
 
       <!-- If no value is passed for the date, the current time is used. -->
 
-      <vertical-timeline-card *ngFor="let activity of activities" [dateValue]="activity.creationTime | date: 'short'">
+      <vertical-timeline-card *ngFor="let activity of activities" [dateValue]="activity?.creationTime?.toDate().setHours(activity.creationTime.toDate().getHours() + 2)">
         <h3>{{activity.event?.name}}</h3>
         <br />
         <small>From {{activity.startTime | date: 'short'}} - {{activity.endTime | date: 'short'}}</small><br>
@@ -26,7 +26,7 @@
       </vertical-timeline-card>
 
       <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
-      <vertical-timeline-card [dateValue]="client.creationTime | date:'short'">
+      <vertical-timeline-card [dateValue]="client?.creationTime?.toDate().setHours(client.creationTime.toDate().getHours() + 2)">
         <h3>File Created</h3>
       </vertical-timeline-card>
 
