@@ -435,6 +435,23 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
 
       });
   }
+  deleteDocument(node: any) {
+    abp.message.confirm(
+      'Delete Document ' + node.name + ' ?',
+      (result: boolean) => {
+        if (result) {
+          this.documentService.delete(node.id).pipe(finalize(() => {
+            abp.notify.success('Deleted Document: ' + node.name);
+            this.getFileData();
+          }))
+            .subscribe(() => {
+
+            });
+        }
+      }
+    );
+
+  }
   loadList(event) {
     this.getQuestionnaires();
   }
