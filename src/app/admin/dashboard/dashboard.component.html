@@ -1,159 +1,155 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row row-full-height h-100">
-      <div class="col-xl-6">
-        <div class="row ">
-          <div class="col-sm-12 col-md-12 col-lg-6">
-            <div class="card card-stats">
-              <div class="card-header">
-                <div class="card-title">
-                  File Statistics
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="card-header-icon mt-2">
-                  <div class="card-icon">
-                    <i class="material-icons">content_copy</i>
-                  </div>
-                  <p class="card-category">Files Created</p>
-                  <h3 class="card-title pull-right text-white">{{NoFiles}}</h3>
+    <div class="container-fluid">
+        <div class="row row-full-height h-100">
+            <div class="col-xl-6">
+                <div class="row ">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="card card-stats">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    File Statistics
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-header-icon mt-2">
+                                    <div class="card-icon">
+                                        <i class="material-icons">content_copy</i>
+                                    </div>
+                                    <p class="card-category">Files Created</p>
+                                    <h3 class="card-title pull-right text-white">{{NoFiles}}</h3>
+                                </div>
+
+                            </div>
+                            <div class="card-footer pull-right">
+                                <div class="stats">
+                                    <i class="material-icons text-white">add</i>
+                                    <a href="javascript:void(0)" class="text-white font-bold">New File</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="card card-stats">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Assessment Done
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-header-icon mt-2">
+                                    <div class="card-icon">
+                                        <i class="material-icons">assessment</i>
+                                    </div>
+                                    <p class="card-category">Assessment Done</p>
+                                    <h3 class="card-title pull-right text-white">0</h3>
+                                </div>
+                            </div>
+
+                            <div class="card-footer pull-right">
+                                <div class="stats">
+                                    <i class="material-icons text-white">assessments</i>
+                                    <a href="javascript:void(0)" class="text-white font-bold">View Assessments</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="card-title">Assessment Statistics</div>
+                            </div>
+                            <div class="card-body text-white">
+                                <div class="ct-chart" id="websiteViewsChart"></div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="stats">
+                                    <i class="material-icons text-white">access_time</i> refresh
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-              </div>
-              <div class="card-footer pull-right">
-                <div class="stats">
-                  <i class="material-icons text-white">add</i>
-                  <a href="javascript:void(0)" class="text-white font-bold">New File</a>
-                </div>
-              </div>
             </div>
-
-          </div>
-
-          <div class="col-sm-12 col-md-12 col-lg-6">
-            <div class="card card-stats">
-              <div class="card-header">
-                <div class="card-title">
-                  Assessment Done
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="card-header-icon mt-2">
-                  <div class="card-icon">
-                    <i class="material-icons">assessment</i>
-                  </div>
-                  <p class="card-category">Assessment Done</p>
-                  <h3 class="card-title pull-right text-white">0</h3>
-                </div>
-              </div>
-
-              <div class="card-footer pull-right">
-                <div class="stats">
-                  <i class="material-icons text-white">assessments</i>
-                  <a href="javascript:void(0)" class="text-white font-bold">View Assessments</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card card-chart">
-              <div class="card-header">
-                <div class="card-title">Assessment Statistics</div>
-              </div>
-              <div class="card-body text-white">
-                <div class="ct-chart" id="websiteViewsChart"></div>
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                  <i class="material-icons text-white">access_time</i> refresh
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <div class="col-xl-6">
-        <div class="card card-height-fluid">
-          <div class="card-header">
-            <h4 class="card-title">Appointments</h4>
-          </div>
-          <div class="card-body">
-            <full-calendar #calendar [events]="calendarEvents" id="fullCalendar" [header]="{
+            <div class="col-xl-6">
+                <div class="card card-height-fluid">
+                    <div class="card-header">
+                        <h4 class="card-title">Appointments</h4>
+                    </div>
+                    <div class="card-body">
+                        <full-calendar #calendar [events]="calendarEvents" id="fullCalendar" [header]="{
               left: 'prev,next today',
               center: 'title',
               right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-            }" deepChangeDetection="true" defaultView="dayGridMonth" (dateClick)="handleDateClick($event)"
-              [plugins]="calendarPlugins" [weekends]="false" [editable]="true" (eventClick)="handleEventClick($event)">
-            </full-calendar>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title">New Clients</h4>
-          </div>
-          <div class="card-body table-responsive">
-            <table class="table table-hover">
-              <thead class="text-white">
-                <th>Name</th>
-                <th>LawFirm</th>
-                <th>Contact</th>
-                <th>Date Added</th>
-              </thead>
-              <tbody class="text-white">
-                <tr *ngFor="let client of clients.slice(0, 4)" [routerLink]="['/admin/clients/view', client.id]"
-                  class="cursor-pointer">
-                  <td>{{client?.firstName}} {{client?.lastName}}</td>
-                  <td>{{client.lawFirm?.companyName}}</td>
-                  <td>{{client.contact?.firstName}}</td>
-                  <td>{{l(client?.creationTime.toDate().setHours(client.creationTime.toDate().getHours()+2)| date: 'dd/MM/yyyy,  h:mm a')}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">
-              Latest Activity
+            }" deepChangeDetection="true" defaultView="dayGridMonth" (dateClick)="handleDateClick($event)" [plugins]="calendarPlugins" [weekends]="false" [editable]="true" (eventClick)="handleEventClick($event)">
+                        </full-calendar>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="card-body table-responsive">
-            <table class="table">
-              <tbody class="text-white">
-                <tr *ngFor="let activity of activities.slice(0,4)">
-                  <td>
-                    <div class="form-check">
-                      <label class="form-check-label">
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">New Clients</h4>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-hover">
+                            <thead class="text-white">
+                                <th>Name</th>
+                                <th>LawFirm</th>
+                                <th>Contact</th>
+                                <th>Date Added</th>
+                            </thead>
+                            <tbody class="text-white">
+                                <tr *ngFor="let client of clients.slice(0, 4)" [routerLink]="['/admin/clients/view', client.id]" class="cursor-pointer">
+                                    <td>{{client?.firstName}} {{client?.lastName}}</td>
+                                    <td>{{client.lawFirm?.companyName}}</td>
+                                    <td>{{client.contact?.firstName}}</td>
+                                    <td>{{l(client?.creationTime | date: 'dd/MM/yyyy, h:mm a')}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            Latest Activity
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table">
+                            <tbody class="text-white">
+                                <tr *ngFor="let activity of activities.slice(0,4)">
+                                    <td>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
                         <input class="form-check-input" type="checkbox" value="" checked>
                         <span class="form-check-sign">
                           <span class="check"></span>
                         </span>
                       </label>
+                                        </div>
+                                    </td>
+                                    <td>{{activity.event?.name}} for {{activity.client?.firstName}} on {{activity.startTime | date: 'short'}}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
                     </div>
-                  </td>
-                  <td>{{activity.event?.name}} for {{activity.client?.firstName}} on
-                    {{activity.startTime| date: 'short'}}</td>
-                </tr>
+                </div>
+            </div>
 
-              </tbody>
-            </table>
-          </div>
         </div>
-      </div>
-
     </div>
-  </div>
 </div>
-<app-new-event #newEvent [clientsChanged]="clientsChanged" (newBookingInput)="addBooking($event)"
-  (newBottomSheetClient)="openBottomSheet($event)">
+<app-new-event #newEvent [clientsChanged]="clientsChanged" (newBookingInput)="addBooking($event)" (newBottomSheetClient)="openBottomSheet($event)">
 </app-new-event>
 <app-edit-event #editEvent (editBookingInput)="editSelectedEvent($event)"></app-edit-event>

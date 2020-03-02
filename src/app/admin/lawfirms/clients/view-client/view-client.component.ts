@@ -436,7 +436,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       });
   }
   loadList(event) {
-    console.log('Izile', event);
     this.getQuestionnaires();
   }
   getGripStrength() {

@@ -1,6 +1,8 @@
 import { FunctionalAssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CommentListDto, CommentServiceProxy, CreateCommentInput,
-  QuestionnaireDto } from './../../../../../../../shared/service-proxies/service-proxies';
+import {
+  CommentListDto, CommentServiceProxy, CreateCommentInput,
+  QuestionnaireDto
+} from './../../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewChild, Input, ElementRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -40,8 +42,8 @@ export class QuestionnaireCommentComponent extends AppComponentBase implements O
     this.modalService.open(this.content, { windowClass: 'modal-height', backdrop: 'static', keyboard: false, size: 'sm' })
       .result.then(() => { }, () => { });
   }
-  async getQuestionnaire() {
-    await this._functionalAssessmentService.getQuestionnaire(this.type, this.clientId)
+  getQuestionnaire() {
+    this._functionalAssessmentService.getQuestionnaire(this.type, this.clientId)
       .subscribe((result) => {
         this.questionnaire = result;
         this.getComments();
