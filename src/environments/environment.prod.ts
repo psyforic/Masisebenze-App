@@ -14,4 +14,8 @@ export const environment = {
         appId: '1:330556941362:web:3ae5f60e256189d1e7482b',
         measurementId: 'G-VLHM8GWBHF'
     },
+    onetCredentials: {
+        username: 'developmenthub',
+        password: '2932dgy'
+    }
 };

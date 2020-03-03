@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
+import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { EditJobDescriptionComponent } from './edit-job-description/edit-job-description.component';
 import { NewJobDescriptionComponent } from './new-job-description/new-job-description.component';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { JobDescriptionListDto, JobDescriptionServiceProxy } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-job-descriptions',
@@ -21,7 +22,9 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild('editJob', { static: false }) editJob: EditJobDescriptionComponent;
   @ViewChild('newJob', { static: false }) newJob: NewJobDescriptionComponent;
-  constructor(private injector: Injector,
+  searchInput: string;
+  constructor(injector: Injector,
+    private http: HttpClient,
     private jobDescriptionService: JobDescriptionServiceProxy) {
     super(injector);
   }
@@ -40,6 +43,20 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
     this.pageSize = event.pageSize;
     this.totalItems = event.length;
     this.getDataPage(event.pageIndex + 1);
+  }
+
+  search() {
+
+    const username = 'developmenthub';
+    const password = '2932dgy';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ' + btoa(username + ':' + password)
+    });
+    this.http.get(`https://services.onetcenter.org/ws/online/search?keyword=${this.searchInput}`,
+      { headers }).subscribe((result) => {
+        console.log(result);
+      });
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.jobDescriptionService.getAll(request.sorting, request.skipCount, request.maxResultCount)
