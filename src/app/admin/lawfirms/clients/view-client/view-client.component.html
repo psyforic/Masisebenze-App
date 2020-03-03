@@ -355,19 +355,23 @@
                                                         </mat-select>
                                                     </mat-form-field>
                                                 </div>
-
-                                                <div class="col-md-6 mt-3 pull-right">
-                                                    <button [disabled]="!attorneyForm.dirty" mat-raised-button
-                                                        type="submit" color="primary" class=" pull-right">
-                                                        Update
+                                                <div class="col-md-6">
+                                                    <button (click)="resendEmail()" type="button" color="primary"
+                                                        class="btn btn-primary btn-round pull-right">
+                                                        Resend Email
                                                     </button>
-                                                    <div class="clearfix"></div>
                                                 </div>
 
                                             </div>
                                         </form>
                                     </div>
-
+                                    <div class="float-right mr-4">
+                                        <button [disabled]="!attorneyForm.dirty" mat-raised-button type="submit"
+                                            color="primary" class="pull-right">
+                                            Update
+                                        </button>
+                                        <div class="clearfix"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -345,6 +345,23 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.isLoading = false;
       });
   }
+  resendEmail() {
+    abp.message.confirm(
+      'Are You Sure You Want to Send This Email ?',
+      (result: boolean) => {
+        if (result) {
+          this.isLoading = true;
+          this.clientService.resendEmail(this.clientId, this.client.contactId)
+            .pipe(finalize(() => {
+              this.isLoading = false;
+              abp.notify.success('Email Send Successfully');
+            })).subscribe(() => {
+            });
+        }
+      }
+    );
+
+  }
   isValidDate(d) {
     const s = Date.parse(d);
     return isNaN(s);
