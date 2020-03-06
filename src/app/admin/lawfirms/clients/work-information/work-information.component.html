@@ -1,0 +1,91 @@
+<div class="main-content">
+  <div class="container-fluid">
+
+      <div class="card">
+          <div class="card-header">
+              <div class="card-title">
+                  <button mat-icon-button [routerLink]="['../../',clientId]">
+                      <mat-icon>keyboard_backspace</mat-icon>
+                  </button>{{client.firstName}} {{client.lastName}}
+              </div>
+              <div class="header-toolbar">
+                <div class="btn-group" dropdown>
+                    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                        aria-controls="dropdown-basic">
+                        Actions<span class="caret"></span>
+                    </button>
+                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu"
+                        aria-labelledby="button-basic">
+                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                [routerLink]="['/admin/clients/activity-log', clientId]"
+                                routerLinkActive="router-link-active">Activity Log</a>
+                        </li>
+                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                [routerLink]="['/admin/clients/documents/upload', clientId]"
+                                routerLinkActive="router-link-active">Upload</a>
+                        </li>
+                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
+                                [routerLink]="['/admin/comments/clients', clientId]"
+                                routerLinkActive="router-link-active">Comments</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12 example-loading-shade"
+                    *ngIf="isLoading">
+                    <mat-spinner *ngIf="isLoading"></mat-spinner>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                  <mat-form-field>
+                    <input matInput type="text" placeholder="Job Title" [formControl]="jobTitle"/>
+                    <button matSuffix (click)="search()" color="primary" mat-stroked-button>
+                      <mat-icon >search</mat-icon>
+                    </button>
+
+                  </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <input matInput type="text" placeholder="Company" [formControl]="company"/>
+                </mat-form-field>
+            </div>
+              <div class="col-md-12">
+                <tag-input (onRemove)="onAgesRemove($event)" (onAdd)="onAgesAdd($event)" [ngModel]="defaultAge"
+                  [secondaryPlaceholder]="'Add job description'" [onlyFromAutocomplete]="true" [maxItems]="57">
+                  <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="ageList">
+                  </tag-input-dropdown>
+                </tag-input>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                  <mat-list class="row">
+                    <mat-list-item class="col-md-3" *ngFor="let message of defaultAge">
+                      <h3 matLine> {{message}} </h3>
+                      <p matLine *ngFor="let cat of getCategories(message)">
+                        <span> {{cat.category}} </span>
+                        <span class="demo-2"> -- {{cat.dataValue}} </span>
+                      </p>
+                    </mat-list-item>
+                  </mat-list>
+
+                  <!-- three line list -->
+                  <!-- <mat-list>
+                    <mat-list-item *ngFor="let message of messages">
+                      <h3 matLine> {{message.from}} </h3>
+                      <p matLine> {{message.subject}} </p>
+                      <p matLine class="demo-2"> {{message.content}} </p>
+                    </mat-list-item>
+                  </mat-list> -->
+                </div>
+            </div>
+          </div>
+      </div>
+  </div>
+</div>

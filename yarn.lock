@@ -5175,9 +5175,24 @@ neo-async@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.1.tgz#acb909e327b1e87ec9ef15f41b8a269512ad41ee"
 
+ng2-material-dropdown@0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/ng2-material-dropdown/-/ng2-material-dropdown-0.11.0.tgz#27a402ef3cbdcaf6791ef4cfd4b257e31db7546f"
+  integrity sha512-wptBo09qKecY0QPTProAThrc4A3ajJTcHE9LTpCG5XZZUhXLBzhnGK8OW33TN8A+K/jqcs7OB74ppYJiqs3nhQ==
+  dependencies:
+    tslib "^1.9.0"
+
 ngx-bootstrap@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.0.0.tgz#563368404dd71962e2ef8eee21794c6aeaab4490"
+
+ngx-chips@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/ngx-chips/-/ngx-chips-2.1.0.tgz#aa299bcf40dc3e1f6288bf1d29e2fdfe9a132ed3"
+  integrity sha512-OQV4dTfD3nXm5d2mGKUSgwOtJOaMnZ4F+lwXOtd7DWRSUne0JQWwoZNHdOpuS6saBGhqCPDAwq6KxdR5XSgZUQ==
+  dependencies:
+    ng2-material-dropdown "0.11.0"
+    tslib "^1.9.0"
 
 ngx-image-cropper@^1.4.1:
   version "1.4.1"

@@ -1,3 +1,4 @@
+import { WorkInformationComponent } from './lawfirms/clients/work-information/work-information.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
@@ -45,6 +46,10 @@ import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.gua
                     {
                         path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard],
                         canDeactivate: [PreventUnsavedChangesGuard],
+
+                    },
+                    {
+                        path: 'clients/view/work-information/:id', component: WorkInformationComponent, canActivate: [AppRouteGuard],
 
                     },
                     { path: 'clients/documents/upload/:id', component: UploadDocumentComponent, canActivate: [AppRouteGuard] },

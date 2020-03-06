@@ -1,3 +1,4 @@
+import { OnetWebService } from './../services/onet-web.service';
 import { Component, OnInit, Injector, ViewChild, AfterViewInit, Output } from '@angular/core';
 import * as Chartist from 'chartist';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -31,6 +32,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   newEvents: EventInput[] = [];
   NoFiles: number;
   clients: ClientListDto[] = [];
+
   filter = '';
   clientsChanged = false;
   activities: BookingListDto[] = [];
@@ -68,6 +70,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     this.getBookings();
   }
   ngAfterViewInit(): void {
+
   }
 
   getBookings() {

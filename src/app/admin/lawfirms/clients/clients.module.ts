@@ -1,3 +1,4 @@
+import { WorkInformationComponent } from './work-information/work-information.component';
 import { QuestionnaireCommentComponent } from './assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 
 import { NgModule } from '@angular/core';
@@ -18,8 +19,16 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
 import { AssessmentsModule } from './assessments/assessments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MAT_DATE_LOCALE } from '@angular/material';
+import { TagInputModule } from 'ngx-chips';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-changes.guard';
+import {MatListModule} from '@angular/material/list';
+TagInputModule.withDefaults({
+  tagInput: {
+      placeholder: 'Add a New Field',
+      maxItems: 3
+  }
+});
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -30,7 +39,8 @@ import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-ch
     CameraModalComponent,
     UploadDocumentComponent,
     AdminCommentsComponent,
-    QuestionnaireCommentComponent
+    QuestionnaireCommentComponent,
+    WorkInformationComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +49,9 @@ import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-ch
     VerticalTimelineModule,
     WebcamModule,
     ImageCropperModule,
-    AssessmentsModule
+    AssessmentsModule,
+    TagInputModule,
+    MatListModule
   ],
   exports: [
     NewClientComponent

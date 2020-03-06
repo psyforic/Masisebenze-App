@@ -18342,6 +18342,140 @@ export class WalkingProtocolServiceProxy {
     }
 }
 
+@Injectable()
+export class WorkAssessmentServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param jobTitle (optional) 
+     * @return Success
+     */
+    getWorkContext(jobTitle: string | null | undefined): Observable<WorkContextDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessment/GetWorkContext?";
+        if (jobTitle !== undefined)
+            url_ += "jobTitle=" + encodeURIComponent("" + jobTitle) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWorkContext(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWorkContext(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkContextDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkContextDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWorkContext(response: HttpResponseBase): Observable<WorkContextDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(WorkContextDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkContextDto[]>(<any>null);
+    }
+
+    /**
+     * @param keyword (optional) 
+     * @param start (optional) 
+     * @param end (optional) 
+     * @return Success
+     */
+    getOccpations(keyword: string | null | undefined, start: number | null | undefined, end: number | null | undefined): Observable<OccupationDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessment/GetOccpations?";
+        if (keyword !== undefined)
+            url_ += "keyword=" + encodeURIComponent("" + keyword) + "&"; 
+        if (start !== undefined)
+            url_ += "start=" + encodeURIComponent("" + start) + "&"; 
+        if (end !== undefined)
+            url_ += "end=" + encodeURIComponent("" + end) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOccpations(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOccpations(<any>response_);
+                } catch (e) {
+                    return <Observable<OccupationDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<OccupationDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOccpations(response: HttpResponseBase): Observable<OccupationDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(OccupationDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<OccupationDto[]>(<any>null);
+    }
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName: string;
 
@@ -32171,6 +32305,160 @@ export interface IWalkingProtocolDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class WorkContextDto implements IWorkContextDto {
+    onetSocCode: string | undefined;
+    title: string | undefined;
+    category: number | undefined;
+    elementID: string | undefined;
+    elementName: string | undefined;
+    scaleID: string | undefined;
+    scaleName: string | undefined;
+    dataValue: number | undefined;
+    n: number | undefined;
+    standardError: string | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
+    recommendSuppress: string | undefined;
+    notRelevant: string | undefined;
+    date: moment.Moment | undefined;
+    domainSource: string | undefined;
+
+    constructor(data?: IWorkContextDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.onetSocCode = data["onetSocCode"];
+            this.title = data["title"];
+            this.category = data["category"];
+            this.elementID = data["elementID"];
+            this.elementName = data["elementName"];
+            this.scaleID = data["scaleID"];
+            this.scaleName = data["scaleName"];
+            this.dataValue = data["dataValue"];
+            this.n = data["n"];
+            this.standardError = data["standardError"];
+            this.lowerCIBound = data["lowerCIBound"];
+            this.upperCIBound = data["upperCIBound"];
+            this.recommendSuppress = data["recommendSuppress"];
+            this.notRelevant = data["notRelevant"];
+            this.date = data["date"] ? moment(data["date"].toString()) : <any>undefined;
+            this.domainSource = data["domainSource"];
+        }
+    }
+
+    static fromJS(data: any): WorkContextDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkContextDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["onetSocCode"] = this.onetSocCode;
+        data["title"] = this.title;
+        data["category"] = this.category;
+        data["elementID"] = this.elementID;
+        data["elementName"] = this.elementName;
+        data["scaleID"] = this.scaleID;
+        data["scaleName"] = this.scaleName;
+        data["dataValue"] = this.dataValue;
+        data["n"] = this.n;
+        data["standardError"] = this.standardError;
+        data["lowerCIBound"] = this.lowerCIBound;
+        data["upperCIBound"] = this.upperCIBound;
+        data["recommendSuppress"] = this.recommendSuppress;
+        data["notRelevant"] = this.notRelevant;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["domainSource"] = this.domainSource;
+        return data; 
+    }
+
+    clone(): WorkContextDto {
+        const json = this.toJSON();
+        let result = new WorkContextDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWorkContextDto {
+    onetSocCode: string | undefined;
+    title: string | undefined;
+    category: number | undefined;
+    elementID: string | undefined;
+    elementName: string | undefined;
+    scaleID: string | undefined;
+    scaleName: string | undefined;
+    dataValue: number | undefined;
+    n: number | undefined;
+    standardError: string | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
+    recommendSuppress: string | undefined;
+    notRelevant: string | undefined;
+    date: moment.Moment | undefined;
+    domainSource: string | undefined;
+}
+
+export class OccupationDto implements IOccupationDto {
+    code: string | undefined;
+    title: string | undefined;
+    relevanceScore: number | undefined;
+
+    constructor(data?: IOccupationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.code = data["code"];
+            this.title = data["title"];
+            this.relevanceScore = data["relevanceScore"];
+        }
+    }
+
+    static fromJS(data: any): OccupationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new OccupationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["code"] = this.code;
+        data["title"] = this.title;
+        data["relevanceScore"] = this.relevanceScore;
+        return data; 
+    }
+
+    clone(): OccupationDto {
+        const json = this.toJSON();
+        let result = new OccupationDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IOccupationDto {
+    code: string | undefined;
+    title: string | undefined;
+    relevanceScore: number | undefined;
 }
 
 export enum IsTenantAvailableOutputState {
