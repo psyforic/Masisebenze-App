@@ -126,7 +126,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
   questionnairesDto: QuestionnaireDto[] = [];
-  hidden = false;
+  hidden = true;
   bookings: Booking[] = [];
   questionnaires = [
     { type: 1, description: 'PATIENT HEALTH' },

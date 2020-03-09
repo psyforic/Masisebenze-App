@@ -6,6 +6,7 @@ import * as Docxtemplater from 'docxtemplater';
 import { saveAs } from 'file-saver';
 import * as Pizzip from 'pizzip';
 import * as moment from 'moment';
+import * as _ from 'lodash';
 
 export class DocumentCreator {
 
@@ -58,19 +59,19 @@ export class DocumentCreator {
                 attorney: clientData.attorney.firstName + ' ' + clientData.attorney.lastName,
                 lawFirm: clientData.lawFirm.companyName,
                 lawFirmCity: city,
-                earlyChildhood: clientData.earlyChildhood,
-                family: clientData.family,
-                homeEnvironment: clientData.homeEnvironment,
-                educational: clientData.education,
-                premorbid: workData.premorbid,
-                postmorbid: workData.postMorbid,
-                socialHabits: clientData.socialHabits,
-                previousInjuries: medicalData.previousInjuries,
-                medicalConditions: medicalData.medicalConditions,
-                currentHistory: medicalData.currentHistory,
-                medication: medicalData.medication,
-                workHistory: workData.description,
-                generalAppearance: clientData.generalAppearance,
+                earlyChildhood: _.escape(clientData.earlyChildhood),
+                family: _.escape(clientData.family),
+                homeEnvironment: _.escape(clientData.homeEnvironment),
+                educational: _.escape(clientData.education),
+                premorbid: _.escape(workData.premorbid),
+                postmorbid: _.escape(workData.postMorbid),
+                socialHabits: _.escape(clientData.socialHabits),
+                previousInjuries: _.escape(medicalData.previousInjuries),
+                medicalConditions: _.escape(medicalData.medicalConditions),
+                currentHistory: _.escape(medicalData.currentHistory),
+                medication: _.escape(medicalData.medication),
+                workHistory: _.escape(workData.description),
+                generalAppearance: _.escape(clientData.generalAppearance),
                 rightHand: assessmentReport[0].rightHandWeight,
                 leftHand: assessmentReport[0].leftHandWeight,
                 dominantHand: assessmentReport[0].normRight,
