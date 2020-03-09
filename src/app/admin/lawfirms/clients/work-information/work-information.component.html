@@ -51,8 +51,31 @@
                   </mat-form-field>
               </div>
               <div class="col-md-6">
-                <mat-form-field>
+                <!-- <mat-form-field>
+                  <mat-select [formControl]="occupation" [placeholder]="'Occupation'">
+                      <mat-option *ngFor="let occupation of occupations"
+                       [value]="occupation.code">
+                        {{occupation.title}}
+                      </mat-option>
+
+                  </mat-select>
                   <input matInput type="text" placeholder="Company" [formControl]="company"/>
+                </mat-form-field>  -->
+                <mat-form-field>
+                  <input type="text"
+                         placeholder="Pick one"
+                         aria-label="Number"
+                         matInput
+                         [formControl]="myControl"
+                         [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option
+                     *ngFor="let option of filteredOptions | async"
+                     (onSelectionChange)="getWorkContext($event, option.code)"
+                     [value]="option.title">
+                      {{option.title}}
+                    </mat-option>
+                  </mat-autocomplete>
                 </mat-form-field>
             </div>
               <div class="col-md-12">
@@ -65,24 +88,17 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                  <mat-list class="row">
-                    <mat-list-item class="col-md-3" *ngFor="let message of defaultAge">
-                      <h3 matLine> {{message}} </h3>
-                      <p matLine *ngFor="let cat of getCategories(message)">
-                        <span> {{cat.category}} </span>
-                        <span class="demo-2"> -- {{cat.dataValue}} </span>
+                  <div class="row">
+                    <h5> {{maxDataValues[0]?.title}} </h5>
+                    <div class="col-md-12" *ngFor="let message of maxDataValues; let i = index;">
+                      <p><b>{{i+1+" ."}} {{message?.elementName}}</b></p>
+                      <p>
+                        <span><strong>Category:</strong> {{message.category}} </span>
+                        <span class="demo-2"><strong>Data Value:</strong> {{message.dataValue}}% </span>
                       </p>
-                    </mat-list-item>
-                  </mat-list>
+                    </div>
+                  </div>
 
-                  <!-- three line list -->
-                  <!-- <mat-list>
-                    <mat-list-item *ngFor="let message of messages">
-                      <h3 matLine> {{message.from}} </h3>
-                      <p matLine> {{message.subject}} </p>
-                      <p matLine class="demo-2"> {{message.content}} </p>
-                    </mat-list-item>
-                  </mat-list> -->
                 </div>
             </div>
           </div>
