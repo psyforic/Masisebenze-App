@@ -23,6 +23,7 @@ import { TagInputModule } from 'ngx-chips';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-changes.guard';
 import {MatListModule} from '@angular/material/list';
+import { TypeaheadModule } from 'ngx-bootstrap';
 TagInputModule.withDefaults({
   tagInput: {
       placeholder: 'Add a New Field',
@@ -51,7 +52,8 @@ TagInputModule.withDefaults({
     ImageCropperModule,
     AssessmentsModule,
     TagInputModule,
-    MatListModule
+    MatListModule,
+    TypeaheadModule.forRoot()
   ],
   exports: [
     NewClientComponent
