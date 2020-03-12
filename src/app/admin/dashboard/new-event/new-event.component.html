@@ -136,8 +136,8 @@
 
       <div class="modal-footer">
         <button type="button" mat-raised-button (click)="close(newEvent)">Close</button>
-        <button type="submit" mat-raised-button color="primary"
-          [disabled]="!newEvent.valid || fromTime.value === '00:00' || toTime.value === '00:00'">Add Event</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid || fromTime.value === '00:00' || fromTime.value === '24:00' || toTime.value ===
+          '00:00' || toTime.value === '24:00'">Add Event</button>
       </div>
     </div>
   </form>

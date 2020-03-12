@@ -9,9 +9,6 @@ import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { FormsModule } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material';
-import localeZA from '@angular/common/locales/en-ZA';
-
-registerLocaleData(localeZA, 'en-ZA');
 
 @NgModule({
   declarations: [DashboardComponent, ClientBottomSheetComponent, EditEventComponent, NewEventComponent],
@@ -23,7 +20,7 @@ registerLocaleData(localeZA, 'en-ZA');
     FullCalendarModule,
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   entryComponents: [NewEventComponent, ClientBottomSheetComponent, EditEventComponent]
 })

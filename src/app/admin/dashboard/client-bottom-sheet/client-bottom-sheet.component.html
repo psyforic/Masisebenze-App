@@ -51,7 +51,8 @@
                 <div class="col-sm-6">
                     <mat-form-field>
                         <mat-label>Id Number</mat-label>
-                        <input type="text" matInput placeholder="Enter Id Number" formControlName="idNumber" required maxlength="13">
+                        <input type="text" matInput placeholder="Enter Id Number" formControlName="idNumber" required
+                            maxlength="13">
                         <mat-error *ngIf="clientForm.get('idNumber').touched
                   && clientForm.get('idNumber').hasError('required')">
                             Id No. is Required
@@ -73,14 +74,16 @@
             <div class="row">
                 <div class="col-sm-6">
                     <mat-form-field>
-                        <input matInput formControlName="courtDate" [matDatepicker]="picker" placeholder="Court Date" readonly>
+                        <input matInput formControlName="courtDate" [matDatepicker]="picker" placeholder="Court Date"
+                            readonly>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
                     <mat-form-field>
-                        <input matInput [matDatepicker]="datePicker" placeholder="Date Of Assessment" required formControlName="assessmentDate" [value]="date" readonly>
+                        <input matInput [matDatepicker]="datePicker" placeholder="Date Of Assessment" required
+                            formControlName="assessmentDate" [value]="date" readonly>
                         <mat-datepicker-toggle matSuffix [for]="datePicker" [disabled]="true"></mat-datepicker-toggle>
                         <mat-datepicker #datePicker></mat-datepicker>
                     </mat-form-field>
@@ -91,7 +94,8 @@
                 <div class="col-lg-6">
                     <mat-form-field>
                         <mat-label>From</mat-label>
-                        <input #fromTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue" [value]="'00:00 am'" readonly>
+                        <input #fromTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue"
+                            [value]="'00:00 am'" readonly>
                         <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event)">
                         </ngx-material-timepicker>
                     </mat-form-field>
@@ -100,7 +104,8 @@
                 <div class="col-lg-6">
                     <mat-form-field>
                         <mat-label>To</mat-label>
-                        <input #toTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value" [value]="'00:00 am'" readonly>
+                        <input #toTime matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value"
+                            [value]="'00:00 am'" readonly>
                         <ngx-material-timepicker #Value (timeSet)="setEndTime($event)">
                         </ngx-material-timepicker>
                     </mat-form-field>
@@ -109,7 +114,9 @@
         </div>
         <div class="card-footer pull-right">
             <button type="button" mat-raised-button (click)="close()">Close</button>
-            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid || fromTime.value === '00:00' || toTime.value === '00:00'">Add</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid || 
+            fromTime.value === '00:00' || fromTime.value === '24:00' ||
+             toTime.value === '00:00' || toTime.value === '24:00'">Add</button>
         </div>
     </form>
 </div>

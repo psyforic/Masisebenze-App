@@ -53,8 +53,8 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
     this.isLoading = true;
     this.bookingService.getDetail(id)
       .pipe(finalize(() => {
-        this.toTime = moment(this.booking.endTime).format('h:mm a');
-        this.fromTime = moment(this.booking.startTime).format('h:mm a');
+        this.toTime = moment(this.booking.endTime).format('H:mm a');
+        this.fromTime = moment(this.booking.startTime).format('H:mm a');
         this.getEvents();
         this.isLoading = false;
       }))
@@ -64,7 +64,8 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
         this.lawFirmName = result.lawFirm.companyName;
         this.attorneyName = result.attorney.firstName + ' ' + result.attorney.lastName;
         this.contactName = result.contact.firstName + ' ' + result.contact.lastName;
-        this.startTime = moment(result.startTime).format('h:mm');
+        this.startTime = moment(result.startTime).format('H:mm');
+        console.log(this.startTime);
         this.endTime = moment(result.endTime).format('h:mm');
       });
 

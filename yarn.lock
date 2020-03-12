@@ -5175,10 +5175,10 @@ neo-async@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.1.tgz#acb909e327b1e87ec9ef15f41b8a269512ad41ee"
 
-ng2-material-dropdown@0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/ng2-material-dropdown/-/ng2-material-dropdown-0.11.0.tgz#27a402ef3cbdcaf6791ef4cfd4b257e31db7546f"
-  integrity sha512-wptBo09qKecY0QPTProAThrc4A3ajJTcHE9LTpCG5XZZUhXLBzhnGK8OW33TN8A+K/jqcs7OB74ppYJiqs3nhQ==
+ng2-material-dropdown@0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/ng2-material-dropdown/-/ng2-material-dropdown-0.10.1.tgz#0120ce1bbabfb065c62610fe3b572cd09f61b1e1"
+  integrity sha512-dOmk4+T6Rbtk60Un7sxOOFU546z5JEYupSL+RiG0/rN4DmJvxPp297AvA2Qm9LSMNszUZMi55cRzj79zQYu85g==
   dependencies:
     tslib "^1.9.0"
 
@@ -5186,12 +5186,12 @@ ngx-bootstrap@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.0.0.tgz#563368404dd71962e2ef8eee21794c6aeaab4490"
 
-ngx-chips@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/ngx-chips/-/ngx-chips-2.1.0.tgz#aa299bcf40dc3e1f6288bf1d29e2fdfe9a132ed3"
-  integrity sha512-OQV4dTfD3nXm5d2mGKUSgwOtJOaMnZ4F+lwXOtd7DWRSUne0JQWwoZNHdOpuS6saBGhqCPDAwq6KxdR5XSgZUQ==
+ngx-chips@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/ngx-chips/-/ngx-chips-2.0.2.tgz#bf1342d8d6a741d86e506f7ab51b0d49e9191416"
+  integrity sha512-r3XwfE9VCzdbXso1qWeR5AhWlluljOwef4MdpIIJ9wFVcTAHCAU11wO+K6dUVw7mNWeGOhLCMEmi2+tNrKOCpg==
   dependencies:
-    ng2-material-dropdown "0.11.0"
+    ng2-material-dropdown "0.10.1"
     tslib "^1.9.0"
 
 ngx-image-cropper@^1.4.1:
@@ -5214,12 +5214,12 @@ ngx-pagination@^3.0.3:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-3.1.1.tgz#fcde5cb5fd4a1bd6aa785ff062a55f3deefcd3ac"
 
-ngx-perfect-scrollbar@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/ngx-perfect-scrollbar/-/ngx-perfect-scrollbar-9.0.0.tgz#361c75010d2a560dd8aaadb799bdf04db5a1824b"
-  integrity sha512-jiFrOLONf/w2PjSKkEjQeTnMdlMVcQgjzIrYcsor1HWTmE+95J2sZAd/WF4zoutbpIqfU8VQQoAp8HOa7U1c/g==
+ngx-perfect-scrollbar@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/ngx-perfect-scrollbar/-/ngx-perfect-scrollbar-7.2.1.tgz#72cbbba6bc75b4836fa0300760d2d69ed41d241c"
+  integrity sha512-2Dyzx2M3ihGSlcTNwb+o8XGJr4ukkeCMz9J6A0cXyL7eX1Tez6BnRqTcpKe9JWkVEdRVd8+WT0uZ2O0tMiRF3A==
   dependencies:
-    perfect-scrollbar "1.5.0"
+    perfect-scrollbar "^1.4.0"
     resize-observer-polyfill "^1.5.0"
 
 ngx-quill@^7.3.1:
@@ -5840,7 +5840,7 @@ perfect-scrollbar@1.1.0:
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.1.0.tgz#8b213f51308f6b0131c07d67d0d01390a2b51a7f"
   integrity sha512-nd3qD1foPdQRDS6iUmlh8hfVQJGFit9eCc6HT8vQayCh8Xx2GH6tXflFyQnI+onDzJkmucSJBFNrGpG/0xzryQ==
 
-perfect-scrollbar@1.5.0:
+perfect-scrollbar@^1.4.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.0.tgz#821d224ed8ff61990c23f26db63048cdc75b6b83"
   integrity sha512-NrNHJn5mUGupSiheBTy6x+6SXCFbLlm8fVZh9moIzw/LgqElN5q4ncR4pbCBCYuCJ8Kcl9mYM0NgDxvW+b4LxA==

@@ -207,8 +207,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" mat-raised-button (click)="modal.close()">Close</button>
-            <button type="submit" mat-raised-button color="primary"
-                [disabled]="!clientForm.valid || fromTime.value === '00:00' || toTime.value === '00:00' || isSaving">Save</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid || fromTime.value === '00:00' || fromTime.value === '24:00' || toTime.value
+                === '00:00' || toTime.value === '24:00' || isSaving">Save</button>
         </div>
     </form>
 </ng-template>
