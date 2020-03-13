@@ -64,8 +64,8 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
         this.lawFirmName = result.lawFirm.companyName;
         this.attorneyName = result.attorney.firstName + ' ' + result.attorney.lastName;
         this.contactName = result.contact.firstName + ' ' + result.contact.lastName;
-        this.startTime = moment(result.startTime).format('h:mm');
-        this.endTime = moment(result.endTime).format('h:mm');
+        this.startTime = moment(result.startTime).format('H:mm');
+        this.endTime = moment(result.endTime).format('H:mm');
       });
 
     this.date = date;

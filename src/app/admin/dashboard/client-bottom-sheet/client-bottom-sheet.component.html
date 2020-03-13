@@ -109,7 +109,8 @@
         </div>
         <div class="card-footer pull-right">
             <button type="button" mat-raised-button (click)="close()">Close</button>
-            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid || fromTime.value === '00:00' || toTime.value === '00:00'">Add</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!clientForm.valid || fromTime.value === '00:00' || fromTime.value === '24:00'
+             || toTime.value === '00:00' || toTime.value === '24:00'">Add</button>
         </div>
     </form>
 </div>
