@@ -1,3 +1,5 @@
+import { CognitiveAssessmentsModule } from './assessments/cognitive-assessments/cognitive-assessments.module';
+import { CognitiveAssessmentsComponent } from './assessments/cognitive-assessments/cognitive-assessments.component';
 import { WorkInformationComponent } from './work-information/work-information.component';
 import { QuestionnaireCommentComponent } from './assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 
@@ -51,6 +53,7 @@ TagInputModule.withDefaults({
     WebcamModule,
     ImageCropperModule,
     AssessmentsModule,
+    CognitiveAssessmentsModule,
     TagInputModule,
     MatListModule,
     TypeaheadModule.forRoot()

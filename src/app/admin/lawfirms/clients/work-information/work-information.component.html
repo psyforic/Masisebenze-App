@@ -43,7 +43,7 @@
             <div class="row">
               <div class="col-md-6">
                   <mat-form-field>
-                    <input matInput type="text" placeholder="Job Title" [formControl]="jobTitle"/>
+                    <input matInput type="text" placeholder="Job Title" [formControl]="jobSearch"/>
                     <button matSuffix (click)="search()" color="primary" mat-stroked-button>
                       <mat-icon >search</mat-icon>
                     </button>
@@ -63,10 +63,10 @@
                 </mat-form-field>  -->
                 <mat-form-field>
                   <input type="text"
-                         placeholder="Pick one"
-                         aria-label="Number"
+                         placeholder="Select Job Title"
+                         aria-label="JobTitle"
                          matInput
-                         [formControl]="myControl"
+                         [formControl]="jobTitle"
                          [matAutocomplete]="auto">
                   <mat-autocomplete #auto="matAutocomplete">
                     <mat-option
@@ -78,13 +78,13 @@
                   </mat-autocomplete>
                 </mat-form-field>
             </div>
-              <div class="col-md-12">
+              <!-- <div class="col-md-12">
                 <tag-input (onRemove)="onAgesRemove($event)" (onAdd)="onAgesAdd($event)" [ngModel]="defaultAge"
                   [secondaryPlaceholder]="'Add job description'" [onlyFromAutocomplete]="true" [maxItems]="57">
                   <tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="ageList">
                   </tag-input-dropdown>
                 </tag-input>
-              </div>
+              </div> -->
             </div>
             <div class="row">
                 <div class="col-md-12">

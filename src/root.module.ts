@@ -1,3 +1,5 @@
+import { SensationComponent } from './app/admin/lawfirms/clients/assessments/sensation/sensation.component';
+import { PostureServiceProxy, GripStrengthServiceProxy, BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy } from './shared/service-proxies/service-proxies';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Injector, APP_INITIALIZER, LOCALE_ID } from '@angular/core';
@@ -144,7 +146,8 @@ export function getCurrentLanguage(): string {
         AssessmentServiceProxy, RangeOfMotionServiceProxy, WalkingProtocolServiceProxy,
         BalanceProtocolServiceProxy, StairClimbingProtocolServiceProxy, LadderWorkProtocolServiceProxy,
         RepetitiveSquattingProtocolServiceProxy, RepetitiveFootMotionProtocolServiceProxy,
-        CrawlingProtocolServiceProxy, ReportServiceProxy
+        CrawlingProtocolServiceProxy, ReportServiceProxy, PostureServiceProxy, GripStrengthServiceProxy,
+        BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy
     ],
     bootstrap: [RootComponent]
 })

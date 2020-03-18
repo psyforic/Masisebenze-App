@@ -1,3 +1,4 @@
+import { MusclePowerServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -8,7 +9,8 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-muscle-power',
   templateUrl: './muscle-power.component.html',
-  styleUrls: ['./muscle-power.component.scss']
+  styleUrls: ['./muscle-power.component.scss'],
+  providers: [MusclePowerServiceProxy]
 })
 export class MusclePowerComponent extends AppComponentBase implements OnInit {
 
@@ -25,6 +27,7 @@ export class MusclePowerComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _musclePowerService: MusclePowerServiceProxy,
     private _generalService: AssessmentService) {
     super(injector);
   }
@@ -41,19 +44,19 @@ export class MusclePowerComponent extends AppComponentBase implements OnInit {
   }
   getMusclePower() {
     this.isLoading = true;
-    this._assessmentService.getMusclePowerOption(this.clientId, 0)
+    this._musclePowerService.getMusclePowerOption(this.clientId, 0)
       .subscribe((result) => {
         this.rightArm = result;
       });
-    this._assessmentService.getMusclePowerOption(this.clientId, 1)
+    this._musclePowerService.getMusclePowerOption(this.clientId, 1)
       .subscribe((result) => {
         this.leftArm = result;
       });
-    this._assessmentService.getMusclePowerOption(this.clientId, 2)
+    this._musclePowerService.getMusclePowerOption(this.clientId, 2)
       .subscribe((result) => {
         this.rightLeg = result;
       });
-    this._assessmentService.getMusclePowerOption(this.clientId, 3)
+    this._musclePowerService.getMusclePowerOption(this.clientId, 3)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))

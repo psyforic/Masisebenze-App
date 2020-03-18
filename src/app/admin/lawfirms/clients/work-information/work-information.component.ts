@@ -39,8 +39,8 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   responses: SummaryReponseDto[] = [];
   occupations: OccupationDto[] = [];
   maxDataValues: MaxDataValue[] = [];
+  jobSearch: FormControl = new FormControl();
   jobTitle: FormControl = new FormControl();
-  occupation: FormControl = new FormControl();
   myControl = new FormControl();
   filteredOptions: Observable<OccupationDto[]>;
   isLoading = false;
@@ -57,7 +57,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
 
   ngOnInit() {
     this.getClient();
-    this.filteredOptions = this.myControl.valueChanges
+    this.filteredOptions = this.jobTitle.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
@@ -130,7 +130,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       });
   }
   search() {
-    this.getOccupations(this.jobTitle.value, 1, 1000);
+    this.getOccupations(this.jobSearch.value, 1, 1000);
     // this.getElementNames(this.jobTitle.value);
   }
   getWorkContextSummary(onetSocCode) {

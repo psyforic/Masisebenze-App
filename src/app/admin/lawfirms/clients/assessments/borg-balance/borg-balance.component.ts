@@ -1,3 +1,4 @@
+import { BorgBalanceServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,8 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-borg-balance',
   templateUrl: './borg-balance.component.html',
-  styleUrls: ['./borg-balance.component.scss']
+  styleUrls: ['./borg-balance.component.scss'],
+  providers: [BorgBalanceServiceProxy]
 })
 export class BorgBalanceComponent extends AppComponentBase implements OnInit {
 
@@ -25,6 +27,7 @@ export class BorgBalanceComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _borgBalanceService: BorgBalanceServiceProxy,
     private assessService: AssessmentService) {
     super(injector);
   }
@@ -52,12 +55,13 @@ export class BorgBalanceComponent extends AppComponentBase implements OnInit {
   }
   getOptions() {
     this.isLoading = true;
-    this._assessmentService.getBorgBalance(this.clientId)
+    this._borgBalanceService.getBorgBalance(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
       .subscribe((result) => {
         this.options = result.items;
+        console.log(this.options);
       });
   }
   decodeResult(index: number, result: number) {

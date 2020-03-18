@@ -1,3 +1,4 @@
+import { GripStrengthServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewChild, ElementRef, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +13,7 @@ import { finalize } from 'rxjs/operators';
   selector: 'app-grip-strength',
   templateUrl: './grip-strength.component.html',
   styleUrls: ['./grip-strength.component.scss'],
-  providers: [CalculationsServiceProxy]
+  providers: [CalculationsServiceProxy, GripStrengthServiceProxy]
 })
 export class GripStrengthComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
@@ -31,6 +32,7 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _gripStrengthService: GripStrengthServiceProxy,
     private _calculationService: CalculationsServiceProxy) {
     super(injector);
   }
@@ -59,11 +61,11 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
   }
   getGripStrength() {
     this.isLoading = true;
-    this._assessmentService.getGripStrength(this.clientId, 0)
+    this._gripStrengthService.getGripStrength(this.clientId, 0)
       .subscribe(result => {
         this.gripStrengthLeft = result;
       });
-    this._assessmentService.getGripStrength(this.clientId, 1)
+    this._gripStrengthService.getGripStrength(this.clientId, 1)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))

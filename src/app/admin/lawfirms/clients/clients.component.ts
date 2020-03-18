@@ -1,3 +1,4 @@
+import { SensationServiceProxy, PostureServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import {
@@ -39,7 +40,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy,
-    MobilityServiceProxy, AffectServiceProxy]
+    MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -90,6 +91,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private _generalService: GeneralService,
     private _affectService: AffectServiceProxy,
     private _mobilityService: MobilityServiceProxy,
+    private _sensationService: SensationServiceProxy,
+    private _posrureService: PostureServiceProxy,
     private _assessmentService: AssessmentServiceProxy) {
     super(injector);
     this.searchClients();
@@ -380,7 +383,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async  getSensation(clientId: string) {
-    this._assessmentService.getSensation(clientId)
+    this._sensationService.getSensation(clientId)
       .pipe(finalize(() => {
       }))
       .subscribe(

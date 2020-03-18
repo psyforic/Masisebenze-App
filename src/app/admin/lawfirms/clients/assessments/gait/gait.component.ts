@@ -1,3 +1,4 @@
+import { GaitServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,8 @@ import { AssessmentService } from '@app/admin/services/assessment.service';
 @Component({
   selector: 'app-gait',
   templateUrl: './gait.component.html',
-  styleUrls: ['./gait.component.scss']
+  styleUrls: ['./gait.component.scss'],
+  providers: [GaitServiceProxy]
 })
 export class GaitComponent extends AppComponentBase implements OnInit {
 
@@ -22,6 +24,7 @@ export class GaitComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _gaitService: GaitServiceProxy,
     private _generalService: AssessmentService) {
     super(injector);
   }
@@ -38,7 +41,7 @@ export class GaitComponent extends AppComponentBase implements OnInit {
   }
   getGait() {
     this.isLoading = true;
-    this._assessmentService.getGait(this.clientId)
+    this._gaitService.getGait(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))

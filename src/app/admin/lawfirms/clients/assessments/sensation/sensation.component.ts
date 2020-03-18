@@ -1,4 +1,4 @@
-import { CreateSensationInput } from './../../../../../../shared/service-proxies/service-proxies';
+import { CreateSensationInput, SessionServiceProxy, SensationServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input, Pipe } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -9,7 +9,8 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-sensation',
   templateUrl: './sensation.component.html',
-  styleUrls: ['./sensation.component.scss']
+  styleUrls: ['./sensation.component.scss'],
+  providers: [SensationServiceProxy]
 })
 export class SensationComponent extends AppComponentBase implements OnInit {
 
@@ -41,6 +42,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _sensationService: SensationServiceProxy,
     private _generalService: AssessmentService) {
     super(injector);
   }
@@ -49,7 +51,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
   }
   open() {
     this.isLoading = true;
-    this._assessmentService.getSensation(this.clientId)
+    this._sensationService.getSensation(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
@@ -66,7 +68,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
   }
   getUpperExtremity() {
     this.isLoading = true;
-    this._assessmentService.getUpperExtremity(this.clientId, 0)
+    this._sensationService.getUpperExtremity(this.clientId, 0)
       .pipe(finalize(() => {
 
       }))
@@ -74,7 +76,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
         this.upperLeftSide = result.items;
       });
 
-    this._assessmentService.getUpperExtremity(this.clientId, 1)
+    this._sensationService.getUpperExtremity(this.clientId, 1)
       .pipe(finalize(() => {
 
       }))
@@ -83,7 +85,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
       });
   }
   getTrunkExtremity() {
-    this._assessmentService.getTrunkExtremity(this.clientId, 0)
+    this._sensationService.getTrunkExtremity(this.clientId, 0)
       .pipe(finalize(() => {
 
       }))
@@ -91,7 +93,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
         this.trunkLeftSide = result.items;
       });
 
-    this._assessmentService.getTrunkExtremity(this.clientId, 1)
+    this._sensationService.getTrunkExtremity(this.clientId, 1)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
@@ -104,7 +106,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
     this.isLoading = true;
     this.sensation.clientId = this.clientId;
     this.sensation.otComment = this.comment;
-    this._assessmentService.updateSensation(this.sensation)
+    this._sensationService.updateSensation(this.sensation)
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(() => {
@@ -114,7 +116,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
   }
 
   getLowerExtremity() {
-    this._assessmentService.getLowerExtremity(this.clientId, 0)
+    this._sensationService.getLowerExtremity(this.clientId, 0)
       .pipe(finalize(() => {
 
       }))
@@ -122,7 +124,7 @@ export class SensationComponent extends AppComponentBase implements OnInit {
         this.lowerLeftSide = result.items;
       });
 
-    this._assessmentService.getLowerExtremity(this.clientId, 1)
+    this._sensationService.getLowerExtremity(this.clientId, 1)
       .pipe(finalize(() => {
 
       }))

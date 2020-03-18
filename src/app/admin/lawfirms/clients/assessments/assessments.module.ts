@@ -1,3 +1,4 @@
+import { CognitiveAssessmentsModule } from './cognitive-assessments/cognitive-assessments.module';
 import { QuestionnaireResolverService } from './../../../resolvers/questionnaire-resolver.service';
 import { QuestionnaireComponent } from './functional-assessment/questionnaire/questionnaire.component';
 import { NgModule } from '@angular/core';
@@ -27,7 +28,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   imports: [
     CommonModule,
     PartialsModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    CognitiveAssessmentsModule
   ],
   declarations: [
     AssessmentsComponent,

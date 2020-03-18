@@ -1,3 +1,6 @@
+import { GripStrengthServiceProxy, MusclePowerServiceProxy, BorgBalanceServiceProxy,
+   SensationServiceProxy, CoordinationServiceProxy, PostureServiceProxy,
+    GaitServiceProxy } from './../../../shared/service-proxies/service-proxies';
 import { Injectable } from '@angular/core';
 import {
   AssessmentServiceProxy,
@@ -15,7 +18,7 @@ import {
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AssessmentService {
 
@@ -24,16 +27,23 @@ export class AssessmentService {
     private _walkingProtocolService: WalkingProtocolServiceProxy,
     private _balanceProtocolService: BalanceProtocolServiceProxy,
     private _stairClimbingProtocolService: StairClimbingProtocolServiceProxy,
+    private _postureService: PostureServiceProxy,
     private _ladderWorkProtocolService: LadderWorkProtocolServiceProxy,
+    private _gripStrengthService: GripStrengthServiceProxy,
+    private _sensationService: SensationServiceProxy,
+    private _borgBalanceService: BorgBalanceServiceProxy,
+    private _musclePowerService: MusclePowerServiceProxy,
+    private _coordinationService: CoordinationServiceProxy,
+    private _gaitService: GaitServiceProxy,
     private _repetitiveSquattingProtocolService: RepetitiveSquattingProtocolServiceProxy,
     private _repetitiveFootMotionProtocolService: RepetitiveFootMotionProtocolServiceProxy,
     private _crawlingProtocolService: CrawlingProtocolServiceProxy) { }
 
   getGripStrength(clientId: string, side: number): Observable<GripStrengthDetailOutput> {
-    return this._assessmentService.getGripStrength(clientId, side);
+    return this._gripStrengthService.getGripStrength(clientId, side);
   }
   getMusclePower(clientId: string, type: number) {
-    this._assessmentService
+    this._musclePowerService
       .getMusclePowerOption(clientId, type)
       .subscribe((result) => {
         return result;
@@ -84,44 +94,44 @@ export class AssessmentService {
       });
   }
   getBorgBalance(clientId: string) {
-    this._assessmentService.getBorgBalance(clientId)
+    this._borgBalanceService.getBorgBalance(clientId)
       .subscribe(result => {
         return result.items;
       });
   }
 
   getSensationUpper(clientId: string, side: number) {
-    this._assessmentService.getUpperExtremity(clientId, side)
+    this._sensationService.getUpperExtremity(clientId, side)
       .subscribe(result => {
         return result.items;
       });
   }
   getSensationTrunk(clientId: string, side: number) {
-    this._assessmentService.getTrunkExtremity(clientId, side)
+    this._sensationService.getTrunkExtremity(clientId, side)
       .subscribe(result => {
         return result.items;
       });
   }
   getSensationLower(clientId: string, side: number) {
-    this._assessmentService.getLowerExtremity(clientId, side)
+    this._sensationService.getLowerExtremity(clientId, side)
       .subscribe(result => {
         return result.items;
       });
   }
   getCoordination(clientId: string) {
-    this._assessmentService.getCoordination(clientId)
+    this._coordinationService.getCoordination(clientId, 0)
       .subscribe(result => {
         return result.items;
       });
   }
   getPosture(clientId: string) {
-    this._assessmentService.getPosture(clientId)
+    this._postureService.getPosture(clientId)
       .subscribe(result => {
         return result.items;
       });
   }
   getGait(clientId: string) {
-    this._assessmentService.getGait(clientId)
+    this._gaitService.getGait(clientId)
       .subscribe(result => {
         return result;
       });

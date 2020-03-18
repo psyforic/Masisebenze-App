@@ -1,10 +1,20 @@
-import { QuestionnaireCommentComponent } from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
+import { VisuoSpatialAbilityComponent } from './../assessments/cognitive-assessments/visuo-spatial-ability/visuo-spatial-ability.component';
+import { VerbalFluencyComponent } from './../assessments/cognitive-assessments/verbal-fluency/verbal-fluency.component';
+import { RegistrationComponent } from './../assessments/cognitive-assessments/registration/registration.component';
+import { PerceptualAbilityComponent } from './../assessments/cognitive-assessments/perceptual-ability/perceptual-ability.component';
+import { MemoryComponent } from './../assessments/cognitive-assessments/memory/memory.component';
+import { LanguageComponent } from './../assessments/cognitive-assessments/language/language.component';
+import { AttentionAndConcentrationComponent }
+  from './../assessments/cognitive-assessments/attention-and-concentration/attention-and-concentration.component';
+import { QuestionnaireCommentComponent }
+  from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { QuestionnaireComponent } from './../assessments/functional-assessment/questionnaire/questionnaire.component';
 import { FunctionalAssessmentComponent } from './../assessments/functional-assessment/functional-assessment.component';
 import { DocumentFolder } from './../../../documents/document-types';
 import {
   DocumentListDto, Booking, FunctionalAssessmentServiceProxy,
-  QuestionnaireDto
+  QuestionnaireDto,
+  PostureServiceProxy
 } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild, HostListener } from '@angular/core';
@@ -85,6 +95,24 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('functional', { static: false }) addQestionnaire: FunctionalAssessmentComponent;
   @ViewChild('questionnaire', { static: false }) questionnaire: QuestionnaireComponent;
   @ViewChild('questionnaireComment', { static: false }) questionnaireComment: QuestionnaireCommentComponent;
+  // Cogntive Assessments components
+  @ViewChild('attentionAndConcentrationComponent', { static: false })
+  openAttentionAndConcentrationComponent: AttentionAndConcentrationComponent;
+  @ViewChild('languageComponent', { static: false })
+  openLanguageComponent: LanguageComponent;
+  @ViewChild('memoryComponent', { static: false })
+  openMemoryComponent: MemoryComponent;
+  @ViewChild('orientationComponent', { static: false })
+  openOrientationComponent: MemoryComponent;
+  @ViewChild('perceptualAbilityComponent', { static: false })
+  openPerceptualAbilityComponent: PerceptualAbilityComponent;
+  @ViewChild('registrationComponent', { static: false })
+  openRegistrationComponent: RegistrationComponent;
+  @ViewChild('verbalFulencyComponent', { static: false })
+  openVerbalFliuencyComponent: VerbalFluencyComponent;
+  @ViewChild('visuoSpatialAbilityComponent', { static: false })
+  openVisuoSpatialAbilityComponent: VisuoSpatialAbilityComponent;
+
   client: ClientDetailOutput = new ClientDetailOutput();
   documentTypes = DocumentFolder.documentTypes;
   documents: DocumentListDto[] = [];
@@ -126,7 +154,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
   questionnairesDto: QuestionnaireDto[] = [];
-  hidden = true;
+  hidden = false;
   bookings: Booking[] = [];
   questionnaires = [
     { type: 1, description: 'PATIENT HEALTH' },
@@ -507,6 +535,33 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   addQuestionnaire() {
     this.addQestionnaire.open();
+  }
+  /**
+   * Open Cognitive assessemnt modals
+  **/
+  getAttentionAndConcentration() {
+    this.openAttentionAndConcentrationComponent.open();
+  }
+  getLanguage() {
+    this.openLanguageComponent.open();
+  }
+  getMemory() {
+    this.openMemoryComponent.open();
+  }
+  getOrientation() {
+    this.openOrientationComponent.open();
+  }
+  getPerceptualAbility() {
+    this.openPerceptualAbilityComponent.open();
+  }
+  getRegistration() {
+    this.openRegistrationComponent.open();
+  }
+  getVerbalFluency() {
+    this.openVerbalFliuencyComponent.open();
+  }
+  getVisuoSpatialAbility() {
+    this.openVisuoSpatialAbilityComponent.open();
   }
   createQuestionnaire(type, description) {
     this.questionnaireType = type;

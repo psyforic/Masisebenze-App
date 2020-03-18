@@ -5,7 +5,8 @@ import {
   AssessmentServiceProxy,
   CoordinationOptionListDto,
   CalculationsServiceProxy,
-  AssessmentResult
+  AssessmentResult,
+  CoordinationServiceProxy
 } from '@shared/service-proxies/service-proxies';
 import { AssessmentService } from '@app/admin/services/assessment.service';
 import { finalize } from 'rxjs/operators';
@@ -14,7 +15,7 @@ import { finalize } from 'rxjs/operators';
   selector: 'app-coordination',
   templateUrl: './coordination.component.html',
   styleUrls: ['./coordination.component.scss'],
-  providers: [CalculationsServiceProxy]
+  providers: [CalculationsServiceProxy, CoordinationServiceProxy]
 })
 export class CoordinationComponent extends AppComponentBase implements OnInit {
 
@@ -23,6 +24,7 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   @Input() clientId: string;
   isLoading = false;
   current_step = 1;
+  position = 0;
   MAX_STEP = 4;
   types: number[] = [1, 0, 3, 2];
   result: AssessmentResult = new AssessmentResult();
@@ -32,6 +34,7 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _coordinationService: CoordinationServiceProxy,
     private generalService: AssessmentService,
     private calculationService: CalculationsServiceProxy) {
     super(injector);
@@ -49,7 +52,7 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   }
   getCoordination() {
     this.isLoading = true;
-    this._assessmentService.getCoordination(this.clientId)
+    this._coordinationService.getCoordination(this.clientId, this.position)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))

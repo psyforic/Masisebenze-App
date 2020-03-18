@@ -1,3 +1,4 @@
+import { PostureServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +9,8 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-posture',
   templateUrl: './posture.component.html',
-  styleUrls: ['./posture.component.scss']
+  styleUrls: ['./posture.component.scss'],
+  providers: [PostureServiceProxy]
 })
 export class PostureComponent extends AppComponentBase implements OnInit {
 
@@ -19,13 +21,13 @@ export class PostureComponent extends AppComponentBase implements OnInit {
   MAX_STEP = 13;
   isLoading = false;
 
-
   postureOptions: PostureOptionDto[] = [];
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _postureService: PostureServiceProxy,
     private _generalService: AssessmentService) {
     super(injector);
   }
@@ -42,7 +44,7 @@ export class PostureComponent extends AppComponentBase implements OnInit {
   }
   getPostureOptions() {
     this.isLoading = true;
-    this._assessmentService.getPosture(this.clientId)
+    this._postureService.getPosture(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
