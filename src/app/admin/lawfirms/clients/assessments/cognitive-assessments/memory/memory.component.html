@@ -39,7 +39,7 @@
         <br/>
         <div class="row">
           <div class="col-md-12">
-            <quill-editor [styles]="{height: '200px'}" [(ngModel)]="comment" [sanitize]="true"
+            <quill-editor [styles]="{height: '200px'}" [(ngModel)]="memory.comment" [sanitize]="true"
               name="homeEnvironment">
             </quill-editor>
           </div>
@@ -49,6 +49,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" mat-button color="primary" (click)="modal.close()">Close</button>
+    <button mat-flat-button color="primary" (click)="save()">Save</button>
   </div>
 </ng-template>
 

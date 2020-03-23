@@ -1,7 +1,8 @@
 import { AppComponentBase } from 'shared/app-component-base';
 import { Component, OnInit, Injector, ViewChild, ElementRef, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AssessmentServiceProxy, CognitiveServiceProxy, CalculationsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AssessmentServiceProxy, CognitiveServiceProxy, CalculationsServiceProxy,
+  CognitiveParentDto } from '@shared/service-proxies/service-proxies';
 import { AssessmentService } from '@app/admin/services/assessment.service';
 import { finalize } from 'rxjs/operators';
 
@@ -15,6 +16,7 @@ export class OrientationComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() clientId: string;
   @Input() fullName: string;
+  orientation: CognitiveParentDto = new CognitiveParentDto();
   isLoading = false;
   comment;
   totalOfTimeQuestions = 0;
@@ -40,19 +42,29 @@ export class OrientationComponent extends AppComponentBase implements OnInit {
     this.activeModal.close();
   }
   save() {
-
+    this.isLoading = true;
+    this._cognitiveService.updateCognitiveComment(this.orientation).
+    pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(() => {
+      this.notify.success('Saved successfully!');
+    });
   }
   getOrientation() {
+    this.isLoading = true;
+    this.totalOfPlaceQuestions = 0;
+    this.totalOfTimeQuestions = 0;
     this._cognitiveService.getOrientation(this.clientId).pipe(finalize(() => {
-
+      this.isLoading = false;
     })).subscribe(result => {
       if (result != null && result.options != null) {
+        this.orientation = result;
         if (result.options.items != null) {
           result.options.items.forEach((item) => {
             if (item.position < 6) {
-              this.totalOfTimeQuestions += item.score;
+              (item.score !== -1) ? this.totalOfTimeQuestions += item.score : this.totalOfTimeQuestions += 0;
             } else {
-              this.totalOfPlaceQuestions += item.score;
+              (item.score !== -1) ? this.totalOfPlaceQuestions += item.score : this.totalOfPlaceQuestions += 0;
             }
           });
         }

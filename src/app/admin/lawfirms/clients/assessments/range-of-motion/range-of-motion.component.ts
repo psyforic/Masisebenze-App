@@ -32,8 +32,8 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
   rightForearmWrist: ForearmWristDto = new ForearmWristDto();
   leftElbow: ElbowDto = new ElbowDto();
   rightElbow: ElbowDto = new ElbowDto();
-  leftHand: HandDto = new HandDto();
-  rightHand: HandDto = new HandDto();
+  leftHands: HandDto[] = [];
+  rightHands: HandDto[] = [];
   leftHip: HipDto = new HipDto();
   rightHip: HipDto = new HipDto();
   leftKnee: KneeDto = new KneeDto();
@@ -122,13 +122,13 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
       .pipe(finalize(() => {
 
       })).subscribe((result) => {
-        this.leftHand = result;
+        this.leftHands = result.items;
       });
     this._rangeOfMotionService.getHand(this.clientId, 1)
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe((result) => {
-        this.rightHand = result;
+        this.rightHands = result.items;
       });
   }
 

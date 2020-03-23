@@ -1,3 +1,5 @@
+import { finalize } from 'rxjs/operators';
+import { CognitiveParentDto } from './../../../../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { Component, OnInit, ViewChild, ElementRef, Input, Injector } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,6 +16,7 @@ export class MemoryComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() clientId: string;
   @Input() fullName: string;
+  memory: CognitiveParentDto = new CognitiveParentDto();
   isLoading = false;
   totalOfRecall = 0;
   totalOfAnterograde = 0;
@@ -36,21 +39,34 @@ export class MemoryComponent extends AppComponentBase implements OnInit {
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
+  save() {
+    this.isLoading = true;
+    this._cognitiveService.updateCognitiveComment(this.memory).
+    pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(() => {
+      this.notify.success('Saved successfully!');
+    });
+  }
   close() {
     this.activeModal.close();
   }
   getMemory() {
+    this.totalOfRecall = 0;
+    this.totalOfAnterograde = 0;
+    this.totalOfRetrograde = 0;
     this._cognitiveService.getMemory(this.clientId)
       .subscribe(result => {
         if (result != null && result.options != null) {
+          this.memory = result;
           if (result.options.items != null) {
             result.options.items.forEach((item) => {
               if (item.position >= 1 && item.position <= 3) {
-                this.totalOfRecall += item.score;
+                (item.score !== -1) ? this.totalOfRecall += item.score : this.totalOfRecall += 0;
               } else if (item.position > 3 && item.position <= 10) {
-                this.totalOfAnterograde += item.score;
+                (item.score !== -1) ? this.totalOfAnterograde += item.score : this.totalOfAnterograde += 0;
               } else if (item.position > 10 && item.position <= 13) {
-                this.totalOfRetrograde += item.score;
+                (item.score !== -1) ? this.totalOfRetrograde += item.score : this.totalOfRetrograde += 0;
               }
             });
           }

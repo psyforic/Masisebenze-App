@@ -1054,6 +1054,168 @@ export class AssessmentServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    createRangeOfMotion(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateRangeOfMotion?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateRangeOfMotion(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateRangeOfMotion(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateRangeOfMotion(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param assessments (optional) 
+     * @return Success
+     */
+    addAssessments(clientId: string | null | undefined, assessments: AssessmentsListListDto[] | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/AddAssessments?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(assessments);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddAssessments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddAssessments(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAddAssessments(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param categoryId (optional) 
+     * @return Success
+     */
+    getSelectedAssessments(clientId: string | null | undefined, categoryId: string | null | undefined): Observable<ListResultDtoOfAssessmentsListListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetSelectedAssessments?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (categoryId !== undefined)
+            url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSelectedAssessments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSelectedAssessments(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAssessmentsListListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAssessmentsListListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSelectedAssessments(response: HttpResponseBase): Observable<ListResultDtoOfAssessmentsListListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAssessmentsListListDto.fromJS(resultData200) : new ListResultDtoOfAssessmentsListListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAssessmentsListListDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -1848,7 +2010,7 @@ export class BilateralTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<BilateralTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfBilateralTestDto> {
         let url_ = this.baseUrl + "/api/services/app/BilateralTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -1869,14 +2031,14 @@ export class BilateralTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<BilateralTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfBilateralTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<BilateralTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfBilateralTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<BilateralTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfBilateralTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -1887,7 +2049,7 @@ export class BilateralTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? BilateralTestDetailOutput.fromJS(resultData200) : new BilateralTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfBilateralTestDto.fromJS(resultData200) : new ListResultDtoOfBilateralTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1895,7 +2057,7 @@ export class BilateralTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<BilateralTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfBilateralTestDto>(<any>null);
     }
 
     /**
@@ -1950,6 +2112,56 @@ export class BilateralTestServiceProxy {
             }));
         }
         return _observableOf<BilateralTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BilateralTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -7270,6 +7482,58 @@ export class CognitiveServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    updateCognitiveComment(input: CognitiveParentDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/updateCognitiveComment";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateCognitiveComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateCognitiveComment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateCognitiveComment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -8984,7 +9248,7 @@ export class CrouchingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<CrouchingTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfCrouchingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/CrouchingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -9005,14 +9269,14 @@ export class CrouchingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<CrouchingTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfCrouchingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<CrouchingTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfCrouchingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<CrouchingTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfCrouchingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -9023,7 +9287,7 @@ export class CrouchingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? CrouchingTestDetailOutput.fromJS(resultData200) : new CrouchingTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfCrouchingTestDto.fromJS(resultData200) : new ListResultDtoOfCrouchingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -9031,7 +9295,7 @@ export class CrouchingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<CrouchingTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfCrouchingTestDto>(<any>null);
     }
 
     /**
@@ -9086,6 +9350,56 @@ export class CrouchingTestServiceProxy {
             }));
         }
         return _observableOf<CrouchingTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CrouchingTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -10101,7 +10415,7 @@ export class ElevatedReachTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<ElevatedReachTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfElevatedReachTestDto> {
         let url_ = this.baseUrl + "/api/services/app/ElevatedReachTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -10122,14 +10436,14 @@ export class ElevatedReachTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<ElevatedReachTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfElevatedReachTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ElevatedReachTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfElevatedReachTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<ElevatedReachTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfElevatedReachTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -10140,7 +10454,7 @@ export class ElevatedReachTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ElevatedReachTestDetailOutput.fromJS(resultData200) : new ElevatedReachTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfElevatedReachTestDto.fromJS(resultData200) : new ListResultDtoOfElevatedReachTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -10148,7 +10462,7 @@ export class ElevatedReachTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ElevatedReachTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfElevatedReachTestDto>(<any>null);
     }
 
     /**
@@ -10203,6 +10517,56 @@ export class ElevatedReachTestServiceProxy {
             }));
         }
         return _observableOf<ElevatedReachTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ElevatedReachTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -12394,7 +12758,7 @@ export class KneelingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<KneelingTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfKneelingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/KneelingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -12415,14 +12779,14 @@ export class KneelingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<KneelingTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfKneelingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<KneelingTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfKneelingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<KneelingTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfKneelingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -12433,7 +12797,7 @@ export class KneelingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? KneelingTestDetailOutput.fromJS(resultData200) : new KneelingTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfKneelingTestDto.fromJS(resultData200) : new ListResultDtoOfKneelingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -12441,7 +12805,7 @@ export class KneelingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<KneelingTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfKneelingTestDto>(<any>null);
     }
 
     /**
@@ -12496,6 +12860,56 @@ export class KneelingTestServiceProxy {
             }));
         }
         return _observableOf<KneelingTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/KneelingTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -13723,6 +14137,56 @@ export class LiftingTestServiceProxy {
     }
 
     /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LiftingTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param liftingId (optional) 
      * @param input (optional) 
      * @return Success
@@ -13843,12 +14307,15 @@ export class LiftWaistTestServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @param type (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<LiftWaistTestDetailOutput> {
+    get(clientId: string | null | undefined, type: number | null | undefined): Observable<ListResultDtoOfLiftWaistTestDto> {
         let url_ = this.baseUrl + "/api/services/app/LiftWaistTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (type !== undefined)
+            url_ += "Type=" + encodeURIComponent("" + type) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -13866,14 +14333,14 @@ export class LiftWaistTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<LiftWaistTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfLiftWaistTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<LiftWaistTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfLiftWaistTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<LiftWaistTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfLiftWaistTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -13884,7 +14351,7 @@ export class LiftWaistTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? LiftWaistTestDetailOutput.fromJS(resultData200) : new LiftWaistTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfLiftWaistTestDto.fromJS(resultData200) : new ListResultDtoOfLiftWaistTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -13892,7 +14359,7 @@ export class LiftWaistTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<LiftWaistTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfLiftWaistTestDto>(<any>null);
     }
 
     /**
@@ -13947,6 +14414,56 @@ export class LiftWaistTestServiceProxy {
             }));
         }
         return _observableOf<LiftWaistTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LiftWaistTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -14072,7 +14589,7 @@ export class MidLevelReachTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<MidLevelReachTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfMidLevelReachTestDto> {
         let url_ = this.baseUrl + "/api/services/app/MidLevelReachTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -14093,14 +14610,14 @@ export class MidLevelReachTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<MidLevelReachTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfMidLevelReachTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<MidLevelReachTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfMidLevelReachTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<MidLevelReachTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfMidLevelReachTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -14111,7 +14628,7 @@ export class MidLevelReachTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? MidLevelReachTestDetailOutput.fromJS(resultData200) : new MidLevelReachTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfMidLevelReachTestDto.fromJS(resultData200) : new ListResultDtoOfMidLevelReachTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -14119,7 +14636,7 @@ export class MidLevelReachTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<MidLevelReachTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfMidLevelReachTestDto>(<any>null);
     }
 
     /**
@@ -14174,6 +14691,56 @@ export class MidLevelReachTestServiceProxy {
             }));
         }
         return _observableOf<MidLevelReachTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/MidLevelReachTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -14945,7 +15512,7 @@ export class PullingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<PullingTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfPullingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/PullingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -14966,14 +15533,14 @@ export class PullingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<PullingTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfPullingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PullingTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfPullingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<PullingTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfPullingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -14984,7 +15551,7 @@ export class PullingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PullingTestDetailOutput.fromJS(resultData200) : new PullingTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfPullingTestDto.fromJS(resultData200) : new ListResultDtoOfPullingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -14992,7 +15559,7 @@ export class PullingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PullingTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfPullingTestDto>(<any>null);
     }
 
     /**
@@ -15047,6 +15614,56 @@ export class PullingTestServiceProxy {
             }));
         }
         return _observableOf<PullingTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PullingTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -15172,7 +15789,7 @@ export class PushingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<PushingTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfPushingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/PushingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -15193,14 +15810,14 @@ export class PushingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<PushingTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfPushingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PushingTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfPushingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<PushingTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfPushingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -15211,7 +15828,7 @@ export class PushingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PushingTestDetailOutput.fromJS(resultData200) : new PushingTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfPushingTestDto.fromJS(resultData200) : new ListResultDtoOfPushingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -15219,7 +15836,7 @@ export class PushingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PushingTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfPushingTestDto>(<any>null);
     }
 
     /**
@@ -15274,6 +15891,56 @@ export class PushingTestServiceProxy {
             }));
         }
         return _observableOf<PushingTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/PushingTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -15796,7 +16463,7 @@ export class RangeOfMotionServiceProxy {
      * @param side (optional) 
      * @return Success
      */
-    getHand(clientId: string | null | undefined, side: number | null | undefined): Observable<HandDto> {
+    getHand(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfHandDto> {
         let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetHand?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -15819,14 +16486,14 @@ export class RangeOfMotionServiceProxy {
                 try {
                     return this.processGetHand(<any>response_);
                 } catch (e) {
-                    return <Observable<HandDto>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfHandDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<HandDto>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfHandDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetHand(response: HttpResponseBase): Observable<HandDto> {
+    protected processGetHand(response: HttpResponseBase): Observable<ListResultDtoOfHandDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -15837,7 +16504,7 @@ export class RangeOfMotionServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? HandDto.fromJS(resultData200) : new HandDto();
+            result200 = resultData200 ? ListResultDtoOfHandDto.fromJS(resultData200) : new ListResultDtoOfHandDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -15845,7 +16512,7 @@ export class RangeOfMotionServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<HandDto>(<any>null);
+        return _observableOf<ListResultDtoOfHandDto>(<any>null);
     }
 
     /**
@@ -16231,6 +16898,66 @@ export class RangeOfMotionServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @param position (optional) 
+     * @return Success
+     */
+    getByFinger(clientId: string | null | undefined, side: number | null | undefined, position: number | null | undefined): Observable<HandDto> {
+        let url_ = this.baseUrl + "/api/services/app/RangeOfMotion/GetByFinger?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "side=" + encodeURIComponent("" + side) + "&"; 
+        if (position !== undefined)
+            url_ += "position=" + encodeURIComponent("" + position) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByFinger(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByFinger(<any>response_);
+                } catch (e) {
+                    return <Observable<HandDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<HandDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByFinger(response: HttpResponseBase): Observable<HandDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? HandDto.fromJS(resultData200) : new HandDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<HandDto>(<any>null);
     }
 }
 
@@ -19072,7 +19799,7 @@ export class SittingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<SittingTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfSittingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/SittingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -19093,14 +19820,14 @@ export class SittingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<SittingTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfSittingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<SittingTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfSittingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<SittingTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfSittingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -19111,7 +19838,7 @@ export class SittingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? SittingTestDetailOutput.fromJS(resultData200) : new SittingTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfSittingTestDto.fromJS(resultData200) : new ListResultDtoOfSittingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -19119,7 +19846,7 @@ export class SittingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<SittingTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfSittingTestDto>(<any>null);
     }
 
     /**
@@ -19174,6 +19901,56 @@ export class SittingTestServiceProxy {
             }));
         }
         return _observableOf<SittingTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/SittingTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -19526,7 +20303,7 @@ export class StandingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<StandingTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfStandingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/StandingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -19547,14 +20324,14 @@ export class StandingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<StandingTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfStandingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<StandingTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfStandingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<StandingTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfStandingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -19565,7 +20342,7 @@ export class StandingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? StandingTestDetailOutput.fromJS(resultData200) : new StandingTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfStandingTestDto.fromJS(resultData200) : new ListResultDtoOfStandingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -19573,7 +20350,7 @@ export class StandingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<StandingTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfStandingTestDto>(<any>null);
     }
 
     /**
@@ -19628,6 +20405,56 @@ export class StandingTestServiceProxy {
             }));
         }
         return _observableOf<StandingTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/StandingTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -20456,7 +21283,7 @@ export class UnilateralTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<UnilateralTestDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfUnilateralTestDto> {
         let url_ = this.baseUrl + "/api/services/app/UnilateralTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -20477,14 +21304,14 @@ export class UnilateralTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<UnilateralTestDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfUnilateralTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<UnilateralTestDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfUnilateralTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<UnilateralTestDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfUnilateralTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -20495,7 +21322,7 @@ export class UnilateralTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? UnilateralTestDetailOutput.fromJS(resultData200) : new UnilateralTestDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfUnilateralTestDto.fromJS(resultData200) : new ListResultDtoOfUnilateralTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -20503,7 +21330,7 @@ export class UnilateralTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<UnilateralTestDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfUnilateralTestDto>(<any>null);
     }
 
     /**
@@ -20558,6 +21385,56 @@ export class UnilateralTestServiceProxy {
             }));
         }
         return _observableOf<UnilateralTestDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    stopTest(id: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/UnilateralTest/StopTest?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processStopTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processStopTest(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processStopTest(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 
     /**
@@ -22649,6 +23526,116 @@ export interface IListResultDtoOfAffectDto {
     items: AffectDto[] | undefined;
 }
 
+export class AssessmentsListListDto implements IAssessmentsListListDto {
+    assessmentName: string | undefined;
+    assessmentCategoryId: string | undefined;
+    position: number | undefined;
+    identifier: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessmentsListListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentName = data["assessmentName"];
+            this.assessmentCategoryId = data["assessmentCategoryId"];
+            this.position = data["position"];
+            this.identifier = data["identifier"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentsListListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentsListListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentName"] = this.assessmentName;
+        data["assessmentCategoryId"] = this.assessmentCategoryId;
+        data["position"] = this.position;
+        data["identifier"] = this.identifier;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AssessmentsListListDto {
+        const json = this.toJSON();
+        let result = new AssessmentsListListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentsListListDto {
+    assessmentName: string | undefined;
+    assessmentCategoryId: string | undefined;
+    position: number | undefined;
+    identifier: number | undefined;
+    id: string | undefined;
+}
+
+export class ListResultDtoOfAssessmentsListListDto implements IListResultDtoOfAssessmentsListListDto {
+    items: AssessmentsListListDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfAssessmentsListListDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AssessmentsListListDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfAssessmentsListListDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfAssessmentsListListDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfAssessmentsListListDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfAssessmentsListListDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfAssessmentsListListDto {
+    items: AssessmentsListListDto[] | undefined;
+}
+
 export class CreateAttorneyInput implements ICreateAttorneyInput {
     lawFirmId: string | undefined;
     firstName: string | undefined;
@@ -24088,6 +25075,7 @@ export class BilateralTestCreateInput implements IBilateralTestCreateInput {
     distance: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
 
     constructor(data?: IBilateralTestCreateInput) {
         if (data) {
@@ -24109,6 +25097,7 @@ export class BilateralTestCreateInput implements IBilateralTestCreateInput {
             this.distance = data["distance"];
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
+            this.painLevel = data["painLevel"];
         }
     }
 
@@ -24130,6 +25119,7 @@ export class BilateralTestCreateInput implements IBilateralTestCreateInput {
         data["distance"] = this.distance;
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
+        data["painLevel"] = this.painLevel;
         return data; 
     }
 
@@ -24151,32 +25141,13 @@ export interface IBilateralTestCreateInput {
     distance: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
 }
 
-export class BilateralTestDetailOutput implements IBilateralTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    platform: string | undefined;
-    noOfRepetitions: number | undefined;
-    weight: number | undefined;
-    distance: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    bilateralId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfBilateralTestDto implements IListResultDtoOfBilateralTestDto {
+    items: BilateralTestDto[] | undefined;
 
-    constructor(data?: IBilateralTestDetailOutput) {
+    constructor(data?: IListResultDtoOfBilateralTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -24187,350 +25158,41 @@ export class BilateralTestDetailOutput implements IBilateralTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.timeTaken = data["timeTaken"];
-            this.platform = data["platform"];
-            this.noOfRepetitions = data["noOfRepetitions"];
-            this.weight = data["weight"];
-            this.distance = data["distance"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.isStopped = data["isStopped"];
-            this.comment = data["comment"];
-            this.bilateralId = data["bilateralId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(BilateralTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): BilateralTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfBilateralTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new BilateralTestDetailOutput();
+        let result = new ListResultDtoOfBilateralTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["timeTaken"] = this.timeTaken;
-        data["platform"] = this.platform;
-        data["noOfRepetitions"] = this.noOfRepetitions;
-        data["weight"] = this.weight;
-        data["distance"] = this.distance;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["isStopped"] = this.isStopped;
-        data["comment"] = this.comment;
-        data["bilateralId"] = this.bilateralId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): BilateralTestDetailOutput {
+    clone(): ListResultDtoOfBilateralTestDto {
         const json = this.toJSON();
-        let result = new BilateralTestDetailOutput();
+        let result = new ListResultDtoOfBilateralTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IBilateralTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    platform: string | undefined;
-    noOfRepetitions: number | undefined;
-    weight: number | undefined;
-    distance: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    bilateralId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class Assessment implements IAssessment {
-    name: string | undefined;
-    categoryId: string | undefined;
-    category: AssessmentCategory | undefined;
-    clientId: string | undefined;
-    side: number | undefined;
-    chosen: boolean | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessment) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.categoryId = data["categoryId"];
-            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
-            this.clientId = data["clientId"];
-            this.side = data["side"];
-            this.chosen = data["chosen"];
-            this.status = data["status"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): Assessment {
-        data = typeof data === 'object' ? data : {};
-        let result = new Assessment();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["categoryId"] = this.categoryId;
-        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
-        data["clientId"] = this.clientId;
-        data["side"] = this.side;
-        data["chosen"] = this.chosen;
-        data["status"] = this.status;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): Assessment {
-        const json = this.toJSON();
-        let result = new Assessment();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessment {
-    name: string | undefined;
-    categoryId: string | undefined;
-    category: AssessmentCategory | undefined;
-    clientId: string | undefined;
-    side: number | undefined;
-    chosen: boolean | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class AssessmentCategory implements IAssessmentCategory {
-    name: string | undefined;
-    assessments: Assessment[] | undefined;
-    assessmentsLists: AssessmentsList[] | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessmentCategory) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            if (data["assessments"] && data["assessments"].constructor === Array) {
-                this.assessments = [];
-                for (let item of data["assessments"])
-                    this.assessments.push(Assessment.fromJS(item));
-            }
-            if (data["assessmentsLists"] && data["assessmentsLists"].constructor === Array) {
-                this.assessmentsLists = [];
-                for (let item of data["assessmentsLists"])
-                    this.assessmentsLists.push(AssessmentsList.fromJS(item));
-            }
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): AssessmentCategory {
-        data = typeof data === 'object' ? data : {};
-        let result = new AssessmentCategory();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        if (this.assessments && this.assessments.constructor === Array) {
-            data["assessments"] = [];
-            for (let item of this.assessments)
-                data["assessments"].push(item.toJSON());
-        }
-        if (this.assessmentsLists && this.assessmentsLists.constructor === Array) {
-            data["assessmentsLists"] = [];
-            for (let item of this.assessmentsLists)
-                data["assessmentsLists"].push(item.toJSON());
-        }
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): AssessmentCategory {
-        const json = this.toJSON();
-        let result = new AssessmentCategory();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessmentCategory {
-    name: string | undefined;
-    assessments: Assessment[] | undefined;
-    assessmentsLists: AssessmentsList[] | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class AssessmentsList implements IAssessmentsList {
-    assessmentCategoryId: string | undefined;
-    position: number | undefined;
-    assessmentName: string | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessmentsList) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.assessmentCategoryId = data["assessmentCategoryId"];
-            this.position = data["position"];
-            this.assessmentName = data["assessmentName"];
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): AssessmentsList {
-        data = typeof data === 'object' ? data : {};
-        let result = new AssessmentsList();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["assessmentCategoryId"] = this.assessmentCategoryId;
-        data["position"] = this.position;
-        data["assessmentName"] = this.assessmentName;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): AssessmentsList {
-        const json = this.toJSON();
-        let result = new AssessmentsList();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessmentsList {
-    assessmentCategoryId: string | undefined;
-    position: number | undefined;
-    assessmentName: string | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfBilateralTestDto {
+    items: BilateralTestDto[] | undefined;
 }
 
 export class BilateralTestDto implements IBilateralTestDto {
@@ -24545,6 +25207,7 @@ export class BilateralTestDto implements IBilateralTestDto {
     isStopped: boolean | undefined;
     comment: string | undefined;
     bilateralId: string | undefined;
+    painLevel: number | undefined;
     id: string | undefined;
 
     constructor(data?: IBilateralTestDto) {
@@ -24569,6 +25232,7 @@ export class BilateralTestDto implements IBilateralTestDto {
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
             this.bilateralId = data["bilateralId"];
+            this.painLevel = data["painLevel"];
             this.id = data["id"];
         }
     }
@@ -24593,6 +25257,7 @@ export class BilateralTestDto implements IBilateralTestDto {
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
         data["bilateralId"] = this.bilateralId;
+        data["painLevel"] = this.painLevel;
         data["id"] = this.id;
         return data; 
     }
@@ -24617,6 +25282,7 @@ export interface IBilateralTestDto {
     isStopped: boolean | undefined;
     comment: string | undefined;
     bilateralId: string | undefined;
+    painLevel: number | undefined;
     id: string | undefined;
 }
 
@@ -26560,7 +27226,9 @@ export class CognitiveParentDto implements ICognitiveParentDto {
     assessmentId: string | undefined;
     clientId: string | undefined;
     status: number | undefined;
+    comment: string | undefined;
     isSelected: boolean | undefined;
+    identifier: number | undefined;
     options: ListResultDtoOfOptionListDto | undefined;
     id: string | undefined;
 
@@ -26579,7 +27247,9 @@ export class CognitiveParentDto implements ICognitiveParentDto {
             this.assessmentId = data["assessmentId"];
             this.clientId = data["clientId"];
             this.status = data["status"];
+            this.comment = data["comment"];
             this.isSelected = data["isSelected"];
+            this.identifier = data["identifier"];
             this.options = data["options"] ? ListResultDtoOfOptionListDto.fromJS(data["options"]) : <any>undefined;
             this.id = data["id"];
         }
@@ -26598,7 +27268,9 @@ export class CognitiveParentDto implements ICognitiveParentDto {
         data["assessmentId"] = this.assessmentId;
         data["clientId"] = this.clientId;
         data["status"] = this.status;
+        data["comment"] = this.comment;
         data["isSelected"] = this.isSelected;
+        data["identifier"] = this.identifier;
         data["options"] = this.options ? this.options.toJSON() : <any>undefined;
         data["id"] = this.id;
         return data; 
@@ -26617,8 +27289,109 @@ export interface ICognitiveParentDto {
     assessmentId: string | undefined;
     clientId: string | undefined;
     status: number | undefined;
+    comment: string | undefined;
     isSelected: boolean | undefined;
+    identifier: number | undefined;
     options: ListResultDtoOfOptionListDto | undefined;
+    id: string | undefined;
+}
+
+export class Assessment implements IAssessment {
+    name: string | undefined;
+    categoryId: string | undefined;
+    category: AssessmentCategory | undefined;
+    clientId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.categoryId = data["categoryId"];
+            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
+            this.clientId = data["clientId"];
+            this.side = data["side"];
+            this.chosen = data["chosen"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Assessment {
+        data = typeof data === 'object' ? data : {};
+        let result = new Assessment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["categoryId"] = this.categoryId;
+        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["clientId"] = this.clientId;
+        data["side"] = this.side;
+        data["chosen"] = this.chosen;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Assessment {
+        const json = this.toJSON();
+        let result = new Assessment();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessment {
+    name: string | undefined;
+    categoryId: string | undefined;
+    category: AssessmentCategory | undefined;
+    clientId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -26671,6 +27444,101 @@ export class ListResultDtoOfOptionListDto implements IListResultDtoOfOptionListD
 
 export interface IListResultDtoOfOptionListDto {
     items: OptionListDto[] | undefined;
+}
+
+export class AssessmentCategory implements IAssessmentCategory {
+    name: string | undefined;
+    position: number | undefined;
+    assessments: Assessment[] | undefined;
+    status: number | undefined;
+    assessmentsLists: AssessmentsList[] | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessmentCategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.position = data["position"];
+            if (data["assessments"] && data["assessments"].constructor === Array) {
+                this.assessments = [];
+                for (let item of data["assessments"])
+                    this.assessments.push(Assessment.fromJS(item));
+            }
+            this.status = data["status"];
+            if (data["assessmentsLists"] && data["assessmentsLists"].constructor === Array) {
+                this.assessmentsLists = [];
+                for (let item of data["assessmentsLists"])
+                    this.assessmentsLists.push(AssessmentsList.fromJS(item));
+            }
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentCategory {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentCategory();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["position"] = this.position;
+        if (this.assessments && this.assessments.constructor === Array) {
+            data["assessments"] = [];
+            for (let item of this.assessments)
+                data["assessments"].push(item.toJSON());
+        }
+        data["status"] = this.status;
+        if (this.assessmentsLists && this.assessmentsLists.constructor === Array) {
+            data["assessmentsLists"] = [];
+            for (let item of this.assessmentsLists)
+                data["assessmentsLists"].push(item.toJSON());
+        }
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AssessmentCategory {
+        const json = this.toJSON();
+        let result = new AssessmentCategory();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentCategory {
+    name: string | undefined;
+    position: number | undefined;
+    assessments: Assessment[] | undefined;
+    status: number | undefined;
+    assessmentsLists: AssessmentsList[] | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
 }
 
 export class OptionListDto implements IOptionListDto {
@@ -26733,6 +27601,81 @@ export interface IOptionListDto {
     position: number | undefined;
     targetId: string | undefined;
     identifier: number | undefined;
+    id: string | undefined;
+}
+
+export class AssessmentsList implements IAssessmentsList {
+    assessmentCategoryId: string | undefined;
+    position: number | undefined;
+    assessmentName: string | undefined;
+    identifier: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessmentsList) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentCategoryId = data["assessmentCategoryId"];
+            this.position = data["position"];
+            this.assessmentName = data["assessmentName"];
+            this.identifier = data["identifier"];
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentsList {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentsList();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentCategoryId"] = this.assessmentCategoryId;
+        data["position"] = this.position;
+        data["assessmentName"] = this.assessmentName;
+        data["identifier"] = this.identifier;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AssessmentsList {
+        const json = this.toJSON();
+        let result = new AssessmentsList();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentsList {
+    assessmentCategoryId: string | undefined;
+    position: number | undefined;
+    assessmentName: string | undefined;
+    identifier: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -28081,6 +29024,8 @@ export class CrouchingTestCreateInput implements ICrouchingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -28101,6 +29046,8 @@ export class CrouchingTestCreateInput implements ICrouchingTestCreateInput {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -28121,6 +29068,8 @@ export class CrouchingTestCreateInput implements ICrouchingTestCreateInput {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -28141,34 +29090,17 @@ export interface ICrouchingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
 }
 
-export class CrouchingTestDetailOutput implements ICrouchingTestDetailOutput {
-    crouchingId: string | undefined;
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfCrouchingTestDto implements IListResultDtoOfCrouchingTestDto {
+    items: CrouchingTestDto[] | undefined;
 
-    constructor(data?: ICrouchingTestDetailOutput) {
+    constructor(data?: IListResultDtoOfCrouchingTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -28179,90 +29111,41 @@ export class CrouchingTestDetailOutput implements ICrouchingTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.crouchingId = data["crouchingId"];
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.taskType = data["taskType"];
-            this.result = data["result"];
-            this.isStopped = data["isStopped"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.timeTaken = data["timeTaken"];
-            this.painLevel = data["painLevel"];
-            this.comment = data["comment"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(CrouchingTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): CrouchingTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfCrouchingTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new CrouchingTestDetailOutput();
+        let result = new ListResultDtoOfCrouchingTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["crouchingId"] = this.crouchingId;
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["taskType"] = this.taskType;
-        data["result"] = this.result;
-        data["isStopped"] = this.isStopped;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["timeTaken"] = this.timeTaken;
-        data["painLevel"] = this.painLevel;
-        data["comment"] = this.comment;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): CrouchingTestDetailOutput {
+    clone(): ListResultDtoOfCrouchingTestDto {
         const json = this.toJSON();
-        let result = new CrouchingTestDetailOutput();
+        let result = new ListResultDtoOfCrouchingTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface ICrouchingTestDetailOutput {
-    crouchingId: string | undefined;
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfCrouchingTestDto {
+    items: CrouchingTestDto[] | undefined;
 }
 
 export class CrouchingTestDto implements ICrouchingTestDto {
@@ -28850,31 +29733,10 @@ export interface IElevatedReachTestCreateInput {
     comment: string | undefined;
 }
 
-export class ElevatedReachTestDetailOutput implements IElevatedReachTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    trial: number | undefined;
-    noOfRepetitions: number | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    elevatedReachId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfElevatedReachTestDto implements IListResultDtoOfElevatedReachTestDto {
+    items: ElevatedReachTestDto[] | undefined;
 
-    constructor(data?: IElevatedReachTestDetailOutput) {
+    constructor(data?: IListResultDtoOfElevatedReachTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -28885,96 +29747,41 @@ export class ElevatedReachTestDetailOutput implements IElevatedReachTestDetailOu
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.taskType = data["taskType"];
-            this.result = data["result"];
-            this.isStopped = data["isStopped"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.trial = data["trial"];
-            this.noOfRepetitions = data["noOfRepetitions"];
-            this.timeTaken = data["timeTaken"];
-            this.painLevel = data["painLevel"];
-            this.comment = data["comment"];
-            this.elevatedReachId = data["elevatedReachId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(ElevatedReachTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): ElevatedReachTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfElevatedReachTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ElevatedReachTestDetailOutput();
+        let result = new ListResultDtoOfElevatedReachTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["taskType"] = this.taskType;
-        data["result"] = this.result;
-        data["isStopped"] = this.isStopped;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["trial"] = this.trial;
-        data["noOfRepetitions"] = this.noOfRepetitions;
-        data["timeTaken"] = this.timeTaken;
-        data["painLevel"] = this.painLevel;
-        data["comment"] = this.comment;
-        data["elevatedReachId"] = this.elevatedReachId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): ElevatedReachTestDetailOutput {
+    clone(): ListResultDtoOfElevatedReachTestDto {
         const json = this.toJSON();
-        let result = new ElevatedReachTestDetailOutput();
+        let result = new ListResultDtoOfElevatedReachTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IElevatedReachTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    trial: number | undefined;
-    noOfRepetitions: number | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    elevatedReachId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfElevatedReachTestDto {
+    items: ElevatedReachTestDto[] | undefined;
 }
 
 export class ElevatedReachTestDto implements IElevatedReachTestDto {
@@ -30225,6 +31032,8 @@ export class KneelingTestCreateInput implements IKneelingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -30245,6 +31054,8 @@ export class KneelingTestCreateInput implements IKneelingTestCreateInput {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -30265,6 +31076,8 @@ export class KneelingTestCreateInput implements IKneelingTestCreateInput {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -30285,34 +31098,17 @@ export interface IKneelingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
 }
 
-export class KneelingTestDetailOutput implements IKneelingTestDetailOutput {
-    kneelingId: string | undefined;
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfKneelingTestDto implements IListResultDtoOfKneelingTestDto {
+    items: KneelingTestDto[] | undefined;
 
-    constructor(data?: IKneelingTestDetailOutput) {
+    constructor(data?: IListResultDtoOfKneelingTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -30323,90 +31119,41 @@ export class KneelingTestDetailOutput implements IKneelingTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.kneelingId = data["kneelingId"];
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.taskType = data["taskType"];
-            this.result = data["result"];
-            this.isStopped = data["isStopped"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.timeTaken = data["timeTaken"];
-            this.painLevel = data["painLevel"];
-            this.comment = data["comment"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(KneelingTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): KneelingTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfKneelingTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new KneelingTestDetailOutput();
+        let result = new ListResultDtoOfKneelingTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["kneelingId"] = this.kneelingId;
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["taskType"] = this.taskType;
-        data["result"] = this.result;
-        data["isStopped"] = this.isStopped;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["timeTaken"] = this.timeTaken;
-        data["painLevel"] = this.painLevel;
-        data["comment"] = this.comment;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): KneelingTestDetailOutput {
+    clone(): ListResultDtoOfKneelingTestDto {
         const json = this.toJSON();
-        let result = new KneelingTestDetailOutput();
+        let result = new ListResultDtoOfKneelingTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IKneelingTestDetailOutput {
-    kneelingId: string | undefined;
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfKneelingTestDto {
+    items: KneelingTestDto[] | undefined;
 }
 
 export class KneelingTestDto implements IKneelingTestDto {
@@ -31292,6 +32039,8 @@ export class LiftingTestCreateInput implements ILiftingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -31312,6 +32061,8 @@ export class LiftingTestCreateInput implements ILiftingTestCreateInput {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -31332,6 +32083,8 @@ export class LiftingTestCreateInput implements ILiftingTestCreateInput {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -31352,6 +32105,8 @@ export interface ILiftingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -31569,6 +32324,7 @@ export class LiftWaistTestCreateInput implements ILiftWaistTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     type: number | undefined;
+    painLevel: number | undefined;
 
     constructor(data?: ILiftWaistTestCreateInput) {
         if (data) {
@@ -31590,6 +32346,7 @@ export class LiftWaistTestCreateInput implements ILiftWaistTestCreateInput {
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
             this.type = data["type"];
+            this.painLevel = data["painLevel"];
         }
     }
 
@@ -31611,6 +32368,7 @@ export class LiftWaistTestCreateInput implements ILiftWaistTestCreateInput {
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
         data["type"] = this.type;
+        data["painLevel"] = this.painLevel;
         return data; 
     }
 
@@ -31632,31 +32390,13 @@ export interface ILiftWaistTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     type: number | undefined;
+    painLevel: number | undefined;
 }
 
-export class LiftWaistTestDetailOutput implements ILiftWaistTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    position: string | undefined;
-    noOfCompletions: number | undefined;
-    maxWeight: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    liftWaistId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfLiftWaistTestDto implements IListResultDtoOfLiftWaistTestDto {
+    items: LiftWaistTestDto[] | undefined;
 
-    constructor(data?: ILiftWaistTestDetailOutput) {
+    constructor(data?: IListResultDtoOfLiftWaistTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -31667,90 +32407,41 @@ export class LiftWaistTestDetailOutput implements ILiftWaistTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.timeTaken = data["timeTaken"];
-            this.position = data["position"];
-            this.noOfCompletions = data["noOfCompletions"];
-            this.maxWeight = data["maxWeight"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.isStopped = data["isStopped"];
-            this.comment = data["comment"];
-            this.liftWaistId = data["liftWaistId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(LiftWaistTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): LiftWaistTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfLiftWaistTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new LiftWaistTestDetailOutput();
+        let result = new ListResultDtoOfLiftWaistTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["timeTaken"] = this.timeTaken;
-        data["position"] = this.position;
-        data["noOfCompletions"] = this.noOfCompletions;
-        data["maxWeight"] = this.maxWeight;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["isStopped"] = this.isStopped;
-        data["comment"] = this.comment;
-        data["liftWaistId"] = this.liftWaistId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): LiftWaistTestDetailOutput {
+    clone(): ListResultDtoOfLiftWaistTestDto {
         const json = this.toJSON();
-        let result = new LiftWaistTestDetailOutput();
+        let result = new ListResultDtoOfLiftWaistTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface ILiftWaistTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    position: string | undefined;
-    noOfCompletions: number | undefined;
-    maxWeight: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    liftWaistId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfLiftWaistTestDto {
+    items: LiftWaistTestDto[] | undefined;
 }
 
 export class LiftWaistTestDto implements ILiftWaistTestDto {
@@ -31764,6 +32455,8 @@ export class LiftWaistTestDto implements ILiftWaistTestDto {
     isStopped: boolean | undefined;
     comment: string | undefined;
     liftWaistId: string | undefined;
+    painLevel: number | undefined;
+    type: number | undefined;
     id: string | undefined;
 
     constructor(data?: ILiftWaistTestDto) {
@@ -31787,6 +32480,8 @@ export class LiftWaistTestDto implements ILiftWaistTestDto {
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
             this.liftWaistId = data["liftWaistId"];
+            this.painLevel = data["painLevel"];
+            this.type = data["type"];
             this.id = data["id"];
         }
     }
@@ -31810,6 +32505,8 @@ export class LiftWaistTestDto implements ILiftWaistTestDto {
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
         data["liftWaistId"] = this.liftWaistId;
+        data["painLevel"] = this.painLevel;
+        data["type"] = this.type;
         data["id"] = this.id;
         return data; 
     }
@@ -31833,6 +32530,8 @@ export interface ILiftWaistTestDto {
     isStopped: boolean | undefined;
     comment: string | undefined;
     liftWaistId: string | undefined;
+    painLevel: number | undefined;
+    type: number | undefined;
     id: string | undefined;
 }
 
@@ -31841,6 +32540,8 @@ export class MidLevelReachCreateInput implements IMidLevelReachCreateInput {
     status: number | undefined;
     taskType: string | undefined;
     result: string | undefined;
+    isStopped: boolean | undefined;
+    trial: number | undefined;
     noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
@@ -31863,6 +32564,8 @@ export class MidLevelReachCreateInput implements IMidLevelReachCreateInput {
             this.status = data["status"];
             this.taskType = data["taskType"];
             this.result = data["result"];
+            this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
             this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
@@ -31885,6 +32588,8 @@ export class MidLevelReachCreateInput implements IMidLevelReachCreateInput {
         data["status"] = this.status;
         data["taskType"] = this.taskType;
         data["result"] = this.result;
+        data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
         data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
@@ -31907,6 +32612,8 @@ export interface IMidLevelReachCreateInput {
     status: number | undefined;
     taskType: string | undefined;
     result: string | undefined;
+    isStopped: boolean | undefined;
+    trial: number | undefined;
     noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
@@ -31915,31 +32622,10 @@ export interface IMidLevelReachCreateInput {
     comment: string | undefined;
 }
 
-export class MidLevelReachTestDetailOutput implements IMidLevelReachTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    trial: number | undefined;
-    noOfRepetitions: number | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    midLevelReachId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfMidLevelReachTestDto implements IListResultDtoOfMidLevelReachTestDto {
+    items: MidLevelReachTestDto[] | undefined;
 
-    constructor(data?: IMidLevelReachTestDetailOutput) {
+    constructor(data?: IListResultDtoOfMidLevelReachTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -31950,96 +32636,41 @@ export class MidLevelReachTestDetailOutput implements IMidLevelReachTestDetailOu
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.taskType = data["taskType"];
-            this.result = data["result"];
-            this.isStopped = data["isStopped"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.trial = data["trial"];
-            this.noOfRepetitions = data["noOfRepetitions"];
-            this.timeTaken = data["timeTaken"];
-            this.painLevel = data["painLevel"];
-            this.comment = data["comment"];
-            this.midLevelReachId = data["midLevelReachId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(MidLevelReachTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): MidLevelReachTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfMidLevelReachTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new MidLevelReachTestDetailOutput();
+        let result = new ListResultDtoOfMidLevelReachTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["taskType"] = this.taskType;
-        data["result"] = this.result;
-        data["isStopped"] = this.isStopped;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["trial"] = this.trial;
-        data["noOfRepetitions"] = this.noOfRepetitions;
-        data["timeTaken"] = this.timeTaken;
-        data["painLevel"] = this.painLevel;
-        data["comment"] = this.comment;
-        data["midLevelReachId"] = this.midLevelReachId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): MidLevelReachTestDetailOutput {
+    clone(): ListResultDtoOfMidLevelReachTestDto {
         const json = this.toJSON();
-        let result = new MidLevelReachTestDetailOutput();
+        let result = new ListResultDtoOfMidLevelReachTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IMidLevelReachTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    trial: number | undefined;
-    noOfRepetitions: number | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    midLevelReachId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfMidLevelReachTestDto {
+    items: MidLevelReachTestDto[] | undefined;
 }
 
 export class MidLevelReachTestDto implements IMidLevelReachTestDto {
@@ -32697,10 +33328,11 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
     clientId: string | undefined;
     status: number | undefined;
     timeTaken: number | undefined;
-    attempt: number | undefined;
+    noOfRepetitions: number | undefined;
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
 
     constructor(data?: IPullingTestCreateInput) {
         if (data) {
@@ -32716,10 +33348,11 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
             this.clientId = data["clientId"];
             this.status = data["status"];
             this.timeTaken = data["timeTaken"];
-            this.attempt = data["attempt"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.weight = data["weight"];
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
+            this.painLevel = data["painLevel"];
         }
     }
 
@@ -32735,10 +33368,11 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
         data["clientId"] = this.clientId;
         data["status"] = this.status;
         data["timeTaken"] = this.timeTaken;
-        data["attempt"] = this.attempt;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["weight"] = this.weight;
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
+        data["painLevel"] = this.painLevel;
         return data; 
     }
 
@@ -32754,34 +33388,17 @@ export interface IPullingTestCreateInput {
     clientId: string | undefined;
     status: number | undefined;
     timeTaken: number | undefined;
-    attempt: number | undefined;
+    noOfRepetitions: number | undefined;
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
 }
 
-export class PullingTestDetailOutput implements IPullingTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    attempt: number | undefined;
-    weight: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    pullingId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfPullingTestDto implements IListResultDtoOfPullingTestDto {
+    items: PullingTestDto[] | undefined;
 
-    constructor(data?: IPullingTestDetailOutput) {
+    constructor(data?: IListResultDtoOfPullingTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -32792,87 +33409,41 @@ export class PullingTestDetailOutput implements IPullingTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.timeTaken = data["timeTaken"];
-            this.attempt = data["attempt"];
-            this.weight = data["weight"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.isStopped = data["isStopped"];
-            this.comment = data["comment"];
-            this.pullingId = data["pullingId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PullingTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): PullingTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfPullingTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PullingTestDetailOutput();
+        let result = new ListResultDtoOfPullingTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["timeTaken"] = this.timeTaken;
-        data["attempt"] = this.attempt;
-        data["weight"] = this.weight;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["isStopped"] = this.isStopped;
-        data["comment"] = this.comment;
-        data["pullingId"] = this.pullingId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): PullingTestDetailOutput {
+    clone(): ListResultDtoOfPullingTestDto {
         const json = this.toJSON();
-        let result = new PullingTestDetailOutput();
+        let result = new ListResultDtoOfPullingTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPullingTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    attempt: number | undefined;
-    weight: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    pullingId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfPullingTestDto {
+    items: PullingTestDto[] | undefined;
 }
 
 export class PullingTestDto implements IPullingTestDto {
@@ -32880,10 +33451,11 @@ export class PullingTestDto implements IPullingTestDto {
     assessmentId: string | undefined;
     status: number | undefined;
     timeTaken: number | undefined;
-    attempt: number | undefined;
+    noOfRepetitions: number | undefined;
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
     pullingId: string | undefined;
     id: string | undefined;
 
@@ -32902,10 +33474,11 @@ export class PullingTestDto implements IPullingTestDto {
             this.assessmentId = data["assessmentId"];
             this.status = data["status"];
             this.timeTaken = data["timeTaken"];
-            this.attempt = data["attempt"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.weight = data["weight"];
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
+            this.painLevel = data["painLevel"];
             this.pullingId = data["pullingId"];
             this.id = data["id"];
         }
@@ -32924,10 +33497,11 @@ export class PullingTestDto implements IPullingTestDto {
         data["assessmentId"] = this.assessmentId;
         data["status"] = this.status;
         data["timeTaken"] = this.timeTaken;
-        data["attempt"] = this.attempt;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["weight"] = this.weight;
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
+        data["painLevel"] = this.painLevel;
         data["pullingId"] = this.pullingId;
         data["id"] = this.id;
         return data; 
@@ -32946,10 +33520,11 @@ export interface IPullingTestDto {
     assessmentId: string | undefined;
     status: number | undefined;
     timeTaken: number | undefined;
-    attempt: number | undefined;
+    noOfRepetitions: number | undefined;
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
     pullingId: string | undefined;
     id: string | undefined;
 }
@@ -32958,10 +33533,11 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
     clientId: string | undefined;
     status: number | undefined;
     timeTaken: number | undefined;
-    attempt: number | undefined;
+    noOfRepetitions: number | undefined;
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
 
     constructor(data?: IPushingTestCreateInput) {
         if (data) {
@@ -32977,10 +33553,11 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
             this.clientId = data["clientId"];
             this.status = data["status"];
             this.timeTaken = data["timeTaken"];
-            this.attempt = data["attempt"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.weight = data["weight"];
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
+            this.painLevel = data["painLevel"];
         }
     }
 
@@ -32996,10 +33573,11 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
         data["clientId"] = this.clientId;
         data["status"] = this.status;
         data["timeTaken"] = this.timeTaken;
-        data["attempt"] = this.attempt;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["weight"] = this.weight;
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
+        data["painLevel"] = this.painLevel;
         return data; 
     }
 
@@ -33015,34 +33593,17 @@ export interface IPushingTestCreateInput {
     clientId: string | undefined;
     status: number | undefined;
     timeTaken: number | undefined;
-    attempt: number | undefined;
+    noOfRepetitions: number | undefined;
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
 }
 
-export class PushingTestDetailOutput implements IPushingTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    attempt: number | undefined;
-    weight: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    pushingId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfPushingTestDto implements IListResultDtoOfPushingTestDto {
+    items: PushingTestDto[] | undefined;
 
-    constructor(data?: IPushingTestDetailOutput) {
+    constructor(data?: IListResultDtoOfPushingTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -33053,87 +33614,41 @@ export class PushingTestDetailOutput implements IPushingTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.timeTaken = data["timeTaken"];
-            this.attempt = data["attempt"];
-            this.weight = data["weight"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.isStopped = data["isStopped"];
-            this.comment = data["comment"];
-            this.pushingId = data["pushingId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(PushingTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): PushingTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfPushingTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new PushingTestDetailOutput();
+        let result = new ListResultDtoOfPushingTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["timeTaken"] = this.timeTaken;
-        data["attempt"] = this.attempt;
-        data["weight"] = this.weight;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["isStopped"] = this.isStopped;
-        data["comment"] = this.comment;
-        data["pushingId"] = this.pushingId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): PushingTestDetailOutput {
+    clone(): ListResultDtoOfPushingTestDto {
         const json = this.toJSON();
-        let result = new PushingTestDetailOutput();
+        let result = new ListResultDtoOfPushingTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IPushingTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    attempt: number | undefined;
-    weight: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    comment: string | undefined;
-    pushingId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfPushingTestDto {
+    items: PushingTestDto[] | undefined;
 }
 
 export class PushingTestDto implements IPushingTestDto {
@@ -33145,6 +33660,7 @@ export class PushingTestDto implements IPushingTestDto {
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
     pushingId: string | undefined;
     id: string | undefined;
 
@@ -33167,6 +33683,7 @@ export class PushingTestDto implements IPushingTestDto {
             this.weight = data["weight"];
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
+            this.painLevel = data["painLevel"];
             this.pushingId = data["pushingId"];
             this.id = data["id"];
         }
@@ -33189,6 +33706,7 @@ export class PushingTestDto implements IPushingTestDto {
         data["weight"] = this.weight;
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
+        data["painLevel"] = this.painLevel;
         data["pushingId"] = this.pushingId;
         data["id"] = this.id;
         return data; 
@@ -33211,6 +33729,7 @@ export interface IPushingTestDto {
     weight: number | undefined;
     isStopped: boolean | undefined;
     comment: string | undefined;
+    painLevel: number | undefined;
     pushingId: string | undefined;
     id: string | undefined;
 }
@@ -34163,22 +34682,76 @@ export interface IShoulderDto {
     id: string | undefined;
 }
 
+export class ListResultDtoOfHandDto implements IListResultDtoOfHandDto {
+    items: HandDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfHandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(HandDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfHandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfHandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfHandDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfHandDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfHandDto {
+    items: HandDto[] | undefined;
+}
+
 export class HandDto implements IHandDto {
     name: string | undefined;
     rangeOfMotionId: string | undefined;
-    indexFinger: string | undefined;
-    indexFingerScore: number | undefined;
-    middleFinger: string | undefined;
-    middleFingerScore: number | undefined;
-    ringFinger: string | undefined;
-    ringFingerScore: number | undefined;
-    littleFinger: string | undefined;
-    littleFingerScore: number | undefined;
-    side: number | undefined;
+    abduction: number | undefined;
+    adduction: number | undefined;
+    dipFlexionExtension: number | undefined;
+    pipFlexionExtension: number | undefined;
+    mpHyperExtension: number | undefined;
+    mpFlexion: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
-    chosen: boolean | undefined;
+    cmExtension: number | undefined;
+    cmFlexion: number | undefined;
+    ipFlexionExtension: number | undefined;
+    opposition: number | undefined;
+    position: number | undefined;
     status: number | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -34201,19 +34774,22 @@ export class HandDto implements IHandDto {
         if (data) {
             this.name = data["name"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
-            this.indexFinger = data["indexFinger"];
-            this.indexFingerScore = data["indexFingerScore"];
-            this.middleFinger = data["middleFinger"];
-            this.middleFingerScore = data["middleFingerScore"];
-            this.ringFinger = data["ringFinger"];
-            this.ringFingerScore = data["ringFingerScore"];
-            this.littleFinger = data["littleFinger"];
-            this.littleFingerScore = data["littleFingerScore"];
-            this.side = data["side"];
+            this.abduction = data["abduction"];
+            this.adduction = data["adduction"];
+            this.dipFlexionExtension = data["dipFlexionExtension"];
+            this.pipFlexionExtension = data["pipFlexionExtension"];
+            this.mpHyperExtension = data["mpHyperExtension"];
+            this.mpFlexion = data["mpFlexion"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
-            this.chosen = data["chosen"];
+            this.cmExtension = data["cmExtension"];
+            this.cmFlexion = data["cmFlexion"];
+            this.ipFlexionExtension = data["ipFlexionExtension"];
+            this.opposition = data["opposition"];
+            this.position = data["position"];
             this.status = data["status"];
+            this.side = data["side"];
+            this.chosen = data["chosen"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -34236,19 +34812,22 @@ export class HandDto implements IHandDto {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
-        data["indexFinger"] = this.indexFinger;
-        data["indexFingerScore"] = this.indexFingerScore;
-        data["middleFinger"] = this.middleFinger;
-        data["middleFingerScore"] = this.middleFingerScore;
-        data["ringFinger"] = this.ringFinger;
-        data["ringFingerScore"] = this.ringFingerScore;
-        data["littleFinger"] = this.littleFinger;
-        data["littleFingerScore"] = this.littleFingerScore;
-        data["side"] = this.side;
+        data["abduction"] = this.abduction;
+        data["adduction"] = this.adduction;
+        data["dipFlexionExtension"] = this.dipFlexionExtension;
+        data["pipFlexionExtension"] = this.pipFlexionExtension;
+        data["mpHyperExtension"] = this.mpHyperExtension;
+        data["mpFlexion"] = this.mpFlexion;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
-        data["chosen"] = this.chosen;
+        data["cmExtension"] = this.cmExtension;
+        data["cmFlexion"] = this.cmFlexion;
+        data["ipFlexionExtension"] = this.ipFlexionExtension;
+        data["opposition"] = this.opposition;
+        data["position"] = this.position;
         data["status"] = this.status;
+        data["side"] = this.side;
+        data["chosen"] = this.chosen;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -34271,19 +34850,22 @@ export class HandDto implements IHandDto {
 export interface IHandDto {
     name: string | undefined;
     rangeOfMotionId: string | undefined;
-    indexFinger: string | undefined;
-    indexFingerScore: number | undefined;
-    middleFinger: string | undefined;
-    middleFingerScore: number | undefined;
-    ringFinger: string | undefined;
-    ringFingerScore: number | undefined;
-    littleFinger: string | undefined;
-    littleFingerScore: number | undefined;
-    side: number | undefined;
+    abduction: number | undefined;
+    adduction: number | undefined;
+    dipFlexionExtension: number | undefined;
+    pipFlexionExtension: number | undefined;
+    mpHyperExtension: number | undefined;
+    mpFlexion: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
-    chosen: boolean | undefined;
+    cmExtension: number | undefined;
+    cmFlexion: number | undefined;
+    ipFlexionExtension: number | undefined;
+    opposition: number | undefined;
+    position: number | undefined;
     status: number | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -36455,6 +37037,8 @@ export class SittingTestCreateInput implements ISittingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -36475,6 +37059,8 @@ export class SittingTestCreateInput implements ISittingTestCreateInput {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -36495,6 +37081,8 @@ export class SittingTestCreateInput implements ISittingTestCreateInput {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -36515,34 +37103,17 @@ export interface ISittingTestCreateInput {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
 }
 
-export class SittingTestDetailOutput implements ISittingTestDetailOutput {
-    sittingId: string | undefined;
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfSittingTestDto implements IListResultDtoOfSittingTestDto {
+    items: SittingTestDto[] | undefined;
 
-    constructor(data?: ISittingTestDetailOutput) {
+    constructor(data?: IListResultDtoOfSittingTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -36553,90 +37124,41 @@ export class SittingTestDetailOutput implements ISittingTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.sittingId = data["sittingId"];
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.taskType = data["taskType"];
-            this.result = data["result"];
-            this.isStopped = data["isStopped"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.timeTaken = data["timeTaken"];
-            this.painLevel = data["painLevel"];
-            this.comment = data["comment"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(SittingTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): SittingTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfSittingTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new SittingTestDetailOutput();
+        let result = new ListResultDtoOfSittingTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["sittingId"] = this.sittingId;
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["taskType"] = this.taskType;
-        data["result"] = this.result;
-        data["isStopped"] = this.isStopped;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["timeTaken"] = this.timeTaken;
-        data["painLevel"] = this.painLevel;
-        data["comment"] = this.comment;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): SittingTestDetailOutput {
+    clone(): ListResultDtoOfSittingTestDto {
         const json = this.toJSON();
-        let result = new SittingTestDetailOutput();
+        let result = new ListResultDtoOfSittingTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface ISittingTestDetailOutput {
-    sittingId: string | undefined;
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    comment: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfSittingTestDto {
+    items: SittingTestDto[] | undefined;
 }
 
 export class SittingTestDto implements ISittingTestDto {
@@ -37116,6 +37638,7 @@ export class StandingTestCreateInput implements IStandingTestCreateInput {
     noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
 
     constructor(data?: IStandingTestCreateInput) {
         if (data) {
@@ -37137,6 +37660,7 @@ export class StandingTestCreateInput implements IStandingTestCreateInput {
             this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
         }
     }
 
@@ -37158,6 +37682,7 @@ export class StandingTestCreateInput implements IStandingTestCreateInput {
         data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
         return data; 
     }
 
@@ -37179,32 +37704,13 @@ export interface IStandingTestCreateInput {
     noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
 }
 
-export class StandingTestDetailOutput implements IStandingTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    trial: number | undefined;
-    noOfRepetitions: number | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    standingId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfStandingTestDto implements IListResultDtoOfStandingTestDto {
+    items: StandingTestDto[] | undefined;
 
-    constructor(data?: IStandingTestDetailOutput) {
+    constructor(data?: IListResultDtoOfStandingTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -37215,93 +37721,41 @@ export class StandingTestDetailOutput implements IStandingTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.taskType = data["taskType"];
-            this.result = data["result"];
-            this.isStopped = data["isStopped"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.trial = data["trial"];
-            this.noOfRepetitions = data["noOfRepetitions"];
-            this.timeTaken = data["timeTaken"];
-            this.painLevel = data["painLevel"];
-            this.standingId = data["standingId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(StandingTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): StandingTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfStandingTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new StandingTestDetailOutput();
+        let result = new ListResultDtoOfStandingTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["taskType"] = this.taskType;
-        data["result"] = this.result;
-        data["isStopped"] = this.isStopped;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["trial"] = this.trial;
-        data["noOfRepetitions"] = this.noOfRepetitions;
-        data["timeTaken"] = this.timeTaken;
-        data["painLevel"] = this.painLevel;
-        data["standingId"] = this.standingId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): StandingTestDetailOutput {
+    clone(): ListResultDtoOfStandingTestDto {
         const json = this.toJSON();
-        let result = new StandingTestDetailOutput();
+        let result = new ListResultDtoOfStandingTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IStandingTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    taskType: string | undefined;
-    result: string | undefined;
-    isStopped: boolean | undefined;
-    client: Client | undefined;
-    trial: number | undefined;
-    noOfRepetitions: number | undefined;
-    timeTaken: number | undefined;
-    painLevel: number | undefined;
-    standingId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfStandingTestDto {
+    items: StandingTestDto[] | undefined;
 }
 
 export class StandingTestDto implements IStandingTestDto {
@@ -37388,89 +37842,6 @@ export interface IStandingTestDto {
     timeTaken: number | undefined;
     painLevel: number | undefined;
     standingId: string | undefined;
-    id: string | undefined;
-}
-
-export class AssessmentsListListDto implements IAssessmentsListListDto {
-    assessmentName: string | undefined;
-    category: AssessmentCategoryDetailOutput | undefined;
-    assessmentCategoryId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessmentsListListDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.assessmentName = data["assessmentName"];
-            this.category = data["category"] ? AssessmentCategoryDetailOutput.fromJS(data["category"]) : <any>undefined;
-            this.assessmentCategoryId = data["assessmentCategoryId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): AssessmentsListListDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new AssessmentsListListDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["assessmentName"] = this.assessmentName;
-        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
-        data["assessmentCategoryId"] = this.assessmentCategoryId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): AssessmentsListListDto {
-        const json = this.toJSON();
-        let result = new AssessmentsListListDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessmentsListListDto {
-    assessmentName: string | undefined;
-    category: AssessmentCategoryDetailOutput | undefined;
-    assessmentCategoryId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -37970,6 +38341,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
     weight: number | undefined;
     distance: number | undefined;
     isStopped: boolean | undefined;
+    painLevel: number | undefined;
 
     constructor(data?: IUnilateralTestCreateInput) {
         if (data) {
@@ -37990,6 +38362,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
             this.weight = data["weight"];
             this.distance = data["distance"];
             this.isStopped = data["isStopped"];
+            this.painLevel = data["painLevel"];
         }
     }
 
@@ -38010,6 +38383,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
         data["weight"] = this.weight;
         data["distance"] = this.distance;
         data["isStopped"] = this.isStopped;
+        data["painLevel"] = this.painLevel;
         return data; 
     }
 
@@ -38030,31 +38404,13 @@ export interface IUnilateralTestCreateInput {
     weight: number | undefined;
     distance: number | undefined;
     isStopped: boolean | undefined;
+    painLevel: number | undefined;
 }
 
-export class UnilateralTestDetailOutput implements IUnilateralTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    hand: string | undefined;
-    noOfRepetitions: number | undefined;
-    weight: number | undefined;
-    distance: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    unilateralId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export class ListResultDtoOfUnilateralTestDto implements IListResultDtoOfUnilateralTestDto {
+    items: UnilateralTestDto[] | undefined;
 
-    constructor(data?: IUnilateralTestDetailOutput) {
+    constructor(data?: IListResultDtoOfUnilateralTestDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -38065,90 +38421,41 @@ export class UnilateralTestDetailOutput implements IUnilateralTestDetailOutput {
 
     init(data?: any) {
         if (data) {
-            this.clientId = data["clientId"];
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.status = data["status"];
-            this.timeTaken = data["timeTaken"];
-            this.hand = data["hand"];
-            this.noOfRepetitions = data["noOfRepetitions"];
-            this.weight = data["weight"];
-            this.distance = data["distance"];
-            this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
-            this.isStopped = data["isStopped"];
-            this.unilateralId = data["unilateralId"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(UnilateralTestDto.fromJS(item));
+            }
         }
     }
 
-    static fromJS(data: any): UnilateralTestDetailOutput {
+    static fromJS(data: any): ListResultDtoOfUnilateralTestDto {
         data = typeof data === 'object' ? data : {};
-        let result = new UnilateralTestDetailOutput();
+        let result = new ListResultDtoOfUnilateralTestDto();
         result.init(data);
         return result;
     }
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["clientId"] = this.clientId;
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["status"] = this.status;
-        data["timeTaken"] = this.timeTaken;
-        data["hand"] = this.hand;
-        data["noOfRepetitions"] = this.noOfRepetitions;
-        data["weight"] = this.weight;
-        data["distance"] = this.distance;
-        data["client"] = this.client ? this.client.toJSON() : <any>undefined;
-        data["isStopped"] = this.isStopped;
-        data["unilateralId"] = this.unilateralId;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
         return data; 
     }
 
-    clone(): UnilateralTestDetailOutput {
+    clone(): ListResultDtoOfUnilateralTestDto {
         const json = this.toJSON();
-        let result = new UnilateralTestDetailOutput();
+        let result = new ListResultDtoOfUnilateralTestDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IUnilateralTestDetailOutput {
-    clientId: string | undefined;
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    status: number | undefined;
-    timeTaken: number | undefined;
-    hand: string | undefined;
-    noOfRepetitions: number | undefined;
-    weight: number | undefined;
-    distance: number | undefined;
-    client: Client | undefined;
-    isStopped: boolean | undefined;
-    unilateralId: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfUnilateralTestDto {
+    items: UnilateralTestDto[] | undefined;
 }
 
 export class UnilateralTestDto implements IUnilateralTestDto {
@@ -38161,6 +38468,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
     weight: number | undefined;
     distance: number | undefined;
     isStopped: boolean | undefined;
+    painLevel: number | undefined;
     unilateralId: string | undefined;
     id: string | undefined;
 
@@ -38184,6 +38492,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
             this.weight = data["weight"];
             this.distance = data["distance"];
             this.isStopped = data["isStopped"];
+            this.painLevel = data["painLevel"];
             this.unilateralId = data["unilateralId"];
             this.id = data["id"];
         }
@@ -38207,6 +38516,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
         data["weight"] = this.weight;
         data["distance"] = this.distance;
         data["isStopped"] = this.isStopped;
+        data["painLevel"] = this.painLevel;
         data["unilateralId"] = this.unilateralId;
         data["id"] = this.id;
         return data; 
@@ -38230,6 +38540,7 @@ export interface IUnilateralTestDto {
     weight: number | undefined;
     distance: number | undefined;
     isStopped: boolean | undefined;
+    painLevel: number | undefined;
     unilateralId: string | undefined;
     id: string | undefined;
 }

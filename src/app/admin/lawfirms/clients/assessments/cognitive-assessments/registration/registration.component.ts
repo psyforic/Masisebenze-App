@@ -1,7 +1,7 @@
 import { AppComponentBase } from '@shared/app-component-base';
 import { Component, OnInit, ViewChild, ElementRef, Input, Injector } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AssessmentServiceProxy, CognitiveServiceProxy, CalculationsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AssessmentServiceProxy, CognitiveServiceProxy, CalculationsServiceProxy, CognitiveParentDto } from '@shared/service-proxies/service-proxies';
 import { AssessmentService } from '@app/admin/services/assessment.service';
 import { finalize } from 'rxjs/operators';
 
@@ -15,6 +15,7 @@ export class RegistrationComponent extends AppComponentBase implements OnInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() clientId: string;
   @Input() fullName: string;
+  registration: CognitiveParentDto = new CognitiveParentDto();
   isLoading = false;
   comment;
   total = 0;
@@ -39,17 +40,25 @@ export class RegistrationComponent extends AppComponentBase implements OnInit {
     this.activeModal.close();
   }
   save() {
-
+    this.isLoading = true;
+    this._cognitiveService.updateCognitiveComment(this.registration).
+    pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(() => {
+      this.notify.success('Saved successfully!');
+    });
   }
   getRegistration() {
     this.isLoading = true;
+    this.total = 0;
     this._cognitiveService.getRegistration(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(result => {
         if (result != null && result.options != null && result.options.items != null) {
+          this.registration = result;
           result.options.items.forEach((item) => {
-            this.total += item.score;
+            (item.score !== -1) ? this.total += item.score : this.total += 0;
           });
         }
       });

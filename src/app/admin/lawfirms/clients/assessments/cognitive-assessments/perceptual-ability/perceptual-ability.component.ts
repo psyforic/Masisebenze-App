@@ -44,9 +44,18 @@ export class PerceptualAbilityComponent extends AppComponentBase implements OnIn
     this.activeModal.close();
   }
   save() {
+    this.isLoading = true;
+    this._cognitiveService.updateCognitiveComment(this.perceptualAbility).
+    pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(() => {
+      this.notify.success('Saved successfully!');
+    });
   }
   getPerceptalAbility() {
     this.isLoading = true;
+    this.totalOfImages = 0;
+    this.totalOfLetters = 0;
     this._cognitiveService.getPerceptualAbility(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -55,9 +64,9 @@ export class PerceptualAbilityComponent extends AppComponentBase implements OnIn
           this.perceptualAbility = result;
           result.options.items.forEach((item) => {
             if (item.position < 5) {
-              this.totalOfImages += item.score;
+              (item.score !== -1) ? this.totalOfImages += item.score : this.totalOfImages += 0;
             } else {
-              this.totalOfLetters += item.score;
+              (item.score !== -1) ? this.totalOfLetters += item.score : this.totalOfLetters += 0;
             }
           });
         }

@@ -1,4 +1,4 @@
-import { OptionListDto } from './../../../../../../../shared/service-proxies/service-proxies';
+import { OptionListDto, CognitiveParentDto } from './../../../../../../../shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from 'shared/app-component-base';
 import { Component, OnInit, ViewChild, ElementRef, Input, Injector } from '@angular/core';
@@ -17,6 +17,7 @@ export class VisuoSpatialAbilityComponent extends AppComponentBase implements On
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() clientId: string;
   @Input() fullName: string;
+  visuoSpatialAbilities: CognitiveParentDto = new CognitiveParentDto();
   isLoading = false;
   comment;
   visuoSpatialOptions: OptionListDto[] = [];
@@ -38,18 +39,26 @@ export class VisuoSpatialAbilityComponent extends AppComponentBase implements On
       .result.then(() => { }, () => { });
   }
   save() {
-
+    this.isLoading = true;
+    this._cognitiveService.updateCognitiveComment(this.visuoSpatialAbilities).
+    pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(() => {
+      this.notify.success('Saved successfully!');
+    });
   }
   close() {
     this.activeModal.close();
   }
   getVisuoSpatialAbility() {
     this.isLoading = true;
+    this.visuoSpatialOptions = [];
     this._cognitiveService.getVisuoSpatialAbility(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(result => {
         if (result != null && result.options != null && result.options.items != null) {
+          this.visuoSpatialAbilities = result;
           this.visuoSpatialOptions = result.options.items;
         }
       });

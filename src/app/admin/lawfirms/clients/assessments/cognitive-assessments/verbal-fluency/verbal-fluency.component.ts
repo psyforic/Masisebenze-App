@@ -42,20 +42,29 @@ export class VerbalFluencyComponent extends AppComponentBase implements OnInit {
     this.activeModal.close();
   }
   save() {
-
+    this.isLoading = true;
+    this._cognitiveService.updateCognitiveComment(this.verbalFluency).
+    pipe(finalize(() => {
+      this.isLoading = false;
+    })).subscribe(() => {
+      this.notify.success('Saved successfully!');
+    });
   }
   getVerbalFlency() {
     this.isLoading = true;
+    this.totalOfGeneralWords = 0;
+    this.totalOfAnimals = 0;
     this._cognitiveService.getVerbalFluency(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(result => {
         if (result != null && result.options != null && result.options.items != null) {
+          this.verbalFluency = result;
           result.options.items.forEach((item) => {
             if (item.position === 1) {
-              this.totalOfGeneralWords = item.score;
+              (item.score !== -1) ? this.totalOfGeneralWords = item.score : this.totalOfGeneralWords += 0;
             } else {
-              this.totalOfAnimals = item.score;
+              (item.score !== -1) ? this.totalOfAnimals = item.score : this.totalOfAnimals += 0;
             }
           });
         }
