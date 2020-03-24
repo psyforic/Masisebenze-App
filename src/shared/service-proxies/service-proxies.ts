@@ -4440,6 +4440,1353 @@ export class ClientServiceProxy {
 }
 
 @Injectable()
+export class ClientAssessmentReportServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param gender (optional) 
+     * @param age (optional) 
+     * @return Success
+     */
+    getAssessmentReport(clientId: string | null | undefined, gender: number | null | undefined, age: number | null | undefined): Observable<AssessmentReportDto> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetAssessmentReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (gender !== undefined)
+            url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
+        if (age !== undefined)
+            url_ += "Age=" + encodeURIComponent("" + age) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAssessmentReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAssessmentReport(<any>response_);
+                } catch (e) {
+                    return <Observable<AssessmentReportDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AssessmentReportDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAssessmentReport(response: HttpResponseBase): Observable<AssessmentReportDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? AssessmentReportDto.fromJS(resultData200) : new AssessmentReportDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AssessmentReportDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBalanceProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetBalanceProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBalanceProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBalanceProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBalanceProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBorgBalanceReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetBorgBalanceReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBorgBalanceReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBorgBalanceReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBorgBalanceReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCoordinationReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetCoordinationReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCoordinationReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCoordinationReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCoordinationReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCrawlingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetCrawlingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCrawlingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCrawlingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCrawlingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getGaitReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetGaitReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGaitReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGaitReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetGaitReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param age (optional) 
+     * @param gender (optional) 
+     * @return Success
+     */
+    getGripStrengthReport(clientId: string | null | undefined, age: number | null | undefined, gender: number | null | undefined): Observable<ReportGripStrength> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetGripStrengthReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (age !== undefined)
+            url_ += "Age=" + encodeURIComponent("" + age) + "&"; 
+        if (gender !== undefined)
+            url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetGripStrengthReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetGripStrengthReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportGripStrength>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportGripStrength>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetGripStrengthReport(response: HttpResponseBase): Observable<ReportGripStrength> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ReportGripStrength.fromJS(resultData200) : new ReportGripStrength();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportGripStrength>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getLadderWorkProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetLadderWorkProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLadderWorkProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLadderWorkProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLadderWorkProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getMusclePowerReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetMusclePowerReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMusclePowerReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMusclePowerReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMusclePowerReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPostureReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetPostureReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPostureReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPostureReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPostureReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRepetitiveFootMotionProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRepetitiveFootMotionProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveFootMotionProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveFootMotionProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveFootMotionProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRepetitiveSquattingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRepetitiveSquattingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveSquattingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveSquattingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveSquattingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMAnkleReport(clientId: string | null | undefined): Observable<ReportRoMAnkleDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMAnkleReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMAnkleReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMAnkleReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportRoMAnkleDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportRoMAnkleDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMAnkleReport(response: HttpResponseBase): Observable<ReportRoMAnkleDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ReportRoMAnkleDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportRoMAnkleDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMElbowReport(clientId: string | null | undefined): Observable<ReportRoMElbowDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMElbowReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMElbowReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMElbowReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportRoMElbowDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportRoMElbowDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMElbowReport(response: HttpResponseBase): Observable<ReportRoMElbowDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ReportRoMElbowDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportRoMElbowDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMForearmWristReport(clientId: string | null | undefined): Observable<ReportRoMForearmWristDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMForearmWristReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMForearmWristReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMForearmWristReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportRoMForearmWristDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportRoMForearmWristDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMForearmWristReport(response: HttpResponseBase): Observable<ReportRoMForearmWristDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ReportRoMForearmWristDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportRoMForearmWristDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @return Success
+     */
+    getRoMHandReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMHandDto> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMHandReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMHandReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMHandReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportRoMHandDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportRoMHandDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMHandReport(response: HttpResponseBase): Observable<ReportRoMHandDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ReportRoMHandDto.fromJS(resultData200) : new ReportRoMHandDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportRoMHandDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMHipReport(clientId: string | null | undefined): Observable<ReportRoMHipDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMHipReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMHipReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMHipReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportRoMHipDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportRoMHipDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMHipReport(response: HttpResponseBase): Observable<ReportRoMHipDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ReportRoMHipDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportRoMHipDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMKneeReport(clientId: string | null | undefined): Observable<ReportRoMKneeDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMKneeReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMKneeReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMKneeReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportRoMKneeDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportRoMKneeDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMKneeReport(response: HttpResponseBase): Observable<ReportRoMKneeDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ReportRoMKneeDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportRoMKneeDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRoMShoulderReport(clientId: string | null | undefined): Observable<ReportRoMShoulderDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMShoulderReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRoMShoulderReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRoMShoulderReport(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportRoMShoulderDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportRoMShoulderDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRoMShoulderReport(response: HttpResponseBase): Observable<ReportRoMShoulderDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ReportRoMShoulderDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportRoMShoulderDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSensationLowerReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetSensationLowerReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSensationLowerReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSensationLowerReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSensationLowerReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSensationTrunkReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetSensationTrunkReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSensationTrunkReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSensationTrunkReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSensationTrunkReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSensationUpperReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetSensationUpperReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSensationUpperReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSensationUpperReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSensationUpperReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getStairClimbingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetStairClimbingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStairClimbingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStairClimbingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStairClimbingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getWalkingProtocolReport(clientId: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetWalkingProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWalkingProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWalkingProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWalkingProtocolReport(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
+}
+
+@Injectable()
 export class CognitiveServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -17493,10 +18840,10 @@ export class ReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getBalanceProtocolReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetBalanceProtocolReport?";
+    getPersonalDetails(clientId: string | null | undefined): Observable<ClientDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetPersonalDetails?";
         if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -17508,20 +18855,20 @@ export class ReportServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetBalanceProtocolReport(response_);
+            return this.processGetPersonalDetails(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetBalanceProtocolReport(<any>response_);
+                    return this.processGetPersonalDetails(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<ClientDetailOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<ClientDetailOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetBalanceProtocolReport(response: HttpResponseBase): Observable<string> {
+    protected processGetPersonalDetails(response: HttpResponseBase): Observable<ClientDetailOutput> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -17532,7 +18879,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? ClientDetailOutput.fromJS(resultData200) : new ClientDetailOutput();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -17540,17 +18887,17 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<ClientDetailOutput>(<any>null);
     }
 
     /**
-     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    getBorgBalanceReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetBorgBalanceReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+    getWorkHistoryByClientId(input: string | null | undefined): Observable<WorkHistoryListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetWorkHistoryByClientId?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -17562,20 +18909,20 @@ export class ReportServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetBorgBalanceReport(response_);
+            return this.processGetWorkHistoryByClientId(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetBorgBalanceReport(<any>response_);
+                    return this.processGetWorkHistoryByClientId(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<WorkHistoryListDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<WorkHistoryListDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetBorgBalanceReport(response: HttpResponseBase): Observable<string> {
+    protected processGetWorkHistoryByClientId(response: HttpResponseBase): Observable<WorkHistoryListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -17586,7 +18933,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? WorkHistoryListDto.fromJS(resultData200) : new WorkHistoryListDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -17594,17 +18941,17 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
+        return _observableOf<WorkHistoryListDto>(<any>null);
     }
 
     /**
-     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    getCoordinationReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetCoordinationReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+    getMedicalHistoryByClientId(input: string | null | undefined): Observable<MedicalHistoryListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Report/GetMedicalHistoryByClientId?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -17616,20 +18963,20 @@ export class ReportServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetCoordinationReport(response_);
+            return this.processGetMedicalHistoryByClientId(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetCoordinationReport(<any>response_);
+                    return this.processGetMedicalHistoryByClientId(<any>response_);
                 } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
+                    return <Observable<MedicalHistoryListDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<string>><any>_observableThrow(response_);
+                return <Observable<MedicalHistoryListDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetCoordinationReport(response: HttpResponseBase): Observable<string> {
+    protected processGetMedicalHistoryByClientId(response: HttpResponseBase): Observable<MedicalHistoryListDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -17640,7 +18987,7 @@ export class ReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            result200 = resultData200 ? MedicalHistoryListDto.fromJS(resultData200) : new MedicalHistoryListDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -17648,1114 +18995,7 @@ export class ReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getCrawlingProtocolReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetCrawlingProtocolReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetCrawlingProtocolReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetCrawlingProtocolReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetCrawlingProtocolReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getGaitReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetGaitReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetGaitReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetGaitReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetGaitReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param age (optional) 
-     * @param gender (optional) 
-     * @return Success
-     */
-    getGripStrengthReport(clientId: string | null | undefined, age: number | null | undefined, gender: number | null | undefined): Observable<ReportGripStrength> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetGripStrengthReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (age !== undefined)
-            url_ += "Age=" + encodeURIComponent("" + age) + "&"; 
-        if (gender !== undefined)
-            url_ += "Gender=" + encodeURIComponent("" + gender) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetGripStrengthReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetGripStrengthReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportGripStrength>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportGripStrength>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetGripStrengthReport(response: HttpResponseBase): Observable<ReportGripStrength> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportGripStrength.fromJS(resultData200) : new ReportGripStrength();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportGripStrength>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getLadderWorkProtocolReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetLadderWorkProtocolReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetLadderWorkProtocolReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetLadderWorkProtocolReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetLadderWorkProtocolReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getMusclePowerReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetMusclePowerReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetMusclePowerReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetMusclePowerReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetMusclePowerReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getPostureReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetPostureReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetPostureReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetPostureReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetPostureReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getRepetitiveFootMotionProtocolReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRepetitiveFootMotionProtocolReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRepetitiveFootMotionProtocolReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRepetitiveFootMotionProtocolReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRepetitiveFootMotionProtocolReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getRepetitiveSquattingProtocolReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRepetitiveSquattingProtocolReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRepetitiveSquattingProtocolReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRepetitiveSquattingProtocolReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRepetitiveSquattingProtocolReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param side (optional) 
-     * @return Success
-     */
-    getRoMAnkleReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMAnkleDto> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMAnkleReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRoMAnkleReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRoMAnkleReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportRoMAnkleDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportRoMAnkleDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRoMAnkleReport(response: HttpResponseBase): Observable<ReportRoMAnkleDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMAnkleDto.fromJS(resultData200) : new ReportRoMAnkleDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportRoMAnkleDto>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param side (optional) 
-     * @return Success
-     */
-    getRoMElbowReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMElbowDto> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMElbowReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRoMElbowReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRoMElbowReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportRoMElbowDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportRoMElbowDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRoMElbowReport(response: HttpResponseBase): Observable<ReportRoMElbowDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMElbowDto.fromJS(resultData200) : new ReportRoMElbowDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportRoMElbowDto>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param side (optional) 
-     * @return Success
-     */
-    getRoMForearmWristReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMForearmWristDto> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMForearmWristReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRoMForearmWristReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRoMForearmWristReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportRoMForearmWristDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportRoMForearmWristDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRoMForearmWristReport(response: HttpResponseBase): Observable<ReportRoMForearmWristDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMForearmWristDto.fromJS(resultData200) : new ReportRoMForearmWristDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportRoMForearmWristDto>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param side (optional) 
-     * @return Success
-     */
-    getRoMHandReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMHandDto> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHandReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRoMHandReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRoMHandReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportRoMHandDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportRoMHandDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRoMHandReport(response: HttpResponseBase): Observable<ReportRoMHandDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMHandDto.fromJS(resultData200) : new ReportRoMHandDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportRoMHandDto>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param side (optional) 
-     * @return Success
-     */
-    getRoMHipReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMHipDto> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMHipReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRoMHipReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRoMHipReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportRoMHipDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportRoMHipDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRoMHipReport(response: HttpResponseBase): Observable<ReportRoMHipDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMHipDto.fromJS(resultData200) : new ReportRoMHipDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportRoMHipDto>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param side (optional) 
-     * @return Success
-     */
-    getRoMKneeReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMKneeDto> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMKneeReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRoMKneeReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRoMKneeReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportRoMKneeDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportRoMKneeDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRoMKneeReport(response: HttpResponseBase): Observable<ReportRoMKneeDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMKneeDto.fromJS(resultData200) : new ReportRoMKneeDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportRoMKneeDto>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @param side (optional) 
-     * @return Success
-     */
-    getRoMShoulderReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMShoulderDto> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetRoMShoulderReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRoMShoulderReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetRoMShoulderReport(<any>response_);
-                } catch (e) {
-                    return <Observable<ReportRoMShoulderDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ReportRoMShoulderDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetRoMShoulderReport(response: HttpResponseBase): Observable<ReportRoMShoulderDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMShoulderDto.fromJS(resultData200) : new ReportRoMShoulderDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ReportRoMShoulderDto>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getSensationLowerReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetSensationLowerReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetSensationLowerReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetSensationLowerReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetSensationLowerReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getSensationTrunkReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetSensationTrunkReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetSensationTrunkReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetSensationTrunkReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetSensationTrunkReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getSensationUpperReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetSensationUpperReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetSensationUpperReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetSensationUpperReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetSensationUpperReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getStairClimbingProtocolReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetStairClimbingProtocolReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetStairClimbingProtocolReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetStairClimbingProtocolReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetStairClimbingProtocolReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getWalkingProtocolReport(clientId: string | null | undefined): Observable<string> {
-        let url_ = this.baseUrl + "/api/services/app/Report/GetWalkingProtocolReport?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetWalkingProtocolReport(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetWalkingProtocolReport(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetWalkingProtocolReport(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
+        return _observableOf<MedicalHistoryListDto>(<any>null);
     }
 }
 
@@ -27221,6 +27461,701 @@ export interface IMedicalHistoryListDto {
     id: string | undefined;
 }
 
+export class AssessmentReportDto implements IAssessmentReportDto {
+    reportGripStrength: ReportGripStrength | undefined;
+    reportRoMAnkle: ReportRoMAnkleDto[] | undefined;
+    reportRoMForearmWrist: ReportRoMForearmWristDto[] | undefined;
+    reportRoMHand: ReportRoMHandDto | undefined;
+    reportRoMHip: ReportRoMHipDto[] | undefined;
+    reportRoMKnee: ReportRoMKneeDto[] | undefined;
+    reportRoMShoulder: ReportRoMShoulderDto[] | undefined;
+    reportRoMElbow: ReportRoMElbowDto[] | undefined;
+    balanceProtocolReport: string | undefined;
+    borgBalanceReport: string | undefined;
+    coordinationReport: string | undefined;
+    crawlingProtocolReport: string | undefined;
+    gaitReport: string | undefined;
+    gripStrengthReport: string | undefined;
+    ladderWorkProtocolReport: string | undefined;
+    musclePowerReport: string | undefined;
+    postureReport: string | undefined;
+    repetitiveFootMotionProtocolReport: string | undefined;
+    repetitiveSquattingProtocolReport: string | undefined;
+    roMAnkleReport: string | undefined;
+    roMElbowReport: string | undefined;
+    roMForearmWristReport: string | undefined;
+    roMHandReport: string | undefined;
+    roMHipReport: string | undefined;
+    roMKneeReport: string | undefined;
+    roMShoulderReport: string | undefined;
+    sensationLowerReport: string | undefined;
+    sensationTrunkReport: string | undefined;
+    sensationUpperReport: string | undefined;
+    stairClimbingProtocolReport: string | undefined;
+    walkingProtocolReport: string | undefined;
+
+    constructor(data?: IAssessmentReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.reportGripStrength = data["reportGripStrength"] ? ReportGripStrength.fromJS(data["reportGripStrength"]) : <any>undefined;
+            if (data["reportRoMAnkle"] && data["reportRoMAnkle"].constructor === Array) {
+                this.reportRoMAnkle = [];
+                for (let item of data["reportRoMAnkle"])
+                    this.reportRoMAnkle.push(ReportRoMAnkleDto.fromJS(item));
+            }
+            if (data["reportRoMForearmWrist"] && data["reportRoMForearmWrist"].constructor === Array) {
+                this.reportRoMForearmWrist = [];
+                for (let item of data["reportRoMForearmWrist"])
+                    this.reportRoMForearmWrist.push(ReportRoMForearmWristDto.fromJS(item));
+            }
+            this.reportRoMHand = data["reportRoMHand"] ? ReportRoMHandDto.fromJS(data["reportRoMHand"]) : <any>undefined;
+            if (data["reportRoMHip"] && data["reportRoMHip"].constructor === Array) {
+                this.reportRoMHip = [];
+                for (let item of data["reportRoMHip"])
+                    this.reportRoMHip.push(ReportRoMHipDto.fromJS(item));
+            }
+            if (data["reportRoMKnee"] && data["reportRoMKnee"].constructor === Array) {
+                this.reportRoMKnee = [];
+                for (let item of data["reportRoMKnee"])
+                    this.reportRoMKnee.push(ReportRoMKneeDto.fromJS(item));
+            }
+            if (data["reportRoMShoulder"] && data["reportRoMShoulder"].constructor === Array) {
+                this.reportRoMShoulder = [];
+                for (let item of data["reportRoMShoulder"])
+                    this.reportRoMShoulder.push(ReportRoMShoulderDto.fromJS(item));
+            }
+            if (data["reportRoMElbow"] && data["reportRoMElbow"].constructor === Array) {
+                this.reportRoMElbow = [];
+                for (let item of data["reportRoMElbow"])
+                    this.reportRoMElbow.push(ReportRoMElbowDto.fromJS(item));
+            }
+            this.balanceProtocolReport = data["balanceProtocolReport"];
+            this.borgBalanceReport = data["borgBalanceReport"];
+            this.coordinationReport = data["coordinationReport"];
+            this.crawlingProtocolReport = data["crawlingProtocolReport"];
+            this.gaitReport = data["gaitReport"];
+            this.gripStrengthReport = data["gripStrengthReport"];
+            this.ladderWorkProtocolReport = data["ladderWorkProtocolReport"];
+            this.musclePowerReport = data["musclePowerReport"];
+            this.postureReport = data["postureReport"];
+            this.repetitiveFootMotionProtocolReport = data["repetitiveFootMotionProtocolReport"];
+            this.repetitiveSquattingProtocolReport = data["repetitiveSquattingProtocolReport"];
+            this.roMAnkleReport = data["roMAnkleReport"];
+            this.roMElbowReport = data["roMElbowReport"];
+            this.roMForearmWristReport = data["roMForearmWristReport"];
+            this.roMHandReport = data["roMHandReport"];
+            this.roMHipReport = data["roMHipReport"];
+            this.roMKneeReport = data["roMKneeReport"];
+            this.roMShoulderReport = data["roMShoulderReport"];
+            this.sensationLowerReport = data["sensationLowerReport"];
+            this.sensationTrunkReport = data["sensationTrunkReport"];
+            this.sensationUpperReport = data["sensationUpperReport"];
+            this.stairClimbingProtocolReport = data["stairClimbingProtocolReport"];
+            this.walkingProtocolReport = data["walkingProtocolReport"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reportGripStrength"] = this.reportGripStrength ? this.reportGripStrength.toJSON() : <any>undefined;
+        if (this.reportRoMAnkle && this.reportRoMAnkle.constructor === Array) {
+            data["reportRoMAnkle"] = [];
+            for (let item of this.reportRoMAnkle)
+                data["reportRoMAnkle"].push(item.toJSON());
+        }
+        if (this.reportRoMForearmWrist && this.reportRoMForearmWrist.constructor === Array) {
+            data["reportRoMForearmWrist"] = [];
+            for (let item of this.reportRoMForearmWrist)
+                data["reportRoMForearmWrist"].push(item.toJSON());
+        }
+        data["reportRoMHand"] = this.reportRoMHand ? this.reportRoMHand.toJSON() : <any>undefined;
+        if (this.reportRoMHip && this.reportRoMHip.constructor === Array) {
+            data["reportRoMHip"] = [];
+            for (let item of this.reportRoMHip)
+                data["reportRoMHip"].push(item.toJSON());
+        }
+        if (this.reportRoMKnee && this.reportRoMKnee.constructor === Array) {
+            data["reportRoMKnee"] = [];
+            for (let item of this.reportRoMKnee)
+                data["reportRoMKnee"].push(item.toJSON());
+        }
+        if (this.reportRoMShoulder && this.reportRoMShoulder.constructor === Array) {
+            data["reportRoMShoulder"] = [];
+            for (let item of this.reportRoMShoulder)
+                data["reportRoMShoulder"].push(item.toJSON());
+        }
+        if (this.reportRoMElbow && this.reportRoMElbow.constructor === Array) {
+            data["reportRoMElbow"] = [];
+            for (let item of this.reportRoMElbow)
+                data["reportRoMElbow"].push(item.toJSON());
+        }
+        data["balanceProtocolReport"] = this.balanceProtocolReport;
+        data["borgBalanceReport"] = this.borgBalanceReport;
+        data["coordinationReport"] = this.coordinationReport;
+        data["crawlingProtocolReport"] = this.crawlingProtocolReport;
+        data["gaitReport"] = this.gaitReport;
+        data["gripStrengthReport"] = this.gripStrengthReport;
+        data["ladderWorkProtocolReport"] = this.ladderWorkProtocolReport;
+        data["musclePowerReport"] = this.musclePowerReport;
+        data["postureReport"] = this.postureReport;
+        data["repetitiveFootMotionProtocolReport"] = this.repetitiveFootMotionProtocolReport;
+        data["repetitiveSquattingProtocolReport"] = this.repetitiveSquattingProtocolReport;
+        data["roMAnkleReport"] = this.roMAnkleReport;
+        data["roMElbowReport"] = this.roMElbowReport;
+        data["roMForearmWristReport"] = this.roMForearmWristReport;
+        data["roMHandReport"] = this.roMHandReport;
+        data["roMHipReport"] = this.roMHipReport;
+        data["roMKneeReport"] = this.roMKneeReport;
+        data["roMShoulderReport"] = this.roMShoulderReport;
+        data["sensationLowerReport"] = this.sensationLowerReport;
+        data["sensationTrunkReport"] = this.sensationTrunkReport;
+        data["sensationUpperReport"] = this.sensationUpperReport;
+        data["stairClimbingProtocolReport"] = this.stairClimbingProtocolReport;
+        data["walkingProtocolReport"] = this.walkingProtocolReport;
+        return data; 
+    }
+
+    clone(): AssessmentReportDto {
+        const json = this.toJSON();
+        let result = new AssessmentReportDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentReportDto {
+    reportGripStrength: ReportGripStrength | undefined;
+    reportRoMAnkle: ReportRoMAnkleDto[] | undefined;
+    reportRoMForearmWrist: ReportRoMForearmWristDto[] | undefined;
+    reportRoMHand: ReportRoMHandDto | undefined;
+    reportRoMHip: ReportRoMHipDto[] | undefined;
+    reportRoMKnee: ReportRoMKneeDto[] | undefined;
+    reportRoMShoulder: ReportRoMShoulderDto[] | undefined;
+    reportRoMElbow: ReportRoMElbowDto[] | undefined;
+    balanceProtocolReport: string | undefined;
+    borgBalanceReport: string | undefined;
+    coordinationReport: string | undefined;
+    crawlingProtocolReport: string | undefined;
+    gaitReport: string | undefined;
+    gripStrengthReport: string | undefined;
+    ladderWorkProtocolReport: string | undefined;
+    musclePowerReport: string | undefined;
+    postureReport: string | undefined;
+    repetitiveFootMotionProtocolReport: string | undefined;
+    repetitiveSquattingProtocolReport: string | undefined;
+    roMAnkleReport: string | undefined;
+    roMElbowReport: string | undefined;
+    roMForearmWristReport: string | undefined;
+    roMHandReport: string | undefined;
+    roMHipReport: string | undefined;
+    roMKneeReport: string | undefined;
+    roMShoulderReport: string | undefined;
+    sensationLowerReport: string | undefined;
+    sensationTrunkReport: string | undefined;
+    sensationUpperReport: string | undefined;
+    stairClimbingProtocolReport: string | undefined;
+    walkingProtocolReport: string | undefined;
+}
+
+export class ReportGripStrength implements IReportGripStrength {
+    rightHandWeight: number | undefined;
+    leftHandWeight: number | undefined;
+    normRight: number | undefined;
+    normLeft: number | undefined;
+
+    constructor(data?: IReportGripStrength) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.rightHandWeight = data["rightHandWeight"];
+            this.leftHandWeight = data["leftHandWeight"];
+            this.normRight = data["normRight"];
+            this.normLeft = data["normLeft"];
+        }
+    }
+
+    static fromJS(data: any): ReportGripStrength {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportGripStrength();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rightHandWeight"] = this.rightHandWeight;
+        data["leftHandWeight"] = this.leftHandWeight;
+        data["normRight"] = this.normRight;
+        data["normLeft"] = this.normLeft;
+        return data; 
+    }
+
+    clone(): ReportGripStrength {
+        const json = this.toJSON();
+        let result = new ReportGripStrength();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportGripStrength {
+    rightHandWeight: number | undefined;
+    leftHandWeight: number | undefined;
+    normRight: number | undefined;
+    normLeft: number | undefined;
+}
+
+export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
+    dorsiflexion: string | undefined;
+    plantarFlexion: string | undefined;
+    inversion: string | undefined;
+    eversion: string | undefined;
+    rangeOfMotionId: string | undefined;
+
+    constructor(data?: IReportRoMAnkleDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.dorsiflexion = data["dorsiflexion"];
+            this.plantarFlexion = data["plantarFlexion"];
+            this.inversion = data["inversion"];
+            this.eversion = data["eversion"];
+            this.rangeOfMotionId = data["rangeOfMotionId"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMAnkleDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMAnkleDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["dorsiflexion"] = this.dorsiflexion;
+        data["plantarFlexion"] = this.plantarFlexion;
+        data["inversion"] = this.inversion;
+        data["eversion"] = this.eversion;
+        data["rangeOfMotionId"] = this.rangeOfMotionId;
+        return data; 
+    }
+
+    clone(): ReportRoMAnkleDto {
+        const json = this.toJSON();
+        let result = new ReportRoMAnkleDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMAnkleDto {
+    dorsiflexion: string | undefined;
+    plantarFlexion: string | undefined;
+    inversion: string | undefined;
+    eversion: string | undefined;
+    rangeOfMotionId: string | undefined;
+}
+
+export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+    radialDeviation: string | undefined;
+    ulnarDeviation: string | undefined;
+    rangeOfMotionId: string | undefined;
+
+    constructor(data?: IReportRoMForearmWristDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.pronation = data["pronation"];
+            this.supination = data["supination"];
+            this.radialDeviation = data["radialDeviation"];
+            this.ulnarDeviation = data["ulnarDeviation"];
+            this.rangeOfMotionId = data["rangeOfMotionId"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMForearmWristDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMForearmWristDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["pronation"] = this.pronation;
+        data["supination"] = this.supination;
+        data["radialDeviation"] = this.radialDeviation;
+        data["ulnarDeviation"] = this.ulnarDeviation;
+        data["rangeOfMotionId"] = this.rangeOfMotionId;
+        return data; 
+    }
+
+    clone(): ReportRoMForearmWristDto {
+        const json = this.toJSON();
+        let result = new ReportRoMForearmWristDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMForearmWristDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+    radialDeviation: string | undefined;
+    ulnarDeviation: string | undefined;
+    rangeOfMotionId: string | undefined;
+}
+
+export class ReportRoMHandDto implements IReportRoMHandDto {
+    indexFingerScore: number | undefined;
+    littleFingerScore: number | undefined;
+    middleFingerScore: number | undefined;
+    ringFingerScore: number | undefined;
+    rangeOfMotionId: string | undefined;
+
+    constructor(data?: IReportRoMHandDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.indexFingerScore = data["indexFingerScore"];
+            this.littleFingerScore = data["littleFingerScore"];
+            this.middleFingerScore = data["middleFingerScore"];
+            this.ringFingerScore = data["ringFingerScore"];
+            this.rangeOfMotionId = data["rangeOfMotionId"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMHandDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMHandDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["indexFingerScore"] = this.indexFingerScore;
+        data["littleFingerScore"] = this.littleFingerScore;
+        data["middleFingerScore"] = this.middleFingerScore;
+        data["ringFingerScore"] = this.ringFingerScore;
+        data["rangeOfMotionId"] = this.rangeOfMotionId;
+        return data; 
+    }
+
+    clone(): ReportRoMHandDto {
+        const json = this.toJSON();
+        let result = new ReportRoMHandDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMHandDto {
+    indexFingerScore: number | undefined;
+    littleFingerScore: number | undefined;
+    middleFingerScore: number | undefined;
+    ringFingerScore: number | undefined;
+    rangeOfMotionId: string | undefined;
+}
+
+export class ReportRoMHipDto implements IReportRoMHipDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
+    rangeOfMotionId: string | undefined;
+
+    constructor(data?: IReportRoMHipDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.abduction = data["abduction"];
+            this.adduction = data["adduction"];
+            this.internalRotation = data["internalRotation"];
+            this.externalRotation = data["externalRotation"];
+            this.rangeOfMotionId = data["rangeOfMotionId"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMHipDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMHipDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["abduction"] = this.abduction;
+        data["adduction"] = this.adduction;
+        data["internalRotation"] = this.internalRotation;
+        data["externalRotation"] = this.externalRotation;
+        data["rangeOfMotionId"] = this.rangeOfMotionId;
+        return data; 
+    }
+
+    clone(): ReportRoMHipDto {
+        const json = this.toJSON();
+        let result = new ReportRoMHipDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMHipDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
+    rangeOfMotionId: string | undefined;
+}
+
+export class ReportRoMKneeDto implements IReportRoMKneeDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    rangeOfMotionId: string | undefined;
+
+    constructor(data?: IReportRoMKneeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.rangeOfMotionId = data["rangeOfMotionId"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMKneeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMKneeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["rangeOfMotionId"] = this.rangeOfMotionId;
+        return data; 
+    }
+
+    clone(): ReportRoMKneeDto {
+        const json = this.toJSON();
+        let result = new ReportRoMKneeDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMKneeDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    rangeOfMotionId: string | undefined;
+}
+
+export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
+    rangeOfMotionId: string | undefined;
+
+    constructor(data?: IReportRoMShoulderDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.abduction = data["abduction"];
+            this.adduction = data["adduction"];
+            this.internalRotation = data["internalRotation"];
+            this.externalRotation = data["externalRotation"];
+            this.rangeOfMotionId = data["rangeOfMotionId"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMShoulderDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMShoulderDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["abduction"] = this.abduction;
+        data["adduction"] = this.adduction;
+        data["internalRotation"] = this.internalRotation;
+        data["externalRotation"] = this.externalRotation;
+        data["rangeOfMotionId"] = this.rangeOfMotionId;
+        return data; 
+    }
+
+    clone(): ReportRoMShoulderDto {
+        const json = this.toJSON();
+        let result = new ReportRoMShoulderDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMShoulderDto {
+    extension: string | undefined;
+    flexion: string | undefined;
+    abduction: string | undefined;
+    adduction: string | undefined;
+    internalRotation: string | undefined;
+    externalRotation: string | undefined;
+    rangeOfMotionId: string | undefined;
+}
+
+export class ReportRoMElbowDto implements IReportRoMElbowDto {
+    rangeOfMotionId: string | undefined;
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+
+    constructor(data?: IReportRoMElbowDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.rangeOfMotionId = data["rangeOfMotionId"];
+            this.extension = data["extension"];
+            this.flexion = data["flexion"];
+            this.pronation = data["pronation"];
+            this.supination = data["supination"];
+        }
+    }
+
+    static fromJS(data: any): ReportRoMElbowDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportRoMElbowDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["rangeOfMotionId"] = this.rangeOfMotionId;
+        data["extension"] = this.extension;
+        data["flexion"] = this.flexion;
+        data["pronation"] = this.pronation;
+        data["supination"] = this.supination;
+        return data; 
+    }
+
+    clone(): ReportRoMElbowDto {
+        const json = this.toJSON();
+        let result = new ReportRoMElbowDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportRoMElbowDto {
+    rangeOfMotionId: string | undefined;
+    extension: string | undefined;
+    flexion: string | undefined;
+    pronation: string | undefined;
+    supination: string | undefined;
+}
+
 export class CognitiveParentDto implements ICognitiveParentDto {
     assessment: Assessment | undefined;
     assessmentId: string | undefined;
@@ -35541,462 +36476,6 @@ export interface IRepetitiveSquattingProtocolDto {
     id: string | undefined;
 }
 
-export class ReportGripStrength implements IReportGripStrength {
-    rightHandWeight: number | undefined;
-    leftHandWeight: number | undefined;
-    normRight: number | undefined;
-    normLeft: number | undefined;
-
-    constructor(data?: IReportGripStrength) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.rightHandWeight = data["rightHandWeight"];
-            this.leftHandWeight = data["leftHandWeight"];
-            this.normRight = data["normRight"];
-            this.normLeft = data["normLeft"];
-        }
-    }
-
-    static fromJS(data: any): ReportGripStrength {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportGripStrength();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["rightHandWeight"] = this.rightHandWeight;
-        data["leftHandWeight"] = this.leftHandWeight;
-        data["normRight"] = this.normRight;
-        data["normLeft"] = this.normLeft;
-        return data; 
-    }
-
-    clone(): ReportGripStrength {
-        const json = this.toJSON();
-        let result = new ReportGripStrength();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportGripStrength {
-    rightHandWeight: number | undefined;
-    leftHandWeight: number | undefined;
-    normRight: number | undefined;
-    normLeft: number | undefined;
-}
-
-export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
-    dorsiflexion: string | undefined;
-    plantarFlexion: string | undefined;
-    inversion: string | undefined;
-    eversion: string | undefined;
-
-    constructor(data?: IReportRoMAnkleDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.dorsiflexion = data["dorsiflexion"];
-            this.plantarFlexion = data["plantarFlexion"];
-            this.inversion = data["inversion"];
-            this.eversion = data["eversion"];
-        }
-    }
-
-    static fromJS(data: any): ReportRoMAnkleDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportRoMAnkleDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["dorsiflexion"] = this.dorsiflexion;
-        data["plantarFlexion"] = this.plantarFlexion;
-        data["inversion"] = this.inversion;
-        data["eversion"] = this.eversion;
-        return data; 
-    }
-
-    clone(): ReportRoMAnkleDto {
-        const json = this.toJSON();
-        let result = new ReportRoMAnkleDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportRoMAnkleDto {
-    dorsiflexion: string | undefined;
-    plantarFlexion: string | undefined;
-    inversion: string | undefined;
-    eversion: string | undefined;
-}
-
-export class ReportRoMElbowDto implements IReportRoMElbowDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    pronation: string | undefined;
-    supination: string | undefined;
-
-    constructor(data?: IReportRoMElbowDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.extension = data["extension"];
-            this.flexion = data["flexion"];
-            this.pronation = data["pronation"];
-            this.supination = data["supination"];
-        }
-    }
-
-    static fromJS(data: any): ReportRoMElbowDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportRoMElbowDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["flexion"] = this.flexion;
-        data["pronation"] = this.pronation;
-        data["supination"] = this.supination;
-        return data; 
-    }
-
-    clone(): ReportRoMElbowDto {
-        const json = this.toJSON();
-        let result = new ReportRoMElbowDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportRoMElbowDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    pronation: string | undefined;
-    supination: string | undefined;
-}
-
-export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    pronation: string | undefined;
-    supination: string | undefined;
-    radialDeviation: string | undefined;
-    ulnarDeviation: string | undefined;
-
-    constructor(data?: IReportRoMForearmWristDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.extension = data["extension"];
-            this.flexion = data["flexion"];
-            this.pronation = data["pronation"];
-            this.supination = data["supination"];
-            this.radialDeviation = data["radialDeviation"];
-            this.ulnarDeviation = data["ulnarDeviation"];
-        }
-    }
-
-    static fromJS(data: any): ReportRoMForearmWristDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportRoMForearmWristDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["flexion"] = this.flexion;
-        data["pronation"] = this.pronation;
-        data["supination"] = this.supination;
-        data["radialDeviation"] = this.radialDeviation;
-        data["ulnarDeviation"] = this.ulnarDeviation;
-        return data; 
-    }
-
-    clone(): ReportRoMForearmWristDto {
-        const json = this.toJSON();
-        let result = new ReportRoMForearmWristDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportRoMForearmWristDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    pronation: string | undefined;
-    supination: string | undefined;
-    radialDeviation: string | undefined;
-    ulnarDeviation: string | undefined;
-}
-
-export class ReportRoMHandDto implements IReportRoMHandDto {
-    indexFingerScore: number | undefined;
-    littleFingerScore: number | undefined;
-    middleFingerScore: number | undefined;
-    ringFingerScore: number | undefined;
-
-    constructor(data?: IReportRoMHandDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.indexFingerScore = data["indexFingerScore"];
-            this.littleFingerScore = data["littleFingerScore"];
-            this.middleFingerScore = data["middleFingerScore"];
-            this.ringFingerScore = data["ringFingerScore"];
-        }
-    }
-
-    static fromJS(data: any): ReportRoMHandDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportRoMHandDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["indexFingerScore"] = this.indexFingerScore;
-        data["littleFingerScore"] = this.littleFingerScore;
-        data["middleFingerScore"] = this.middleFingerScore;
-        data["ringFingerScore"] = this.ringFingerScore;
-        return data; 
-    }
-
-    clone(): ReportRoMHandDto {
-        const json = this.toJSON();
-        let result = new ReportRoMHandDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportRoMHandDto {
-    indexFingerScore: number | undefined;
-    littleFingerScore: number | undefined;
-    middleFingerScore: number | undefined;
-    ringFingerScore: number | undefined;
-}
-
-export class ReportRoMHipDto implements IReportRoMHipDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    abduction: string | undefined;
-    adduction: string | undefined;
-    internalRotation: string | undefined;
-    externalRotation: string | undefined;
-
-    constructor(data?: IReportRoMHipDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.extension = data["extension"];
-            this.flexion = data["flexion"];
-            this.abduction = data["abduction"];
-            this.adduction = data["adduction"];
-            this.internalRotation = data["internalRotation"];
-            this.externalRotation = data["externalRotation"];
-        }
-    }
-
-    static fromJS(data: any): ReportRoMHipDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportRoMHipDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["flexion"] = this.flexion;
-        data["abduction"] = this.abduction;
-        data["adduction"] = this.adduction;
-        data["internalRotation"] = this.internalRotation;
-        data["externalRotation"] = this.externalRotation;
-        return data; 
-    }
-
-    clone(): ReportRoMHipDto {
-        const json = this.toJSON();
-        let result = new ReportRoMHipDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportRoMHipDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    abduction: string | undefined;
-    adduction: string | undefined;
-    internalRotation: string | undefined;
-    externalRotation: string | undefined;
-}
-
-export class ReportRoMKneeDto implements IReportRoMKneeDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-
-    constructor(data?: IReportRoMKneeDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.extension = data["extension"];
-            this.flexion = data["flexion"];
-        }
-    }
-
-    static fromJS(data: any): ReportRoMKneeDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportRoMKneeDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["flexion"] = this.flexion;
-        return data; 
-    }
-
-    clone(): ReportRoMKneeDto {
-        const json = this.toJSON();
-        let result = new ReportRoMKneeDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportRoMKneeDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-}
-
-export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    abduction: string | undefined;
-    adduction: string | undefined;
-    internalRotation: string | undefined;
-    externalRotation: string | undefined;
-
-    constructor(data?: IReportRoMShoulderDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.extension = data["extension"];
-            this.flexion = data["flexion"];
-            this.abduction = data["abduction"];
-            this.adduction = data["adduction"];
-            this.internalRotation = data["internalRotation"];
-            this.externalRotation = data["externalRotation"];
-        }
-    }
-
-    static fromJS(data: any): ReportRoMShoulderDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ReportRoMShoulderDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["extension"] = this.extension;
-        data["flexion"] = this.flexion;
-        data["abduction"] = this.abduction;
-        data["adduction"] = this.adduction;
-        data["internalRotation"] = this.internalRotation;
-        data["externalRotation"] = this.externalRotation;
-        return data; 
-    }
-
-    clone(): ReportRoMShoulderDto {
-        const json = this.toJSON();
-        let result = new ReportRoMShoulderDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IReportRoMShoulderDto {
-    extension: string | undefined;
-    flexion: string | undefined;
-    abduction: string | undefined;
-    adduction: string | undefined;
-    internalRotation: string | undefined;
-    externalRotation: string | undefined;
-}
-
 export class CreateRoleDto implements ICreateRoleDto {
     name: string;
     displayName: string;
@@ -38342,6 +38821,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
     distance: number | undefined;
     isStopped: boolean | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
 
     constructor(data?: IUnilateralTestCreateInput) {
         if (data) {
@@ -38363,6 +38843,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
             this.distance = data["distance"];
             this.isStopped = data["isStopped"];
             this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
         }
     }
 
@@ -38384,6 +38865,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
         data["distance"] = this.distance;
         data["isStopped"] = this.isStopped;
         data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
         return data; 
     }
 
@@ -38405,6 +38887,7 @@ export interface IUnilateralTestCreateInput {
     distance: number | undefined;
     isStopped: boolean | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
 }
 
 export class ListResultDtoOfUnilateralTestDto implements IListResultDtoOfUnilateralTestDto {
@@ -38469,6 +38952,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
     distance: number | undefined;
     isStopped: boolean | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
     unilateralId: string | undefined;
     id: string | undefined;
 
@@ -38493,6 +38977,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
             this.distance = data["distance"];
             this.isStopped = data["isStopped"];
             this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
             this.unilateralId = data["unilateralId"];
             this.id = data["id"];
         }
@@ -38517,6 +39002,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
         data["distance"] = this.distance;
         data["isStopped"] = this.isStopped;
         data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
         data["unilateralId"] = this.unilateralId;
         data["id"] = this.id;
         return data; 
@@ -38541,6 +39027,7 @@ export interface IUnilateralTestDto {
     distance: number | undefined;
     isStopped: boolean | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
     unilateralId: string | undefined;
     id: string | undefined;
 }

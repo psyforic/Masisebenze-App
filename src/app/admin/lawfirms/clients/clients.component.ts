@@ -1,4 +1,4 @@
-import { SensationServiceProxy, PostureServiceProxy } from './../../../../shared/service-proxies/service-proxies';
+import { SensationServiceProxy, PostureServiceProxy, ClientAssessmentReportServiceProxy, AssessmentReportDto } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import {
@@ -40,7 +40,8 @@ import { FormControl } from '@angular/forms';
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy,
-    MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy]
+    MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy,
+    ClientAssessmentReportServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -55,20 +56,20 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   isSaving = false; isGenerating = false; documents: DocumentListDto[] = [];
   filteredDocuments; lawFirmCity: string;
   gripStrengthReport: ReportGripStrength; musclePowerReport: string;
-  shoulderLeftReport: ReportRoMShoulderDto = new ReportRoMShoulderDto();
-  shoulderRightReport: ReportRoMShoulderDto = new ReportRoMShoulderDto();
-  forearmWristLeftReport: ReportRoMForearmWristDto = new ReportRoMForearmWristDto();
-  forearmWristRightReport: ReportRoMForearmWristDto = new ReportRoMForearmWristDto();
-  elbowLeftReport: ReportRoMElbowDto = new ReportRoMElbowDto();
-  elbowRightReport: ReportRoMElbowDto = new ReportRoMElbowDto();
+  shoulderLeftReport: ReportRoMShoulderDto[] = [];
+  shoulderRightReport: ReportRoMShoulderDto[] = [];
+  forearmWristLeftReport: ReportRoMForearmWristDto[] = [];
+  forearmWristRightReport: ReportRoMForearmWristDto[] = [];
+  elbowLeftReport: ReportRoMElbowDto[] = [];
+  elbowRightReport: ReportRoMElbowDto[] = [];
   handLeftReport: ReportRoMHandDto = new ReportRoMHandDto();
   handRightReport: ReportRoMHandDto = new ReportRoMHandDto();
-  hipLeftReport: ReportRoMHipDto = new ReportRoMHipDto();
-  hipRightReport: ReportRoMHipDto = new ReportRoMHipDto();
-  kneeLeftReport: ReportRoMKneeDto = new ReportRoMKneeDto();
-  kneeRightReport: ReportRoMKneeDto = new ReportRoMKneeDto();
-  ankleLeftReport: ReportRoMAnkleDto = new ReportRoMAnkleDto();
-  ankleRightReport: ReportRoMAnkleDto = new ReportRoMAnkleDto();
+  hipLeftReport: ReportRoMHipDto[]= [];
+  hipRightReport: ReportRoMHipDto[] = [];
+  kneeLeftReport: ReportRoMKneeDto[] = [];
+  kneeRightReport: ReportRoMKneeDto[] = [];
+  ankleLeftReport: ReportRoMAnkleDto[] = [];
+  ankleRightReport: ReportRoMAnkleDto[] = [];
   borgBalanceReport: string; sensation: string; affectComment: string;
   mobilityComment: string; coordinationReport: string; postureReport: string;
   gaitReport: string; walkingReport: string; stairClimbing: string;
@@ -88,6 +89,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private _reportService: ReportServiceProxy,
+    private _assessmentReportService: ClientAssessmentReportServiceProxy,
     private _generalService: GeneralService,
     private _affectService: AffectServiceProxy,
     private _mobilityService: MobilityServiceProxy,
@@ -124,7 +126,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
   generate(client) {
     let entity: ClientDetailOutput = new ClientDetailOutput();
-    this.clientService.getDetail(client.id).pipe(finalize(() => {
+    // this.clientService.getDetail(client.id).pipe(finalize(() => {
+
+    // })).subscribe((result) => {
+    //   entity = result;
+    // });
+    this._reportService.getPersonalDetails(client.id).pipe(finalize(() => {
 
     })).subscribe((result) => {
       entity = result;
@@ -136,33 +143,35 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.getFileData(client.id);
     this.lawFirmCity = 'Port Elizabeth';
     const address: CreateAddressInput = new CreateAddressInput();
-    this.clientService.getDetail(client.id)
-      .pipe(finalize(() => {
-        this.clientService.getMedicalHistoryByClientId(client.id)
-          .pipe(finalize(() => { }))
-          .subscribe((result) => {
-            this.medicalData = result;
-          });
-        this.clientService.getWorkHistoryByClientId(client.id)
-          .subscribe((result) => {
-            this.workData = result;
-          });
-      }))
-      .subscribe((result) => {
-        address.line1 = result.address.line1;
-        address.line2 = result.address.line2;
-        address.city = result.address.city;
-        address.postalCode = result.address.postalCode;
-        address.province = result.address.province;
-      });
+    // const assessmentReportParams = new Assessment();
+    // assessmentReportParams.clientId = client.id;
+    // this._assessmentReportService.getAssessmentReport(assessmentReportParams)
+    //   .pipe(finalize(() => {
+    //     this.clientService.getMedicalHistoryByClientId(client.id)
+    //       .pipe(finalize(() => { }))
+    //       .subscribe((result) => {
+    //         this.medicalData = result;
+    //       });
+    //     this.clientService.getWorkHistoryByClientId(client.id)
+    //       .subscribe((result) => {
+    //         this.workData = result;
+    //       });
+    //   }))
+    //   .subscribe((result) => {
+    //     address.line1 = entity.address.
+    //     address.line2 = result.address.line2;
+    //     address.city = result.address.city;
+    //     address.postalCode = result.address.postalCode;
+    //     address.province = result.address.province;
+    //   });
     const age = this._generalService.getAge('' + client.idNumber);
     const gender = this._generalService.getGender('' + client.idNumber);
     const docCreator = new DocumentCreator();
     this.getReportData(client.id, age, gender);
     setTimeout(async () => {
-      await this.generateDocument(docCreator, entity, address)
+      await this.generateDocument(docCreator, entity, entity.address)
         .then(() => {
-          this.notify.success('Saved Successfully', 'Success');
+          // this.notify.success('Saved Successfully', 'Success');
           this.isGenerating = false;
         })
         .catch(error => {
@@ -178,7 +187,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
   }
   async getMedicalHistory(id) {
-    this.clientService.getMedicalHistoryByClientId(id)
+    this._reportService.getMedicalHistoryByClientId(id)
       .pipe(finalize(() => {
       }))
       .subscribe((result) => {
@@ -201,7 +210,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
   async getWorkHistory(id) {
-    this.clientService.getWorkHistoryByClientId(id)
+    this._reportService.getWorkHistoryByClientId(id)
       .pipe(finalize(() => { }))
       .subscribe((result) => {
         this.workData = result;
@@ -271,64 +280,64 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     await this.getCrawling(clientId);
   }
   async getGripStrength(clientId: string, age: number, gender: number) {
-    this._reportService.getGripStrengthReport(clientId, age, gender)
+    this._assessmentReportService.getGripStrengthReport(clientId, age, gender)
       .subscribe((result) => {
         this.gripStrengthReport = result;
         this.assessmentReport[0] = result;
       });
   }
   async getMusclePower(clientId: string) {
-    this._reportService.getMusclePowerReport(clientId)
+    this._assessmentReportService.getMusclePowerReport(clientId)
       .subscribe((result) => {
         this.musclePowerReport = result;
         this.assessmentReport[1] = result;
       });
   }
   async getShoulders(clientId: string) {
-    this._reportService.getRoMShoulderReport(clientId, 0)
+    this._assessmentReportService.getRoMShoulderReport(clientId)
       .subscribe((result) => {
         this.shoulderLeftReport = result;
         this.rangeOfMotionReport[0] = result;
       });
 
-    this._reportService.getRoMShoulderReport(clientId, 1)
+    this._assessmentReportService.getRoMShoulderReport(clientId)
       .subscribe((result) => {
         this.shoulderRightReport = result;
         this.rangeOfMotionReport[1] = result;
       });
   }
   async getForearmWrist(clientId: string) {
-    this._reportService.getRoMForearmWristReport(clientId, 0)
+    this._assessmentReportService.getRoMForearmWristReport(clientId)
       .subscribe((result) => {
         this.forearmWristLeftReport = result;
         this.rangeOfMotionReport[2] = result;
       });
-    this._reportService.getRoMForearmWristReport(clientId, 1)
+    this._assessmentReportService.getRoMForearmWristReport(clientId)
       .subscribe((result) => {
         this.forearmWristRightReport = result;
         this.rangeOfMotionReport[3] = result;
       });
   }
   async getElbow(clientId: string) {
-    this._reportService.getRoMElbowReport(clientId, 0)
+    this._assessmentReportService.getRoMElbowReport(clientId)
       .subscribe((result) => {
         this.elbowLeftReport = result;
         this.rangeOfMotionReport[4] = result;
       });
-    this._reportService.getRoMElbowReport(clientId, 1)
+    this._assessmentReportService.getRoMElbowReport(clientId)
       .subscribe((result) => {
         this.elbowRightReport = result;
         this.rangeOfMotionReport[5] = result;
       });
   }
   async getHand(clientId: string) {
-    this._reportService.getRoMHandReport(clientId, 0)
+    this._assessmentReportService.getRoMHandReport(clientId, 0)
       .subscribe((result) => {
         this.handLeftReport = result;
         this.rangeOfMotionReport[6] = result;
       });
 
-    this._reportService.getRoMHandReport(clientId, 1)
+    this._assessmentReportService.getRoMHandReport(clientId, 1)
       .subscribe((result) => {
         this.handRightReport = result;
         this.rangeOfMotionReport[7] = result;
@@ -336,12 +345,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async getHip(clientId: string) {
-    this._reportService.getRoMHipReport(clientId, 0)
+    this._assessmentReportService.getRoMHipReport(clientId)
       .subscribe((result) => {
         this.hipLeftReport = result;
         this.rangeOfMotionReport[8] = result;
       });
-    this._reportService.getRoMHipReport(clientId, 1)
+    this._assessmentReportService.getRoMHipReport(clientId)
       .subscribe((result) => {
         this.hipRightReport = result;
         this.rangeOfMotionReport[9] = result;
@@ -349,25 +358,24 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async getKnee(clientId: string) {
-    this._reportService.getRoMKneeReport(clientId, 0)
+    this._assessmentReportService.getRoMKneeReport(clientId)
       .subscribe((result) => {
         this.kneeLeftReport = result;
         this.rangeOfMotionReport[10] = result;
       });
-    this._reportService.getRoMKneeReport(clientId, 1)
+    this._assessmentReportService.getRoMKneeReport(clientId)
       .subscribe((result) => {
         this.kneeRightReport = result;
         this.rangeOfMotionReport[11] = result;
       });
   }
-
   async getAnkle(clientId: string) {
-    this._reportService.getRoMAnkleReport(clientId, 0)
+    this._assessmentReportService.getRoMAnkleReport(clientId)
       .subscribe((result) => {
         this.ankleLeftReport = result;
         this.rangeOfMotionReport[12] = result;
       });
-    this._reportService.getRoMAnkleReport(clientId, 1)
+    this._assessmentReportService.getRoMAnkleReport(clientId)
       .subscribe((result) => {
         this.ankleRightReport = result;
         this.rangeOfMotionReport[13] = result;
@@ -375,7 +383,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async getBorgBalance(clientId: string) {
-    this._reportService.getBorgBalanceReport(clientId)
+    this._assessmentReportService.getBorgBalanceReport(clientId)
       .subscribe((result) => {
         this.borgBalanceReport = result;
         this.assessmentReport[9] = result;
@@ -395,7 +403,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async  getCoordination(clientId: string) {
-    this._reportService.getCoordinationReport(clientId)
+    this._assessmentReportService.getCoordinationReport(clientId)
       .subscribe((result) => {
         this.coordinationReport = result;
         this.assessmentReport[13] = result;
@@ -403,7 +411,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async  getPosture(clientId: string) {
-    this._reportService.getPostureReport(clientId)
+    this._assessmentReportService.getPostureReport(clientId)
       .subscribe((result) => {
         this.postureReport = result;
         this.assessmentReport[14] = result;
@@ -411,7 +419,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async getGait(clientId: string) {
-    this._reportService.getGaitReport(clientId)
+    this._assessmentReportService.getGaitReport(clientId)
       .subscribe((result) => {
         this.gaitReport = result;
         this.assessmentReport[15] = result;
@@ -441,21 +449,21 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       );
   }
   async getWalking(clientId: string) {
-    this._reportService.getWalkingProtocolReport(clientId)
+    this._assessmentReportService.getWalkingProtocolReport(clientId)
       .subscribe((result) => {
         this.walkingReport = result;
         this.assessmentReport[16] = result;
       });
   }
   async getStairClimbing(clientId: string) {
-    this._reportService.getStairClimbingProtocolReport(clientId)
+    this._assessmentReportService.getStairClimbingProtocolReport(clientId)
       .subscribe((result) => {
         this.stairClimbing = result;
         this.assessmentReport[17] = result;
       });
   }
   async  getBalance(clientId: string) {
-    this._reportService.getBalanceProtocolReport(clientId)
+    this._assessmentReportService.getBalanceProtocolReport(clientId)
       .subscribe((result) => {
         this.balanceReport = result;
         this.assessmentReport[18] = result;
@@ -463,7 +471,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async getLadderWork(clientId: string) {
-    this._reportService.getLadderWorkProtocolReport(clientId)
+    this._assessmentReportService.getLadderWorkProtocolReport(clientId)
       .subscribe((result) => {
         this.ladderWork = result;
         this.assessmentReport[19] = result;
@@ -471,7 +479,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async getRepetitiveSquatting(clientId: string) {
-    this._reportService.getRepetitiveSquattingProtocolReport(clientId)
+    this._assessmentReportService.getRepetitiveSquattingProtocolReport(clientId)
       .subscribe((result) => {
         this.repetitiveSquatting = result;
         this.assessmentReport[20] = result;
@@ -479,14 +487,14 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
 
   async getRepetitiveFootMotion(clientId: string) {
-    this._reportService.getRepetitiveFootMotionProtocolReport(clientId)
+    this._assessmentReportService.getRepetitiveFootMotionProtocolReport(clientId)
       .subscribe((result) => {
         this.repetitiveFootMotionReport = result;
         this.assessmentReport[21] = result;
       });
   }
   async getCrawling(clientId: string) {
-    this._reportService.getCrawlingProtocolReport(clientId)
+    this._assessmentReportService.getCrawlingProtocolReport(clientId)
       .pipe(finalize(() => {
         this.isGenerating = false;
       }))
