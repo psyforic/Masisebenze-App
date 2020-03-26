@@ -27,6 +27,7 @@ import { EditContactComponent } from '../../contacts/edit-contact/edit-contact.c
 import { DocumentCreator } from '@app/admin/partials/document-creator';
 import * as moment from 'moment';
 import { AppComponentBase } from '@shared/app-component-base';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -82,7 +83,8 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     private lawFimService: LawFirmServiceProxy,
     private contactService: ContactServiceProxy,
     private clientService: ClientServiceProxy,
-    private documentService: DocumentServiceProxy) {
+    private documentService: DocumentServiceProxy,
+    private _location: Location) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.lawFirmId = paramMap.get('id');
@@ -94,6 +96,9 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     this.getAttorneys();
     this.getContacts();
     this.getClients();
+  }
+  backClicked() {
+    this._location.back();
   }
   getLawFirm() {
     this.isLoading = true;
@@ -298,8 +303,9 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         if (result) {
           this.contactService.delete(entity.id).pipe(finalize(() => {
             abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
-          })).subscribe(() => {
             this.getClients();
+          })).subscribe(() => {
+
           });
         }
       }

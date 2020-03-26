@@ -4,10 +4,8 @@ import { RegistrationComponent } from './../assessments/cognitive-assessments/re
 import { PerceptualAbilityComponent } from './../assessments/cognitive-assessments/perceptual-ability/perceptual-ability.component';
 import { MemoryComponent } from './../assessments/cognitive-assessments/memory/memory.component';
 import { LanguageComponent } from './../assessments/cognitive-assessments/language/language.component';
-import { AttentionAndConcentrationComponent }
-  from './../assessments/cognitive-assessments/attention-and-concentration/attention-and-concentration.component';
-import { QuestionnaireCommentComponent }
-  from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
+import { AttentionAndConcentrationComponent } from './../assessments/cognitive-assessments/attention-and-concentration/attention-and-concentration.component';
+import { QuestionnaireCommentComponent } from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { QuestionnaireComponent } from './../assessments/functional-assessment/questionnaire/questionnaire.component';
 import { FunctionalAssessmentComponent } from './../assessments/functional-assessment/functional-assessment.component';
 import { DocumentFolder } from './../../../documents/document-types';
@@ -55,6 +53,7 @@ import { RepetitiveToleranceProtocolComponent } from '../assessments/repetitive-
 import { MusclePowerComponent } from '../assessments/muscle-power/muscle-power.component';
 import { AffectComponent } from '../assessments/affect/affect.component';
 import { MobilityComponent } from '../assessments/mobility/mobility.component';
+import { Location } from '@angular/common';
 export const DD_MM_YYYY_Format = {
   parse: {
     dateInput: 'LL',
@@ -171,7 +170,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     private _lawFirmService: LawFirmServiceProxy,
     private route: ActivatedRoute,
     private afStorage: AngularFireStorage,
-    private generalService: GeneralService
+    private generalService: GeneralService,
+    private _location: Location
   ) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -253,6 +253,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.workHistory = result;
       });
     this.generalService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+  }
+  backClicked() {
+    this._location.back();
   }
   getDocuments(documentId: number) {
     return this.childDocuments.filter(x => x.parentDocId === documentId);

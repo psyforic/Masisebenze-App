@@ -6,8 +6,7 @@
                     <strong class="ml-2">{{client.firstName}} {{client.lastName}}</strong>
                 </h1>
                 <div class="header-toolbar">
-                    <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary"
-                        matTooltip="Back">
+                    <button (click)="backClicked()" mat-icon-button color="primary" matTooltip="Back">
                         <mat-icon>keyboard_backspace</mat-icon>
                     </button>
                 </div>
@@ -22,8 +21,7 @@
                             <mat-form-field>
                                 <mat-label>Parent Document</mat-label>
                                 <mat-select required formControlName="parentDocId">
-                                    <mat-option *ngFor="let document of documentTypes" value="{{document.id}}"
-                                        (onSelectionChange)="selectedId($event,document.value)">
+                                    <mat-option *ngFor="let document of documentTypes" value="{{document.id}}" (onSelectionChange)="selectedId($event,document.value)">
                                         {{document.value}}
                                     </mat-option>
                                 </mat-select>
@@ -36,8 +34,7 @@
 
                         <div class="col-lg-6">
                             <mat-form-field>
-                                <input required type="text" matInput placeholder="File Author"
-                                    formControlName="authorName" required>
+                                <input required type="text" matInput placeholder="File Author" formControlName="authorName" required>
                                 <mat-error *ngIf="documentForm.get('authorName').touched
                                         && documentForm.get('authorName').hasError('required')">
                                     File Author is Required
@@ -48,8 +45,7 @@
                     <div class="row">
                         <div class="col-lg-6" [hidden]="!isRequired(fileName)">
                             <mat-form-field>
-                                <input [required]="isRequired(fileName)" matInput [matDatepicker]="picker"
-                                    formControlName="authorDate" placeholder="Date Authored" name="date" readonly>
+                                <input [required]="isRequired(fileName)" (click)="picker.open()" (focus)="picker.open()" matInput [matDatepicker]="picker" formControlName="authorDate" placeholder="Date Authored" name="date" readonly>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
                                 <mat-error *ngIf="documentForm.get('authorDate').touched
@@ -72,8 +68,7 @@
                             </button>
                         </div>
                         <div class="header-toolbar">
-                            <button type="submit" mat-raised-button color="primary" class="pull-right"
-                                [disabled]="!documentForm.valid || isUploading">Upload</button>
+                            <button type="submit" mat-raised-button color="primary" class="pull-right" [disabled]="!documentForm.valid || isUploading">Upload</button>
                         </div>
                     </div>
                 </div>

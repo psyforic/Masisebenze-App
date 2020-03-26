@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    <button mat-icon-button [routerLink]="['../../']">
+                    <button mat-icon-button (click)="backClicked()">
                         <mat-icon>keyboard_backspace</mat-icon>
                     </button> {{lawFirm.companyName}}
                 </div>
@@ -34,15 +34,13 @@
                                     <div class="col-lg-6">
                                         <mat-form-field>
                                             <mat-label>Company Name</mat-label>
-                                            <input type="text" matInput [(ngModel)]="lawFirm.companyName"
-                                                name="companyName" readonly>
+                                            <input type="text" matInput [(ngModel)]="lawFirm.companyName" name="companyName" readonly>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-lg-6">
                                         <mat-form-field>
                                             <mat-label>Email</mat-label>
-                                            <input type="text" matInput [(ngModel)]="lawFirm.email" name="email"
-                                                readonly>
+                                            <input type="text" matInput [(ngModel)]="lawFirm.email" name="email" readonly>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -50,8 +48,7 @@
                                     <div class="col-lg-6">
                                         <mat-form-field>
                                             <mat-label>Phone</mat-label>
-                                            <input type="text" matInput [(ngModel)]="lawFirm.phone" name="phone"
-                                                readonly>
+                                            <input type="text" matInput [(ngModel)]="lawFirm.phone" name="phone" readonly>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-lg-6">
@@ -69,17 +66,13 @@
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Line 1</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm.physicalAddress.line1" name="line1"
-                                                        readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm.physicalAddress.line1" name="line1" readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Line 2</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.physicalAddress.line2" name="line2"
-                                                        readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.physicalAddress.line2" name="line2" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -87,17 +80,13 @@
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>City</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.physicalAddress.city" name="city"
-                                                        readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.physicalAddress.city" name="city" readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Province</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.physicalAddress.province" name="province"
-                                                        readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.physicalAddress.province" name="province" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -105,9 +94,7 @@
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Postal Code</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.physicalAddress.postalCode"
-                                                        name="postalCode" readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.physicalAddress.postalCode" name="postalCode" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -118,17 +105,13 @@
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Line 1</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.postalAddress.line1" name="postLine1"
-                                                        readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.postalAddress.line1" name="postLine1" readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Line 2</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.postalAddress.line2" name="postLine2"
-                                                        readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.postalAddress.line2" name="postLine2" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -136,17 +119,13 @@
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>City</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.postalAddress.city" name="postCity"
-                                                        readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.postalAddress.city" name="postCity" readonly>
                                                 </mat-form-field>
                                             </div>
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Province</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.postalAddress.province"
-                                                        name="postProvince" readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.postalAddress.province" name="postProvince" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -154,9 +133,7 @@
                                             <div class="col-lg-12">
                                                 <mat-form-field>
                                                     <mat-label>Postal Code</mat-label>
-                                                    <input type="text" matInput
-                                                        [(ngModel)]="lawFirm?.postalAddress.postalCode"
-                                                        name="postPostalCode" readonly>
+                                                    <input type="text" matInput [(ngModel)]="lawFirm?.postalAddress.postalCode" name="postPostalCode" readonly>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -177,8 +154,7 @@
                             </ng-template>
                             <div class="row">
                                 <div class="col-lg-12 mt-1">
-                                    <button class="pull-right" (click)="addAttorney()" mat-raised-button color="primary"
-                                        type="button">
+                                    <button class="pull-right" (click)="addAttorney()" mat-raised-button color="primary" type="button">
                                         New Attorney
                                     </button>
                                 </div>
@@ -193,8 +169,7 @@
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let attorney">
                                                     <h6>
-                                                        <a href="javascript:void(0)"
-                                                            (click)="viewSelectedAttorney(attorney.id)">{{ attorney.firstName }}</a>
+                                                        <a href="javascript:void(0)" (click)="viewSelectedAttorney(attorney.id)">{{ attorney.firstName }}</a>
                                                     </h6>
 
                                                 </mat-cell>
@@ -206,8 +181,7 @@
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let attorney">
                                                     <h6>
-                                                        <a href="javascript:void(0)"
-                                                            (click)="viewSelectedAttorney(attorney.id)">{{ attorney.lastName }}</a>
+                                                        <a href="javascript:void(0)" (click)="viewSelectedAttorney(attorney.id)">{{ attorney.lastName }}</a>
                                                     </h6>
                                                 </mat-cell>
                                             </ng-container>
@@ -232,12 +206,10 @@
                                             <ng-container matColumnDef="actions">
                                                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                                                 <mat-cell *matCellDef="let attorney">
-                                                    <button (click)="editSelectedAttorney(attorney.id)" mat-icon-button
-                                                        color="primary" matTooltip="Edit attorney">
+                                                    <button (click)="editSelectedAttorney(attorney.id)" mat-icon-button color="primary" matTooltip="Edit attorney">
                                                         <mat-icon>create</mat-icon>
                                                     </button>&nbsp;
-                                                    <button (click)="deleteAttorney(attorney)" mat-icon-button
-                                                        color="warn" matTooltip="Delete attorney" type="button">
+                                                    <button (click)="deleteAttorney(attorney)" mat-icon-button color="warn" matTooltip="Delete attorney" type="button">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
                                                 </mat-cell>
@@ -273,8 +245,7 @@
                             </ng-template>
                             <div class="row">
                                 <div class="col-lg-12 mt-1">
-                                    <button class="pull-right" (click)="addContact()" mat-raised-button color="primary"
-                                        type="button">
+                                    <button class="pull-right" (click)="addContact()" mat-raised-button color="primary" type="button">
                                         New Contact
                                     </button>
                                 </div>
@@ -323,12 +294,10 @@
                                             <ng-container matColumnDef="actions">
                                                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                                                 <mat-cell *matCellDef="let contact">
-                                                    <button (click)="editSelectedContact(contact.id)" mat-icon-button
-                                                        color="primary" matTooltip="Edit contact">
+                                                    <button (click)="editSelectedContact(contact.id)" mat-icon-button color="primary" matTooltip="Edit contact">
                                                         <mat-icon>create</mat-icon>
                                                     </button>&nbsp;
-                                                    <button (click)="deleteContact(contact)" mat-icon-button
-                                                        color="warn" matTooltip="Delete user" type="button">
+                                                    <button (click)="deleteContact(contact)" mat-icon-button color="warn" matTooltip="Delete user" type="button">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
                                                 </mat-cell>
@@ -364,15 +333,13 @@
                             </ng-template>
                             <div class="row">
                                 <div class="col-lg-12 mt-1">
-                                    <button class="pull-right" type="button" (click)="addClient()" mat-raised-button
-                                        color="primary">
+                                    <button class="pull-right" type="button" (click)="addClient()" mat-raised-button color="primary">
                                         New Client</button>
                                 </div>
                                 <div class="mat-table__wrapper" *ngIf="clients.length > 0">
                                     <div class="example-header">
                                         <mat-form-field>
-                                            <input matInput (keyup)="applyFilter($event.target.value)"
-                                                placeholder="Filter" />
+                                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
                                         </mat-form-field>
                                     </div>
                                     <div class="example-container">
@@ -385,8 +352,7 @@
                                                     FirstName
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let client">
-                                                    <h6><a
-                                                            [routerLink]="['/admin/clients/view', client.id]">{{ client.firstName }}</a>
+                                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.firstName }}</a>
                                                     </h6>
                                                 </mat-cell>
                                             </ng-container>
@@ -396,8 +362,7 @@
                                                     LastName
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let client">
-                                                    <h6><a
-                                                            [routerLink]="['/admin/clients/view', client.id]">{{ client.lastName }}</a>
+                                                    <h6><a [routerLink]="['/admin/clients/view', client.id]">{{ client.lastName }}</a>
                                                     </h6>
                                                 </mat-cell>
                                             </ng-container>
@@ -429,12 +394,10 @@
                                             <ng-container matColumnDef="actions">
                                                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                                                 <mat-cell *matCellDef="let client">
-                                                    <button [routerLink]="['/admin/clients/view', client.id]"
-                                                        mat-icon-button color="primary" matTooltip="Edit Client">
+                                                    <button [routerLink]="['/admin/clients/view', client.id]" mat-icon-button color="primary" matTooltip="Edit Client">
                                                         <mat-icon>create</mat-icon>
                                                     </button>&nbsp;
-                                                    <button (click)="deleteClient(client)" mat-icon-button color="warn"
-                                                        matTooltip="Delete Client" type="button">
+                                                    <button (click)="deleteClient(client)" mat-icon-button color="warn" matTooltip="Delete Client" type="button">
                                                         <mat-icon>delete</mat-icon>
                                                     </button>
 

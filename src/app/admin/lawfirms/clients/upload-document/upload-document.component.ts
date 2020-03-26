@@ -1,5 +1,4 @@
 import { DocumentFolder } from './../../../documents/document-types';
-import { Event } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ViewChild, ElementRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
@@ -15,6 +14,7 @@ import { finalize, map } from 'rxjs/operators';
 import { AngularFireStorageReference, AngularFireUploadTask, AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { MatOptionSelectionChange } from '@angular/material';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-upload-document',
@@ -45,6 +45,7 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private afStorage: AngularFireStorage,
+    private _location: Location,
     private fb: FormBuilder) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -55,6 +56,9 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
     this.initializeForm();
     this.getClient();
     this.getDocuments();
+  }
+  backClicked() {
+    this._location.back();
   }
   initializeForm() {
     this.documentForm = this.fb.group({
