@@ -5286,15 +5286,12 @@ export class ClientAssessmentReportServiceProxy {
 
     /**
      * @param clientId (optional) 
-     * @param side (optional) 
      * @return Success
      */
-    getRoMHandReport(clientId: string | null | undefined, side: number | null | undefined): Observable<ReportRoMHandDto> {
+    getRoMHandReport(clientId: string | null | undefined): Observable<ReportRoMHandDto[]> {
         let url_ = this.baseUrl + "/api/services/app/ClientAssessmentReport/GetRoMHandReport?";
         if (clientId !== undefined)
             url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -5312,14 +5309,14 @@ export class ClientAssessmentReportServiceProxy {
                 try {
                     return this.processGetRoMHandReport(<any>response_);
                 } catch (e) {
-                    return <Observable<ReportRoMHandDto>><any>_observableThrow(e);
+                    return <Observable<ReportRoMHandDto[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ReportRoMHandDto>><any>_observableThrow(response_);
+                return <Observable<ReportRoMHandDto[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRoMHandReport(response: HttpResponseBase): Observable<ReportRoMHandDto> {
+    protected processGetRoMHandReport(response: HttpResponseBase): Observable<ReportRoMHandDto[]> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -5330,7 +5327,11 @@ export class ClientAssessmentReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ReportRoMHandDto.fromJS(resultData200) : new ReportRoMHandDto();
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(ReportRoMHandDto.fromJS(item));
+            }
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -5338,7 +5339,7 @@ export class ClientAssessmentReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ReportRoMHandDto>(<any>null);
+        return _observableOf<ReportRoMHandDto[]>(<any>null);
     }
 
     /**
@@ -27465,7 +27466,7 @@ export class AssessmentReportDto implements IAssessmentReportDto {
     reportGripStrength: ReportGripStrength | undefined;
     reportRoMAnkle: ReportRoMAnkleDto[] | undefined;
     reportRoMForearmWrist: ReportRoMForearmWristDto[] | undefined;
-    reportRoMHand: ReportRoMHandDto | undefined;
+    reportRoMHand: ReportRoMHandDto[] | undefined;
     reportRoMHip: ReportRoMHipDto[] | undefined;
     reportRoMKnee: ReportRoMKneeDto[] | undefined;
     reportRoMShoulder: ReportRoMShoulderDto[] | undefined;
@@ -27493,6 +27494,14 @@ export class AssessmentReportDto implements IAssessmentReportDto {
     sensationUpperReport: string | undefined;
     stairClimbingProtocolReport: string | undefined;
     walkingProtocolReport: string | undefined;
+    attentionAndConcentration: CogntiveReportDto | undefined;
+    shortTermMemory: CogntiveReportDto | undefined;
+    longTermMemory: CogntiveReportDto | undefined;
+    reading: CogntiveReportDto | undefined;
+    insight: CogntiveReportDto | undefined;
+    speech: CogntiveReportDto | undefined;
+    writing: CogntiveReportDto | undefined;
+    visualPerception: CogntiveReportDto | undefined;
 
     constructor(data?: IAssessmentReportDto) {
         if (data) {
@@ -27516,7 +27525,11 @@ export class AssessmentReportDto implements IAssessmentReportDto {
                 for (let item of data["reportRoMForearmWrist"])
                     this.reportRoMForearmWrist.push(ReportRoMForearmWristDto.fromJS(item));
             }
-            this.reportRoMHand = data["reportRoMHand"] ? ReportRoMHandDto.fromJS(data["reportRoMHand"]) : <any>undefined;
+            if (data["reportRoMHand"] && data["reportRoMHand"].constructor === Array) {
+                this.reportRoMHand = [];
+                for (let item of data["reportRoMHand"])
+                    this.reportRoMHand.push(ReportRoMHandDto.fromJS(item));
+            }
             if (data["reportRoMHip"] && data["reportRoMHip"].constructor === Array) {
                 this.reportRoMHip = [];
                 for (let item of data["reportRoMHip"])
@@ -27560,6 +27573,14 @@ export class AssessmentReportDto implements IAssessmentReportDto {
             this.sensationUpperReport = data["sensationUpperReport"];
             this.stairClimbingProtocolReport = data["stairClimbingProtocolReport"];
             this.walkingProtocolReport = data["walkingProtocolReport"];
+            this.attentionAndConcentration = data["attentionAndConcentration"] ? CogntiveReportDto.fromJS(data["attentionAndConcentration"]) : <any>undefined;
+            this.shortTermMemory = data["shortTermMemory"] ? CogntiveReportDto.fromJS(data["shortTermMemory"]) : <any>undefined;
+            this.longTermMemory = data["longTermMemory"] ? CogntiveReportDto.fromJS(data["longTermMemory"]) : <any>undefined;
+            this.reading = data["reading"] ? CogntiveReportDto.fromJS(data["reading"]) : <any>undefined;
+            this.insight = data["insight"] ? CogntiveReportDto.fromJS(data["insight"]) : <any>undefined;
+            this.speech = data["speech"] ? CogntiveReportDto.fromJS(data["speech"]) : <any>undefined;
+            this.writing = data["writing"] ? CogntiveReportDto.fromJS(data["writing"]) : <any>undefined;
+            this.visualPerception = data["visualPerception"] ? CogntiveReportDto.fromJS(data["visualPerception"]) : <any>undefined;
         }
     }
 
@@ -27583,7 +27604,11 @@ export class AssessmentReportDto implements IAssessmentReportDto {
             for (let item of this.reportRoMForearmWrist)
                 data["reportRoMForearmWrist"].push(item.toJSON());
         }
-        data["reportRoMHand"] = this.reportRoMHand ? this.reportRoMHand.toJSON() : <any>undefined;
+        if (this.reportRoMHand && this.reportRoMHand.constructor === Array) {
+            data["reportRoMHand"] = [];
+            for (let item of this.reportRoMHand)
+                data["reportRoMHand"].push(item.toJSON());
+        }
         if (this.reportRoMHip && this.reportRoMHip.constructor === Array) {
             data["reportRoMHip"] = [];
             for (let item of this.reportRoMHip)
@@ -27627,6 +27652,14 @@ export class AssessmentReportDto implements IAssessmentReportDto {
         data["sensationUpperReport"] = this.sensationUpperReport;
         data["stairClimbingProtocolReport"] = this.stairClimbingProtocolReport;
         data["walkingProtocolReport"] = this.walkingProtocolReport;
+        data["attentionAndConcentration"] = this.attentionAndConcentration ? this.attentionAndConcentration.toJSON() : <any>undefined;
+        data["shortTermMemory"] = this.shortTermMemory ? this.shortTermMemory.toJSON() : <any>undefined;
+        data["longTermMemory"] = this.longTermMemory ? this.longTermMemory.toJSON() : <any>undefined;
+        data["reading"] = this.reading ? this.reading.toJSON() : <any>undefined;
+        data["insight"] = this.insight ? this.insight.toJSON() : <any>undefined;
+        data["speech"] = this.speech ? this.speech.toJSON() : <any>undefined;
+        data["writing"] = this.writing ? this.writing.toJSON() : <any>undefined;
+        data["visualPerception"] = this.visualPerception ? this.visualPerception.toJSON() : <any>undefined;
         return data; 
     }
 
@@ -27642,7 +27675,7 @@ export interface IAssessmentReportDto {
     reportGripStrength: ReportGripStrength | undefined;
     reportRoMAnkle: ReportRoMAnkleDto[] | undefined;
     reportRoMForearmWrist: ReportRoMForearmWristDto[] | undefined;
-    reportRoMHand: ReportRoMHandDto | undefined;
+    reportRoMHand: ReportRoMHandDto[] | undefined;
     reportRoMHip: ReportRoMHipDto[] | undefined;
     reportRoMKnee: ReportRoMKneeDto[] | undefined;
     reportRoMShoulder: ReportRoMShoulderDto[] | undefined;
@@ -27670,6 +27703,14 @@ export interface IAssessmentReportDto {
     sensationUpperReport: string | undefined;
     stairClimbingProtocolReport: string | undefined;
     walkingProtocolReport: string | undefined;
+    attentionAndConcentration: CogntiveReportDto | undefined;
+    shortTermMemory: CogntiveReportDto | undefined;
+    longTermMemory: CogntiveReportDto | undefined;
+    reading: CogntiveReportDto | undefined;
+    insight: CogntiveReportDto | undefined;
+    speech: CogntiveReportDto | undefined;
+    writing: CogntiveReportDto | undefined;
+    visualPerception: CogntiveReportDto | undefined;
 }
 
 export class ReportGripStrength implements IReportGripStrength {
@@ -27677,6 +27718,7 @@ export class ReportGripStrength implements IReportGripStrength {
     leftHandWeight: number | undefined;
     normRight: number | undefined;
     normLeft: number | undefined;
+    chosen: boolean | undefined;
 
     constructor(data?: IReportGripStrength) {
         if (data) {
@@ -27693,6 +27735,7 @@ export class ReportGripStrength implements IReportGripStrength {
             this.leftHandWeight = data["leftHandWeight"];
             this.normRight = data["normRight"];
             this.normLeft = data["normLeft"];
+            this.chosen = data["chosen"];
         }
     }
 
@@ -27709,6 +27752,7 @@ export class ReportGripStrength implements IReportGripStrength {
         data["leftHandWeight"] = this.leftHandWeight;
         data["normRight"] = this.normRight;
         data["normLeft"] = this.normLeft;
+        data["chosen"] = this.chosen;
         return data; 
     }
 
@@ -27725,6 +27769,7 @@ export interface IReportGripStrength {
     leftHandWeight: number | undefined;
     normRight: number | undefined;
     normLeft: number | undefined;
+    chosen: boolean | undefined;
 }
 
 export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
@@ -27733,6 +27778,8 @@ export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
     inversion: string | undefined;
     eversion: string | undefined;
     rangeOfMotionId: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
 
     constructor(data?: IReportRoMAnkleDto) {
         if (data) {
@@ -27750,6 +27797,8 @@ export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
             this.inversion = data["inversion"];
             this.eversion = data["eversion"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
+            this.chosen = data["chosen"];
+            this.side = data["side"];
         }
     }
 
@@ -27767,6 +27816,8 @@ export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
         data["inversion"] = this.inversion;
         data["eversion"] = this.eversion;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
+        data["chosen"] = this.chosen;
+        data["side"] = this.side;
         return data; 
     }
 
@@ -27784,6 +27835,8 @@ export interface IReportRoMAnkleDto {
     inversion: string | undefined;
     eversion: string | undefined;
     rangeOfMotionId: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
 }
 
 export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
@@ -27794,6 +27847,8 @@ export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
     radialDeviation: string | undefined;
     ulnarDeviation: string | undefined;
     rangeOfMotionId: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
 
     constructor(data?: IReportRoMForearmWristDto) {
         if (data) {
@@ -27813,6 +27868,8 @@ export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
             this.radialDeviation = data["radialDeviation"];
             this.ulnarDeviation = data["ulnarDeviation"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
+            this.chosen = data["chosen"];
+            this.side = data["side"];
         }
     }
 
@@ -27832,6 +27889,8 @@ export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
         data["radialDeviation"] = this.radialDeviation;
         data["ulnarDeviation"] = this.ulnarDeviation;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
+        data["chosen"] = this.chosen;
+        data["side"] = this.side;
         return data; 
     }
 
@@ -27851,6 +27910,8 @@ export interface IReportRoMForearmWristDto {
     radialDeviation: string | undefined;
     ulnarDeviation: string | undefined;
     rangeOfMotionId: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
 }
 
 export class ReportRoMHandDto implements IReportRoMHandDto {
@@ -27859,6 +27920,8 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
     middleFingerScore: number | undefined;
     ringFingerScore: number | undefined;
     rangeOfMotionId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
 
     constructor(data?: IReportRoMHandDto) {
         if (data) {
@@ -27876,6 +27939,8 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
             this.middleFingerScore = data["middleFingerScore"];
             this.ringFingerScore = data["ringFingerScore"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
+            this.side = data["side"];
+            this.chosen = data["chosen"];
         }
     }
 
@@ -27893,6 +27958,8 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
         data["middleFingerScore"] = this.middleFingerScore;
         data["ringFingerScore"] = this.ringFingerScore;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
+        data["side"] = this.side;
+        data["chosen"] = this.chosen;
         return data; 
     }
 
@@ -27910,6 +27977,8 @@ export interface IReportRoMHandDto {
     middleFingerScore: number | undefined;
     ringFingerScore: number | undefined;
     rangeOfMotionId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
 }
 
 export class ReportRoMHipDto implements IReportRoMHipDto {
@@ -27920,6 +27989,8 @@ export class ReportRoMHipDto implements IReportRoMHipDto {
     internalRotation: string | undefined;
     externalRotation: string | undefined;
     rangeOfMotionId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
 
     constructor(data?: IReportRoMHipDto) {
         if (data) {
@@ -27939,6 +28010,8 @@ export class ReportRoMHipDto implements IReportRoMHipDto {
             this.internalRotation = data["internalRotation"];
             this.externalRotation = data["externalRotation"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
+            this.side = data["side"];
+            this.chosen = data["chosen"];
         }
     }
 
@@ -27958,6 +28031,8 @@ export class ReportRoMHipDto implements IReportRoMHipDto {
         data["internalRotation"] = this.internalRotation;
         data["externalRotation"] = this.externalRotation;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
+        data["side"] = this.side;
+        data["chosen"] = this.chosen;
         return data; 
     }
 
@@ -27977,12 +28052,16 @@ export interface IReportRoMHipDto {
     internalRotation: string | undefined;
     externalRotation: string | undefined;
     rangeOfMotionId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
 }
 
 export class ReportRoMKneeDto implements IReportRoMKneeDto {
     extension: string | undefined;
     flexion: string | undefined;
     rangeOfMotionId: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
 
     constructor(data?: IReportRoMKneeDto) {
         if (data) {
@@ -27998,6 +28077,8 @@ export class ReportRoMKneeDto implements IReportRoMKneeDto {
             this.extension = data["extension"];
             this.flexion = data["flexion"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
+            this.chosen = data["chosen"];
+            this.side = data["side"];
         }
     }
 
@@ -28013,6 +28094,8 @@ export class ReportRoMKneeDto implements IReportRoMKneeDto {
         data["extension"] = this.extension;
         data["flexion"] = this.flexion;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
+        data["chosen"] = this.chosen;
+        data["side"] = this.side;
         return data; 
     }
 
@@ -28028,6 +28111,8 @@ export interface IReportRoMKneeDto {
     extension: string | undefined;
     flexion: string | undefined;
     rangeOfMotionId: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
 }
 
 export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
@@ -28038,6 +28123,8 @@ export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
     internalRotation: string | undefined;
     externalRotation: string | undefined;
     rangeOfMotionId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
 
     constructor(data?: IReportRoMShoulderDto) {
         if (data) {
@@ -28057,6 +28144,8 @@ export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
             this.internalRotation = data["internalRotation"];
             this.externalRotation = data["externalRotation"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
+            this.side = data["side"];
+            this.chosen = data["chosen"];
         }
     }
 
@@ -28076,6 +28165,8 @@ export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
         data["internalRotation"] = this.internalRotation;
         data["externalRotation"] = this.externalRotation;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
+        data["side"] = this.side;
+        data["chosen"] = this.chosen;
         return data; 
     }
 
@@ -28095,6 +28186,8 @@ export interface IReportRoMShoulderDto {
     internalRotation: string | undefined;
     externalRotation: string | undefined;
     rangeOfMotionId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
 }
 
 export class ReportRoMElbowDto implements IReportRoMElbowDto {
@@ -28103,6 +28196,8 @@ export class ReportRoMElbowDto implements IReportRoMElbowDto {
     flexion: string | undefined;
     pronation: string | undefined;
     supination: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
 
     constructor(data?: IReportRoMElbowDto) {
         if (data) {
@@ -28120,6 +28215,8 @@ export class ReportRoMElbowDto implements IReportRoMElbowDto {
             this.flexion = data["flexion"];
             this.pronation = data["pronation"];
             this.supination = data["supination"];
+            this.chosen = data["chosen"];
+            this.side = data["side"];
         }
     }
 
@@ -28137,6 +28234,8 @@ export class ReportRoMElbowDto implements IReportRoMElbowDto {
         data["flexion"] = this.flexion;
         data["pronation"] = this.pronation;
         data["supination"] = this.supination;
+        data["chosen"] = this.chosen;
+        data["side"] = this.side;
         return data; 
     }
 
@@ -28154,6 +28253,75 @@ export interface IReportRoMElbowDto {
     flexion: string | undefined;
     pronation: string | undefined;
     supination: string | undefined;
+    chosen: boolean | undefined;
+    side: number | undefined;
+}
+
+export class CogntiveReportDto implements ICogntiveReportDto {
+    status: number | undefined;
+    score: number | undefined;
+    totalScore: number | undefined;
+    comment: string | undefined;
+    memoryAssessmentType: string | undefined;
+    clientId: string | undefined;
+    id: string | undefined;
+
+    constructor(data?: ICogntiveReportDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.status = data["status"];
+            this.score = data["score"];
+            this.totalScore = data["totalScore"];
+            this.comment = data["comment"];
+            this.memoryAssessmentType = data["memoryAssessmentType"];
+            this.clientId = data["clientId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CogntiveReportDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CogntiveReportDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["status"] = this.status;
+        data["score"] = this.score;
+        data["totalScore"] = this.totalScore;
+        data["comment"] = this.comment;
+        data["memoryAssessmentType"] = this.memoryAssessmentType;
+        data["clientId"] = this.clientId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CogntiveReportDto {
+        const json = this.toJSON();
+        let result = new CogntiveReportDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICogntiveReportDto {
+    status: number | undefined;
+    score: number | undefined;
+    totalScore: number | undefined;
+    comment: string | undefined;
+    memoryAssessmentType: string | undefined;
+    clientId: string | undefined;
+    id: string | undefined;
 }
 
 export class CognitiveParentDto implements ICognitiveParentDto {

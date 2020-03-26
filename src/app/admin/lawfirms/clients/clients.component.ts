@@ -57,20 +57,20 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   filteredDocuments; lawFirmCity: string;
   gripStrengthReport: ReportGripStrength;
   musclePowerReport: string;
-  shoulderLeftReport: ReportRoMShoulderDto[] = [];
-  shoulderRightReport: ReportRoMShoulderDto[] = [];
-  forearmWristLeftReport: ReportRoMForearmWristDto[] = [];
-  forearmWristRightReport: ReportRoMForearmWristDto[] = [];
-  elbowLeftReport: ReportRoMElbowDto[] = [];
-  elbowRightReport: ReportRoMElbowDto[] = [];
-  handLeftReport: ReportRoMHandDto[] = [];
-  handRightReport: ReportRoMHandDto[] = [];
-  hipLeftReport: ReportRoMHipDto[] = [];
-  hipRightReport: ReportRoMHipDto[] = [];
-  kneeLeftReport: ReportRoMKneeDto[] = [];
-  kneeRightReport: ReportRoMKneeDto[] = [];
-  ankleLeftReport: ReportRoMAnkleDto[] = [];
-  ankleRightReport: ReportRoMAnkleDto[] = [];
+  shoulderLeftReport: ReportRoMShoulderDto = new ReportRoMShoulderDto();
+  shoulderRightReport: ReportRoMShoulderDto = new ReportRoMShoulderDto();
+  forearmWristLeftReport: ReportRoMForearmWristDto = new ReportRoMForearmWristDto();
+  forearmWristRightReport: ReportRoMForearmWristDto = new ReportRoMForearmWristDto();
+  elbowLeftReport: ReportRoMElbowDto = new ReportRoMElbowDto ();
+  elbowRightReport: ReportRoMElbowDto = new ReportRoMElbowDto ();
+  handLeftReport: ReportRoMHandDto = new ReportRoMHandDto();
+  handRightReport: ReportRoMHandDto = new ReportRoMHandDto();
+  hipLeftReport: ReportRoMHipDto = new ReportRoMHipDto();
+  hipRightReport: ReportRoMHipDto = new ReportRoMHipDto();
+  kneeLeftReport: ReportRoMKneeDto = new ReportRoMKneeDto();
+  kneeRightReport: ReportRoMKneeDto = new ReportRoMKneeDto();
+  ankleLeftReport: ReportRoMAnkleDto = new ReportRoMAnkleDto();
+  ankleRightReport: ReportRoMAnkleDto = new ReportRoMAnkleDto();
   borgBalanceReport: string; sensation: string; affectComment: string;
   mobilityComment: string; coordinationReport: string; postureReport: string;
   gaitReport: string; walkingReport: string; stairClimbing: string;
@@ -127,18 +127,26 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
   generate(client) {
     let entity: ClientDetailOutput = new ClientDetailOutput();
-    // this.clientService.getDetail(client.id).pipe(finalize(() => {
-
-    // })).subscribe((result) => {
-    //   entity = result;
-    // });
     this._reportService.getPersonalDetails(client.id).pipe(finalize(() => {
       const address: CreateAddressInput = new CreateAddressInput();
       const age = this._generalService.getAge('' + client.idNumber);
       const gender = this._generalService.getGender('' + client.idNumber);
+      this.isGenerating = true;
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
       .pipe(finalize(() => {
-
+        console.log(this.assessmentReport);
+        this.isGenerating = false;
+        // const docCreator = new DocumentCreator();
+        // // setTimeout(async () => {
+        //    this.generateDocument(docCreator, entity, entity.address)
+        //     .then(() => {
+        //       // this.notify.success('Saved Successfully', 'Success');
+        //       this.isGenerating = false;
+        //     })
+        //     .catch(error => {
+        //       this.notify.error('An Error Occurred Please Try Again to Download');
+        //     });
+        // }, 20000);
       }))
       .subscribe((result) => {
         console.log(result);
@@ -151,40 +159,40 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.musclePowerReport = result.musclePowerReport;
         this.assessmentReport[1] = result.musclePowerReport;
 
-        this.shoulderLeftReport = result.reportRoMShoulder.filter(x => x.side === 0);
-        this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 0);
-        this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1);
-        this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 1);
+        this.shoulderLeftReport = result.reportRoMShoulder.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 0)[0];
+        this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 1)[0];
 
-        this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0);
-        this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 0);
-        this.forearmWristRightReport = result.reportRoMForearmWrist.filter(x => x.side === 1);
-        this.rangeOfMotionReport[3] = result.reportRoMForearmWrist.filter(x => x.side === 1);
+        this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
+        this.forearmWristRightReport = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[3] = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
 
-        this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0);
-        this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 0);
-        this.elbowRightReport = result.reportRoMElbow.filter(x => x.side === 1);
-        this.rangeOfMotionReport[5] = result.reportRoMElbow.filter(x => x.side === 1);
+        this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 0)[0];
+        this.elbowRightReport = result.reportRoMElbow.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[5] = result.reportRoMElbow.filter(x => x.side === 1)[0];
 
-        this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0);
-        this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 0);
-        this.handRightReport = result.reportRoMHand.filter(x => x.side === 1);
-        this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 1);
+        this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 0)[0];
+        this.handRightReport = result.reportRoMHand.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 1)[0];
 
-        this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0);
-        this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 0);
-        this.hipRightReport = result.reportRoMHip.filter(x => x.side === 1);
-        this.rangeOfMotionReport[9] = result.reportRoMHip.filter(x => x.side === 1);
+        this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 0)[0];
+        this.hipRightReport = result.reportRoMHip.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[9] = result.reportRoMHip.filter(x => x.side === 1)[0];
 
-        this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0);
-        this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 0);
-        this.kneeRightReport = result.reportRoMKnee.filter(x => x.side === 1);
-        this.rangeOfMotionReport[11] = result.reportRoMKnee.filter(x => x.side === 1);
+        this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 0)[0];
+        this.kneeRightReport = result.reportRoMKnee.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[11] = result.reportRoMKnee.filter(x => x.side === 1)[0];
 
-        this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0);
-        this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 0);
-        this.ankleRightReport = result.reportRoMAnkle.filter(x => x.side === 1);
-        this.rangeOfMotionReport[13] = result.reportRoMAnkle.filter(x => x.side === 1);
+        this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 0)[0];
+        this.ankleRightReport = result.reportRoMAnkle.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[13] = result.reportRoMAnkle.filter(x => x.side === 1)[0];
 
         this.borgBalanceReport = result.borgBalanceReport;
         this.assessmentReport[9] = result.borgBalanceReport;
@@ -222,15 +230,18 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         /***************************************************************************************
          * COGNITIVE ASSESSMENT REPORT SECTION
          ****************************************************************************************/
-        this.assessmentReport[23] = result.attentionAndConcentration;
+        this.assessmentReport[23] = result.attentionAndConcentration.comment;
         if (gender === 0) {
           this.assessmentReport[24] = 'She';
         } else if (gender === 1) {
           this.assessmentReport[24] = 'He';
         }
-        this.assessmentReport[25] = (result.shortTermMemory != null) ? result.shortTermMemory.score : -1;
-        this.assessmentReport[26] = (result.shortTermMemory != null) ? result.shortTermMemory.totalScore : -1;
-        this.assessmentReport[27] = (result.shortTermMemory != null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
+        this.assessmentReport[25] = (result.shortTermMemory != null && 
+          result.shortTermMemory.score != null) ? result.shortTermMemory.score : -1;
+        this.assessmentReport[26] = (result.shortTermMemory != null && 
+          result.shortTermMemory.score != null) ? result.shortTermMemory.totalScore : -1;
+        this.assessmentReport[27] = (result.shortTermMemory !== null && 
+          result.shortTermMemory.comment !== null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
         this.assessmentReport[28] = (result.longTermMemory != null) ? result.longTermMemory.comment : 'No Comment';
         this.assessmentReport[29] = (result.insight != null) ? result.insight.comment : 'No Comment';
         this.assessmentReport[30] = (result.reading != null) ? result.reading.comment : 'No Comment';
@@ -242,7 +253,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     })).subscribe((result) => {
       entity = result;
       this.lawFirmCity = entity.address.city;
-      this.isGenerating = true;
       this.getMedicalHistory(client.id);
       this.getWorkHistory(client.id);
       this.getClientHistory(client.id);
@@ -252,17 +262,17 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
 
 
-    const docCreator = new DocumentCreator();
-    setTimeout(async () => {
-      await this.generateDocument(docCreator, entity, entity.address)
-        .then(() => {
-          // this.notify.success('Saved Successfully', 'Success');
-          this.isGenerating = false;
-        })
-        .catch(error => {
-          this.notify.error('An Error Occurred Please Try Again to Download');
-        });
-    }, 20000);
+    // const docCreator = new DocumentCreator();
+    // setTimeout(async () => {
+    //   await this.generateDocument(docCreator, entity, entity.address)
+    //     .then(() => {
+    //       // this.notify.success('Saved Successfully', 'Success');
+    //       this.isGenerating = false;
+    //     })
+    //     .catch(error => {
+    //       this.notify.error('An Error Occurred Please Try Again to Download');
+    //     });
+    // }, 20000);
 
   }
   async generateDocument(docCreator: DocumentCreator, entity: ClientDetailOutput, address: CreateAddressInput) {

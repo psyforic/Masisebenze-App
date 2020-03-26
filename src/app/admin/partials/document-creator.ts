@@ -159,7 +159,19 @@ export class DocumentCreator {
                 ladderWork: assessmentReport[19],
                 repetitiveSquatting: assessmentReport[20],
                 repetitiveFootMotion: assessmentReport[21],
-                crawling: assessmentReport[22]
+                crawling: assessmentReport[22],
+                // Cognitive Assessment
+                attentionAndConcentrationComment: assessmentReport[23],
+                genderPronoun: assessmentReport[24],
+                memoryScore: assessmentReport[25],
+                memoryTotalScore: assessmentReport[26],
+                memoryAssessmentType: assessmentReport[27],
+                memoryComment: assessmentReport[28],
+                insightComment: assessmentReport[29],
+                readingComment: assessmentReport[30],
+                speechComment: assessmentReport[31],
+                writingComment: assessmentReport[32],
+                visualPerceptionComment: assessmentReport[33]
             });
 
             try {
