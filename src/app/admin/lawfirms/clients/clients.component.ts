@@ -149,7 +149,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         // }, 20000);
       }))
       .subscribe((result) => {
-        console.log(result);
+        // console.log(result);
         /***************************************************************************************
          * COGNITIVE ASSESSMENT REPORT SECTION
          ****************************************************************************************/
@@ -241,13 +241,19 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.assessmentReport[26] = (result.shortTermMemory != null && 
           result.shortTermMemory.score != null) ? result.shortTermMemory.totalScore : -1;
         this.assessmentReport[27] = (result.shortTermMemory !== null && 
-          result.shortTermMemory.comment !== null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
-        this.assessmentReport[28] = (result.longTermMemory != null) ? result.longTermMemory.comment : 'No Comment';
-        this.assessmentReport[29] = (result.insight != null) ? result.insight.comment : 'No Comment';
-        this.assessmentReport[30] = (result.reading != null) ? result.reading.comment : 'No Comment';
-        this.assessmentReport[31] = (result.speech != null) ? result.speech.comment : 'No Comment';
-        this.assessmentReport[32] = (result.writing != null) ? result.writing.comment : 'No Comment';
-        this.assessmentReport[33] = (result.visualPerception != null) ? result.visualPerception.comment : 'No Comment';
+          result.shortTermMemory.memoryAssessmentType !== null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
+        this.assessmentReport[28] = (result.longTermMemory != null &&
+           result.longTermMemory.comment !== null) ? result.longTermMemory.comment : 'No Comment';
+        this.assessmentReport[29] = (result.insight != null &&
+           result.insight.comment !== null) ? result.insight.comment : 'No Comment';
+        this.assessmentReport[30] = (result.reading != null &&
+           result.reading.comment !== null) ? result.reading.comment : 'No Comment';
+        this.assessmentReport[31] = (result.speech != null &&
+          result.speech.comment !== null) ? result.speech.comment : 'No Comment';
+        this.assessmentReport[32] = (result.writing != null &&
+           result.writing.comment !== null) ? result.writing.comment : 'No Comment';
+        this.assessmentReport[33] = (result.visualPerception != null && 
+          result.visualPerception.comment !== null) ? result.visualPerception.comment : 'No Comment';
       });
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
