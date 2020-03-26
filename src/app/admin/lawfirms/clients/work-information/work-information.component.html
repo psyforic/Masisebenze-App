@@ -43,7 +43,7 @@
             <div class="row">
               <div class="col-md-6">
                   <mat-form-field>
-                    <input matInput type="text" placeholder="Job Title" [formControl]="jobSearch"/>
+                    <input matInput type="text" placeholder="Search Job Title" [formControl]="jobSearch"/>
                     <button matSuffix (click)="search()" color="primary" mat-stroked-button>
                       <mat-icon >search</mat-icon>
                     </button>
@@ -66,15 +66,21 @@
                          placeholder="Select Job Title"
                          aria-label="JobTitle"
                          matInput
+                         
                          [formControl]="jobTitle"
                          [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <!-- <mat-option
                      *ngFor="let option of filteredOptions | async"
                      (onSelectionChange)="getWorkContext($event, option.code)"
                      [value]="option.title">
                       {{option.title}}
-                    </mat-option>
+                    </mat-option> -->
+                    <mat-option
+                    *ngFor="let option of filteredOptions | async"
+                    [value]="option">
+                     {{option.title}}
+                   </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
             </div>
@@ -85,6 +91,18 @@
                   </tag-input-dropdown>
                 </tag-input>
               </div> -->
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <quill-editor [placeholder]="'Insert client\'s job description here...'"[styles]="{height: '200px'}" [(ngModel)]="jobDescription" [sanitize]="true"
+                name="jobDescription" [disabled]="jobTitle.value == null || jobTitle.value ==''">
+              </quill-editor>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 mt-2">
+                <button color="primary" class="float-right " type="button" [disabled]="jobDescription == null || jobDescription ==''" mat-raised-button color="primary" (click)="save()">Save</button>
+              </div>
             </div>
             <div class="row">
                 <div class="col-md-12">

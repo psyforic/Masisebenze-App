@@ -133,122 +133,128 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       const gender = this._generalService.getGender('' + client.idNumber);
       this.isGenerating = true;
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
-        .pipe(finalize(() => {
-          console.log(this.assessmentReport);
-          this.isGenerating = false;
-          // const docCreator = new DocumentCreator();
-          // // setTimeout(async () => {
-          //    this.generateDocument(docCreator, entity, entity.address)
-          //     .then(() => {
-          //       // this.notify.success('Saved Successfully', 'Success');
-          //       this.isGenerating = false;
-          //     })
-          //     .catch(error => {
-          //       this.notify.error('An Error Occurred Please Try Again to Download');
-          //     });
-          // }, 20000);
-        }))
-        .subscribe((result) => {
-          console.log(result);
-          /***************************************************************************************
-           * COGNITIVE ASSESSMENT REPORT SECTION
-           ****************************************************************************************/
-          this.gripStrengthReport = result.reportGripStrength;
-          this.assessmentReport[0] = result.reportGripStrength;
+      .pipe(finalize(() => {
+        console.log(this.assessmentReport);
+        this.isGenerating = false;
+        // const docCreator = new DocumentCreator();
+        // // setTimeout(async () => {
+        //    this.generateDocument(docCreator, entity, entity.address)
+        //     .then(() => {
+        //       // this.notify.success('Saved Successfully', 'Success');
+        //       this.isGenerating = false;
+        //     })
+        //     .catch(error => {
+        //       this.notify.error('An Error Occurred Please Try Again to Download');
+        //     });
+        // }, 20000);
+      }))
+      .subscribe((result) => {
+        // console.log(result);
+        /***************************************************************************************
+         * COGNITIVE ASSESSMENT REPORT SECTION
+         ****************************************************************************************/
+        this.gripStrengthReport = result.reportGripStrength;
+        this.assessmentReport[0] = result.reportGripStrength;
 
-          this.musclePowerReport = result.musclePowerReport;
-          this.assessmentReport[1] = result.musclePowerReport;
+        this.musclePowerReport = result.musclePowerReport;
+        this.assessmentReport[1] = result.musclePowerReport;
 
-          this.shoulderLeftReport = result.reportRoMShoulder.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 0)[0];
-          this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 1)[0];
+        this.shoulderLeftReport = result.reportRoMShoulder.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 0)[0];
+        this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 1)[0];
 
-          this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
-          this.forearmWristRightReport = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[3] = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
+        this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
+        this.forearmWristRightReport = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[3] = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
 
-          this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 0)[0];
-          this.elbowRightReport = result.reportRoMElbow.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[5] = result.reportRoMElbow.filter(x => x.side === 1)[0];
+        this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 0)[0];
+        this.elbowRightReport = result.reportRoMElbow.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[5] = result.reportRoMElbow.filter(x => x.side === 1)[0];
 
-          this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 0)[0];
-          this.handRightReport = result.reportRoMHand.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 1)[0];
+        this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 0)[0];
+        this.handRightReport = result.reportRoMHand.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 1)[0];
 
-          this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 0)[0];
-          this.hipRightReport = result.reportRoMHip.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[9] = result.reportRoMHip.filter(x => x.side === 1)[0];
+        this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 0)[0];
+        this.hipRightReport = result.reportRoMHip.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[9] = result.reportRoMHip.filter(x => x.side === 1)[0];
 
-          this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 0)[0];
-          this.kneeRightReport = result.reportRoMKnee.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[11] = result.reportRoMKnee.filter(x => x.side === 1)[0];
+        this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 0)[0];
+        this.kneeRightReport = result.reportRoMKnee.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[11] = result.reportRoMKnee.filter(x => x.side === 1)[0];
 
-          this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 0)[0];
-          this.ankleRightReport = result.reportRoMAnkle.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[13] = result.reportRoMAnkle.filter(x => x.side === 1)[0];
+        this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0)[0];
+        this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 0)[0];
+        this.ankleRightReport = result.reportRoMAnkle.filter(x => x.side === 1)[0];
+        this.rangeOfMotionReport[13] = result.reportRoMAnkle.filter(x => x.side === 1)[0];
 
-          this.borgBalanceReport = result.borgBalanceReport;
-          this.assessmentReport[9] = result.borgBalanceReport;
+        this.borgBalanceReport = result.borgBalanceReport;
+        this.assessmentReport[9] = result.borgBalanceReport;
 
-          this.coordinationReport = result.coordinationReport;
-          this.assessmentReport[13] = result.coordinationReport;
+        this.coordinationReport = result.coordinationReport;
+        this.assessmentReport[13] = result.coordinationReport;
 
-          this.postureReport = result.postureReport;
-          this.assessmentReport[14] = result.postureReport;
+        this.postureReport = result.postureReport;
+        this.assessmentReport[14] = result.postureReport;
 
-          this.gaitReport = result.gaitReport;
-          this.assessmentReport[15] = result.gaitReport;
+        this.gaitReport = result.gaitReport;
+        this.assessmentReport[15] = result.gaitReport;
 
-          this.walkingReport = result.walkingProtocolReport;
-          this.assessmentReport[16] = result.walkingProtocolReport;
+        this.walkingReport = result.walkingProtocolReport;
+        this.assessmentReport[16] = result.walkingProtocolReport;
 
-          this.stairClimbing = result.stairClimbingProtocolReport;
-          this.assessmentReport[17] = result.stairClimbingProtocolReport;
+        this.stairClimbing = result.stairClimbingProtocolReport;
+        this.assessmentReport[17] = result.stairClimbingProtocolReport;
 
-          this.balanceReport = result.balanceProtocolReport;
-          this.assessmentReport[18] = result.balanceProtocolReport;
+        this.balanceReport = result.balanceProtocolReport;
+        this.assessmentReport[18] = result.balanceProtocolReport;
 
-          this.ladderWork = result.ladderWorkProtocolReport;
-          this.assessmentReport[19] = result.ladderWorkProtocolReport;
+        this.ladderWork = result.ladderWorkProtocolReport;
+        this.assessmentReport[19] = result.ladderWorkProtocolReport;
 
-          this.repetitiveSquatting = result.repetitiveSquattingProtocolReport;
-          this.assessmentReport[20] = result.repetitiveSquattingProtocolReport;
+        this.repetitiveSquatting = result.repetitiveSquattingProtocolReport;
+        this.assessmentReport[20] = result.repetitiveSquattingProtocolReport;
 
-          this.repetitiveFootMotionReport = result.repetitiveFootMotionProtocolReport;
-          this.assessmentReport[21] = result.repetitiveFootMotionProtocolReport;
+        this.repetitiveFootMotionReport = result.repetitiveFootMotionProtocolReport;
+        this.assessmentReport[21] = result.repetitiveFootMotionProtocolReport;
 
-          this.crawlingReport = result.crawlingProtocolReport;
-          this.assessmentReport[22] = result.crawlingProtocolReport;
+        this.crawlingReport = result.crawlingProtocolReport;
+        this.assessmentReport[22] = result.crawlingProtocolReport;
 
-          /***************************************************************************************
-           * COGNITIVE ASSESSMENT REPORT SECTION
-           ****************************************************************************************/
-          this.assessmentReport[23] = result.attentionAndConcentration.comment;
-          if (gender === 0) {
-            this.assessmentReport[24] = 'She';
-          } else if (gender === 1) {
-            this.assessmentReport[24] = 'He';
-          }
-          this.assessmentReport[25] = (result.shortTermMemory != null &&
-            result.shortTermMemory.score != null) ? result.shortTermMemory.score : -1;
-          this.assessmentReport[26] = (result.shortTermMemory != null &&
-            result.shortTermMemory.score != null) ? result.shortTermMemory.totalScore : -1;
-          this.assessmentReport[27] = (result.shortTermMemory !== null &&
-            result.shortTermMemory.comment !== null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
-          this.assessmentReport[28] = (result.longTermMemory != null) ? result.longTermMemory.comment : 'No Comment';
-          this.assessmentReport[29] = (result.insight != null) ? result.insight.comment : 'No Comment';
-          this.assessmentReport[30] = (result.reading != null) ? result.reading.comment : 'No Comment';
-          this.assessmentReport[31] = (result.speech != null) ? result.speech.comment : 'No Comment';
-          this.assessmentReport[32] = (result.writing != null) ? result.writing.comment : 'No Comment';
-          this.assessmentReport[33] = (result.visualPerception != null) ? result.visualPerception.comment : 'No Comment';
-        });
+        /***************************************************************************************
+         * COGNITIVE ASSESSMENT REPORT SECTION
+         ****************************************************************************************/
+        this.assessmentReport[23] = result.attentionAndConcentration.comment;
+        if (gender === 0) {
+          this.assessmentReport[24] = 'She';
+        } else if (gender === 1) {
+          this.assessmentReport[24] = 'He';
+        }
+        this.assessmentReport[25] = (result.shortTermMemory != null &&
+          result.shortTermMemory.score != null) ? result.shortTermMemory.score : -1;
+        this.assessmentReport[26] = (result.shortTermMemory != null &&
+          result.shortTermMemory.score != null) ? result.shortTermMemory.totalScore : -1;
+        this.assessmentReport[27] = (result.shortTermMemory !== null &&
+          result.shortTermMemory.memoryAssessmentType !== null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
+        this.assessmentReport[28] = (result.longTermMemory != null &&
+           result.longTermMemory.comment !== null) ? result.longTermMemory.comment : 'No Comment';
+        this.assessmentReport[29] = (result.insight != null &&
+           result.insight.comment !== null) ? result.insight.comment : 'No Comment';
+        this.assessmentReport[30] = (result.reading != null &&
+           result.reading.comment !== null) ? result.reading.comment : 'No Comment';
+        this.assessmentReport[31] = (result.speech != null &&
+          result.speech.comment !== null) ? result.speech.comment : 'No Comment';
+        this.assessmentReport[32] = (result.writing != null &&
+           result.writing.comment !== null) ? result.writing.comment : 'No Comment';
+        this.assessmentReport[33] = (result.visualPerception != null &&
+          result.visualPerception.comment !== null) ? result.visualPerception.comment : 'No Comment';
+      });
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
       entity = result;

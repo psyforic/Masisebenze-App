@@ -7,7 +7,9 @@ import {
   ClientServiceProxy,
   WorkContextSummaryDto,
   SummaryReponseDto,
-  OccupationDto
+  OccupationDto,
+  CreateWorkInformationInput,
+  WorkInformationServiceProxy
 } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ElementRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -26,11 +28,12 @@ export class MaxDataValue {
   selector: 'app-work-information',
   templateUrl: './work-information.component.html',
   styleUrls: ['./work-information.component.scss'],
-  providers: [WorkAssessmentServiceProxy]
+  providers: [WorkAssessmentServiceProxy, WorkInformationServiceProxy]
 })
 
 export class WorkInformationComponent extends AppComponentBase implements OnInit {
   client: ClientDetailOutput = new ClientDetailOutput();
+
   clientId = '';
   defaultAge = [];
   ageList: string[] = [];
@@ -41,12 +44,14 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   maxDataValues: MaxDataValue[] = [];
   jobSearch: FormControl = new FormControl();
   jobTitle: FormControl = new FormControl();
+  jobDescription;
   myControl = new FormControl();
   filteredOptions: Observable<OccupationDto[]>;
   isLoading = false;
   workConextDto: WorkContextDto = new WorkContextDto();
   constructor(injector: Injector,
     private _clientService: ClientServiceProxy,
+    private _workInformationService: WorkInformationServiceProxy,
     private route: ActivatedRoute,
     private _workAssessmentService: WorkAssessmentServiceProxy) {
     super(injector);
@@ -59,9 +64,21 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     this.getClient();
     this.filteredOptions = this.jobTitle.valueChanges
       .pipe(
-        startWith(''),
-        map(value => this._filter(value))
+        startWith<string | OccupationDto>(''),
+        map(value => typeof value === 'string' ? value : value.title),
+        map(title => title ? this._filter(title) : this.occupations.slice())
       );
+    this.isLoading = true;
+    this._workInformationService.getByClientId(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(result => {
+        console.log(result);
+        if (result != null) {
+          this.jobTitle.setValue({ title: result.jobTitle });
+          this.jobDescription = result.jobDescription;
+        }
+      });
   }
   getClient() {
     this.isLoading = true;
@@ -82,13 +99,18 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       }))
       .subscribe(result => {
         this.occupations = result;
-        // console.log(this.occupations);
+        if (this.occupations != null && this.occupations.length > 0) {
+          this.jobTitle.setValue({ title: this.occupations[0].title });
+        }
       });
   }
   getWorkContext(event: MatOptionSelectionChange, onetSocCode) {
     if (event.source.value != null && onetSocCode != null) {
       this.getElementNames(event.source.value);
     }
+  }
+  displayFn(occupation?: OccupationDto): string | undefined {
+    return occupation ? occupation.title : undefined;
   }
   getElementNames(keyword) {
     this.ageList = [];
@@ -127,6 +149,19 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
             });
 
         }
+      });
+  }
+  save() {
+     this.isLoading = true;
+    const workInformation: CreateWorkInformationInput = new CreateWorkInformationInput();
+    workInformation.clientId = this.clientId;
+    workInformation.jobTitle = this.jobTitle.value.title;
+    workInformation.jobDescription = this.jobDescription;
+    this._workInformationService.create(workInformation)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(() => {
+        this.notify.success('Saved successfully');
       });
   }
   search() {
