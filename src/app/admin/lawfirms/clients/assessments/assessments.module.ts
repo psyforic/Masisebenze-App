@@ -1,3 +1,4 @@
+import { WorkAssessmentComponent } from './work-assessment/work-assessment.component';
 import { CognitiveAssessmentsModule } from './cognitive-assessments/cognitive-assessments.module';
 import { QuestionnaireResolverService } from './../../../resolvers/questionnaire-resolver.service';
 import { QuestionnaireComponent } from './functional-assessment/questionnaire/questionnaire.component';
@@ -45,6 +46,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MobilityComponent,
     AffectComponent,
     FunctionalAssessmentComponent,
+    WorkAssessmentComponent,
     QuestionnaireComponent
   ],
 
@@ -60,6 +62,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MobilityComponent,
     AffectComponent,
     FunctionalAssessmentComponent,
+    WorkAssessmentComponent,
     QuestionnaireComponent,
   ],
   providers: [

@@ -1,3 +1,4 @@
+import { ReportSummaryComponent } from './view-client/report-summary/report-summary.component';
 import { CognitiveAssessmentsModule } from './assessments/cognitive-assessments/cognitive-assessments.module';
 import { CognitiveAssessmentsComponent } from './assessments/cognitive-assessments/cognitive-assessments.component';
 import { WorkInformationComponent } from './work-information/work-information.component';
@@ -43,7 +44,8 @@ TagInputModule.withDefaults({
     UploadDocumentComponent,
     AdminCommentsComponent,
     QuestionnaireCommentComponent,
-    WorkInformationComponent
+    WorkInformationComponent,
+    ReportSummaryComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +61,7 @@ TagInputModule.withDefaults({
     TypeaheadModule.forRoot()
   ],
   exports: [
-    NewClientComponent
+    NewClientComponent, ReportSummaryComponent
   ],
   entryComponents: [NewClientComponent, CameraModalComponent],
   providers: [NgbActiveModal,

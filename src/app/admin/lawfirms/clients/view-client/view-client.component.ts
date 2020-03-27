@@ -1,3 +1,4 @@
+import { ReportSummaryComponent } from './report-summary/report-summary.component';
 import { VisuoSpatialAbilityComponent } from './../assessments/cognitive-assessments/visuo-spatial-ability/visuo-spatial-ability.component';
 import { VerbalFluencyComponent } from './../assessments/cognitive-assessments/verbal-fluency/verbal-fluency.component';
 import { RegistrationComponent } from './../assessments/cognitive-assessments/registration/registration.component';
@@ -12,7 +13,10 @@ import { DocumentFolder } from './../../../documents/document-types';
 import {
   DocumentListDto, Booking, FunctionalAssessmentServiceProxy,
   QuestionnaireDto,
-  PostureServiceProxy
+  WorkAssessmentServiceProxy,
+  WorkAssessmentReportServiceProxy,
+  PositionalToleranceDto,
+  WorkInformationServiceProxy
 } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild, HostListener } from '@angular/core';
@@ -70,11 +74,20 @@ interface FolderNode {
   value: string;
   children?: any[];
 }
+export class MaxDataValue {
+  elementId: string;
+  elementName: string;
+  title: string;
+  dataValue: number;
+  category: number;
+}
 @Component({
   selector: 'kt-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy, LawFirmServiceProxy, FunctionalAssessmentServiceProxy]
+  providers: [ClientServiceProxy, DocumentServiceProxy, WorkAssessmentServiceProxy,
+    LawFirmServiceProxy, FunctionalAssessmentServiceProxy, WorkAssessmentReportServiceProxy,
+    WorkInformationServiceProxy]
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
@@ -111,7 +124,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   openVerbalFliuencyComponent: VerbalFluencyComponent;
   @ViewChild('visuoSpatialAbilityComponent', { static: false })
   openVisuoSpatialAbilityComponent: VisuoSpatialAbilityComponent;
-
+  @ViewChild('reportSummaryuComponent', { static: false })
+  openReportSummaryuComponent: ReportSummaryComponent;
+  ageList: string[] = [];
   client: ClientDetailOutput = new ClientDetailOutput();
   documentTypes = DocumentFolder.documentTypes;
   documents: DocumentListDto[] = [];
@@ -153,6 +168,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   contacts: ContactListDto[] = [];
   attorneys: AttorneyListDto[] = [];
   questionnairesDto: QuestionnaireDto[] = [];
+  positionalToleranceResult: PositionalToleranceDto[] = [];
+  displayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
+  maxDataValues: MaxDataValue[] = [];
   hidden = false;
   bookings: Booking[] = [];
   questionnaires = [
@@ -166,6 +184,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private _functionAssessmentService: FunctionalAssessmentServiceProxy,
+    private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
+    private _workAssessmentService: WorkAssessmentServiceProxy,
+    private _workInfomationService: WorkInformationServiceProxy,
     private documentService: DocumentServiceProxy,
     private _lawFirmService: LawFirmServiceProxy,
     private route: ActivatedRoute,
@@ -259,6 +280,37 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   getDocuments(documentId: number) {
     return this.childDocuments.filter(x => x.parentDocId === documentId);
+  }
+  calculateJobDemandResult(dataValue: number): string {
+    let jobDemand = '';
+    if (dataValue < 1) {
+      jobDemand = 'NIL';
+    } else if (dataValue <= 5) {
+      jobDemand = 'RARE';
+    } else if (dataValue <= 33) {
+      jobDemand = 'CONSTANT';
+    } else if (dataValue <= 66) {
+      jobDemand = 'FREQUENT';
+    } else if (dataValue <= 100) {
+      jobDemand = 'OCCASIONAL';
+    }
+    return jobDemand;
+  }
+  getPositionalToleranceReport(clientId) {
+    this._workAssessmentReportService.getPositionalToleranceReport(clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(result => {
+        this.positionalToleranceResult = result;
+        this._workInfomationService.getByClientId(clientId)
+          .pipe(finalize(() => {
+          })).subscribe(result => {
+            if (result != null && (result.jobTitle !== null && result.jobTitle !== '' && result.jobTitle != 'undefined')) {
+              this.getElementNames(result.jobTitle);
+            }
+          });
+      });
+    this.isLoading = true;
   }
   getClient() {
     this.isLoading = true;
@@ -438,6 +490,15 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   setFormTouched(clientForm: NgForm) {
     clientForm.control.markAsDirty();
   }
+  changeAssessmentTabs(event: MatTabChangeEvent) {
+    switch (event.index) {
+      case 3:
+        this.getPositionalToleranceReport(this.clientId);
+        break;
+      default:
+        break;
+    }
+  }
   handleTabChange(event: MatTabChangeEvent) {
     switch (event.index) {
       case 0:
@@ -566,6 +627,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   getVisuoSpatialAbility() {
     this.openVisuoSpatialAbilityComponent.open();
   }
+  getReportSummary() {
+    this.openReportSummaryuComponent.open();
+  }
   createQuestionnaire(type, description) {
     this.questionnaireType = type;
     this.questionnaireDescription = description;
@@ -591,6 +655,80 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         });
         this.questionnaires = tempQuestionnaires;
 
+      });
+  }
+  getElementNames(keyword) {
+    this.ageList = [];
+    this.maxDataValues = [];
+    this.isLoading = true;
+    this._workAssessmentService.getWorkContext(keyword)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(result => {
+        if (result != null && result.length > 0) {
+          result.filter(x => x.elementID === '4.C.2.d.1.a' || x.elementID === '4.C.2.d.1.b' ||
+            x.elementID === '4.C.2.d.1.c' || x.elementID === '4.C.2.d.1.d' || x.elementID === '4.C.2.d.1.e'
+            || x.elementID === '4.C.2.d.1.f' || x.elementID === '4.C.2.d.1.g' || x.elementID === '4.C.2.d.1.h' ||
+            x.elementID === '4.C.2.d.1.i')
+            .forEach((workContext) => {
+              const dataValues: number[] = [];
+              if (this.ageList.indexOf(workContext.elementName) === -1) {
+                result.filter(x => x.elementID === workContext.elementID)
+                  .forEach((i) => {
+                    dataValues.push(i.dataValue);
+                  });
+                if (workContext.dataValue === Math.max.apply(null, dataValues)) {
+                  const maxDataValue = new MaxDataValue();
+                  maxDataValue.dataValue = Math.max.apply(null, dataValues);
+                  maxDataValue.title = workContext.title;
+                  maxDataValue.elementId = workContext.elementID;
+                  maxDataValue.elementName = workContext.elementName;
+                  maxDataValue.category = workContext.category;
+                  // console.log(dataValues);
+                  this.maxDataValues.push(maxDataValue);
+                  this.ageList.push(workContext.elementName);
+                }
+              }
+            });
+          if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
+            this.positionalToleranceResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Sitting')) {
+                element = this.maxDataValues.filter(x => x.elementId == '4.C.2.d.1.a')[0];
+                console.log(element);
+                if (element != null) {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Kneeling')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Crouching')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Standing')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.b')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Elevated')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Mid Level')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+            });
+          }
+        }
       });
   }
   hasChild = (_: number, node: FolderNode) => !!node.children && node.children.length > 0;

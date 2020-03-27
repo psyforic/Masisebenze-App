@@ -171,7 +171,13 @@ export class DocumentCreator {
                 readingComment: assessmentReport[30],
                 speechComment: assessmentReport[31],
                 writingComment: assessmentReport[32],
-                visualPerceptionComment: assessmentReport[33]
+                visualPerceptionComment: assessmentReport[33],
+                // Functional Assessment
+                // Work Assessment
+                jobDescription: assessmentReport[34],
+                workAssessment: assessmentReport[35],
+                discussion: assessmentReport[36],
+                recommendations: assessmentReport[37]
             });
 
             try {

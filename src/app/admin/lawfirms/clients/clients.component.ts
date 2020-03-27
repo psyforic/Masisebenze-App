@@ -1,4 +1,5 @@
-import { SensationServiceProxy, PostureServiceProxy, ClientAssessmentReportServiceProxy, AssessmentReportDto } from './../../../../shared/service-proxies/service-proxies';
+import { SensationServiceProxy, PostureServiceProxy, 
+  ClientAssessmentReportServiceProxy, AssessmentReportDto, ReportSummaryServiceProxy } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import {
@@ -41,7 +42,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./clients.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy,
     MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy,
-    ClientAssessmentReportServiceProxy]
+    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -91,6 +92,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private documentService: DocumentServiceProxy,
     private _reportService: ReportServiceProxy,
     private _assessmentReportService: ClientAssessmentReportServiceProxy,
+    private _reportSummaryService: ReportSummaryServiceProxy,
     private _generalService: GeneralService,
     private _affectService: AffectServiceProxy,
     private _mobilityService: MobilityServiceProxy,
@@ -263,7 +265,13 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       this.getWorkHistory(client.id);
       this.getClientHistory(client.id);
       this.getFileData(client.id);
-
+      this._reportSummaryService.getByClientId(client.id)
+      .subscribe(reportSummary => {
+          if(reportSummary != null){
+            this.assessmentReport[36] = reportSummary.descussion;
+            this.assessmentReport[37] = reportSummary.recommendations;
+          }
+      })
     });
 
 

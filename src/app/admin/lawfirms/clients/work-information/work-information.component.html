@@ -94,14 +94,14 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <quill-editor [placeholder]="'Insert client\'s job description here...'"[styles]="{height: '200px'}" [(ngModel)]="jobDescription" [sanitize]="true"
+                <quill-editor [placeholder]="'Insert client\'s job description here...'"[styles]="{height: '200px'}" [(ngModel)]="workInformation.jobDescription " [sanitize]="true"
                 name="jobDescription" [disabled]="jobTitle.value == null || jobTitle.value ==''">
               </quill-editor>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12 mt-2">
-                <button color="primary" class="float-right " type="button" [disabled]="jobDescription == null || jobDescription ==''" mat-raised-button color="primary" (click)="save()">Save</button>
+                <button color="primary" class="float-right " type="button" [disabled]="workInformation.jobDescription == null || workInformation.jobDescription  ==''" mat-raised-button color="primary" (click)="save()">Save</button>
               </div>
             </div>
             <div class="row">

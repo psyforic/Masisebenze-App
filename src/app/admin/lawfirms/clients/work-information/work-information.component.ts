@@ -8,8 +8,8 @@ import {
   WorkContextSummaryDto,
   SummaryReponseDto,
   OccupationDto,
-  CreateWorkInformationInput,
-  WorkInformationServiceProxy
+  WorkInformationServiceProxy,
+  WorkInformationDto
 } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, Injector, ElementRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -44,6 +44,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   maxDataValues: MaxDataValue[] = [];
   jobSearch: FormControl = new FormControl();
   jobTitle: FormControl = new FormControl();
+  workInformation: WorkInformationDto = new WorkInformationDto();
   jobDescription;
   myControl = new FormControl();
   filteredOptions: Observable<OccupationDto[]>;
@@ -75,7 +76,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       })).subscribe(result => {
         if (result != null) {
           this.jobTitle.setValue({ title: result.jobTitle });
-          this.jobDescription = result.jobDescription;
+          this.workInformation = result;
         }
       });
   }
@@ -152,11 +153,9 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   }
   save() {
      this.isLoading = true;
-    const workInformation: CreateWorkInformationInput = new CreateWorkInformationInput();
-    workInformation.clientId = this.clientId;
-    workInformation.jobTitle = this.jobTitle.value.title;
-    workInformation.jobDescription = this.jobDescription;
-    this._workInformationService.create(workInformation)
+    this.workInformation.clientId = this.clientId;
+    this.workInformation.jobTitle = this.jobTitle.value.title;
+    this._workInformationService.create(this.workInformation)
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(() => {

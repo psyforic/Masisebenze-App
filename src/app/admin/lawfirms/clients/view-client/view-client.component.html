@@ -181,6 +181,11 @@
                                                             Work Information
                                                         </a>
                                                     </div>
+                                                    <div class="col-md-12 text-right">
+                                                        <a href="javascript:void(0)" [routerLink]="['/admin/clients/view/work-information',clientId]" routerLinkActive="router-link-active" mat-stroked-button color="default">
+                                                            Summary
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -532,7 +537,7 @@
                                 <div class="card-body text-center text-primary">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <mat-tab-group mat-stretch-tabs>
+                                            <mat-tab-group mat-stretch-tabs (selectedTabChange)="changeAssessmentTabs($event)">
                                                 <mat-tab>
                                                     <ng-template mat-tab-label>
                                                         Physical Assessment
@@ -948,162 +953,54 @@
                                                     </button>
                                                 </mat-tab>
                                                 <mat-tab label="FCE Assessment"> 
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category">Carrying</h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getAttentionAndConcentration()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
+                                                    <div class="example-loading-shade" *ngIf="isLoading">
+                                                        <mat-spinner *ngIf="isLoading"></mat-spinner>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-12">
+                                                                <h3>Activities Rated by Frequency and Duration
+                                                                </h3>
                                                             </div>
                                                         </div>
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category">Lifting</h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getLanguage()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category">Pushing & Pulling</h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getMemory()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category">Crouching</h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getOrientation()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
+                                                        <div class="row mnt-5">
+                                                            <div class="col-md-12">
+                                                                <table mat-table [dataSource]="positionalToleranceResult" class="mat-elevation-z8">
+
+                                                                    <!--- Note that these columns can be defined in any order.
+                                                                          The actual rendered columns are set as a property on the row definition" -->
+                                                                  
+                                                                    <!-- Position Column -->
+                                                                    <ng-container matColumnDef="activity">
+                                                                      <th mat-header-cell *matHeaderCellDef> Activity </th>
+                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.assessmentName}} </td>
+                                                                    </ng-container>
+                                                                  
+                                                                    <!-- Name Column -->
+                                                                    <ng-container matColumnDef="peformance">
+                                                                      <th mat-header-cell *matHeaderCellDef> FCE Perfomance </th>
+                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.result}} </td>
+                                                                    </ng-container>
+                                                                  
+                                                                    <!-- Weight Column -->
+                                                                    <ng-container matColumnDef="jobDemand">
+                                                                      <th mat-header-cell *matHeaderCellDef> Job Demand </th>
+                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.jobDemand}} </td>
+                                                                    </ng-container>
+                                                                  
+                                                                    <!-- Symbol Column -->
+                                                                    <ng-container matColumnDef="deficit">
+                                                                      <th mat-header-cell *matHeaderCellDef> Deficit </th>
+                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.isDeficit}} </td>
+                                                                    </ng-container>
+                                                                  
+                                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row">
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category">Kneeling</h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getAttentionAndConcentration()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category">Sitting</h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getLanguage()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category"></h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getMemory()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div
-                                                                class="card card-pricing custom-shadow text-center">
-                                                                <h6 class="card-category">Crouching</h6>
-                                                                <div class="card-body text-center">
-                                                                    <p class="card-description">
-                                                                        <i
-                                                                            class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="card-footer justify-content-center ">
-                                                                    <a class="btn btn-round btn-accent"
-                                                                        href="javascript:void(0)"
-                                                                        (click)="getOrientation()">
-                                                                        View
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                   
                                                 </mat-tab>
                                             </mat-tab-group>
                                         </div>
@@ -1148,3 +1045,5 @@
 <app-verbal-fluency #verbalFulencyComponent [fullName]="fullName" [clientId]="clientId"></app-verbal-fluency>
 <app-visuo-spatial-ability #visuoSpatialAbilityComponent [fullName]="fullName" [clientId]="clientId">
 </app-visuo-spatial-ability>
+<app-report-summary #reportSummaryComponent [fullName]="fullName" [clientId]="clientId">
+</app-report-summary>
