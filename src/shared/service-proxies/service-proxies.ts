@@ -18287,6 +18287,176 @@ export class ReportServiceProxy {
 }
 
 @Injectable()
+export class ReportSummaryServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl ? baseUrl : "";
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    create(input: CreateReportSummaryInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ReportSummary/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getByClientId(clientId: string | null | undefined): Observable<ReportSummaryDto> {
+        let url_ = this.baseUrl + "/api/services/app/ReportSummary/GetByClientId?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByClientId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByClientId(<any>response_);
+                } catch (e) {
+                    return <Observable<ReportSummaryDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ReportSummaryDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByClientId(response: HttpResponseBase): Observable<ReportSummaryDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ReportSummaryDto.fromJS(resultData200) : new ReportSummaryDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ReportSummaryDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    upadte(input: ReportSummaryDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/ReportSummary/Upadte";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpadte(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpadte(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpadte(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -37014,6 +37184,112 @@ export interface IRepetitiveSquattingProtocolDto {
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class CreateReportSummaryInput implements ICreateReportSummaryInput {
+    clientId: string | undefined;
+    descussion: string | undefined;
+    recommendations: string | undefined;
+
+    constructor(data?: ICreateReportSummaryInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.descussion = data["descussion"];
+            this.recommendations = data["recommendations"];
+        }
+    }
+
+    static fromJS(data: any): CreateReportSummaryInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateReportSummaryInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["descussion"] = this.descussion;
+        data["recommendations"] = this.recommendations;
+        return data; 
+    }
+
+    clone(): CreateReportSummaryInput {
+        const json = this.toJSON();
+        let result = new CreateReportSummaryInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateReportSummaryInput {
+    clientId: string | undefined;
+    descussion: string | undefined;
+    recommendations: string | undefined;
+}
+
+export class ReportSummaryDto implements IReportSummaryDto {
+    clientId: string | undefined;
+    descussion: string | undefined;
+    recommendations: string | undefined;
+    id: string | undefined;
+
+    constructor(data?: IReportSummaryDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.descussion = data["descussion"];
+            this.recommendations = data["recommendations"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ReportSummaryDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReportSummaryDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["descussion"] = this.descussion;
+        data["recommendations"] = this.recommendations;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): ReportSummaryDto {
+        const json = this.toJSON();
+        let result = new ReportSummaryDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IReportSummaryDto {
+    clientId: string | undefined;
+    descussion: string | undefined;
+    recommendations: string | undefined;
     id: string | undefined;
 }
 

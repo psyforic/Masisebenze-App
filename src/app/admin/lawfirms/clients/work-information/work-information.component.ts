@@ -73,7 +73,6 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(result => {
-        console.log(result);
         if (result != null) {
           this.jobTitle.setValue({ title: result.jobTitle });
           this.jobDescription = result.jobDescription;
