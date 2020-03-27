@@ -24,8 +24,8 @@
                                     </div>
                                     <div class="header-toolbar">
                                         <button (click)="addNewFile()" mat-raised-button color="primary">
-                      <mat-icon>add</mat-icon>
-                    </button>
+                                            <mat-icon>add</mat-icon>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="mat-table__wrapper">
@@ -75,8 +75,9 @@
                                                 <mat-cell *matCellDef="let file; let i = index;">
                                                     <mat-form-field *ngIf="!clientDocuments[i]?.identifier && (file.value !=='Copy of Id or smartcard' &&
                           file.value !=='Copy of passport' && file.value !== 'Hospital records' && file.value !=='Clinical notes')">
-                                                        <input (dateChange)="selectDate($event)" *ngIf="showInput" id="date{{i}}" #fileDate matInput [matDatepicker]="picker" placeholder="Choose a date" name="date" readonly required>
-                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <input (dateChange)="selectDate($event)" (click)="picker.open()" (focus)="picker.open()" *ngIf="showInput" id="date{{i}}" #fileDate matInput [matDatepicker]="picker" placeholder="Choose a date" name="date" readonly required>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                                        </mat-datepicker-toggle>
                                                         <mat-datepicker #picker></mat-datepicker>
                                                     </mat-form-field>
 
@@ -100,11 +101,12 @@
                                                 <mat-header-cell *matHeaderCellDef>Upload</mat-header-cell>
                                                 <mat-cell *matCellDef="let file; let i= index">
                                                     <button class="file btn btn-sm btn-primary btn-round" (mouseenter)="isInValid(i)" [disabled]="clientDocuments[i]?.identifier || isInValid(i, file.value)">
-                            <i class="fa fa-cloud-upload"></i>
-                            <input [disabled]="clientDocuments[i]?.identifier || isInValid(i, file.value)" type="file"
-                              name="file" class="form-control-file" (change)="upload($event, i, file.id)"
-                              accept=".pdf" />
-                          </button>
+                                                        <i class="fa fa-cloud-upload"></i>
+                                                        <input
+                                                            [disabled]="clientDocuments[i]?.identifier || isInValid(i, file.value)"
+                                                            type="file" name="file" class="form-control-file"
+                                                            (change)="upload($event, i, file.id)" accept=".pdf" />
+                                                    </button>
                                                 </mat-cell>
                                             </ng-container>
                                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

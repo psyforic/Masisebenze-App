@@ -61,8 +61,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   shoulderRightReport: ReportRoMShoulderDto = new ReportRoMShoulderDto();
   forearmWristLeftReport: ReportRoMForearmWristDto = new ReportRoMForearmWristDto();
   forearmWristRightReport: ReportRoMForearmWristDto = new ReportRoMForearmWristDto();
-  elbowLeftReport: ReportRoMElbowDto = new ReportRoMElbowDto ();
-  elbowRightReport: ReportRoMElbowDto = new ReportRoMElbowDto ();
+  elbowLeftReport: ReportRoMElbowDto = new ReportRoMElbowDto();
+  elbowRightReport: ReportRoMElbowDto = new ReportRoMElbowDto();
   handLeftReport: ReportRoMHandDto = new ReportRoMHandDto();
   handRightReport: ReportRoMHandDto = new ReportRoMHandDto();
   hipLeftReport: ReportRoMHipDto = new ReportRoMHipDto();
@@ -236,11 +236,11 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         } else if (gender === 1) {
           this.assessmentReport[24] = 'He';
         }
-        this.assessmentReport[25] = (result.shortTermMemory != null && 
+        this.assessmentReport[25] = (result.shortTermMemory != null &&
           result.shortTermMemory.score != null) ? result.shortTermMemory.score : -1;
-        this.assessmentReport[26] = (result.shortTermMemory != null && 
+        this.assessmentReport[26] = (result.shortTermMemory != null &&
           result.shortTermMemory.score != null) ? result.shortTermMemory.totalScore : -1;
-        this.assessmentReport[27] = (result.shortTermMemory !== null && 
+        this.assessmentReport[27] = (result.shortTermMemory !== null &&
           result.shortTermMemory.memoryAssessmentType !== null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
         this.assessmentReport[28] = (result.longTermMemory != null &&
            result.longTermMemory.comment !== null) ? result.longTermMemory.comment : 'No Comment';
@@ -252,7 +252,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           result.speech.comment !== null) ? result.speech.comment : 'No Comment';
         this.assessmentReport[32] = (result.writing != null &&
            result.writing.comment !== null) ? result.writing.comment : 'No Comment';
-        this.assessmentReport[33] = (result.visualPerception != null && 
+        this.assessmentReport[33] = (result.visualPerception != null &&
           result.visualPerception.comment !== null) ? result.visualPerception.comment : 'No Comment';
       });
       this.getReportData(client.id, age, gender);

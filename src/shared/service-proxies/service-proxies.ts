@@ -22763,176 +22763,6 @@ export class WorkAssessmentServiceProxy {
     }
 }
 
-@Injectable()
-export class WorkInformationServiceProxy {
-    private http: HttpClient;
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-
-    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
-        this.http = http;
-        this.baseUrl = baseUrl ? baseUrl : "";
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    create(input: CreateWorkInformationInput | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/WorkInformation/Create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getByClientId(clientId: string | null | undefined): Observable<WorkInformationDto> {
-        let url_ = this.baseUrl + "/api/services/app/WorkInformation/GetByClientId?";
-        if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetByClientId(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetByClientId(<any>response_);
-                } catch (e) {
-                    return <Observable<WorkInformationDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<WorkInformationDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetByClientId(response: HttpResponseBase): Observable<WorkInformationDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? WorkInformationDto.fromJS(resultData200) : new WorkInformationDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<WorkInformationDto>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    update(input: WorkInformationDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/WorkInformation/Update";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdate(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdate(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-}
-
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName: string;
 
@@ -24984,7 +24814,6 @@ export class Client implements IClient {
     motivation: string | undefined;
     generalAppearance: string | undefined;
     bookings: Booking[] | undefined;
-    workInformation: WorkInformation[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -25037,11 +24866,6 @@ export class Client implements IClient {
                 this.bookings = [];
                 for (let item of data["bookings"])
                     this.bookings.push(Booking.fromJS(item));
-            }
-            if (data["workInformation"] && data["workInformation"].constructor === Array) {
-                this.workInformation = [];
-                for (let item of data["workInformation"])
-                    this.workInformation.push(WorkInformation.fromJS(item));
             }
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
@@ -25096,11 +24920,6 @@ export class Client implements IClient {
             for (let item of this.bookings)
                 data["bookings"].push(item.toJSON());
         }
-        if (this.workInformation && this.workInformation.constructor === Array) {
-            data["workInformation"] = [];
-            for (let item of this.workInformation)
-                data["workInformation"].push(item.toJSON());
-        }
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -25150,7 +24969,6 @@ export interface IClient {
     motivation: string | undefined;
     generalAppearance: string | undefined;
     bookings: Booking[] | undefined;
-    workInformation: WorkInformation[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -25289,77 +25107,6 @@ export interface IBooking {
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class WorkInformation implements IWorkInformation {
-    jobTitle: string | undefined;
-    jobDescription: string | undefined;
-    clientId: string | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IWorkInformation) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.jobTitle = data["jobTitle"];
-            this.jobDescription = data["jobDescription"];
-            this.clientId = data["clientId"];
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): WorkInformation {
-        data = typeof data === 'object' ? data : {};
-        let result = new WorkInformation();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["jobTitle"] = this.jobTitle;
-        data["jobDescription"] = this.jobDescription;
-        data["clientId"] = this.clientId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): WorkInformation {
-        const json = this.toJSON();
-        let result = new WorkInformation();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IWorkInformation {
-    jobTitle: string | undefined;
-    jobDescription: string | undefined;
-    clientId: string | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
@@ -28025,11 +27772,6 @@ export class AssessmentReportDto implements IAssessmentReportDto {
     speech: CogntiveReportDto | undefined;
     writing: CogntiveReportDto | undefined;
     visualPerception: CogntiveReportDto | undefined;
-    personalCare: string | undefined;
-    sleeping: string | undefined;
-    homeManagement: string | undefined;
-    leisure: string | undefined;
-    driving: string | undefined;
 
     constructor(data?: IAssessmentReportDto) {
         if (data) {
@@ -28109,11 +27851,6 @@ export class AssessmentReportDto implements IAssessmentReportDto {
             this.speech = data["speech"] ? CogntiveReportDto.fromJS(data["speech"]) : <any>undefined;
             this.writing = data["writing"] ? CogntiveReportDto.fromJS(data["writing"]) : <any>undefined;
             this.visualPerception = data["visualPerception"] ? CogntiveReportDto.fromJS(data["visualPerception"]) : <any>undefined;
-            this.personalCare = data["personalCare"];
-            this.sleeping = data["sleeping"];
-            this.homeManagement = data["homeManagement"];
-            this.leisure = data["leisure"];
-            this.driving = data["driving"];
         }
     }
 
@@ -28193,11 +27930,6 @@ export class AssessmentReportDto implements IAssessmentReportDto {
         data["speech"] = this.speech ? this.speech.toJSON() : <any>undefined;
         data["writing"] = this.writing ? this.writing.toJSON() : <any>undefined;
         data["visualPerception"] = this.visualPerception ? this.visualPerception.toJSON() : <any>undefined;
-        data["personalCare"] = this.personalCare;
-        data["sleeping"] = this.sleeping;
-        data["homeManagement"] = this.homeManagement;
-        data["leisure"] = this.leisure;
-        data["driving"] = this.driving;
         return data; 
     }
 
@@ -28249,11 +27981,6 @@ export interface IAssessmentReportDto {
     speech: CogntiveReportDto | undefined;
     writing: CogntiveReportDto | undefined;
     visualPerception: CogntiveReportDto | undefined;
-    personalCare: string | undefined;
-    sleeping: string | undefined;
-    homeManagement: string | undefined;
-    leisure: string | undefined;
-    driving: string | undefined;
 }
 
 export class ReportGripStrength implements IReportGripStrength {
@@ -40730,112 +40457,6 @@ export class SummaryReponseDto implements ISummaryReponseDto {
 export interface ISummaryReponseDto {
     percentage: number | undefined;
     name: string | undefined;
-}
-
-export class CreateWorkInformationInput implements ICreateWorkInformationInput {
-    jobTitle: string | undefined;
-    jobDescription: string | undefined;
-    clientId: string | undefined;
-
-    constructor(data?: ICreateWorkInformationInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.jobTitle = data["jobTitle"];
-            this.jobDescription = data["jobDescription"];
-            this.clientId = data["clientId"];
-        }
-    }
-
-    static fromJS(data: any): CreateWorkInformationInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new CreateWorkInformationInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["jobTitle"] = this.jobTitle;
-        data["jobDescription"] = this.jobDescription;
-        data["clientId"] = this.clientId;
-        return data; 
-    }
-
-    clone(): CreateWorkInformationInput {
-        const json = this.toJSON();
-        let result = new CreateWorkInformationInput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface ICreateWorkInformationInput {
-    jobTitle: string | undefined;
-    jobDescription: string | undefined;
-    clientId: string | undefined;
-}
-
-export class WorkInformationDto implements IWorkInformationDto {
-    jobTitle: string | undefined;
-    jobDescription: string | undefined;
-    clientId: string | undefined;
-    id: string | undefined;
-
-    constructor(data?: IWorkInformationDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.jobTitle = data["jobTitle"];
-            this.jobDescription = data["jobDescription"];
-            this.clientId = data["clientId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): WorkInformationDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new WorkInformationDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["jobTitle"] = this.jobTitle;
-        data["jobDescription"] = this.jobDescription;
-        data["clientId"] = this.clientId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): WorkInformationDto {
-        const json = this.toJSON();
-        let result = new WorkInformationDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IWorkInformationDto {
-    jobTitle: string | undefined;
-    jobDescription: string | undefined;
-    clientId: string | undefined;
-    id: string | undefined;
 }
 
 export enum IsTenantAvailableOutputState {

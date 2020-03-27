@@ -2,8 +2,8 @@
     <div class="modal-header">
         <h4 class="modal-title">New Event</h4>
         <button type="button" class="close" aria-label="Close" (click)="close(newEvent)">
-      <span aria-hidden="true">&times;</span>
-    </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <form #newEvent="ngForm" (ngSubmit)="save(newEvent)">
         <div class="modal-body">
@@ -15,7 +15,8 @@
          lawFirmId.value != '' && attorneyId.value != '' && contactId.value != ''">
                     <div class="card-title"></div>
                     <div class="header-tools">
-                        <button type="button" mat-raised-button (click)="openBottomSheet()" color="primary">New Client</button>
+                        <button type="button" mat-raised-button (click)="openBottomSheet()" color="primary">New
+                            Client</button>
                     </div>
                 </div>
                 <div class="row">
@@ -25,7 +26,8 @@
                                 <mat-form-field>
                                     <mat-label>Law Firm</mat-label>
                                     <mat-select (selectionChange)="selectedLawFirmId($event)" #lawFirmId="ngModel" required name="lawFirmId" [(ngModel)]="booking.lawFirmId" required>
-                                        <mat-option *ngFor="let lawFirm of lawFirms" value="{{lawFirm.id}}">{{lawFirm.companyName}}
+                                        <mat-option *ngFor="let lawFirm of lawFirms" value="{{lawFirm.id}}">
+                                            {{lawFirm.companyName}}
                                         </mat-option>
                                     </mat-select>
                                     <mat-error class="error-message" *ngIf="lawFirmId.touched && lawFirmId.hasError('required')">
@@ -39,7 +41,8 @@
                                 <mat-form-field>
                                     <mat-label>Attorney</mat-label>
                                     <mat-select (selectionChange)="selectAttorneyId($event)" name="attorneyId" #attorneyId="ngModel" [(ngModel)]="booking.attorneyId" required>
-                                        <mat-option *ngFor="let attorney of attorneys" value="{{attorney.id}}">{{attorney.firstName}} {{attorney.lastName}}
+                                        <mat-option *ngFor="let attorney of attorneys" value="{{attorney.id}}">
+                                            {{attorney.firstName}} {{attorney.lastName}}
                                         </mat-option>
                                     </mat-select>
                                     <mat-error class="error-message" *ngIf="attorneyId.touched && attorneyId.hasError('required')">
@@ -53,7 +56,8 @@
                                 <mat-form-field>
                                     <mat-label>Contact Name</mat-label>
                                     <mat-select (selectionChange)="selectedContactId($event)" #contactId="ngModel" required name="contactId" [(ngModel)]="booking.contactId" required>
-                                        <mat-option *ngFor="let contact of contacts" value="{{contact.id}}">{{contact.firstName}} {{contact.lastName}}
+                                        <mat-option *ngFor="let contact of contacts" value="{{contact.id}}">
+                                            {{contact.firstName}} {{contact.lastName}}
                                         </mat-option>
                                     </mat-select>
                                     <mat-error class="error-message" *ngIf="contactId.touched && contactId.hasError('required')">
@@ -86,7 +90,8 @@
                                 <mat-form-field>
                                     <mat-label>Event Name</mat-label>
                                     <mat-select required name="eventId" [(ngModel)]="booking.eventId" #eventId="ngModel" required>
-                                        <mat-option *ngFor="let event of events" value="{{event.id}}">{{event.name}}</mat-option>
+                                        <mat-option *ngFor="let event of events" value="{{event.id}}">{{event.name}}
+                                        </mat-option>
                                     </mat-select>
                                     <mat-error class="error-message" *ngIf="eventId.touched && eventId.hasError('required')">
                                         Event Name is required
@@ -98,7 +103,7 @@
                             <div class="col-lg-12">
                                 <mat-form-field>
                                     <mat-label>Event Date</mat-label>
-                                    <input matInput #eventDate [(ngModel)]="date" [matDatepicker]="picker" name="event" required readonly>
+                                    <input matInput (click)="picker.open()" (focus)="picker.open()" #eventDate [(ngModel)]="date" [matDatepicker]="picker" name="event" required readonly>
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
@@ -131,7 +136,7 @@
             <div class="modal-footer">
                 <button type="button" mat-raised-button (click)="close(newEvent)">Close</button>
                 <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid || fromTime.value === '00:00' || fromTime.value === '24:00' || toTime.value === '00:00' || toTime.value === '24:00'">Add
-          Event</button>
+                    Event</button>
             </div>
         </div>
     </form>

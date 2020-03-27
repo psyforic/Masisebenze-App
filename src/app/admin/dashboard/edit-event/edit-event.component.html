@@ -1,125 +1,120 @@
 <ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title">Edit Event</h4>
-    <button type="button" class="close" aria-label="Close" (click)="close(newEvent)">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Event</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close(newEvent)">
       <span aria-hidden="true">&times;</span>
     </button>
-  </div>
-  <form #newEvent="ngForm" (ngSubmit)="save(newEvent)">
-    <div class="modal-body">
-      <div class="example-loading-shade" *ngIf="isSaving || isLoading">
-        <mat-spinner *ngIf="isSaving || isLoading"></mat-spinner>
-      </div>
-      <div class="card">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="row">
-              <div class="col-lg-12">
-                <mat-form-field>
-                  <mat-label>Law Firm</mat-label>
-                  <input matInput type="text" name="lawFirmName" [(ngModel)]="lawFirmName" readonly>
-                </mat-form-field>
-              </div>
+    </div>
+    <form #newEvent="ngForm" (ngSubmit)="save(newEvent)">
+        <div class="modal-body">
+            <div class="example-loading-shade" *ngIf="isSaving || isLoading">
+                <mat-spinner *ngIf="isSaving || isLoading"></mat-spinner>
             </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <mat-form-field>
-                  <mat-label>Attorney</mat-label>
-                  <input matInput type="text" name="attorneyName" [(ngModel)]="attorneyName" readonly>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <mat-form-field>
-                  <mat-label>Contact Name</mat-label>
-                  <input matInput type="text" name="contactName" [(ngModel)]="contactName" readonly>
-                </mat-form-field>
-              </div>
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Law Firm</mat-label>
+                                    <input matInput type="text" name="lawFirmName" [(ngModel)]="lawFirmName" readonly>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Attorney</mat-label>
+                                    <input matInput type="text" name="attorneyName" [(ngModel)]="attorneyName" readonly>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Contact Name</mat-label>
+                                    <input matInput type="text" name="contactName" [(ngModel)]="contactName" readonly>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Client</mat-label>
+                                    <input matInput type="text" name="client" [(ngModel)]="clientName" readonly>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Event Name</mat-label>
+                                    <mat-select required name="eventId" [(ngModel)]="booking.eventId" #eventId="ngModel" required>
+                                        <mat-option *ngFor="let event of events" [value]="event.id" selected="booking.event.id === event.id">{{event.name}}</mat-option>
+                                    </mat-select>
+                                    <mat-error class="error-message" *ngIf="eventId.touched && eventId.hasError('required')">
+                                        Event Name is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Event Date</mat-label>
+                                    <input matInput #eventDate (click)="picker.open()" (focus)="picker.open()" [value]="date" [(ngModel)]="date" [matDatepicker]="picker" name="event" required readonly>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-error *ngIf="eventDate.touched && eventDate.hasError('required')">
+                                        Event Date is Required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>From</mat-label>
+                            <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue" [value]="fromTime" readonly>
+                            <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event,newEvent)">
+                            </ngx-material-timepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>To</mat-label>
+                            <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value" [value]="toTime" readonly>
+                            <ngx-material-timepicker #Value (timeSet)="setEndTime($event,newEvent)">
+                            </ngx-material-timepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <quill-editor [required]="true" #reasonModel="ngModel" [styles]="{height: '200px'}" [(ngModel)]="reason" [placeholder]="'Please Enter Reason'" [sanitize]="true" name="reason">
+                        </quill-editor>
+                        <mat-error class="error-message" *ngIf="reasonModel.touched && reasonModel.hasError('required')">
+                            Reason For Change is Required
+                        </mat-error>
+                    </div>
+                </div>
             </div>
 
-          </div>
-
-          <div class="col-lg-6">
-            <div class="row">
-              <div class="col-lg-12">
-                <mat-form-field>
-                  <mat-label>Client</mat-label>
-                  <input matInput type="text" name="client" [(ngModel)]="clientName" readonly>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <mat-form-field>
-                  <mat-label>Event Name</mat-label>
-                  <mat-select required name="eventId" [(ngModel)]="booking.eventId" #eventId="ngModel" required>
-                    <mat-option *ngFor="let event of events" [value]="event.id"
-                      selected="booking.event.id === event.id">{{event.name}}</mat-option>
-                  </mat-select>
-                  <mat-error class="error-message" *ngIf="eventId.touched && eventId.hasError('required')">
-                    Event Name is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-lg-12">
-                <mat-form-field>
-                  <mat-label>Event Date</mat-label>
-                  <input matInput #eventDate [value]="date" [(ngModel)]="date" [matDatepicker]="picker" name="event"
-                    required readonly>
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                  <mat-error *ngIf="eventDate.touched && eventDate.hasError('required')">
-                    Event Date is Required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>From</mat-label>
-              <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="defaultValue" [value]="fromTime"
-                readonly>
-              <ngx-material-timepicker #defaultValue (timeSet)="setStartTime($event,newEvent)">
-              </ngx-material-timepicker>
-            </mat-form-field>
-          </div>
-
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>To</mat-label>
-              <input matInput aria-label="default time" [format]="24" [ngxTimepicker]="Value" [value]="toTime" readonly>
-              <ngx-material-timepicker #Value (timeSet)="setEndTime($event,newEvent)">
-              </ngx-material-timepicker>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <quill-editor [required]="true" #reasonModel="ngModel" [styles]="{height: '200px'}" [(ngModel)]="reason"
-              [placeholder]="'Please Enter Reason'" [sanitize]="true" name="reason">
-            </quill-editor>
-            <mat-error class="error-message" *ngIf="reasonModel.touched && reasonModel.hasError('required')">
-              Reason For Change is Required
-            </mat-error>
-          </div>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" mat-raised-button (click)="close(newEvent)">Close</button>
-        <button type="button" mat-raised-button (click)="deleteEvent(newEvent)" color="warn">
+            <div class="modal-footer">
+                <button type="button" mat-raised-button (click)="close(newEvent)">Close</button>
+                <button type="button" mat-raised-button (click)="deleteEvent(newEvent)" color="warn">
           <mat-icon>delete</mat-icon>
         </button>
-        <button type="submit" mat-raised-button color="primary"
-          [disabled]="!newEvent.valid || !newEvent.dirty">Update</button>
-      </div>
-    </div>
-  </form>
+                <button type="submit" mat-raised-button color="primary" [disabled]="!newEvent.valid || !newEvent.dirty">Update</button>
+            </div>
+        </div>
+    </form>
 </ng-template>
