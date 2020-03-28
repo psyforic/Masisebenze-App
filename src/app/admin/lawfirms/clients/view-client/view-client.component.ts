@@ -170,7 +170,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   positionalToleranceResult: PositionalToleranceDto[] = [];
   displayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   maxDataValues: MaxDataValue[] = [];
-  hidden = false;
+  hidden = true;
   bookings: Booking[] = [];
   questionnaires = [
     { type: 1, description: 'PATIENT HEALTH' },

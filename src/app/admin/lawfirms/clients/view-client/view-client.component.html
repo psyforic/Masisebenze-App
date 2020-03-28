@@ -176,14 +176,14 @@
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <!-- <div class="row">
                                                     <div class="col-md-12 text-right">
                                                         <a href="javascript:void(0)" [routerLink]="['/admin/clients/view/work-information',clientId]" routerLinkActive="router-link-active" mat-stroked-button color="default">
                                                             Work Information
                                                         </a>
                                                     </div>
-                                                 
-                                                </div>
+
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
@@ -949,7 +949,7 @@
                                                         <mat-icon>add</mat-icon>
                                                     </button>
                                                 </mat-tab>
-                                                <mat-tab label="FCE Assessment"> 
+                                                <mat-tab label="FCE Assessment">
                                                     <div class="example-loading-shade" *ngIf="isLoading">
                                                         <mat-spinner *ngIf="isLoading"></mat-spinner>
                                                     </div>
@@ -966,38 +966,38 @@
 
                                                                     <!--- Note that these columns can be defined in any order.
                                                                           The actual rendered columns are set as a property on the row definition" -->
-                                                                  
+
                                                                     <!-- Position Column -->
                                                                     <ng-container matColumnDef="activity">
-                                                                      <th mat-header-cell *matHeaderCellDef> Activity </th>
-                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.assessmentName}} </td>
+                                                                        <th mat-header-cell *matHeaderCellDef> Activity </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element"> {{element.assessmentName}} </td>
                                                                     </ng-container>
-                                                                  
+
                                                                     <!-- Name Column -->
                                                                     <ng-container matColumnDef="peformance">
-                                                                      <th mat-header-cell *matHeaderCellDef> FCE Perfomance </th>
-                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.result}} </td>
+                                                                        <th mat-header-cell *matHeaderCellDef> FCE Perfomance </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element"> {{element.result}} </td>
                                                                     </ng-container>
-                                                                  
+
                                                                     <!-- Weight Column -->
                                                                     <ng-container matColumnDef="jobDemand">
-                                                                      <th mat-header-cell *matHeaderCellDef> Job Demand </th>
-                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.jobDemand}} </td>
+                                                                        <th mat-header-cell *matHeaderCellDef> Job Demand </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element"> {{element.jobDemand}} </td>
                                                                     </ng-container>
-                                                                  
+
                                                                     <!-- Symbol Column -->
                                                                     <ng-container matColumnDef="deficit">
-                                                                      <th mat-header-cell *matHeaderCellDef> Deficit </th>
-                                                                      <td class="text-left" mat-cell *matCellDef="let element"> {{element.isDeficit}} </td>
+                                                                        <th mat-header-cell *matHeaderCellDef> Deficit </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element"> {{element.isDeficit}} </td>
                                                                     </ng-container>
-                                                                  
+
                                                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                                                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                                                 </table>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                   
+
                                                 </mat-tab>
                                             </mat-tab-group>
                                         </div>

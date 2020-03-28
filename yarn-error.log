@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js remove ngx-chips
 
 PATH: 
-  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Lundi Mapundu\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\dotnet;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\ManagementStudio;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn;C:\Program Files\PostgreSQL\11\bin;C:\Program Files\PostgreSQL\11\lib;C:\Android\Sdk\platform-tools;C:\Program Files (x86)\Yarn\bin;C:\php;C:\MAMP\bin\php\php7.2.10;C:\ProgramData\ComposerSetup\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\AdoptOpenJDK\jdk8u192-b12\bin;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Android\android-sdk\tools;C:\Android\android-sdk\platform-tools;C:\Android\android-sdk\tools\bin;C:\Program Files\nodejs;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32;C:\tizen-sdk\tools\ide\bin;C:\Users\Lundi Mapundu\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Android\Sdk\platform-tools;C:\Users\Lundi Mapundu\.dotnet\tools;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Users\Lundi Mapundu\AppData\Local\Programs\Azure Data Studio\bin;C:\Users\Lundi Mapundu\AppData\Local\Yarn\bin;C:\php;C:\Users\Lundi Mapundu\AppData\Roaming\Composer\vendor\bin;C:\Users\Lundi Mapundu\AppData\Roaming\npm
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\PostgreSQL\11\bin;C:\Program Files\PostgreSQL\11\lib;C:\Android\Sdk\platform-tools;C:\Program Files (x86)\Yarn\bin\;C:\php;C:\MAMP\bin\php\php7.2.10;C:\ProgramData\ComposerSetup\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\AdoptOpenJDK\jdk8u192-b12\bin;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Android\android-sdk\tools;C:\Android\android-sdk\platform-tools;C:\Android\android-sdk\tools\bin;C:\Program Files\nodejs\;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32\;C:\tizen-sdk\tools\ide\bin;C:\Users\Lundi Mapundu\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Android\Sdk\platform-tools;C:\Users\Lundi Mapundu\.dotnet\tools;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Users\Lundi Mapundu\AppData\Local\Programs\Azure Data Studio\bin;C:\Users\Lundi Mapundu\AppData\Local\Yarn\bin;C:\php;C:\Users\Lundi Mapundu\AppData\Roaming\Composer\vendor\bin;C:\Users\Lundi Mapundu\AppData\Roaming\npm
 
 Yarn version: 
   1.17.3
@@ -14,143 +14,142 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Lundi Mapundu\source\repos\MasisebenzeFCE\masisebenze\node_modules\ngx-perfect-scrollbar\dist\index.d.ts'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\Lundi Mapundu\source\repos\MasisebenzeFCE\masisebenze\node_modules\ngx-chips\core'
 
 npm manifest: 
   {
-    "name": "MasisebenzeFCE",
-    "version": "4.7.1",
-    "license": "MIT",
-    "angular-cli": {},
-    "scripts": {
-      "ng": "ng",
-      "start": "ng serve --host 0.0.0.0 --port 4200",
-      "hmr": "ng serve --host 0.0.0.0 --port 4200 --hmr",
-      "test": "ng test",
-      "pree2e": "webdriver-manager update --standalone false --gecko false",
-      "e2e": "protractor",
-      "lint": "tslint --force --project src/tsconfig.json src/**/*.ts -t verbose"
-    },
-    "private": true,
-    "dependencies": {
-      "@angular/animations": "^8.2.4",
-      "@angular/cdk": "^8.1.4",
-      "@angular/common": "^8.1.3",
-      "@angular/compiler": "^8.1.3",
-      "@angular/core": "^8.1.3",
-      "@angular/fire": "^5.2.1",
-      "@angular/forms": "^8.1.3",
-      "@angular/material": "^8.1.4",
-      "@angular/material-moment-adapter": "^8.2.2",
-      "@angular/platform-browser": "^8.1.3",
-      "@angular/platform-browser-dynamic": "^8.1.3",
-      "@angular/platform-server": "8.1.3",
-      "@angular/router": "^8.1.3",
-      "@aspnet/signalr": "^1.0.0",
-      "@fullcalendar/angular": "^4.3.1",
-      "@fullcalendar/core": "^4.3.1",
-      "@fullcalendar/daygrid": "^4.3.0",
-      "@fullcalendar/interaction": "^4.3.0",
-      "@fullcalendar/timegrid": "^4.3.0",
-      "@ng-bootstrap/ng-bootstrap": "^5.1.0",
-      "@types/bootstrap": "^3.3.33",
-      "@types/jquery": "^3.3.27",
-      "@types/jquery.blockui": "0.0.28",
-      "@types/jquery.validation": "^1.16.3",
-      "@types/lodash": "^4.14.62",
-      "@types/moment": "^2.13.0",
-      "@types/moment-timezone": "^0.5.9",
-      "@types/toastr": "^2.1.33",
-      "abp-ng2-module": "^4.0.0",
-      "abp-web-resources": "^3.8.2",
-      "angular-expressions": "^1.0.0",
-      "angular-vertical-timeline": "^0.6.0",
-      "animate.css": "^3.5.2",
-      "arrive": "2.4.1",
-      "block-ui": "^2.70.1",
-      "bootstrap": "4.3.1",
-      "bootstrap-material-design": "4.1.2",
-      "bootstrap-select": "^1.12.2",
-      "chart.js": "^2.6.0",
-      "chartist": "0.11.2",
-      "core-js": "^2.4.1",
-      "docx": "^5.0.0-rc5",
-      "docx-templates": "^3.1.1",
-      "docxtemplater": "^3.14.3",
-      "easy-template-x": "^0.10.0",
-      "famfamfam-flags": "^1.0.0",
-      "file-saver": "^2.0.2",
-      "firebase": "^6.6.0",
-      "flot": "^0.8.0-alpha",
-      "font-awesome": "^4.7.0",
-      "fs": "^0.0.1-security",
-      "generate-docx": "^2.1.1",
-      "hammerjs": "^2.0.8",
-      "jquery": "^3.1.1",
-      "jquery-countto": "^1.2.0",
-      "jquery-migrate": "^3.0.0",
-      "jquery-slimscroll": "^1.3.8",
-      "jquery-sparkline": "^2.4.0",
-      "js-cookie": "^2.1.4",
-      "jszip": "^3.2.2",
-      "jszip-utils": "^0.1.0",
-      "lodash": "^4.17.4",
-      "moment": "^2.18.1",
-      "moment-timezone": "^0.5.13",
-      "morris.js": "^0.5.0",
-      "ngx-bootstrap": "^3.0.0",
-      "ngx-chips": "^2.1.0",
-      "ngx-image-cropper": "^1.4.1",
-      "ngx-material-timepicker": "^5.0.0",
-      "ngx-pagination": "^3.0.3",
-      "ngx-perfect-scrollbar": "^9.0.0",
-      "ngx-quill": "^7.3.1",
-      "ngx-webcam": "^0.2.6",
-      "node-waves": "^0.7.5",
-      "perfect-scrollbar": "1.1.0",
-      "pizzip": "^3.0.6",
-      "popper.js": "1.15.0",
-      "push.js": "1.0.9",
-      "quill": "^1.3.7",
-      "raphael": "^2.2.7",
-      "rxjs": "^6.2.0",
-      "rxjs-compat": "6.2.0",
-      "simple-line-icons": "^2.4.1",
-      "spin.js": "^2.3.2",
-      "stream": "^0.0.2",
-      "sweetalert": "^2.0.8",
-      "toastr": "^2.1.2",
-      "ts-helpers": "^1.1.2",
-      "web-animations-js": "^2.3.2",
-      "zone.js": "~0.9.1"
-    },
-    "devDependencies": {
-      "@angular-devkit/build-angular": "~0.801.2",
-      "@angular/cli": "^8.1.2",
-      "@angular/compiler-cli": "^8.1.3",
-      "@angular/language-service": "8.1.3",
-      "@angularclass/hmr": "^2.1.3",
-      "@types/bootstrap": "4.3.0",
-      "@types/chartist": "0.9.46",
-      "@types/jasmine": "^3.3.2",
-      "@types/node": "^10.12.15",
-      "@types/quill": "^1.3.10",
-      "codelyzer": "^5.0.1",
-      "jasmine-core": "^3.3.0",
-      "jasmine-spec-reporter": "^4.2.1",
-      "karma": "^3.1.4",
-      "karma-chrome-launcher": "^2.0.0",
-      "karma-cli": "^2.0.0",
-      "karma-coverage-istanbul-reporter": "^2.0.4",
-      "karma-jasmine": "^2.0.1",
-      "karma-jasmine-html-reporter": "^1.4.0",
-      "nswag": "^12.0.7",
-      "protractor": "^5.1.1",
-      "ts-node": "^7.0.1",
-      "tslint": "^5.7.0",
-      "typescript": "3.4.5",
-      "webpack-bundle-analyzer": "^3.0.3"
-    }
+      "name": "MasisebenzeFCE",
+      "version": "4.7.1",
+      "license": "MIT",
+      "angular-cli": {},
+      "scripts": {
+          "ng": "ng",
+          "start": "ng serve --host 0.0.0.0 --port 4200",
+          "hmr": "ng serve --host 0.0.0.0 --port 4200 --hmr",
+          "test": "ng test",
+          "pree2e": "webdriver-manager update --standalone false --gecko false",
+          "e2e": "protractor",
+          "lint": "tslint --force --project src/tsconfig.json src/**/*.ts -t verbose"
+      },
+      "private": true,
+      "dependencies": {
+          "@angular/animations": "^8.2.4",
+          "@angular/cdk": "^8.1.4",
+          "@angular/common": "^8.1.3",
+          "@angular/compiler": "^8.1.3",
+          "@angular/core": "^8.1.3",
+          "@angular/fire": "^5.2.1",
+          "@angular/forms": "^8.1.3",
+          "@angular/material": "^8.1.4",
+          "@angular/material-moment-adapter": "^8.2.2",
+          "@angular/platform-browser": "^8.1.3",
+          "@angular/platform-browser-dynamic": "^8.1.3",
+          "@angular/platform-server": "8.1.3",
+          "@angular/router": "^8.1.3",
+          "@aspnet/signalr": "^1.0.0",
+          "@fullcalendar/angular": "^4.3.1",
+          "@fullcalendar/core": "^4.3.1",
+          "@fullcalendar/daygrid": "^4.3.0",
+          "@fullcalendar/interaction": "^4.3.0",
+          "@fullcalendar/timegrid": "^4.3.0",
+          "@ng-bootstrap/ng-bootstrap": "^5.1.0",
+          "@types/bootstrap": "^3.3.33",
+          "@types/jquery": "^3.3.27",
+          "@types/jquery.blockui": "0.0.28",
+          "@types/jquery.validation": "^1.16.3",
+          "@types/lodash": "^4.14.62",
+          "@types/moment": "^2.13.0",
+          "@types/moment-timezone": "^0.5.9",
+          "@types/toastr": "^2.1.33",
+          "abp-ng2-module": "^4.0.0",
+          "abp-web-resources": "^3.8.2",
+          "angular-expressions": "^1.0.0",
+          "angular-vertical-timeline": "^0.6.0",
+          "animate.css": "^3.5.2",
+          "arrive": "2.4.1",
+          "block-ui": "^2.70.1",
+          "bootstrap": "4.3.1",
+          "bootstrap-material-design": "4.1.2",
+          "bootstrap-select": "^1.12.2",
+          "chart.js": "^2.6.0",
+          "chartist": "0.11.2",
+          "core-js": "^2.4.1",
+          "docx": "^5.0.0-rc5",
+          "docx-templates": "^3.1.1",
+          "docxtemplater": "^3.14.3",
+          "easy-template-x": "^0.10.0",
+          "famfamfam-flags": "^1.0.0",
+          "file-saver": "^2.0.2",
+          "firebase": "^6.6.0",
+          "flot": "^0.8.0-alpha",
+          "font-awesome": "^4.7.0",
+          "fs": "^0.0.1-security",
+          "generate-docx": "^2.1.1",
+          "hammerjs": "^2.0.8",
+          "jquery": "^3.1.1",
+          "jquery-countto": "^1.2.0",
+          "jquery-migrate": "^3.0.0",
+          "jquery-slimscroll": "^1.3.8",
+          "jquery-sparkline": "^2.4.0",
+          "js-cookie": "^2.1.4",
+          "jszip": "^3.2.2",
+          "jszip-utils": "^0.1.0",
+          "lodash": "^4.17.4",
+          "moment": "^2.18.1",
+          "moment-timezone": "^0.5.13",
+          "morris.js": "^0.5.0",
+          "ngx-bootstrap": "^3.0.0",
+          "ngx-image-cropper": "^1.4.1",
+          "ngx-material-timepicker": "^5.0.0",
+          "ngx-pagination": "^3.0.3",
+          "ngx-perfect-scrollbar": "^8.0.0",
+          "ngx-quill": "^7.3.1",
+          "ngx-webcam": "^0.2.6",
+          "node-waves": "^0.7.5",
+          "perfect-scrollbar": "1.1.0",
+          "pizzip": "^3.0.6",
+          "popper.js": "1.15.0",
+          "push.js": "1.0.9",
+          "quill": "^1.3.7",
+          "raphael": "^2.2.7",
+          "rxjs": "^6.2.0",
+          "rxjs-compat": "6.2.0",
+          "simple-line-icons": "^2.4.1",
+          "spin.js": "^2.3.2",
+          "stream": "^0.0.2",
+          "sweetalert": "^2.0.8",
+          "toastr": "^2.1.2",
+          "ts-helpers": "^1.1.2",
+          "web-animations-js": "^2.3.2",
+          "zone.js": "~0.9.1"
+      },
+      "devDependencies": {
+          "@angular-devkit/build-angular": "~0.801.2",
+          "@angular/cli": "^8.1.2",
+          "@angular/compiler-cli": "^8.1.3",
+          "@angular/language-service": "8.1.3",
+          "@angularclass/hmr": "^2.1.3",
+          "@types/bootstrap": "4.3.0",
+          "@types/chartist": "0.9.46",
+          "@types/jasmine": "^3.3.2",
+          "@types/node": "^10.12.15",
+          "@types/quill": "^1.3.10",
+          "codelyzer": "^5.0.1",
+          "jasmine-core": "^3.3.0",
+          "jasmine-spec-reporter": "^4.2.1",
+          "karma": "^3.1.4",
+          "karma-chrome-launcher": "^2.0.0",
+          "karma-cli": "^2.0.0",
+          "karma-coverage-istanbul-reporter": "^2.0.4",
+          "karma-jasmine": "^2.0.1",
+          "karma-jasmine-html-reporter": "^1.4.0",
+          "nswag": "^12.0.7",
+          "protractor": "^5.1.1",
+          "ts-node": "^7.0.1",
+          "tslint": "^5.7.0",
+          "typescript": "3.4.5",
+          "webpack-bundle-analyzer": "^3.0.3"
+      }
   }
 
 yarn manifest: 
@@ -5373,12 +5372,12 @@ Lockfile:
     version "3.1.1"
     resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-3.1.1.tgz#fcde5cb5fd4a1bd6aa785ff062a55f3deefcd3ac"
   
-  ngx-perfect-scrollbar@^9.0.0:
-    version "9.0.0"
-    resolved "https://registry.yarnpkg.com/ngx-perfect-scrollbar/-/ngx-perfect-scrollbar-9.0.0.tgz#361c75010d2a560dd8aaadb799bdf04db5a1824b"
-    integrity sha512-jiFrOLONf/w2PjSKkEjQeTnMdlMVcQgjzIrYcsor1HWTmE+95J2sZAd/WF4zoutbpIqfU8VQQoAp8HOa7U1c/g==
+  ngx-perfect-scrollbar@^8.0.0:
+    version "8.0.0"
+    resolved "https://registry.yarnpkg.com/ngx-perfect-scrollbar/-/ngx-perfect-scrollbar-8.0.0.tgz#19c1bbf9b1a36d89b00a68f7834e39427d29182f"
+    integrity sha512-IXoFbULQnxyJj0gdCcKCLE/6OW9HCP9KARzMCKS1kNxTuzG4DghjM2AaCBRM5/sFwdbn6rqOKMCINtHA8W8YCA==
     dependencies:
-      perfect-scrollbar "1.5.0"
+      perfect-scrollbar "^1.4.0"
       resize-observer-polyfill "^1.5.0"
   
   ngx-quill@^7.3.1:
@@ -5999,7 +5998,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.1.0.tgz#8b213f51308f6b0131c07d67d0d01390a2b51a7f"
     integrity sha512-nd3qD1foPdQRDS6iUmlh8hfVQJGFit9eCc6HT8vQayCh8Xx2GH6tXflFyQnI+onDzJkmucSJBFNrGpG/0xzryQ==
   
-  perfect-scrollbar@1.5.0:
+  perfect-scrollbar@^1.4.0:
     version "1.5.0"
     resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.0.tgz#821d224ed8ff61990c23f26db63048cdc75b6b83"
     integrity sha512-NrNHJn5mUGupSiheBTy6x+6SXCFbLlm8fVZh9moIzw/LgqElN5q4ncR4pbCBCYuCJ8Kcl9mYM0NgDxvW+b4LxA==

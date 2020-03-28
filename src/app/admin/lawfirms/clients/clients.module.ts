@@ -22,17 +22,10 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
 import { AssessmentsModule } from './assessments/assessments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MAT_DATE_LOCALE } from '@angular/material';
-import { TagInputModule } from 'ngx-chips';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-changes.guard';
 import {MatListModule} from '@angular/material/list';
 import { TypeaheadModule } from 'ngx-bootstrap';
-TagInputModule.withDefaults({
-  tagInput: {
-      placeholder: 'Add a New Field',
-      maxItems: 3
-  }
-});
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -56,7 +49,6 @@ TagInputModule.withDefaults({
     ImageCropperModule,
     AssessmentsModule,
     CognitiveAssessmentsModule,
-    TagInputModule,
     MatListModule,
     TypeaheadModule.forRoot()
   ],
