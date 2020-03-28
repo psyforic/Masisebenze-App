@@ -124,8 +124,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   openVerbalFliuencyComponent: VerbalFluencyComponent;
   @ViewChild('visuoSpatialAbilityComponent', { static: false })
   openVisuoSpatialAbilityComponent: VisuoSpatialAbilityComponent;
-  @ViewChild('reportSummaryuComponent', { static: false })
-  openReportSummaryuComponent: ReportSummaryComponent;
+
   ageList: string[] = [];
   client: ClientDetailOutput = new ClientDetailOutput();
   documentTypes = DocumentFolder.documentTypes;
@@ -626,9 +625,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   getVisuoSpatialAbility() {
     this.openVisuoSpatialAbilityComponent.open();
-  }
-  getReportSummary() {
-    this.openReportSummaryuComponent.open();
   }
   createQuestionnaire(type, description) {
     this.questionnaireType = type;

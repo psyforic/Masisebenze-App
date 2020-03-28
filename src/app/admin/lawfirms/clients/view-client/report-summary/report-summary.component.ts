@@ -1,56 +1,67 @@
-import { ReportSummaryServiceProxy, ReportSummaryDto } from '../../../../../../shared/service-proxies/service-proxies';
+import { ReportSummaryServiceProxy, ReportSummaryDto, ClientServiceProxy,
+   ClientDetailOutput } from '../../../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { Component, OnInit, ViewChild, ElementRef, Input, Injector } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-report-summary',
   templateUrl: './report-summary.component.html',
   styleUrls: ['./report-summary.component.scss'],
-  providers: [ReportSummaryServiceProxy]
+  providers: [ReportSummaryServiceProxy, ClientServiceProxy]
 })
 export class ReportSummaryComponent extends AppComponentBase implements OnInit {
-  @ViewChild('content', { static: false }) content: ElementRef;
-  @Input() fullName: string;
-  @Input() clientId: string;
+  client: ClientDetailOutput = new ClientDetailOutput();
+
+  clientId: string;
   isLoading = false;
-  reportSumary: ReportSummaryDto = new ReportSummaryDto();
+  reportSummary: ReportSummaryDto = new ReportSummaryDto();
   constructor(
     injector: Injector,
-    private modalService: NgbModal,
-    private activeModal: NgbActiveModal,
+    private _clientService: ClientServiceProxy,
+    private route: ActivatedRoute,
     private _reportSummaryService: ReportSummaryServiceProxy) {
     super(injector);
+    this.route.paramMap.subscribe((paramMap) => {
+      this.clientId = paramMap.get('id');
+    });
   }
   ngOnInit() {
+    this.getClient();
+    this.getReportSummary();
   }
-  open() {
-    this.getVisuoSpatialAbility();
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
-      .result.then(() => { }, () => { });
+  getClient() {
+    this.isLoading = true;
+    this._clientService.getDetail(this.clientId)
+      .pipe((finalize(() => {
+        this.isLoading = false;
+      })))
+      .subscribe((result) => {
+        this.client = result;
+      });
   }
   save() {
     this.isLoading = true;
-    this.reportSumary.clientId = this.clientId;
-    this._reportSummaryService.create(this.reportSumary).
+    this.reportSummary.clientId = this.clientId;
+    
+    this._reportSummaryService.create(this.reportSummary).
     pipe(finalize(() => {
       this.isLoading = false;
     })).subscribe(() => {
       this.notify.success('Saved successfully!');
     });
   }
-  close() {
-    this.activeModal.close();
-  }
-  getVisuoSpatialAbility() {
+
+  getReportSummary() {
     this.isLoading = true;
     this._reportSummaryService.getByClientId(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(result => {
         if (result != null) {
-          this.reportSumary = result;
+          this.reportSummary = result;
         }
       });
   }

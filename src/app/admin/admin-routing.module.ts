@@ -1,3 +1,4 @@
+import { ReportSummaryComponent } from './lawfirms/clients/view-client/report-summary/report-summary.component';
 import { WorkInformationComponent } from './lawfirms/clients/work-information/work-information.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -50,6 +51,10 @@ import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.gua
                     },
                     {
                         path: 'clients/view/work-information/:id', component: WorkInformationComponent, canActivate: [AppRouteGuard],
+
+                    },
+                    {
+                        path: 'clients/view/report-summary/:id', component: ReportSummaryComponent, canActivate: [AppRouteGuard],
 
                     },
                     { path: 'clients/documents/upload/:id', component: UploadDocumentComponent, canActivate: [AppRouteGuard] },

@@ -28852,9 +28852,9 @@ export interface IReportRoMForearmWristDto {
 }
 
 export class ReportRoMHandDto implements IReportRoMHandDto {
-    indexFingerScore: number | undefined;
-    littleFingerScore: number | undefined;
-    middleFingerScore: number | undefined;
+    mpFlexion: number | undefined;
+    pipFlexionExtension: number | undefined;
+    dipFlexionExtension: number | undefined;
     ringFingerScore: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
@@ -28871,9 +28871,9 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
 
     init(data?: any) {
         if (data) {
-            this.indexFingerScore = data["indexFingerScore"];
-            this.littleFingerScore = data["littleFingerScore"];
-            this.middleFingerScore = data["middleFingerScore"];
+            this.mpFlexion = data["mpFlexion"];
+            this.pipFlexionExtension = data["pipFlexionExtension"];
+            this.dipFlexionExtension = data["dipFlexionExtension"];
             this.ringFingerScore = data["ringFingerScore"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.side = data["side"];
@@ -28890,9 +28890,9 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["indexFingerScore"] = this.indexFingerScore;
-        data["littleFingerScore"] = this.littleFingerScore;
-        data["middleFingerScore"] = this.middleFingerScore;
+        data["mpFlexion"] = this.mpFlexion;
+        data["pipFlexionExtension"] = this.pipFlexionExtension;
+        data["dipFlexionExtension"] = this.dipFlexionExtension;
         data["ringFingerScore"] = this.ringFingerScore;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["side"] = this.side;
@@ -28909,9 +28909,9 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
 }
 
 export interface IReportRoMHandDto {
-    indexFingerScore: number | undefined;
-    littleFingerScore: number | undefined;
-    middleFingerScore: number | undefined;
+    mpFlexion: number | undefined;
+    pipFlexionExtension: number | undefined;
+    dipFlexionExtension: number | undefined;
     ringFingerScore: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
@@ -37583,7 +37583,7 @@ export interface IRepetitiveSquattingProtocolDto {
 
 export class ReportSummaryDto implements IReportSummaryDto {
     clientId: string | undefined;
-    descussion: string | undefined;
+    discussion: string | undefined;
     recommendations: string | undefined;
     id: string | undefined;
 
@@ -37599,7 +37599,7 @@ export class ReportSummaryDto implements IReportSummaryDto {
     init(data?: any) {
         if (data) {
             this.clientId = data["clientId"];
-            this.descussion = data["descussion"];
+            this.discussion = data["discussion"];
             this.recommendations = data["recommendations"];
             this.id = data["id"];
         }
@@ -37615,7 +37615,7 @@ export class ReportSummaryDto implements IReportSummaryDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["clientId"] = this.clientId;
-        data["descussion"] = this.descussion;
+        data["discussion"] = this.discussion;
         data["recommendations"] = this.recommendations;
         data["id"] = this.id;
         return data; 
@@ -37631,7 +37631,7 @@ export class ReportSummaryDto implements IReportSummaryDto {
 
 export interface IReportSummaryDto {
     clientId: string | undefined;
-    descussion: string | undefined;
+    discussion: string | undefined;
     recommendations: string | undefined;
     id: string | undefined;
 }

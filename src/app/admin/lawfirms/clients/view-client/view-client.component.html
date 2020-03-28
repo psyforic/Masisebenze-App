@@ -20,7 +20,8 @@
                             </li>
                             <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/comments/clients', client.id]" routerLinkActive="router-link-active">Comments</a>
                             </li>
-
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/view/report-summary', client.id]" routerLinkActive="router-link-active">Report Summary</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -181,11 +182,7 @@
                                                             Work Information
                                                         </a>
                                                     </div>
-                                                    <div class="col-md-12 text-right">
-                                                        <a href="javascript:void(0)" [routerLink]="['/admin/clients/view/work-information',clientId]" routerLinkActive="router-link-active" mat-stroked-button color="default">
-                                                            Summary
-                                                        </a>
-                                                    </div>
+                                                 
                                                 </div>
                                             </div>
                                         </div>
@@ -1045,5 +1042,3 @@
 <app-verbal-fluency #verbalFulencyComponent [fullName]="fullName" [clientId]="clientId"></app-verbal-fluency>
 <app-visuo-spatial-ability #visuoSpatialAbilityComponent [fullName]="fullName" [clientId]="clientId">
 </app-visuo-spatial-ability>
-<app-report-summary #reportSummaryComponent [fullName]="fullName" [clientId]="clientId">
-</app-report-summary>
