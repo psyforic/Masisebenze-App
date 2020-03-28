@@ -14,7 +14,6 @@ import {
 import { Component, OnInit, Injector, ElementRef } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
-import { TagModel } from 'ngx-chips/core/accessor';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 export class MaxDataValue {
@@ -179,15 +178,15 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   getCategories(elementName) {
     return this.workContextList.filter(w => w.elementName === elementName);
   }
-  onAgesAdd(tag: any): Observable<TagModel> {
-    this.defaultAge.push(tag.value);
-    this.workContextList.filter(x => x.elementName === tag.value);
-    return of(tag);
-  }
-  onAgesRemove(tag: any): Observable<TagModel> {
-    this.defaultAge.splice(this.defaultAge.indexOf(tag.value));
-    return of(tag);
-  }
+  // onAgesAdd(tag: any): Observable<TagModel> {
+  //   this.defaultAge.push(tag.value);
+  //   this.workContextList.filter(x => x.elementName === tag.value);
+  //   return of(tag);
+  // }
+  // onAgesRemove(tag: any): Observable<TagModel> {
+  //   this.defaultAge.splice(this.defaultAge.indexOf(tag.value));
+  //   return of(tag);
+  // }
   private _filter(value: string): OccupationDto[] {
     const filterValue = value.toLowerCase();
 
