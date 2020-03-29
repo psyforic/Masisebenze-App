@@ -948,7 +948,7 @@
                                                         </div>
                                                     </div>
 
-                                                    <button class="float-right" (click)="addQuestionnaire()" mat-raised-button color="primary">
+                                                    <button *ngIf="questionnairesDto.length < 4" class="float-right" (click)="addQuestionnaire()" mat-raised-button color="primary">
                                                         <mat-icon>add</mat-icon>
                                                     </button>
                                                 </mat-tab>
@@ -961,9 +961,16 @@
                                                             <div class="col-md-12">
                                                                 <h3>Activities Rated by Strength Level
                                                                 </h3>
+                                                                <div class="text-center text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
+                                                                    <i class="fa fa-hourglass-3 fa-5x">
+                                                                    </i>
+                                                                    <h4 class="text-center">No assessments taken</h4>
+                                                                </div>
                                                             </div>
+                                                            
                                                         </div>
-                                                        <div class="row mnt-5">
+                                                        
+                                                        <div class="row mnt-5" *ngIf="weightedProtocolResult.length > 0 && !isLoading">
                                                             <div class="col-md-12">
                                                                 <table mat-table [dataSource]="weightedProtocolResult">
 
@@ -1010,9 +1017,15 @@
                                                             <div class="col-md-12">
                                                                 <h3>Activities Rated by Frequency and Duration
                                                                 </h3>
+                                                                <div class="text-center text-dark mt-5" *ngIf="positionalToleranceResult.length == 0 && !isLoading">
+                                                                    <i class="fa fa-hourglass-3 fa-5x">
+                                                                    </i>
+                                                                    <h4 class="text-center">No assessments taken</h4>
+                                                                </div>
                                                             </div>
+                                                            
                                                         </div>
-                                                        <div class="row mnt-5">
+                                                        <div class="row mnt-5"  *ngIf="positionalToleranceResult.length > 0 && !isLoading">
                                                             <div class="col-md-12">
                                                                 <table mat-table [dataSource]="positionalToleranceResult">
 

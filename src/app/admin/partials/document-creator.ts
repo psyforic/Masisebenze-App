@@ -217,6 +217,15 @@ export class DocumentCreator {
                 anRMEvers: (romReport[12] != null && romReport[12].evMusclePower != null) ? romReport[12].evMusclePower : '',
                 anLMEvers: (romReport[13] != null && romReport[13].evMusclePower != null) ? romReport[13].evMusclePower : '',
 
+                // conditional properties
+                hasShoulder: romReport[14],
+                hasForearmAndWrist: romReport[15],
+                hasElbow: romReport[16],
+                hasHand: romReport[17],
+                hasHip: romReport[18],
+                hasKnee: romReport[19],
+                hasAnkle: romReport[20],
+
                 forearmWrist: assessmentReport[3],
                 elbow: assessmentReport[4],
                 hand: assessmentReport[5],

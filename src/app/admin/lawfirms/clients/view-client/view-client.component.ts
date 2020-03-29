@@ -301,34 +301,31 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   getPositionalToleranceReport(clientId) {
     this._workAssessmentReportService.getPositionalToleranceReport(clientId)
       .pipe(finalize(() => {
-        this.isLoading = false;
       })).subscribe(result => {
-        this.positionalToleranceResult = result;
         this._workInfomationService.getByClientId(clientId)
           .pipe(finalize(() => {
-          })).subscribe(result => {
-            if (result != null && (result.jobTitle !== null && result.jobTitle !== '' && result.jobTitle != 'undefined')) {
-              this.getElementNames(result.jobTitle);
+          })).subscribe(workResult => {
+            if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
+              this.positionalToleranceResult = result.filter(x => x.result != null && x.result !== '');
+              this.getElementNames(workResult.jobTitle);
             }
           });
       });
-    this.isLoading = true;
   }
   getWeightedProtocolReport(clientId) {
+
     this._workAssessmentReportService.getWeightedProtocolReport(clientId)
       .pipe(finalize(() => {
-        this.isLoading = false;
       })).subscribe(result => {
-        this.weightedProtocolResult = result;
         this._workInfomationService.getByClientId(clientId)
           .pipe(finalize(() => {
-          })).subscribe(result => {
-            if (result != null && (result.jobTitle !== null && result.jobTitle !== '' && result.jobTitle != 'undefined')) {
-              this.getElementNames(result.jobTitle);
+          })).subscribe(workResult => {
+            if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
+              this.weightedProtocolResult = result.filter(x => x.result != null && x.result !== '');
+              this.getElementNames(workResult.jobTitle);
             }
           });
       });
-    this.isLoading = true;
   }
   getClient() {
     this.isLoading = true;
@@ -511,6 +508,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   changeAssessmentTabs(event: MatTabChangeEvent) {
     switch (event.index) {
       case 3:
+        this.isLoading = true;
         this.getWeightedProtocolReport(this.clientId);
         this.getPositionalToleranceReport(this.clientId);
         break;
@@ -682,6 +680,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.isLoading = false;
       }))
       .subscribe(result => {
+        console.log(result)
         if (result != null && result.length > 0) {
           result.filter(x => x.elementID === '4.C.2.d.1.a' || x.elementID === '4.C.2.d.1.b' ||
             x.elementID === '4.C.2.d.1.c' || x.elementID === '4.C.2.d.1.d' || x.elementID === '4.C.2.d.1.e'
@@ -708,12 +707,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               }
             });
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
-            this.positionalToleranceResult.forEach((item, index) => {
+            this.positionalToleranceResult.filter(x => x.result != null && x.result !== '').forEach((item, index) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Sitting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
                 if (element != null) {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+
                 }
               } else if (item.assessmentName.includes('Kneeling')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
@@ -741,10 +741,25 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }
               }
+              if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('FREQUENT') && !(item.result.includes('CONSTANT') && item.result.includes('NIL'))) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('OCCASSIONAL') && !(item.result.includes('CONSTANT') &&
+                item.result.includes('NIL') && item.result.includes('FREQUENT'))) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('RARE') && !(item.result.includes('CONSTANT') &&
+                item.result.includes('NIL') && item.result.includes('FREQUENT')
+                && item.result.includes('OCCASSIONAL'))) {
+                item.isDeficit = 'Yes';
+              } else {
+                item.isDeficit = 'No';
+              }
+
             });
           }
           if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
-            this.weightedProtocolResult.forEach((item, index) => {
+            this.weightedProtocolResult.filter(x => x.result != null && x.result !== '').forEach((item, index) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Lifting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
@@ -771,6 +786,20 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
                 if (element != null && typeof element !== 'undefined') {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }
+              }
+              if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('FREQUENT') && !(item.result.includes('CONSTANT') && item.result.includes('NIL'))) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('OCCASSIONAL') && !(item.result.includes('CONSTANT') &&
+                item.result.includes('NIL') && item.result.includes('FREQUENT'))) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('RARE') && !(item.result.includes('CONSTANT') &&
+                item.result.includes('NIL') && item.result.includes('FREQUENT')
+                && item.result.includes('OCCASSIONAL'))) {
+                item.isDeficit = 'Yes';
+              } else {
+                item.isDeficit = 'No';
               }
             });
           }

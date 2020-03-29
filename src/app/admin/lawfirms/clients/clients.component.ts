@@ -162,42 +162,74 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
           this.musclePowerReport = result.musclePowerReport;
           this.assessmentReport[1] = result.musclePowerReport;
+          if(result.reportRoMShoulder != null && result.reportRoMShoulder.length > 0){
+            this.shoulderLeftReport =  result.reportRoMShoulder.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 1)[0];
+            this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1)[0];
+            this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[14]  = true;
+          } else {
+            this.rangeOfMotionReport[14]  = false;
+          }
+          if( result.reportRoMForearmWrist != null &&  result.reportRoMForearmWrist.length > 0){
+            this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
+            this.forearmWristRightReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[3] = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[15]  = true;
+          } else {
+            this.rangeOfMotionReport[15]  = false;
+          }
 
-          this.shoulderLeftReport =  result.reportRoMShoulder.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 1)[0];
-          this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 0)[0];
+          if(result.reportRoMElbow != null && result.reportRoMElbow.length > 0) {
+            this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 1)[0];
+            this.elbowRightReport = result.reportRoMElbow.filter(x => x.side === 1)[0];
+            this.rangeOfMotionReport[5] = result.reportRoMElbow.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[16]  = true;
+          } else {
+            this.rangeOfMotionReport[16]  = false;
+          }
 
-          this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
-          this.forearmWristRightReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[3] = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
-
-          this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 1)[0];
-          this.elbowRightReport = result.reportRoMElbow.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[5] = result.reportRoMElbow.filter(x => x.side === 0)[0];
-
+         if(result.reportRoMHand != null && result.reportRoMHand.length > 0) {
           this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0)[0];
           this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 1)[0];
           this.handRightReport = result.reportRoMHand.filter(x => x.side === 1)[0];
           this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 0)[0];
+          this.rangeOfMotionReport[17]  = true;
+         } else {
+          this.rangeOfMotionReport[17]  = false;
+         }
 
+         if(result.reportRoMHip != null && result.reportRoMHip.length > 0) {
           this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0)[0];
           this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 1)[0];
           this.hipRightReport = result.reportRoMHip.filter(x => x.side === 1)[0];
           this.rangeOfMotionReport[9] = result.reportRoMHip.filter(x => x.side === 0)[0];
+          this.rangeOfMotionReport[18]  = true;
+         } else {
+          this.rangeOfMotionReport[18]  = false;
+         }
 
+         if(result.reportRoMKnee != null && result.reportRoMKnee.length > 0) {
           this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0)[0];
           this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 1)[0];
           this.kneeRightReport = result.reportRoMKnee.filter(x => x.side === 1)[0];
           this.rangeOfMotionReport[11] = result.reportRoMKnee.filter(x => x.side === 0)[0];
+          this.rangeOfMotionReport[19]  = true;
+         } else {
+          this.rangeOfMotionReport[19]  = false;
+         }
 
-          this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 1)[0];
-          this.ankleRightReport = result.reportRoMAnkle.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[13] = result.reportRoMAnkle.filter(x => x.side === 0)[0];
-
+          if(result.reportRoMAnkle != null && result.reportRoMAnkle.length > 0) {
+            this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 1)[0];
+            this.ankleRightReport = result.reportRoMAnkle.filter(x => x.side === 1)[0];
+            this.rangeOfMotionReport[13] = result.reportRoMAnkle.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[20]  = true;
+          } else {
+            this.rangeOfMotionReport[20]  = false;
+          }
           this.borgBalanceReport = result.borgBalanceReport;
           this.assessmentReport[9] = result.borgBalanceReport;
 
@@ -276,23 +308,44 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         });
       this._workAssessmentReportService.getPositionalToleranceTasksParentReport(client.id)
       .subscribe(workAssessmentReport => {
-        const filtered = workAssessmentReport.map((value) => {
-          return {
-            taskName: value.assessmentName,
-            taskComment: value.comment != null ? value.comment : 'No Comment'
-          };
-        });
-        this.assessmentReport[38] = filtered;
+        if(workAssessmentReport.length > 0) {
+          const filtered = workAssessmentReport.map((value) => {
+            return {
+              taskName: value.assessmentName,
+              taskComment: value.comment != null ? value.comment : 'No Comment'
+            };
+          });
+          this.assessmentReport[38] = filtered;
+        } else {
+          const filtered = workAssessmentReport.map((value) => {
+            return {
+              taskName: 'No assessment taken',
+              taskComment:  ''
+            };
+          });
+          this.assessmentReport[38] = filtered;
+        }
+
       });
       this._workAssessmentReportService.getWeightedProtocolTaskParentReport(client.id)
       .subscribe(workAssessmentReport => {
-        const filtered = workAssessmentReport.map((value) => {
-          return {
-            taskName: value.assessmentName,
-            taskComment: value.comment != null ? value.comment : 'No Comment'
-          };
-        });
-        this.assessmentReport[39] = filtered;
+        if(workAssessmentReport.length > 0) {
+          const filtered = workAssessmentReport.map((value) => {
+            return {
+              taskName: value.assessmentName,
+              taskComment: value.comment != null ? value.comment : 'No Comment'
+            };
+          });
+          this.assessmentReport[39] = filtered;
+        } else {
+          const filtered = workAssessmentReport.map((value) => {
+            return {
+              taskName: 'No assessment taken',
+              taskComment: ''
+            };
+          });
+          this.assessmentReport[39] = filtered;
+        }
       });
     });
 

@@ -19496,7 +19496,7 @@ export class SittingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<ListResultDtoOfSittingTestDto> {
+    get(clientId: string | null | undefined): Observable<SittingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/SittingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -19517,14 +19517,14 @@ export class SittingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfSittingTestDto>><any>_observableThrow(e);
+                    return <Observable<SittingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfSittingTestDto>><any>_observableThrow(response_);
+                return <Observable<SittingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfSittingTestDto> {
+    protected processGet(response: HttpResponseBase): Observable<SittingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -19535,7 +19535,7 @@ export class SittingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfSittingTestDto.fromJS(resultData200) : new ListResultDtoOfSittingTestDto();
+            result200 = resultData200 ? SittingTestDto.fromJS(resultData200) : new SittingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -19543,7 +19543,7 @@ export class SittingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfSittingTestDto>(<any>null);
+        return _observableOf<SittingTestDto>(<any>null);
     }
 
     /**
@@ -20000,7 +20000,7 @@ export class StandingTestServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<ListResultDtoOfStandingTestDto> {
+    get(clientId: string | null | undefined): Observable<StandingTestDto> {
         let url_ = this.baseUrl + "/api/services/app/StandingTest/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -20021,14 +20021,14 @@ export class StandingTestServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfStandingTestDto>><any>_observableThrow(e);
+                    return <Observable<StandingTestDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfStandingTestDto>><any>_observableThrow(response_);
+                return <Observable<StandingTestDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfStandingTestDto> {
+    protected processGet(response: HttpResponseBase): Observable<StandingTestDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -20039,7 +20039,7 @@ export class StandingTestServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfStandingTestDto.fromJS(resultData200) : new ListResultDtoOfStandingTestDto();
+            result200 = resultData200 ? StandingTestDto.fromJS(resultData200) : new StandingTestDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -20047,7 +20047,7 @@ export class StandingTestServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfStandingTestDto>(<any>null);
+        return _observableOf<StandingTestDto>(<any>null);
     }
 
     /**
@@ -28815,11 +28815,11 @@ export interface IPagedResultDtoOfClientListDto {
 
 export class ClientListDto implements IClientListDto {
     lawFirmId: string | undefined;
-    lawFirm: LawFirm | undefined;
+    lawFirm: LawFirmDto | undefined;
     contactId: string | undefined;
-    contact: Contact | undefined;
+    contact: ContactDto | undefined;
     attorneyId: string | undefined;
-    attorney: Attorney | undefined;
+    attorney: AttorneyDto | undefined;
     courtDate: moment.Moment | undefined;
     caseNumber: string | undefined;
     firstName: string | undefined;
@@ -28862,11 +28862,11 @@ export class ClientListDto implements IClientListDto {
     init(data?: any) {
         if (data) {
             this.lawFirmId = data["lawFirmId"];
-            this.lawFirm = data["lawFirm"] ? LawFirm.fromJS(data["lawFirm"]) : <any>undefined;
+            this.lawFirm = data["lawFirm"] ? LawFirmDto.fromJS(data["lawFirm"]) : <any>undefined;
             this.contactId = data["contactId"];
-            this.contact = data["contact"] ? Contact.fromJS(data["contact"]) : <any>undefined;
+            this.contact = data["contact"] ? ContactDto.fromJS(data["contact"]) : <any>undefined;
             this.attorneyId = data["attorneyId"];
-            this.attorney = data["attorney"] ? Attorney.fromJS(data["attorney"]) : <any>undefined;
+            this.attorney = data["attorney"] ? AttorneyDto.fromJS(data["attorney"]) : <any>undefined;
             this.courtDate = data["courtDate"] ? moment(data["courtDate"].toString()) : <any>undefined;
             this.caseNumber = data["caseNumber"];
             this.firstName = data["firstName"];
@@ -28956,11 +28956,11 @@ export class ClientListDto implements IClientListDto {
 
 export interface IClientListDto {
     lawFirmId: string | undefined;
-    lawFirm: LawFirm | undefined;
+    lawFirm: LawFirmDto | undefined;
     contactId: string | undefined;
-    contact: Contact | undefined;
+    contact: ContactDto | undefined;
     attorneyId: string | undefined;
-    attorney: Attorney | undefined;
+    attorney: AttorneyDto | undefined;
     courtDate: moment.Moment | undefined;
     caseNumber: string | undefined;
     firstName: string | undefined;
@@ -28990,6 +28990,187 @@ export interface IClientListDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class LawFirmDto implements ILawFirmDto {
+    companyName: string | undefined;
+    email: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+
+    constructor(data?: ILawFirmDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.companyName = data["companyName"];
+            this.email = data["email"];
+            this.phone = data["phone"];
+            this.fax = data["fax"];
+        }
+    }
+
+    static fromJS(data: any): LawFirmDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LawFirmDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["companyName"] = this.companyName;
+        data["email"] = this.email;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        return data; 
+    }
+
+    clone(): LawFirmDto {
+        const json = this.toJSON();
+        let result = new LawFirmDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILawFirmDto {
+    companyName: string | undefined;
+    email: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+}
+
+export class ContactDto implements IContactDto {
+    lawFirmId: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    email: string | undefined;
+    role: string | undefined;
+
+    constructor(data?: IContactDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lawFirmId = data["lawFirmId"];
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.email = data["email"];
+            this.role = data["role"];
+        }
+    }
+
+    static fromJS(data: any): ContactDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ContactDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lawFirmId"] = this.lawFirmId;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["email"] = this.email;
+        data["role"] = this.role;
+        return data; 
+    }
+
+    clone(): ContactDto {
+        const json = this.toJSON();
+        let result = new ContactDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IContactDto {
+    lawFirmId: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    email: string | undefined;
+    role: string | undefined;
+}
+
+export class AttorneyDto implements IAttorneyDto {
+    lawFirmId: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
+    phone: string | undefined;
+    email: string | undefined;
+    fax: string | undefined;
+
+    constructor(data?: IAttorneyDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.lawFirmId = data["lawFirmId"];
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.cellphone = data["cellphone"];
+            this.phone = data["phone"];
+            this.email = data["email"];
+            this.fax = data["fax"];
+        }
+    }
+
+    static fromJS(data: any): AttorneyDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AttorneyDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["lawFirmId"] = this.lawFirmId;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["cellphone"] = this.cellphone;
+        data["phone"] = this.phone;
+        data["email"] = this.email;
+        data["fax"] = this.fax;
+        return data; 
+    }
+
+    clone(): AttorneyDto {
+        const json = this.toJSON();
+        let result = new AttorneyDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAttorneyDto {
+    lawFirmId: string | undefined;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    cellphone: string | undefined;
+    phone: string | undefined;
+    email: string | undefined;
+    fax: string | undefined;
 }
 
 export class ListResultDtoOfClientListDto implements IListResultDtoOfClientListDto {
@@ -39947,57 +40128,6 @@ export interface ISittingTestCreateInput {
     comment: string | undefined;
 }
 
-export class ListResultDtoOfSittingTestDto implements IListResultDtoOfSittingTestDto {
-    items: SittingTestDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfSittingTestDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(SittingTestDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfSittingTestDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfSittingTestDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfSittingTestDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfSittingTestDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfSittingTestDto {
-    items: SittingTestDto[] | undefined;
-}
-
 export class SittingTestDto implements ISittingTestDto {
     sittingId: string | undefined;
     clientId: string | undefined;
@@ -40552,57 +40682,6 @@ export interface IStandingTestCreateInput {
     comment: string | undefined;
 }
 
-export class ListResultDtoOfStandingTestDto implements IListResultDtoOfStandingTestDto {
-    items: StandingTestDto[] | undefined;
-
-    constructor(data?: IListResultDtoOfStandingTestDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            if (data["items"] && data["items"].constructor === Array) {
-                this.items = [];
-                for (let item of data["items"])
-                    this.items.push(StandingTestDto.fromJS(item));
-            }
-        }
-    }
-
-    static fromJS(data: any): ListResultDtoOfStandingTestDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfStandingTestDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        if (this.items && this.items.constructor === Array) {
-            data["items"] = [];
-            for (let item of this.items)
-                data["items"].push(item.toJSON());
-        }
-        return data; 
-    }
-
-    clone(): ListResultDtoOfStandingTestDto {
-        const json = this.toJSON();
-        let result = new ListResultDtoOfStandingTestDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IListResultDtoOfStandingTestDto {
-    items: StandingTestDto[] | undefined;
-}
-
 export class StandingTestDto implements IStandingTestDto {
     clientId: string | undefined;
     assessmentId: string | undefined;
@@ -40614,6 +40693,7 @@ export class StandingTestDto implements IStandingTestDto {
     noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
     standingId: string | undefined;
     id: string | undefined;
 
@@ -40638,6 +40718,7 @@ export class StandingTestDto implements IStandingTestDto {
             this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
             this.standingId = data["standingId"];
             this.id = data["id"];
         }
@@ -40662,6 +40743,7 @@ export class StandingTestDto implements IStandingTestDto {
         data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
         data["standingId"] = this.standingId;
         data["id"] = this.id;
         return data; 
@@ -40686,6 +40768,7 @@ export interface IStandingTestDto {
     noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
+    comment: string | undefined;
     standingId: string | undefined;
     id: string | undefined;
 }
@@ -42286,7 +42369,7 @@ export class PositionalToleranceDto implements IPositionalToleranceDto {
     result: string | undefined;
     assessmentName: string | undefined;
     jobDemand: string | undefined;
-    isDeficit: boolean | undefined;
+    isDeficit: string | undefined;
     noTrials: number | undefined;
 
     constructor(data?: IPositionalToleranceDto) {
@@ -42340,7 +42423,7 @@ export interface IPositionalToleranceDto {
     result: string | undefined;
     assessmentName: string | undefined;
     jobDemand: string | undefined;
-    isDeficit: boolean | undefined;
+    isDeficit: string | undefined;
     noTrials: number | undefined;
 }
 
@@ -42349,7 +42432,7 @@ export class WeightedProtocolDto implements IWeightedProtocolDto {
     result: string | undefined;
     assessmentName: string | undefined;
     jobDemand: string | undefined;
-    isDeficit: boolean | undefined;
+    isDeficit: string | undefined;
     noTrials: number | undefined;
 
     constructor(data?: IWeightedProtocolDto) {
@@ -42403,7 +42486,7 @@ export interface IWeightedProtocolDto {
     result: string | undefined;
     assessmentName: string | undefined;
     jobDemand: string | undefined;
-    isDeficit: boolean | undefined;
+    isDeficit: string | undefined;
     noTrials: number | undefined;
 }
 
