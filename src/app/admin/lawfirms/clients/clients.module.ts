@@ -1,3 +1,4 @@
+import { NewJobDescriptionComponent } from './../../job-descriptions/new-job-description/new-job-description.component';
 import { ReportSummaryComponent } from './view-client/report-summary/report-summary.component';
 import { CognitiveAssessmentsModule } from './assessments/cognitive-assessments/cognitive-assessments.module';
 import { CognitiveAssessmentsComponent } from './assessments/cognitive-assessments/cognitive-assessments.component';
@@ -22,17 +23,12 @@ import { AdminCommentsComponent } from './admin-comments/admin-comments.componen
 import { AssessmentsModule } from './assessments/assessments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MAT_DATE_LOCALE } from '@angular/material';
-import { TagInputModule } from 'ngx-chips';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-changes.guard';
 import {MatListModule} from '@angular/material/list';
+import {MatChipsModule} from '@angular/material/chips';
 import { TypeaheadModule } from 'ngx-bootstrap';
-TagInputModule.withDefaults({
-  tagInput: {
-      placeholder: 'Add a New Field',
-      maxItems: 3
-  }
-});
+import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descriptions.module';
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -45,7 +41,8 @@ TagInputModule.withDefaults({
     AdminCommentsComponent,
     QuestionnaireCommentComponent,
     WorkInformationComponent,
-    ReportSummaryComponent
+    ReportSummaryComponent,
+    NewJobDescriptionComponent
   ],
   imports: [
     CommonModule,
@@ -56,14 +53,14 @@ TagInputModule.withDefaults({
     ImageCropperModule,
     AssessmentsModule,
     CognitiveAssessmentsModule,
-    TagInputModule,
-    MatListModule,
+    JobDescriptionsModule,
+    MatChipsModule,
     TypeaheadModule.forRoot()
   ],
   exports: [
     NewClientComponent, ReportSummaryComponent
   ],
-  entryComponents: [NewClientComponent, CameraModalComponent],
+  entryComponents: [NewClientComponent, CameraModalComponent, NewJobDescriptionComponent],
   providers: [NgbActiveModal,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

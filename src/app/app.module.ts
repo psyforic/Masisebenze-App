@@ -33,6 +33,7 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
+
 // import { FooterComponent } from './layout/footer/footer.component';
 // import { NavbarComponent } from './layout/navbar/navbar.component';
 // import { SidebarComponent } from './layout/sidebar/sidebar.component';
@@ -58,7 +59,8 @@ import { AssessmentServiceProxy } from '@shared/service-proxies/service-proxies'
     CreateUserDialogComponent,
     EditUserDialogComponent,
     ChangePasswordComponent,
-    ResetPasswordDialogComponent
+    ResetPasswordDialogComponent,
+
   ],
   imports: [
     CommonModule,

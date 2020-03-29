@@ -1,6 +1,8 @@
 import { element } from 'protractor';
 import { MatOptionSelectionChange } from '@angular/material';
-
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent, MatAutocomplete, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { finalize, startWith, map } from 'rxjs/operators';
 import {
   WorkAssessmentServiceProxy, WorkContextDto, ClientDetailOutput,
@@ -11,12 +13,12 @@ import {
   WorkInformationServiceProxy,
   WorkInformationDto
 } from './../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, Injector, ElementRef } from '@angular/core';
+import { Component, OnInit, Injector, ElementRef, ViewChild } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { ActivatedRoute } from '@angular/router';
-import { TagModel } from 'ngx-chips/core/accessor';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
+import { NewJobDescriptionComponent } from '@app/admin/job-descriptions/new-job-description/new-job-description.component';
 export class MaxDataValue {
   elementId: string;
   elementName: string;
@@ -33,7 +35,8 @@ export class MaxDataValue {
 
 export class WorkInformationComponent extends AppComponentBase implements OnInit {
   client: ClientDetailOutput = new ClientDetailOutput();
-
+  @ViewChild('newJob', { static: false }) newJob: NewJobDescriptionComponent;
+  @ViewChild(MatAutocompleteTrigger, { static: false }) autocomplete: MatAutocompleteTrigger;
   clientId = '';
   defaultAge = [];
   ageList: string[] = [];
@@ -50,6 +53,20 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   filteredOptions: Observable<OccupationDto[]>;
   isLoading = false;
   workConextDto: WorkContextDto = new WorkContextDto();
+
+  // Worn Information
+  visible = true;
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  selectedOccupation: string[] = [];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+
+  @ViewChild('occupationInput', { static: false }) occupationInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+
   constructor(injector: Injector,
     private _clientService: ClientServiceProxy,
     private _workInformationService: WorkInformationServiceProxy,
@@ -65,9 +82,8 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     this.getClient();
     this.filteredOptions = this.jobTitle.valueChanges
       .pipe(
-        startWith<string | OccupationDto>(''),
-        map(value => typeof value === 'string' ? value : value.title),
-        map(title => title ? this._filter(title) : this.occupations.slice())
+        startWith(null),
+        map((value: string | null) => value ? this._filter(value) : this.occupations.slice())
       );
     this.isLoading = true;
     this._workInformationService.getByClientId(this.clientId)
@@ -75,8 +91,10 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
         this.isLoading = false;
       })).subscribe(result => {
         if (result != null) {
-          this.jobTitle.setValue({ title: result.jobTitle });
-          this.workInformation = result;
+          if (result.jobTitle != null && result.jobTitle !== '') {
+            this.selectedOccupation[0] = result.jobTitle;
+            this.workInformation = result;
+          }
         }
       });
   }
@@ -99,9 +117,9 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       }))
       .subscribe(result => {
         this.occupations = result;
-        if (this.occupations != null && this.occupations.length > 0) {
-          this.jobTitle.setValue({ title: this.occupations[0].title });
-        }
+        // if (this.occupations != null && this.occupations.length > 0) {
+        //   this.selectedOccupation.push(this.occupations[0].title);
+        // }
       });
   }
   getWorkContext(event: MatOptionSelectionChange, onetSocCode) {
@@ -152,7 +170,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       });
   }
   save() {
-     this.isLoading = true;
+    this.isLoading = true;
     this.workInformation.clientId = this.clientId;
     this.workInformation.jobTitle = this.jobTitle.value.title;
     this._workInformationService.create(this.workInformation)
@@ -179,17 +197,54 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   getCategories(elementName) {
     return this.workContextList.filter(w => w.elementName === elementName);
   }
-  onAgesAdd(tag: any): Observable<TagModel> {
-    this.defaultAge.push(tag.value);
-    this.workContextList.filter(x => x.elementName === tag.value);
-    return of(tag);
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.selectedOccupation[0] = value.trim();
+      if (this.occupations.filter(x => x.title.includes(value)).length === 0) {
+        this.autocomplete.closePanel();
+        this.newJobTitle();
+      }
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+
+    this.jobTitle.setValue(null);
   }
-  onAgesRemove(tag: any): Observable<TagModel> {
-    this.defaultAge.splice(this.defaultAge.indexOf(tag.value));
-    return of(tag);
+
+  remove(occupation: string): void {
+    const index = this.selectedOccupation.indexOf(occupation);
+
+    if (index >= 0) {
+      this.selectedOccupation.splice(index, 1);
+    }
   }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.selectedOccupation[0] = event.option.viewValue;
+    this.occupationInput.nativeElement.value = '';
+    this.jobTitle.setValue(null);
+  }
+  newJobTitle() {
+    this.newJob.open();
+  }
+  // onAgesAdd(tag: any): Observable<TagModel> {
+  //   this.defaultAge.push(tag.value);
+  //   this.workContextList.filter(x => x.elementName === tag.value);
+  //   return of(tag);
+  // }
+  // onAgesRemove(tag: any): Observable<TagModel> {
+  //   this.defaultAge.splice(this.defaultAge.indexOf(tag.value));
+  //   return of(tag);
+  // }
   private _filter(value: string): OccupationDto[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = (value != null && value !== '') ? value.toLowerCase() : '';
 
     return this.occupations.filter(option => option.title.toLowerCase().includes(filterValue));
   }

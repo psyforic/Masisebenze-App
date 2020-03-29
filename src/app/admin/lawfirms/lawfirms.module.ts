@@ -1,4 +1,5 @@
 
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AttorneysComponent } from './attorneys/attorneys.component';
@@ -42,6 +43,7 @@ import { NewClientComponent } from './lawfirms/new-client/new-client.component';
 import { NewAttorneyComponent } from './lawfirms/new-attorney/new-attorney.component';
 import { EditContactComponent } from './contacts/edit-contact/edit-contact.component';
 import { PostureServiceProxy } from '@shared/service-proxies/service-proxies';
+import { JobDescriptionsModule } from '../job-descriptions/job-descriptions.module';
 
 
 
@@ -55,7 +57,7 @@ import { PostureServiceProxy } from '@shared/service-proxies/service-proxies';
     ViewLawfirmComponent,
     NewContactComponent,
     NewClientComponent,
-    NewAttorneyComponent
+    NewAttorneyComponent,
   ],
   imports: [
     CommonModule,
@@ -86,7 +88,7 @@ import { PostureServiceProxy } from '@shared/service-proxies/service-proxies';
     MatTabsModule,
     MatDividerModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   entryComponents: [NewClientComponent, NewContactComponent]
 })

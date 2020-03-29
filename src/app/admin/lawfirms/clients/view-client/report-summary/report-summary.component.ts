@@ -1,10 +1,13 @@
-import { ReportSummaryServiceProxy, ReportSummaryDto, ClientServiceProxy,
-   ClientDetailOutput } from '../../../../../../shared/service-proxies/service-proxies';
+import {
+  ReportSummaryServiceProxy, ReportSummaryDto, ClientServiceProxy,
+  ClientDetailOutput
+} from '../../../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { Component, OnInit, ViewChild, ElementRef, Input, Injector } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-report-summary',
@@ -22,7 +25,8 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
     injector: Injector,
     private _clientService: ClientServiceProxy,
     private route: ActivatedRoute,
-    private _reportSummaryService: ReportSummaryServiceProxy) {
+    private _reportSummaryService: ReportSummaryServiceProxy,
+    private _location: Location) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.clientId = paramMap.get('id');
@@ -31,6 +35,9 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
     this.getClient();
     this.getReportSummary();
+  }
+  backClicked() {
+    this._location.back();
   }
   getClient() {
     this.isLoading = true;
@@ -45,13 +52,13 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
   save() {
     this.isLoading = true;
     this.reportSummary.clientId = this.clientId;
-    
+
     this._reportSummaryService.create(this.reportSummary).
-    pipe(finalize(() => {
-      this.isLoading = false;
-    })).subscribe(() => {
-      this.notify.success('Saved successfully!');
-    });
+      pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(() => {
+        this.notify.success('Saved successfully!');
+      });
   }
 
   getReportSummary() {

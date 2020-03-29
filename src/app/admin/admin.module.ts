@@ -1,6 +1,4 @@
-import { PostureServiceProxy, GripStrengthServiceProxy, SensationServiceProxy,
-  BorgBalanceServiceProxy, GaitServiceProxy, MusclePowerServiceProxy,
-   CoordinationServiceProxy } from './../../shared/service-proxies/service-proxies';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
@@ -19,6 +17,7 @@ import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { ClientServiceProxy, AssessmentServiceProxy, FunctionalAssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { MAT_DATE_LOCALE } from '@angular/material';
+import { NewJobDescriptionComponent } from './job-descriptions/new-job-description/new-job-description.component';
 
 @NgModule({
   imports: [

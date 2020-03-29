@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, TemplateRef, Injector, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, TemplateRef, Injector, Output, EventEmitter, Input } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -9,12 +9,14 @@ import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-new-job-description',
   templateUrl: './new-job-description.component.html',
-  styleUrls: ['./new-job-description.component.scss']
+  styleUrls: ['./new-job-description.component.scss'],
+  providers: [JobDescriptionServiceProxy]
 })
 export class NewJobDescriptionComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: true }) content: ElementRef;
   @Output() jobDescriptionAddded = new EventEmitter();
+  @Input() jobTitle: string;
   modalRef: BsModalRef;
   closeResult: string;
   jobDescriptionForm: FormGroup;
@@ -29,7 +31,7 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
   initializeForm() {
     this.jobDescriptionForm = this.fb.group({
       code: ['', Validators.required],
-      title: ['', Validators.required],
+      title: [this.jobTitle, Validators.required],
       description: ['', Validators.required]
     });
   }

@@ -1,6 +1,6 @@
 import {
   SensationServiceProxy, PostureServiceProxy,
-  ClientAssessmentReportServiceProxy, AssessmentReportDto, ReportSummaryServiceProxy
+  ClientAssessmentReportServiceProxy, AssessmentReportDto, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy
 } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
@@ -44,7 +44,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./clients.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy,
     MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy,
-    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy]
+    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy,WorkAssessmentReportServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -79,13 +79,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   gaitReport: string; walkingReport: string; stairClimbing: string;
   balanceReport: string; ladderWork: string; repetitiveSquatting: string;
   repetitiveFootMotionReport: string; crawlingReport: string;
-
   assessmentReport: any[] = [];
   rangeOfMotionReport: any[] = [];
   comment: string;
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
-  searchTerm$ = new Subject<string>();
+  searchTerm$ = new Subject<string>();a
   searchTerm: FormControl = new FormControl();
   isSearching = false;
 
@@ -94,6 +93,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private documentService: DocumentServiceProxy,
     private _reportService: ReportServiceProxy,
     private _assessmentReportService: ClientAssessmentReportServiceProxy,
+    private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _reportSummaryService: ReportSummaryServiceProxy,
     private _generalService: GeneralService,
     private _affectService: AffectServiceProxy,
@@ -131,11 +131,11 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   }
   generate(client) {
     let entity: ClientDetailOutput = new ClientDetailOutput();
+    this.isGenerating = true;
     this._reportService.getPersonalDetails(client.id).pipe(finalize(() => {
       const address: CreateAddressInput = new CreateAddressInput();
       const age = this._generalService.getAge('' + client.idNumber);
       const gender = this._generalService.getGender('' + client.idNumber);
-      this.isGenerating = true;
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
           console.log(this.assessmentReport);
@@ -270,10 +270,30 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       this._reportSummaryService.getByClientId(client.id)
         .subscribe(reportSummary => {
           if (reportSummary != null) {
-            this.assessmentReport[36] = reportSummary.discussion;
-            this.assessmentReport[37] = reportSummary.recommendations;
+            this.assessmentReport[36] = (reportSummary.discussion != null) ? reportSummary.discussion : '';
+            this.assessmentReport[37] = (reportSummary.recommendations != null) ? reportSummary.recommendations : '';
           }
         });
+      this._workAssessmentReportService.getPositionalToleranceTasksParentReport(client.id)
+      .subscribe(workAssessmentReport => {
+        const filtered = workAssessmentReport.map((value) => {
+          return {
+            taskName: value.assessmentName,
+            taskComment: value.comment != null ? value.comment : 'No Comment'
+          };
+        });
+        this.assessmentReport[38] = filtered;
+      });
+      this._workAssessmentReportService.getWeightedProtocolTaskParentReport(client.id)
+      .subscribe(workAssessmentReport => {
+        const filtered = workAssessmentReport.map((value) => {
+          return {
+            taskName: value.assessmentName,
+            taskComment: value.comment != null ? value.comment : 'No Comment'
+          };
+        });
+        this.assessmentReport[39] = filtered;
+      });
     });
 
 
@@ -496,7 +516,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       }))
       .subscribe(
         (sensation) => {
-          this.comment = sensation.otComment;
+          this.comment = (sensation != null && sensation.otComment != null) ? sensation.otComment : '';
           this.assessmentReport[10] = this.comment;
         }
       );
@@ -532,8 +552,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       .subscribe(
         (result) => {
           this.mobility = result;
-          this.mobilityComment = result.comment;
-          this.assessmentReport[11] = result.comment;
+          this.mobilityComment = (result.comment != null) ? result.comment : '';
+          this.assessmentReport[11] =  (result.comment != null) ? result.comment : '';
         }
       );
   }
@@ -543,8 +563,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       })).subscribe(
         (affect) => {
           this.affect = affect;
-          this.affectComment = affect.comment;
-          this.assessmentReport[12] = affect.comment;
+          this.assessmentReport[12] = (affect.comment != null ) ? affect.comment : '';
         }
       );
   }

@@ -22836,7 +22836,235 @@ export class WorkAssessmentReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getCrouching(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+    getWeightedProtocolReport(clientId: string | null | undefined): Observable<WeightedProtocolDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetWeightedProtocolReport?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWeightedProtocolReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWeightedProtocolReport(<any>response_);
+                } catch (e) {
+                    return <Observable<WeightedProtocolDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeightedProtocolDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWeightedProtocolReport(response: HttpResponseBase): Observable<WeightedProtocolDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(WeightedProtocolDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeightedProtocolDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getWeightedProtocolTaskParentReport(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetWeightedProtocolTaskParentReport?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWeightedProtocolTaskParentReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWeightedProtocolTaskParentReport(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWeightedProtocolTaskParentReport(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(WorkAssessmentTasksParentDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPositionalToleranceTasksParentReport(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetPositionalToleranceTasksParentReport?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPositionalToleranceTasksParentReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPositionalToleranceTasksParentReport(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPositionalToleranceTasksParentReport(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(WorkAssessmentTasksParentDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCrouchingTest(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetCrouchingTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCrouchingTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCrouchingTest(<any>response_);
+                } catch (e) {
+                    return <Observable<PositionalToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PositionalToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCrouchingTest(response: HttpResponseBase): Observable<PositionalToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PositionalToleranceDto.fromJS(resultData200) : new PositionalToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PositionalToleranceDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCrouching(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
         let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetCrouching?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -22857,6 +23085,60 @@ export class WorkAssessmentReportServiceProxy {
                 try {
                     return this.processGetCrouching(<any>response_);
                 } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCrouching(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getKneelingTest(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetKneelingTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetKneelingTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetKneelingTest(<any>response_);
+                } catch (e) {
                     return <Observable<PositionalToleranceDto>><any>_observableThrow(e);
                 }
             } else
@@ -22864,7 +23146,7 @@ export class WorkAssessmentReportServiceProxy {
         }));
     }
 
-    protected processGetCrouching(response: HttpResponseBase): Observable<PositionalToleranceDto> {
+    protected processGetKneelingTest(response: HttpResponseBase): Observable<PositionalToleranceDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -22890,7 +23172,7 @@ export class WorkAssessmentReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getKneeling(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+    getKneeling(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
         let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetKneeling?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -22911,6 +23193,60 @@ export class WorkAssessmentReportServiceProxy {
                 try {
                     return this.processGetKneeling(<any>response_);
                 } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetKneeling(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSittingTest(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetSittingTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSittingTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSittingTest(<any>response_);
+                } catch (e) {
                     return <Observable<PositionalToleranceDto>><any>_observableThrow(e);
                 }
             } else
@@ -22918,7 +23254,7 @@ export class WorkAssessmentReportServiceProxy {
         }));
     }
 
-    protected processGetKneeling(response: HttpResponseBase): Observable<PositionalToleranceDto> {
+    protected processGetSittingTest(response: HttpResponseBase): Observable<PositionalToleranceDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -22944,7 +23280,7 @@ export class WorkAssessmentReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getSitting(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+    getSitting(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
         let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetSitting?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -22965,6 +23301,60 @@ export class WorkAssessmentReportServiceProxy {
                 try {
                     return this.processGetSitting(<any>response_);
                 } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSitting(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getStandingTest(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetStandingTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStandingTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStandingTest(<any>response_);
+                } catch (e) {
                     return <Observable<PositionalToleranceDto>><any>_observableThrow(e);
                 }
             } else
@@ -22972,7 +23362,7 @@ export class WorkAssessmentReportServiceProxy {
         }));
     }
 
-    protected processGetSitting(response: HttpResponseBase): Observable<PositionalToleranceDto> {
+    protected processGetStandingTest(response: HttpResponseBase): Observable<PositionalToleranceDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -22998,7 +23388,7 @@ export class WorkAssessmentReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getStanding(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+    getStanding(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
         let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetStanding?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -23019,6 +23409,60 @@ export class WorkAssessmentReportServiceProxy {
                 try {
                     return this.processGetStanding(<any>response_);
                 } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStanding(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSustainedElevatedReachTest(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetSustainedElevatedReachTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSustainedElevatedReachTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSustainedElevatedReachTest(<any>response_);
+                } catch (e) {
                     return <Observable<PositionalToleranceDto>><any>_observableThrow(e);
                 }
             } else
@@ -23026,7 +23470,7 @@ export class WorkAssessmentReportServiceProxy {
         }));
     }
 
-    protected processGetStanding(response: HttpResponseBase): Observable<PositionalToleranceDto> {
+    protected processGetSustainedElevatedReachTest(response: HttpResponseBase): Observable<PositionalToleranceDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -23052,7 +23496,7 @@ export class WorkAssessmentReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getSustainedElevatedReach(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+    getSustainedElevatedReach(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
         let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetSustainedElevatedReach?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -23073,6 +23517,60 @@ export class WorkAssessmentReportServiceProxy {
                 try {
                     return this.processGetSustainedElevatedReach(<any>response_);
                 } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSustainedElevatedReach(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSustainedMidLevelReachTest(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetSustainedMidLevelReachTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSustainedMidLevelReachTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSustainedMidLevelReachTest(<any>response_);
+                } catch (e) {
                     return <Observable<PositionalToleranceDto>><any>_observableThrow(e);
                 }
             } else
@@ -23080,7 +23578,7 @@ export class WorkAssessmentReportServiceProxy {
         }));
     }
 
-    protected processGetSustainedElevatedReach(response: HttpResponseBase): Observable<PositionalToleranceDto> {
+    protected processGetSustainedMidLevelReachTest(response: HttpResponseBase): Observable<PositionalToleranceDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -23106,8 +23604,8 @@ export class WorkAssessmentReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getSustainedMidReach(clientId: string | null | undefined): Observable<PositionalToleranceDto> {
-        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetSustainedMidReach?";
+    getSustainedMidLevelReach(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetSustainedMidLevelReach?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -23121,20 +23619,20 @@ export class WorkAssessmentReportServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetSustainedMidReach(response_);
+            return this.processGetSustainedMidLevelReach(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetSustainedMidReach(<any>response_);
+                    return this.processGetSustainedMidLevelReach(<any>response_);
                 } catch (e) {
-                    return <Observable<PositionalToleranceDto>><any>_observableThrow(e);
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<PositionalToleranceDto>><any>_observableThrow(response_);
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetSustainedMidReach(response: HttpResponseBase): Observable<PositionalToleranceDto> {
+    protected processGetSustainedMidLevelReach(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -23145,7 +23643,7 @@ export class WorkAssessmentReportServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? PositionalToleranceDto.fromJS(resultData200) : new PositionalToleranceDto();
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -23153,7 +23651,547 @@ export class WorkAssessmentReportServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<PositionalToleranceDto>(<any>null);
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getLiftingTest(clientId: string | null | undefined): Observable<WeightedProtocolDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetLiftingTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLiftingTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLiftingTest(<any>response_);
+                } catch (e) {
+                    return <Observable<WeightedProtocolDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeightedProtocolDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLiftingTest(response: HttpResponseBase): Observable<WeightedProtocolDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WeightedProtocolDto.fromJS(resultData200) : new WeightedProtocolDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeightedProtocolDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getUnilateralTestCarry(clientId: string | null | undefined): Observable<WeightedProtocolDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetUnilateralTestCarry?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUnilateralTestCarry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUnilateralTestCarry(<any>response_);
+                } catch (e) {
+                    return <Observable<WeightedProtocolDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeightedProtocolDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUnilateralTestCarry(response: HttpResponseBase): Observable<WeightedProtocolDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WeightedProtocolDto.fromJS(resultData200) : new WeightedProtocolDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeightedProtocolDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBilateralTestCarry(clientId: string | null | undefined): Observable<WeightedProtocolDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetBilateralTestCarry?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBilateralTestCarry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBilateralTestCarry(<any>response_);
+                } catch (e) {
+                    return <Observable<WeightedProtocolDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeightedProtocolDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBilateralTestCarry(response: HttpResponseBase): Observable<WeightedProtocolDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WeightedProtocolDto.fromJS(resultData200) : new WeightedProtocolDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeightedProtocolDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPushingTest(clientId: string | null | undefined): Observable<WeightedProtocolDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetPushingTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPushingTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPushingTest(<any>response_);
+                } catch (e) {
+                    return <Observable<WeightedProtocolDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeightedProtocolDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPushingTest(response: HttpResponseBase): Observable<WeightedProtocolDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WeightedProtocolDto.fromJS(resultData200) : new WeightedProtocolDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeightedProtocolDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPullingTest(clientId: string | null | undefined): Observable<WeightedProtocolDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetPullingTest?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPullingTest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPullingTest(<any>response_);
+                } catch (e) {
+                    return <Observable<WeightedProtocolDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WeightedProtocolDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPullingTest(response: HttpResponseBase): Observable<WeightedProtocolDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WeightedProtocolDto.fromJS(resultData200) : new WeightedProtocolDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WeightedProtocolDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getLifting(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetLifting?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLifting(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLifting(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLifting(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getUnilateralCarry(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetUnilateralCarry?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUnilateralCarry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUnilateralCarry(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUnilateralCarry(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBilateralCarry(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetBilateralCarry?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBilateralCarry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBilateralCarry(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBilateralCarry(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPulling(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetPulling?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPulling(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPulling(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPulling(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPushing(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetPushing?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPushing(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPushing(<any>response_);
+                } catch (e) {
+                    return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<WorkAssessmentTasksParentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPushing(response: HttpResponseBase): Observable<WorkAssessmentTasksParentDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? WorkAssessmentTasksParentDto.fromJS(resultData200) : new WorkAssessmentTasksParentDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
     }
 }
 
@@ -28712,8 +29750,12 @@ export interface IReportGripStrength {
 export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
     dorsiflexion: string | undefined;
     plantarFlexion: string | undefined;
+    dorsiMusclePower: number | undefined;
+    plantarMusclePower: number | undefined;
     inversion: string | undefined;
+    invMusclePower: number | undefined;
     eversion: string | undefined;
+    evMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
@@ -28731,8 +29773,12 @@ export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
         if (data) {
             this.dorsiflexion = data["dorsiflexion"];
             this.plantarFlexion = data["plantarFlexion"];
+            this.dorsiMusclePower = data["dorsiMusclePower"];
+            this.plantarMusclePower = data["plantarMusclePower"];
             this.inversion = data["inversion"];
+            this.invMusclePower = data["invMusclePower"];
             this.eversion = data["eversion"];
+            this.evMusclePower = data["evMusclePower"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.chosen = data["chosen"];
             this.side = data["side"];
@@ -28750,8 +29796,12 @@ export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
         data = typeof data === 'object' ? data : {};
         data["dorsiflexion"] = this.dorsiflexion;
         data["plantarFlexion"] = this.plantarFlexion;
+        data["dorsiMusclePower"] = this.dorsiMusclePower;
+        data["plantarMusclePower"] = this.plantarMusclePower;
         data["inversion"] = this.inversion;
+        data["invMusclePower"] = this.invMusclePower;
         data["eversion"] = this.eversion;
+        data["evMusclePower"] = this.evMusclePower;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["chosen"] = this.chosen;
         data["side"] = this.side;
@@ -28769,8 +29819,12 @@ export class ReportRoMAnkleDto implements IReportRoMAnkleDto {
 export interface IReportRoMAnkleDto {
     dorsiflexion: string | undefined;
     plantarFlexion: string | undefined;
+    dorsiMusclePower: number | undefined;
+    plantarMusclePower: number | undefined;
     inversion: string | undefined;
+    invMusclePower: number | undefined;
     eversion: string | undefined;
+    evMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
@@ -28783,6 +29837,12 @@ export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
     supination: string | undefined;
     radialDeviation: string | undefined;
     ulnarDeviation: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    proMusclePower: number | undefined;
+    supMusclePower: number | undefined;
+    radMusclePower: number | undefined;
+    ulnMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
@@ -28804,6 +29864,12 @@ export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
             this.supination = data["supination"];
             this.radialDeviation = data["radialDeviation"];
             this.ulnarDeviation = data["ulnarDeviation"];
+            this.extMusclePower = data["extMusclePower"];
+            this.flexMusclePower = data["flexMusclePower"];
+            this.proMusclePower = data["proMusclePower"];
+            this.supMusclePower = data["supMusclePower"];
+            this.radMusclePower = data["radMusclePower"];
+            this.ulnMusclePower = data["ulnMusclePower"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.chosen = data["chosen"];
             this.side = data["side"];
@@ -28825,6 +29891,12 @@ export class ReportRoMForearmWristDto implements IReportRoMForearmWristDto {
         data["supination"] = this.supination;
         data["radialDeviation"] = this.radialDeviation;
         data["ulnarDeviation"] = this.ulnarDeviation;
+        data["extMusclePower"] = this.extMusclePower;
+        data["flexMusclePower"] = this.flexMusclePower;
+        data["proMusclePower"] = this.proMusclePower;
+        data["supMusclePower"] = this.supMusclePower;
+        data["radMusclePower"] = this.radMusclePower;
+        data["ulnMusclePower"] = this.ulnMusclePower;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["chosen"] = this.chosen;
         data["side"] = this.side;
@@ -28846,6 +29918,12 @@ export interface IReportRoMForearmWristDto {
     supination: string | undefined;
     radialDeviation: string | undefined;
     ulnarDeviation: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    proMusclePower: number | undefined;
+    supMusclePower: number | undefined;
+    radMusclePower: number | undefined;
+    ulnMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
@@ -28855,6 +29933,12 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
     mpFlexion: number | undefined;
     pipFlexionExtension: number | undefined;
     dipFlexionExtension: number | undefined;
+    mpHyperExtension: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    cmExtension: number | undefined;
+    cmFlexion: number | undefined;
+    ipFlexionExtension: number | undefined;
     ringFingerScore: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
@@ -28874,6 +29958,12 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
             this.mpFlexion = data["mpFlexion"];
             this.pipFlexionExtension = data["pipFlexionExtension"];
             this.dipFlexionExtension = data["dipFlexionExtension"];
+            this.mpHyperExtension = data["mpHyperExtension"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.cmExtension = data["cmExtension"];
+            this.cmFlexion = data["cmFlexion"];
+            this.ipFlexionExtension = data["ipFlexionExtension"];
             this.ringFingerScore = data["ringFingerScore"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.side = data["side"];
@@ -28893,6 +29983,12 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
         data["mpFlexion"] = this.mpFlexion;
         data["pipFlexionExtension"] = this.pipFlexionExtension;
         data["dipFlexionExtension"] = this.dipFlexionExtension;
+        data["mpHyperExtension"] = this.mpHyperExtension;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["cmExtension"] = this.cmExtension;
+        data["cmFlexion"] = this.cmFlexion;
+        data["ipFlexionExtension"] = this.ipFlexionExtension;
         data["ringFingerScore"] = this.ringFingerScore;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["side"] = this.side;
@@ -28912,6 +30008,12 @@ export interface IReportRoMHandDto {
     mpFlexion: number | undefined;
     pipFlexionExtension: number | undefined;
     dipFlexionExtension: number | undefined;
+    mpHyperExtension: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    cmExtension: number | undefined;
+    cmFlexion: number | undefined;
+    ipFlexionExtension: number | undefined;
     ringFingerScore: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
@@ -28923,8 +30025,14 @@ export class ReportRoMHipDto implements IReportRoMHipDto {
     flexion: string | undefined;
     abduction: string | undefined;
     adduction: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    abdMusclePower: number | undefined;
+    addMusclePower: number | undefined;
     internalRotation: string | undefined;
+    irMusclePower: number | undefined;
     externalRotation: string | undefined;
+    erMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
     chosen: boolean | undefined;
@@ -28944,8 +30052,14 @@ export class ReportRoMHipDto implements IReportRoMHipDto {
             this.flexion = data["flexion"];
             this.abduction = data["abduction"];
             this.adduction = data["adduction"];
+            this.extMusclePower = data["extMusclePower"];
+            this.flexMusclePower = data["flexMusclePower"];
+            this.abdMusclePower = data["abdMusclePower"];
+            this.addMusclePower = data["addMusclePower"];
             this.internalRotation = data["internalRotation"];
+            this.irMusclePower = data["irMusclePower"];
             this.externalRotation = data["externalRotation"];
+            this.erMusclePower = data["erMusclePower"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.side = data["side"];
             this.chosen = data["chosen"];
@@ -28965,8 +30079,14 @@ export class ReportRoMHipDto implements IReportRoMHipDto {
         data["flexion"] = this.flexion;
         data["abduction"] = this.abduction;
         data["adduction"] = this.adduction;
+        data["extMusclePower"] = this.extMusclePower;
+        data["flexMusclePower"] = this.flexMusclePower;
+        data["abdMusclePower"] = this.abdMusclePower;
+        data["addMusclePower"] = this.addMusclePower;
         data["internalRotation"] = this.internalRotation;
+        data["irMusclePower"] = this.irMusclePower;
         data["externalRotation"] = this.externalRotation;
+        data["erMusclePower"] = this.erMusclePower;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["side"] = this.side;
         data["chosen"] = this.chosen;
@@ -28986,8 +30106,14 @@ export interface IReportRoMHipDto {
     flexion: string | undefined;
     abduction: string | undefined;
     adduction: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    abdMusclePower: number | undefined;
+    addMusclePower: number | undefined;
     internalRotation: string | undefined;
+    irMusclePower: number | undefined;
     externalRotation: string | undefined;
+    erMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
     chosen: boolean | undefined;
@@ -28996,6 +30122,8 @@ export interface IReportRoMHipDto {
 export class ReportRoMKneeDto implements IReportRoMKneeDto {
     extension: string | undefined;
     flexion: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
@@ -29013,6 +30141,8 @@ export class ReportRoMKneeDto implements IReportRoMKneeDto {
         if (data) {
             this.extension = data["extension"];
             this.flexion = data["flexion"];
+            this.extMusclePower = data["extMusclePower"];
+            this.flexMusclePower = data["flexMusclePower"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.chosen = data["chosen"];
             this.side = data["side"];
@@ -29030,6 +30160,8 @@ export class ReportRoMKneeDto implements IReportRoMKneeDto {
         data = typeof data === 'object' ? data : {};
         data["extension"] = this.extension;
         data["flexion"] = this.flexion;
+        data["extMusclePower"] = this.extMusclePower;
+        data["flexMusclePower"] = this.flexMusclePower;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["chosen"] = this.chosen;
         data["side"] = this.side;
@@ -29047,6 +30179,8 @@ export class ReportRoMKneeDto implements IReportRoMKneeDto {
 export interface IReportRoMKneeDto {
     extension: string | undefined;
     flexion: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
@@ -29058,7 +30192,13 @@ export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
     abduction: string | undefined;
     adduction: string | undefined;
     internalRotation: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    abdMusclePower: number | undefined;
+    addMusclePower: number | undefined;
+    irMusclePower: number | undefined;
     externalRotation: string | undefined;
+    erMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
     chosen: boolean | undefined;
@@ -29079,7 +30219,13 @@ export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
             this.abduction = data["abduction"];
             this.adduction = data["adduction"];
             this.internalRotation = data["internalRotation"];
+            this.extMusclePower = data["extMusclePower"];
+            this.flexMusclePower = data["flexMusclePower"];
+            this.abdMusclePower = data["abdMusclePower"];
+            this.addMusclePower = data["addMusclePower"];
+            this.irMusclePower = data["irMusclePower"];
             this.externalRotation = data["externalRotation"];
+            this.erMusclePower = data["erMusclePower"];
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.side = data["side"];
             this.chosen = data["chosen"];
@@ -29100,7 +30246,13 @@ export class ReportRoMShoulderDto implements IReportRoMShoulderDto {
         data["abduction"] = this.abduction;
         data["adduction"] = this.adduction;
         data["internalRotation"] = this.internalRotation;
+        data["extMusclePower"] = this.extMusclePower;
+        data["flexMusclePower"] = this.flexMusclePower;
+        data["abdMusclePower"] = this.abdMusclePower;
+        data["addMusclePower"] = this.addMusclePower;
+        data["irMusclePower"] = this.irMusclePower;
         data["externalRotation"] = this.externalRotation;
+        data["erMusclePower"] = this.erMusclePower;
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["side"] = this.side;
         data["chosen"] = this.chosen;
@@ -29121,7 +30273,13 @@ export interface IReportRoMShoulderDto {
     abduction: string | undefined;
     adduction: string | undefined;
     internalRotation: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    abdMusclePower: number | undefined;
+    addMusclePower: number | undefined;
+    irMusclePower: number | undefined;
     externalRotation: string | undefined;
+    erMusclePower: number | undefined;
     rangeOfMotionId: string | undefined;
     side: number | undefined;
     chosen: boolean | undefined;
@@ -29133,6 +30291,10 @@ export class ReportRoMElbowDto implements IReportRoMElbowDto {
     flexion: string | undefined;
     pronation: string | undefined;
     supination: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    proMusclePower: number | undefined;
+    supMusclePower: number | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
 
@@ -29152,6 +30314,10 @@ export class ReportRoMElbowDto implements IReportRoMElbowDto {
             this.flexion = data["flexion"];
             this.pronation = data["pronation"];
             this.supination = data["supination"];
+            this.extMusclePower = data["extMusclePower"];
+            this.flexMusclePower = data["flexMusclePower"];
+            this.proMusclePower = data["proMusclePower"];
+            this.supMusclePower = data["supMusclePower"];
             this.chosen = data["chosen"];
             this.side = data["side"];
         }
@@ -29171,6 +30337,10 @@ export class ReportRoMElbowDto implements IReportRoMElbowDto {
         data["flexion"] = this.flexion;
         data["pronation"] = this.pronation;
         data["supination"] = this.supination;
+        data["extMusclePower"] = this.extMusclePower;
+        data["flexMusclePower"] = this.flexMusclePower;
+        data["proMusclePower"] = this.proMusclePower;
+        data["supMusclePower"] = this.supMusclePower;
         data["chosen"] = this.chosen;
         data["side"] = this.side;
         return data; 
@@ -29190,6 +30360,10 @@ export interface IReportRoMElbowDto {
     flexion: string | undefined;
     pronation: string | undefined;
     supination: string | undefined;
+    extMusclePower: number | undefined;
+    flexMusclePower: number | undefined;
+    proMusclePower: number | undefined;
+    supMusclePower: number | undefined;
     chosen: boolean | undefined;
     side: number | undefined;
 }
@@ -31196,6 +32370,8 @@ export class CrouchingTestDto implements ICrouchingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -31219,6 +32395,8 @@ export class CrouchingTestDto implements ICrouchingTestDto {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -31242,6 +32420,8 @@ export class CrouchingTestDto implements ICrouchingTestDto {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -31265,6 +32445,8 @@ export interface ICrouchingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -33204,6 +34386,8 @@ export class KneelingTestDto implements IKneelingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -33227,6 +34411,8 @@ export class KneelingTestDto implements IKneelingTestDto {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -33250,6 +34436,8 @@ export class KneelingTestDto implements IKneelingTestDto {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -33273,6 +34461,8 @@ export interface IKneelingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -34279,6 +35469,8 @@ export class LiftingTestDto implements ILiftingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -34302,6 +35494,8 @@ export class LiftingTestDto implements ILiftingTestDto {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -34325,6 +35519,8 @@ export class LiftingTestDto implements ILiftingTestDto {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -34348,6 +35544,8 @@ export interface ILiftingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -38808,6 +40006,8 @@ export class SittingTestDto implements ISittingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -38831,6 +40031,8 @@ export class SittingTestDto implements ISittingTestDto {
             this.taskType = data["taskType"];
             this.result = data["result"];
             this.isStopped = data["isStopped"];
+            this.trial = data["trial"];
+            this.noOfRepetitions = data["noOfRepetitions"];
             this.timeTaken = data["timeTaken"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
@@ -38854,6 +40056,8 @@ export class SittingTestDto implements ISittingTestDto {
         data["taskType"] = this.taskType;
         data["result"] = this.result;
         data["isStopped"] = this.isStopped;
+        data["trial"] = this.trial;
+        data["noOfRepetitions"] = this.noOfRepetitions;
         data["timeTaken"] = this.timeTaken;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
@@ -38877,6 +40081,8 @@ export interface ISittingTestDto {
     taskType: string | undefined;
     result: string | undefined;
     isStopped: boolean | undefined;
+    trial: number | undefined;
+    noOfRepetitions: number | undefined;
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
@@ -41136,6 +42342,148 @@ export interface IPositionalToleranceDto {
     jobDemand: string | undefined;
     isDeficit: boolean | undefined;
     noTrials: number | undefined;
+}
+
+export class WeightedProtocolDto implements IWeightedProtocolDto {
+    averageTimeTaken: number | undefined;
+    result: string | undefined;
+    assessmentName: string | undefined;
+    jobDemand: string | undefined;
+    isDeficit: boolean | undefined;
+    noTrials: number | undefined;
+
+    constructor(data?: IWeightedProtocolDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.averageTimeTaken = data["averageTimeTaken"];
+            this.result = data["result"];
+            this.assessmentName = data["assessmentName"];
+            this.jobDemand = data["jobDemand"];
+            this.isDeficit = data["isDeficit"];
+            this.noTrials = data["noTrials"];
+        }
+    }
+
+    static fromJS(data: any): WeightedProtocolDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WeightedProtocolDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["averageTimeTaken"] = this.averageTimeTaken;
+        data["result"] = this.result;
+        data["assessmentName"] = this.assessmentName;
+        data["jobDemand"] = this.jobDemand;
+        data["isDeficit"] = this.isDeficit;
+        data["noTrials"] = this.noTrials;
+        return data; 
+    }
+
+    clone(): WeightedProtocolDto {
+        const json = this.toJSON();
+        let result = new WeightedProtocolDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWeightedProtocolDto {
+    averageTimeTaken: number | undefined;
+    result: string | undefined;
+    assessmentName: string | undefined;
+    jobDemand: string | undefined;
+    isDeficit: boolean | undefined;
+    noTrials: number | undefined;
+}
+
+export class WorkAssessmentTasksParentDto implements IWorkAssessmentTasksParentDto {
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    assessmentName: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IWorkAssessmentTasksParentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.assessmentName = data["assessmentName"];
+            this.taskType = data["taskType"];
+            this.chosen = data["chosen"];
+            this.rating = data["rating"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): WorkAssessmentTasksParentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WorkAssessmentTasksParentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["assessmentName"] = this.assessmentName;
+        data["taskType"] = this.taskType;
+        data["chosen"] = this.chosen;
+        data["rating"] = this.rating;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): WorkAssessmentTasksParentDto {
+        const json = this.toJSON();
+        let result = new WorkAssessmentTasksParentDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IWorkAssessmentTasksParentDto {
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    assessmentName: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    id: string | undefined;
 }
 
 export class WorkInformationDto implements IWorkInformationDto {

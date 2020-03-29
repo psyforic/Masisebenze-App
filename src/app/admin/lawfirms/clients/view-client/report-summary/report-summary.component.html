@@ -1,68 +1,57 @@
 <div class="main-content">
-  <div class="container-fluid">
+    <div class="container-fluid">
 
-      <div class="card">
-          <div class="card-header">
-              <div class="card-title">
-                  <button mat-icon-button [routerLink]="['../../',clientId]">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <button mat-icon-button (click)="backClicked()">
                       <mat-icon>keyboard_backspace</mat-icon>
                   </button>{{client?.firstName}} {{client?.lastName}}
-              </div>
-              <div class="header-toolbar">
-                <div class="btn-group" dropdown>
-                    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                        aria-controls="dropdown-basic">
+                </div>
+                <div class="header-toolbar">
+                    <div class="btn-group" dropdown>
+                        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
                         Actions<span class="caret"></span>
                     </button>
-                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu"
-                        aria-labelledby="button-basic">
-                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
-                                [routerLink]="['/admin/clients/activity-log', clientId]"
-                                routerLinkActive="router-link-active">Activity Log</a>
-                        </li>
-                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
-                                [routerLink]="['/admin/clients/documents/upload', clientId]"
-                                routerLinkActive="router-link-active">Upload</a>
-                        </li>
-                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
-                                [routerLink]="['/admin/comments/clients', clientId]"
-                                routerLinkActive="router-link-active">Comments</a>
-                        </li>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/activity-log', clientId]" routerLinkActive="router-link-active">Activity Log</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/documents/upload', clientId]" routerLinkActive="router-link-active">Upload</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/comments/clients', clientId]" routerLinkActive="router-link-active">Comments</a>
+                            </li>
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12 example-loading-shade"
-                    *ngIf="isLoading">
-                    <mat-spinner *ngIf="isLoading"></mat-spinner>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 example-loading-shade" *ngIf="isLoading">
+                        <mat-spinner *ngIf="isLoading"></mat-spinner>
+                    </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4><strong>Discussion</strong></h4>
+
+                        <quill-editor class="mt-2" [placeholder]="'Write client\'s assessment discussion here...'" [styles]="{height: '200px'}" [(ngModel)]="reportSummary.discussion " [sanitize]="true" name="discussion">
+                        </quill-editor>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <h4><strong>Recommendation</strong></h4>
+                        <quill-editor class="mt-2" [placeholder]="'Write client\'s assessment recommendations here...'" [styles]="{height: '200px'}" [(ngModel)]="reportSummary.recommendations " [sanitize]="true" name="recommendations">
+                        </quill-editor>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-2">
+                        <button color="primary" class="float-right " type="button" [disabled]="reportSummary.discussion == null || reportSummary.discussion ==''" mat-raised-button color="primary" (click)="save()">Save</button>
+                    </div>
+                </div>
+
             </div>
-          
-            <div class="row">
-              <div class="col-md-12">
-                <h4><strong>Discussion</strong></h4>
-              
-                <quill-editor class="mt-2" [placeholder]="'Write client\'s assessment discussion here...'"[styles]="{height: '200px'}" [(ngModel)]="reportSummary.discussion " [sanitize]="true"
-                  name="discussion" >
-                </quill-editor>
-              </div>
-              <div class="col-md-12 mt-2">
-                <h4><strong>Recommendation</strong></h4>
-                <quill-editor class="mt-2" [placeholder]="'Write client\'s assessment recommendations here...'"[styles]="{height: '200px'}" [(ngModel)]="reportSummary.recommendations " [sanitize]="true"
-                  name="recommendations">
-                </quill-editor>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 mt-2">
-                <button color="primary" class="float-right " type="button" [disabled]="reportSummary.discussion == null || reportSummary.discussion ==''" mat-raised-button color="primary" (click)="save()">Save</button>
-              </div>
-            </div>
-            
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>

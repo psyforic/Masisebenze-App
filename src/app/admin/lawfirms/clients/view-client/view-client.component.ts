@@ -16,7 +16,8 @@ import {
   WorkAssessmentServiceProxy,
   WorkAssessmentReportServiceProxy,
   PositionalToleranceDto,
-  WorkInformationServiceProxy
+  WorkInformationServiceProxy,
+  WeightedProtocolDto
 } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild, HostListener } from '@angular/core';
@@ -168,9 +169,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   attorneys: AttorneyListDto[] = [];
   questionnairesDto: QuestionnaireDto[] = [];
   positionalToleranceResult: PositionalToleranceDto[] = [];
+  weightedProtocolResult: WeightedProtocolDto[] = [];
   displayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
+  weightedProtocolDisplayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   maxDataValues: MaxDataValue[] = [];
-  hidden = false;
+  hidden = true;
   bookings: Booking[] = [];
   questionnaires = [
     { type: 1, description: 'PATIENT HEALTH' },
@@ -301,6 +304,22 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.isLoading = false;
       })).subscribe(result => {
         this.positionalToleranceResult = result;
+        this._workInfomationService.getByClientId(clientId)
+          .pipe(finalize(() => {
+          })).subscribe(result => {
+            if (result != null && (result.jobTitle !== null && result.jobTitle !== '' && result.jobTitle != 'undefined')) {
+              this.getElementNames(result.jobTitle);
+            }
+          });
+      });
+    this.isLoading = true;
+  }
+  getWeightedProtocolReport(clientId) {
+    this._workAssessmentReportService.getWeightedProtocolReport(clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(result => {
+        this.weightedProtocolResult = result;
         this._workInfomationService.getByClientId(clientId)
           .pipe(finalize(() => {
           })).subscribe(result => {
@@ -492,6 +511,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   changeAssessmentTabs(event: MatTabChangeEvent) {
     switch (event.index) {
       case 3:
+        this.getWeightedProtocolReport(this.clientId);
         this.getPositionalToleranceReport(this.clientId);
         break;
       default:
@@ -691,8 +711,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
             this.positionalToleranceResult.forEach((item, index) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Sitting')) {
-                element = this.maxDataValues.filter(x => x.elementId == '4.C.2.d.1.a')[0];
-                console.log(element);
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
                 if (element != null) {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }
@@ -718,6 +737,37 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
                 }
               } else if (item.assessmentName.includes('Mid Level')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+            });
+          }
+          if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
+            this.weightedProtocolResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Lifting')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Unilateral')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Pushing')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Pulling')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Bilateral')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
                 if (element != null && typeof element !== 'undefined') {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }
