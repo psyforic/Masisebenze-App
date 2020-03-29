@@ -46,7 +46,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
   }
   open() {
     this.getComprehension();
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => { }, () => { });
   }
   close() {
