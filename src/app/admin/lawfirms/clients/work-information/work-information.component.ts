@@ -197,6 +197,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   getCategories(elementName) {
     return this.workContextList.filter(w => w.elementName === elementName);
   }
+
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -234,6 +235,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   newJobTitle() {
     this.newJob.open();
   }
+
   // onAgesAdd(tag: any): Observable<TagModel> {
   //   this.defaultAge.push(tag.value);
   //   this.workContextList.filter(x => x.elementName === tag.value);

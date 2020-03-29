@@ -29,6 +29,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
 import { TypeaheadModule } from 'ngx-bootstrap';
 import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descriptions.module';
+
 @NgModule({
   declarations: [
     ClientsComponent,
