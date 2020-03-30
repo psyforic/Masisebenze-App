@@ -1,115 +1,94 @@
 <div class="main-content">
-  <div class="container-fluid">
+    <div class="container-fluid">
 
-      <div class="card">
-          <div class="card-header">
-              <div class="card-title">
-                  <button mat-icon-button [routerLink]="['../../',clientId]">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <button mat-icon-button (click)="backClicked()">
                       <mat-icon>keyboard_backspace</mat-icon>
                   </button>{{client?.firstName}} {{client?.lastName}}
-              </div>
-              <div class="header-toolbar">
-                <div class="btn-group" dropdown>
-                    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
-                        aria-controls="dropdown-basic">
+                </div>
+                <div class="header-toolbar">
+                    <div class="btn-group" dropdown>
+                        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
                         Actions<span class="caret"></span>
                     </button>
-                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu"
-                        aria-labelledby="button-basic">
-                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
-                                [routerLink]="['/admin/clients/activity-log', clientId]"
-                                routerLinkActive="router-link-active">Activity Log</a>
-                        </li>
-                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
-                                [routerLink]="['/admin/clients/documents/upload', clientId]"
-                                routerLinkActive="router-link-active">Upload</a>
-                        </li>
-                        <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)"
-                                [routerLink]="['/admin/comments/clients', clientId]"
-                                routerLinkActive="router-link-active">Comments</a>
-                        </li>
+                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu dropdown-menu-left" role="menu" aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/activity-log', clientId]" routerLinkActive="router-link-active">Activity Log</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/documents/upload', clientId]" routerLinkActive="router-link-active">Upload</a>
+                            </li>
+                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/comments/clients', clientId]" routerLinkActive="router-link-active">Comments</a>
+                            </li>
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
             </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12 example-loading-shade"
-                    *ngIf="isLoading">
-                    <mat-spinner *ngIf="isLoading"></mat-spinner>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12 example-loading-shade" *ngIf="isLoading">
+                        <mat-spinner *ngIf="isLoading"></mat-spinner>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                  <mat-form-field>
-                    <input matInput type="text" placeholder="Search Job Title" [formControl]="jobSearch"/>
-                    <button matSuffix (click)="search()" color="primary" mat-stroked-button>
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <input matInput type="text" placeholder="Search Job Title" [formControl]="jobSearch" />
+                            <button matSuffix (click)="search()" color="primary" mat-stroked-button>
                       <mat-icon >search</mat-icon>
                     </button>
 
-                  </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                
-              </div>
-              <div class="col-md-12">
-                <mat-form-field class="example-chip-list">
-                  <mat-chip-list #chipList aria-label="Fruit selection">
-                    <mat-chip
-                      *ngFor="let occupation of selectedOccupation"
-                      [selectable]="selectable"
-                      [removable]="removable"
-                      (removed)="remove(occupation)">
-                      {{occupation}}
-                      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                    </mat-chip>
-                    <input
-                      placeholder="New Job Title..."
-                      #occupationInput
-                      [formControl]="jobTitle"
-                      [matAutocomplete]="auto"
-                      [matChipInputFor]="chipList"
-                      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                      (matChipInputTokenEnd)="add($event)">
-                  </mat-chip-list>
-                  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" >
-                    <mat-option *ngFor="let occupation of filteredOptions | async" [value]="occupation">
-                      {{occupation.title}}
-                    </mat-option>
-                  </mat-autocomplete>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row" *ngIf="selectedOccupation.length > 0">
-              <div class="col-md-12">
-                <quill-editor [placeholder]="'Insert client\'s job description here...'"[styles]="{height: '200px'}" [(ngModel)]="workInformation.jobDescription " [sanitize]="true"
-                  name="jobDescription" [disabled]="jobTitle.value == null || jobTitle.value ==''">
-                </quill-editor>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12 mt-2">
-                <button color="primary" class="float-right " type="button" [disabled]="workInformation.jobDescription == null || workInformation.jobDescription  ==''" mat-raised-button color="primary" (click)="save()">Save</button>
-              </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                  <div class="row">
-                    <h5> {{maxDataValues[0]?.title}} </h5>
-                    <div class="col-md-12" *ngFor="let message of maxDataValues; let i = index;">
-                      <p><b>{{i+1+" ."}} {{message?.elementName}}</b></p>
-                      <p>
-                        <span><strong>Category:</strong> {{message.category}} </span>
-                        <span class="demo-2"><strong>Data Value:</strong> {{message.dataValue}}% </span>
-                      </p>
+                        </mat-form-field>
                     </div>
-                  </div>
+                    <div class="col-md-6">
 
+                    </div>
+                    <div class="col-md-12">
+                        <mat-form-field class="example-chip-list">
+                            <mat-chip-list #chipList aria-label="Fruit selection">
+                                <mat-chip *ngFor="let occupation of selectedOccupation" [selectable]="selectable" [removable]="removable" (removed)="remove(occupation)">
+                                    {{occupation}}
+                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                </mat-chip>
+                                <input placeholder="New Job Title..." #occupationInput [formControl]="jobTitle" [matAutocomplete]="auto" [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)">
+                            </mat-chip-list>
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                                <mat-option *ngFor="let occupation of filteredOptions | async" [value]="occupation">
+                                    {{occupation.title}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row" *ngIf="selectedOccupation.length > 0">
+                    <div class="col-md-12">
+                        <quill-editor [placeholder]="'Insert client\'s job description here...'" [styles]="{height: '200px'}" [(ngModel)]="workInformation.jobDescription " [sanitize]="true" name="jobDescription" [disabled]="jobTitle.value == null || jobTitle.value ==''">
+                        </quill-editor>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-2">
+                        <button color="primary" class="float-right " type="button" [disabled]="workInformation.jobDescription == null || workInformation.jobDescription  ==''" mat-raised-button color="primary" (click)="save()">Save</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <h5> {{maxDataValues[0]?.title}} </h5>
+                            <div class="col-md-12" *ngFor="let message of maxDataValues; let i = index;">
+                                <p><b>{{i+1+" ."}} {{message?.elementName}}</b></p>
+                                <p>
+                                    <span><strong>Category:</strong> {{message.category}} </span>
+                                    <span class="demo-2"><strong>Data Value:</strong> {{message.dataValue}}% </span>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-          </div>
-      </div>
-  </div>
+        </div>
+    </div>
 </div>
 <app-new-job-description #newJob [jobTitle]="selectedOccupation[0]"></app-new-job-description>

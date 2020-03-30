@@ -19,6 +19,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { NewJobDescriptionComponent } from '@app/admin/job-descriptions/new-job-description/new-job-description.component';
+import { Location } from '@angular/common';
 export class MaxDataValue {
   elementId: string;
   elementName: string;
@@ -71,7 +72,8 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     private _clientService: ClientServiceProxy,
     private _workInformationService: WorkInformationServiceProxy,
     private route: ActivatedRoute,
-    private _workAssessmentService: WorkAssessmentServiceProxy) {
+    private _workAssessmentService: WorkAssessmentServiceProxy,
+    private _location: Location) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.clientId = paramMap.get('id');
@@ -97,6 +99,9 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
           }
         }
       });
+  }
+  backClicked() {
+    this._location.back();
   }
   getClient() {
     this.isLoading = true;
