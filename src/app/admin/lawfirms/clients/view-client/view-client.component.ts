@@ -707,7 +707,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               }
             });
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
-            this.positionalToleranceResult.filter(x => x.result != null && x.result !== '').forEach((item, index) => {
+            this.positionalToleranceResult.forEach((item, index) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Sitting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
@@ -759,7 +759,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
             });
           }
           if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
-            this.weightedProtocolResult.filter(x => x.result != null && x.result !== '').forEach((item, index) => {
+            this.weightedProtocolResult.forEach((item, index) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Lifting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
