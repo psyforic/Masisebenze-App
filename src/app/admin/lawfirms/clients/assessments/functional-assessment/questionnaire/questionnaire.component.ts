@@ -7,11 +7,15 @@ import {
   ClientAnswerListDto,
   QuestionDto,
   OptionDto,
-  QuestionOptionDto
+  QuestionOptionDto,
+  CreateCommentInput,
+  QuestionnaireDto,
+  CommentServiceProxy
 } from './../../../../../../../shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
-import { Component, OnInit, ViewChild, Input, ElementRef, Injector, Type, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef, Injector, Type, 
+  ChangeDetectorRef, AfterViewChecked } from '@angular/core';
 import {
   ClientServiceProxy, AssessmentServiceProxy, FunctionalAssessmentServiceProxy,
   ClientDetailOutput
@@ -19,15 +23,18 @@ import {
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralService } from '@app/admin/services/general.service';
 import { MatRadioChange } from '@angular/material';
+import { QuestionnaireCommentComponent } from '../questionnaire-comment/questionnaire-comment.component';
 
 @Component({
   selector: 'app-questionnaire',
   templateUrl: './questionnaire.component.html',
-  styleUrls: ['./questionnaire.component.scss']
+  styleUrls: ['./questionnaire.component.scss'],
+  providers: [CommentServiceProxy]
 })
-export class QuestionnaireComponent extends AppComponentBase implements OnInit {
+export class QuestionnaireComponent extends AppComponentBase implements OnInit, AfterViewChecked {
   @ViewChild('content', { static: false }) content: ElementRef;
   client: ClientDetailOutput = new ClientDetailOutput();
+  @ViewChild('questionnaireComment', { static: false }) questionnaireComment: QuestionnaireCommentComponent;
   @Input() fullName: string;
   @Input() clientId: string;
   @Input() type: number;
@@ -37,6 +44,8 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   questionDtos: QuestionDto[] = [];
   questionOptions: QuestionOptionDto[] = [];
   options: QuestionOptionListDto[] = [];
+  commentInput: CreateCommentInput = new CreateCommentInput();
+  questionnaire: QuestionnaireDto = new QuestionnaireDto();
   questionnaireOptions = [
     {
       type: 1, position: 1, optionPositon: 0, options: [
@@ -154,7 +163,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   clientAsnwers: ClientAnswerListDto[] = [];
   isLoading = false;
   saving = false;
-  isSaved = false;
+  isSaved;
   index = 0;
   total = 0;
   constructor(
@@ -169,16 +178,19 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     private _activatedRoute: ActivatedRoute) {
     super(injector);
   }
-
   ngOnInit() {
   }
-  async open(type: number) {
+  ngAfterViewChecked() {
+    this.cdr.detectChanges();
+ }
+
+ open(type: number) {
     this.questions = [];
     this.clientAsnwers = [];
-
-    await this.getQuestions(type);
-    await this.getClientAnswers(type, this.clientId);
+    this.isSaved = false;
     this.type = type;
+    this.getQuestions(this.type);
+    this.getClientAnswers(this.type, this.clientId);
     this.modalService.open(this.content, { windowClass: 'modal-height', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => { }, () => { });
   }
@@ -186,11 +198,12 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     this.saving = true;
     if (this.type !== 2) {
       if (this.clientAsnwers != null && this.clientAsnwers.length > 0) {
+
         this._functionAssessmentService.updateQuestionList(
           this.clientAsnwers.filter(ca => ca.questionId === this.questions[this.index].id)
         )
           .pipe(finalize(() => {
-            this.isSaved = true;
+            this.isSaved = false;
             this.saving = false;
           }))
           .subscribe(() => {
@@ -202,15 +215,14 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
       if (this.clientAsnwers != null && this.clientAsnwers.length > 0) {
         this._functionAssessmentService.updateQuestionList(this.clientAsnwers)
           .pipe(finalize(() => {
-            this.isSaved = true;
+            this.isSaved = false;
             this.saving = false;
           }))
           .subscribe(() => {
-            this.notify.success('Save successfully');
+            this.notify.success('Saved successfully');
           });
       }
     }
-
   }
   close() {
     this.index = 0;
@@ -221,8 +233,6 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   next() {
     if (this.index < this.questions.length) {
       this.index++;
-      console.log(this.index);
-      // this.getQuestion(this.clientId, this.questions[this.index].id);
     } else {
       this.index = this.index;
       return;
@@ -242,6 +252,9 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
 
     if (this.questions.filter(q => q.position === position).length > 0) {
       if (this.questions.filter(q => q.position === position)[0].options.length > 0) {
+        if(this.isSavable(this.questions.filter(q => q.position === position)[0])){
+          // this.isSaved = false;
+        }
         this.options = this.questions.filter(q => q.position === position)[0].options;
         return this.options;
       } else {
@@ -344,7 +357,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
   isSavable(question: QuestionListDto) {
     if (question != null) {
       if (this.type === 1 && question.options != null && question.options.length > 0) {
-        if (this.clientAsnwers.filter(ca => ca.questionId == question.id && ca.optionScore !== -1).length === question.options.length) {
+        if (this.clientAsnwers.filter(ca => ca.questionId === question.id && ca.optionScore !== -1).length === question.options.length) {
           return true;
         }
         return false;
@@ -359,7 +372,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
         }
         return false;
       } else if (this.type > 2) {
-        if (this.clientAsnwers.filter(ca => ca.questionId == question.id && ca.optionScore !== -1).length > 0) {
+        if (this.clientAsnwers.filter(ca => ca.questionId === question.id && ca.optionScore !== -1).length > 0) {
           return true;
         }
         return false;
@@ -399,15 +412,21 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit {
     }
   }
   changedListener(event: MatRadioChange, questionId, optionId = null) {
+
     if (event.source.checked) {
+ 
       if (this.type !== 2 && optionId != null && this.questions[this.index].options.length > 0) {
         this.setQuestionOption(optionId, event.value);
+        this.isSaved = true;
       } else if (this.type === 2) {
         if (this.clientAsnwers.filter(ca => ca.questionId === questionId).length > 0) {
           this.clientAsnwers.filter(ca => ca.questionId === questionId)[0].optionScore = event.value;
         }
       }
     }
+  }
+  viewQuestionnaireComment(type) {
+    this.questionnaireComment.open(type);
   }
   setOptionValue(questionPosition, optionPosition) {
     if (questionPosition != null && optionPosition != null) {

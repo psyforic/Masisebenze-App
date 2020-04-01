@@ -1,3 +1,4 @@
+import { QuestionnaireComponent } from './assessments/functional-assessment/questionnaire/questionnaire.component';
 import { NewJobDescriptionComponent } from './../../job-descriptions/new-job-description/new-job-description.component';
 import { ReportSummaryComponent } from './view-client/report-summary/report-summary.component';
 import { CognitiveAssessmentsModule } from './assessments/cognitive-assessments/cognitive-assessments.module';
@@ -29,7 +30,13 @@ import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
 import { TypeaheadModule } from 'ngx-bootstrap';
 import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descriptions.module';
-
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 @NgModule({
   declarations: [
     ClientsComponent,
@@ -43,7 +50,8 @@ import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descripti
     QuestionnaireCommentComponent,
     WorkInformationComponent,
     ReportSummaryComponent,
-    NewJobDescriptionComponent
+    NewJobDescriptionComponent,
+    QuestionnaireComponent
   ],
   imports: [
     CommonModule,
@@ -56,15 +64,21 @@ import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descripti
     CognitiveAssessmentsModule,
     JobDescriptionsModule,
     MatChipsModule,
+    PerfectScrollbarModule,
+    DragDropModule,
     TypeaheadModule.forRoot()
   ],
   exports: [
-    NewClientComponent, ReportSummaryComponent
+    NewClientComponent, ReportSummaryComponent, DragDropModule
   ],
   entryComponents: [NewClientComponent, CameraModalComponent, NewJobDescriptionComponent],
   providers: [NgbActiveModal,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    },
     PreventUnsavedChangesGuard]
 })
 export class ClientsModule { }

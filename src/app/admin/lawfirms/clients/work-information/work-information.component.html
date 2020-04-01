@@ -61,9 +61,14 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="row" *ngIf="selectedOccupation.length > 0">
+                <div class="row" *ngIf="selectedOccupation.length > 0 && isInList(selectedOccupation[0])">
                     <div class="col-md-12">
-                        <quill-editor [placeholder]="'Insert client\'s job description here...'" [styles]="{height: '200px'}" [(ngModel)]="workInformation.jobDescription " [sanitize]="true" name="jobDescription" [disabled]="jobTitle.value == null || jobTitle.value ==''">
+                        <quill-editor [placeholder]="'Insert client\'s job description here...'" 
+                        [styles]="{height: '200px'}" 
+                        [(ngModel)]="workInformation.jobDescription" 
+                        [sanitize]="true" 
+                        name="jobDescription" 
+                        [disabled]="selectedOccupation.length == 0 ">
                         </quill-editor>
                     </div>
                 </div>

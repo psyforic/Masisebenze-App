@@ -124,7 +124,6 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        console.log(result);
         this.stairClimbingProtocolResult = (result != null) ? result.items : this.stairClimbingProtocolResult;
       });
   }

@@ -47,7 +47,9 @@
               </div>
             </div>
             <div class="col-lg-12 mt-5 text-center" *ngIf="walkingProtocol?.id == null && !isLoading">
-                No Assessment taken
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
           <mat-tab label="Stair Climbing">
@@ -121,7 +123,9 @@
               </div>
             </div>
             <div class="col-lg-12 mt-5 text-center" *ngIf="stairClimbingProtocolResult?.length ==0 && !isLoading">
-              No Asessment taken
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
           <mat-tab label="Balance">
@@ -168,7 +172,9 @@
 
             </div>
             <div class="col-lg-12 mt-5 text-center" *ngIf=" balanceProtocolResult?.length == 0 && !isLoading">
-              No Assessment taken
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
           <mat-tab label="Ladder Work">
@@ -224,7 +230,9 @@
               </div>
             </div>
             <div class="col-mlg-12 mt-5 text-center" *ngIf="ladderWorkProtocolResult?.length ==0 && !isLoading">
-              No Assessment taken
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
           <mat-tab label="Repetitive Squatting">
@@ -293,7 +301,11 @@
             
             </div>
             <div class="col-lg-12 mt-5 text-center" *ngIf="repetitiveSquattingProtocolResult?.length == 0 && !isLoading">
-              No Assessment taken
+             
+                <i class="fa fa-hourglass-3 fa-5x">
+                </i>
+                <h4 class="text-center">No assessments taken</h4>
+            
             </div>
           </mat-tab>
           <!-- <mat-tab label="Repetitive Foot Motion">
@@ -523,7 +535,9 @@
 
             </div>
             <div class="col-lg-12 mt-5 text-center" *ngIf="crawlingProtocolResult?.id == null && !isLoading">
-              No Assessment taken
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
         </mat-tab-group>
