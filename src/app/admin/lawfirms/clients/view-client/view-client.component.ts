@@ -1,3 +1,4 @@
+import { VirtualPerceptionComponent } from './../assessments/cognitive-assessments/virtual-perception/virtual-perception.component';
 import { ReportSummaryComponent } from './report-summary/report-summary.component';
 import { VisuoSpatialAbilityComponent } from './../assessments/cognitive-assessments/visuo-spatial-ability/visuo-spatial-ability.component';
 import { VerbalFluencyComponent } from './../assessments/cognitive-assessments/verbal-fluency/verbal-fluency.component';
@@ -17,10 +18,14 @@ import {
   WorkAssessmentReportServiceProxy,
   PositionalToleranceDto,
   WorkInformationServiceProxy,
-  WeightedProtocolDto
+  WeightedProtocolDto,
+  AssessmentServiceProxy,
+  StaticDataServiceProxy,
+  AssessmentCategoryDetailOutput,
+  AssessmentsListListDto
 } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Injector, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, HostListener, AfterViewInit } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
 import {
@@ -88,7 +93,7 @@ export class MaxDataValue {
   styleUrls: ['./view-client.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy, WorkAssessmentServiceProxy,
     LawFirmServiceProxy, FunctionalAssessmentServiceProxy, WorkAssessmentReportServiceProxy,
-    WorkInformationServiceProxy]
+    WorkInformationServiceProxy, AssessmentServiceProxy, StaticDataServiceProxy]
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
@@ -107,7 +112,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('mobility', { static: false }) openMobility: MobilityComponent;
   @ViewChild('functional', { static: false }) addQestionnaire: FunctionalAssessmentComponent;
   @ViewChild('questionnaire', { static: false }) questionnaire: QuestionnaireComponent;
-  
+
   // Cogntive Assessments components
   @ViewChild('attentionAndConcentrationComponent', { static: false })
   openAttentionAndConcentrationComponent: AttentionAndConcentrationComponent;
@@ -123,8 +128,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   openRegistrationComponent: RegistrationComponent;
   @ViewChild('verbalFulencyComponent', { static: false })
   openVerbalFliuencyComponent: VerbalFluencyComponent;
+  @ViewChild('virtualPerceptionComponent', { static: false })
+  openVirtualPerceptionComponent: VirtualPerceptionComponent;
   @ViewChild('visuoSpatialAbilityComponent', { static: false })
   openVisuoSpatialAbilityComponent: VisuoSpatialAbilityComponent;
+  @ViewChild('assessmentTabs', { static: false }) assessmentTabs;
 
   ageList: string[] = [];
   client: ClientDetailOutput = new ClientDetailOutput();
@@ -173,6 +181,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   displayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   weightedProtocolDisplayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   maxDataValues: MaxDataValue[] = [];
+  assessmentCategories: AssessmentCategoryDetailOutput[] = [];
+  selectedAssessments: AssessmentsListListDto[] = [];
   jobTitle: string;
   hidden = true;
   bookings: Booking[] = [];
@@ -187,6 +197,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private _functionAssessmentService: FunctionalAssessmentServiceProxy,
+    private _assessmentService: AssessmentServiceProxy,
+    private _staticDataService: StaticDataServiceProxy,
     private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _workAssessmentService: WorkAssessmentServiceProxy,
     private _workInfomationService: WorkInformationServiceProxy,
@@ -264,6 +276,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       });
   }
   ngOnInit() {
+    this._staticDataService.getCategories()
+      .subscribe(categories => {
+        this.assessmentCategories = categories;
+        // console.log(categories);
+      });
     this.getClient();
     // this.questionnaires = this.generalService.getQuestionnaires();
     this.clientService.getMedicalHistoryByClientId(this.clientId)
@@ -511,8 +528,113 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   setFormTouched(clientForm: NgForm) {
     clientForm.control.markAsDirty();
   }
+  getSelectedAssessments(categoryId: string) {
+    this.selectedAssessments = [];
+    this.isLoading = true;
+    if (categoryId != null) {
+      this._assessmentService.getSelectedAssessments(this.clientId, categoryId)
+        .pipe(finalize(() => {
+          this.isLoading = false;
+        }))
+        .subscribe(assessments => {
+          this.selectedAssessments = assessments.items;
+          // console.log(assessments);
+        });
+    }
+  }
+  viewPhysicallAssessments(assessmentName: string) {
+    switch (assessmentName) {
+      case 'Gait':
+        this.getGait();
+        break;
+      case 'Muscle Power':
+        this.getMusclePower();
+        break;
+      case 'Grip Strength':
+        this.getGripStrength();
+        break;
+      case 'Borg Balance':
+        this.getBorgBalance();
+        break;
+      case 'Posture':
+        this.getPosture();
+        break;
+      case 'Range Of Motion':
+        this.getRangeOfMotion();
+        break;
+      case 'Sensation':
+        this.getSensation();
+        break;
+      case 'Repetitive Tolerance':
+        this.getRepetitiveToleranceProtocol();
+        break;
+      case 'Coordination':
+        this.getCoordination();
+        break;
+    }
+  }
+  viewCognitiveAssessments(assessmentName: string) {
+    switch (assessmentName) {
+      case 'Attention And Concentration':
+        this.getAttentionAndConcentration();
+        break;
+      case 'Language':
+        this.getLanguage();
+        break;
+      case 'Memory':
+        this.getMemory();
+        break;
+      case 'Orientation':
+        this.getOrientation();
+        break;
+      case 'Registration':
+        this.getRegistration();
+        break;
+      case 'Perceptual Ability':
+        this.getPerceptualAbility();
+        break;
+      case 'Visuo Spatial Ability':
+        this.getVisuoSpatialAbility();
+        break;
+      case 'Verbal Fluency':
+        this.getVerbalFluency();
+        break;
+      case 'Virtual Perception':
+        this.getVitualPreception();
+        break;
+      case 'Comprehension':
+        break;
+      case 'Naming':
+        break;
+      case 'Repetition':
+        break;
+      case 'Reading':
+        break;
+      case 'Writing':
+        break;
+    }
+  }
   changeAssessmentTabs(event: MatTabChangeEvent) {
+    // console.log(event.index);
     switch (event.index) {
+      case 0:
+        this.isLoading = true;
+        const physical = this.assessmentCategories.filter(x => x.name.includes('PHYSICAL'))[0];
+        if (physical != null && physical.id != null) {
+          this.getSelectedAssessments(physical.id);
+        }
+        break;
+      case 1:
+        this.isLoading = true;
+        const cognitive = this.assessmentCategories.filter(x => x.name.includes('COGNITIVE'))[0];
+        if (cognitive != null && cognitive.id != null) {
+          this.getSelectedAssessments(cognitive.id);
+        }
+        break;
+      case 2:
+        this.isLoading = true;
+        this.getQuestionnaires();
+        break;
       case 3:
         this.isLoading = true;
         this.getWeightedProtocolReport(this.clientId);
@@ -537,7 +659,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getChildDocuments();
         break;
       case 4:
-        this.getQuestionnaires();
+        // this.assessmentCategories.filter(x => x.name.includes('PHY') || x.name.includes('COG') || 
+        // x.name.includes('FUNC') || x.name.includes('WORK'));
+        const physical = this.assessmentCategories.filter(x => x.name.includes('PHYSICAL'))[0];
+        if (physical != null && physical.id != null) {
+          this.getSelectedAssessments(physical.id);
+        }
         break;
       default:
         break;
@@ -650,12 +777,15 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   getVisuoSpatialAbility() {
     this.openVisuoSpatialAbilityComponent.open();
   }
+  getVitualPreception() {
+    this.openVirtualPerceptionComponent.open();
+  }
   createQuestionnaire(type, description) {
     this.questionnaireType = type;
     this.questionnaireDescription = description;
     this.questionnaire.open(type);
   }
-  
+
   getQuestionnaires() {
     this.isLoading = true;
     this._functionAssessmentService.getQuestionnaires(this.clientId)

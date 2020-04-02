@@ -33,13 +33,15 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <mat-form-field>
-                            <input matInput type="text" placeholder="Search Job Title" [formControl]="jobSearch" />
-                            <button matSuffix (click)="search()" color="primary" mat-stroked-button>
-                      <mat-icon >search</mat-icon>
-                    </button>
-
-                        </mat-form-field>
+                      
+                        <form (ngSubmit)="search()">
+                            <mat-form-field>
+                                <input matInput type="text" placeholder="Search Job Title" [formControl]="jobSearch" />
+                                <button matSuffix type="submit" color="primary" mat-stroked-button>
+                                    <mat-icon >search</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </form>
                     </div>
                     <div class="col-md-6">
 

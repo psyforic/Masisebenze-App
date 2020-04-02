@@ -537,195 +537,64 @@
                                 <div class="card-body text-center text-primary">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <mat-tab-group mat-stretch-tabs (selectedTabChange)="changeAssessmentTabs($event)">
+                                            <mat-tab-group  #assessmentTabs mat-stretch-tabs (selectedTabChange)="changeAssessmentTabs($event)">
                                                 <mat-tab>
                                                     <ng-template mat-tab-label>
                                                         Physical Assessment
                                                     </ng-template>
+                                                    <div class="example-loading-shade" *ngIf="isLoading">
+                                                        <mat-spinner *ngIf="isLoading"></mat-spinner>
+                                                    </div>
+                                                    <div class="text-center text-dark mt-5" *ngIf="selectedAssessments.length == 0 && !isLoading">
+                                                        <i class="fa fa-hourglass-3 fa-5x">
+                                                        </i>
+                                                        <h4 class="text-center">No Assessments taken</h4>
+                                                    </div>
+                                                    <div class="text-center text-dark mt-5" *ngIf="selectedAssessments.length == 0 && isLoading">
+                                                        <i class="fa fa-hourglass-3 fa-5x">
+                                                        </i>
+                                                        <h4 class="text-center">Loading assessments ...</h4>
+                                                    </div>
                                                     <div class="col-lg-12">
-
                                                         <div class="row">
-                                                            <div class="col-lg-3">
+                                                            <div class="col-lg-3" *ngFor="let assessment of selectedAssessments; let i = index">
                                                                 <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Grip Strength</h6>
+                                                                    <h6 class="card-category">{{assessment?.assessmentName}}</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
                                                                             <i class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getGripStrength()">
+                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)"
+                                                                         (click)="viewPhysicallAssessments(assessment?.assessmentName)">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Muscle Power</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getMusclePower()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Range Of Motion</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getRangeOfMotion()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Borg Balance</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getBorgBalance()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Sensation</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getSensation()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Coordination</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getCoordination()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Posture</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getPosture()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Repetitive Tolerance
-                                                                    </h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x
-                                                                                icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getRepetitiveToleranceProtocol()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Gait</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getGait()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Mobility</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getMobility()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Affect</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getAffect()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        </div>  
                                                     </div>
                                                 </mat-tab>
                                                 <mat-tab label="Cognitive Assessment">
+                                                    <div class="example-loading-shade" *ngIf="isLoading">
+                                                        <mat-spinner *ngIf="isLoading"></mat-spinner>
+                                                    </div>
+                                                    <div class="text-center text-dark mt-5" *ngIf="selectedAssessments.length == 0 && !isLoading">
+                                                        <i class="fa fa-hourglass-3 fa-5x">
+                                                        </i>
+                                                        <h4 class="text-center">No Assessments taken</h4>
+                                                    </div>
+                                                    <div class="text-center text-dark mt-5" *ngIf="selectedAssessments.length == 0 && isLoading">
+                                                        <i class="fa fa-hourglass-3 fa-5x">
+                                                        </i>
+                                                        <h4 class="text-center">Loading assessments ...</h4>
+                                                    </div>
                                                     <div class="col-lg-12">
-
                                                         <div class="row">
-                                                            <div class="col-lg-3">
+                                                            <div class="col-lg-3" *ngFor="let assessment of selectedAssessments">
                                                                 <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Attention And Concentration
+                                                                    <h6 class="card-category">{{assessment.assessmentName}}
                                                                     </h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
@@ -733,181 +602,15 @@
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getAttentionAndConcentration()">
+                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" 
+                                                                        (click)="viewCognitiveAssessments(assessment.assessmentName)">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Language</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getLanguage()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Memory</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getMemory()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Orientation</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getOrientation()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                            
                                                         </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Perceptual Ability</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getPerceptualAbility()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Registration</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getRegistration()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Verbal Fulency</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getVerbalFluency()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Visuo Spatial Ability
-                                                                    </h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i class="fa fa-file-text-o fa-5x
-                                                                                icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="getVisuoSpatialAbility()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- <div class="row">
-                                                            <div class="col-lg-3">
-                                                                <div
-                                                                    class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Gait</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i
-                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent"
-                                                                            href="javascript:void(0)"
-                                                                            (click)="getGait()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div
-                                                                    class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Mobility</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i
-                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent"
-                                                                            href="javascript:void(0)"
-                                                                            (click)="getMobility()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-3">
-                                                                <div
-                                                                    class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">Affect</h6>
-                                                                    <div class="card-body text-center">
-                                                                        <p class="card-description">
-                                                                            <i
-                                                                                class="fa fa-file-text-o fa-5x icon-primary"></i>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent"
-                                                                            href="javascript:void(0)"
-                                                                            (click)="getAffect()">
-                                                                            View
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div> -->
                                                     </div>
                                                 </mat-tab>
                                                 <mat-tab label="Functional Assessment">
@@ -1118,3 +821,5 @@
 <app-verbal-fluency #verbalFulencyComponent [fullName]="fullName" [clientId]="clientId"></app-verbal-fluency>
 <app-visuo-spatial-ability #visuoSpatialAbilityComponent [fullName]="fullName" [clientId]="clientId">
 </app-visuo-spatial-ability>
+<app-virtual-perception #virtualPerceptionComponent [fullName]="fullName" [clientId]="clientId">
+</app-virtual-perception>

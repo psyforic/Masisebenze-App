@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild, ElementRef, Input, Injector } from '@angu
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssessmentServiceProxy, CognitiveServiceProxy, CalculationsServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AssessmentService } from '@app/admin/services/assessment.service';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-visuo-spatial-ability',
@@ -50,6 +51,13 @@ export class VisuoSpatialAbilityComponent extends AppComponentBase implements On
   close() {
     this.activeModal.close();
   }
+  displayScore(score: number): number{
+    if(score === -1){
+      return 0;
+    } else {
+      return score;
+    }
+  }
   getVisuoSpatialAbility() {
     this.isLoading = true;
     this.visuoSpatialOptions = [];
@@ -60,6 +68,7 @@ export class VisuoSpatialAbilityComponent extends AppComponentBase implements On
         if (result != null && result.options != null && result.options.items != null) {
           this.visuoSpatialAbilities = result;
           this.visuoSpatialOptions = result.options.items;
+      
         }
       });
   }

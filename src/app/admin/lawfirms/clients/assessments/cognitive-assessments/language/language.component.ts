@@ -124,6 +124,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
       this.isLoading = false;
     }))
     .subscribe(result => {
+      console.log(result);
       if (result != null) {
         this.reading = result;
         if (result.options != null && result.options.items != null) {

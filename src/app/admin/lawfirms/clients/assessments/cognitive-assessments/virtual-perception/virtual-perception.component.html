@@ -1,6 +1,6 @@
 <ng-template #content let-modal class="modal modal-fade">
   <div class="modal-header bg-color">
-    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Memory</h4>
+    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Attention And Concentration</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span class="text-white" aria-hidden="true">&times;</span>
     </button>
@@ -11,35 +11,26 @@
         <div class="example-loading-shade" *ngIf="isLoading">
           <mat-spinner *ngIf="isLoading"></mat-spinner>
         </div>
-
-        <div class="row mx-2 py-2 border-bottom">
+        <div class="row py-2">
           <div class="col-md-6">
-              <strong>Recall Total Score</strong>
+              <strong>Substraction Total Score</strong>
           </div>
           <div class="col-md-6">
-            {{totalOfRecall}}
-          </div>
-        </div>
-        <div class="row mx-2 py-2 border-bottom">
-          <div class="col-md-6">
-              <strong>Anterograde Total Score</strong>
-          </div>
-          <div class="col-md-6">
-            {{totalOfAnterograde}}
+            {{'totalOfSubtraction'}}
           </div>
         </div>
-        <div class="row mx-2 py-2 border-bottom">
+        <div class="row py-2">
           <div class="col-md-6">
-              <strong>Retrograde Total Score</strong>
+              <strong>Total Score</strong>
           </div>
           <div class="col-md-6">
-            {{totalOfRetrograde}}
+            {{'totalOfSpelling'}}
           </div>
         </div>
         <br/>
         <div class="row">
           <div class="col-md-12">
-            <quill-editor [styles]="{height: '200px'}" [(ngModel)]="memory.comment" [sanitize]="true"
+            <quill-editor [styles]="{height: '200px'}" [(ngModel)]="attentionAndConcentration.comment" [sanitize]="true"
               name="homeEnvironment">
             </quill-editor>
           </div>
@@ -50,6 +41,6 @@
   <div class="modal-footer">
     <button type="button" mat-button color="primary" (click)="modal.close()">Close</button>
     <button mat-flat-button color="primary" (click)="save()">Save</button>
+
   </div>
 </ng-template>
-
