@@ -46,8 +46,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MobilityComponent,
     AffectComponent,
     FunctionalAssessmentComponent,
-    WorkAssessmentComponent,
-    QuestionnaireComponent
+    WorkAssessmentComponent
   ],
 
   exports: [GripStrengthComponent,
@@ -63,7 +62,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AffectComponent,
     FunctionalAssessmentComponent,
     WorkAssessmentComponent,
-    QuestionnaireComponent,
   ],
   providers: [
     {

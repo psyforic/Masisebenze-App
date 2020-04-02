@@ -53,7 +53,7 @@
                             <div class="row" *ngIf="questions[index]?.position == 8 && option.position == 1">
                                 <div class="col-lg-12">
                                     [<strong class="ml-1" *ngFor="let questionnaireOption of getQuestionnaireOptions(type,questions[index]?.position,1); let j = index">
-                      {{j+". "+questionnaireOption.text}}</strong>]
+                                    {{j+". "+questionnaireOption.text}}</strong>]
                                 </div>
                             </div>
                             <div class="col-lg-12" *ngIf="questions[index]?.position == 8 && option.position == 1">
@@ -136,8 +136,8 @@
                             <div class="col-lg-12" *ngIf="question.position == 1">
                                 <div class="row col-lg-12 text-center">
                                     [<strong *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
-                      {{i+". "+questionOption.text}},
-                    </strong>]
+                                    {{i+". "+questionOption.text}},
+                                    </strong>]
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6"></div>
@@ -153,8 +153,8 @@
                             <div class="col-lg-12" *ngIf="question.position == 17">
                                 <div class="row col-lg-12 text-center">
                                     [<strong *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
-                      {{i+". "+questionOption.text}},
-                    </strong>]
+                                     {{i+". "+questionOption.text}},
+                                    </strong>]
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6"></div>
@@ -170,8 +170,8 @@
                             <div class="col-lg-12" *ngIf="question.position == 18">
                                 <div class="row col-lg-12 text-center">
                                     [<strong *ngFor="let questionOption of getQuestionnaireOptions(type,question.position,0); let i = index;">
-                      {{i+". "+questionOption.text}},
-                    </strong>]
+                                     {{i+". "+questionOption.text}},
+                                     </strong>]
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -234,23 +234,28 @@
         </perfect-scrollbar>
     </div>
     <div class="modal-footer">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
             <button mat-stroked-button *ngIf="index > 0" class="float-left" color="primay" type="button" color="primary" (click)="prev()">
         Prev
       </button>
         </div>
-        <div class="col-lg-4 text-center">
-            <button type="button" class="btn-secondary pull-center" mat-raised-button color="default" (click)="close()">Close</button>
-            <button type="button" class="pull-center ml-2" [disabled]="!isSavable(questions[index])" mat-raised-button color="primary" (click)="save()">
-        Save
-      </button>
-
+        <div class="col-lg-3 text-center">
+            <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="viewQuestionnaireComment(type)">
+                Comment
+            </a>
         </div>
-        <div class="col-lg-4">
-            <button *ngIf="isSavable(questions[index]) && type != 2 && index < questions.length - 1" mat-stroked-button color="primary" class="pull-right" type="button" (click)="next()">
-        Next
-      </button>
+        <div class="col-lg-3 text-center">
+            <button type="button" class="btn-secondary pull-center" mat-raised-button color="default" (click)="close()">Close</button>
+            <button type="button" class="pull-center ml-2" [disabled]="!isSaved || !isSavable(questions[index])" mat-raised-button color="primary" (click)="save()">
+                Save
+            </button>
+        </div>
+        <div class="col-lg-3">
+            <button *ngIf="!isSaved && isSavable(questions[index]) && type != 2 && index < questions.length - 1" mat-stroked-button color="primary" class="pull-right" type="button" (click)="next()">
+                Next
+            </button>
         </div>
     </div>
 
 </ng-template>
+<app-questionnaire-comment #questionnaireComment [fullName]="fullName" [clientId]="clientId" [type]="type"></app-questionnaire-comment>

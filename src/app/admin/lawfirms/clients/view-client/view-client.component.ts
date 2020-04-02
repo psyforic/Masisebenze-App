@@ -107,7 +107,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('mobility', { static: false }) openMobility: MobilityComponent;
   @ViewChild('functional', { static: false }) addQestionnaire: FunctionalAssessmentComponent;
   @ViewChild('questionnaire', { static: false }) questionnaire: QuestionnaireComponent;
-  @ViewChild('questionnaireComment', { static: false }) questionnaireComment: QuestionnaireCommentComponent;
+  
   // Cogntive Assessments components
   @ViewChild('attentionAndConcentrationComponent', { static: false })
   openAttentionAndConcentrationComponent: AttentionAndConcentrationComponent;
@@ -173,6 +173,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   displayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   weightedProtocolDisplayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   maxDataValues: MaxDataValue[] = [];
+  jobTitle: string;
   hidden = true;
   bookings: Booking[] = [];
   questionnaires = [
@@ -320,9 +321,14 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this._workInfomationService.getByClientId(clientId)
           .pipe(finalize(() => {
           })).subscribe(workResult => {
-            if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
+            if (result != null && (workResult.jobTitle != null &&
+              workResult.jobTitle !== '' &&
+              typeof workResult.jobTitle != 'undefined')) {
+              this.jobTitle = workResult.jobTitle;
               this.weightedProtocolResult = result.filter(x => x.result != null && x.result !== '');
               this.getElementNames(workResult.jobTitle);
+            } else {
+              this.jobTitle = 'No job title found';
             }
           });
       });
@@ -649,10 +655,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.questionnaireDescription = description;
     this.questionnaire.open(type);
   }
-  viewQuestionnaireComment(type, description) {
-    this.questionnaireDescription = description;
-    this.questionnaireComment.open(type);
-  }
+  
   getQuestionnaires() {
     this.isLoading = true;
     this._functionAssessmentService.getQuestionnaires(this.clientId)

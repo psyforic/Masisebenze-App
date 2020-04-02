@@ -9,10 +9,12 @@
   <div class="modal-body">
     <div class="card">
       <div class="card-body">
-        <mat-tab-group mat-stretch-tabs>
+        <div class="example-loading-shade" *ngIf="isLoading">
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </div>
+        <mat-tab-group mat-stretch-tabs (selectedTabChange)="handleTabChange($event)">
           <mat-tab label="Walking">
-            <div class="col-lg-12">
-              <h4 class="text-center"><strong>Walking Protocol</strong></h4>
+            <div class="col-lg-12" *ngIf="walkingProtocol?.id != null">
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
@@ -44,10 +46,14 @@
                 </p>
               </div>
             </div>
+            <div class="col-lg-12 mt-5 text-center" *ngIf="walkingProtocol?.id == null && !isLoading">
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
+            </div>
           </mat-tab>
           <mat-tab label="Stair Climbing">
-            <div class="col-lg-12">
-              <h4 class="text-center"><strong>{{stairClimbingProtocolResult[current_step-1]}}</strong></h4>
+            <div class="col-lg-12" *ngIf="stairClimbingProtocolResult?.length > 0">
               <div *ngFor="let stairClimbingProtocolResult of stairClimbingProtocolResult; let i = index;">
                 <div class="row">
                   {{(i+1)+". "}}
@@ -115,17 +121,21 @@
                   </p>
                 </div>
               </div>
-
+            </div>
+            <div class="col-lg-12 mt-5 text-center" *ngIf="stairClimbingProtocolResult?.length ==0 && !isLoading">
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
           <mat-tab label="Balance">
-            <div class="col-lg-12">
-              <h4 class="text-center"><strong>{{balanceProtocolResult[current_step-1]?.direction}}</strong></h4>
+            <div class="col-lg-12" *ngIf="balanceProtocolResult != null && balanceProtocolResult?.length > 0">
+              <h4 class="text-center" ><strong>{{balanceProtocolResult[0].direction}}</strong></h4>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
                     <input matInput placeholder="Pain" type="text" name="pain"
-                      value="{{decodePainLevel(balanceProtocolResult[current_step-1]?.painLevel)}}" readonly>
+                      value="" readonly>
                   </mat-form-field>
                 </div>
               </div>
@@ -161,11 +171,14 @@
               </div>
 
             </div>
-
+            <div class="col-lg-12 mt-5 text-center" *ngIf=" balanceProtocolResult?.length == 0 && !isLoading">
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
+            </div>
           </mat-tab>
           <mat-tab label="Ladder Work">
-            <div class="col-lg-12">
-              <h4 class="text-center"><strong>Ladder Work Protocol </strong></h4>
+            <div class="col-lg-12" *ngIf="ladderWorkProtocolResult?.length > 0">
               <div *ngFor="let ladderWorkProtocolResult of ladderWorkProtocolResult; let i = index;">
                 <div class="row">
                   {{(i+1)+". "}}
@@ -215,12 +228,15 @@
                   </p>
                 </div>
               </div>
-
+            </div>
+            <div class="col-mlg-12 mt-5 text-center" *ngIf="ladderWorkProtocolResult?.length ==0 && !isLoading">
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
           <mat-tab label="Repetitive Squatting">
-            <div class="col-lg-12">
-              <h4 class="text-center"><strong>Repetitive Squatting Protocol</strong></h4>
+            <div class="col-lg-12" *ngIf="repetitiveSquattingProtocolResult?.length > 0">
               <div *ngFor="let repetitiveSquattingProtocolResult of repetitiveSquattingProtocolResult; let i = index;">
                 <div class="row">
                   <div class="col-lg-12">
@@ -282,7 +298,14 @@
                   </p>
                 </div>
               </div>
-
+            
+            </div>
+            <div class="col-lg-12 mt-5 text-center" *ngIf="repetitiveSquattingProtocolResult?.length == 0 && !isLoading">
+             
+                <i class="fa fa-hourglass-3 fa-5x">
+                </i>
+                <h4 class="text-center">No assessments taken</h4>
+            
             </div>
           </mat-tab>
           <!-- <mat-tab label="Repetitive Foot Motion">
@@ -456,8 +479,8 @@
             </div>
           </mat-tab> -->
           <mat-tab label="Crawling">
-            <div class="col-lg-12">
-              <h4 class="text-center"><strong>Crawling Protocol </strong></h4>
+            <div class="col-lg-12" *ngIf="crawlingProtocolResult?.id != null">
+ 
               <!-- <div *ngFor="let crawlingProtocolResult of crawlingProtocolResult; let i = index"> -->
 
                 <div class="row">
@@ -510,6 +533,11 @@
                 </div>
               </div>
 
+            </div>
+            <div class="col-lg-12 mt-5 text-center" *ngIf="crawlingProtocolResult?.id == null && !isLoading">
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
             </div>
           </mat-tab>
         </mat-tab-group>

@@ -221,7 +221,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       input.value = '';
     }
 
-    this.jobTitle.setValue(null);
+    this.jobTitle.setValue({title:  this.selectedOccupation[0]});
   }
 
   remove(occupation: string): void {
@@ -235,12 +235,14 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   selected(event: MatAutocompleteSelectedEvent): void {
     this.selectedOccupation[0] = event.option.viewValue;
     this.occupationInput.nativeElement.value = '';
-    this.jobTitle.setValue(null);
+    this.jobTitle.setValue({title:  this.selectedOccupation[0]});
   }
   newJobTitle() {
-    this.newJob.open();
+    this.newJob.open(this.selectedOccupation[0]);
   }
-
+  isInList(jobTitle) {
+    return this.occupations.filter(x => x.title === jobTitle).length > 0;
+  }
   // onAgesAdd(tag: any): Observable<TagModel> {
   //   this.defaultAge.push(tag.value);
   //   this.workContextList.filter(x => x.elementName === tag.value);
@@ -251,8 +253,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   //   return of(tag);
   // }
   private _filter(value: string): OccupationDto[] {
-    const filterValue = (value != null && value !== '') ? value.toLowerCase() : '';
-
+    const filterValue = (value != null && value !== '') ? value.toString().toLowerCase() : '';
     return this.occupations.filter(option => option.title.toLowerCase().includes(filterValue));
   }
 }

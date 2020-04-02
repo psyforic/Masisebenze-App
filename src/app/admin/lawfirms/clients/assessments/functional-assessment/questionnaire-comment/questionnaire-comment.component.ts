@@ -3,18 +3,20 @@ import {
   CommentListDto, CommentServiceProxy, CreateCommentInput,
   QuestionnaireDto
 } from './../../../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, Injector, ViewChild, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, Input, ElementRef, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
-
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import * as $ from 'jquery';
+import { from } from 'rxjs';
 @Component({
   selector: 'app-questionnaire-comment',
   templateUrl: './questionnaire-comment.component.html',
   styleUrls: ['./questionnaire-comment.component.scss'],
   providers: [CommentServiceProxy]
 })
-export class QuestionnaireCommentComponent extends AppComponentBase implements OnInit {
+export class QuestionnaireCommentComponent extends AppComponentBase implements OnInit, AfterViewInit {
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() fullName: string;
   @Input() clientId: string;
@@ -32,13 +34,16 @@ export class QuestionnaireCommentComponent extends AppComponentBase implements O
   ) {
     super(injector);
   }
-
+  ngAfterViewInit(): void {
+  
+  }
   ngOnInit() {
   }
+  
   open(type: number) {
     this.type = type;
     this.getQuestionnaire();
-
+  
     this.modalService.open(this.content, { windowClass: 'modal-height', backdrop: 'static', keyboard: false, size: 'sm' })
       .result.then(() => { }, () => { });
   }

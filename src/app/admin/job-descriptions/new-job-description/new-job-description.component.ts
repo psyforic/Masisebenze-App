@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AppComponentBase } from '@shared/app-component-base';
 import { JobDescriptionServiceProxy, CreateJobDescriptionInput } from '@shared/service-proxies/service-proxies';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-job-description',
@@ -27,6 +27,12 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
   }
   ngOnInit(): void {
     this.initializeForm();
+    this.jobDescriptionService.getList()
+      .pipe(finalize(() => {
+
+      })).subscribe((result) => {
+        console.log(result);
+      });
   }
   initializeForm() {
     this.jobDescriptionForm = this.fb.group({
@@ -45,7 +51,8 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
         this.modalRef.hide();
       });
   }
-  open() {
+  open(jobTitle?) {
+    this.jobDescriptionForm.get('title').setValue(jobTitle);
     this.modalRef = this.modalService.show(this.content);
   }
 }

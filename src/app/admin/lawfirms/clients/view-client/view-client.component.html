@@ -939,9 +939,7 @@
                                                                         <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="createQuestionnaire(questionnaire.type, questionnaire.description)">
                                                                             Complete
                                                                         </a>
-                                                                        <a class="btn btn-round btn-default" href="javascript:void(0)" (click)="viewQuestionnaireComment(questionnaire.type)">
-                                                                            Comment
-                                                                        </a>
+                                                                      
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -953,12 +951,19 @@
                                                     </button>
                                                 </mat-tab>
                                                 <mat-tab label="FCE Assessment">
-                                                    <div class="example-loading-shade" *ngIf="isLoading">
-                                                        <mat-spinner *ngIf="isLoading"></mat-spinner>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <div class="row mt-2">
-                                                            <div class="col-md-12">
+                                                  
+                                                    <div class="col-md-12" >
+                                                        <div class="example-loading-shade" *ngIf="isLoading">
+                                                            <mat-spinner *ngIf="isLoading"></mat-spinner>
+                                                        </div>
+                                                        <div class="row mt-2"> 
+                                                            <div class="col-lg-7 col-lg-offset-5 mx-auto text-left">
+                                                                <h3 >Job Title: {{jobTitle}}</h3>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                        <div class="row mt-2" >
+                                                            <div class="col-lg-7 col-lg-offset-5  mx-auto text-left">
                                                                 <h3>Activities Rated by Strength Level
                                                                 </h3>
                                                                 <div class="text-center text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
@@ -1014,7 +1019,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
-                                                            <div class="col-md-12">
+                                                            <div class="col-lg-7 col-lg-offset-5  mx-auto text-left">
                                                                 <h3>Activities Rated by Frequency and Duration
                                                                 </h3>
                                                                 <div class="text-center text-dark mt-5" *ngIf="positionalToleranceResult.length == 0 && !isLoading">
@@ -1101,7 +1106,6 @@
 <app-mobility #mobility [fullName]="fullName" [clientId]="clientId"></app-mobility>
 <app-functional-assessment #functional [fullName]="fullName" [clientId]="clientId" (assessmentsAdded)="loadList($event)"></app-functional-assessment>
 <app-questionnaire #questionnaire [fullName]="fullName" [clientId]="clientId" [type]="questionnaireType" [description]="questionnaireDescription"></app-questionnaire>
-<app-questionnaire-comment #questionnaireComment [fullName]="fullName" [clientId]="clientId" [type]="questionnaireType" [description]="questionnaireDescription"></app-questionnaire-comment>
 <!-- Cognitive Assessment views-->
 <app-attention-and-concentration #attentionAndConcentrationComponent [fullName]="fullName" [clientId]="clientId">
 </app-attention-and-concentration>
