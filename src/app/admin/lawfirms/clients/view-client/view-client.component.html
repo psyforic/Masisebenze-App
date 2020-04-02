@@ -248,7 +248,18 @@
                                                 <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.socialHabits" [sanitize]="true" name="socialHabits">
                                                 </quill-editor>
                                             </mat-expansion-panel>
-
+                                            <mat-expansion-panel>
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        Current complaints 
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <quill-editor [styles]="{height: '200px'}" 
+                                                [(ngModel)]="client.currentComplaints"
+                                                 [sanitize]="true" 
+                                                 placeholder="Enter Text" name="currentComplaints">
+                                                </quill-editor>
+                                            </mat-expansion-panel>
                                             <mat-expansion-panel>
                                                 <mat-expansion-panel-header>
                                                     <mat-panel-title>
@@ -428,7 +439,9 @@
                                                                 Medical Conditions
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.medicalConditions" [sanitize]="true" placeholder="Enter Text" name="medicalConditions">
+                                                        <quill-editor [styles]="{height: '200px'}" 
+                                                        [(ngModel)]="medicalHistory.medicalConditions" 
+                                                        [sanitize]="true" placeholder="Enter Text" name="medicalConditions">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -438,7 +451,9 @@
                                                                 Current History
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.currentHistory" [sanitize]="true" placeholder="Enter Text" name="history">
+                                                        <quill-editor [styles]="{height: '200px'}" 
+                                                        [(ngModel)]="medicalHistory.currentHistory" 
+                                                        [sanitize]="true" placeholder="Enter Text" name="history">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -449,6 +464,18 @@
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
                                                         <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.medication" [sanitize]="true" placeholder="Enter Text" name="medication">
+                                                        </quill-editor>
+                                                    </mat-expansion-panel>
+                                                    
+                                                    <mat-expansion-panel>
+                                                        <mat-expansion-panel-header>
+                                                            <mat-panel-title>
+                                                                Clinical observations
+                                                            </mat-panel-title>
+                                                        </mat-expansion-panel-header>
+                                                        <quill-editor [styles]="{height: '200px'}" 
+                                                        [(ngModel)]="medicalHistory.clinicalObservation" [sanitize]="true" 
+                                                        placeholder="Enter Text" name="clinicalObservation">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
                                                 </mat-accordion>
@@ -567,7 +594,7 @@
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
                                                                         <a class="btn btn-round btn-accent" href="javascript:void(0)"
-                                                                         (click)="viewPhysicallAssessments(assessment?.assessmentName)">
+                                                                         (click)="viewPhysicalAssessments(assessment?.assessmentName)">
                                                                             View
                                                                         </a>
                                                                     </div>

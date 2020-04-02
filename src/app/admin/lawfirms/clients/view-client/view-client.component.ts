@@ -542,7 +542,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         });
     }
   }
-  viewPhysicallAssessments(assessmentName: string) {
+  viewPhysicalAssessments(assessmentName: string) {
     switch (assessmentName) {
       case 'Gait':
         this.getGait();

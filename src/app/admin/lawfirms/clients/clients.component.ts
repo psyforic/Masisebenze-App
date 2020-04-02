@@ -256,18 +256,18 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
           this.repetitiveSquatting = result.repetitiveSquattingProtocolReport;
           this.assessmentReport[20] = (result.repetitiveSquattingProtocolReport != null) ?
-           result.repetitiveSquattingProtocolReport : 'Not Applicable';
+            result.repetitiveSquattingProtocolReport : 'Not Applicable';
 
           this.repetitiveFootMotionReport = result.repetitiveFootMotionProtocolReport;
           this.assessmentReport[21] = (result.repetitiveFootMotionProtocolReport != null) ?
-          result.repetitiveFootMotionProtocolReport : 'Not Applicable';
+            result.repetitiveFootMotionProtocolReport : 'Not Applicable';
 
           this.crawlingReport = result.crawlingProtocolReport;
           this.assessmentReport[22] = (result.crawlingProtocolReport != null) ? result.crawlingProtocolReport : 'Not Applicable';
           /*************************.**************************************************************
            * COGNITIVE ASSESSMENT REPORT SECTION
            ****************************************************************************************/
-          if(result.attentionAndConcentration != null){
+          if (result.attentionAndConcentration != null) {
             this.assessmentReport[23] = (
               result.attentionAndConcentration.comment != null) ? result.attentionAndConcentration.comment : 'No Comment';
           } else {
@@ -330,72 +330,70 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         .subscribe(reportSummary => {
           if (reportSummary != null) {
             this.assessmentReport[36] = (reportSummary.discussion != null) ?
-            reportSummary.discussion : 'Not Applicable';
+              reportSummary.discussion : 'Not Applicable';
             this.assessmentReport[37] = (reportSummary.recommendations != null) ?
-             reportSummary.recommendations : 'Not Applicable';
+              reportSummary.recommendations : 'Not Applicable';
             this.assessmentReport[48] = (reportSummary.caseManagement1 != null) ?
-            reportSummary.caseManagement1 : 'Not Applicable';
+              reportSummary.caseManagement1 : 'Not Applicable';
             this.assessmentReport[40] = (reportSummary.lossOfEmenities != null) ?
-            reportSummary.lossOfEmenities : 'Not Applicable';
+              reportSummary.lossOfEmenities : 'Not Applicable';
             this.assessmentReport[46] = (reportSummary.occupationalTherapy != null) ?
-            reportSummary.occupationalTherapy : 'Not Applicable';
+              reportSummary.occupationalTherapy : 'Not Applicable';
             this.assessmentReport[45] = (reportSummary.physiotherapy != null) ?
-            reportSummary.physiotherapy : 'Not Applicable';
+              reportSummary.physiotherapy : 'Not Applicable';
             this.assessmentReport[42] = (reportSummary.futureMedicalExpenses != null) ?
-            reportSummary.futureMedicalExpenses : 'Not Applicable';
+              reportSummary.futureMedicalExpenses : 'Not Applicable';
             this.assessmentReport[43] = (reportSummary.futureMedicalAndSurgicalIntervention != null) ?
-            reportSummary.futureMedicalAndSurgicalIntervention : 'Not Applicable';
+              reportSummary.futureMedicalAndSurgicalIntervention : 'Not Applicable';
             this.assessmentReport[47] = (reportSummary.specialEquipment != null) ?
-            reportSummary.specialEquipment : 'Not Applicable';
+              reportSummary.specialEquipment : 'Not Applicable';
             this.assessmentReport[44] = (reportSummary.supplementaryHealthServices != null) ?
-            reportSummary.supplementaryHealthServices : 'Not Applicable';
+              reportSummary.supplementaryHealthServices : 'Not Applicable';
             this.assessmentReport[41] = (reportSummary.residualWorkCapacity != null) ?
-            reportSummary.residualWorkCapacity : 'Not Applicable';
+              reportSummary.residualWorkCapacity : 'Not Applicable';
             this.assessmentReport[49] = (reportSummary.transportationCosts != null) ?
-            reportSummary.transportationCosts : 'Not Applicable';
+              reportSummary.transportationCosts : 'Not Applicable';
             this.assessmentReport[50] = (reportSummary.psychology != null) ?
-            reportSummary.psychology : 'Not Applicable';
+              reportSummary.psychology : 'Not Applicable';
           }
         });
       this._workAssessmentReportService.getPositionalToleranceTasksParentReport(client.id)
         .subscribe(workAssessmentReport => {
-          if (workAssessmentReport.length > 0) {
-            const filtered = workAssessmentReport.map((value) => {
+          if (workAssessmentReport.filter(x => x.assessmentName != null).length > 0) {
+            const filtered = workAssessmentReport.filter(x => x.assessmentName != null).map((value) => {
+              // if (value.assessmentName != null && value.assessmentName != '') {
               return {
                 taskName: value.assessmentName,
                 taskComment: value.comment != null ? value.comment : 'No Comment'
               };
+
             });
             this.assessmentReport[38] = filtered;
           } else {
-            const filtered = workAssessmentReport.map((value) => {
-              return {
-                taskName: 'Not Applicable',
-                taskComment: ''
-              };
-            });
-            this.assessmentReport[38] = filtered;
+            this.assessmentReport[38] = {
+              taskName: 'Not Applicable',
+              taskComment: ''
+            };
           }
 
         });
       this._workAssessmentReportService.getWeightedProtocolTaskParentReport(client.id)
         .subscribe(workAssessmentReport => {
-          if (workAssessmentReport.length > 0) {
-            const filtered = workAssessmentReport.map((value) => {
+          if (workAssessmentReport.filter(x => x.assessmentName != null).length > 0) {
+            const filtered = workAssessmentReport.filter(x => x.assessmentName != null).map((value) => {
               return {
                 taskName: value.assessmentName,
                 taskComment: value.comment != null ? value.comment : 'No Comment'
               };
+
             });
             this.assessmentReport[39] = filtered;
           } else {
-            const filtered = workAssessmentReport.map((value) => {
-              return {
-                taskName: 'Not Applicable',
-                taskComment: ''
-              };
-            });
-            this.assessmentReport[39] = filtered;
+
+            this.assessmentReport[39] = {
+              taskName: 'Not Applicable',
+              taskComment: ''
+            };
           }
         });
     });

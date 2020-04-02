@@ -13,7 +13,6 @@ import {
   RepetitiveFootMotionProtocolServiceProxy,
   CrawlingProtocolServiceProxy,
   GripStrengthDetailOutput,
-  StairClimbingProtocolDetailOutput
 } from '@shared/service-proxies/service-proxies';
 import { Observable } from 'rxjs';
 
