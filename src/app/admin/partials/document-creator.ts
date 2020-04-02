@@ -71,7 +71,10 @@ export class DocumentCreator {
                 medicalConditions: medicalData.medicalConditions != null ? medicalData.medicalConditions.replace(/<[^>]*>/g, '') : '',
                 currentHistory: medicalData.currentHistory != null ? medicalData.currentHistory.replace(/<[^>]*>/g, '') : '',
                 medication: medicalData.medication != null ? medicalData.medication.replace(/<[^>]*>/g, '') : '',
+                clinicalObservations: medicalData.clinicalObservation != null ?
+                 medicalData.clinicalObservation.replace(/<[^>]*>/g, '') : '',
                 workHistory: workData.description != null ? workData.description.replace(/<[^>]*>/g, '') : '',
+                currentComplaints: clientData.currentComplaints != null ? clientData.currentComplaints.replace(/<[^>]*>/g, '') : '',
                 generalAppearance: clientData.generalAppearance != null ? clientData.generalAppearance.replace(/<[^>]*>/g, '') : '',
                 rightHand: (assessmentReport[0] != null) ? assessmentReport[0].rightHandWeight : '',
                 leftHand: (assessmentReport[0] != null) ? assessmentReport[0].leftHandWeight : '',
@@ -276,7 +279,8 @@ export class DocumentCreator {
                 specialEquipment: assessmentReport[47].replace(/<[^>]*>/g, ''),
                 caseManagement1: assessmentReport[48].replace(/<[^>]*>/g, ''),
                 transportationCosts: assessmentReport[49].replace(/<[^>]*>/g, ''),
-                psychology: assessmentReport[50].replace(/<[^>]*>/g, '')
+                psychology: assessmentReport[50].replace(/<[^>]*>/g, ''),
+                caseManagement2: ''
             });
 
             try {

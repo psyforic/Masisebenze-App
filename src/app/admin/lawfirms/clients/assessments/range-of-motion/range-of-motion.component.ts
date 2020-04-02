@@ -129,9 +129,16 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
         this.isLoading = false;
       })).subscribe((result) => {
         this.rightHands = result.items;
+
       });
   }
-
+  displayScore(score) {
+    if (score !== -1) {
+      return score;
+    } else {
+      return '';
+    }
+  }
   // Hip
   getHip() {
     this.isLoading = true;

@@ -30,113 +30,198 @@
                 <div class="example-loading-shade" *ngIf="isLoading">
                     <mat-spinner *ngIf="isLoading"></mat-spinner>
                 </div>
-                
-                <div class="row">
-                    <div class="col-md-12">
-                        <h4><strong>1. Discussion</strong></h4>
-                        <hr/>
-                        <quill-editor class="mt-2" 
-                        [placeholder]="'Write client\'s assessment discussion here...'" 
-                        [styles]="{height: '100px'}" [(ngModel)]="reportSummary.discussion " [sanitize]="true" name="discussion">
-                        </quill-editor>
-                        <h6>1.1 Loss Of Emenities</h6>
-                        <quill-editor class="mt-1 w-90" [placeholder]="'Write client\'s assessment discussion here...'" 
-                        [styles]="{height: '70px'}" [(ngModel)]="reportSummary.lossOfEmenities " 
-                        [sanitize]="true" name="discussion">
-                        </quill-editor>
-                        
-                        <h6>1.2 Residual Work Capacity</h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s assessment discussion here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.residualWorkCapacity " 
-                        [sanitize]="true" name="discussion">
-                        </quill-editor>
-                       
+                <form [formGroup]="summaryForm" (ngSubmit)="save()">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4><strong>1. Discussion</strong></h4>
+                            <hr/>
+                            <mat-accordion>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Discussion
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1 w-90" [placeholder]="'Write client\'s assessment discussion here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    [sanitize]="true" 
+                                    formControlName="discussion">
+                                </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            1.1 Loss Of Emenities
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1 w-90" [placeholder]="'Write client\'s assessment discussion here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    [sanitize]="true" 
+                                    formControlName="lossOfEmenities">
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            1.2 Residual Work Capacity
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s assessment discussion here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    [sanitize]="true" formControlName="residualWorkCapacity">
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                            </mat-accordion>
+ 
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <h4><strong>2. Recommendations</strong></h4>
+                            <hr/>
+                            <mat-accordion>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            Recommendation
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-2" 
+                                    [placeholder]="'Write client\'s assessment recommendations here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    [sanitize]="true" formControlName="recommendations">
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.1 Future Medical Expenses
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s future medical expenses here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    [sanitize]="true" formControlName="futureMedicalExpenses" 
+                                    >
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.2 Future Medication and Surgical Intervention
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                        [placeholder]="'Write client\'s future medication and surgical intervention here...'" 
+                                        [styles]="{height: '200px'}" 
+                                        [sanitize]="true" 
+                                        formControlName="futureMedicalAndSurgicalIntervention" 
+                                        >
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.3 Supplementary Health Services
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s supplementary health services here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    [(ngModel)]="reportSummary.supplementaryHealthServices "
+                                    [sanitize]="true" 
+                                    formControlName="supplementaryHealthServices">
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.4 Physiotherapy
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                        [placeholder]="'Write client\'s Physiotherapy here...'" 
+                                        [styles]="{height: '200px'}" 
+                                        [sanitize]="true" formControlName="physiotherapy"
+                                        >
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.5 Psychology
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s Psychology here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    formControlName="psychology"
+                                    [sanitize]="true" >
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.6 Occupational Therapy
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s Occupational Therapy here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    [sanitize]="true"
+                                    formControlName="occupationalTherapy"
+                                    >
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.7 Special and Adapted Equipment
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s Special and Adapted Equipment here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    formControlName="specialEquipment"
+                                     [sanitize]="true">
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.8 Assistance Required
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s Assistance Required here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    formControlName="caseManagement1"
+                                    [sanitize]="true" name="caseManagement1">
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                <mat-expansion-panel>
+                                    <mat-expansion-panel-header>
+                                        <mat-panel-title>
+                                            2.9 Transportation Costs
+                                        </mat-panel-title>
+                                    </mat-expansion-panel-header>
+                                    <quill-editor class="mt-1" 
+                                    [placeholder]="'Write client\'s Transportation Costs here...'" 
+                                    [styles]="{height: '200px'}" 
+                                    formControlName="transportationCosts"
+                                    [sanitize]="true" name="transportationCosts">
+                                    </quill-editor>
+                                </mat-expansion-panel>
+                                
+                            </mat-accordion>
+                           
+                        </div>
                     </div>
-                    <div class="col-md-12 mt-2">
-                        <h4><strong>2. Recommendations</strong></h4>
-                        <hr/>
-                        <quill-editor class="mt-2" 
-                        [placeholder]="'Write client\'s assessment recommendations here...'" 
-                        [styles]="{height: '100px'}" 
-                        [(ngModel)]="reportSummary.recommendations " 
-                        [sanitize]="true" name="recommendations">
-                        </quill-editor>
-
-                        <h6>2.1 Future Medical Expenses</h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s future medical expenses here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.futureMedicalExpenses " 
-                        [sanitize]="true" name="discussion">
-                        </quill-editor>
-
-                        <h6>2.2 Future Medication and Surgical Intervention </h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s future medication and surgical intervention here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.futureMedicalAndSurgicalIntervention " 
-                        [sanitize]="true" name="futureMedicalAndSurgicalIntervention">
-                        </quill-editor>
-
-                        <h6>2.3 Supplementary Health Services</h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s supplementary health services here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.supplementaryHealthServices "
-                        [sanitize]="true" name="supplementaryHealthServices">
-                        </quill-editor>
-
-                        <h6>2.4 Physiotherapy</h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s Physiotherapy here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.physiotherapy " 
-                        [sanitize]="true" name="physiotherapy">
-                        </quill-editor>
-
-                        <h6>2.5 Psychology</h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s Psychology here...'" 
-                        [styles]="{height: '70px'}" [(ngModel)]="reportSummary.psychology " [sanitize]="true" name="discussion">
-                        </quill-editor>
-
-                        <h6>2.6 Occupational Therapy</h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s Occupational Therapyhere...'" 
-                        [styles]="{height: '70px'}" [(ngModel)]="reportSummary.occupationalTherapy " [sanitize]="true" name="discussion">
-                        </quill-editor>
-
-                        <h6>2.7 Special and Adapted Equipment </h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s Special and Adapted Equipment here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.specialEquipment " [sanitize]="true" name="discussion">
-                        </quill-editor>
-
-                        <h6>2.8 Assistance Required </h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s Assistance Required here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.caseManagement1 "
-                        [sanitize]="true" name="discussion">
-                        </quill-editor>
-
-                        <h6>2.9 Transportation Costs</h6>
-                        <quill-editor class="mt-1" 
-                        [placeholder]="'Write client\'s Transportation Costs here...'" 
-                        [styles]="{height: '70px'}" 
-                        [(ngModel)]="reportSummary.transportationCosts "
-                        [sanitize]="true" name="discussion">
-                        </quill-editor>
+                    <div class="row">
+                        <div class="col-md-12 mt-2">
+                            <button color="primary" class="float-right " type="button" [disabled]="!summaryForm.dirty" mat-raised-button color="primary" (click)="save()">Save</button>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mt-2">
-                        <button color="primary" class="float-right " type="button" [disabled]="false" mat-raised-button color="primary" (click)="save()">Save</button>
-                    </div>
-                </div>
+                </form>
 
             </div>
         </div>

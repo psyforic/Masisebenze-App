@@ -30094,6 +30094,7 @@ export class CreateMedicalHistoryInput implements ICreateMedicalHistoryInput {
     clientId: string | undefined;
     medicalConditions: string | undefined;
     currentHistory: string | undefined;
+    clinicalObservation: string | undefined;
     medication: string | undefined;
 
     constructor(data?: ICreateMedicalHistoryInput) {
@@ -30111,6 +30112,7 @@ export class CreateMedicalHistoryInput implements ICreateMedicalHistoryInput {
             this.clientId = data["clientId"];
             this.medicalConditions = data["medicalConditions"];
             this.currentHistory = data["currentHistory"];
+            this.clinicalObservation = data["clinicalObservation"];
             this.medication = data["medication"];
         }
     }
@@ -30128,6 +30130,7 @@ export class CreateMedicalHistoryInput implements ICreateMedicalHistoryInput {
         data["clientId"] = this.clientId;
         data["medicalConditions"] = this.medicalConditions;
         data["currentHistory"] = this.currentHistory;
+        data["clinicalObservation"] = this.clinicalObservation;
         data["medication"] = this.medication;
         return data; 
     }
@@ -30145,6 +30148,7 @@ export interface ICreateMedicalHistoryInput {
     clientId: string | undefined;
     medicalConditions: string | undefined;
     currentHistory: string | undefined;
+    clinicalObservation: string | undefined;
     medication: string | undefined;
 }
 
@@ -30154,6 +30158,7 @@ export class MedicalHistoryDetailOutput implements IMedicalHistoryDetailOutput {
     client: Client | undefined;
     medicalConditions: string | undefined;
     currentHistory: string | undefined;
+    clinicalObservation: string | undefined;
     medication: string | undefined;
     id: string | undefined;
 
@@ -30173,6 +30178,7 @@ export class MedicalHistoryDetailOutput implements IMedicalHistoryDetailOutput {
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.medicalConditions = data["medicalConditions"];
             this.currentHistory = data["currentHistory"];
+            this.clinicalObservation = data["clinicalObservation"];
             this.medication = data["medication"];
             this.id = data["id"];
         }
@@ -30192,6 +30198,7 @@ export class MedicalHistoryDetailOutput implements IMedicalHistoryDetailOutput {
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["medicalConditions"] = this.medicalConditions;
         data["currentHistory"] = this.currentHistory;
+        data["clinicalObservation"] = this.clinicalObservation;
         data["medication"] = this.medication;
         data["id"] = this.id;
         return data; 
@@ -30211,6 +30218,7 @@ export interface IMedicalHistoryDetailOutput {
     client: Client | undefined;
     medicalConditions: string | undefined;
     currentHistory: string | undefined;
+    clinicalObservation: string | undefined;
     medication: string | undefined;
     id: string | undefined;
 }
@@ -30221,6 +30229,7 @@ export class MedicalHistoryListDto implements IMedicalHistoryListDto {
     client: Client | undefined;
     medicalConditions: string | undefined;
     currentHistory: string | undefined;
+    clinicalObservation: string | undefined;
     medication: string | undefined;
     id: string | undefined;
 
@@ -30240,6 +30249,7 @@ export class MedicalHistoryListDto implements IMedicalHistoryListDto {
             this.client = data["client"] ? Client.fromJS(data["client"]) : <any>undefined;
             this.medicalConditions = data["medicalConditions"];
             this.currentHistory = data["currentHistory"];
+            this.clinicalObservation = data["clinicalObservation"];
             this.medication = data["medication"];
             this.id = data["id"];
         }
@@ -30259,6 +30269,7 @@ export class MedicalHistoryListDto implements IMedicalHistoryListDto {
         data["client"] = this.client ? this.client.toJSON() : <any>undefined;
         data["medicalConditions"] = this.medicalConditions;
         data["currentHistory"] = this.currentHistory;
+        data["clinicalObservation"] = this.clinicalObservation;
         data["medication"] = this.medication;
         data["id"] = this.id;
         return data; 
@@ -30278,6 +30289,7 @@ export interface IMedicalHistoryListDto {
     client: Client | undefined;
     medicalConditions: string | undefined;
     currentHistory: string | undefined;
+    clinicalObservation: string | undefined;
     medication: string | undefined;
     id: string | undefined;
 }
@@ -34853,6 +34865,12 @@ export class CreateJobDescriptionInput implements ICreateJobDescriptionInput {
     code: string | undefined;
     description: string | undefined;
     title: string | undefined;
+    elementId: string | undefined;
+    elementName: string | undefined;
+    dataValue: number | undefined;
+    category: number | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
 
     constructor(data?: ICreateJobDescriptionInput) {
         if (data) {
@@ -34868,6 +34886,12 @@ export class CreateJobDescriptionInput implements ICreateJobDescriptionInput {
             this.code = data["code"];
             this.description = data["description"];
             this.title = data["title"];
+            this.elementId = data["elementId"];
+            this.elementName = data["elementName"];
+            this.dataValue = data["dataValue"];
+            this.category = data["category"];
+            this.lowerCIBound = data["lowerCIBound"];
+            this.upperCIBound = data["upperCIBound"];
         }
     }
 
@@ -34883,6 +34907,12 @@ export class CreateJobDescriptionInput implements ICreateJobDescriptionInput {
         data["code"] = this.code;
         data["description"] = this.description;
         data["title"] = this.title;
+        data["elementId"] = this.elementId;
+        data["elementName"] = this.elementName;
+        data["dataValue"] = this.dataValue;
+        data["category"] = this.category;
+        data["lowerCIBound"] = this.lowerCIBound;
+        data["upperCIBound"] = this.upperCIBound;
         return data; 
     }
 
@@ -34898,12 +34928,24 @@ export interface ICreateJobDescriptionInput {
     code: string | undefined;
     description: string | undefined;
     title: string | undefined;
+    elementId: string | undefined;
+    elementName: string | undefined;
+    dataValue: number | undefined;
+    category: number | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
 }
 
 export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
     code: string | undefined;
     description: string | undefined;
     title: string | undefined;
+    elementId: string | undefined;
+    elementName: string | undefined;
+    dataValue: number | undefined;
+    category: number | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
@@ -34924,6 +34966,12 @@ export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
             this.code = data["code"];
             this.description = data["description"];
             this.title = data["title"];
+            this.elementId = data["elementId"];
+            this.elementName = data["elementName"];
+            this.dataValue = data["dataValue"];
+            this.category = data["category"];
+            this.lowerCIBound = data["lowerCIBound"];
+            this.upperCIBound = data["upperCIBound"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -34944,6 +34992,12 @@ export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
         data["code"] = this.code;
         data["description"] = this.description;
         data["title"] = this.title;
+        data["elementId"] = this.elementId;
+        data["elementName"] = this.elementName;
+        data["dataValue"] = this.dataValue;
+        data["category"] = this.category;
+        data["lowerCIBound"] = this.lowerCIBound;
+        data["upperCIBound"] = this.upperCIBound;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -34964,6 +35018,12 @@ export interface IJobDescriptionDetailOutput {
     code: string | undefined;
     description: string | undefined;
     title: string | undefined;
+    elementId: string | undefined;
+    elementName: string | undefined;
+    dataValue: number | undefined;
+    category: number | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
@@ -34975,6 +35035,12 @@ export class JobDescriptionListDto implements IJobDescriptionListDto {
     code: string | undefined;
     description: string | undefined;
     title: string | undefined;
+    elementId: string | undefined;
+    elementName: string | undefined;
+    dataValue: number | undefined;
+    category: number | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -34998,6 +35064,12 @@ export class JobDescriptionListDto implements IJobDescriptionListDto {
             this.code = data["code"];
             this.description = data["description"];
             this.title = data["title"];
+            this.elementId = data["elementId"];
+            this.elementName = data["elementName"];
+            this.dataValue = data["dataValue"];
+            this.category = data["category"];
+            this.lowerCIBound = data["lowerCIBound"];
+            this.upperCIBound = data["upperCIBound"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -35021,6 +35093,12 @@ export class JobDescriptionListDto implements IJobDescriptionListDto {
         data["code"] = this.code;
         data["description"] = this.description;
         data["title"] = this.title;
+        data["elementId"] = this.elementId;
+        data["elementName"] = this.elementName;
+        data["dataValue"] = this.dataValue;
+        data["category"] = this.category;
+        data["lowerCIBound"] = this.lowerCIBound;
+        data["upperCIBound"] = this.upperCIBound;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -35044,6 +35122,12 @@ export interface IJobDescriptionListDto {
     code: string | undefined;
     description: string | undefined;
     title: string | undefined;
+    elementId: string | undefined;
+    elementName: string | undefined;
+    dataValue: number | undefined;
+    category: number | undefined;
+    lowerCIBound: number | undefined;
+    upperCIBound: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
