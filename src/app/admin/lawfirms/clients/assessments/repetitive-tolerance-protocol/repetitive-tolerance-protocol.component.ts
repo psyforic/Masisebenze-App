@@ -5,16 +5,16 @@ import {
   WalkingProtocolServiceProxy,
   WalkingProtocolDetailOutput,
   StairClimbingProtocolServiceProxy,
-  StairClimbingProtocolDetailOutput,
   LadderWorkProtocolServiceProxy,
-  LadderWorkProtocolDetailOutput,
   RepetitiveFootMotionProtocolServiceProxy,
   RepetitiveSquattingProtocolServiceProxy,
-  RepetitiveSquattingProtocolDetailOutput,
   RepetitiveFootMotionProtocolDetailOutput,
   CrawlingProtocolServiceProxy,
   CrawlingProtocolDetailOutput,
-  RepetitiveFootMotionOptionDto
+  RepetitiveFootMotionOptionDto,
+  RepetitiveSquattingOptionDto,
+  LadderWorkOptionDto,
+  StairClimbingOptionDto
 } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -46,12 +46,12 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   MAX_STEP = 4;
   isLoading = false;
   balanceProtocolResult: BalanceProtocolOptionListDto[] = [];
-  stairClimbingProtocolResult: StairClimbingProtocolDetailOutput[] = [];
-  repetitiveSquattingProtocolResult: RepetitiveSquattingProtocolDetailOutput[] = [];
+  stairClimbingProtocolResult: StairClimbingOptionDto[] = [];
+  repetitiveSquattingProtocolResult: RepetitiveSquattingOptionDto[] = [];
   repetitiveLeftFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
   repetitiveFootMotion: RepetitiveFootMotionProtocolDetailOutput[] = [];
   repetitiveRightFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
-  ladderWorkProtocolResult: LadderWorkProtocolDetailOutput[] = [];
+  ladderWorkProtocolResult: LadderWorkOptionDto[] = [];
   walkingProtocol: WalkingProtocolDetailOutput = new WalkingProtocolDetailOutput();
   crawlingProtocolResult: CrawlingProtocolDetailOutput = new CrawlingProtocolDetailOutput();
   constructor(
@@ -103,7 +103,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       .subscribe((result) => {
 
         this.balanceProtocolResult = (result != null) ? result.items : null;
-       
+
       });
   }
   getWalkingProtocol() {
