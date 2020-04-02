@@ -367,7 +367,9 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
         }
         return false;
       } else if (this.type === 2) {
+      
         if (this.clientAsnwers.filter(ca => ca.optionScore !== -1).length === this.clientAsnwers.length) {
+          this.isSaved = true;
           return true;
         }
         return false;

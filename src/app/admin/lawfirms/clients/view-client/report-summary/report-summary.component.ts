@@ -52,7 +52,6 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
   save() {
     this.isLoading = true;
     this.reportSummary.clientId = this.clientId;
-
     this._reportSummaryService.create(this.reportSummary).
       pipe(finalize(() => {
         this.isLoading = false;
@@ -68,6 +67,7 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
         this.isLoading = false;
       })).subscribe(result => {
         if (result != null) {
+          console.log(result);
           this.reportSummary = result;
         }
       });

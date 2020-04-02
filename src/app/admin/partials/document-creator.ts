@@ -73,10 +73,10 @@ export class DocumentCreator {
                 medication: medicalData.medication != null ? medicalData.medication.replace(/<[^>]*>/g, '') : '',
                 workHistory: workData.description != null ? workData.description.replace(/<[^>]*>/g, '') : '',
                 generalAppearance: clientData.generalAppearance != null ? clientData.generalAppearance.replace(/<[^>]*>/g, '') : '',
-                rightHand: assessmentReport[0].rightHandWeight,
-                leftHand: assessmentReport[0].leftHandWeight,
-                dominantHand: assessmentReport[0].normRight,
-                nondominantHand: assessmentReport[0].normLeft,
+                rightHand: (assessmentReport[0] != null) ? assessmentReport[0].rightHandWeight : '',
+                leftHand: (assessmentReport[0] != null) ? assessmentReport[0].leftHandWeight : '',
+                dominantHand: (assessmentReport[0] != null) ? assessmentReport[0].normRight : '',
+                nondominantHand: (assessmentReport[0] != null) ? assessmentReport[0].normLeft : '',
                 musclePower: assessmentReport[1],
                 // Shoulder Range Of Motion
                 shRFlex: (romReport[0] != null && romReport[0].flexion != null) ? romReport[0].flexion : '',
@@ -265,7 +265,18 @@ export class DocumentCreator {
                 discussion: assessmentReport[36] != null ? assessmentReport[36].replace(/<[^>]*>/g, '') : '',
                 recommendations: assessmentReport[37] != null ? assessmentReport[37].replace(/<[^>]*>/g, '') : '',
                 ptTasks: assessmentReport[38],
-                fTasks: assessmentReport[39]
+                fTasks: assessmentReport[39],
+                lossOfEmenities: assessmentReport[40].replace(/<[^>]*>/g, ''),
+                residualWorkCapacity: assessmentReport[41].replace(/<[^>]*>/g, ''),
+                futureMedicalExpenses: assessmentReport[42].replace(/<[^>]*>/g, ''),
+                futureMedicalAndSurgicalIntervention: assessmentReport[43].replace(/<[^>]*>/g, ''),
+                supplementaryHealthServices: assessmentReport[44].replace(/<[^>]*>/g, ''),
+                physiotherapy: assessmentReport[45].replace(/<[^>]*>/g, ''),
+                occupationalTherapy: assessmentReport[46].replace(/<[^>]*>/g, ''),
+                specialEquipment: assessmentReport[47].replace(/<[^>]*>/g, ''),
+                caseManagement1: assessmentReport[48].replace(/<[^>]*>/g, ''),
+                transportationCosts: assessmentReport[49].replace(/<[^>]*>/g, ''),
+                psychology: assessmentReport[50].replace(/<[^>]*>/g, '')
             });
 
             try {

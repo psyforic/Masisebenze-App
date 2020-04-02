@@ -44,7 +44,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./clients.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy,
     MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy,
-    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy,WorkAssessmentReportServiceProxy]
+    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -84,7 +84,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   comment: string;
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
-  searchTerm$ = new Subject<string>();a
+  searchTerm$ = new Subject<string>(); a
   searchTerm: FormControl = new FormControl();
   isSearching = false;
 
@@ -142,14 +142,14 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
           // setTimeout(async () => {
-             this.generateDocument(docCreator, entity, entity.address)
-              .then(() => {
-                // this.notify.success('Saved Successfully', 'Success');
-                this.isGenerating = false;
-              })
-              .catch(error => {
-                this.notify.error('An Error Occurred Please Try Again to Download');
-              });
+          this.generateDocument(docCreator, entity, entity.address)
+            .then(() => {
+              // this.notify.success('Saved Successfully', 'Success');
+              this.isGenerating = false;
+            })
+            .catch(error => {
+              this.notify.error('An Error Occurred Please Try Again to Download');
+            });
           // }, 20000);
         }))
         .subscribe((result) => {
@@ -162,111 +162,117 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
           this.musclePowerReport = result.musclePowerReport;
           this.assessmentReport[1] = result.musclePowerReport;
-          if(result.reportRoMShoulder != null && result.reportRoMShoulder.length > 0){
-            this.shoulderLeftReport =  result.reportRoMShoulder.filter(x => x.side === 0)[0];
+          if (result.reportRoMShoulder != null && result.reportRoMShoulder.length > 0) {
+            this.shoulderLeftReport = result.reportRoMShoulder.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 1)[0];
             this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1)[0];
             this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 0)[0];
-            this.rangeOfMotionReport[14]  = true;
+            this.rangeOfMotionReport[14] = true;
           } else {
-            this.rangeOfMotionReport[14]  = false;
+            this.rangeOfMotionReport[14] = false;
           }
-          if( result.reportRoMForearmWrist != null &&  result.reportRoMForearmWrist.length > 0){
+          if (result.reportRoMForearmWrist != null && result.reportRoMForearmWrist.length > 0) {
             this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
             this.forearmWristRightReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[3] = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
-            this.rangeOfMotionReport[15]  = true;
+            this.rangeOfMotionReport[15] = true;
           } else {
-            this.rangeOfMotionReport[15]  = false;
+            this.rangeOfMotionReport[15] = false;
           }
 
-          if(result.reportRoMElbow != null && result.reportRoMElbow.length > 0) {
+          if (result.reportRoMElbow != null && result.reportRoMElbow.length > 0) {
             this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 1)[0];
             this.elbowRightReport = result.reportRoMElbow.filter(x => x.side === 1)[0];
             this.rangeOfMotionReport[5] = result.reportRoMElbow.filter(x => x.side === 0)[0];
-            this.rangeOfMotionReport[16]  = true;
+            this.rangeOfMotionReport[16] = true;
           } else {
-            this.rangeOfMotionReport[16]  = false;
+            this.rangeOfMotionReport[16] = false;
           }
 
-         if(result.reportRoMHand != null && result.reportRoMHand.length > 0) {
-          this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 1)[0];
-          this.handRightReport = result.reportRoMHand.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[17]  = true;
-         } else {
-          this.rangeOfMotionReport[17]  = false;
-         }
+          if (result.reportRoMHand != null && result.reportRoMHand.length > 0) {
+            this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 1)[0];
+            this.handRightReport = result.reportRoMHand.filter(x => x.side === 1)[0];
+            this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[17] = true;
+          } else {
+            this.rangeOfMotionReport[17] = false;
+          }
 
-         if(result.reportRoMHip != null && result.reportRoMHip.length > 0) {
-          this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 1)[0];
-          this.hipRightReport = result.reportRoMHip.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[9] = result.reportRoMHip.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[18]  = true;
-         } else {
-          this.rangeOfMotionReport[18]  = false;
-         }
+          if (result.reportRoMHip != null && result.reportRoMHip.length > 0) {
+            this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 1)[0];
+            this.hipRightReport = result.reportRoMHip.filter(x => x.side === 1)[0];
+            this.rangeOfMotionReport[9] = result.reportRoMHip.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[18] = true;
+          } else {
+            this.rangeOfMotionReport[18] = false;
+          }
 
-         if(result.reportRoMKnee != null && result.reportRoMKnee.length > 0) {
-          this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 1)[0];
-          this.kneeRightReport = result.reportRoMKnee.filter(x => x.side === 1)[0];
-          this.rangeOfMotionReport[11] = result.reportRoMKnee.filter(x => x.side === 0)[0];
-          this.rangeOfMotionReport[19]  = true;
-         } else {
-          this.rangeOfMotionReport[19]  = false;
-         }
+          if (result.reportRoMKnee != null && result.reportRoMKnee.length > 0) {
+            this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 1)[0];
+            this.kneeRightReport = result.reportRoMKnee.filter(x => x.side === 1)[0];
+            this.rangeOfMotionReport[11] = result.reportRoMKnee.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[19] = true;
+          } else {
+            this.rangeOfMotionReport[19] = false;
+          }
 
-          if(result.reportRoMAnkle != null && result.reportRoMAnkle.length > 0) {
+          if (result.reportRoMAnkle != null && result.reportRoMAnkle.length > 0) {
             this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 1)[0];
             this.ankleRightReport = result.reportRoMAnkle.filter(x => x.side === 1)[0];
             this.rangeOfMotionReport[13] = result.reportRoMAnkle.filter(x => x.side === 0)[0];
-            this.rangeOfMotionReport[20]  = true;
+            this.rangeOfMotionReport[20] = true;
           } else {
-            this.rangeOfMotionReport[20]  = false;
+            this.rangeOfMotionReport[20] = false;
           }
           this.borgBalanceReport = result.borgBalanceReport;
-          this.assessmentReport[9] = result.borgBalanceReport;
+          this.assessmentReport[9] = (result.borgBalanceReport != null) ? result.borgBalanceReport : 'Not Applicable';
 
           this.coordinationReport = result.coordinationReport;
-          this.assessmentReport[13] = result.coordinationReport;
+          this.assessmentReport[13] = (result.coordinationReport != null) ? result.coordinationReport : 'Not Applicable';
 
           this.postureReport = result.postureReport;
-          this.assessmentReport[14] = result.postureReport;
+          this.assessmentReport[14] = (result.postureReport != null) ? result.postureReport : 'Not Applicable';
 
           this.gaitReport = result.gaitReport;
-          this.assessmentReport[15] = result.gaitReport;
+          this.assessmentReport[15] = (result.gaitReport != null) ? result.gaitReport : 'Not Applicable';
 
           this.walkingReport = result.walkingProtocolReport;
-          this.assessmentReport[16] = result.walkingProtocolReport;
+          this.assessmentReport[16] = (result.walkingProtocolReport != null) ? result.walkingProtocolReport : 'Not Applicable';
 
           this.stairClimbing = result.stairClimbingProtocolReport;
-          this.assessmentReport[17] = result.stairClimbingProtocolReport;
+          this.assessmentReport[17] = (result.stairClimbingProtocolReport != null) ? result.stairClimbingProtocolReport : 'Not Applicable';
 
           this.balanceReport = result.balanceProtocolReport;
-          this.assessmentReport[18] = result.balanceProtocolReport;
+          this.assessmentReport[18] = (result.balanceProtocolReport != null) ? result.balanceProtocolReport : 'Not Applicable';
 
           this.ladderWork = result.ladderWorkProtocolReport;
-          this.assessmentReport[19] = result.ladderWorkProtocolReport;
+          this.assessmentReport[19] = (result.ladderWorkProtocolReport != null) ? result.ladderWorkProtocolReport : 'Not Applicable';
 
           this.repetitiveSquatting = result.repetitiveSquattingProtocolReport;
-          this.assessmentReport[20] = result.repetitiveSquattingProtocolReport;
+          this.assessmentReport[20] = (result.repetitiveSquattingProtocolReport != null) ?
+           result.repetitiveSquattingProtocolReport : 'Not Applicable';
 
           this.repetitiveFootMotionReport = result.repetitiveFootMotionProtocolReport;
-          this.assessmentReport[21] = result.repetitiveFootMotionProtocolReport;
+          this.assessmentReport[21] = (result.repetitiveFootMotionProtocolReport != null) ?
+          result.repetitiveFootMotionProtocolReport : 'Not Applicable';
 
           this.crawlingReport = result.crawlingProtocolReport;
-          this.assessmentReport[22] = result.crawlingProtocolReport;
+          this.assessmentReport[22] = (result.crawlingProtocolReport != null) ? result.crawlingProtocolReport : 'Not Applicable';
           /*************************.**************************************************************
            * COGNITIVE ASSESSMENT REPORT SECTION
            ****************************************************************************************/
-          this.assessmentReport[23] = (result.attentionAndConcentration != null &&
-            result.attentionAndConcentration.comment != null) ? result.attentionAndConcentration.comment : 'No Comment';
+          if(result.attentionAndConcentration != null){
+            this.assessmentReport[23] = (
+              result.attentionAndConcentration.comment != null) ? result.attentionAndConcentration.comment : 'No Comment';
+          } else {
+            this.assessmentReport[23] = 'Not Applicable';
+          }
           if (gender === 0) {
             this.assessmentReport[24] = 'She';
           } else if (gender === 1) {
@@ -278,18 +284,39 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
             result.shortTermMemory.score != null) ? result.shortTermMemory.totalScore : -1;
           this.assessmentReport[27] = (result.shortTermMemory != null &&
             result.shortTermMemory.memoryAssessmentType != null) ? result.shortTermMemory.memoryAssessmentType : 'NONE';
-          this.assessmentReport[28] = (result.longTermMemory != null &&
-            result.longTermMemory.comment != null) ? result.longTermMemory.comment : 'No Comment';
-          this.assessmentReport[29] = (result.insight != null &&
-            result.insight.comment != null) ? result.insight.comment : 'No Comment';
-          this.assessmentReport[30] = (result.reading != null &&
-            result.reading.comment != null) ? result.reading.comment : 'No Comment';
-          this.assessmentReport[31] = (result.speech != null &&
-            result.speech.comment != null) ? result.speech.comment : 'No Comment';
-          this.assessmentReport[32] = (result.writing != null &&
-            result.writing.comment != null) ? result.writing.comment : 'No Comment';
-          this.assessmentReport[33] = (result.visualPerception != null &&
-            result.visualPerception.comment != null) ? result.visualPerception.comment : 'No Comment';
+          if (result.longTermMemory != null) {
+            this.assessmentReport[28] = (
+              result.longTermMemory.comment != null) ? result.longTermMemory.comment : 'No Comment';
+          } else {
+            this.assessmentReport[28] = 'Not Applicable';
+          }
+          if (result.insight != null) {
+            this.assessmentReport[29] = (
+              result.insight.comment != null) ? result.insight.comment : 'No Comment';
+          } else {
+            this.assessmentReport[29] = 'Not Applicable';
+          }
+          if (result.reading != null) {
+            this.assessmentReport[30] = (
+              result.reading.comment != null) ? result.reading.comment : 'No Comment';
+          } else {
+            this.assessmentReport[30] = 'Not Applicable';
+          }
+          if (result.speech != null) {
+            this.assessmentReport[31] = (result.speech.comment != null) ? result.speech.comment : 'No Comment';
+          } else {
+            this.assessmentReport[31] = 'Not Applicable';
+          }
+          if (result.writing != null) {
+            this.assessmentReport[32] = (result.writing.comment != null) ? result.writing.comment : 'No Comment';
+          } else {
+            this.assessmentReport[32] = 'Not Applicable';
+          }
+          if (result.visualPerception != null) {
+            this.assessmentReport[33] = (result.visualPerception.comment != null) ? result.visualPerception.comment : 'No Comment';
+          } else {
+            this.assessmentReport[33] = 'Not Applicable';
+          }
         });
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
@@ -302,51 +329,75 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       this._reportSummaryService.getByClientId(client.id)
         .subscribe(reportSummary => {
           if (reportSummary != null) {
-            this.assessmentReport[36] = (reportSummary.discussion != null) ? reportSummary.discussion : '';
-            this.assessmentReport[37] = (reportSummary.recommendations != null) ? reportSummary.recommendations : '';
+            this.assessmentReport[36] = (reportSummary.discussion != null) ?
+            reportSummary.discussion : 'Not Applicable';
+            this.assessmentReport[37] = (reportSummary.recommendations != null) ?
+             reportSummary.recommendations : 'Not Applicable';
+            this.assessmentReport[48] = (reportSummary.caseManagement1 != null) ?
+            reportSummary.caseManagement1 : 'Not Applicable';
+            this.assessmentReport[40] = (reportSummary.lossOfEmenities != null) ?
+            reportSummary.lossOfEmenities : 'Not Applicable';
+            this.assessmentReport[46] = (reportSummary.occupationalTherapy != null) ?
+            reportSummary.occupationalTherapy : 'Not Applicable';
+            this.assessmentReport[45] = (reportSummary.physiotherapy != null) ?
+            reportSummary.physiotherapy : 'Not Applicable';
+            this.assessmentReport[42] = (reportSummary.futureMedicalExpenses != null) ?
+            reportSummary.futureMedicalExpenses : 'Not Applicable';
+            this.assessmentReport[43] = (reportSummary.futureMedicalAndSurgicalIntervention != null) ?
+            reportSummary.futureMedicalAndSurgicalIntervention : 'Not Applicable';
+            this.assessmentReport[47] = (reportSummary.specialEquipment != null) ?
+            reportSummary.specialEquipment : 'Not Applicable';
+            this.assessmentReport[44] = (reportSummary.supplementaryHealthServices != null) ?
+            reportSummary.supplementaryHealthServices : 'Not Applicable';
+            this.assessmentReport[41] = (reportSummary.residualWorkCapacity != null) ?
+            reportSummary.residualWorkCapacity : 'Not Applicable';
+            this.assessmentReport[49] = (reportSummary.transportationCosts != null) ?
+            reportSummary.transportationCosts : 'Not Applicable';
+            this.assessmentReport[50] = (reportSummary.psychology != null) ?
+            reportSummary.psychology : 'Not Applicable';
           }
         });
       this._workAssessmentReportService.getPositionalToleranceTasksParentReport(client.id)
-      .subscribe(workAssessmentReport => {
-        if(workAssessmentReport.length > 0) {
-          const filtered = workAssessmentReport.map((value) => {
-            return {
-              taskName: value.assessmentName,
-              taskComment: value.comment != null ? value.comment : 'No Comment'
-            };
-          });
-          this.assessmentReport[38] = filtered;
-        } else {
-          const filtered = workAssessmentReport.map((value) => {
-            return {
-              taskName: 'No assessment taken',
-              taskComment:  ''
-            };
-          });
-          this.assessmentReport[38] = filtered;
-        }
+        .subscribe(workAssessmentReport => {
+          if (workAssessmentReport.length > 0) {
+            const filtered = workAssessmentReport.map((value) => {
+              return {
+                taskName: value.assessmentName,
+                taskComment: value.comment != null ? value.comment : 'No Comment'
+              };
+            });
+            this.assessmentReport[38] = filtered;
+          } else {
+            const filtered = workAssessmentReport.map((value) => {
+              return {
+                taskName: 'Not Applicable',
+                taskComment: ''
+              };
+            });
+            this.assessmentReport[38] = filtered;
+          }
 
-      });
+        });
       this._workAssessmentReportService.getWeightedProtocolTaskParentReport(client.id)
-      .subscribe(workAssessmentReport => {
-        if(workAssessmentReport.length > 0) {
-          const filtered = workAssessmentReport.map((value) => {
-            return {
-              taskName: value.assessmentName,
-              taskComment: value.comment != null ? value.comment : 'No Comment'
-            };
-          });
-          this.assessmentReport[39] = filtered;
-        } else {
-          const filtered = workAssessmentReport.map((value) => {
-            return {
-              taskName: 'No assessment taken',
-              taskComment: ''
-            };
-          });
-          this.assessmentReport[39] = filtered;
-        }
-      });
+        .subscribe(workAssessmentReport => {
+          if (workAssessmentReport.length > 0) {
+            const filtered = workAssessmentReport.map((value) => {
+              return {
+                taskName: value.assessmentName,
+                taskComment: value.comment != null ? value.comment : 'No Comment'
+              };
+            });
+            this.assessmentReport[39] = filtered;
+          } else {
+            const filtered = workAssessmentReport.map((value) => {
+              return {
+                taskName: 'Not Applicable',
+                taskComment: ''
+              };
+            });
+            this.assessmentReport[39] = filtered;
+          }
+        });
     });
 
 
@@ -606,7 +657,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         (result) => {
           this.mobility = result;
           this.mobilityComment = (result.comment != null) ? result.comment : '';
-          this.assessmentReport[11] =  (result.comment != null) ? result.comment : '';
+          this.assessmentReport[11] = (result.comment != null) ? result.comment : '';
         }
       );
   }
@@ -616,7 +667,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       })).subscribe(
         (affect) => {
           this.affect = affect;
-          this.assessmentReport[12] = (affect.comment != null ) ? affect.comment : '';
+          this.assessmentReport[12] = (affect.comment != null) ? affect.comment : '';
         }
       );
   }

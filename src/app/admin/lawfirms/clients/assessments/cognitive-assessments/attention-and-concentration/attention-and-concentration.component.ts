@@ -61,7 +61,6 @@ export class AttentionAndConcentrationComponent extends AppComponentBase impleme
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        // console.log(result);
         if (result != null && result.options != null) {
           this.attentionAndConcentration = result;
           if (result.options.items != null) {

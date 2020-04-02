@@ -12,6 +12,7 @@ import { CognitiveAssessmentsComponent } from './cognitive-assessments.component
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { MatTabsModule, MatInputModule } from '@angular/material';
 import { PartialsModule } from '@app/admin/partials/partials.module';
+import { VirtualPerceptionComponent } from './virtual-perception/virtual-perception.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,9 @@ import { PartialsModule } from '@app/admin/partials/partials.module';
   PerceptualAbilityComponent,
   RegistrationComponent,
   VerbalFluencyComponent,
-  VisuoSpatialAbilityComponent],
+  VisuoSpatialAbilityComponent,
+  VirtualPerceptionComponent
+],
   exports: [
     AttentionAndConcentrationComponent,
     LanguageComponent,
@@ -37,7 +40,8 @@ import { PartialsModule } from '@app/admin/partials/partials.module';
     PerceptualAbilityComponent,
     RegistrationComponent,
     VerbalFluencyComponent,
-    VisuoSpatialAbilityComponent
+    VisuoSpatialAbilityComponent,
+    VirtualPerceptionComponent
   ],
   providers: [
 

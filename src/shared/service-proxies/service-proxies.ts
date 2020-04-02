@@ -40019,6 +40019,17 @@ export interface IListResultDtoOfRepetitiveSquattingOptionDto {
 export class ReportSummaryDto implements IReportSummaryDto {
     clientId: string | undefined;
     discussion: string | undefined;
+    lossOfEmenities: string | undefined;
+    residualWorkCapacity: string | undefined;
+    futureMedicalExpenses: string | undefined;
+    futureMedicalAndSurgicalIntervention: string | undefined;
+    supplementaryHealthServices: string | undefined;
+    physiotherapy: string | undefined;
+    occupationalTherapy: string | undefined;
+    specialEquipment: string | undefined;
+    caseManagement1: string | undefined;
+    psychology: string | undefined;
+    transportationCosts: string | undefined;
     recommendations: string | undefined;
     id: string | undefined;
 
@@ -40035,6 +40046,17 @@ export class ReportSummaryDto implements IReportSummaryDto {
         if (data) {
             this.clientId = data["clientId"];
             this.discussion = data["discussion"];
+            this.lossOfEmenities = data["lossOfEmenities"];
+            this.residualWorkCapacity = data["residualWorkCapacity"];
+            this.futureMedicalExpenses = data["futureMedicalExpenses"];
+            this.futureMedicalAndSurgicalIntervention = data["futureMedicalAndSurgicalIntervention"];
+            this.supplementaryHealthServices = data["supplementaryHealthServices"];
+            this.physiotherapy = data["physiotherapy"];
+            this.occupationalTherapy = data["occupationalTherapy"];
+            this.specialEquipment = data["specialEquipment"];
+            this.caseManagement1 = data["caseManagement1"];
+            this.psychology = data["psychology"];
+            this.transportationCosts = data["transportationCosts"];
             this.recommendations = data["recommendations"];
             this.id = data["id"];
         }
@@ -40051,6 +40073,17 @@ export class ReportSummaryDto implements IReportSummaryDto {
         data = typeof data === 'object' ? data : {};
         data["clientId"] = this.clientId;
         data["discussion"] = this.discussion;
+        data["lossOfEmenities"] = this.lossOfEmenities;
+        data["residualWorkCapacity"] = this.residualWorkCapacity;
+        data["futureMedicalExpenses"] = this.futureMedicalExpenses;
+        data["futureMedicalAndSurgicalIntervention"] = this.futureMedicalAndSurgicalIntervention;
+        data["supplementaryHealthServices"] = this.supplementaryHealthServices;
+        data["physiotherapy"] = this.physiotherapy;
+        data["occupationalTherapy"] = this.occupationalTherapy;
+        data["specialEquipment"] = this.specialEquipment;
+        data["caseManagement1"] = this.caseManagement1;
+        data["psychology"] = this.psychology;
+        data["transportationCosts"] = this.transportationCosts;
         data["recommendations"] = this.recommendations;
         data["id"] = this.id;
         return data; 
@@ -40067,6 +40100,17 @@ export class ReportSummaryDto implements IReportSummaryDto {
 export interface IReportSummaryDto {
     clientId: string | undefined;
     discussion: string | undefined;
+    lossOfEmenities: string | undefined;
+    residualWorkCapacity: string | undefined;
+    futureMedicalExpenses: string | undefined;
+    futureMedicalAndSurgicalIntervention: string | undefined;
+    supplementaryHealthServices: string | undefined;
+    physiotherapy: string | undefined;
+    occupationalTherapy: string | undefined;
+    specialEquipment: string | undefined;
+    caseManagement1: string | undefined;
+    psychology: string | undefined;
+    transportationCosts: string | undefined;
     recommendations: string | undefined;
     id: string | undefined;
 }
