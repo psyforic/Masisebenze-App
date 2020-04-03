@@ -16,7 +16,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescriptionListDto> {
 
   dataSource: MatTableDataSource<JobDescriptionListDto>;
-  displayedColumns = ['id', 'name', 'actions'];
+  displayedColumns = ['code', 'name', 'elementName', 'dataValue', 'category', 'lowerCIBound', 'upperCIBound', 'actions'];
   jobDescriptions: JobDescriptionListDto[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -59,13 +59,16 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
       });
   }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
+  this.isTableLoading = true;
     this.jobDescriptionService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
         finishedCallback();
+        this.isTableLoading = false;
       })).subscribe((result) => {
         this.jobDescriptions = result.items;
         this.showPaging(result, pageNumber);
         this.dataSource = new MatTableDataSource(this.jobDescriptions);
+        console.log(this.dataSource);
         this.dataSource.sort = this.sort;
 
       });

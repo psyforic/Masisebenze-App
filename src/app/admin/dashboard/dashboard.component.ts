@@ -1,3 +1,5 @@
+import { DatePipe } from '@angular/common';
+import { style } from '@angular/animations';
 import { OnetWebService } from './../services/onet-web.service';
 import { Component, OnInit, Injector, ViewChild, AfterViewInit, Output } from '@angular/core';
 import * as Chartist from 'chartist';
@@ -21,7 +23,7 @@ declare const $: any;
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  providers: [BookingServiceProxy, DashBoardServiceProxy]
+  providers: [BookingServiceProxy, DashBoardServiceProxy, DatePipe]
 })
 export class DashboardComponent extends AppComponentBase implements OnInit, AfterViewInit {
   @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent;
@@ -32,7 +34,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   newEvents: EventInput[] = [];
   NoFiles: number;
   clients: ClientListDto[] = [];
-
+  date = new Date();
   filter = '';
   clientsChanged = false;
   activities: BookingListDto[] = [];
@@ -40,6 +42,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   constructor(private injector: Injector,
     private bookingService: BookingServiceProxy,
     private dashBoardService: DashBoardServiceProxy,
+    private datePipe: DatePipe,
     private _bottomSheet: MatBottomSheet) {
     super(injector);
   }
@@ -190,6 +193,14 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
 
     // start animation for the Emails Subscription Chart
     this.startAnimationForBarChart(websiteViewsChart);
+  }
+  renderDay(event) {
+    if (event != null) {
+      if (this.datePipe.transform(event.date, 'dd-MM-yyyy') ===
+      this.datePipe.transform(this.date, 'dd-MM-yyyy'))  {
+        event.el.style.background = '#4FC3F7';
+      }
+    }
   }
   openBottomSheet(event) {
     const bottomSheetRef = this._bottomSheet.open(ClientBottomSheetComponent, {

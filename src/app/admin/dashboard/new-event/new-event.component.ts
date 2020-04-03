@@ -29,6 +29,7 @@ import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgForm } from '@angular/forms';
 import { GeneralService } from '@app/admin/services/general.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-new-event',
@@ -38,7 +39,8 @@ import { GeneralService } from '@app/admin/services/general.service';
     LawFirmServiceProxy,
     ClientServiceProxy,
     BookingServiceProxy,
-    NgbActiveModal
+    NgbActiveModal,
+    DatePipe
   ]
 })
 export class NewEventComponent extends AppComponentBase implements OnInit, OnChanges {
@@ -72,6 +74,7 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
   showHeader = false;
   constructor(
     private injector: Injector,
+    private datePipe: DatePipe,
     private modalService: NgbModal,
     private generalService: GeneralService,
     private bookingService: BookingServiceProxy,
@@ -101,8 +104,10 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
   }
   save(form: NgForm) {
     this.isSaving = true;
-    this.booking.startTime = moment(this.date + ' ' + this.startTime + '+0000', 'DD-MM-YYYY HH:mm Z');
-    this.booking.endTime = moment(this.date + ' ' + this.endTime + '+0000', 'DD-MM-YYYY HH:mm Z');
+    this.booking.startTime = moment(this.datePipe.transform(this.date, 'dd-MM-yyyy') + ' ' + 
+    this.startTime + '+0000', 'DD-MM-YYYY HH:mm Z');
+    this.booking.endTime = moment(this.datePipe.transform(this.date, 'dd-MM-yyyy') + ' ' + 
+    this.endTime + '+0000' , 'DD-MM-YYYY HH:mm Z');
     this.bookingService.createBooking(this.booking)
       .pipe(finalize(() => {
         this.isSaving = false;

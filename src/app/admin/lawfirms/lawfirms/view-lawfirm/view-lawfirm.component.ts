@@ -1,5 +1,5 @@
 import { WorkHistoryListDto, MedicalHistoryListDto, ClientAssessmentReportServiceProxy, WorkAssessmentReportServiceProxy, ReportSummaryServiceProxy, AffectServiceProxy, MobilityServiceProxy, SensationServiceProxy, AttorneyServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, ViewChild, Injector } from '@angular/core';
+import { Component, OnInit, ViewChild, Injector, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { NewContactComponent } from '../new-contact/new-contact.component';
 import { NewClientComponent } from '../new-client/new-client.component';
@@ -125,8 +125,12 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
 
-  pageSize;
-  totalItems;
+  attorneyPageSize;
+  attorneyTotalItems;
+  contactPageSize;
+  contactTotalItems;
+  clientPageSize;
+  clientTotalItems;
   constructor(private injector: Injector,
     private route: ActivatedRoute,
     private lawFimService: LawFirmServiceProxy,
@@ -154,6 +158,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     this.getContacts();
     this.getClients();
   }
+ 
   backClicked() {
     this._location.back();
   }
@@ -232,13 +237,21 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     }
     return currentAge;
   }
-  handleChange(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.totalItems = event.length;
-   // this.getDataPage(event.pageIndex + 1);
+  attorneyHandleChange(event: PageEvent) {
+    this.attorneyPageSize = event.pageSize;
+    this.attorneyTotalItems = event.length;
+    // this.getDataPage(event.pageIndex + 1);
   }
-  
- 
+  contactHandleChange(event: PageEvent) {
+    this.contactPageSize = event.pageSize;
+    this.contactTotalItems = event.length;
+    // this.getDataPage(event.pageIndex + 1);
+  }
+  clientHandleChange(event: PageEvent) {
+    this.clientPageSize = event.pageSize;
+    this.clientTotalItems = event.length;
+    // this.getDataPage(event.pageIndex + 1);
+  }
   generate(client) {
     let entity: ClientDetailOutput = new ClientDetailOutput();
     this.isGenerating = true;
@@ -570,7 +583,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
    
   }
   
-  async  getSensation(clientId: string) {
+  async getSensation(clientId: string) {
     this._sensationService.getSensation(clientId)
       .pipe(finalize(() => {
       }))
@@ -613,6 +626,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe((result) => {
         this.contacts = result.items;
+        this.contactPageSize = 5;
         this.dataSource.data = this.contacts;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -629,6 +643,9 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         this.clientDataSource.data = result.items;
         this.clientDataSource.paginator = this.clientPaginator;
         this.clientDataSource.sort = this.clientSort;
+        this.clientPageSize = 5;
+        this.clientTotalItems = this.clients .length;
+      
       });
   }
 

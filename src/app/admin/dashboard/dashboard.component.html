@@ -80,11 +80,22 @@
                         <h4 class="card-title">Appointments</h4>
                     </div>
                     <div class="card-body">
-                        <full-calendar #calendar [events]="calendarEvents" id="fullCalendar" [header]="{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-            }" deepChangeDetection="true" defaultView="dayGridMonth" (dateClick)="handleDateClick($event)" [plugins]="calendarPlugins" [weekends]="false" [editable]="true" (eventClick)="handleEventClick($event)">
+                        <full-calendar #calendar 
+                        [events]="calendarEvents" 
+                        id="fullCalendar" 
+                        [header]="{
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                            }" 
+                        deepChangeDetection="true" 
+                        defaultView="dayGridMonth"
+                         (dateClick)="handleDateClick($event)" 
+                         [plugins]="calendarPlugins" 
+                         [weekends]="false" 
+                         [editable]="true"
+                         (dayRender)="renderDay($event)"
+                        (eventClick)="handleEventClick($event)">
                         </full-calendar>
                     </div>
                 </div>

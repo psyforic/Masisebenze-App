@@ -571,6 +571,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       case 'Coordination':
         this.getCoordination();
         break;
+      case 'Affect':
+        this.getAffect();
+        break;
+      case 'Mobility':
+          this.getMobility();
+          break;
     }
   }
   viewCognitiveAssessments(assessmentName: string) {

@@ -23,7 +23,7 @@ registerLocaleData(localeZA, 'en-ZA');
     FullCalendarModule,
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
+     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   entryComponents: [NewEventComponent, ClientBottomSheetComponent, EditEventComponent]
 })

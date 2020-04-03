@@ -27,12 +27,7 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
   }
   ngOnInit(): void {
     this.initializeForm();
-    // this.jobDescriptionService.getList()
-    //   .pipe(finalize(() => {
-
-    //   })).subscribe((result) => {
-    //     console.log(result);
-    //   });
+   
   }
   initializeForm() {
     this.jobDescriptionForm = this.fb.group({
