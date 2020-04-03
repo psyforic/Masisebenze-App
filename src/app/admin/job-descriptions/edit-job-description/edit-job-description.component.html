@@ -33,6 +33,72 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Category</mat-label>
+              <input type="text" matInput placeholder="Category" formControlName="category">
+              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('category').touched
+              && jobDescriptionForm.hasError('required')">
+                Category is Required
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Data Value</mat-label>
+              <input type="text" matInput placeholder="" formControlName="dataValue">
+              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('dataValue').touched
+              && jobDescriptionForm.hasError('required')">
+                Job Data Value is Required
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Element Name</mat-label>
+              <input type="text" matInput placeholder="Element Name" formControlName="elementName">
+              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('elementName').touched
+              && jobDescriptionForm.hasError('required')">
+                Job Data Value is Required
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Element Id</mat-label>
+              <input type="text" matInput placeholder="Element Id" formControlName="elementId" required>
+              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('elementId').touched
+              && jobDescriptionForm.hasError('required')">
+                Job Data Value is Required
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Lower CI Bound</mat-label>
+              <input type="text" matInput placeholder="Lower CI Bound" formControlName="lowerCIBound">
+              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('lowerCIBound').touched
+              && jobDescriptionForm.hasError('required')">
+              Lower CI Bound is Required
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-lg-6">
+            <mat-form-field>
+              <mat-label>Upper CI Bound</mat-label>
+              <input type="text" matInput placeholder="Upper CI Bound" formControlName="upperCIBound">
+              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('upperCIBound').touched
+              && jobDescriptionForm.hasError('required')">
+              Upper CI Bound is Required
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-lg-12">
             <label class="mat-tab-label">Job Description</label>
             <quill-editor [styles]="{height: '200px'}" formControlName="description" [sanitize]="true"

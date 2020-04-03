@@ -31,7 +31,13 @@ export class EditJobDescriptionComponent extends AppComponentBase implements OnI
     this.jobDescriptionForm = this.fb.group({
       code: ['', Validators.required],
       title: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
+      dataValue: [''],
+      category: [''],
+      elementId: [''],
+      elementName: [''],
+      upperCIBound: [''],
+      lowerCIBound: [''],
     });
   }
   save() {

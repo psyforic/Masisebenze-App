@@ -63,7 +63,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="row" *ngIf="selectedOccupation.length > 0 && isInList(selectedOccupation[0])">
+                <div class="row" *ngIf="(selectedOccupation.length > 0 && isInList(selectedOccupation[0])) || workInformation.jobDescription != null">
                     <div class="col-md-12">
                         <quill-editor [placeholder]="'Insert client\'s job description here...'" 
                         [styles]="{height: '200px'}" 

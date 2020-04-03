@@ -72,6 +72,7 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
   save() {
     this.isLoading = true;
     this.reportSummary.clientId = this.clientId;
+    //this.reportSummary = Object.assign({}, this.summaryForm.value);
     if (this.summaryForm.get('discussion') != null) {
       this.reportSummary.discussion = this.summaryForm.get('discussion').value;
     }
@@ -114,7 +115,7 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
       })).subscribe(() => {
         this.notify.success('Saved successfully!');
       });
-    console.log(this.summaryForm);
+    // console.log(this.reportSummary);
   }
 
   getReportSummary() {
@@ -126,45 +127,46 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
         if (result != null) {
        
           this.reportSummary = result;
-          if (this.reportSummary != null) {
-            if (this.summaryForm.get('discussion') != null) {
-              this.summaryForm.get('discussion').setValue(this.reportSummary.discussion);
-            }
-            if (this.summaryForm.get('caseManagement1') != null) {
-              this.summaryForm.get('caseManagement1').setValue(this.reportSummary.caseManagement1);
-            }
-            if (this.summaryForm.get('futureMedicalExpenses') != null) {
-              this.summaryForm.get('futureMedicalExpenses').setValue(this.reportSummary.futureMedicalExpenses);
-            }
-            if (this.summaryForm.get('futureMedicalAndSurgicalIntervention') != null) {
-              this.summaryForm.get('futureMedicalAndSurgicalIntervention').
-                setValue(this.reportSummary.futureMedicalAndSurgicalIntervention);
-            }
-            if (this.summaryForm.get('lossOfEmenities') != null) {
-              this.summaryForm.get('lossOfEmenities').setValue(this.reportSummary.lossOfEmenities);
-            }
-            if (this.summaryForm.get('occupationalTherapy') != null) {
-              this.summaryForm.get('occupationalTherapy').setValue(this.reportSummary.occupationalTherapy);
-            }
-            if (this.summaryForm.get('physiotherapy') != null) {
-              this.summaryForm.get('physiotherapy').setValue(this.reportSummary.physiotherapy);
-            }
-            if (this.summaryForm.get('psychology') != null) {
-              this.summaryForm.get('psychology').setValue(this.reportSummary.psychology);
-            }
-            if (this.summaryForm.get('recommendations') != null) {
-              this.summaryForm.get('recommendations').setValue(this.reportSummary.recommendations);
-            }
-            if (this.summaryForm.get('residualWorkCapacity') != null) {
-              this.summaryForm.get('residualWorkCapacity').setValue(this.reportSummary.residualWorkCapacity);
-            }
-            if (this.summaryForm.get('transportationCosts') != null) {
-              this.summaryForm.get('transportationCosts').setValue(this.reportSummary.transportationCosts);
-            }
-            if (this.summaryForm.get('specialEquipment') != null) {
-              this.summaryForm.get('specialEquipment').setValue(this.reportSummary.specialEquipment);
-            }
-          }
+          this.summaryForm.patchValue(result);
+          // if (this.reportSummary != null) {
+          //   if (this.summaryForm.get('discussion') != null) {
+          //     this.summaryForm.get('discussion').setValue(this.reportSummary.discussion);
+          //   }
+          //   if (this.summaryForm.get('caseManagement1') != null) {
+          //     this.summaryForm.get('caseManagement1').setValue(this.reportSummary.caseManagement1);
+          //   }
+          //   if (this.summaryForm.get('futureMedicalExpenses') != null) {
+          //     this.summaryForm.get('futureMedicalExpenses').setValue(this.reportSummary.futureMedicalExpenses);
+          //   }
+          //   if (this.summaryForm.get('futureMedicalAndSurgicalIntervention') != null) {
+          //     this.summaryForm.get('futureMedicalAndSurgicalIntervention').
+          //       setValue(this.reportSummary.futureMedicalAndSurgicalIntervention);
+          //   }
+          //   if (this.summaryForm.get('lossOfEmenities') != null) {
+          //     this.summaryForm.get('lossOfEmenities').setValue(this.reportSummary.lossOfEmenities);
+          //   }
+          //   if (this.summaryForm.get('occupationalTherapy') != null) {
+          //     this.summaryForm.get('occupationalTherapy').setValue(this.reportSummary.occupationalTherapy);
+          //   }
+          //   if (this.summaryForm.get('physiotherapy') != null) {
+          //     this.summaryForm.get('physiotherapy').setValue(this.reportSummary.physiotherapy);
+          //   }
+          //   if (this.summaryForm.get('psychology') != null) {
+          //     this.summaryForm.get('psychology').setValue(this.reportSummary.psychology);
+          //   }
+          //   if (this.summaryForm.get('recommendations') != null) {
+          //     this.summaryForm.get('recommendations').setValue(this.reportSummary.recommendations);
+          //   }
+          //   if (this.summaryForm.get('residualWorkCapacity') != null) {
+          //     this.summaryForm.get('residualWorkCapacity').setValue(this.reportSummary.residualWorkCapacity);
+          //   }
+          //   if (this.summaryForm.get('transportationCosts') != null) {
+          //     this.summaryForm.get('transportationCosts').setValue(this.reportSummary.transportationCosts);
+          //   }
+          //   if (this.summaryForm.get('specialEquipment') != null) {
+          //     this.summaryForm.get('specialEquipment').setValue(this.reportSummary.specialEquipment);
+          //   }
+          // }
         }
       });
   }

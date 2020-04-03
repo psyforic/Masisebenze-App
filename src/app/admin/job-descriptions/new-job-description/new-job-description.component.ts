@@ -38,11 +38,18 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
     this.jobDescriptionForm = this.fb.group({
       code: ['', Validators.required],
       title: [this.jobTitle, Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
+      dataValue: [''],
+      category: [''],
+      elementId: [''],
+      elementName: [''],
+      upperCIBound: [''],
+      lowerCIBound: [''],
     });
   }
   save() {
     this.jobDescriptionInput = Object.assign({}, this.jobDescriptionForm.value);
+    console.log(this.jobDescriptionInput);
     this.jobDescriptionService.create(this.jobDescriptionInput)
       .pipe(finalize(() => { }))
       .subscribe(() => {
