@@ -343,8 +343,8 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="example-container">
-                                        <div class="example-loading-shade" *ngIf="isSaving">
-                                            <mat-spinner *ngIf=" isSaving"></mat-spinner>
+                                        <div class="example-loading-shade" *ngIf="isSaving || isGenerating">
+                                            <mat-spinner *ngIf=" isSaving || isGenerating"></mat-spinner>
                                         </div>
                                         <mat-table [dataSource]="clientDataSource" matSort>
                                             <ng-container matColumnDef="firstName">
@@ -402,7 +402,7 @@
                                                     </button>
 
                                                     <mat-menu #appMenu="matMenu">
-                                                        <button mat-menu-item (click)="generate(client.id)">
+                                                        <button mat-menu-item (click)="generate(client)">
                                                             <i class="fa fa-file-word-o mr-1"></i>
                                                             <span>Generate Word Report</span>
                                                         </button>

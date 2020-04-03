@@ -99,8 +99,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private _affectService: AffectServiceProxy,
     private _mobilityService: MobilityServiceProxy,
     private _sensationService: SensationServiceProxy,
-    private _posrureService: PostureServiceProxy,
-    private _assessmentService: AssessmentServiceProxy) {
+) {
     super(injector);
     this.searchClients();
   }
@@ -512,106 +511,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     // await this.getRepetitiveFootMotion(clientId);
     // await this.getCrawling(clientId);
   }
-  // async getGripStrength(clientId: string, age: number, gender: number) {
-  //   this._assessmentReportService.getGripStrengthReport(clientId, age, gender)
-  //     .subscribe((result) => {
-  //       this.gripStrengthReport = result;
-  //       this.assessmentReport[0] = result;
-  //     });
-  // }
-  // async getMusclePower(clientId: string) {
-  //   this._assessmentReportService.getMusclePowerReport(clientId)
-  //     .subscribe((result) => {
-  //       this.musclePowerReport = result;
-  //       this.assessmentReport[1] = result;
-  //     });
-  // }
-  // async getShoulders(clientId: string) {
-  //   this._assessmentReportService.getRoMShoulderReport(clientId)
-  //     .subscribe((result) => {
-  //       this.shoulderLeftReport = result;
-  //       this.rangeOfMotionReport[0] = result;
-  //     });
-
-  //   this._assessmentReportService.getRoMShoulderReport(clientId)
-  //     .subscribe((result) => {
-  //       this.shoulderRightReport = result;
-  //       this.rangeOfMotionReport[1] = result;
-  //     });
-  // }
-  // async getForearmWrist(clientId: string) {
-  //   this._assessmentReportService.getRoMForearmWristReport(clientId)
-  //     .subscribe((result) => {
-  //       this.forearmWristLeftReport = result;
-  //       this.rangeOfMotionReport[2] = result;
-  //     });
-  //   this._assessmentReportService.getRoMForearmWristReport(clientId)
-  //     .subscribe((result) => {
-  //       this.forearmWristRightReport = result;
-  //       this.rangeOfMotionReport[3] = result;
-  //     });
-  // }
-
-  // async getHand(clientId: string) {
-  //   this._assessmentReportService.getRoMHandReport(clientId, 0)
-  //     .subscribe((result) => {
-  //       this.handLeftReport = result;
-  //       this.rangeOfMotionReport[6] = result;
-  //     });
-
-  //   this._assessmentReportService.getRoMHandReport(clientId, 1)
-  //     .subscribe((result) => {
-  //       this.handRightReport = result;
-  //       this.rangeOfMotionReport[7] = result;
-  //     });
-  // }
-
-  // async getHip(clientId: string) {
-  //   this._assessmentReportService.getRoMHipReport(clientId)
-  //     .subscribe((result) => {
-  //       this.hipLeftReport = result;
-  //       this.rangeOfMotionReport[8] = result;
-  //     });
-  //   this._assessmentReportService.getRoMHipReport(clientId)
-  //     .subscribe((result) => {
-  //       this.hipRightReport = result;
-  //       this.rangeOfMotionReport[9] = result;
-  //     });
-  // }
-
-  // async getKnee(clientId: string) {
-  //   this._assessmentReportService.getRoMKneeReport(clientId)
-  //     .subscribe((result) => {
-  //       this.kneeLeftReport = result;
-  //       this.rangeOfMotionReport[10] = result;
-  //     });
-  //   this._assessmentReportService.getRoMKneeReport(clientId)
-  //     .subscribe((result) => {
-  //       this.kneeRightReport = result;
-  //       this.rangeOfMotionReport[11] = result;
-  //     });
-  // }
-  // async getAnkle(clientId: string) {
-  //   this._assessmentReportService.getRoMAnkleReport(clientId)
-  //     .subscribe((result) => {
-  //       this.ankleLeftReport = result;
-  //       this.rangeOfMotionReport[12] = result;
-  //     });
-  //   this._assessmentReportService.getRoMAnkleReport(clientId)
-  //     .subscribe((result) => {
-  //       this.ankleRightReport = result;
-  //       this.rangeOfMotionReport[13] = result;
-  //     });
-  // }
-
-  // async getBorgBalance(clientId: string) {
-  //   this._assessmentReportService.getBorgBalanceReport(clientId)
-  //     .subscribe((result) => {
-  //       this.borgBalanceReport = result;
-  //       this.assessmentReport[9] = result;
-  //     });
-  // }
-
+  
   async  getSensation(clientId: string) {
     this._sensationService.getSensation(clientId)
       .pipe(finalize(() => {
@@ -624,29 +524,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       );
   }
 
-  // async  getCoordination(clientId: string) {
-  //   this._assessmentReportService.getCoordinationReport(clientId)
-  //     .subscribe((result) => {
-  //       this.coordinationReport = result;
-  //       this.assessmentReport[13] = result;
-  //     });
-  // }
-
-  // async  getPosture(clientId: string) {
-  //   this._assessmentReportService.getPostureReport(clientId)
-  //     .subscribe((result) => {
-  //       this.postureReport = result;
-  //       this.assessmentReport[14] = result;
-  //     });
-  // }
-
-  // async getGait(clientId: string) {
-  //   this._assessmentReportService.getGaitReport(clientId)
-  //     .subscribe((result) => {
-  //       this.gaitReport = result;
-  //       this.assessmentReport[15] = result;
-  //     });
-  // }
   async getMobility(clientId: string) {
     this._mobilityService.getByClientAsync(clientId)
       .pipe(finalize(() => {
@@ -669,61 +546,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         }
       );
   }
-  // async getWalking(clientId: string) {
-  //   this._assessmentReportService.getWalkingProtocolReport(clientId)
-  //     .subscribe((result) => {
-  //       this.walkingReport = result;
-  //       this.assessmentReport[16] = result;
-  //     });
-  // }
-  // async getStairClimbing(clientId: string) {
-  //   this._assessmentReportService.getStairClimbingProtocolReport(clientId)
-  //     .subscribe((result) => {
-  //       this.stairClimbing = result;
-  //       this.assessmentReport[17] = result;
-  //     });
-  // }
-  // async  getBalance(clientId: string) {
-  //   this._assessmentReportService.getBalanceProtocolReport(clientId)
-  //     .subscribe((result) => {
-  //       this.balanceReport = result;
-  //       this.assessmentReport[18] = result;
-  //     });
-  // }
-
-  // async getLadderWork(clientId: string) {
-  //   this._assessmentReportService.getLadderWorkProtocolReport(clientId)
-  //     .subscribe((result) => {
-  //       this.ladderWork = result;
-  //       this.assessmentReport[19] = result;
-  //     });
-  // }
-
-  // async getRepetitiveSquatting(clientId: string) {
-  //   this._assessmentReportService.getRepetitiveSquattingProtocolReport(clientId)
-  //     .subscribe((result) => {
-  //       this.repetitiveSquatting = result;
-  //       this.assessmentReport[20] = result;
-  //     });
-  // }
-
-  // async getRepetitiveFootMotion(clientId: string) {
-  //   this._assessmentReportService.getRepetitiveFootMotionProtocolReport(clientId)
-  //     .subscribe((result) => {
-  //       this.repetitiveFootMotionReport = result;
-  //       this.assessmentReport[21] = result;
-  //     });
-  // }
-  // async getCrawling(clientId: string) {
-  //   this._assessmentReportService.getCrawlingProtocolReport(clientId)
-  //     .pipe(finalize(() => {
-  //       this.isGenerating = false;
-  //     }))
-  //     .subscribe((result) => {
-  //       this.crawlingReport = result;
-  //       this.assessmentReport[22] = result;
-  //     });
-  // }
+  
 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)

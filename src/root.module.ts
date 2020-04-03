@@ -1,5 +1,6 @@
+import { AssessmentReportService } from './app/admin/services/assessment-report.service';
 import { SensationComponent } from './app/admin/lawfirms/clients/assessments/sensation/sensation.component';
-import { PostureServiceProxy, GripStrengthServiceProxy, BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy } from './shared/service-proxies/service-proxies';
+import { PostureServiceProxy, GripStrengthServiceProxy, BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy, ClientServiceProxy, DocumentServiceProxy, ReportSummaryServiceProxy, ClientAssessmentReportServiceProxy, WorkAssessmentReportServiceProxy, AffectServiceProxy, MobilityServiceProxy } from './shared/service-proxies/service-proxies';
 import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Injector, APP_INITIALIZER, LOCALE_ID } from '@angular/core';
@@ -43,6 +44,7 @@ import { GestureConfig } from '@angular/material';
 
 import * as _ from 'lodash';
 import { environment } from 'environments/environment';
+import { GeneralService } from '@app/admin/services/general.service';
 
 export function appInitializerFactory(injector: Injector,
     platformLocation: PlatformLocation) {
@@ -147,7 +149,10 @@ export function getCurrentLanguage(): string {
         BalanceProtocolServiceProxy, StairClimbingProtocolServiceProxy, LadderWorkProtocolServiceProxy,
         RepetitiveSquattingProtocolServiceProxy, RepetitiveFootMotionProtocolServiceProxy,
         CrawlingProtocolServiceProxy, ReportServiceProxy, PostureServiceProxy, GripStrengthServiceProxy,
-        BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy
+        BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy,
+        AssessmentReportService, ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy, ReportSummaryServiceProxy,
+        ClientAssessmentReportServiceProxy, WorkAssessmentReportServiceProxy, GeneralService, AffectServiceProxy, MobilityServiceProxy,
+        SensationServiceProxy
     ],
     bootstrap: [RootComponent]
 })
