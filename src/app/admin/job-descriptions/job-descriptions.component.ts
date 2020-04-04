@@ -68,7 +68,6 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
         this.jobDescriptions = result.items;
         this.showPaging(result, pageNumber);
         this.dataSource = new MatTableDataSource(this.jobDescriptions);
-        console.log(this.dataSource);
         this.dataSource.sort = this.sort;
 
       });

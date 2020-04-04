@@ -53,14 +53,13 @@ import { PagedRequestDto, PagedListingComponentBase } from '@shared/paged-listin
 })
 export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild('contactPaginator', { static: false }) contactPaginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  @ViewChild(MatPaginator, { static: false }) clientPaginator: MatPaginator;
+  @ViewChild('clientPaginator', { static: false }) clientPaginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) clientSort: MatSort;
 
-
-  @ViewChild(MatPaginator, { static: false }) attorneyPaginator: MatPaginator;
+  @ViewChild('attorneyPaginator', { static: false }) attorneyPaginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) attorneySort: MatSort;
 
   @ViewChild('newContact', { static: false }) newContactRef: NewContactComponent;
@@ -157,6 +156,8 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     this.getAttorneys();
     this.getContacts();
     this.getClients();
+    this.clientPageSize = 5;
+
   }
  
   backClicked() {
@@ -626,9 +627,8 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe((result) => {
         this.contacts = result.items;
-        this.contactPageSize = 5;
         this.dataSource.data = this.contacts;
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.contactPaginator;
         this.dataSource.sort = this.sort;
       });
   }
@@ -640,12 +640,10 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe((result) => {
         this.clients = result.items;
-        this.clientDataSource.data = result.items;
+        this.clientTotalItems = this.clients.length;
+        this.clientDataSource.data = this.clients;
         this.clientDataSource.paginator = this.clientPaginator;
         this.clientDataSource.sort = this.clientSort;
-        this.clientPageSize = 5;
-        this.clientTotalItems = this.clients .length;
-      
       });
   }
 

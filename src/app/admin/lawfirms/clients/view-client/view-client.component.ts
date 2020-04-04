@@ -819,7 +819,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.isLoading = false;
       }))
       .subscribe(result => {
-        console.log(result)
+        //console.log(result)
         if (result != null && result.length > 0) {
           result.filter(x => x.elementID === '4.C.2.d.1.a' || x.elementID === '4.C.2.d.1.b' ||
             x.elementID === '4.C.2.d.1.c' || x.elementID === '4.C.2.d.1.d' || x.elementID === '4.C.2.d.1.e'
@@ -880,16 +880,21 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }
               }
-              if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT')) {
+              if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('FREQUENT') && !(item.result.includes('CONSTANT') && item.result.includes('NIL'))) {
+              } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') && 
+              !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('OCCASSIONAL') && !(item.result.includes('CONSTANT') &&
-                item.result.includes('NIL') && item.result.includes('FREQUENT'))) {
+              } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
+               && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('RARE') && !(item.result.includes('CONSTANT') &&
-                item.result.includes('NIL') && item.result.includes('FREQUENT')
-                && item.result.includes('OCCASSIONAL'))) {
+              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL') 
+              && !item.result.includes('CONSTANT') &&
+                !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
+                !item.result.includes('NIL') && !item.result.includes('FREQUENT')
+                 && !item.result.includes('OCCASSIONAL')  && !item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else {
                 item.isDeficit = 'No';
@@ -926,16 +931,21 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }
               }
-              if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT')) {
+              if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('FREQUENT') && !(item.result.includes('CONSTANT') && item.result.includes('NIL'))) {
+              } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') && 
+              !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('OCCASSIONAL') && !(item.result.includes('CONSTANT') &&
-                item.result.includes('NIL') && item.result.includes('FREQUENT'))) {
+              } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
+               && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('RARE') && !(item.result.includes('CONSTANT') &&
-                item.result.includes('NIL') && item.result.includes('FREQUENT')
-                && item.result.includes('OCCASSIONAL'))) {
+              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL') 
+              && !item.result.includes('CONSTANT') &&
+                !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
+                !item.result.includes('NIL') && !item.result.includes('FREQUENT')
+                 && !item.result.includes('OCCASSIONAL')  && !item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else {
                 item.isDeficit = 'No';
