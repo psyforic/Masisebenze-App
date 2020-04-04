@@ -2102,12 +2102,15 @@ export class BalanceProtocolServiceProxy {
     }
 
     /**
+     * @param clientId (optional) 
      * @param balanceProtocolOptionId (optional) 
      * @param input (optional) 
      * @return Success
      */
-    update(balanceProtocolOptionId: string | null | undefined, input: BalanceProtocolOptionDto | null | undefined): Observable<void> {
+    update(clientId: string | null | undefined, balanceProtocolOptionId: string | null | undefined, input: BalanceProtocolOptionDto | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/Update?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (balanceProtocolOptionId !== undefined)
             url_ += "BalanceProtocolOptionId=" + encodeURIComponent("" + balanceProtocolOptionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -8994,11 +8997,17 @@ export class CognitiveServiceProxy {
     }
 
     /**
+     * @param clientId (optional) 
      * @param options (optional) 
+     * @param identifier (optional) 
      * @return Success
      */
-    updateOptions(options: OptionDto[] | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateOptions";
+    updateOptions(clientId: string | null | undefined, options: OptionDto[] | null | undefined, identifier: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateOptions?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (identifier !== undefined)
+            url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(options);
@@ -12791,6 +12800,59 @@ export class FunctionalAssessmentServiceProxy {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * @param clientId (optional) 
+     * @param type (optional) 
+     * @return Success
+     */
+    updateQuestionnaireStatus(clientId: string | null | undefined, type: number | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/FunctionalAssessment/UpdateQuestionnaireStatus?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (type !== undefined)
+            url_ += "type=" + encodeURIComponent("" + type) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateQuestionnaireStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateQuestionnaireStatus(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateQuestionnaireStatus(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -14147,6 +14209,60 @@ export class LadderWorkProtocolServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfLadderWorkOptionDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getLadderWorkOptionById(id: string | null | undefined): Observable<LadderWorkOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/LadderWorkProtocol/GetLadderWorkOptionById?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLadderWorkOptionById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLadderWorkOptionById(<any>response_);
+                } catch (e) {
+                    return <Observable<LadderWorkOptionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LadderWorkOptionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLadderWorkOptionById(response: HttpResponseBase): Observable<LadderWorkOptionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LadderWorkOptionDto.fromJS(resultData200) : new LadderWorkOptionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LadderWorkOptionDto>(<any>null);
     }
 }
 
@@ -18087,7 +18203,7 @@ export class RepetitiveFootMotionProtocolServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    get(clientId: string | null | undefined): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput> {
+    get(clientId: string | null | undefined): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Get?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -18108,14 +18224,14 @@ export class RepetitiveFootMotionProtocolServiceProxy {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput> {
+    protected processGet(response: HttpResponseBase): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -18126,7 +18242,7 @@ export class RepetitiveFootMotionProtocolServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput.fromJS(resultData200) : new ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput();
+            result200 = resultData200 ? ListResultDtoOfRepetitiveFootMotionProtocolDto.fromJS(resultData200) : new ListResultDtoOfRepetitiveFootMotionProtocolDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -18134,7 +18250,7 @@ export class RepetitiveFootMotionProtocolServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput>(<any>null);
+        return _observableOf<ListResultDtoOfRepetitiveFootMotionProtocolDto>(<any>null);
     }
 
     /**
@@ -18628,6 +18744,60 @@ export class RepetitiveSquattingProtocolServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfRepetitiveSquattingOptionDto>(<any>null);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getRepetitiveSquattingOptionById(id: string | null | undefined): Observable<RepetitiveSquattingOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveSquattingProtocol/GetRepetitiveSquattingOptionById?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveSquattingOptionById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveSquattingOptionById(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveSquattingOptionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveSquattingOptionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveSquattingOptionById(response: HttpResponseBase): Observable<RepetitiveSquattingOptionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveSquattingOptionDto.fromJS(resultData200) : new RepetitiveSquattingOptionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveSquattingOptionDto>(<any>null);
     }
 }
 
@@ -20500,6 +20670,60 @@ export class StairClimbingProtocolServiceProxy {
         }
         return _observableOf<ListResultDtoOfStairClimbingOptionDto>(<any>null);
     }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getStairClimbingOptionById(id: string | null | undefined): Observable<StairClimbingOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/StairClimbingProtocol/GetStairClimbingOptionById?";
+        if (id !== undefined)
+            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStairClimbingOptionById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStairClimbingOptionById(<any>response_);
+                } catch (e) {
+                    return <Observable<StairClimbingOptionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<StairClimbingOptionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStairClimbingOptionById(response: HttpResponseBase): Observable<StairClimbingOptionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? StairClimbingOptionDto.fromJS(resultData200) : new StairClimbingOptionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<StairClimbingOptionDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -21697,6 +21921,56 @@ export class StatusServiceProxy {
     }
 
     protected processUpdateCrawlingProtocol(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    updateLanguage(clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Status/UpdateLanguage?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateLanguage(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateLanguage(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateLanguage(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -39118,10 +39392,10 @@ export interface IRangeOfMotionSelectionDto {
     sides: number[] | undefined;
 }
 
-export class ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput implements IListResultDtoOfRepetitiveFootMotionProtocolDetailOutput {
-    items: RepetitiveFootMotionProtocolDetailOutput[] | undefined;
+export class ListResultDtoOfRepetitiveFootMotionProtocolDto implements IListResultDtoOfRepetitiveFootMotionProtocolDto {
+    items: RepetitiveFootMotionProtocolDto[] | undefined;
 
-    constructor(data?: IListResultDtoOfRepetitiveFootMotionProtocolDetailOutput) {
+    constructor(data?: IListResultDtoOfRepetitiveFootMotionProtocolDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -39135,14 +39409,14 @@ export class ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput implements 
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [];
                 for (let item of data["items"])
-                    this.items.push(RepetitiveFootMotionProtocolDetailOutput.fromJS(item));
+                    this.items.push(RepetitiveFootMotionProtocolDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput {
+    static fromJS(data: any): ListResultDtoOfRepetitiveFootMotionProtocolDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput();
+        let result = new ListResultDtoOfRepetitiveFootMotionProtocolDto();
         result.init(data);
         return result;
     }
@@ -39157,222 +39431,16 @@ export class ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput implements 
         return data; 
     }
 
-    clone(): ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput {
+    clone(): ListResultDtoOfRepetitiveFootMotionProtocolDto {
         const json = this.toJSON();
-        let result = new ListResultDtoOfRepetitiveFootMotionProtocolDetailOutput();
+        let result = new ListResultDtoOfRepetitiveFootMotionProtocolDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IListResultDtoOfRepetitiveFootMotionProtocolDetailOutput {
-    items: RepetitiveFootMotionProtocolDetailOutput[] | undefined;
-}
-
-export class RepetitiveFootMotionProtocolDetailOutput implements IRepetitiveFootMotionProtocolDetailOutput {
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    clientId: string | undefined;
-    result: string | undefined;
-    otComments: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IRepetitiveFootMotionProtocolDetailOutput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.clientId = data["clientId"];
-            this.result = data["result"];
-            this.otComments = data["otComments"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RepetitiveFootMotionProtocolDetailOutput {
-        data = typeof data === 'object' ? data : {};
-        let result = new RepetitiveFootMotionProtocolDetailOutput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["clientId"] = this.clientId;
-        data["result"] = this.result;
-        data["otComments"] = this.otComments;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): RepetitiveFootMotionProtocolDetailOutput {
-        const json = this.toJSON();
-        let result = new RepetitiveFootMotionProtocolDetailOutput();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IRepetitiveFootMotionProtocolDetailOutput {
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    clientId: string | undefined;
-    result: string | undefined;
-    otComments: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class RepetitiveFootMotionOptionDto implements IRepetitiveFootMotionOptionDto {
-    repetitiveFootMotionProtocolId: string | undefined;
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
-    result: string | undefined;
-    chosen: boolean | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IRepetitiveFootMotionOptionDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.repetitiveFootMotionProtocolId = data["repetitiveFootMotionProtocolId"];
-            this.clientId = data["clientId"];
-            this.timeTaken = data["timeTaken"];
-            this.side = data["side"];
-            this.painLevel = data["painLevel"];
-            this.numTests = data["numTests"];
-            this.comment = data["comment"];
-            this.numDepressions = data["numDepressions"];
-            this.result = data["result"];
-            this.chosen = data["chosen"];
-            this.status = data["status"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RepetitiveFootMotionOptionDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new RepetitiveFootMotionOptionDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["repetitiveFootMotionProtocolId"] = this.repetitiveFootMotionProtocolId;
-        data["clientId"] = this.clientId;
-        data["timeTaken"] = this.timeTaken;
-        data["side"] = this.side;
-        data["painLevel"] = this.painLevel;
-        data["numTests"] = this.numTests;
-        data["comment"] = this.comment;
-        data["numDepressions"] = this.numDepressions;
-        data["result"] = this.result;
-        data["chosen"] = this.chosen;
-        data["status"] = this.status;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): RepetitiveFootMotionOptionDto {
-        const json = this.toJSON();
-        let result = new RepetitiveFootMotionOptionDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IRepetitiveFootMotionOptionDto {
-    repetitiveFootMotionProtocolId: string | undefined;
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
-    result: string | undefined;
-    chosen: boolean | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
+export interface IListResultDtoOfRepetitiveFootMotionProtocolDto {
+    items: RepetitiveFootMotionProtocolDto[] | undefined;
 }
 
 export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionProtocolDto {
@@ -39702,6 +39770,121 @@ export interface IRepetitiveFootMotionProtocol {
     isStopped: boolean | undefined;
     chosen: boolean | undefined;
     repetitiveFootMotionOptions: RepetitiveFootMotionOption[] | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class RepetitiveFootMotionOptionDto implements IRepetitiveFootMotionOptionDto {
+    repetitiveFootMotionProtocolId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    numTests: number | undefined;
+    comment: string | undefined;
+    numDepressions: number | undefined;
+    result: string | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IRepetitiveFootMotionOptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.repetitiveFootMotionProtocolId = data["repetitiveFootMotionProtocolId"];
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.side = data["side"];
+            this.painLevel = data["painLevel"];
+            this.numTests = data["numTests"];
+            this.comment = data["comment"];
+            this.numDepressions = data["numDepressions"];
+            this.result = data["result"];
+            this.chosen = data["chosen"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): RepetitiveFootMotionOptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RepetitiveFootMotionOptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["repetitiveFootMotionProtocolId"] = this.repetitiveFootMotionProtocolId;
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["side"] = this.side;
+        data["painLevel"] = this.painLevel;
+        data["numTests"] = this.numTests;
+        data["comment"] = this.comment;
+        data["numDepressions"] = this.numDepressions;
+        data["result"] = this.result;
+        data["chosen"] = this.chosen;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): RepetitiveFootMotionOptionDto {
+        const json = this.toJSON();
+        let result = new RepetitiveFootMotionOptionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRepetitiveFootMotionOptionDto {
+    repetitiveFootMotionProtocolId: string | undefined;
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    numTests: number | undefined;
+    comment: string | undefined;
+    numDepressions: number | undefined;
+    result: string | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;

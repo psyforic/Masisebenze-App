@@ -308,176 +308,104 @@
             
             </div>
           </mat-tab>
-          <!-- <mat-tab label="Repetitive Foot Motion">
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#description-logo" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      Left
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#map-logo" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      Right
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="description-logo">
-                  <div class="card">
-                    <div class="card-body">
-                      <div *ngFor="let rptFootMotion of repetitiveFootMotion; let i = index;">
-                        <mat-accordion>
-                          <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                              <mat-panel-title>
-                                {{ rptFootMotion.assessment.name}}
-                              </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div>
+          <mat-tab label="Repetitive Foot Motion">
 
-                            </div>
-                            <div class="row">
+            <div class="col-lg-12 mt-5"*ngIf="repetitiveFootMotion?.length > 0 && !isLoading">
+              <div *ngFor="let rptFootMotion of repetitiveFootMotion; let i = index;">
+                <mat-accordion>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Test {{i + 1}}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                        <div class="col-lg-12">
+                          <mat-tab-group  mat-stretch-tabs (selectedTabChange)="handleRepFootMotionTabs($event, rptFootMotion.id)">
+                            
+                            <mat-tab [label]="'Left'">
                               <div class="col-lg-12">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Pain" type="text" name="pain"
-                                    value="{{'decodePainLevel()'}}" readonly>
-                                </mat-form-field>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Pain" type="text" name="pain"
+                                        [value]="decodePainLevel(repFootMotionOption?.painLevel)" readonly>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+    
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Pain" type="text" name="pain"
+                                        value="{{repFootMotionOption?.timeTaken}}" readonly>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <mat-form-field class="example-full-width">
+                                      <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                        value="{{repFootMotionOption?.comment}}"></textarea>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <p class="col-lg-12 text-primary">
+                                    <i class="fa fa-info"></i>
+                                    <b class="ml-2">{{repFootMotionOption?.result}}</b>
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-
-                            <div class="row">
+                              
+                          
+                            </mat-tab>
+                            <mat-tab [label]="'Right'">
                               <div class="col-lg-12">
-                                <mat-form-field class="example-full-width">
-                                  <input matInput placeholder="Pain" type="text" name="pain"
-                                    value="{{'decodePainLevel()'}}" readonly>
-                                </mat-form-field>
-                              </div>
-                            </div>
-
-                            <mat-form-field>
-                              <input matInput placeholder="Age">
-                            </mat-form-field>
-                          </mat-expansion-panel>
-                        </mat-accordion>
-                        <div class="row">
-                          {{(i+1)+". "}}
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Pain" type="text" name="pain"
-                                value="{{decodePainLevel(repetitiveLeftFootMotionProtocolResult?.painLevel)}}" readonly>
-                            </mat-form-field>
-                          </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Pain" type="text" name="pain"
+                                        value="{{decodePainLevel(repFootMotionOption?.painLevel)}}" readonly>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+    
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <mat-form-field class="example-full-width">
+                                      <input matInput placeholder="Pain" type="text" name="timeTaken"
+                                        value="{{repFootMotionOption?.timeTaken}}" readonly>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-lg-12">
+                                    <mat-form-field class="example-full-width">
+                                      <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                        value="{{repFootMotionOption?.comment}}"></textarea>
+                                    </mat-form-field>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <p class="col-lg-12 text-primary">
+                                    <i class="fa fa-info"></i>
+                                    <b class="ml-2">{{repFootMotionOption?.result}}</b>
+                                  </p>
+                                </div>
+                              </div>  
+                            </mat-tab>
+                          </mat-tab-group>
                         </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Time Taken" type="text" name="timeTaken"
-                                value="{{repetitiveLeftFootMotionProtocolResult?.timeTaken}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Number of Tests" type="text" name="numTests"
-                                value="{{repetitiveLeftFootMotionProtocolResult?.numTests}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Depressions" type="text" name="numSets"
-                                value="{{repetitiveLeftFootMotionProtocolResult?.numDepressions}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{repetitiveLeftFootMotionProtocolResult?.comment}}"></textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <p class="col-lg-12 text-primary">
-                            <i class="fa fa-info"></i>
-                            <b class="ml-2">{{repetitiveLeftFootMotionProtocolResult?.result}}</b>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="map-logo">
-                  <div class="card">
-                    <div class="card-body">
-                      <div
-                        *ngFor="let repetitiveRightFootMotionProtocolResult of repetitiveRightFootMotionProtocolResult; let i = index;">
-                        <div class="row">
-                          {{(i+1)+". "}}
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Pain" type="text" name="pain"
-                                value="{{decodePainLevel(repetitiveRightFootMotionProtocolResult?.painLevel)}}"
-                                readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Time Taken" type="text" name="timeTaken"
-                                value="{{repetitiveRightFootMotionProtocolResult?.timeTaken}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Number of Tests" type="text" name="numTests"
-                                value="{{repetitiveRightFootMotionProtocolResult?.numTests}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Depressions" type="text" name="numSets"
-                                value="{{repetitiveRightFootMotionProtocolResult?.numDepressions}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{repetitiveRightFootMotionProtocolResult?.comment}}"></textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <p class="col-lg-12 text-primary">
-                            <i class="fa fa-info"></i>
-                            <b class="ml-2">{{repetitiveRightFootMotionProtocolResult?.result}}</b>
-                          </p>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
               </div>
             </div>
-          </mat-tab> -->
+            <div class="col-lg-12 mt-5 text-center" *ngIf="repetitiveFootMotion?.length == 0 && !isLoading">
+              <i class="fa fa-hourglass-3 fa-5x">
+              </i>
+              <h4 class="text-center">No assessments taken</h4>
+            </div>
+          </mat-tab>
           <mat-tab label="Crawling">
             <div class="col-lg-12" *ngIf="crawlingProtocolResult?.id != null">
  
