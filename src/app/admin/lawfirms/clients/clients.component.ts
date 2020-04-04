@@ -137,7 +137,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       const gender = this._generalService.getGender('' + client.idNumber);
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
-          console.log(this.assessmentReport);
+          // console.log(this.assessmentReport);
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
           // setTimeout(async () => {
@@ -320,7 +320,10 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
       entity = result;
-      this.lawFirmCity = entity.address.city;
+      if(entity.lawFirm != null && entity.lawFirm.physicalAddress != null) {
+        this.lawFirmCity = (entity.lawFirm.physicalAddress.city != null) ? entity.lawFirm.physicalAddress.city : '';
+      }
+      
       this.getMedicalHistory(client.id);
       this.getWorkHistory(client.id);
       this.getClientHistory(client.id);

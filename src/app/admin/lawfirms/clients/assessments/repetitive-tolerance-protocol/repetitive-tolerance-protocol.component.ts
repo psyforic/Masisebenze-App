@@ -157,16 +157,27 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        console.log(result);
 
         this.repetitiveFootMotion = (result != null) ? result.items : this.repetitiveFootMotion;
         
+        // if (this.repetitiveFootMotion.length > 0) {
+        //   this.repetitiveFootMotion.forEach((element, index) => {
+        //     element.repetitiveFootMotionOptions.forEach((item, i) => {
+        //       item.comment = index.toLocaleString() + ' ' + i.toString();
+        //     });
+        //   });
+        // }
+      
       });
   }
-  getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotionProtocolId): RepetitiveFootMotionOption[] {
+  getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotionProtocolId, tabIndex): RepetitiveFootMotionOption[] {
     if (this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId).length > 0) {
       const repM = this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId)[0];
-      return repM.repetitiveFootMotionOptions;
+      if(tabIndex === 0) {
+        return repM.repetitiveFootMotionOptions.filter(x => x.side === 0);
+      } else {
+        return repM.repetitiveFootMotionOptions.filter(x => x.side === 1);
+      }
     }
   }
   // getRepetitiveRightFootMotionProtocol(id: string, side: number) {
@@ -196,21 +207,8 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   decodePainLevel(painLevel: number) {
     return this.assessService.getPain(painLevel);
   }
-  handleRepFootMotionTabs(event: MatTabChangeEvent, repetitiveFootMotionProtocolId){
-    switch (event.index) {
-      case 0:
-        if (this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId).length > 0) {
-          const repM = this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId)[0];
-          this.repFootMotionOption =  repM.repetitiveFootMotionOptions.filter(x => x.side === 0)[0];
-        }
-        break;
-      case 1:
-        if (this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId).length > 0) {
-          const repM = this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId)[0];
-          this.repFootMotionOption =  repM.repetitiveFootMotionOptions.filter(x => x.side === 1)[0];
-        }
-        break;
-    }
+  handleRepFootMotionTabs(event: MatTabChangeEvent, repetitiveFootMotionProtocolId) {
+    console.log(event.index);
   }
   handleTabChange(event: MatTabChangeEvent) {
     switch (event.index) {
