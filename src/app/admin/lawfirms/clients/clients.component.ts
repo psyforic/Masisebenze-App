@@ -398,7 +398,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               this.repetitiveToleranceResult = workAssessmentReport;
             }
           });
-        })     
+        })
     });
 
 
