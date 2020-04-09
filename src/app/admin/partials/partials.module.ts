@@ -39,6 +39,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { QuillModule } from 'ngx-quill';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { NewJobDescriptionComponent } from '../job-descriptions/new-job-description/new-job-description.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -52,7 +53,7 @@ export const MY_FORMATS = {
   },
 };
 @NgModule({
-  declarations: [],
+  declarations: [NewJobDescriptionComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -129,7 +130,8 @@ export const MY_FORMATS = {
     NgxMaterialTimepickerModule,
     MatTreeModule,
     BsDropdownModule,
-    QuillModule
+    QuillModule,
+    NewJobDescriptionComponent
   ],
   providers: [BsModalService,
     { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

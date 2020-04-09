@@ -99,7 +99,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private _affectService: AffectServiceProxy,
     private _mobilityService: MobilityServiceProxy,
     private _sensationService: SensationServiceProxy,
-) {
+  ) {
     super(injector);
     this.searchClients();
   }
@@ -320,10 +320,10 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
       entity = result;
-      if(entity.lawFirm != null && entity.lawFirm.physicalAddress != null) {
+      if (entity.lawFirm != null && entity.lawFirm.physicalAddress != null) {
         this.lawFirmCity = (entity.lawFirm.physicalAddress.city != null) ? entity.lawFirm.physicalAddress.city : '';
       }
-      
+
       this.getMedicalHistory(client.id);
       this.getWorkHistory(client.id);
       this.getClientHistory(client.id);
@@ -514,7 +514,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     // await this.getRepetitiveFootMotion(clientId);
     // await this.getCrawling(clientId);
   }
-  
+
   async  getSensation(clientId: string) {
     this._sensationService.getSensation(clientId)
       .pipe(finalize(() => {
@@ -549,7 +549,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         }
       );
   }
-  
+
 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)

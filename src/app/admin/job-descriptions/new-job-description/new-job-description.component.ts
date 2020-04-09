@@ -56,7 +56,7 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
   save() {
     this.jobDescriptionInput = Object.assign({}, this.jobDescriptionForm.value);
     console.log(this.jobDescriptionInput);
-    this.jobDescriptionService.create(this.jobDescriptionInput)
+    this.jobDescriptionService.createJobDescription(this.jobDescriptionInput)
       .pipe(finalize(() => { }))
       .subscribe(() => {
         this.notify.success('Saved Successfully');

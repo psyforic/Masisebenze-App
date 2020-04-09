@@ -18,19 +18,12 @@
                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
                         </mat-form-field>
                     </div>
-                    <div class="example-header" [hidden]="true">
-                        <mat-form-field>
-                            <input [(ngModel)]="searchInput" matInput placeholder="Search" />
-                        </mat-form-field>
-                        <button class="btn btn-primary btn-round" (click)="search()">Search <i
-                                class="fa fa-search"></i></button>
-                    </div>
 
                     <div class="example-container">
                         <div class="example-loading-shade" *ngIf="isTableLoading">
                             <mat-spinner *ngIf="isTableLoading"></mat-spinner>
                         </div>
-                        
+
                         <mat-table [dataSource]="dataSource" matSort>
                             <!-- ID Column -->
                             <ng-container matColumnDef="code">
@@ -48,51 +41,6 @@
                                 </mat-header-cell>
                                 <mat-cell *matCellDef="let job">
                                     {{ job.title }}
-                                </mat-cell>
-                            </ng-container>
-                            <!-- Progress Column -->
-                            <ng-container matColumnDef="elementName">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    Element Name
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let job">
-                                    {{ job.elementName }}
-                                </mat-cell>
-                            </ng-container>
-                             <!-- Progress Column -->
-                             <ng-container matColumnDef="dataValue">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    Data Value
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let job">
-                                    {{ job.dataValue }}
-                                </mat-cell>
-                            </ng-container>
-                            <!-- Progress Column -->
-                            <ng-container matColumnDef="category">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    Category
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let job">
-                                    {{ job.category }}
-                                </mat-cell>
-                            </ng-container>
-                            <!-- Progress Column -->
-                            <ng-container matColumnDef="lowerCIBound">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    Lower CI Bound
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let job">
-                                    {{ job.dataValue }}
-                                </mat-cell>
-                            </ng-container>
-                            <!-- Progress Column -->
-                            <ng-container matColumnDef="upperCIBound">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                                    Upper CI Bound
-                                </mat-header-cell>
-                                <mat-cell *matCellDef="let job">
-                                    {{ job.upperCIBound }}
                                 </mat-cell>
                             </ng-container>
                             <ng-container matColumnDef="actions">
@@ -118,4 +66,4 @@
     </div>
 </div>
 <app-edit-job-description #editJob (jobDescriptionUpdated)="refresh()"></app-edit-job-description>
-<!-- <app-new-job-description #newJob (jobDescriptionAddded)="refresh()"></app-new-job-description> -->
+<app-new-job-description #newJob (jobDescriptionAddded)="refresh()"></app-new-job-description>

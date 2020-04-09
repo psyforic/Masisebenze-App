@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 pb-3">
                         <label class="mat-tab-label">Job Description</label>
                         <quill-editor [styles]="{height: '200px'}" formControlName="description" [sanitize]="true" placeholder="Job Description">
                         </quill-editor>
@@ -35,7 +35,7 @@
                     <div class="col-lg-6">
                         <mat-form-field>
                             <mat-label>Lifting Job Demand</mat-label>
-                            <mat-select name="liftingJobDemand">
+                            <mat-select name="liftingJobDemand" formControlName="liftingJobDemand">
                                 <mat-option *ngFor="let demand of jobDemands" [value]="demand">
                                     {{demand}}
                                 </mat-option>
@@ -45,7 +45,7 @@
                     <div class="col-lg-6">
                         <mat-form-field>
                             <mat-label>Unilateral Carry Job Demand</mat-label>
-                            <mat-select name="unilateralCarryJobDemand">
+                            <mat-select name="unilateralCarryJobDemand" formControlName="unilateralCarryJobDemand">
                                 <mat-option *ngFor="let demand of jobDemands" [value]="demand">
                                     {{demand}}
                                 </mat-option>
@@ -78,30 +78,8 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <mat-form-field>
-                            <mat-label>Lifting Job Demand</mat-label>
-                            <mat-select name="">
-                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
-                                    {{demand}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-lg-6">
-                        <mat-form-field>
-                            <mat-label>Unilateral Carry Job Demand</mat-label>
-                            <mat-select name="unilateralCarryJobDemand">
-                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
-                                    {{demand}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <mat-form-field>
                             <mat-label>Kneeling Job Demand</mat-label>
-                            <mat-select name="" formControlName="kneelingJobDemand">
+                            <mat-select name="kneelingJobDemand" formControlName="kneelingJobDemand">
                                 <mat-option *ngFor="let demand of jobDemands" [value]="demand">
                                     {{demand}}
                                 </mat-option>
@@ -111,7 +89,7 @@
                     <div class="col-lg-6">
                         <mat-form-field>
                             <mat-label>Crouching Carry Job Demand</mat-label>
-                            <mat-select name="unilateralCarryJobDemand" formControlName="unilateralCarryJobDemand">
+                            <mat-select name="crouchingJobDemand" formControlName="crouchingJobDemand">
                                 <mat-option *ngFor="let demand of jobDemands" [value]="demand">
                                     {{demand}}
                                 </mat-option>
@@ -133,7 +111,7 @@
                     <div class="col-lg-6">
                         <mat-form-field>
                             <mat-label>Elevated Reach Job Demand</mat-label>
-                            <mat-select name="elevatedLevelReachJobDemand" formControlName="elevatedLevelReachJobDemand">
+                            <mat-select name="elevatedReachJobDemand" formControlName="elevatedReachJobDemand">
                                 <mat-option *ngFor="let demand of jobDemands" [value]="demand">
                                     {{demand}}
                                 </mat-option>
@@ -155,7 +133,7 @@
                     <div class="col-lg-6">
                         <mat-form-field>
                             <mat-label>Standing Job Demand</mat-label>
-                            <mat-select name="unilateralCarryJobDemand" formControlName="unilateralCarryJobDemand">
+                            <mat-select name="standingJobDemand" formControlName="standingJobDemand">
                                 <mat-option *ngFor="let demand of jobDemands" [value]="demand">
                                     {{demand}}
                                 </mat-option>
@@ -241,17 +219,6 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label class="mat-tab-label">Job Description</label>
-                        <quill-editor [styles]="{height: '200px'}" formControlName="description" [sanitize]="true" placeholder="Job Description">
-                        </quill-editor>
-                        <mat-error class="error-message" *ngIf="jobDescriptionForm.get('description').touched
-              && jobDescriptionForm.hasError('required')">
-                            Job Description is Required
-                        </mat-error>
                     </div>
                 </div>
             </div>
