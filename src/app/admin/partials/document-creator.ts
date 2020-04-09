@@ -35,7 +35,7 @@ export class DocumentCreator {
         const assessmentReport = data[6];
         const romReport = data[7];
         // console.log(romReport);
-        // console.log(assessmentReport[0]);
+        // console.log(assessmentReport[54]);
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
         }
@@ -273,6 +273,9 @@ export class DocumentCreator {
                 ptTasks: assessmentReport[54],
                 fTasks: assessmentReport[55],
                 rtTasks: assessmentReport[56],
+                noPositionalToleranceTasks: assessmentReport[57],
+                noForcefulTasks: assessmentReport[58],
+                noRepetitiveTasks: assessmentReport[59],
                 lossOfEmenities: assessmentReport[40].replace(/<[^>]*>/g, ''),
                 residualWorkCapacity: assessmentReport[41].replace(/<[^>]*>/g, ''),
                 futureMedicalExpenses: assessmentReport[42].replace(/<[^>]*>/g, ''),

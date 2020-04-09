@@ -11,7 +11,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     JobDescriptionsComponent,
-    EditJobDescriptionComponent],
+    EditJobDescriptionComponent,
+  ],
   imports: [
     PartialsModule,
     NgbModule,

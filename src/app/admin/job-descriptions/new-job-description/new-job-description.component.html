@@ -14,7 +14,7 @@
                             <mat-label>Job Title</mat-label>
                             <input type="text" matInput placeholder="Job Title" formControlName="title" required>
                             <mat-error class="error-message" *ngIf="jobDescriptionForm.get('title').touched
-              && jobDescriptionForm.hasError('required')">
+                                    && jobDescriptionForm.hasError('required')">
                                 Job Title is Required
                             </mat-error>
                         </mat-form-field>

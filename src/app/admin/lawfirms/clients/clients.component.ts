@@ -151,25 +151,18 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       const gender = this._generalService.getGender('' + client.idNumber);
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
-          // console.log(this.assessmentReport);
-          this.getElementNames(this.jobTitle);
-          console.log(this.positionalToleranceResult);
-          console.log(this.weightedProtocolResult);
-          console.log(this.repetitiveToleranceResult);
+          // console.log(this.positionalToleranceResult);
+          // console.log(this.weightedProtocolResult);
+          // console.log(this.repetitiveToleranceResult);
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
+          this.getElementNames(this.jobTitle, docCreator, entity);
           // setTimeout(async () => {
-          this.generateDocument(docCreator, entity, entity.address)
-            .then(() => {
-              // this.notify.success('Saved Successfully', 'Success');
-              this.isGenerating = false;
-            })
-            .catch(error => {
-              this.notify.error('An Error Occurred Please Try Again to Download');
-            });
           // }, 20000);
         }))
         .subscribe((result) => {
+          
+        
           // console.log(result);
           /***************************************************************************************
            * COGNITIVE ASSESSMENT REPORT SECTION
@@ -334,6 +327,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           } else {
             this.assessmentReport[33] = 'Not Applicable';
           }
+
         });
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
@@ -398,10 +392,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               this.repetitiveToleranceResult = workAssessmentReport;
             }
           });
-        })
+        });
     });
-
-
 
     // const docCreator = new DocumentCreator();
     // setTimeout(async () => {
@@ -489,7 +481,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.totalItems = event.length;
     this.getDataPage(event.pageIndex + 1);
   }
-  getElementNames(keyword) {
+  getElementNames(keyword, docCreator, entity) {
     this.ageList = [];
     this.maxDataValues = [];
     this._workAssessmentService.getWorkContext(keyword)
@@ -560,7 +552,9 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
             });
             if (this.positionalToleranceResult.filter(x => x.assessmentName != null).length > 0) {
               this.assessmentReport[51] = true;
-              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null).map((value) => {
+              this.assessmentReport[57] = false;
+              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null && 
+                (x.result != null && x.result !== '')).map((value) => {
                 // if (value.assessmentName != null && value.assessmentName != '') {
                 return {
                   activity: value.assessmentName,
@@ -571,11 +565,13 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               });
               this.assessmentReport[54] = filtered;
             } else {
-              this.assessmentReport[54] = {
-                taskName: 'Not Applicable',
-                taskComment: ''
-              };
+              // this.assessmentReport[54] = {
+              //     activity: value.assessmentName,
+              //     performance: value.result,
+              //     jobDemand: value.jobDemand
+              // };
               this.assessmentReport[51] = false;
+              this.assessmentReport[57] = true;
             }
           }
           if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
@@ -609,7 +605,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               }
             });
             if (this.weightedProtocolResult.filter(x => x.assessmentName != null).length > 0) {
-              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null).map((value) => {
+              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null && 
+                (x.result != null && x.result !== '')).map((value) => {
                 return {
                   activity: value.assessmentName,
                   performance: value.result,
@@ -619,13 +616,15 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               });
               this.assessmentReport[55] = filtered;
               this.assessmentReport[52] = true;
+              this.assessmentReport[58] = false;
             } else {
 
-              this.assessmentReport[55] = {
-                taskName: 'Not Applicable',
-                taskComment: ''
-              };
+              // this.assessmentReport[55] = {
+              //   taskName: 'Not Applicable',
+              //   taskComment: ''
+              // };
               this.assessmentReport[52] = false;
+              this.assessmentReport[58] = true;
             }
           }
           if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
@@ -668,7 +667,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
                 }
               }
               if (this.repetitiveToleranceResult.filter(x => x.assessmentName != null).length > 0) {
-                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null).map((value) => {
+                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null && 
+                  (x.result != null && x.result !== '')).map((value) => {
                   return {
                     activity: value.assessmentName,
                     performance: value.result,
@@ -676,18 +676,28 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
                   };
                 });
                 this.assessmentReport[56] = filtered;
-                this.assessmentReport[52] = true;
+                this.assessmentReport[53] = true;
+                this.assessmentReport[59] = false;
               } else {
 
-                this.assessmentReport[56] = {
-                  taskName: 'Not Applicable',
-                  taskComment: ''
-                };
-                this.assessmentReport[52] = false;
+                // this.assessmentReport[56] = {
+                //   taskName: 'Not Applicable',
+                //   taskComment: ''
+                // };
+                this.assessmentReport[53] = false;
+                this.assessmentReport[59] = true;
               }
             });
           }
         }
+        this.generateDocument(docCreator, entity, entity.address)
+            .then(() => {
+              // this.notify.success('Saved Successfully', 'Success');
+              this.isGenerating = false;
+            })
+            .catch(error => {
+              this.notify.error('An Error Occurred Please Try Again to Download');
+            });
       });
   }
   calculateJobDemandResult(dataValue: number): string {

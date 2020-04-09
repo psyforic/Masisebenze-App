@@ -902,13 +902,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL')
-              && !item.result.includes('CONSTANT') &&
-                !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
+              } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
                 !item.result.includes('NIL') && !item.result.includes('FREQUENT')
-                 && !item.result.includes('OCCASSIONAL')  && !item.result.includes('RARE')) {
+                 && !item.result.includes('OCCASIONAL')  && !item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else {
                 item.isDeficit = 'No';
@@ -953,13 +951,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL')
-              && !item.result.includes('CONSTANT') &&
-                !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
+              } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
-                !item.result.includes('NIL') && !item.result.includes('FREQUENT')
-                 && !item.result.includes('OCCASSIONAL')  && !item.result.includes('RARE')) {
+              } else if (item.jobDemand.includes('RARE') && !item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else {
                 item.isDeficit = 'No';
@@ -1013,13 +1007,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL')
-              && !item.result.includes('CONSTANT') &&
-                !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
+              } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
-                !item.result.includes('NIL') && !item.result.includes('FREQUENT')
-                 && !item.result.includes('OCCASSIONAL')  && !item.result.includes('RARE')) {
+              } else if (item.jobDemand.includes('RARE') && !item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else {
                 item.isDeficit = 'No';

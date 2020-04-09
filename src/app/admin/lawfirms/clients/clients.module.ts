@@ -1,3 +1,4 @@
+import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descriptions.module';
 import { QuestionnaireComponent } from './assessments/functional-assessment/questionnaire/questionnaire.component';
 import { NewJobDescriptionComponent } from './../../job-descriptions/new-job-description/new-job-description.component';
 import { ReportSummaryComponent } from './view-client/report-summary/report-summary.component';
