@@ -26,10 +26,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MAT_DATE_LOCALE } from '@angular/material';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-changes.guard';
-import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
 import { TypeaheadModule } from 'ngx-bootstrap';
-import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descriptions.module';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
@@ -51,7 +49,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     QuestionnaireCommentComponent,
     WorkInformationComponent,
     ReportSummaryComponent,
-    NewJobDescriptionComponent,
     QuestionnaireComponent
   ],
   imports: [
@@ -63,7 +60,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ImageCropperModule,
     AssessmentsModule,
     CognitiveAssessmentsModule,
-    JobDescriptionsModule,
     MatChipsModule,
     PerfectScrollbarModule,
     DragDropModule,

@@ -16,7 +16,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescriptionListDto> {
 
   dataSource: MatTableDataSource<JobDescriptionListDto>;
-  displayedColumns = ['code', 'name', 'elementName', 'dataValue', 'category', 'lowerCIBound', 'upperCIBound', 'actions'];
+  displayedColumns = ['code', 'name',  'actions'];
   jobDescriptions: JobDescriptionListDto[] = [];
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -45,19 +45,6 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
     this.getDataPage(event.pageIndex + 1);
   }
 
-  search() {
-
-    const username = 'developmenthub';
-    const password = '2932dgy';
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(username + ':' + password)
-    });
-    this.http.get(`https://services.onetcenter.org/ws/online/search?keyword=${this.searchInput}`,
-      { headers }).subscribe((result) => {
-        console.log(result);
-      });
-  }
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
   this.isTableLoading = true;
     this.jobDescriptionService.getAll(request.sorting, request.skipCount, request.maxResultCount)
