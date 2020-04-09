@@ -684,7 +684,7 @@
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-lg-12 text-center">
-                                                                <h3>Activities Rated by Strength Level
+                                                                <h3>Positional Tolerance Tasks
                                                                 </h3>
                                                                 <div class="text-center text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
@@ -740,7 +740,7 @@
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-lg-12 text-center">
-                                                                <h3>Activities Rated by Frequency and Duration
+                                                                <h3>Forceful Tasks
                                                                 </h3>
                                                                 <div class="text-center text-dark mt-5" *ngIf="positionalToleranceResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
@@ -753,6 +753,61 @@
                                                         <div class="row mnt-5" *ngIf="positionalToleranceResult.length > 0 && !isLoading">
                                                             <div class="col-md-12">
                                                                 <table mat-table [dataSource]="positionalToleranceResult">
+
+                                                                    <!--- Note that these columns can be defined in any order.
+                                                                          The actual rendered columns are set as a property on the row definition" -->
+
+                                                                    <!-- Position Column -->
+                                                                    <ng-container matColumnDef="activity">
+                                                                        <th mat-header-cell *matHeaderCellDef> Activity
+                                                                        </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element">
+                                                                            {{element.assessmentName}} </td>
+                                                                    </ng-container>
+
+                                                                    <!-- Name Column -->
+                                                                    <ng-container matColumnDef="peformance">
+                                                                        <th mat-header-cell *matHeaderCellDef> FCE Perfomance </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element">
+                                                                            {{element.result}} </td>
+                                                                    </ng-container>
+
+                                                                    <!-- Weight Column -->
+                                                                    <ng-container matColumnDef="jobDemand">
+                                                                        <th mat-header-cell *matHeaderCellDef> Job Demand </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element">
+                                                                            {{element.jobDemand}} </td>
+                                                                    </ng-container>
+
+                                                                    <!-- Symbol Column -->
+                                                                    <ng-container matColumnDef="deficit">
+                                                                        <th mat-header-cell *matHeaderCellDef> Deficit
+                                                                        </th>
+                                                                        <td class="text-left" mat-cell *matCellDef="let element">
+                                                                            {{element.isDeficit}} </td>
+                                                                    </ng-container>
+
+                                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mt-2">
+                                                            <div class="col-lg-12 text-center">
+                                                                <h3>Repetitive Tolerance Tasks
+                                                                </h3>
+                                                                <div class="text-center text-dark mt-5" *ngIf="repetitiveToleranceResult.length == 0 && !isLoading">
+                                                                    <i class="fa fa-hourglass-3 fa-5x">
+                                                                    </i>
+                                                                    <h4 class="text-center">No assessments taken</h4>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="row mnt-5" *ngIf="repetitiveToleranceResult.length > 0 && !isLoading">
+                                                            <div class="col-md-12">
+                                                                <table mat-table [dataSource]="repetitiveToleranceResult">
 
                                                                     <!--- Note that these columns can be defined in any order.
                                                                           The actual rendered columns are set as a property on the row definition" -->

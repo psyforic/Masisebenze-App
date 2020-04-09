@@ -22,7 +22,8 @@ import {
   AssessmentServiceProxy,
   StaticDataServiceProxy,
   AssessmentCategoryDetailOutput,
-  AssessmentsListListDto
+  AssessmentsListListDto,
+  RepetitiveToleranceDto
 } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild, HostListener, AfterViewInit } from '@angular/core';
@@ -178,6 +179,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   questionnairesDto: QuestionnaireDto[] = [];
   positionalToleranceResult: PositionalToleranceDto[] = [];
   weightedProtocolResult: WeightedProtocolDto[] = [];
+  repetitiveToleranceResult: RepetitiveToleranceDto[] = [];
   displayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   weightedProtocolDisplayedColumns: string[] = ['activity', 'peformance', 'jobDemand', 'deficit'];
   maxDataValues: MaxDataValue[] = [];
@@ -201,7 +203,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     private _staticDataService: StaticDataServiceProxy,
     private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _workAssessmentService: WorkAssessmentServiceProxy,
-    private _workInfomationService: WorkInformationServiceProxy,
+    private _workInformationService: WorkInformationServiceProxy,
     private documentService: DocumentServiceProxy,
     private _lawFirmService: LawFirmServiceProxy,
     private route: ActivatedRoute,
@@ -320,11 +322,25 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this._workAssessmentReportService.getPositionalToleranceReport(clientId)
       .pipe(finalize(() => {
       })).subscribe(result => {
-        this._workInfomationService.getByClientId(clientId)
+        this._workInformationService.getByClientId(clientId)
           .pipe(finalize(() => {
           })).subscribe(workResult => {
             if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
               this.positionalToleranceResult = result.filter(x => x.result != null && x.result !== '');
+              this.getElementNames(workResult.jobTitle);
+            }
+          });
+      });
+  }
+  getRepetitiveToleranceReport(clientId) {
+    this._workAssessmentReportService.getRepetitiveToleranceReport(clientId)
+      .pipe(finalize(() => {
+      })).subscribe(result => {
+        this._workInformationService.getByClientId(clientId)
+          .pipe(finalize(() => {
+          })).subscribe(workResult => {
+            if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
+              this.repetitiveToleranceResult = result.filter(x => x.result != null && x.result !== '');
               this.getElementNames(workResult.jobTitle);
             }
           });
@@ -335,7 +351,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this._workAssessmentReportService.getWeightedProtocolReport(clientId)
       .pipe(finalize(() => {
       })).subscribe(result => {
-        this._workInfomationService.getByClientId(clientId)
+        this._workInformationService.getByClientId(clientId)
           .pipe(finalize(() => {
           })).subscribe(workResult => {
             if (result != null && (workResult.jobTitle != null &&
@@ -645,6 +661,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.isLoading = true;
         this.getWeightedProtocolReport(this.clientId);
         this.getPositionalToleranceReport(this.clientId);
+        this.getRepetitiveToleranceReport(this.clientId);
         break;
       default:
         break;
@@ -903,7 +920,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
             this.weightedProtocolResult.forEach((item, index) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Lifting')) {
-                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
                 if (element != null && typeof element !== 'undefined') {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }
@@ -924,6 +941,66 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
                 }
               } else if (item.assessmentName.includes('Bilateral')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+              if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
+              !item.result.includes('NIL')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
+               && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL')
+              && !item.result.includes('CONSTANT') &&
+                !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
+                item.isDeficit = 'Yes';
+              } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
+                !item.result.includes('NIL') && !item.result.includes('FREQUENT')
+                 && !item.result.includes('OCCASSIONAL')  && !item.result.includes('RARE')) {
+                item.isDeficit = 'Yes';
+              } else {
+                item.isDeficit = 'No';
+              }
+            });
+          }
+          if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
+            this.repetitiveToleranceResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Ladder Work Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.c')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Balance Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.f')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Repetitive Foot Motion')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Crawling Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Walking Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.d')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Stair Climbing Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.c')[0];
                 if (element != null && typeof element !== 'undefined') {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
                 }

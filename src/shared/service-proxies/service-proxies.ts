@@ -24280,6 +24280,64 @@ export class WorkAssessmentReportServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
+    getRepetitiveToleranceReport(clientId: string | null | undefined): Observable<RepetitiveToleranceDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetRepetitiveToleranceReport?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveToleranceReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveToleranceReport(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveToleranceReport(response: HttpResponseBase): Observable<RepetitiveToleranceDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(RepetitiveToleranceDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto[]>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
     getWeightedProtocolTaskParentReport(clientId: string | null | undefined): Observable<WorkAssessmentTasksParentDto[]> {
         let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetWeightedProtocolTaskParentReport?";
         if (clientId !== undefined)
@@ -25578,6 +25636,384 @@ export class WorkAssessmentReportServiceProxy {
             }));
         }
         return _observableOf<WorkAssessmentTasksParentDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRepetitiveSquatting(clientId: string | null | undefined): Observable<RepetitiveToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetRepetitiveSquatting?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveSquatting(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveSquatting(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveSquatting(response: HttpResponseBase): Observable<RepetitiveToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveToleranceDto.fromJS(resultData200) : new RepetitiveToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getLadderWork(clientId: string | null | undefined): Observable<RepetitiveToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetLadderWork?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLadderWork(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLadderWork(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLadderWork(response: HttpResponseBase): Observable<RepetitiveToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveToleranceDto.fromJS(resultData200) : new RepetitiveToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBalance(clientId: string | null | undefined): Observable<RepetitiveToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetBalance?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBalance(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBalance(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBalance(response: HttpResponseBase): Observable<RepetitiveToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveToleranceDto.fromJS(resultData200) : new RepetitiveToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRepetitiveFootMotion(clientId: string | null | undefined): Observable<RepetitiveToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetRepetitiveFootMotion?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRepetitiveFootMotion(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRepetitiveFootMotion(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRepetitiveFootMotion(response: HttpResponseBase): Observable<RepetitiveToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveToleranceDto.fromJS(resultData200) : new RepetitiveToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCrawling(clientId: string | null | undefined): Observable<RepetitiveToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetCrawling?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCrawling(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCrawling(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCrawling(response: HttpResponseBase): Observable<RepetitiveToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveToleranceDto.fromJS(resultData200) : new RepetitiveToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getWalking(clientId: string | null | undefined): Observable<RepetitiveToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetWalking?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWalking(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWalking(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWalking(response: HttpResponseBase): Observable<RepetitiveToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveToleranceDto.fromJS(resultData200) : new RepetitiveToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getStairClimb(clientId: string | null | undefined): Observable<RepetitiveToleranceDto> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/GetStairClimb?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetStairClimb(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetStairClimb(<any>response_);
+                } catch (e) {
+                    return <Observable<RepetitiveToleranceDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<RepetitiveToleranceDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetStairClimb(response: HttpResponseBase): Observable<RepetitiveToleranceDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? RepetitiveToleranceDto.fromJS(resultData200) : new RepetitiveToleranceDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<RepetitiveToleranceDto>(<any>null);
     }
 }
 
@@ -45349,6 +45785,69 @@ export class WeightedProtocolDto implements IWeightedProtocolDto {
 }
 
 export interface IWeightedProtocolDto {
+    averageTimeTaken: number | undefined;
+    result: string | undefined;
+    assessmentName: string | undefined;
+    jobDemand: string | undefined;
+    isDeficit: string | undefined;
+    noTrials: number | undefined;
+}
+
+export class RepetitiveToleranceDto implements IRepetitiveToleranceDto {
+    averageTimeTaken: number | undefined;
+    result: string | undefined;
+    assessmentName: string | undefined;
+    jobDemand: string | undefined;
+    isDeficit: string | undefined;
+    noTrials: number | undefined;
+
+    constructor(data?: IRepetitiveToleranceDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.averageTimeTaken = data["averageTimeTaken"];
+            this.result = data["result"];
+            this.assessmentName = data["assessmentName"];
+            this.jobDemand = data["jobDemand"];
+            this.isDeficit = data["isDeficit"];
+            this.noTrials = data["noTrials"];
+        }
+    }
+
+    static fromJS(data: any): RepetitiveToleranceDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new RepetitiveToleranceDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["averageTimeTaken"] = this.averageTimeTaken;
+        data["result"] = this.result;
+        data["assessmentName"] = this.assessmentName;
+        data["jobDemand"] = this.jobDemand;
+        data["isDeficit"] = this.isDeficit;
+        data["noTrials"] = this.noTrials;
+        return data; 
+    }
+
+    clone(): RepetitiveToleranceDto {
+        const json = this.toJSON();
+        let result = new RepetitiveToleranceDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRepetitiveToleranceDto {
     averageTimeTaken: number | undefined;
     result: string | undefined;
     assessmentName: string | undefined;

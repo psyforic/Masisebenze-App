@@ -1,6 +1,6 @@
 import {
   SensationServiceProxy, PostureServiceProxy,
-  ClientAssessmentReportServiceProxy, AssessmentReportDto, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy
+  ClientAssessmentReportServiceProxy, AssessmentReportDto, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy, WorkInformationServiceProxy, PositionalToleranceDto, WeightedProtocolDto, WorkAssessmentServiceProxy, RepetitiveToleranceDto
 } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
@@ -38,11 +38,18 @@ import { GeneralService } from '@app/admin/services/general.service';
 import { Subject, Observable } from 'rxjs';
 import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
+export class MaxDataValue {
+  elementId: string;
+  elementName: string;
+  title: string;
+  dataValue: number;
+  category: number;
+}
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
-  providers: [ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy,
+  providers: [ClientServiceProxy, WorkAssessmentServiceProxy, DocumentServiceProxy, ReportServiceProxy, WorkInformationServiceProxy,
     MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy,
     ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy]
 })
@@ -87,11 +94,18 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   searchTerm$ = new Subject<string>(); a
   searchTerm: FormControl = new FormControl();
   isSearching = false;
-
+  positionalToleranceResult: PositionalToleranceDto[] = [];
+  weightedProtocolResult: WeightedProtocolDto[] = [];
+  repetitiveToleranceResult: RepetitiveToleranceDto[] = [];
+  maxDataValues: MaxDataValue[] = [];
+  ageList: string[] = [];
+  jobTitle;
   constructor(injector: Injector,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private _reportService: ReportServiceProxy,
+    private _workInformationService: WorkInformationServiceProxy,
+    private _workAssessmentService: WorkAssessmentServiceProxy,
     private _assessmentReportService: ClientAssessmentReportServiceProxy,
     private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _reportSummaryService: ReportSummaryServiceProxy,
@@ -99,7 +113,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     private _affectService: AffectServiceProxy,
     private _mobilityService: MobilityServiceProxy,
     private _sensationService: SensationServiceProxy,
-) {
+  ) {
     super(injector);
     this.searchClients();
   }
@@ -138,6 +152,10 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
           // console.log(this.assessmentReport);
+          this.getElementNames(this.jobTitle);
+          console.log(this.positionalToleranceResult);
+          console.log(this.weightedProtocolResult);
+          console.log(this.repetitiveToleranceResult);
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
           // setTimeout(async () => {
@@ -320,10 +338,9 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
       entity = result;
-      if(entity.lawFirm != null && entity.lawFirm.physicalAddress != null) {
+      if (entity.lawFirm != null && entity.lawFirm.physicalAddress != null) {
         this.lawFirmCity = (entity.lawFirm.physicalAddress.city != null) ? entity.lawFirm.physicalAddress.city : '';
       }
-      
       this.getMedicalHistory(client.id);
       this.getWorkHistory(client.id);
       this.getClientHistory(client.id);
@@ -359,45 +376,29 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               reportSummary.psychology : 'Not Applicable';
           }
         });
-      this._workAssessmentReportService.getPositionalToleranceTasksParentReport(client.id)
-        .subscribe(workAssessmentReport => {
-          if (workAssessmentReport.filter(x => x.assessmentName != null).length > 0) {
-            const filtered = workAssessmentReport.filter(x => x.assessmentName != null).map((value) => {
-              // if (value.assessmentName != null && value.assessmentName != '') {
-              return {
-                taskName: value.assessmentName,
-                taskComment: value.comment != null ? value.comment : 'No Comment'
-              };
-
-            });
-            this.assessmentReport[38] = filtered;
-          } else {
-            this.assessmentReport[38] = {
-              taskName: 'Not Applicable',
-              taskComment: ''
-            };
-          }
-
-        });
-      this._workAssessmentReportService.getWeightedProtocolTaskParentReport(client.id)
-        .subscribe(workAssessmentReport => {
-          if (workAssessmentReport.filter(x => x.assessmentName != null).length > 0) {
-            const filtered = workAssessmentReport.filter(x => x.assessmentName != null).map((value) => {
-              return {
-                taskName: value.assessmentName,
-                taskComment: value.comment != null ? value.comment : 'No Comment'
-              };
-
-            });
-            this.assessmentReport[39] = filtered;
-          } else {
-
-            this.assessmentReport[39] = {
-              taskName: 'Not Applicable',
-              taskComment: ''
-            };
-          }
-        });
+      this._workInformationService.getByClientId(client.id)
+        .pipe(finalize(() => {
+        })).subscribe(workResult => {
+          this.jobTitle = workResult.jobTitle;
+          this._workAssessmentReportService.getPositionalToleranceReport(client.id)
+          .subscribe(workAssessmentReport => {
+            if (this.jobTitle != null && this.jobTitle !== '') {
+              this.positionalToleranceResult = workAssessmentReport;
+            }
+          });
+        this._workAssessmentReportService.getWeightedProtocolReport(client.id)
+          .subscribe(workAssessmentReport => {
+            if (this.jobTitle != null && this.jobTitle !== '') {
+              this.weightedProtocolResult = workAssessmentReport;
+            }
+          });
+        this._workAssessmentReportService.getRepetitiveToleranceReport(client.id)
+          .subscribe(workAssessmentReport => {
+            if (this.jobTitle != null && this.jobTitle !== '') {
+              this.repetitiveToleranceResult = workAssessmentReport;
+            }
+          });
+        })     
     });
 
 
@@ -488,7 +489,222 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     this.totalItems = event.length;
     this.getDataPage(event.pageIndex + 1);
   }
+  getElementNames(keyword) {
+    this.ageList = [];
+    this.maxDataValues = [];
+    this._workAssessmentService.getWorkContext(keyword)
+      .pipe(finalize(() => {
+      }))
+      .subscribe(result => {
+        if (result != null && result.length > 0) {
+          result.filter(x => x.elementID === '4.C.2.d.1.a' || x.elementID === '4.C.2.d.1.b' ||
+            x.elementID === '4.C.2.d.1.c' || x.elementID === '4.C.2.d.1.d' || x.elementID === '4.C.2.d.1.e'
+            || x.elementID === '4.C.2.d.1.f' || x.elementID === '4.C.2.d.1.g' || x.elementID === '4.C.2.d.1.h' ||
+            x.elementID === '4.C.2.d.1.i')
+            .forEach((workContext) => {
+              const dataValues: number[] = [];
+              if (this.ageList.indexOf(workContext.elementName) === -1) {
+                result.filter(x => x.elementID === workContext.elementID)
+                  .forEach((i) => {
+                    dataValues.push(i.dataValue);
+                  });
+                if (workContext.dataValue === Math.max.apply(null, dataValues)) {
+                  const maxDataValue = new MaxDataValue();
+                  maxDataValue.dataValue = Math.max.apply(null, dataValues);
+                  maxDataValue.title = workContext.title;
+                  maxDataValue.elementId = workContext.elementID;
+                  maxDataValue.elementName = workContext.elementName;
+                  maxDataValue.category = workContext.category;
+                  // console.log(dataValues);
+                  this.maxDataValues.push(maxDataValue);
+                  this.ageList.push(workContext.elementName);
+                }
+              }
+            });
+          if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
+            this.positionalToleranceResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Sitting')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
+                if (element != null) {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
 
+                }
+              } else if (item.assessmentName.includes('Kneeling')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Crouching')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Standing')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.b')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Elevated')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Mid Level')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+
+            });
+            if (this.positionalToleranceResult.filter(x => x.assessmentName != null).length > 0) {
+              this.assessmentReport[51] = true;
+              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null).map((value) => {
+                // if (value.assessmentName != null && value.assessmentName != '') {
+                return {
+                  activity: value.assessmentName,
+                  performance: value.result,
+                  jobDemand: value.jobDemand
+                };
+
+              });
+              this.assessmentReport[54] = filtered;
+            } else {
+              this.assessmentReport[54] = {
+                taskName: 'Not Applicable',
+                taskComment: ''
+              };
+              this.assessmentReport[51] = false;
+            }
+          }
+          if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
+            this.weightedProtocolResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Lifting')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Unilateral')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Pushing')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Pulling')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Bilateral')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+            });
+            if (this.weightedProtocolResult.filter(x => x.assessmentName != null).length > 0) {
+              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null).map((value) => {
+                return {
+                  activity: value.assessmentName,
+                  performance: value.result,
+                  jobDemand: value.jobDemand
+                };
+
+              });
+              this.assessmentReport[55] = filtered;
+              this.assessmentReport[52] = true;
+            } else {
+
+              this.assessmentReport[55] = {
+                taskName: 'Not Applicable',
+                taskComment: ''
+              };
+              this.assessmentReport[52] = false;
+            }
+          }
+          if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
+            this.repetitiveToleranceResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Ladder Work Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.c')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Balance Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.f')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Repetitive Foot Motion')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Crawling Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Walking Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.d')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Stair Climbing Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.c')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+              if (this.repetitiveToleranceResult.filter(x => x.assessmentName != null).length > 0) {
+                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null).map((value) => {
+                  return {
+                    activity: value.assessmentName,
+                    performance: value.result,
+                    jobDemand: value.jobDemand
+                  };
+                });
+                this.assessmentReport[56] = filtered;
+                this.assessmentReport[52] = true;
+              } else {
+
+                this.assessmentReport[56] = {
+                  taskName: 'Not Applicable',
+                  taskComment: ''
+                };
+                this.assessmentReport[52] = false;
+              }
+            });
+          }
+        }
+      });
+  }
+  calculateJobDemandResult(dataValue: number): string {
+    let jobDemand = '';
+    if (dataValue < 1) {
+      jobDemand = 'NIL';
+    } else if (dataValue <= 5) {
+      jobDemand = 'RARE';
+    } else if (dataValue <= 33) {
+      jobDemand = 'CONSTANT';
+    } else if (dataValue <= 66) {
+      jobDemand = 'FREQUENT';
+    } else if (dataValue <= 100) {
+      jobDemand = 'OCCASIONAL';
+    }
+    return jobDemand;
+  }
   async getReportData(clientId: string, age: number, gender: number) {
     // await this.getGripStrength(clientId, age, gender);
     // await this.getMusclePower(clientId);
@@ -514,7 +730,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     // await this.getRepetitiveFootMotion(clientId);
     // await this.getCrawling(clientId);
   }
-  
+
   async  getSensation(clientId: string) {
     this._sensationService.getSensation(clientId)
       .pipe(finalize(() => {
@@ -549,7 +765,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         }
       );
   }
-  
+
 
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
