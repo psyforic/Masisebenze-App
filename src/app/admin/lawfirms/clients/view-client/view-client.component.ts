@@ -326,7 +326,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           .pipe(finalize(() => {
           })).subscribe(workResult => {
             if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
-              this.positionalToleranceResult = result.filter(x => x.result != null && x.result !== '');
+              this.positionalToleranceResult = result.filter(x => 
+                (x.assessmentName != null && x.assessmentName !== '') &&
+                (x.result != null && x.result !== ''));
               this.getElementNames(workResult.jobTitle);
             }
           });
@@ -340,7 +342,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           .pipe(finalize(() => {
           })).subscribe(workResult => {
             if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
-              this.repetitiveToleranceResult = result.filter(x => x.result != null && x.result !== '');
+              this.repetitiveToleranceResult = result.filter( x =>
+                (x.assessmentName != null && x.assessmentName !== '') &&
+                (x.result != null && x.result !== ''));
               this.getElementNames(workResult.jobTitle);
             }
           });
@@ -358,7 +362,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               workResult.jobTitle !== '' &&
               typeof workResult.jobTitle != 'undefined')) {
               this.jobTitle = workResult.jobTitle;
-              this.weightedProtocolResult = result.filter(x => x.result != null && x.result !== '');
+              this.weightedProtocolResult = result.filter(x => 
+                (x.assessmentName != null && x.assessmentName !== '') &&
+                (x.result != null && x.result !== ''));
               this.getElementNames(workResult.jobTitle);
             } else {
               this.jobTitle = 'No job title found';

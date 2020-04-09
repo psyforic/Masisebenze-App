@@ -156,13 +156,23 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           // console.log(this.repetitiveToleranceResult);
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
+          if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
+            this.positionalToleranceResult = this.positionalToleranceResult.
+            filter(x => x.assessmentName != null && x.assessmentName !== '');
+          }
+          if (this.weightedProtocolResult != null && this.positionalToleranceResult.length > 0) {
+            this.weightedProtocolResult = this.positionalToleranceResult.
+            filter(x => x.assessmentName != null && x.assessmentName !== '');
+          }
+          if (this.repetitiveToleranceResult != null && this.positionalToleranceResult.length > 0) {
+            this.repetitiveToleranceResult = this.repetitiveToleranceResult.
+            filter(x => x.assessmentName != null && x.assessmentName !== '');
+          }
           this.getElementNames(this.jobTitle, docCreator, entity);
           // setTimeout(async () => {
           // }, 20000);
         }))
         .subscribe((result) => {
-          
-        
           // console.log(result);
           /***************************************************************************************
            * COGNITIVE ASSESSMENT REPORT SECTION

@@ -172,7 +172,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     this.clientPageSize = 5;
 
   }
- 
+
   backClicked() {
     this._location.back();
   }
@@ -188,7 +188,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         this.lawFirm = result;
       });
   }
-  
+
   addContact() {
     this.newContactRef.open();
   }
@@ -280,6 +280,18 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
           // console.log(this.repetitiveToleranceResult);
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
+          if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
+            this.positionalToleranceResult = this.positionalToleranceResult.
+            filter(x => x.assessmentName != null && x.assessmentName !== '');
+          }
+          if (this.weightedProtocolResult != null && this.positionalToleranceResult.length > 0) {
+            this.weightedProtocolResult = this.positionalToleranceResult.
+            filter(x => x.assessmentName != null && x.assessmentName !== '');
+          }
+          if (this.repetitiveToleranceResult != null && this.positionalToleranceResult.length > 0) {
+            this.repetitiveToleranceResult = this.repetitiveToleranceResult.
+            filter(x => x.assessmentName != null && x.assessmentName !== '');
+          }
           this.getElementNames(this.jobTitle, docCreator, entity);
           // setTimeout(async () => {
           // }, 20000);
@@ -497,23 +509,23 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         })).subscribe(workResult => {
           this.jobTitle = workResult.jobTitle;
           this._workAssessmentReportService.getPositionalToleranceReport(client.id)
-          .subscribe(workAssessmentReport => {
-            if (this.jobTitle != null && this.jobTitle !== '') {
-              this.positionalToleranceResult = workAssessmentReport;
-            }
-          });
-        this._workAssessmentReportService.getWeightedProtocolReport(client.id)
-          .subscribe(workAssessmentReport => {
-            if (this.jobTitle != null && this.jobTitle !== '') {
-              this.weightedProtocolResult = workAssessmentReport;
-            }
-          });
-        this._workAssessmentReportService.getRepetitiveToleranceReport(client.id)
-          .subscribe(workAssessmentReport => {
-            if (this.jobTitle != null && this.jobTitle !== '') {
-              this.repetitiveToleranceResult = workAssessmentReport;
-            }
-          });
+            .subscribe(workAssessmentReport => {
+              if (this.jobTitle != null && this.jobTitle !== '') {
+                this.positionalToleranceResult = workAssessmentReport;
+              }
+            });
+          this._workAssessmentReportService.getWeightedProtocolReport(client.id)
+            .subscribe(workAssessmentReport => {
+              if (this.jobTitle != null && this.jobTitle !== '') {
+                this.weightedProtocolResult = workAssessmentReport;
+              }
+            });
+          this._workAssessmentReportService.getRepetitiveToleranceReport(client.id)
+            .subscribe(workAssessmentReport => {
+              if (this.jobTitle != null && this.jobTitle !== '') {
+                this.repetitiveToleranceResult = workAssessmentReport;
+              }
+            });
         });
     });
 
@@ -588,9 +600,9 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     await this.getSensation(clientId);
     await this.getMobility(clientId);
     await this.getAffect(clientId);
-   
+
   }
-  
+
   async getSensation(clientId: string) {
     this._sensationService.getSensation(clientId)
       .pipe(finalize(() => {
@@ -712,16 +724,16 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
             if (this.positionalToleranceResult.filter(x => x.assessmentName != null).length > 0) {
               this.assessmentReport[51] = true;
               this.assessmentReport[57] = false;
-              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null && 
+              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null &&
                 (x.result != null && x.result !== '')).map((value) => {
-                // if (value.assessmentName != null && value.assessmentName != '') {
-                return {
-                  activity: value.assessmentName,
-                  performance: value.result,
-                  jobDemand: value.jobDemand
-                };
+                  // if (value.assessmentName != null && value.assessmentName != '') {
+                  return {
+                    activity: value.assessmentName,
+                    performance: value.result,
+                    jobDemand: value.jobDemand
+                  };
 
-              });
+                });
               this.assessmentReport[54] = filtered;
             } else {
               // this.assessmentReport[54] = {
@@ -764,15 +776,15 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
               }
             });
             if (this.weightedProtocolResult.filter(x => x.assessmentName != null).length > 0) {
-              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null && 
+              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null &&
                 (x.result != null && x.result !== '')).map((value) => {
-                return {
-                  activity: value.assessmentName,
-                  performance: value.result,
-                  jobDemand: value.jobDemand
-                };
+                  return {
+                    activity: value.assessmentName,
+                    performance: value.result,
+                    jobDemand: value.jobDemand
+                  };
 
-              });
+                });
               this.assessmentReport[55] = filtered;
               this.assessmentReport[52] = true;
               this.assessmentReport[58] = false;
@@ -826,14 +838,14 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
                 }
               }
               if (this.repetitiveToleranceResult.filter(x => x.assessmentName != null).length > 0) {
-                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null && 
+                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null &&
                   (x.result != null && x.result !== '')).map((value) => {
-                  return {
-                    activity: value.assessmentName,
-                    performance: value.result,
-                    jobDemand: value.jobDemand
-                  };
-                });
+                    return {
+                      activity: value.assessmentName,
+                      performance: value.result,
+                      jobDemand: value.jobDemand
+                    };
+                  });
                 this.assessmentReport[56] = filtered;
                 this.assessmentReport[53] = true;
                 this.assessmentReport[59] = false;
@@ -850,13 +862,13 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
           }
         }
         this.generateDocument(docCreator, entity, entity.address)
-            .then(() => {
-              // this.notify.success('Saved Successfully', 'Success');
-              this.isGenerating = false;
-            })
-            .catch(error => {
-              this.notify.error('An Error Occurred Please Try Again to Download');
-            });
+          .then(() => {
+            // this.notify.success('Saved Successfully', 'Success');
+            this.isGenerating = false;
+          })
+          .catch(error => {
+            this.notify.error('An Error Occurred Please Try Again to Download');
+          });
       });
   }
   getContacts() {
