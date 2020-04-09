@@ -1,4 +1,4 @@
-import { WorkHistoryListDto, MedicalHistoryListDto, ClientAssessmentReportServiceProxy, WorkAssessmentReportServiceProxy, ReportSummaryServiceProxy, AffectServiceProxy, MobilityServiceProxy, SensationServiceProxy, AttorneyServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
+import { WorkHistoryListDto, MedicalHistoryListDto, ClientAssessmentReportServiceProxy, WorkAssessmentReportServiceProxy, ReportSummaryServiceProxy, AffectServiceProxy, MobilityServiceProxy, SensationServiceProxy, AttorneyServiceProxy, PositionalToleranceDto, WeightedProtocolDto, RepetitiveToleranceDto, WorkInformationServiceProxy, WorkAssessmentServiceProxy } from './../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, Injector, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { NewContactComponent } from '../new-contact/new-contact.component';
@@ -43,13 +43,19 @@ import { Location } from '@angular/common';
 import { GeneralService } from '@app/admin/services/general.service';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/paged-listing-component-base';
 
-
+export class MaxDataValue {
+  elementId: string;
+  elementName: string;
+  title: string;
+  dataValue: number;
+  category: number;
+}
 @Component({
   selector: 'app-view-lawfirm',
   templateUrl: './view-lawfirm.component.html',
   styleUrls: ['./view-lawfirm.component.scss'],
-  providers: [LawFirmServiceProxy, ContactServiceProxy, ClientServiceProxy, 
-    DocumentServiceProxy, ReportServiceProxy]
+  providers: [LawFirmServiceProxy, ContactServiceProxy, ClientServiceProxy, WorkAssessmentServiceProxy,
+    DocumentServiceProxy, ReportServiceProxy, WorkInformationServiceProxy]
 })
 export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
 
@@ -123,7 +129,12 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
   isGenerating = false;
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
-
+  positionalToleranceResult: PositionalToleranceDto[] = [];
+  weightedProtocolResult: WeightedProtocolDto[] = [];
+  repetitiveToleranceResult: RepetitiveToleranceDto[] = [];
+  maxDataValues: MaxDataValue[] = [];
+  ageList: string[] = [];
+  jobTitle;
   attorneyPageSize;
   attorneyTotalItems;
   contactPageSize;
@@ -136,6 +147,8 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     private contactService: ContactServiceProxy,
     private clientService: ClientServiceProxy,
     private _reportService: ReportServiceProxy,
+    private _workInformationService: WorkInformationServiceProxy,
+    private _workAssessmentService: WorkAssessmentServiceProxy,
     private _assessmentReportService: ClientAssessmentReportServiceProxy,
     private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _reportSummaryService: ReportSummaryServiceProxy,
@@ -262,18 +275,13 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
       const gender = this._generalService.getGender('' + client.idNumber);
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
-          console.log(this.assessmentReport);
+          // console.log(this.positionalToleranceResult);
+          // console.log(this.weightedProtocolResult);
+          // console.log(this.repetitiveToleranceResult);
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
+          this.getElementNames(this.jobTitle, docCreator, entity);
           // setTimeout(async () => {
-          this.generateDocument(docCreator, entity, entity.address)
-            .then(() => {
-              // this.notify.success('Saved Successfully', 'Success');
-              this.isGenerating = false;
-            })
-            .catch(error => {
-              this.notify.error('An Error Occurred Please Try Again to Download');
-            });
           // }, 20000);
         }))
         .subscribe((result) => {
@@ -441,11 +449,14 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
           } else {
             this.assessmentReport[33] = 'Not Applicable';
           }
+
         });
       this.getReportData(client.id, age, gender);
     })).subscribe((result) => {
       entity = result;
-      this.lawFirmCity = entity.address.city;
+      if (entity.lawFirm != null && entity.lawFirm.physicalAddress != null) {
+        this.lawFirmCity = (entity.lawFirm.physicalAddress.city != null) ? entity.lawFirm.physicalAddress.city : '';
+      }
       this.getMedicalHistory(client.id);
       this.getWorkHistory(client.id);
       this.getClientHistory(client.id);
@@ -481,46 +492,42 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
               reportSummary.psychology : 'Not Applicable';
           }
         });
-      this._workAssessmentReportService.getPositionalToleranceTasksParentReport(client.id)
-        .subscribe(workAssessmentReport => {
-          if (workAssessmentReport.filter(x => x.assessmentName != null).length > 0) {
-            const filtered = workAssessmentReport.filter(x => x.assessmentName != null).map((value) => {
-              // if (value.assessmentName != null && value.assessmentName != '') {
-              return {
-                taskName: value.assessmentName,
-                taskComment: value.comment != null ? value.comment : 'No Comment'
-              };
-
-            });
-            this.assessmentReport[38] = filtered;
-          } else {
-            this.assessmentReport[38] = {
-              taskName: 'Not Applicable',
-              taskComment: ''
-            };
-          }
-
-        });
-      this._workAssessmentReportService.getWeightedProtocolTaskParentReport(client.id)
-        .subscribe(workAssessmentReport => {
-          if (workAssessmentReport.filter(x => x.assessmentName != null).length > 0) {
-            const filtered = workAssessmentReport.filter(x => x.assessmentName != null).map((value) => {
-              return {
-                taskName: value.assessmentName,
-                taskComment: value.comment != null ? value.comment : 'No Comment'
-              };
-
-            });
-            this.assessmentReport[39] = filtered;
-          } else {
-
-            this.assessmentReport[39] = {
-              taskName: 'Not Applicable',
-              taskComment: ''
-            };
-          }
+      this._workInformationService.getByClientId(client.id)
+        .pipe(finalize(() => {
+        })).subscribe(workResult => {
+          this.jobTitle = workResult.jobTitle;
+          this._workAssessmentReportService.getPositionalToleranceReport(client.id)
+          .subscribe(workAssessmentReport => {
+            if (this.jobTitle != null && this.jobTitle !== '') {
+              this.positionalToleranceResult = workAssessmentReport;
+            }
+          });
+        this._workAssessmentReportService.getWeightedProtocolReport(client.id)
+          .subscribe(workAssessmentReport => {
+            if (this.jobTitle != null && this.jobTitle !== '') {
+              this.weightedProtocolResult = workAssessmentReport;
+            }
+          });
+        this._workAssessmentReportService.getRepetitiveToleranceReport(client.id)
+          .subscribe(workAssessmentReport => {
+            if (this.jobTitle != null && this.jobTitle !== '') {
+              this.repetitiveToleranceResult = workAssessmentReport;
+            }
+          });
         });
     });
+
+    // const docCreator = new DocumentCreator();
+    // setTimeout(async () => {
+    //   await this.generateDocument(docCreator, entity, entity.address)
+    //     .then(() => {
+    //       // this.notify.success('Saved Successfully', 'Success');
+    //       this.isGenerating = false;
+    //     })
+    //     .catch(error => {
+    //       this.notify.error('An Error Occurred Please Try Again to Download');
+    //     });
+    // }, 20000);
 
   }
   async generateDocument(docCreator: DocumentCreator, entity: ClientDetailOutput, address: CreateAddressInput) {
@@ -618,7 +625,240 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         }
       );
   }
-  
+  calculateJobDemandResult(dataValue: number): string {
+    let jobDemand = '';
+    if (dataValue < 1) {
+      jobDemand = 'NIL';
+    } else if (dataValue <= 5) {
+      jobDemand = 'RARE';
+    } else if (dataValue <= 33) {
+      jobDemand = 'CONSTANT';
+    } else if (dataValue <= 66) {
+      jobDemand = 'FREQUENT';
+    } else if (dataValue <= 100) {
+      jobDemand = 'OCCASIONAL';
+    }
+    return jobDemand;
+  }
+  getElementNames(keyword, docCreator, entity) {
+    this.ageList = [];
+    this.maxDataValues = [];
+    this._workAssessmentService.getWorkContext(keyword)
+      .pipe(finalize(() => {
+      }))
+      .subscribe(result => {
+        if (result != null && result.length > 0) {
+          result.filter(x => x.elementID === '4.C.2.d.1.a' || x.elementID === '4.C.2.d.1.b' ||
+            x.elementID === '4.C.2.d.1.c' || x.elementID === '4.C.2.d.1.d' || x.elementID === '4.C.2.d.1.e'
+            || x.elementID === '4.C.2.d.1.f' || x.elementID === '4.C.2.d.1.g' || x.elementID === '4.C.2.d.1.h' ||
+            x.elementID === '4.C.2.d.1.i')
+            .forEach((workContext) => {
+              const dataValues: number[] = [];
+              if (this.ageList.indexOf(workContext.elementName) === -1) {
+                result.filter(x => x.elementID === workContext.elementID)
+                  .forEach((i) => {
+                    dataValues.push(i.dataValue);
+                  });
+                if (workContext.dataValue === Math.max.apply(null, dataValues)) {
+                  const maxDataValue = new MaxDataValue();
+                  maxDataValue.dataValue = Math.max.apply(null, dataValues);
+                  maxDataValue.title = workContext.title;
+                  maxDataValue.elementId = workContext.elementID;
+                  maxDataValue.elementName = workContext.elementName;
+                  maxDataValue.category = workContext.category;
+                  // console.log(dataValues);
+                  this.maxDataValues.push(maxDataValue);
+                  this.ageList.push(workContext.elementName);
+                }
+              }
+            });
+          if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
+            this.positionalToleranceResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Sitting')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
+                if (element != null) {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+
+                }
+              } else if (item.assessmentName.includes('Kneeling')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Crouching')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Standing')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.b')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Elevated')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Mid Level')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+
+            });
+            if (this.positionalToleranceResult.filter(x => x.assessmentName != null).length > 0) {
+              this.assessmentReport[51] = true;
+              this.assessmentReport[57] = false;
+              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null && 
+                (x.result != null && x.result !== '')).map((value) => {
+                // if (value.assessmentName != null && value.assessmentName != '') {
+                return {
+                  activity: value.assessmentName,
+                  performance: value.result,
+                  jobDemand: value.jobDemand
+                };
+
+              });
+              this.assessmentReport[54] = filtered;
+            } else {
+              // this.assessmentReport[54] = {
+              //     activity: value.assessmentName,
+              //     performance: value.result,
+              //     jobDemand: value.jobDemand
+              // };
+              this.assessmentReport[51] = false;
+              this.assessmentReport[57] = true;
+            }
+          }
+          if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
+            this.weightedProtocolResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Lifting')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Unilateral')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Pushing')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Pulling')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Bilateral')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+            });
+            if (this.weightedProtocolResult.filter(x => x.assessmentName != null).length > 0) {
+              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null && 
+                (x.result != null && x.result !== '')).map((value) => {
+                return {
+                  activity: value.assessmentName,
+                  performance: value.result,
+                  jobDemand: value.jobDemand
+                };
+
+              });
+              this.assessmentReport[55] = filtered;
+              this.assessmentReport[52] = true;
+              this.assessmentReport[58] = false;
+            } else {
+
+              // this.assessmentReport[55] = {
+              //   taskName: 'Not Applicable',
+              //   taskComment: ''
+              // };
+              this.assessmentReport[52] = false;
+              this.assessmentReport[58] = true;
+            }
+          }
+          if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
+            this.repetitiveToleranceResult.forEach((item, index) => {
+              let element: MaxDataValue;
+              if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Ladder Work Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.c')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Balance Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.f')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Repetitive Foot Motion')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Crawling Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Walking Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.d')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              } else if (item.assessmentName.includes('Stair Climbing Protocol')) {
+                element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.c')[0];
+                if (element != null && typeof element !== 'undefined') {
+                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                }
+              }
+              if (this.repetitiveToleranceResult.filter(x => x.assessmentName != null).length > 0) {
+                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null && 
+                  (x.result != null && x.result !== '')).map((value) => {
+                  return {
+                    activity: value.assessmentName,
+                    performance: value.result,
+                    jobDemand: value.jobDemand
+                  };
+                });
+                this.assessmentReport[56] = filtered;
+                this.assessmentReport[53] = true;
+                this.assessmentReport[59] = false;
+              } else {
+
+                // this.assessmentReport[56] = {
+                //   taskName: 'Not Applicable',
+                //   taskComment: ''
+                // };
+                this.assessmentReport[53] = false;
+                this.assessmentReport[59] = true;
+              }
+            });
+          }
+        }
+        this.generateDocument(docCreator, entity, entity.address)
+            .then(() => {
+              // this.notify.success('Saved Successfully', 'Success');
+              this.isGenerating = false;
+            })
+            .catch(error => {
+              this.notify.error('An Error Occurred Please Try Again to Download');
+            });
+      });
+  }
   getContacts() {
     this.isLoading = true;
     this.contactService.getByLawFirm(this.lawFirmId)
