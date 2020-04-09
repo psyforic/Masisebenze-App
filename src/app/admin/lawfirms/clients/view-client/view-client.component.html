@@ -20,14 +20,14 @@
                             </li>
                             <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/comments/clients', client.id]" routerLinkActive="router-link-active">Comments</a>
                             </li>
-                            <li role="menuitem">
+                            <!-- <li role="menuitem">
                                 <a href="javascript:void(0)" class="dropdown-item" [routerLink]="['/admin/clients/view/work-information',clientId]" routerLinkActive="router-link-active">
                                     Work Information
                                 </a>
-                            </li>
+                            </li> -->
 
-                            <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/view/report-summary', client.id]" routerLinkActive="router-link-active">Report Summary</a>
-                            </li>
+                            <!-- <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/view/report-summary', client.id]" routerLinkActive="router-link-active">Report Summary</a>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -251,13 +251,10 @@
                                             <mat-expansion-panel>
                                                 <mat-expansion-panel-header>
                                                     <mat-panel-title>
-                                                        Current complaints 
+                                                        Current complaints
                                                     </mat-panel-title>
                                                 </mat-expansion-panel-header>
-                                                <quill-editor [styles]="{height: '200px'}" 
-                                                [(ngModel)]="client.currentComplaints"
-                                                 [sanitize]="true" 
-                                                 placeholder="Enter Text" name="currentComplaints">
+                                                <quill-editor [styles]="{height: '200px'}" [(ngModel)]="client.currentComplaints" [sanitize]="true" placeholder="Enter Text" name="currentComplaints">
                                                 </quill-editor>
                                             </mat-expansion-panel>
                                             <mat-expansion-panel>
@@ -373,8 +370,10 @@
                                                                 Premorbid
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="workHistory.premorbid" [sanitize]="true" name="premorbid">
+                                                        <app-work-information></app-work-information>
+                                                        <quill-editor [styles]="{height: '200px'}" [placeholder]="'Premorbid'" [(ngModel)]="workHistory.premorbid" [sanitize]="true" name="premorbid">
                                                         </quill-editor>
+
                                                     </mat-expansion-panel>
                                                     <mat-expansion-panel>
                                                         <mat-expansion-panel-header>
@@ -382,7 +381,7 @@
                                                                 Postmorbid
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="workHistory.postMorbid" [sanitize]="true" name="postMorbid">
+                                                        <quill-editor [styles]="{height: '200px'}" [placeholder]="'Premorbid'" [(ngModel)]="workHistory.postMorbid" [sanitize]="true" name="postMorbid">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -439,9 +438,7 @@
                                                                 Medical Conditions
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" 
-                                                        [(ngModel)]="medicalHistory.medicalConditions" 
-                                                        [sanitize]="true" placeholder="Enter Text" name="medicalConditions">
+                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.medicalConditions" [sanitize]="true" placeholder="Enter Text" name="medicalConditions">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -451,9 +448,7 @@
                                                                 Current History
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" 
-                                                        [(ngModel)]="medicalHistory.currentHistory" 
-                                                        [sanitize]="true" placeholder="Enter Text" name="history">
+                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.currentHistory" [sanitize]="true" placeholder="Enter Text" name="history">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
 
@@ -466,16 +461,14 @@
                                                         <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.medication" [sanitize]="true" placeholder="Enter Text" name="medication">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
-                                                    
+
                                                     <mat-expansion-panel>
                                                         <mat-expansion-panel-header>
                                                             <mat-panel-title>
                                                                 Clinical observations
                                                             </mat-panel-title>
                                                         </mat-expansion-panel-header>
-                                                        <quill-editor [styles]="{height: '200px'}" 
-                                                        [(ngModel)]="medicalHistory.clinicalObservation" [sanitize]="true" 
-                                                        placeholder="Enter Text" name="clinicalObservation">
+                                                        <quill-editor [styles]="{height: '200px'}" [(ngModel)]="medicalHistory.clinicalObservation" [sanitize]="true" placeholder="Enter Text" name="clinicalObservation">
                                                         </quill-editor>
                                                     </mat-expansion-panel>
                                                 </mat-accordion>
@@ -564,7 +557,7 @@
                                 <div class="card-body text-center text-primary">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <mat-tab-group  #assessmentTabs mat-stretch-tabs (selectedTabChange)="changeAssessmentTabs($event)">
+                                            <mat-tab-group [selectedIndex]="0" #assessmentTabs mat-stretch-tabs (selectedTabChange)="changeAssessmentTabs($event)">
                                                 <mat-tab>
                                                     <ng-template mat-tab-label>
                                                         Physical Assessment
@@ -586,21 +579,21 @@
                                                         <div class="row">
                                                             <div class="col-lg-3" *ngFor="let assessment of selectedAssessments; let i = index">
                                                                 <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">{{assessment?.assessmentName}}</h6>
+                                                                    <h6 class="card-category">
+                                                                        {{assessment?.assessmentName}}</h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
                                                                             <i class="fa fa-file-text-o fa-5x icon-primary"></i>
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)"
-                                                                         (click)="viewPhysicalAssessments(assessment?.assessmentName)">
+                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="viewPhysicalAssessments(assessment?.assessmentName)">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>  
+                                                        </div>
                                                     </div>
                                                 </mat-tab>
                                                 <mat-tab label="Cognitive Assessment">
@@ -621,7 +614,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-3" *ngFor="let assessment of selectedAssessments">
                                                                 <div class="card card-pricing custom-shadow text-center">
-                                                                    <h6 class="card-category">{{assessment.assessmentName}}
+                                                                    <h6 class="card-category">
+                                                                        {{assessment.assessmentName}}
                                                                     </h6>
                                                                     <div class="card-body text-center">
                                                                         <p class="card-description">
@@ -629,23 +623,22 @@
                                                                         </p>
                                                                     </div>
                                                                     <div class="card-footer justify-content-center ">
-                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" 
-                                                                        (click)="viewCognitiveAssessments(assessment.assessmentName)">
+                                                                        <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="viewCognitiveAssessments(assessment.assessmentName)">
                                                                             View
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </mat-tab>
                                                 <mat-tab label="Functional Assessment">
-                                            
+
                                                     <div class=" example-loading-shade" *ngIf="isLoading">
                                                         <mat-spinner *ngIf="isLoading"></mat-spinner>
                                                     </div>
-                                                   
+
                                                     <div class="text-center text-dark mt-5" *ngIf="questionnairesDto.length == 0 && !isLoading">
                                                         <i class="fa fa-hourglass-3 fa-5x">
                                                         </i>
@@ -666,7 +659,7 @@
                                                                         <a class="btn btn-round btn-accent" href="javascript:void(0)" (click)="createQuestionnaire(questionnaire.type, questionnaire.description)">
                                                                             Complete
                                                                         </a>
-                                                                      
+
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -681,16 +674,16 @@
                                                     <div class="example-loading-shade" *ngIf="isLoading">
                                                         <mat-spinner *ngIf="isLoading"></mat-spinner>
                                                     </div>
-                                                    <div class="col-md-12" >
-                                                        
-                                                        <div class="row mt-2"> 
-                                                            <div class="col-lg-7 col-lg-offset-5 mx-auto text-left">
-                                                                <h3 >Job Title: {{jobTitle}}</h3>
+                                                    <div class="col-md-12">
+
+                                                        <div class="row mt-2">
+                                                            <div class="col-lg-12 text-center">
+                                                                <h4>Job Title: {{jobTitle}}</h4>
                                                             </div>
-                                                            
+
                                                         </div>
-                                                        <div class="row mt-2" >
-                                                            <div class="col-lg-7 col-lg-offset-5  mx-auto text-left">
+                                                        <div class="row mt-2">
+                                                            <div class="col-lg-12 text-center">
                                                                 <h3>Activities Rated by Strength Level
                                                                 </h3>
                                                                 <div class="text-center text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
@@ -699,9 +692,9 @@
                                                                     <h4 class="text-center">No assessments taken</h4>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                         </div>
-                                                        
+
                                                         <div class="row mnt-5" *ngIf="weightedProtocolResult.length > 0 && !isLoading">
                                                             <div class="col-md-12">
                                                                 <table mat-table [dataSource]="weightedProtocolResult">
@@ -746,7 +739,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
-                                                            <div class="col-lg-7 col-lg-offset-5  mx-auto text-left">
+                                                            <div class="col-lg-12 text-center">
                                                                 <h3>Activities Rated by Frequency and Duration
                                                                 </h3>
                                                                 <div class="text-center text-dark mt-5" *ngIf="positionalToleranceResult.length == 0 && !isLoading">
@@ -755,9 +748,9 @@
                                                                     <h4 class="text-center">No assessments taken</h4>
                                                                 </div>
                                                             </div>
-                                                            
+
                                                         </div>
-                                                        <div class="row mnt-5"  *ngIf="positionalToleranceResult.length > 0 && !isLoading">
+                                                        <div class="row mnt-5" *ngIf="positionalToleranceResult.length > 0 && !isLoading">
                                                             <div class="col-md-12">
                                                                 <table mat-table [dataSource]="positionalToleranceResult">
 
@@ -801,7 +794,22 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <mat-accordion>
+                                                                <mat-expansion-panel>
+                                                                    <mat-expansion-panel-header>
+                                                                        <mat-panel-title>
+                                                                            Report Summary
+                                                                        </mat-panel-title>
+                                                                    </mat-expansion-panel-header>
+                                                                    <div class="col-md-12">
+                                                                        <app-report-summary></app-report-summary>
+                                                                    </div>
+                                                                </mat-expansion-panel>
+                                                            </mat-accordion>
+                                                        </div>
+                                                    </div>
                                                 </mat-tab>
                                             </mat-tab-group>
                                         </div>

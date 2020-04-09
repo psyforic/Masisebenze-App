@@ -14,8 +14,7 @@ import {
   RepetitiveSquattingOptionDto,
   LadderWorkOptionDto,
   StairClimbingOptionDto,
-  RepetitiveFootMotionProtocolDto,
-  RepetitiveFootMotionOption
+  RepetitiveFootMotionProtocolDto
 } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -55,7 +54,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   ladderWorkProtocolResult: LadderWorkOptionDto[] = [];
   walkingProtocol: WalkingProtocolDetailOutput = new WalkingProtocolDetailOutput();
   crawlingProtocolResult: CrawlingProtocolDetailOutput = new CrawlingProtocolDetailOutput();
-  repFootMotionOption: RepetitiveFootMotionOption = new RepetitiveFootMotionOption();
+  repFootMotionOption: RepetitiveFootMotionOptionDto = new RepetitiveFootMotionOptionDto();
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
@@ -159,7 +158,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       .subscribe((result) => {
 
         this.repetitiveFootMotion = (result != null) ? result.items : this.repetitiveFootMotion;
-        
+
         // if (this.repetitiveFootMotion.length > 0) {
         //   this.repetitiveFootMotion.forEach((element, index) => {
         //     element.repetitiveFootMotionOptions.forEach((item, i) => {
@@ -167,13 +166,13 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         //     });
         //   });
         // }
-      
+
       });
   }
-  getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotionProtocolId, tabIndex): RepetitiveFootMotionOption[] {
+  getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotionProtocolId, tabIndex): RepetitiveFootMotionOptionDto[] {
     if (this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId).length > 0) {
       const repM = this.repetitiveFootMotion.filter(x => x.id === repetitiveFootMotionProtocolId)[0];
-      if(tabIndex === 0) {
+      if (tabIndex === 0) {
         return repM.repetitiveFootMotionOptions.filter(x => x.side === 0);
       } else {
         return repM.repetitiveFootMotionOptions.filter(x => x.side === 1);

@@ -2,20 +2,21 @@ import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angu
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
-  AssessmentServiceProxy,
   CoordinationOptionListDto,
   CalculationsServiceProxy,
   AssessmentResult,
-  CoordinationServiceProxy
+  CoordinationServiceProxy,
+  CoordinationIncompleteServiceProxy,
+  CoordinationIncompleteDto
 } from '@shared/service-proxies/service-proxies';
-import { AssessmentService } from '@app/admin/services/assessment.service';
 import { finalize } from 'rxjs/operators';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-coordination',
   templateUrl: './coordination.component.html',
   styleUrls: ['./coordination.component.scss'],
-  providers: [CalculationsServiceProxy, CoordinationServiceProxy]
+  providers: [CalculationsServiceProxy, CoordinationServiceProxy, CoordinationIncompleteServiceProxy]
 })
 export class CoordinationComponent extends AppComponentBase implements OnInit {
 
@@ -23,19 +24,20 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   @Input() fullName: string;
   @Input() clientId: string;
   isLoading = false;
-  current_step = 1;
-  position = 0;
+  current_step_sitting = 1;
+  current_step_standing = 1;
   MAX_STEP = 4;
   types: number[] = [1, 0, 3, 2];
   result: AssessmentResult = new AssessmentResult();
-  coordinationOptions: CoordinationOptionListDto[] = [];
+  coordinationSittingOptions: CoordinationOptionListDto[] = [];
+  coordinationStandingOptions: CoordinationOptionListDto[] = [];
+  coordinationIncomplete: CoordinationIncompleteDto = new CoordinationIncompleteDto();
   constructor(
-    private injector: Injector,
+    injector: Injector,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
-    private _assessmentService: AssessmentServiceProxy,
     private _coordinationService: CoordinationServiceProxy,
-    private generalService: AssessmentService,
+    private _ccordinationIncompleteService: CoordinationIncompleteServiceProxy,
     private calculationService: CalculationsServiceProxy) {
     super(injector);
   }
@@ -43,44 +45,90 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   ngOnInit() {
   }
   open() {
-    this.getCoordination();
+    this.getCoordinationSitting();
+    this.getCoordinationStanding();
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
   close() {
     this.activeModal.close();
   }
-  getCoordination() {
+  getCoordinationSitting() {
     this.isLoading = true;
-    this._coordinationService.getCoordination(this.clientId, this.position)
+    this._coordinationService.getCoordination(this.clientId, 0)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.getResult(this.formatTime(this.coordinationSittingOptions[this.current_step_sitting - 1].time), this.current_step_sitting);
+      }))
+      .subscribe((result) => {
+        this.coordinationSittingOptions = result.items;
+      });
+  }
+  getCoordinationStanding() {
+    this.isLoading = true;
+    this._coordinationService.getCoordination(this.clientId, 1)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.getResult(this.formatTime(this.coordinationStandingOptions[this.current_step_standing - 1].time), this.current_step_standing);
+      }))
+      .subscribe(result => {
+        this.coordinationStandingOptions = result.items;
+      });
+  }
+  getCoordinationIncomplete() {
+    this.isLoading = true;
+    this._ccordinationIncompleteService.getCoordinationIncomplete(this.clientId, 0)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
-      .subscribe((result) => {
-        this.coordinationOptions = result.items;
+      .subscribe(result => {
+        this.coordinationIncomplete = result;
       });
   }
-  getResult(seconds: number) {
+  getResult(seconds: number, current_step: number) {
     this.isLoading = true;
-    this.calculationService.getCoordinationCompleteResults(seconds, this.types[this.current_step - 1])
+    this.calculationService.getCoordinationCompleteResults(seconds, this.types[current_step - 1])
       .pipe(finalize(() => {
-        // this.getResult(this.coordinationOptions[0].numPieces);
         this.isLoading = false;
       }))
       .subscribe((result) => {
         this.result = result;
       });
   }
-  next() {
-    if (this.current_step !== this.MAX_STEP) {
-      this.current_step++;
-      this.getResult(this.coordinationOptions[this.current_step - 1].numPieces);
+  handleTabChange(event: MatTabChangeEvent) {
+    if (event.index === 2) {
+      this.getCoordinationIncomplete();
     }
   }
-  prev() {
-    if (this.current_step !== 1) {
-      this.current_step--;
-      this.getResult(this.coordinationOptions[this.current_step - 1].numPieces);
+  nextSitting() {
+    if (this.current_step_sitting !== this.MAX_STEP) {
+      this.current_step_sitting++;
+      this.getResult(this.formatTime(this.coordinationSittingOptions[this.current_step_sitting - 1].time), this.current_step_sitting);
     }
+  }
+  prevSitting() {
+    if (this.current_step_sitting !== 1) {
+      this.current_step_sitting--;
+      this.getResult(this.formatTime(this.coordinationSittingOptions[this.current_step_sitting - 1].time), this.current_step_sitting);
+    }
+  }
+
+  nextStanding() {
+    if (this.current_step_standing !== this.MAX_STEP) {
+      this.current_step_standing++;
+      this.getResult(this.formatTime(this.coordinationStandingOptions[this.current_step_standing - 1].time), this.current_step_standing);
+    }
+  }
+  prevStanding() {
+    if (this.current_step_standing !== 1) {
+      this.current_step_standing--;
+      this.getResult(this.formatTime(this.coordinationStandingOptions[this.current_step_standing - 1].time), this.current_step_standing);
+    }
+  }
+  formatTime(time: number): number {
+    return time == null || undefined ? 0 : time;
+  }
+  isShown(): boolean {
+    return this.coordinationIncomplete.status == null || undefined ? false : true;
   }
 }

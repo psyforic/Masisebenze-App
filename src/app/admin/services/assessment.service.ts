@@ -1,6 +1,8 @@
-import { GripStrengthServiceProxy, MusclePowerServiceProxy, BorgBalanceServiceProxy,
-   SensationServiceProxy, CoordinationServiceProxy, PostureServiceProxy,
-    GaitServiceProxy } from './../../../shared/service-proxies/service-proxies';
+import {
+  GripStrengthServiceProxy, MusclePowerServiceProxy, BorgBalanceServiceProxy,
+  SensationServiceProxy, CoordinationServiceProxy, PostureServiceProxy,
+  GaitServiceProxy
+} from './../../../shared/service-proxies/service-proxies';
 import { Injectable } from '@angular/core';
 import {
   AssessmentServiceProxy,
@@ -306,7 +308,8 @@ export class AssessmentService {
           'able to lift leg independently and hold = or >3 seconds',
           'able to lift leg independently and hold 5-10 seconds',
           'able to lift leg independently and hold >10 seconds'
-        ]
+        ];
+        return options;
 
     }
 
@@ -409,6 +412,25 @@ export class AssessmentService {
       default:
         return 'NIL';
     }
+  }
+  getPostureOptionScore(position: number, score: number): number {
+    const options: number[][] =
+      [
+        [2, 6, 1],
+        [1, 3, 5],
+        [1, 3, 5],
+        [2, 6, 10],
+        [1, 3, 5],
+        [2, 6, 10],
+        [2, 6, 10],
+        [1, 3, 5],
+        [2, 6, 10],
+        [2, 6, 10],
+        [2, 6, 10],
+        [1, 3, 5],
+        [1, 3, 5]
+      ];
+    return options[position][score];
   }
 }
 

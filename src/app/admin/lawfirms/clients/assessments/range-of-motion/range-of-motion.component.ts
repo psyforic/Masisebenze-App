@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Injector,
+  Input,
+} from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -9,7 +16,7 @@ import {
   HandDto,
   HipDto,
   KneeDto,
-  AnkleDto
+  AnkleDto,
 } from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import { AssessmentService } from '@app/admin/services/assessment.service';
@@ -19,10 +26,9 @@ import { MatTabChangeEvent } from '@angular/material';
   selector: 'app-range-of-motion',
   templateUrl: './range-of-motion.component.html',
   styleUrls: ['./range-of-motion.component.scss'],
-  providers: [RangeOfMotionServiceProxy]
+  providers: [RangeOfMotionServiceProxy],
 })
 export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
-
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() fullName: string;
   @Input() clientId: string;
@@ -46,35 +52,50 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _rangeOfMotionService: RangeOfMotionServiceProxy,
-    private _generalService: AssessmentService) {
+    private _generalService: AssessmentService
+  ) {
     super(injector);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
   open() {
     this.getShoulders();
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
-      .result.then(() => { }, () => { });
+    this.modalService
+      .open(this.content, {
+        windowClass: 'slideInDown',
+        backdrop: 'static',
+        keyboard: false,
+        size: 'xl',
+      })
+      .result.then(
+        () => {},
+        () => {}
+      );
   }
   close() {
     this.activeModal.close();
   }
 
+  formatMusclePower(value: number): any {
+    return value === 0 ? '' : value;
+  }
+
   // Shoulder
   getShoulders() {
     this.isLoading = true;
-    this._rangeOfMotionService.getShoulder(this.clientId, 0)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
+    this._rangeOfMotionService
+      .getShoulder(this.clientId, 0)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
       .subscribe((result) => {
         this.leftShoulder = result;
       });
-    this._rangeOfMotionService.getShoulder(this.clientId, 1)
-      .pipe(finalize(() => {
-
-      }))
+    this._rangeOfMotionService
+      .getShoulder(this.clientId, 1)
+      .pipe(finalize(() => {}))
       .subscribe((result) => {
         this.rightShoulder = result;
       });
@@ -83,16 +104,20 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
   // Forearm & Wrist
   getForearmWrist() {
     this.isLoading = true;
-    this._rangeOfMotionService.getForearmWrist(this.clientId, 0)
-      .pipe(finalize(() => {
-
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getForearmWrist(this.clientId, 0)
+      .pipe(finalize(() => {}))
+      .subscribe((result) => {
         this.leftForearmWrist = result;
       });
-    this._rangeOfMotionService.getForearmWrist(this.clientId, 1)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getForearmWrist(this.clientId, 1)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe((result) => {
         this.rightForearmWrist = result;
       });
   }
@@ -100,36 +125,42 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
   // Elbow
   getElbow() {
     this.isLoading = true;
-    this._rangeOfMotionService.getElbow(this.clientId, 0)
-      .pipe(finalize(() => {
-
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getElbow(this.clientId, 0)
+      .pipe(finalize(() => {}))
+      .subscribe((result) => {
         this.leftElbow = result;
       });
-    this._rangeOfMotionService.getElbow(this.clientId, 1)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getElbow(this.clientId, 1)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe((result) => {
         this.rightElbow = result;
       });
   }
 
-
   // Hand
   getHand() {
     this.isLoading = true;
-    this._rangeOfMotionService.getHand(this.clientId, 0)
-      .pipe(finalize(() => {
-
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getHand(this.clientId, 0)
+      .pipe(finalize(() => {}))
+      .subscribe((result) => {
         this.leftHands = result.items;
       });
-    this._rangeOfMotionService.getHand(this.clientId, 1)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getHand(this.clientId, 1)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe((result) => {
         this.rightHands = result.items;
-
       });
   }
   displayScore(score) {
@@ -142,34 +173,41 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
   // Hip
   getHip() {
     this.isLoading = true;
-    this._rangeOfMotionService.getHip(this.clientId, 0)
-      .pipe(finalize(() => {
-
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getHip(this.clientId, 0)
+      .pipe(finalize(() => {}))
+      .subscribe((result) => {
         this.leftHip = result;
       });
-    this._rangeOfMotionService.getHip(this.clientId, 1)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getHip(this.clientId, 1)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe((result) => {
         this.rightHip = result;
       });
   }
 
-
   // Knee
   getKnee() {
     this.isLoading = true;
-    this._rangeOfMotionService.getKnee(this.clientId, 0)
-      .pipe(finalize(() => {
-
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getKnee(this.clientId, 0)
+      .pipe(finalize(() => {}))
+      .subscribe((result) => {
         this.leftKnee = result;
       });
-    this._rangeOfMotionService.getKnee(this.clientId, 1)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getKnee(this.clientId, 1)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe((result) => {
         this.rightKnee = result;
       });
   }
@@ -177,16 +215,20 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
   // Ankle
   getAnkle() {
     this.isLoading = true;
-    this._rangeOfMotionService.getAnkle(this.clientId, 0)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getAnkle(this.clientId, 0)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe((result) => {
         this.leftAnkle = result;
       });
-    this._rangeOfMotionService.getAnkle(this.clientId, 1)
-      .pipe(finalize(() => {
-
-      })).subscribe((result) => {
+    this._rangeOfMotionService
+      .getAnkle(this.clientId, 1)
+      .pipe(finalize(() => {}))
+      .subscribe((result) => {
         this.rightAnkle = result;
       });
   }
@@ -224,6 +266,5 @@ export class RangeOfMotionComponent extends AppComponentBase implements OnInit {
       default:
         break;
     }
-
   }
 }

@@ -1,121 +1,253 @@
-<ng-template #content class="modal-lg">
-  <div class="modal-header">
-    <h4 class="modal-title">New Job Title</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+<ng-template #content class="modal-xl">
+    <div class="modal-header">
+        <h4 class="modal-title">New Job Title</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
       <span aria-hidden="true">&times;</span>
     </button>
-  </div>
-  <form [formGroup]="jobDescriptionForm" (ngSubmit)="save()">
-    <div class="modal-body">
-      <div class="card">
-        <div class="row">
-          <div class="col-lg-12">
-            <mat-form-field>
-              <mat-label>Code</mat-label>
-              <input type="text" matInput placeholder="Job Code" formControlName="code" required>
-              <mat-error class="error-message" *ngIf="jobDescriptionForm.get('code').touched
-                 && jobDescriptionForm.hasError('required')">
-                  Job Title Code is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <mat-form-field>
-              <mat-label>Job Title</mat-label>
-              <input type="text" matInput placeholder="Job Title" formControlName="title" required>
-              <mat-error class="error-message" *ngIf="jobDescriptionForm.get('title').touched
+    </div>
+    <form [formGroup]="jobDescriptionForm" (ngSubmit)="save()">
+        <div class="modal-body">
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <mat-form-field>
+                            <mat-label>Job Title</mat-label>
+                            <input type="text" matInput placeholder="Job Title" formControlName="title" required>
+                            <mat-error class="error-message" *ngIf="jobDescriptionForm.get('title').touched
               && jobDescriptionForm.hasError('required')">
-                Job Title is Required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>Category</mat-label>
-              <input type="text" matInput placeholder="Category" formControlName="category">
-              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('category').touched
+                                Job Title is Required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 pb-3">
+                        <label class="mat-tab-label">Job Description</label>
+                        <quill-editor [styles]="{height: '200px'}" formControlName="description" [sanitize]="true" placeholder="Job Description">
+                        </quill-editor>
+                        <mat-error class="error-message" *ngIf="jobDescriptionForm.get('description').touched
               && jobDescriptionForm.hasError('required')">
-                Category is Required
-              </mat-error> -->
-            </mat-form-field>
-          </div>
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>Data Value</mat-label>
-              <input type="text" matInput placeholder="" formControlName="dataValue">
-              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('dataValue').touched
-              && jobDescriptionForm.hasError('required')">
-                Job Data Value is Required
-              </mat-error> -->
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>Element Name</mat-label>
-              <input type="text" matInput placeholder="Element Name" formControlName="elementName">
-              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('elementName').touched
-              && jobDescriptionForm.hasError('required')">
-                Job Data Value is Required
-              </mat-error> -->
-            </mat-form-field>
-          </div>
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>Element Id</mat-label>
-              <input type="text" matInput placeholder="Element Id" formControlName="elementId" required>
-              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('elementId').touched
-              && jobDescriptionForm.hasError('required')">
-                Job Data Value is Required
-              </mat-error> -->
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>Lower CI Bound</mat-label>
-              <input type="text" matInput placeholder="Lower CI Bound" formControlName="lowerCIBound">
-              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('lowerCIBound').touched
-              && jobDescriptionForm.hasError('required')">
-              Lower CI Bound is Required
-              </mat-error> -->
-            </mat-form-field>
-          </div>
-          <div class="col-lg-6">
-            <mat-form-field>
-              <mat-label>Upper CI Bound</mat-label>
-              <input type="text" matInput placeholder="Upper CI Bound" formControlName="upperCIBound">
-              <!-- <mat-error class="error-message" *ngIf="jobDescriptionForm.get('upperCIBound').touched
-              && jobDescriptionForm.hasError('required')">
-              Upper CI Bound is Required
-              </mat-error> -->
-            </mat-form-field>
-          </div>
-        </div>
+                            Job Description is Required
+                        </mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Lifting Job Demand</mat-label>
+                            <mat-select name="liftingJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Unilateral Carry Job Demand</mat-label>
+                            <mat-select name="unilateralCarryJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Bilateral Job Demand</mat-label>
+                            <mat-select name="bilateralCarryJobDemand" formControlName="bilateralCarryJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Push/Pull Job Demand</mat-label>
+                            <mat-select name="pushPullJobDemand" formControlName="pushPullJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Lifting Job Demand</mat-label>
+                            <mat-select name="">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Unilateral Carry Job Demand</mat-label>
+                            <mat-select name="unilateralCarryJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Kneeling Job Demand</mat-label>
+                            <mat-select name="" formControlName="kneelingJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Crouching Carry Job Demand</mat-label>
+                            <mat-select name="unilateralCarryJobDemand" formControlName="unilateralCarryJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Mid Level Reach Job Demand</mat-label>
+                            <mat-select name="midLevelReachJobDemand" formControlName="midLevelReachJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Elevated Reach Job Demand</mat-label>
+                            <mat-select name="elevatedLevelReachJobDemand" formControlName="elevatedLevelReachJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Sitting Job Demand</mat-label>
+                            <mat-select name="sittingJobDemand" formControlName="sittingJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Standing Job Demand</mat-label>
+                            <mat-select name="unilateralCarryJobDemand" formControlName="unilateralCarryJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Crawling Job Demand</mat-label>
+                            <mat-select name="crawlingJobDemand" formControlName="crawlingJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Rep Foot Motion Job Demand</mat-label>
+                            <mat-select name="repFootMotionJobDemand" formControlName="repFootMotionJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
 
-        <div class="row">
-          <div class="col-lg-12">
-            <label class="mat-tab-label">Job Description</label>
-            <quill-editor [styles]="{height: '200px'}" formControlName="description" [sanitize]="true"
-              placeholder="Job Description">
-            </quill-editor>
-            <mat-error class="error-message" *ngIf="jobDescriptionForm.get('description').touched
-              && jobDescriptionForm.hasError('required')">
-              Job Description is Required
-            </mat-error>
-          </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Stair Climbing Job Demand</mat-label>
+                            <mat-select name="stairClimbingJobDemand" formControlName="stairClimbingJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Walking Job Demand</mat-label>
+                            <mat-select name="walkingJobDemand" formControlName="walkingJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Balance Job Demand</mat-label>
+                            <mat-select name="balanceJobDemand" formControlName="balanceJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Ladder Work Job Demand</mat-label>
+                            <mat-select name="ladderWorkJobDemand" formControlName="ladderWorkJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <mat-form-field>
+                            <mat-label>Squatting Job Demand</mat-label>
+                            <mat-select name="squattingJobDemand" formControlName="squattingJobDemand">
+                                <mat-option *ngFor="let demand of jobDemands" [value]="demand">
+                                    {{demand}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" mat-raised-button color="default" (click)="modalRef.hide()">Close</button>
-      <button type="submit" mat-raised-button color="primary" [disabled]="!jobDescriptionForm.valid">Add</button>
-    </div>
-  </form>
+        <div class="modal-footer">
+            <button type="button" mat-raised-button color="default" (click)="modalRef.hide()">Close</button>
+            <button type="submit" mat-raised-button color="primary" [disabled]="!jobDescriptionForm.valid">Add</button>
+        </div>
+    </form>
 </ng-template>

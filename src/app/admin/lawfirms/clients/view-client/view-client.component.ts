@@ -553,7 +553,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       case 'Grip Strength':
         this.getGripStrength();
         break;
-      case 'Borg Balance':
+      case 'Berg Balance':
         this.getBorgBalance();
         break;
       case 'Posture':
@@ -665,8 +665,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getChildDocuments();
         break;
       case 4:
-        // this.assessmentCategories.filter(x => x.name.includes('PHY') || x.name.includes('COG') || 
-        // x.name.includes('FUNC') || x.name.includes('WORK'));
         const physical = this.assessmentCategories.filter(x => x.name.includes('PHYSICAL'))[0];
         if (physical != null && physical.id != null) {
           this.getSelectedAssessments(physical.id);
@@ -819,7 +817,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.isLoading = false;
       }))
       .subscribe(result => {
-        //console.log(result)
         if (result != null && result.length > 0) {
           result.filter(x => x.elementID === '4.C.2.d.1.a' || x.elementID === '4.C.2.d.1.b' ||
             x.elementID === '4.C.2.d.1.c' || x.elementID === '4.C.2.d.1.d' || x.elementID === '4.C.2.d.1.e'
@@ -882,13 +879,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               }
               if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') && 
+              } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
               !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL') 
+              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL')
               && !item.result.includes('CONSTANT') &&
                 !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
                 item.isDeficit = 'Yes';
@@ -933,13 +930,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               }
               if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') && 
+              } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
               !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
-              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL') 
+              } else if (item.jobDemand.includes('OCCASSIONAL') && !item.result.includes('OCCASSIONAL')
               && !item.result.includes('CONSTANT') &&
                 !item.result.includes('NIL') && !item.result.includes('FREQUENT')) {
                 item.isDeficit = 'Yes';

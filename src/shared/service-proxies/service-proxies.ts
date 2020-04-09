@@ -1326,6 +1326,63 @@ export class AssessmentServiceProxy {
         }
         return _observableOf<ListResultDtoOfClientAssessmentDto>(<any>null);
     }
+
+    /**
+     * @param clientId (optional) 
+     * @param identifier (optional) 
+     * @return Success
+     */
+    getAssessmentStatus(clientId: string | null | undefined, identifier: number | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetAssessmentStatus?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (identifier !== undefined)
+            url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAssessmentStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAssessmentStatus(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAssessmentStatus(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
 }
 
 @Injectable()
@@ -2275,6 +2332,60 @@ export class BilateralTestServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfBilateralTestDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getBilateralCarry(clientId: string | null | undefined): Observable<BilateralDto> {
+        let url_ = this.baseUrl + "/api/services/app/BilateralTest/GetBilateralCarry?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBilateralCarry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBilateralCarry(<any>response_);
+                } catch (e) {
+                    return <Observable<BilateralDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BilateralDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBilateralCarry(response: HttpResponseBase): Observable<BilateralDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BilateralDto.fromJS(resultData200) : new BilateralDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BilateralDto>(<any>null);
     }
 
     /**
@@ -10974,6 +11085,60 @@ export class CrouchingTestServiceProxy {
     }
 
     /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCrouching(clientId: string | null | undefined): Observable<CrouchingDto> {
+        let url_ = this.baseUrl + "/api/services/app/CrouchingTest/GetCrouching?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCrouching(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCrouching(<any>response_);
+                } catch (e) {
+                    return <Observable<CrouchingDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CrouchingDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCrouching(response: HttpResponseBase): Observable<CrouchingDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? CrouchingDto.fromJS(resultData200) : new CrouchingDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CrouchingDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -12138,6 +12303,60 @@ export class ElevatedReachTestServiceProxy {
             }));
         }
         return _observableOf<ElevatedReachTestDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getElevatedReach(clientId: string | null | undefined): Observable<ElevatedReachDto> {
+        let url_ = this.baseUrl + "/api/services/app/ElevatedReachTest/GetElevatedReach?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetElevatedReach(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetElevatedReach(<any>response_);
+                } catch (e) {
+                    return <Observable<ElevatedReachDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ElevatedReachDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetElevatedReach(response: HttpResponseBase): Observable<ElevatedReachDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ElevatedReachDto.fromJS(resultData200) : new ElevatedReachDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ElevatedReachDto>(<any>null);
     }
 
     /**
@@ -13827,6 +14046,60 @@ export class KneelingTestServiceProxy {
             }));
         }
         return _observableOf<KneelingTestDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getKneeling(clientId: string | null | undefined): Observable<KneelingDto> {
+        let url_ = this.baseUrl + "/api/services/app/KneelingTest/GetKneeling?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetKneeling(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetKneeling(<any>response_);
+                } catch (e) {
+                    return <Observable<KneelingDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<KneelingDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetKneeling(response: HttpResponseBase): Observable<KneelingDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? KneelingDto.fromJS(resultData200) : new KneelingDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<KneelingDto>(<any>null);
     }
 
     /**
@@ -15542,6 +15815,60 @@ export class LiftWaistTestServiceProxy {
     }
 
     /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getLifting(clientId: string | null | undefined): Observable<LiftWaistDto> {
+        let url_ = this.baseUrl + "/api/services/app/LiftWaistTest/GetLifting?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetLifting(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetLifting(<any>response_);
+                } catch (e) {
+                    return <Observable<LiftWaistDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LiftWaistDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetLifting(response: HttpResponseBase): Observable<LiftWaistDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? LiftWaistDto.fromJS(resultData200) : new LiftWaistDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LiftWaistDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -15816,6 +16143,60 @@ export class MidLevelReachTestServiceProxy {
             }));
         }
         return _observableOf<MidLevelReachTestDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getMidLevelReach(clientId: string | null | undefined): Observable<MidLevelReachDto> {
+        let url_ = this.baseUrl + "/api/services/app/MidLevelReachTest/GetMidLevelReach?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMidLevelReach(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMidLevelReach(<any>response_);
+                } catch (e) {
+                    return <Observable<MidLevelReachDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MidLevelReachDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMidLevelReach(response: HttpResponseBase): Observable<MidLevelReachDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MidLevelReachDto.fromJS(resultData200) : new MidLevelReachDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MidLevelReachDto>(<any>null);
     }
 
     /**
@@ -16742,6 +17123,60 @@ export class PullingTestServiceProxy {
     }
 
     /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPulling(clientId: string | null | undefined): Observable<PullingDto> {
+        let url_ = this.baseUrl + "/api/services/app/PullingTest/GetPulling?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPulling(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPulling(<any>response_);
+                } catch (e) {
+                    return <Observable<PullingDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PullingDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPulling(response: HttpResponseBase): Observable<PullingDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PullingDto.fromJS(resultData200) : new PullingDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PullingDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -17016,6 +17451,60 @@ export class PushingTestServiceProxy {
             }));
         }
         return _observableOf<PushingTestDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getPushing(clientId: string | null | undefined): Observable<PushingDto> {
+        let url_ = this.baseUrl + "/api/services/app/PushingTest/GetPushing?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPushing(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPushing(<any>response_);
+                } catch (e) {
+                    return <Observable<PushingDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PushingDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetPushing(response: HttpResponseBase): Observable<PushingDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PushingDto.fromJS(resultData200) : new PushingDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PushingDto>(<any>null);
     }
 
     /**
@@ -22629,6 +23118,60 @@ export class UnilateralTestServiceProxy {
             }));
         }
         return _observableOf<UnilateralTestDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getUnilateralCarry(clientId: string | null | undefined): Observable<UnilateralDto> {
+        let url_ = this.baseUrl + "/api/services/app/UnilateralTest/GetUnilateralCarry?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetUnilateralCarry(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetUnilateralCarry(<any>response_);
+                } catch (e) {
+                    return <Observable<UnilateralDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UnilateralDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetUnilateralCarry(response: HttpResponseBase): Observable<UnilateralDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? UnilateralDto.fromJS(resultData200) : new UnilateralDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UnilateralDto>(<any>null);
     }
 
     /**
@@ -28440,6 +28983,113 @@ export interface IBilateralTestDto {
     id: string | undefined;
 }
 
+export class BilateralDto implements IBilateralDto {
+    bilateralTests: BilateralTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IBilateralDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["bilateralTests"] && data["bilateralTests"].constructor === Array) {
+                this.bilateralTests = [];
+                for (let item of data["bilateralTests"])
+                    this.bilateralTests.push(BilateralTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.chosen = data["chosen"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): BilateralDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BilateralDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.bilateralTests && this.bilateralTests.constructor === Array) {
+            data["bilateralTests"] = [];
+            for (let item of this.bilateralTests)
+                data["bilateralTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["chosen"] = this.chosen;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): BilateralDto {
+        const json = this.toJSON();
+        let result = new BilateralDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBilateralDto {
+    bilateralTests: BilateralTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
 export class CreateBookingInput implements ICreateBookingInput {
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
@@ -33612,6 +34262,121 @@ export interface ICrouchingTestDto {
     id: string | undefined;
 }
 
+export class CrouchingDto implements ICrouchingDto {
+    crouchingTests: CrouchingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ICrouchingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["crouchingTests"] && data["crouchingTests"].constructor === Array) {
+                this.crouchingTests = [];
+                for (let item of data["crouchingTests"])
+                    this.crouchingTests.push(CrouchingTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.taskType = data["taskType"];
+            this.chosen = data["chosen"];
+            this.rating = data["rating"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): CrouchingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CrouchingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.crouchingTests && this.crouchingTests.constructor === Array) {
+            data["crouchingTests"] = [];
+            for (let item of this.crouchingTests)
+                data["crouchingTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["taskType"] = this.taskType;
+        data["chosen"] = this.chosen;
+        data["rating"] = this.rating;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): CrouchingDto {
+        const json = this.toJSON();
+        let result = new CrouchingDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICrouchingDto {
+    crouchingTests: CrouchingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
 export class CreateDocumentInput implements ICreateDocumentInput {
     name: string | undefined;
     authorName: string | undefined;
@@ -34261,6 +35026,121 @@ export interface IElevatedReachTestDto {
     position: number | undefined;
     comment: string | undefined;
     elevatedReachId: string | undefined;
+    id: string | undefined;
+}
+
+export class ElevatedReachDto implements IElevatedReachDto {
+    elevatedReachTests: ElevatedReachTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IElevatedReachDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["elevatedReachTests"] && data["elevatedReachTests"].constructor === Array) {
+                this.elevatedReachTests = [];
+                for (let item of data["elevatedReachTests"])
+                    this.elevatedReachTests.push(ElevatedReachTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.taskType = data["taskType"];
+            this.chosen = data["chosen"];
+            this.rating = data["rating"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): ElevatedReachDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ElevatedReachDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.elevatedReachTests && this.elevatedReachTests.constructor === Array) {
+            data["elevatedReachTests"] = [];
+            for (let item of this.elevatedReachTests)
+                data["elevatedReachTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["taskType"] = this.taskType;
+        data["chosen"] = this.chosen;
+        data["rating"] = this.rating;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): ElevatedReachDto {
+        const json = this.toJSON();
+        let result = new ElevatedReachDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IElevatedReachDto {
+    elevatedReachTests: ElevatedReachTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -35145,6 +36025,23 @@ export class CreateJobDescriptionInput implements ICreateJobDescriptionInput {
     category: number | undefined;
     lowerCIBound: number | undefined;
     upperCIBound: number | undefined;
+    liftingJobDemand: string | undefined;
+    unilateralCarryJobDemand: string | undefined;
+    bilateralCarryJobDemand: string | undefined;
+    pushPullJobDemand: string | undefined;
+    kneelingJobDemand: string | undefined;
+    crouchingJobDemand: string | undefined;
+    midLevelReachJobDemand: string | undefined;
+    elevatedReachJobDemand: string | undefined;
+    sittingJobDemand: string | undefined;
+    standingJobDemand: string | undefined;
+    crawlingJobDemand: string | undefined;
+    repFootMotionJobDemand: string | undefined;
+    stairClimbingJobDemand: string | undefined;
+    walkingJobDemand: string | undefined;
+    balanceJobDemand: string | undefined;
+    ladderWorkJobDemand: string | undefined;
+    squattingJobDemand: string | undefined;
 
     constructor(data?: ICreateJobDescriptionInput) {
         if (data) {
@@ -35166,6 +36063,23 @@ export class CreateJobDescriptionInput implements ICreateJobDescriptionInput {
             this.category = data["category"];
             this.lowerCIBound = data["lowerCIBound"];
             this.upperCIBound = data["upperCIBound"];
+            this.liftingJobDemand = data["liftingJobDemand"];
+            this.unilateralCarryJobDemand = data["unilateralCarryJobDemand"];
+            this.bilateralCarryJobDemand = data["bilateralCarryJobDemand"];
+            this.pushPullJobDemand = data["pushPullJobDemand"];
+            this.kneelingJobDemand = data["kneelingJobDemand"];
+            this.crouchingJobDemand = data["crouchingJobDemand"];
+            this.midLevelReachJobDemand = data["midLevelReachJobDemand"];
+            this.elevatedReachJobDemand = data["elevatedReachJobDemand"];
+            this.sittingJobDemand = data["sittingJobDemand"];
+            this.standingJobDemand = data["standingJobDemand"];
+            this.crawlingJobDemand = data["crawlingJobDemand"];
+            this.repFootMotionJobDemand = data["repFootMotionJobDemand"];
+            this.stairClimbingJobDemand = data["stairClimbingJobDemand"];
+            this.walkingJobDemand = data["walkingJobDemand"];
+            this.balanceJobDemand = data["balanceJobDemand"];
+            this.ladderWorkJobDemand = data["ladderWorkJobDemand"];
+            this.squattingJobDemand = data["squattingJobDemand"];
         }
     }
 
@@ -35187,6 +36101,23 @@ export class CreateJobDescriptionInput implements ICreateJobDescriptionInput {
         data["category"] = this.category;
         data["lowerCIBound"] = this.lowerCIBound;
         data["upperCIBound"] = this.upperCIBound;
+        data["liftingJobDemand"] = this.liftingJobDemand;
+        data["unilateralCarryJobDemand"] = this.unilateralCarryJobDemand;
+        data["bilateralCarryJobDemand"] = this.bilateralCarryJobDemand;
+        data["pushPullJobDemand"] = this.pushPullJobDemand;
+        data["kneelingJobDemand"] = this.kneelingJobDemand;
+        data["crouchingJobDemand"] = this.crouchingJobDemand;
+        data["midLevelReachJobDemand"] = this.midLevelReachJobDemand;
+        data["elevatedReachJobDemand"] = this.elevatedReachJobDemand;
+        data["sittingJobDemand"] = this.sittingJobDemand;
+        data["standingJobDemand"] = this.standingJobDemand;
+        data["crawlingJobDemand"] = this.crawlingJobDemand;
+        data["repFootMotionJobDemand"] = this.repFootMotionJobDemand;
+        data["stairClimbingJobDemand"] = this.stairClimbingJobDemand;
+        data["walkingJobDemand"] = this.walkingJobDemand;
+        data["balanceJobDemand"] = this.balanceJobDemand;
+        data["ladderWorkJobDemand"] = this.ladderWorkJobDemand;
+        data["squattingJobDemand"] = this.squattingJobDemand;
         return data; 
     }
 
@@ -35208,6 +36139,23 @@ export interface ICreateJobDescriptionInput {
     category: number | undefined;
     lowerCIBound: number | undefined;
     upperCIBound: number | undefined;
+    liftingJobDemand: string | undefined;
+    unilateralCarryJobDemand: string | undefined;
+    bilateralCarryJobDemand: string | undefined;
+    pushPullJobDemand: string | undefined;
+    kneelingJobDemand: string | undefined;
+    crouchingJobDemand: string | undefined;
+    midLevelReachJobDemand: string | undefined;
+    elevatedReachJobDemand: string | undefined;
+    sittingJobDemand: string | undefined;
+    standingJobDemand: string | undefined;
+    crawlingJobDemand: string | undefined;
+    repFootMotionJobDemand: string | undefined;
+    stairClimbingJobDemand: string | undefined;
+    walkingJobDemand: string | undefined;
+    balanceJobDemand: string | undefined;
+    ladderWorkJobDemand: string | undefined;
+    squattingJobDemand: string | undefined;
 }
 
 export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
@@ -35220,6 +36168,23 @@ export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
     category: number | undefined;
     lowerCIBound: number | undefined;
     upperCIBound: number | undefined;
+    liftingJobDemand: string | undefined;
+    unilateralCarryJobDemand: string | undefined;
+    bilateralCarryJobDemand: string | undefined;
+    pushPullJobDemand: string | undefined;
+    kneelingJobDemand: string | undefined;
+    crouchingJobDemand: string | undefined;
+    midLevelReachJobDemand: string | undefined;
+    elevatedReachJobDemand: string | undefined;
+    sittingJobDemand: string | undefined;
+    standingJobDemand: string | undefined;
+    crawlingJobDemand: string | undefined;
+    repFootMotionJobDemand: string | undefined;
+    stairClimbingJobDemand: string | undefined;
+    walkingJobDemand: string | undefined;
+    balanceJobDemand: string | undefined;
+    ladderWorkJobDemand: string | undefined;
+    squattingJobDemand: string | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
@@ -35246,6 +36211,23 @@ export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
             this.category = data["category"];
             this.lowerCIBound = data["lowerCIBound"];
             this.upperCIBound = data["upperCIBound"];
+            this.liftingJobDemand = data["liftingJobDemand"];
+            this.unilateralCarryJobDemand = data["unilateralCarryJobDemand"];
+            this.bilateralCarryJobDemand = data["bilateralCarryJobDemand"];
+            this.pushPullJobDemand = data["pushPullJobDemand"];
+            this.kneelingJobDemand = data["kneelingJobDemand"];
+            this.crouchingJobDemand = data["crouchingJobDemand"];
+            this.midLevelReachJobDemand = data["midLevelReachJobDemand"];
+            this.elevatedReachJobDemand = data["elevatedReachJobDemand"];
+            this.sittingJobDemand = data["sittingJobDemand"];
+            this.standingJobDemand = data["standingJobDemand"];
+            this.crawlingJobDemand = data["crawlingJobDemand"];
+            this.repFootMotionJobDemand = data["repFootMotionJobDemand"];
+            this.stairClimbingJobDemand = data["stairClimbingJobDemand"];
+            this.walkingJobDemand = data["walkingJobDemand"];
+            this.balanceJobDemand = data["balanceJobDemand"];
+            this.ladderWorkJobDemand = data["ladderWorkJobDemand"];
+            this.squattingJobDemand = data["squattingJobDemand"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
             this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
@@ -35272,6 +36254,23 @@ export class JobDescriptionDetailOutput implements IJobDescriptionDetailOutput {
         data["category"] = this.category;
         data["lowerCIBound"] = this.lowerCIBound;
         data["upperCIBound"] = this.upperCIBound;
+        data["liftingJobDemand"] = this.liftingJobDemand;
+        data["unilateralCarryJobDemand"] = this.unilateralCarryJobDemand;
+        data["bilateralCarryJobDemand"] = this.bilateralCarryJobDemand;
+        data["pushPullJobDemand"] = this.pushPullJobDemand;
+        data["kneelingJobDemand"] = this.kneelingJobDemand;
+        data["crouchingJobDemand"] = this.crouchingJobDemand;
+        data["midLevelReachJobDemand"] = this.midLevelReachJobDemand;
+        data["elevatedReachJobDemand"] = this.elevatedReachJobDemand;
+        data["sittingJobDemand"] = this.sittingJobDemand;
+        data["standingJobDemand"] = this.standingJobDemand;
+        data["crawlingJobDemand"] = this.crawlingJobDemand;
+        data["repFootMotionJobDemand"] = this.repFootMotionJobDemand;
+        data["stairClimbingJobDemand"] = this.stairClimbingJobDemand;
+        data["walkingJobDemand"] = this.walkingJobDemand;
+        data["balanceJobDemand"] = this.balanceJobDemand;
+        data["ladderWorkJobDemand"] = this.ladderWorkJobDemand;
+        data["squattingJobDemand"] = this.squattingJobDemand;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
         data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
@@ -35298,6 +36297,23 @@ export interface IJobDescriptionDetailOutput {
     category: number | undefined;
     lowerCIBound: number | undefined;
     upperCIBound: number | undefined;
+    liftingJobDemand: string | undefined;
+    unilateralCarryJobDemand: string | undefined;
+    bilateralCarryJobDemand: string | undefined;
+    pushPullJobDemand: string | undefined;
+    kneelingJobDemand: string | undefined;
+    crouchingJobDemand: string | undefined;
+    midLevelReachJobDemand: string | undefined;
+    elevatedReachJobDemand: string | undefined;
+    sittingJobDemand: string | undefined;
+    standingJobDemand: string | undefined;
+    crawlingJobDemand: string | undefined;
+    repFootMotionJobDemand: string | undefined;
+    stairClimbingJobDemand: string | undefined;
+    walkingJobDemand: string | undefined;
+    balanceJobDemand: string | undefined;
+    ladderWorkJobDemand: string | undefined;
+    squattingJobDemand: string | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
     creationTime: moment.Moment | undefined;
@@ -35315,6 +36331,23 @@ export class JobDescriptionListDto implements IJobDescriptionListDto {
     category: number | undefined;
     lowerCIBound: number | undefined;
     upperCIBound: number | undefined;
+    liftingJobDemand: string | undefined;
+    unilateralCarryJobDemand: string | undefined;
+    bilateralCarryJobDemand: string | undefined;
+    pushPullJobDemand: string | undefined;
+    kneelingJobDemand: string | undefined;
+    crouchingJobDemand: string | undefined;
+    midLevelReachJobDemand: string | undefined;
+    elevatedReachJobDemand: string | undefined;
+    sittingJobDemand: string | undefined;
+    standingJobDemand: string | undefined;
+    crawlingJobDemand: string | undefined;
+    repFootMotionJobDemand: string | undefined;
+    stairClimbingJobDemand: string | undefined;
+    walkingJobDemand: string | undefined;
+    balanceJobDemand: string | undefined;
+    ladderWorkJobDemand: string | undefined;
+    squattingJobDemand: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -35344,6 +36377,23 @@ export class JobDescriptionListDto implements IJobDescriptionListDto {
             this.category = data["category"];
             this.lowerCIBound = data["lowerCIBound"];
             this.upperCIBound = data["upperCIBound"];
+            this.liftingJobDemand = data["liftingJobDemand"];
+            this.unilateralCarryJobDemand = data["unilateralCarryJobDemand"];
+            this.bilateralCarryJobDemand = data["bilateralCarryJobDemand"];
+            this.pushPullJobDemand = data["pushPullJobDemand"];
+            this.kneelingJobDemand = data["kneelingJobDemand"];
+            this.crouchingJobDemand = data["crouchingJobDemand"];
+            this.midLevelReachJobDemand = data["midLevelReachJobDemand"];
+            this.elevatedReachJobDemand = data["elevatedReachJobDemand"];
+            this.sittingJobDemand = data["sittingJobDemand"];
+            this.standingJobDemand = data["standingJobDemand"];
+            this.crawlingJobDemand = data["crawlingJobDemand"];
+            this.repFootMotionJobDemand = data["repFootMotionJobDemand"];
+            this.stairClimbingJobDemand = data["stairClimbingJobDemand"];
+            this.walkingJobDemand = data["walkingJobDemand"];
+            this.balanceJobDemand = data["balanceJobDemand"];
+            this.ladderWorkJobDemand = data["ladderWorkJobDemand"];
+            this.squattingJobDemand = data["squattingJobDemand"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -35373,6 +36423,23 @@ export class JobDescriptionListDto implements IJobDescriptionListDto {
         data["category"] = this.category;
         data["lowerCIBound"] = this.lowerCIBound;
         data["upperCIBound"] = this.upperCIBound;
+        data["liftingJobDemand"] = this.liftingJobDemand;
+        data["unilateralCarryJobDemand"] = this.unilateralCarryJobDemand;
+        data["bilateralCarryJobDemand"] = this.bilateralCarryJobDemand;
+        data["pushPullJobDemand"] = this.pushPullJobDemand;
+        data["kneelingJobDemand"] = this.kneelingJobDemand;
+        data["crouchingJobDemand"] = this.crouchingJobDemand;
+        data["midLevelReachJobDemand"] = this.midLevelReachJobDemand;
+        data["elevatedReachJobDemand"] = this.elevatedReachJobDemand;
+        data["sittingJobDemand"] = this.sittingJobDemand;
+        data["standingJobDemand"] = this.standingJobDemand;
+        data["crawlingJobDemand"] = this.crawlingJobDemand;
+        data["repFootMotionJobDemand"] = this.repFootMotionJobDemand;
+        data["stairClimbingJobDemand"] = this.stairClimbingJobDemand;
+        data["walkingJobDemand"] = this.walkingJobDemand;
+        data["balanceJobDemand"] = this.balanceJobDemand;
+        data["ladderWorkJobDemand"] = this.ladderWorkJobDemand;
+        data["squattingJobDemand"] = this.squattingJobDemand;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -35402,6 +36469,23 @@ export interface IJobDescriptionListDto {
     category: number | undefined;
     lowerCIBound: number | undefined;
     upperCIBound: number | undefined;
+    liftingJobDemand: string | undefined;
+    unilateralCarryJobDemand: string | undefined;
+    bilateralCarryJobDemand: string | undefined;
+    pushPullJobDemand: string | undefined;
+    kneelingJobDemand: string | undefined;
+    crouchingJobDemand: string | undefined;
+    midLevelReachJobDemand: string | undefined;
+    elevatedReachJobDemand: string | undefined;
+    sittingJobDemand: string | undefined;
+    standingJobDemand: string | undefined;
+    crawlingJobDemand: string | undefined;
+    repFootMotionJobDemand: string | undefined;
+    stairClimbingJobDemand: string | undefined;
+    walkingJobDemand: string | undefined;
+    balanceJobDemand: string | undefined;
+    ladderWorkJobDemand: string | undefined;
+    squattingJobDemand: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -35685,6 +36769,121 @@ export interface IKneelingTestDto {
     timeTaken: number | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    id: string | undefined;
+}
+
+export class KneelingDto implements IKneelingDto {
+    kneelingTests: KneelingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IKneelingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["kneelingTests"] && data["kneelingTests"].constructor === Array) {
+                this.kneelingTests = [];
+                for (let item of data["kneelingTests"])
+                    this.kneelingTests.push(KneelingTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.taskType = data["taskType"];
+            this.chosen = data["chosen"];
+            this.rating = data["rating"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): KneelingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new KneelingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.kneelingTests && this.kneelingTests.constructor === Array) {
+            data["kneelingTests"] = [];
+            for (let item of this.kneelingTests)
+                data["kneelingTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["taskType"] = this.taskType;
+        data["chosen"] = this.chosen;
+        data["rating"] = this.rating;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): KneelingDto {
+        const json = this.toJSON();
+        let result = new KneelingDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IKneelingDto {
+    kneelingTests: KneelingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -36992,6 +38191,113 @@ export interface ILiftWaistTestDto {
     id: string | undefined;
 }
 
+export class LiftWaistDto implements ILiftWaistDto {
+    liftWaistTests: LiftWaistTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: ILiftWaistDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["liftWaistTests"] && data["liftWaistTests"].constructor === Array) {
+                this.liftWaistTests = [];
+                for (let item of data["liftWaistTests"])
+                    this.liftWaistTests.push(LiftWaistTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.chosen = data["chosen"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): LiftWaistDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LiftWaistDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.liftWaistTests && this.liftWaistTests.constructor === Array) {
+            data["liftWaistTests"] = [];
+            for (let item of this.liftWaistTests)
+                data["liftWaistTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["chosen"] = this.chosen;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): LiftWaistDto {
+        const json = this.toJSON();
+        let result = new LiftWaistDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILiftWaistDto {
+    liftWaistTests: LiftWaistTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
 export class MidLevelReachCreateInput implements IMidLevelReachCreateInput {
     clientId: string | undefined;
     status: number | undefined;
@@ -37226,6 +38532,121 @@ export interface IMidLevelReachTestDto {
     position: number | undefined;
     comment: string | undefined;
     midLevelReachId: string | undefined;
+    id: string | undefined;
+}
+
+export class MidLevelReachDto implements IMidLevelReachDto {
+    midLevelReachTests: MidLevelReachTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IMidLevelReachDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["midLevelReachTests"] && data["midLevelReachTests"].constructor === Array) {
+                this.midLevelReachTests = [];
+                for (let item of data["midLevelReachTests"])
+                    this.midLevelReachTests.push(MidLevelReachTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.taskType = data["taskType"];
+            this.chosen = data["chosen"];
+            this.rating = data["rating"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): MidLevelReachDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MidLevelReachDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.midLevelReachTests && this.midLevelReachTests.constructor === Array) {
+            data["midLevelReachTests"] = [];
+            for (let item of this.midLevelReachTests)
+                data["midLevelReachTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["taskType"] = this.taskType;
+        data["chosen"] = this.chosen;
+        data["rating"] = this.rating;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): MidLevelReachDto {
+        const json = this.toJSON();
+        let result = new MidLevelReachDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMidLevelReachDto {
+    midLevelReachTests: MidLevelReachTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    taskType: string | undefined;
+    chosen: boolean | undefined;
+    rating: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -37986,6 +39407,113 @@ export interface IPullingTestDto {
     id: string | undefined;
 }
 
+export class PullingDto implements IPullingDto {
+    pullingTests: PullingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IPullingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["pullingTests"] && data["pullingTests"].constructor === Array) {
+                this.pullingTests = [];
+                for (let item of data["pullingTests"])
+                    this.pullingTests.push(PullingTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.chosen = data["chosen"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PullingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PullingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.pullingTests && this.pullingTests.constructor === Array) {
+            data["pullingTests"] = [];
+            for (let item of this.pullingTests)
+                data["pullingTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["chosen"] = this.chosen;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): PullingDto {
+        const json = this.toJSON();
+        let result = new PullingDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPullingDto {
+    pullingTests: PullingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
 export class PushingTestCreateInput implements IPushingTestCreateInput {
     clientId: string | undefined;
     status: number | undefined;
@@ -38188,6 +39716,113 @@ export interface IPushingTestDto {
     comment: string | undefined;
     painLevel: number | undefined;
     pushingId: string | undefined;
+    id: string | undefined;
+}
+
+export class PushingDto implements IPushingDto {
+    pushingTests: PushingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IPushingDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["pushingTests"] && data["pushingTests"].constructor === Array) {
+                this.pushingTests = [];
+                for (let item of data["pushingTests"])
+                    this.pushingTests.push(PushingTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.chosen = data["chosen"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PushingDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PushingDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.pushingTests && this.pushingTests.constructor === Array) {
+            data["pushingTests"] = [];
+            for (let item of this.pushingTests)
+                data["pushingTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["chosen"] = this.chosen;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): PushingDto {
+        const json = this.toJSON();
+        let result = new PushingDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPushingDto {
+    pushingTests: PushingTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -39450,7 +41085,7 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
     otComments: string | undefined;
     isStopped: boolean | undefined;
     chosen: boolean | undefined;
-    repetitiveFootMotionOptions: RepetitiveFootMotionOption[] | undefined;
+    repetitiveFootMotionOptions: RepetitiveFootMotionOptionDto[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -39480,7 +41115,7 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
             if (data["repetitiveFootMotionOptions"] && data["repetitiveFootMotionOptions"].constructor === Array) {
                 this.repetitiveFootMotionOptions = [];
                 for (let item of data["repetitiveFootMotionOptions"])
-                    this.repetitiveFootMotionOptions.push(RepetitiveFootMotionOption.fromJS(item));
+                    this.repetitiveFootMotionOptions.push(RepetitiveFootMotionOptionDto.fromJS(item));
             }
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
@@ -39539,237 +41174,7 @@ export interface IRepetitiveFootMotionProtocolDto {
     otComments: string | undefined;
     isStopped: boolean | undefined;
     chosen: boolean | undefined;
-    repetitiveFootMotionOptions: RepetitiveFootMotionOption[] | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class RepetitiveFootMotionOption implements IRepetitiveFootMotionOption {
-    repetitiveFootMotionProtocol: RepetitiveFootMotionProtocol | undefined;
-    repetitiveFootMotionProtocolId: string | undefined;
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
-    result: string | undefined;
-    status: number | undefined;
-    isStopped: boolean | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IRepetitiveFootMotionOption) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.repetitiveFootMotionProtocol = data["repetitiveFootMotionProtocol"] ? RepetitiveFootMotionProtocol.fromJS(data["repetitiveFootMotionProtocol"]) : <any>undefined;
-            this.repetitiveFootMotionProtocolId = data["repetitiveFootMotionProtocolId"];
-            this.clientId = data["clientId"];
-            this.timeTaken = data["timeTaken"];
-            this.side = data["side"];
-            this.painLevel = data["painLevel"];
-            this.numTests = data["numTests"];
-            this.comment = data["comment"];
-            this.numDepressions = data["numDepressions"];
-            this.result = data["result"];
-            this.status = data["status"];
-            this.isStopped = data["isStopped"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RepetitiveFootMotionOption {
-        data = typeof data === 'object' ? data : {};
-        let result = new RepetitiveFootMotionOption();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["repetitiveFootMotionProtocol"] = this.repetitiveFootMotionProtocol ? this.repetitiveFootMotionProtocol.toJSON() : <any>undefined;
-        data["repetitiveFootMotionProtocolId"] = this.repetitiveFootMotionProtocolId;
-        data["clientId"] = this.clientId;
-        data["timeTaken"] = this.timeTaken;
-        data["side"] = this.side;
-        data["painLevel"] = this.painLevel;
-        data["numTests"] = this.numTests;
-        data["comment"] = this.comment;
-        data["numDepressions"] = this.numDepressions;
-        data["result"] = this.result;
-        data["status"] = this.status;
-        data["isStopped"] = this.isStopped;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): RepetitiveFootMotionOption {
-        const json = this.toJSON();
-        let result = new RepetitiveFootMotionOption();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IRepetitiveFootMotionOption {
-    repetitiveFootMotionProtocol: RepetitiveFootMotionProtocol | undefined;
-    repetitiveFootMotionProtocolId: string | undefined;
-    clientId: string | undefined;
-    timeTaken: number | undefined;
-    side: number | undefined;
-    painLevel: number | undefined;
-    numTests: number | undefined;
-    comment: string | undefined;
-    numDepressions: number | undefined;
-    result: string | undefined;
-    status: number | undefined;
-    isStopped: boolean | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
-export class RepetitiveFootMotionProtocol implements IRepetitiveFootMotionProtocol {
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    clientId: string | undefined;
-    result: string | undefined;
-    otComments: string | undefined;
-    isStopped: boolean | undefined;
-    chosen: boolean | undefined;
-    repetitiveFootMotionOptions: RepetitiveFootMotionOption[] | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IRepetitiveFootMotionProtocol) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
-            this.assessmentId = data["assessmentId"];
-            this.clientId = data["clientId"];
-            this.result = data["result"];
-            this.otComments = data["otComments"];
-            this.isStopped = data["isStopped"];
-            this.chosen = data["chosen"];
-            if (data["repetitiveFootMotionOptions"] && data["repetitiveFootMotionOptions"].constructor === Array) {
-                this.repetitiveFootMotionOptions = [];
-                for (let item of data["repetitiveFootMotionOptions"])
-                    this.repetitiveFootMotionOptions.push(RepetitiveFootMotionOption.fromJS(item));
-            }
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): RepetitiveFootMotionProtocol {
-        data = typeof data === 'object' ? data : {};
-        let result = new RepetitiveFootMotionProtocol();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
-        data["assessmentId"] = this.assessmentId;
-        data["clientId"] = this.clientId;
-        data["result"] = this.result;
-        data["otComments"] = this.otComments;
-        data["isStopped"] = this.isStopped;
-        data["chosen"] = this.chosen;
-        if (this.repetitiveFootMotionOptions && this.repetitiveFootMotionOptions.constructor === Array) {
-            data["repetitiveFootMotionOptions"] = [];
-            for (let item of this.repetitiveFootMotionOptions)
-                data["repetitiveFootMotionOptions"].push(item.toJSON());
-        }
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): RepetitiveFootMotionProtocol {
-        const json = this.toJSON();
-        let result = new RepetitiveFootMotionProtocol();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IRepetitiveFootMotionProtocol {
-    assessment: Assessment | undefined;
-    assessmentId: string | undefined;
-    clientId: string | undefined;
-    result: string | undefined;
-    otComments: string | undefined;
-    isStopped: boolean | undefined;
-    chosen: boolean | undefined;
-    repetitiveFootMotionOptions: RepetitiveFootMotionOption[] | undefined;
+    repetitiveFootMotionOptions: RepetitiveFootMotionOptionDto[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -42833,6 +44238,113 @@ export interface IUnilateralTestDto {
     painLevel: number | undefined;
     comment: string | undefined;
     unilateralId: string | undefined;
+    id: string | undefined;
+}
+
+export class UnilateralDto implements IUnilateralDto {
+    unilateralTests: UnilateralTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IUnilateralDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["unilateralTests"] && data["unilateralTests"].constructor === Array) {
+                this.unilateralTests = [];
+                for (let item of data["unilateralTests"])
+                    this.unilateralTests.push(UnilateralTestDto.fromJS(item));
+            }
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.status = data["status"];
+            this.isStopped = data["isStopped"];
+            this.comment = data["comment"];
+            this.chosen = data["chosen"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): UnilateralDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UnilateralDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.unilateralTests && this.unilateralTests.constructor === Array) {
+            data["unilateralTests"] = [];
+            for (let item of this.unilateralTests)
+                data["unilateralTests"].push(item.toJSON());
+        }
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
+        data["comment"] = this.comment;
+        data["chosen"] = this.chosen;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): UnilateralDto {
+        const json = this.toJSON();
+        let result = new UnilateralDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUnilateralDto {
+    unilateralTests: UnilateralTestDto[] | undefined;
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    status: number | undefined;
+    isStopped: boolean | undefined;
+    comment: string | undefined;
+    chosen: boolean | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 

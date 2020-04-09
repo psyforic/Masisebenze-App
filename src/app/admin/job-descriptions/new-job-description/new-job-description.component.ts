@@ -21,25 +21,36 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
   closeResult: string;
   jobDescriptionForm: FormGroup;
   jobDescriptionInput: CreateJobDescriptionInput = new CreateJobDescriptionInput();
+  jobDemands = ['Constant', 'Rare', 'Occassional', 'Frequent'];
   constructor(private injector: Injector, private modalService: BsModalService,
     private fb: FormBuilder, private jobDescriptionService: JobDescriptionServiceProxy) {
     super(injector);
   }
   ngOnInit(): void {
     this.initializeForm();
-   
+
   }
   initializeForm() {
     this.jobDescriptionForm = this.fb.group({
-      code: ['', Validators.required],
       title: [this.jobTitle, Validators.required],
       description: ['', Validators.required],
-      dataValue: [''],
-      category: [''],
-      elementId: [''],
-      elementName: [''],
-      upperCIBound: [''],
-      lowerCIBound: [''],
+      liftingJobDemand: [''],
+      bilateralCarryJobDemand: [''],
+      unilateralCarryJobDemand: [''],
+      pushPullJobDemand: [''],
+      kneelingJobDemand: [''],
+      crouchingJobDemand: [''],
+      midLevelReachJobDemand: [''],
+      elevatedReachJobDemand: [''],
+      sittingJobDemand: [''],
+      standingJobDemand: [''],
+      crawlingJobDemand: [''],
+      repFootMotionJobDemand: [''],
+      stairClimbingJobDemand: [''],
+      walkingJobDemand: [''],
+      balanceJobDemand: [''],
+      ladderWorkJobDemand: [''],
+      squattingJobDemand: [''],
     });
   }
   save() {

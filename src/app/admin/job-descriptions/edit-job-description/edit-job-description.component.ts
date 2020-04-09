@@ -20,6 +20,7 @@ export class EditJobDescriptionComponent extends AppComponentBase implements OnI
   id: number;
   jobDescriptionForm: FormGroup;
   jobDescriptionDetail: JobDescriptionDetailOutput = new JobDescriptionDetailOutput();
+  jobDemands = ['Constant', 'Rare', 'Occassional', 'Frequent'];
   constructor(private injector: Injector, private modalService: BsModalService,
     private fb: FormBuilder, private jobDescriptionService: JobDescriptionServiceProxy) {
     super(injector);
@@ -29,15 +30,25 @@ export class EditJobDescriptionComponent extends AppComponentBase implements OnI
   }
   initializeForm() {
     this.jobDescriptionForm = this.fb.group({
-      code: ['', Validators.required],
       title: ['', Validators.required],
       description: ['', Validators.required],
-      dataValue: [''],
-      category: [''],
-      elementId: [''],
-      elementName: [''],
-      upperCIBound: [''],
-      lowerCIBound: [''],
+      liftingJobDemand: [''],
+      bilateralCarryJobDemand: [''],
+      unilateralCarryJobDemand: [''],
+      pushPullJobDemand: [''],
+      kneelingJobDemand: [''],
+      crouchingJobDemand: [''],
+      midLevelReachJobDemand: [''],
+      elevatedReachJobDemand: [''],
+      sittingJobDemand: [''],
+      standingJobDemand: [''],
+      crawlingJobDemand: [''],
+      repFootMotionJobDemand: [''],
+      stairClimbingJobDemand: [''],
+      walkingJobDemand: [''],
+      balanceJobDemand: [''],
+      ladderWorkJobDemand: [''],
+      squattingJobDemand: [''],
     });
   }
   save() {

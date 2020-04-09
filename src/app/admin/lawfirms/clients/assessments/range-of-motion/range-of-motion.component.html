@@ -1,1041 +1,1215 @@
 <ng-template #content let-modal class="modal modal-fade">
-  <div class="modal-header bg-color">
-    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Range Of Motion</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
-      <span class="text-white" aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="card">
-
-      <div class="card-body">
-        
-        <mat-tab-group mat-align-tabs="center" (selectedTabChange)="handleTabChange($event)">
-          <div class="example-loading-shade" *ngIf="isLoading">
-            <mat-spinner *ngIf="isLoading"></mat-spinner>
-          </div>
-          <mat-tab label="Shoulder">
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container mt-4">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text-center  active" href="#left-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      <h5>Left Side</h5>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-center" href="#right-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      <h5>Right Side</h5>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="left-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{leftShoulder?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{leftShoulder?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Abduction" type="text" name="abduction"
-                                value="{{leftShoulder?.abduction}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Internal Rotation" type="text" name="internalRotation"
-                                value="{{leftShoulder?.internalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="External Rotation" type="text" name="externalRotation"
-                                value="{{leftShoulder?.externalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(leftShoulder?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{leftShoulder?.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="right-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{rightShoulder?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{rightShoulder?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Abduction" type="text" name="abduction"
-                                value="{{rightShoulder?.abduction}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Internal Rotation" type="text" name="internalRotation"
-                                value="{{rightShoulder?.internalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="External Rotation" type="text" name="externalRotation"
-                                value="{{rightShoulder?.externalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(rightShoulder?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{rightShoulder.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Forearm & Wrist">
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container mt-4">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text-center  active" href="#fa-left-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      <h5>Left Side</h5>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-center" href="#fa-right-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      <h5>Right Side</h5>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="fa-left-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Pronation" type="text" name="pronation"
-                                value="{{leftForearmWrist?.pronation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Supination" type="text" name="supination"
-                                value="{{leftForearmWrist?.supination}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{leftForearmWrist?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{leftForearmWrist?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Radial Deviation" type="text" name="radialDeviation"
-                                value="{{leftForearmWrist?.radialDeviation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Ulnar Deviation" type="text" name="ulnarDeviation"
-                                value="{{leftForearmWrist?.ulnarDeviation}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(leftForearmWrist?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{leftForearmWrist?.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="fa-right-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Pronation" type="text" name="pronation"
-                                value="{{rightForearmWrist?.pronation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Supination" type="text" name="supination"
-                                value="{{rightForearmWrist?.supination}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{rightForearmWrist?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{rightForearmWrist?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Radial Deviation" type="text" name="radialDeviation"
-                                value="{{rightForearmWrist?.radialDeviation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Ulnar Deviation" type="text" name="ulnarDeviation"
-                                value="{{rightForearmWrist?.ulnarDeviation}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(rightForearmWrist?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{rightForearmWrist?.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Elbow">
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container mt-4">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text-center  active" href="#el-left-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      <h5>Left Side</h5>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-center" href="#el-right-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      <h5>Right Side</h5>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="el-left-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{leftElbow?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{leftElbow?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Pronation" type="text" name="pronation"
-                                value="{{leftElbow?.pronation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Supination" type="text" name="flexion"
-                                value="{{leftElbow?.supination}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(leftElbow?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{leftElbow?.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="el-right-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{rightElbow?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{rightElbow?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Pronation" type="text" name="pronation"
-                                value="{{rightElbow?.pronation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Supination" type="text" name="flexion"
-                                value="{{rightElbow?.supination}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Pain Level" type="text" name="comments" readonly
-                                value="{{decodePainLevel(rightElbow?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{rightElbow?.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Hand">
-            <div class="example-loading-shade" *ngIf="isLoading">
-              <mat-spinner *ngIf="isLoading"></mat-spinner>
-            </div>
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container mt-4">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text-center  active" href="#h-left-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      <h5>Left Side</h5>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-center" href="#h-right-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      <h5>Right Side</h5>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="h-left-side">
-                  <div class="card">
-                    <div class="card-body">
-                    
-                      <div class="col-lg-12 pt-2">
-                       
-                        <mat-tab-group class="row" mat-align-tabs="center" >
-                          
-                          <mat-tab *ngFor="let finger of leftHands; let i = index;" [label]="finger.name">
-                            <div class="col-lg-12">
-                              <div class="row">
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Abduction" type="text" name="ring"
-                                      [value]="displayScore(finger.abduction)" readonly>
-                                  </mat-form-field>
-                                </div>
-      
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Adduction" type="text" name="little"
-                                      [value]="displayScore(finger.adduction)" readonly>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="DIP Flexion-Extension" type="text" name="index"
-                                      [value]="displayScore(finger.dipFlexionExtension)" readonly>
-                                  </mat-form-field>
-                                </div>
-      
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="PIP Flexion-Extension" type="text" name="middle"
-                                      [value]="displayScore(finger.pipFlexionExtension)" readonly>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Mp Hyper-Extension" type="text" name="comments" readonly
-                                      [value]="displayScore(finger.mpHyperExtension)">
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="MP Flexion" type="text" name="comments" readonly
-                                      [value]="displayScore(finger.mpFlexion)">
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-12">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Pain Level" type="text" name="comments" readonly
-                                      [value]="decodePainLevel(finger.painLevel)">
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-12">
-                                  <mat-form-field class="example-full-width">
-                                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                      [value]="finger.comment"> </textarea>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                            </div>
-                          
-                          </mat-tab>
-                         
-                        </mat-tab-group>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="h-right-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <mat-tab-group class="row" mat-align-tabs="center" >
-                          
-                          <mat-tab *ngFor="let finger of rightHands; let i = index;" [label]="finger.name">
-                            <div class="col-lg-12">
-                              <div class="row">
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Abduction" type="text" name="ring"
-                                      [value]="displayScore(finger.abduction)" readonly>
-                                  </mat-form-field>
-                                </div>
-      
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Adduction" type="text" name="little"
-                                      [value]="displayScore(finger.adduction)" readonly>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="DIP Flexion-Extension" type="text" name="index"
-                                      [value]="displayScore(finger.dipFlexionExtension)" readonly>
-                                  </mat-form-field>
-                                </div>
-      
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="PIP Flexion-Extension" type="text" name="middle"
-                                      [value]="displayScore(finger.pipFlexionExtension)" readonly>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Mp Hyper-Extension" type="text" name="comments" readonly
-                                      [value]="displayScore(finger.mpHyperExtension)">
-                                  </mat-form-field>
-                                </div>
-                                <div class="col-lg-6">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="MP Flexion" type="text" name="comments" readonly
-                                      [value]="displayScore(finger.mpFlexion)">
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-12">
-                                  <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Pain Level" type="text" name="comments" readonly
-                                      [value]="decodePainLevel(finger.painLevel)">
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-lg-12">
-                                  <mat-form-field class="example-full-width">
-                                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                      [value]="finger.comment"> </textarea>
-                                  </mat-form-field>
-                                </div>
-                              </div>
-                            </div>
-                          
-                          </mat-tab>
-                         
-                        </mat-tab-group>
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Hip">
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container mt-4">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text-center  active" href="#hip-left-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      <h5>Left Side</h5>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-center" href="#hip-right-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      <h5>Right Side</h5>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="hip-left-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{leftHip?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{leftHip?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Abduction" type="text" name="abduction"
-                                value="{{leftHip?.abduction}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Internal Rotation" type="text" name="internalRotation"
-                                value="{{leftHip?.internalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="External Rotation" type="text" name="externalRotation"
-                                value="{{leftHip?.externalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(leftHip?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{leftHip.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="hip-right-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{rightHip?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{rightHip?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Abduction" type="text" name="abduction"
-                                value="{{rightHip?.abduction}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Internal Rotation" type="text" name="internalRotation"
-                                value="{{rightHip?.internalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="External Rotation" type="text" name="externalRotation"
-                                value="{{rightHip?.externalRotation}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(rightHip?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{rightHip.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Knee">
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container mt-4">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text-center  active" href="#knee-left-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      <h5>Left Side</h5>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-center" href="#knee-right-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      <h5>Right Side</h5>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="knee-left-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{leftKnee?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{leftKnee?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(leftKnee?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{leftKnee.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="knee-right-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Flexion" type="text" name="flexion"
-                                value="{{rightKnee?.flexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Extension" type="text" name="extension"
-                                value="{{rightKnee?.extension}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(rightKnee?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{rightKnee.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Ankle">
-            <div class="col-md-10 ml-auto mr-auto">
-              <div class="nav-container mt-4">
-                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
-                  <li class="nav-item">
-                    <a class="nav-link text-center  active" href="#ankle-left-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-left"></i><br>
-                      <h5>Left Side</h5>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-center" href="#ankle-right-side" role="tab" data-toggle="tab">
-                      <i class="fa fa-hand-o-right"></i><br>
-                      <h5>Right Side</h5>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="tab-content tab-space tab-subcategories">
-                <div class="tab-pane active" id="ankle-left-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Dorsiflexion" type="text" name="dorsiflexion"
-                                value="{{leftAnkle?.dorsiflexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Planta Flexion" type="text" name="plantaFlexion"
-                                value="{{leftAnkle?.plantarFlexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Inversion" type="text" name="inversion"
-                                value="{{leftAnkle?.inversion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Eversion" type="text" name="eversion"
-                                value="{{leftAnkle?.eversion}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(leftAnkle?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{leftAnkle.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="tab-pane" id="ankle-right-side">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="col-lg-12 pt-2">
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Dorsiflexion" type="text" name="dorsiflexion"
-                                value="{{rightAnkle?.dorsiflexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Planta Flexion" type="text" name="plantaFlexion"
-                                value="{{rightAnkle?.plantarFlexion}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Inversion" type="text" name="inversion"
-                                value="{{rightAnkle?.inversion}}" readonly>
-                            </mat-form-field>
-                          </div>
-
-                          <div class="col-lg-6">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Eversion" type="text" name="eversion"
-                                value="{{rightAnkle?.eversion}}" readonly>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <input matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{decodePainLevel(rightAnkle?.painLevel)}}">
-                            </mat-form-field>
-                          </div>
-                        </div>
-                        <div class="row">
-                          <div class="col-lg-12">
-                            <mat-form-field class="example-full-width">
-                              <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                value="{{rightAnkle.comment}}"> </textarea>
-                            </mat-form-field>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
-      </div>
+    <div class="modal-header bg-color">
+        <h4 class="modal-title">
+            <i class="fa fa-info"></i><b class="ml-1">{{ fullName }}'s </b>Range Of Motion
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+            <span class="text-white" aria-hidden="true">&times;</span>
+        </button>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" mat-button color="primary" (click)="modal.close()">Close</button>
-  </div>
+    <div class="modal-body">
+        <div class="card">
+            <div class="card-body">
+                <mat-tab-group mat-align-tabs="center" (selectedTabChange)="handleTabChange($event)">
+                    <div class="example-loading-shade" *ngIf="isLoading">
+                        <mat-spinner *ngIf="isLoading"></mat-spinner>
+                    </div>
+                    <mat-tab label="Shoulder">
+                        <div class="col-md-10 ml-auto mr-auto">
+                            <div class="nav-container mt-4">
+                                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center active" href="#left-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-left"></i><br />
+                                            <h5>Left Side</h5>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center" href="#right-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-right"></i><br />
+                                            <h5>Right Side</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-space tab-subcategories">
+                                <div class="tab-pane active" id="left-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Flexion (0-180)" type="text" name="flexion" value="{{ leftShoulder?.flexion }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="flexion" value="{{leftShoulder?.flexMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Extension (0-60)" type="text" name="extension" value="{{ leftShoulder?.extension }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="div col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="extension" value="{{leftShoulder?.extMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Abduction (0-180)" type="text" name="abduction" value="{{ leftShoulder?.abduction }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="abduction" value="{{leftShoulder?.abdMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Internal Rotation (0-70)" type="text" name="internalRotation" value="{{ leftShoulder?.internalRotation }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="internalRotation" value="{{leftShoulder?.irMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="External Rotation (0-90)" type="text" name="externalRotation" value="{{ leftShoulder?.externalRotation }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="externalRotation" value="{{leftShoulder?.extMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Pain" type="text" name="pain" readonly value="{{decodePainLevel(leftShoulder?.painLevel)}}" />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <mat-form-field class="example-full-width">
+                                                        <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ leftShoulder?.comment }}"></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="right-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Flexion (0-180)" type="text" name="flexion" value="{{ rightShoulder?.flexion }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="flexMusclePower" value="{{rightShoulder?.flexMusclePower | musclepower }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Extension (0-60)" type="text" name="extension" value="{{ rightShoulder?.extension }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="div col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{rightShoulder?.extMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Abduction (0-180)" type="text" name="abduction" value="{{ rightShoulder?.abduction }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="abdMusclePower" value="{{ rightShoulder?.abdMusclePower | musclepower }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Internal Rotation (0-70)" type="text" name="internalRotation" value="{{ rightShoulder?.internalRotation }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="irMusclePower" value="{{rightShoulder?.irMusclePower | musclepower }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="External Rotation (0-90)" type="text" name="externalRotation" value="{{ rightShoulder?.externalRotation }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{rightShoulder?.extMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Pain" type="text" name="pain" readonly value="{{decodePainLevel(rightShoulder?.painLevel)}}" />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <mat-form-field class="example-full-width">
+                                                        <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ rightShoulder?.comment }}"></textarea>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Forearm & Wrist">
+                        <div class="col-md-10 ml-auto mr-auto">
+                            <div class="nav-container mt-4">
+                                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center active" href="#fa-left-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-left"></i><br />
+                                            <h5>Left Side</h5>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center" href="#fa-right-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-right"></i><br />
+                                            <h5>Right Side</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-space tab-subcategories">
+                                <div class="tab-pane active" id="fa-left-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pronation (0-80 down)" type="text" name="pronation" value="{{ leftForearmWrist?.pronation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="proMusclePower" value="{{leftForearmWrist?.proMusclePower | musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Supination (0-80 up)" type="text" name="supination" value="{{ leftForearmWrist?.supination }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="supMusclePower" value="{{leftForearmWrist?.supMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (0-70)" type="text" name="extension" value="{{ leftForearmWrist?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{leftForearmWrist?.extMusclePower | musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion (0-80)" type="text" name="flexion" value="{{ leftForearmWrist?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="flexMusclePower" value="{{leftForearmWrist?.flexMusclePower| musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Radial Deviation (0-20)" type="text" name="radialDeviation" value="{{ leftForearmWrist?.radialDeviation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="radMusclePower" value="{{leftForearmWrist?.radMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Ulnar Deviation (0-30)" type="text" name="ulnarDeviation" value="{{ leftForearmWrist?.ulnarDeviation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="ulnMusclePower" value="{{leftForearmWrist?.ulnMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain" type="text" name="comments" readonly value="{{decodePainLevel(leftForearmWrist?.painLevel)}}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ leftForearmWrist?.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="fa-right-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pronation (0-80 down)" type="text" name="pronation" value="{{ rightForearmWrist?.pronation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="proMusclePower" value="{{rightForearmWrist?.proMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Supination (0-80 up)" type="text" name="supination" value="{{ rightForearmWrist?.supination }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="supMusclePower" value="{{rightForearmWrist?.supMusclePower| musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (0-70)" type="text" name="extension" value="{{ rightForearmWrist?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{rightForearmWrist?.extMusclePower| musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion (0-80)" type="text" name="flexion" value="{{ rightForearmWrist?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="flexMusclePower" value="{{rightForearmWrist?.flexMusclePower| musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Radial Deviation (0-20)" type="text" name="radialDeviation" value="{{ rightForearmWrist?.radialDeviation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="radMusclePower" value="{{rightForearmWrist?.radMusclePower| musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Ulnar Deviation (0-30)" type="text" name="ulnarDeviation" value="{{ rightForearmWrist?.ulnarDeviation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="ulnMusclePower" value="{{rightForearmWrist?.ulnMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain" type="text" name="comments" readonly value="{{decodePainLevel(rightForearmWrist?.painLevel)}}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ rightForearmWrist?.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Elbow">
+                        <div class="col-md-10 ml-auto mr-auto">
+                            <div class="nav-container mt-4">
+                                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center active" href="#el-left-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-left"></i><br />
+                                            <h5>Left Side</h5>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center" href="#el-right-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-right"></i><br />
+                                            <h5>Right Side</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-space tab-subcategories">
+                                <div class="tab-pane active" id="el-left-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (150-0)" type="text" name="extension" value="{{ leftElbow?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{leftElbow?.extMusclePower | musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion (0-150)" type="text" name="flexion" value="{{ leftElbow?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="Muscle Power" value="{{leftElbow?.flexMusclePower | musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pronation (0-80 in)" type="text" name="pronation" value="{{ leftElbow?.pronation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="proMusclePower" value="{{leftElbow?.proMusclePower | musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Supination (0-80 out)" type="text" name="flexion" value="{{ leftElbow?.supination }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="supMusclePower" value="{{leftElbow?.supMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain" type="text" name="comments" readonly value="{{decodePainLevel(leftElbow?.painLevel)}}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ leftElbow?.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="el-right-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (0-150)" type="text" name="extension" value="{{ rightElbow?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{rightElbow?.extMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion (0-150)" type="text" name="flexion" value="{{ rightElbow?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="Muscle Power" value="{{ rightElbow?.flexMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pronation (0-80 in)" type="text" name="pronation" value="{{ rightElbow?.pronation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="proMusclePower" value="{{ rightElbow?.proMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Supination (0-80 out)" type="text" name="flexion" value="{{ rightElbow?.supination }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="supMusclePower" value="{{rightElbow?.supMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain" type="text" name="comments" readonly value="{{decodePainLevel(rightElbow?.painLevel)}}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ rightElbow?.comment }}"> </textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Hand">
+                        <div class="example-loading-shade" *ngIf="isLoading">
+                            <mat-spinner *ngIf="isLoading"></mat-spinner>
+                        </div>
+                        <div class="col-md-10 ml-auto mr-auto">
+                            <div class="nav-container mt-4">
+                                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center active" href="#h-left-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-left"></i><br />
+                                            <h5>Left Side</h5>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center" href="#h-right-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-right"></i><br />
+                                            <h5>Right Side</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-space tab-subcategories">
+                                <div class="tab-pane active" id="h-left-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <mat-tab-group class="row" mat-align-tabs="center">
+                                                    <mat-tab *ngFor="let finger of leftHands; let i = index" [label]="finger.name">
+                                                        <div class="col-lg-12">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Abduction (No Norm)" type="text" name="ring" [value]="displayScore(finger.abduction)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Adduction (No Norm)" type="text" name="little" [value]="displayScore(finger.adduction)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="DIP Flexion-Extension (0-100)" type="text" name="index" [value]="displayScore(finger.dipFlexionExtension)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="PIP Flexion-Extension (0-90)" type="text" name="middle" [value]="displayScore(finger.pipFlexionExtension)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Mp Hyper-Extension (0-45)" type="text" name="comments" readonly [value]="displayScore(finger.mpHyperExtension)" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="MP Flexion (0-90)" type="text" name="comments" readonly [value]="displayScore(finger.mpFlexion)" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Pain" type="text" name="comments" readonly [value]="decodePainLevel(finger.painLevel)" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <textarea matInput placeholder="Comments" type="text" name="comments" readonly [value]="finger.comment"></textarea>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </mat-tab-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="h-right-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <mat-tab-group class="row" mat-align-tabs="center">
+                                                    <mat-tab *ngFor="let finger of rightHands; let i = index" [label]="finger.name">
+                                                        <div class="col-lg-12">
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Abduction (No Norm)" type="text" name="ring" [value]="displayScore(finger.abduction)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Adduction (No Norm)" type="text" name="little" [value]="displayScore(finger.adduction)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="DIP Flexion-Extension (0-90)" type="text" name="index" [value]="displayScore(finger.dipFlexionExtension)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="PIP Flexion-Extension (0-100)" type="text" name="middle" [value]="displayScore(finger.pipFlexionExtension)" readonly />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Mp Hyper-Extension (0-45)" type="text" name="comments" readonly [value]="displayScore(finger.mpHyperExtension)" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="MP Flexion" type="text" name="comments" readonly [value]="displayScore(finger.mpFlexion)" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <input matInput placeholder="Pain" type="text" name="comments" readonly [value]="decodePainLevel(finger.painLevel)" />
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <mat-form-field class="example-full-width">
+                                                                        <textarea matInput placeholder="Comments" type="text" name="comments" readonly [value]="finger.comment"> </textarea>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </mat-tab>
+                                                </mat-tab-group>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Hip">
+                        <div class="col-md-10 ml-auto mr-auto">
+                            <div class="nav-container mt-4">
+                                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center active" href="#hip-left-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-left"></i><br />
+                                            <h5>Left Side</h5>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center" href="#hip-right-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-right"></i><br />
+                                            <h5>Right Side</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-space tab-subcategories">
+                                <div class="tab-pane active" id="hip-left-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion (0-120)" type="text" name="flexion" value="{{ leftHip?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="flexMusclePower" value="{{leftHip?.flexMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (0-30)" type="text" name="extension" value="{{ leftHip?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{leftHip?.extMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Abduction (0-45)" type="text" name="abduction" value="{{ leftHip?.abduction }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="abdMusclePower" value="{{leftHip?.abdMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Internal Rotation (0-45)" type="text" name="internalRotation" value="{{ leftHip?.internalRotation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="irMusclePower" value="{{leftHip?.irMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="External Rotation (0-45)" type="text" name="externalRotation" value="{{ leftHip?.externalRotation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="erMusclePower" value="{{leftHip?.erMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain" type="text" name="comments" readonly value="{{ leftHip?.painLevel | painLevel }}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ leftHip.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="hip-right-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion (0-120)" type="text" name="flexion" value="{{ rightHip?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="flexMusclePower" value="{{rightHip?.flexMusclePower | musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (0-30)" type="text" name="extension" value="{{ rightHip?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{rightHip?.extMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Abduction (0-45)" type="text" name="abduction" value="{{ rightHip?.abduction }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="abdMusclePower" value="{{rightHip?.abdMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Internal Rotation (0-45)" type="text" name="internalRotation" value="{{ rightHip?.internalRotation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="irMusclePower" value="{{rightHip?.irMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="External Rotation (0-45)" type="text" name="externalRotation" value="{{ rightHip?.externalRotation }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="erMusclePower" value="{{rightHip?.erMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain" type="text" name="pain" readonly value="{{ rightHip?.painLevel | painLevel }}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ rightHip.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Knee">
+                        <div class="col-md-10 ml-auto mr-auto">
+                            <div class="nav-container mt-4">
+                                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center active" href="#knee-left-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-left"></i><br />
+                                            <h5>Left Side</h5>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center" href="#knee-right-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-right"></i><br />
+                                            <h5>Right Side</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-space tab-subcategories">
+                                <div class="tab-pane active" id="knee-left-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion" type="text" name="flexion (0-135)" value="{{ leftKnee?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="flexMusclePower" value="{{leftKnee?.flexMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (0-135)" type="text" name="extension" value="{{ leftKnee?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{leftKnee?.extMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain " type="text" name="pain" readonly value="{{ leftKnee?.painLevel | painLevel }}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ leftKnee.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="knee-right-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Flexion (0-135)" type="text" name="flexion" value="{{ rightKnee?.flexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="flexMusclePower" value="{{rightKnee?.flexMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Extension (0-135)" type="text" name="extension" value="{{ rightKnee?.extension }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="extMusclePower" value="{{rightKnee?.extMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Pain " type="text" name="pain" readonly value="{{ rightKnee?.painLevel | painLevel }}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ rightKnee.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Ankle">
+                        <div class="col-md-10 ml-auto mr-auto">
+                            <div class="nav-container mt-4">
+                                <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center active" href="#ankle-left-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-left"></i><br />
+                                            <h5>Left Side</h5>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-center" href="#ankle-right-side" role="tab" data-toggle="tab">
+                                            <i class="fa fa-hand-o-right"></i><br />
+                                            <h5>Right Side</h5>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content tab-space tab-subcategories">
+                                <div class="tab-pane active" id="ankle-left-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Dorsiflexion (0-20)" type="text" name="dorsiflexion" value="{{ leftAnkle?.dorsiflexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="dorsiMusclePower" value="{{leftAnkle?.dorsiMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="PlantaR Flexion (0-50)" type="text" name="plantaFlexion" value="{{ leftAnkle?.plantarFlexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="plantarMusclePower" value="{{leftAnkle?.plantarMusclePower | musclepower }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Inversion (0-35)" type="text" name="inversion" value="{{ leftAnkle?.inversion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="invMusclePower" value="{{leftAnkle?.invMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Eversion (0-15)" type="text" name="eversion" value="{{ leftAnkle?.eversion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="eversion" value="{{leftAnkle?.evMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Comments" type="text" name="comments" readonly value="{{decodePainLevel(leftAnkle?.painLevel)}}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ leftAnkle.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="ankle-right-side">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="col-lg-12 pt-2">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Dorsiflexion (0-20)" type="text" name="dorsiflexion" value="{{ rightAnkle?.dorsiflexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="dorsiMusclePower" value="{{rightAnkle?.dorsiMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Plantar Flexion (0-35)" type="text" name="plantaFlexion" value="{{ rightAnkle?.plantarFlexion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="plantarMusclePower" value="{{rightAnkle?.plantarMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Inversion (0-35)" type="text" name="inversion" value="{{ rightAnkle?.inversion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="invMusclePower" value="{{rightAnkle?.invMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Eversion (0-15)" type="text" name="eversion" value="{{ rightAnkle?.eversion }}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Muscle Power" type="text" name="evMusclePower" value="{{rightAnkle?.evMusclePower | musclepower}}" readonly />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Comments" type="text" name="comments" readonly value="{{decodePainLevel(rightAnkle?.painLevel)}}" />
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <mat-form-field class="example-full-width">
+                                                            <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{ rightAnkle.comment }}"></textarea>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" mat-button color="primary" (click)="modal.close()">
+            Close
+        </button>
+    </div>
 </ng-template>

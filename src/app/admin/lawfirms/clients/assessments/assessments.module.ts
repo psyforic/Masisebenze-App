@@ -21,6 +21,8 @@ import { FunctionalAssessmentComponent } from './functional-assessment/functiona
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { MusclepowerPipe } from '@shared/pipes/musclepower.pipe';
+import { PainLevelPipe } from '@shared/pipes/pain-level.pipe';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -44,6 +46,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RepetitiveToleranceProtocolComponent,
     GaitComponent,
     MobilityComponent,
+    MusclepowerPipe,
+    PainLevelPipe,
     AffectComponent,
     FunctionalAssessmentComponent,
     WorkAssessmentComponent

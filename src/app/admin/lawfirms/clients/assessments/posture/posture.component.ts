@@ -20,6 +20,7 @@ export class PostureComponent extends AppComponentBase implements OnInit {
   current_step = 1;
   MAX_STEP = 13;
   isLoading = false;
+  srcImage = '';
 
   postureOptions: PostureOptionDto[] = [];
   constructor(
@@ -47,6 +48,7 @@ export class PostureComponent extends AppComponentBase implements OnInit {
     this._postureService.getPosture(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
+        this.showImage(this.postureOptions[0].postureOptionScore);
       }))
       .subscribe((result) => {
         this.postureOptions = result.items;
@@ -55,14 +57,27 @@ export class PostureComponent extends AppComponentBase implements OnInit {
   next() {
     if (this.current_step !== this.MAX_STEP) {
       this.current_step++;
+      this.showImage(this.postureOptions[this.current_step - 1].postureOptionScore);
     }
   }
   prev() {
     if (this.current_step !== 1) {
       this.current_step--;
+      this.showImage(this.postureOptions[this.current_step - 1].postureOptionScore);
     }
   }
   decodePain(option: number) {
     return this._generalService.getPain(option);
+  }
+  showImage(score: number) {
+    score = this._generalService.getPostureOptionScore(this.current_step - 1, score);
+    if (score != null || undefined) {
+      this.srcImage = `/assets/img/posture/${this.current_step}/${score + '.png'}`;
+    }
+  }
+  getScore(score: number) {
+    if (score != null || undefined) {
+      return this._generalService.getPostureOptionScore(this.current_step - 1, score);
+    }
   }
 }
