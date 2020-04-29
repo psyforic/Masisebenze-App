@@ -73,14 +73,14 @@
             <div class="row">
                 <div class="col-sm-6">
                     <mat-form-field>
-                        <input matInput (click)="picker.open()" (focus)="picker.open()" formControlName="courtDate" [matDatepicker]="picker" placeholder="Court Date" readonly>
+                        <input matInput (click)="picker.open()" (focus)="picker.open()" [matDatepickerFilter]="dateFilter" formControlName="courtDate" [matDatepicker]="picker" placeholder="Court Date" readonly>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
                 <div class="col-sm-6">
                     <mat-form-field>
-                        <input matInput [matDatepicker]="datePicker" placeholder="Date Of Assessment" required formControlName="assessmentDate" [value]="date" readonly>
+                        <input matInput [matDatepicker]="datePicker" [matDatepickerFilter]="dateFilter" placeholder="Date Of Assessment" required formControlName="assessmentDate" [value]="date" readonly>
                         <mat-datepicker-toggle matSuffix [for]="datePicker" [disabled]="true"></mat-datepicker-toggle>
                         <mat-datepicker #datePicker></mat-datepicker>
                     </mat-form-field>

@@ -90,7 +90,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
   clientDisplayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
 
   lawFirmId: string;
-  // clients: ClientListDto[] = []; 
+  // clients: ClientListDto[] = [];
   client: ClientListDto;
   // workData: WorkHistoryListDto = new WorkHistoryDetailOutput();
   // medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
@@ -236,20 +236,30 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     this.getAttorneys();
   }
   getAge(entity: ClientListDto) {
-    const idNumber: string = '' + entity.idNumber;
-    const tempDate = new Date(
-      +idNumber.substr(0, 2),
-      +(idNumber.substring(2, 4)) - 1,
-      +idNumber.substring(4, 6));
-    const id_month = tempDate.getMonth();
-    const id_year = tempDate.getFullYear();
-    let currentAge = new Date().getFullYear() - id_year;
+    const idNumber: string = entity.idNumber;
+    const cutoff = (new Date()).getFullYear() - 2000;
+    const id_year = idNumber.substring(0, 2);
+    const id_month = +idNumber.substring(2, 4) - 1;
+    const id_day = +idNumber.substring(4, 6);
+    const full_year = (+id_year > cutoff ? '19' : '20') + id_year;
+    let currentAge = new Date().getFullYear() - (+full_year);
     if (id_month > new Date().getMonth()) {
       currentAge = currentAge - 1;
-    } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
+    } else if (id_month === new Date().getMonth() && id_day > new Date().getDate()) {
       currentAge = currentAge - 1;
     }
     return currentAge;
+  }
+
+  getDob(entity: ClientListDto) {
+    const idNumber: string = entity.idNumber;
+    const id_year = idNumber.substring(0, 2);
+    const id_month = idNumber.substring(2, 4);
+    const id_day = idNumber.substring(4, 6);
+    const cutoff = (new Date()).getFullYear() - 2000;
+    const full_year = (+id_year > cutoff ? '19' : '20') + id_year;
+    const fullDate = id_day + '/' + id_month + '/' + full_year;
+    return fullDate;
   }
   attorneyHandleChange(event: PageEvent) {
     this.attorneyPageSize = event.pageSize;
@@ -282,15 +292,15 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
           const docCreator = new DocumentCreator();
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.positionalToleranceResult = this.positionalToleranceResult.
-            filter(x => x.assessmentName != null && x.assessmentName !== '');
+              filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
           if (this.weightedProtocolResult != null && this.positionalToleranceResult.length > 0) {
             this.weightedProtocolResult = this.positionalToleranceResult.
-            filter(x => x.assessmentName != null && x.assessmentName !== '');
+              filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
           if (this.repetitiveToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.repetitiveToleranceResult = this.repetitiveToleranceResult.
-            filter(x => x.assessmentName != null && x.assessmentName !== '');
+              filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
           this.getElementNames(this.jobTitle, docCreator, entity);
           // setTimeout(async () => {
@@ -584,18 +594,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         this.client = result;
       });
   }
-
-  getDob(entity: ClientListDto) {
-    const idNumber: string = '' + entity.idNumber;
-    const tempDate = new Date(
-      +idNumber.substr(0, 2),
-      +(idNumber.substring(2, 4)) - 1,
-      +idNumber.substring(4, 6));
-    const fullDate = moment(tempDate).format('DD/MM/YYYY');
-    return fullDate;
-  }
-
-
   async getReportData(clientId: string, age: number, gender: number) {
     await this.getSensation(clientId);
     await this.getMobility(clientId);

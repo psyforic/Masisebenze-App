@@ -11416,6 +11416,111 @@ export class DashBoardServiceProxy {
         }
         return _observableOf<number>(<any>null);
     }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
+    getNumberLawFirms(input: any | null | undefined): Observable<number> {
+        let url_ = this.baseUrl + "/api/services/app/DashBoard/GetNumberLawFirms?";
+        if (input !== undefined)
+            url_ += "input=" + encodeURIComponent("" + input) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetNumberLawFirms(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetNumberLawFirms(<any>response_);
+                } catch (e) {
+                    return <Observable<number>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetNumberLawFirms(response: HttpResponseBase): Observable<number> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAssessmentStats(): Observable<ListResultDtoOfAssessmentsDto> {
+        let url_ = this.baseUrl + "/api/services/app/DashBoard/GetAssessmentStats";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAssessmentStats(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAssessmentStats(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAssessmentsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAssessmentsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAssessmentStats(response: HttpResponseBase): Observable<ListResultDtoOfAssessmentsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAssessmentsDto.fromJS(resultData200) : new ListResultDtoOfAssessmentsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAssessmentsDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -28220,7 +28325,7 @@ export class Client implements IClient {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
@@ -28386,7 +28491,7 @@ export interface IClient {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
@@ -30410,7 +30515,7 @@ export class CreateClientInput implements ICreateClientInput {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
@@ -30527,7 +30632,7 @@ export interface ICreateClientInput {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     addressId: number | undefined;
     dateOfInjury: moment.Moment | undefined;
@@ -30619,7 +30724,7 @@ export class ClientDetailOutput implements IClientDetailOutput {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     addressId: number | undefined;
@@ -30774,7 +30879,7 @@ export interface IClientDetailOutput {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     addressId: number | undefined;
@@ -30869,7 +30974,7 @@ export class ClientListDto implements IClientListDto {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     address: Address | undefined;
@@ -31010,7 +31115,7 @@ export interface IClientListDto {
     firstName: string | undefined;
     lastName: string | undefined;
     title: string | undefined;
-    idNumber: number | undefined;
+    idNumber: string | undefined;
     dob: moment.Moment | undefined;
     dateOfInjury: moment.Moment | undefined;
     address: Address | undefined;
@@ -34811,6 +34916,104 @@ export interface ICrouchingDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class ListResultDtoOfAssessmentsDto implements IListResultDtoOfAssessmentsDto {
+    items: AssessmentsDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfAssessmentsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(AssessmentsDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfAssessmentsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfAssessmentsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfAssessmentsDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfAssessmentsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfAssessmentsDto {
+    items: AssessmentsDto[] | undefined;
+}
+
+export class AssessmentsDto implements IAssessmentsDto {
+    month: number | undefined;
+    value: number | undefined;
+
+    constructor(data?: IAssessmentsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.month = data["month"];
+            this.value = data["value"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["month"] = this.month;
+        data["value"] = this.value;
+        return data; 
+    }
+
+    clone(): AssessmentsDto {
+        const json = this.toJSON();
+        let result = new AssessmentsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentsDto {
+    month: number | undefined;
+    value: number | undefined;
 }
 
 export class CreateDocumentInput implements ICreateDocumentInput {

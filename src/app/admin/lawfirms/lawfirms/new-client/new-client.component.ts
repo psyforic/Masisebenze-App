@@ -59,6 +59,10 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
       assessmentDate: ['', Validators.required]
     });
   }
+  dateFilter = (d: moment.Moment | null): boolean => {
+    const day = d.day();
+    return day !== 0 && day !== 6;
+  }
   open(id: string) {
     this.lawFirmId = id;
     this.getLawFirmContacts();

@@ -94,6 +94,10 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
       this.getClients();
     }
   }
+  dateFilter = (d: moment.Moment | null): boolean => {
+    const day = d.day();
+    return day !== 0 && day !== 6;
+  }
   open(arg) {
     this.getEvents();
     this.getLawFirms();
@@ -104,10 +108,10 @@ export class NewEventComponent extends AppComponentBase implements OnInit, OnCha
   }
   save(form: NgForm) {
     this.isSaving = true;
-    this.booking.startTime = moment(this.datePipe.transform(this.date, 'dd-MM-yyyy') + ' ' + 
-    this.startTime + '+0000', 'DD-MM-YYYY HH:mm Z');
-    this.booking.endTime = moment(this.datePipe.transform(this.date, 'dd-MM-yyyy') + ' ' + 
-    this.endTime + '+0000' , 'DD-MM-YYYY HH:mm Z');
+    this.booking.startTime = moment(this.datePipe.transform(this.date, 'dd-MM-yyyy') + ' ' +
+      this.startTime + '+0000', 'DD-MM-YYYY HH:mm Z');
+    this.booking.endTime = moment(this.datePipe.transform(this.date, 'dd-MM-yyyy') + ' ' +
+      this.endTime + '+0000', 'DD-MM-YYYY HH:mm Z');
     this.bookingService.createBooking(this.booking)
       .pipe(finalize(() => {
         this.isSaving = false;

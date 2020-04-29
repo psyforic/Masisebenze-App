@@ -65,6 +65,7 @@ import { MusclePowerComponent } from '../assessments/muscle-power/muscle-power.c
 import { AffectComponent } from '../assessments/affect/affect.component';
 import { MobilityComponent } from '../assessments/mobility/mobility.component';
 import { Location } from '@angular/common';
+import * as moment from 'moment';
 export const DD_MM_YYYY_Format = {
   parse: {
     dateInput: 'LL',
@@ -268,6 +269,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     );
     return docs;
   }
+  dateFilter = (d: moment.Moment | null): boolean => {
+    const day = d.day();
+    return day !== 0 && day !== 6;
+  }
   isInArray(value, array) {
     return array.indexOf(value) > -1;
   }
@@ -326,7 +331,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           .pipe(finalize(() => {
           })).subscribe(workResult => {
             if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
-              this.positionalToleranceResult = result.filter(x => 
+              this.positionalToleranceResult = result.filter(x =>
                 (x.assessmentName != null && x.assessmentName !== '') &&
                 (x.result != null && x.result !== ''));
               this.getElementNames(workResult.jobTitle);
@@ -342,7 +347,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           .pipe(finalize(() => {
           })).subscribe(workResult => {
             if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
-              this.repetitiveToleranceResult = result.filter( x =>
+              this.repetitiveToleranceResult = result.filter(x =>
                 (x.assessmentName != null && x.assessmentName !== '') &&
                 (x.result != null && x.result !== ''));
               this.getElementNames(workResult.jobTitle);
@@ -362,7 +367,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               workResult.jobTitle !== '' &&
               typeof workResult.jobTitle != 'undefined')) {
               this.jobTitle = workResult.jobTitle;
-              this.weightedProtocolResult = result.filter(x => 
+              this.weightedProtocolResult = result.filter(x =>
                 (x.assessmentName != null && x.assessmentName !== '') &&
                 (x.result != null && x.result !== ''));
               this.getElementNames(workResult.jobTitle);
@@ -597,8 +602,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getAffect();
         break;
       case 'Mobility':
-          this.getMobility();
-          break;
+        this.getMobility();
+        break;
     }
   }
   viewCognitiveAssessments(assessmentName: string) {
@@ -903,16 +908,16 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
-              !item.result.includes('NIL')) {
+                !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
-               && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
+                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
                 !item.result.includes('NIL') && !item.result.includes('FREQUENT')
-                 && !item.result.includes('OCCASIONAL')  && !item.result.includes('RARE')) {
+                && !item.result.includes('OCCASIONAL') && !item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
               } else {
                 item.isDeficit = 'No';
@@ -952,10 +957,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
-              !item.result.includes('NIL')) {
+                !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
-               && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
+                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';
@@ -1008,10 +1013,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
-              !item.result.includes('NIL')) {
+                !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
-               && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
+                && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
                 item.isDeficit = 'Yes';
               } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
                 item.isDeficit = 'Yes';

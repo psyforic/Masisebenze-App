@@ -23,7 +23,7 @@
                             <div class="card-footer pull-right">
                                 <div class="stats">
                                     <i class="material-icons text-white">add</i>
-                                    <a href="javascript:void(0)" class="text-white font-bold">New File</a>
+                                    <a href="javascript:void(0)" (click)=" newFile()" class="text-white font-bold">New File</a>
                                 </div>
                             </div>
                         </div>
@@ -34,7 +34,7 @@
                         <div class="card card-stats">
                             <div class="card-header">
                                 <div class="card-title">
-                                    Assessment Done
+                                    Law Firms
                                 </div>
                             </div>
                             <div class="card-body">
@@ -42,15 +42,15 @@
                                     <div class="card-icon">
                                         <i class="material-icons">assessment</i>
                                     </div>
-                                    <p class="card-category">Assessment Done</p>
-                                    <h3 class="card-title pull-right text-white">0</h3>
+                                    <p class="card-category">Law Firms</p>
+                                    <h3 class="card-title pull-right text-white">{{NoLawFirms}}</h3>
                                 </div>
                             </div>
 
                             <div class="card-footer pull-right">
                                 <div class="stats">
                                     <i class="material-icons text-white">assessments</i>
-                                    <a href="javascript:void(0)" class="text-white font-bold">View Assessments</a>
+                                    <a href="javascript:void(0)" (click)="newLawfirm()" class="text-white font-bold">New Law Firm</a>
                                 </div>
                             </div>
                         </div>
@@ -80,22 +80,11 @@
                         <h4 class="card-title">Appointments</h4>
                     </div>
                     <div class="card-body">
-                        <full-calendar #calendar 
-                        [events]="calendarEvents" 
-                        id="fullCalendar" 
-                        [header]="{
+                        <full-calendar #calendar [events]="calendarEvents" id="fullCalendar" [header]="{
                             left: 'prev,next today',
                             center: 'title',
                             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                            }" 
-                        deepChangeDetection="true" 
-                        defaultView="dayGridMonth"
-                         (dateClick)="handleDateClick($event)" 
-                         [plugins]="calendarPlugins" 
-                         [weekends]="false" 
-                         [editable]="true"
-                         (dayRender)="renderDay($event)"
-                        (eventClick)="handleEventClick($event)">
+                            }" deepChangeDetection="true" defaultView="dayGridMonth" (dateClick)="handleDateClick($event)" [plugins]="calendarPlugins" [weekends]="false" [editable]="true" (dayRender)="renderDay($event)" (eventClick)="handleEventClick($event)">
                         </full-calendar>
                     </div>
                 </div>
@@ -164,3 +153,5 @@
 <app-new-event #newEvent [clientsChanged]="clientsChanged" (newBookingInput)="addBooking($event)" (newBottomSheetClient)="openBottomSheet($event)">
 </app-new-event>
 <app-edit-event #editEvent (editBookingInput)="editSelectedEvent($event)"></app-edit-event>
+<app-new-client #newClient (clientAdded)="getNumFiles()"></app-new-client>
+<app-new-lawfirm #newLawFirm></app-new-lawfirm>

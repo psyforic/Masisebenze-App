@@ -66,7 +66,7 @@
                             <div class="col-lg-12">
                                 <mat-form-field>
                                     <mat-label>Event Date</mat-label>
-                                    <input matInput #eventDate (click)="picker.open()" (focus)="picker.open()" [value]="date" [(ngModel)]="date" [matDatepicker]="picker" name="event" required readonly>
+                                    <input matInput #eventDate [matDatepickerFilter]="dateFilter" (click)="picker.open()" (focus)="picker.open()" [value]="date" [(ngModel)]="date" [matDatepicker]="picker" name="event" required readonly>
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                     <mat-error *ngIf="eventDate.touched && eventDate.hasError('required')">

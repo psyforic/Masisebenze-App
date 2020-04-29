@@ -1,7 +1,6 @@
+import { NewClientComponent } from './../lawfirms/clients/new-client/new-client.component';
 import { DatePipe } from '@angular/common';
-import { style } from '@angular/animations';
-import { OnetWebService } from './../services/onet-web.service';
-import { Component, OnInit, Injector, ViewChild, AfterViewInit, Output } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, AfterViewInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { AppComponentBase } from '@shared/app-component-base';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -9,16 +8,20 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventInput } from '@fullcalendar/core';
-import { BookingServiceProxy, BookingListDto, DashBoardServiceProxy, ClientListDto } from '@shared/service-proxies/service-proxies';
+import {
+  BookingServiceProxy,
+  BookingListDto,
+  DashBoardServiceProxy,
+  ClientListDto
+} from '@shared/service-proxies/service-proxies';
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 import { NewEventComponent } from './new-event/new-event.component';
 import { MatBottomSheet } from '@angular/material';
 import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-sheet.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
-import { EventEmitter } from 'selenium-webdriver';
+import { NewLawfirmComponent } from '../lawfirms/lawfirms/new-lawfirm/new-lawfirm.component';
 
-declare const $: any;
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -29,17 +32,21 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   @ViewChild('calendar', { static: false }) calendarComponent: FullCalendarComponent;
   @ViewChild('newEvent', { static: false }) newEventModal: NewEventComponent;
   @ViewChild('editEvent', { static: false }) editEventModal: EditEventComponent;
+  @ViewChild('newClient', { static: false }) newClientModal: NewClientComponent;
+  @ViewChild('newLawFirm', { static: false }) newLawFirmModal: NewLawfirmComponent;
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin];
   bookings: BookingListDto[] = [];
   newEvents: EventInput[] = [];
   NoFiles: number;
+  NoLawFirms: number;
   clients: ClientListDto[] = [];
   date = new Date();
   filter = '';
   clientsChanged = false;
   activities: BookingListDto[] = [];
   calendarEvents: EventInput[] = [];
-  constructor(private injector: Injector,
+  barGraphData: any[] = [];
+  constructor(injector: Injector,
     private bookingService: BookingServiceProxy,
     private dashBoardService: DashBoardServiceProxy,
     private datePipe: DatePipe,
@@ -69,13 +76,18 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     });
     this.getBookings();
   }
-  editSelectedEvent(event) {
+  editSelectedEvent() {
     this.getBookings();
   }
   ngAfterViewInit(): void {
 
   }
-
+  newFile() {
+    this.newClientModal.open();
+  }
+  newLawfirm() {
+    this.newLawFirmModal.open();
+  }
   getBookings() {
     this.calendarEvents = []; // to avoid duplicates
     this.bookingService.getBookings('')
@@ -98,9 +110,26 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       });
   }
   getNumFiles() {
-    this.dashBoardService.getNumberFiles(this.filter).subscribe((result) => {
-      this.NoFiles = result;
-    });
+    this.dashBoardService.getNumberFiles(this.filter)
+      .subscribe((result) => {
+        this.NoFiles = result;
+      });
+  }
+  getNumLawFirms() {
+    this.dashBoardService.getNumberLawFirms(this.filter)
+      .subscribe((result) => {
+        this.NoLawFirms = result;
+      });
+  }
+  getAssessments() {
+    this.dashBoardService.getAssessmentStats()
+      .pipe(finalize(() => {
+        this.renderBarGraph();
+      })).subscribe((result) => {
+        result.items.forEach(x => {
+          this.barGraphData[x.month] = x.value;
+        });
+      });
   }
   getNewClients() {
     this.dashBoardService.getNewClients(this.filter).subscribe((result) => {
@@ -157,27 +186,25 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       };
       this.calendarEvents.push(event);
     });
-
+    this.getAssessments();
     this.getNumFiles();
+    this.getNumLawFirms();
     this.getNewClients();
     this.getLatestActivity();
+  }
 
-    /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
-
+  renderBarGraph() {
     const datawebsiteViewsChart = {
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
-      series: [
-        [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
-
-      ]
+      series: [this.barGraphData]
     };
     const optionswebsiteViewsChart = {
       axisX: {
         showGrid: false
       },
       low: 0,
-      high: 1000,
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 }
+      high: 50,
+      chartPadding: { top: 0, right: 5, bottom: 0, left: 5 }
     };
     const responsiveOptions: any[] = [
       ['screen and (max-width: 640px)', {
@@ -190,14 +217,12 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       }]
     ];
     const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-
-    // start animation for the Emails Subscription Chart
     this.startAnimationForBarChart(websiteViewsChart);
   }
   renderDay(event) {
     if (event != null) {
       if (this.datePipe.transform(event.date, 'dd-MM-yyyy') ===
-      this.datePipe.transform(this.date, 'dd-MM-yyyy'))  {
+        this.datePipe.transform(this.date, 'dd-MM-yyyy')) {
         event.el.style.background = '#4FC3F7';
       }
     }
