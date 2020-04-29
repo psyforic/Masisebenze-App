@@ -41,7 +41,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   declarations: [
     ClientsComponent,
     EditClientComponent,
-    NewClientComponent,
     ViewClientComponent,
     ViewActivityLogComponent,
     CameraModalComponent,

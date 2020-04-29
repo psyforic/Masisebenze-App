@@ -1,3 +1,5 @@
+import { NewLawfirmComponent } from './../lawfirms/lawfirms/new-lawfirm/new-lawfirm.component';
+import { NewClientComponent } from './../lawfirms/clients/new-client/new-client.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -53,7 +55,10 @@ export const MY_FORMATS = {
   },
 };
 @NgModule({
-  declarations: [NewJobDescriptionComponent],
+  declarations: [
+    NewJobDescriptionComponent,
+    NewClientComponent,
+    NewLawfirmComponent],
   imports: [
     CommonModule,
     RouterModule,
@@ -131,7 +136,13 @@ export const MY_FORMATS = {
     MatTreeModule,
     BsDropdownModule,
     QuillModule,
-    NewJobDescriptionComponent
+    NewJobDescriptionComponent,
+    NewClientComponent,
+    NewLawfirmComponent
+  ],
+  entryComponents: [
+    NewClientComponent,
+    NewLawfirmComponent
   ],
   providers: [BsModalService,
     { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },

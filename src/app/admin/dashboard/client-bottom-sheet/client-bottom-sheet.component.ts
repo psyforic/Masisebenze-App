@@ -12,7 +12,7 @@ import * as moment from 'moment';
   styleUrls: ['./client-bottom-sheet.component.scss'],
   providers: [
     ClientServiceProxy,
-    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: true} }]
+    { provide: MAT_BOTTOM_SHEET_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } }]
 })
 export class ClientBottomSheetComponent extends AppComponentBase implements OnInit {
 
@@ -46,6 +46,10 @@ export class ClientBottomSheetComponent extends AppComponentBase implements OnIn
       idNumber: ['', [Validators.required, Validators.maxLength(13), Validators.minLength(13)]],
       assessmentDate: [this.date, Validators.required]
     });
+  }
+  dateFilter = (d: moment.Moment | null): boolean => {
+    const day = d.day();
+    return day !== 0 && day !== 6;
   }
   close() {
     this.bottomSheetRef.dismiss();

@@ -49,6 +49,10 @@ export class EditEventComponent extends AppComponentBase implements OnInit {
   ngOnInit(): void {
 
   }
+  dateFilter = (d: moment.Moment | null): boolean => {
+    const day = d.day();
+    return day !== 0 && day !== 6;
+  }
   open(date, id) {
     this.isLoading = true;
     this.bookingService.getDetail(id)

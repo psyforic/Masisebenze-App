@@ -17,25 +17,22 @@ export class DocumentCreator {
         const medicalData = data[3];
         const workData = data[4];
         const city = data[5];
-        const idNumber: string = '' + clientData.idNumber;
-        const tempDate = new Date(
-            +idNumber.substr(0, 2),
-            +(idNumber.substring(2, 4)) - 1,
-            +idNumber.substring(4, 6));
-        const id_month = tempDate.getMonth();
-        const id_year = tempDate.getFullYear();
-        const fullDate = moment(tempDate).format('DD/MM/YYYY');
-        let currentAge = new Date().getFullYear() - id_year;
+        const idNumber: string = clientData.idNumber;
+        const cutoff = (new Date()).getFullYear() - 2000;
+        const id_year = idNumber.substring(0, 2);
+        const id_month = +idNumber.substring(2, 4) - 1;
+        const id_day = +idNumber.substring(4, 6);
+        const full_year = (+id_year > cutoff ? '19' : '20') + id_year;
+        let currentAge = new Date().getFullYear() - (+full_year);
         if (id_month > new Date().getMonth()) {
             currentAge = currentAge - 1;
-        } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
+        } else if (id_month === new Date().getMonth() && id_day > new Date().getDate()) {
             currentAge = currentAge - 1;
         }
+        return currentAge;
 
         const assessmentReport = data[6];
         const romReport = data[7];
-        // console.log(romReport);
-        // console.log(assessmentReport[54]);
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
         }
@@ -45,7 +42,7 @@ export class DocumentCreator {
             const doc = new Docxtemplater().loadZip(zip);
             doc.setData({
                 fullName: clientData.firstName + ' ' + clientData.lastName,
-                dateOfBirth: fullDate,
+                dateOfBirth: id_day + '/' + id_month + '/' + full_year,
                 age: currentAge,
                 IdNumber: idNumber,
                 line1: (address != null) ? address.line1 : '',
@@ -72,7 +69,7 @@ export class DocumentCreator {
                 currentHistory: medicalData.currentHistory != null ? medicalData.currentHistory.replace(/<[^>]*>/g, '') : '',
                 medication: medicalData.medication != null ? medicalData.medication.replace(/<[^>]*>/g, '') : '',
                 clinicalObservations: medicalData.clinicalObservation != null ?
-                 medicalData.clinicalObservation.replace(/<[^>]*>/g, '') : '',
+                    medicalData.clinicalObservation.replace(/<[^>]*>/g, '') : '',
                 workHistory: workData.description != null ? workData.description.replace(/<[^>]*>/g, '') : '',
                 currentComplaints: clientData.currentComplaints != null ? clientData.currentComplaints.replace(/<[^>]*>/g, '') : '',
                 generalAppearance: clientData.generalAppearance != null ? clientData.generalAppearance.replace(/<[^>]*>/g, '') : '',

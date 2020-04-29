@@ -1,11 +1,13 @@
 import { Location } from '@angular/common';
-import { Component, ElementRef, Injector, OnInit } from '@angular/core';
+import { Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponentBase } from '@shared/app-component-base';
 import { AppAuthService } from '@shared/auth/app-auth.service';
 import { ProfileDto, ProfileServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AppSessionService } from '@shared/session/app-session.service';
 import { ROUTES } from '../sidebar/sidebar.component';
+import { NewClientComponent } from '@app/admin/lawfirms/clients/new-client/new-client.component';
+import { NewLawfirmComponent } from '@app/admin/lawfirms/lawfirms/new-lawfirm/new-lawfirm.component';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -20,6 +22,8 @@ declare var $: any;
 })
 
 export class NavbarComponent extends AppComponentBase implements OnInit {
+  @ViewChild('newClient', { static: false }) newClientModal: NewClientComponent;
+  @ViewChild('newLawFirm', { static: false }) newLawFirmModal: NewLawfirmComponent;
   user: ProfileDto = new ProfileDto();
   location: Location;
   mobile_menu_visible: any = 0;
@@ -79,6 +83,13 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
         clearInterval(simulateWindowResize);
       }, 1000);
     });
+  }
+
+  newFile() {
+    this.newClientModal.open();
+  }
+  newLawfirm() {
+    this.newLawFirmModal.open();
   }
   sidebarOpen() {
     const toggleButton = this.toggleButton;

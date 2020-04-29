@@ -52,7 +52,6 @@ import { JobDescriptionsModule } from '../job-descriptions/job-descriptions.modu
     ContactsComponent,
     EditContactComponent,
     LawfirmsComponent,
-    NewLawfirmComponent,
     EditLawfirmComponent,
     ViewLawfirmComponent,
     NewContactComponent,

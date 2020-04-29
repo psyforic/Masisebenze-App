@@ -158,15 +158,15 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           const docCreator = new DocumentCreator();
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.positionalToleranceResult = this.positionalToleranceResult.
-            filter(x => x.assessmentName != null && x.assessmentName !== '');
+              filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
           if (this.weightedProtocolResult != null && this.positionalToleranceResult.length > 0) {
             this.weightedProtocolResult = this.positionalToleranceResult.
-            filter(x => x.assessmentName != null && x.assessmentName !== '');
+              filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
           if (this.repetitiveToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.repetitiveToleranceResult = this.repetitiveToleranceResult.
-            filter(x => x.assessmentName != null && x.assessmentName !== '');
+              filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
           this.getElementNames(this.jobTitle, docCreator, entity);
           // setTimeout(async () => {
@@ -385,23 +385,23 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         })).subscribe(workResult => {
           this.jobTitle = workResult.jobTitle;
           this._workAssessmentReportService.getPositionalToleranceReport(client.id)
-          .subscribe(workAssessmentReport => {
-            if (this.jobTitle != null && this.jobTitle !== '') {
-              this.positionalToleranceResult = workAssessmentReport;
-            }
-          });
-        this._workAssessmentReportService.getWeightedProtocolReport(client.id)
-          .subscribe(workAssessmentReport => {
-            if (this.jobTitle != null && this.jobTitle !== '') {
-              this.weightedProtocolResult = workAssessmentReport;
-            }
-          });
-        this._workAssessmentReportService.getRepetitiveToleranceReport(client.id)
-          .subscribe(workAssessmentReport => {
-            if (this.jobTitle != null && this.jobTitle !== '') {
-              this.repetitiveToleranceResult = workAssessmentReport;
-            }
-          });
+            .subscribe(workAssessmentReport => {
+              if (this.jobTitle != null && this.jobTitle !== '') {
+                this.positionalToleranceResult = workAssessmentReport;
+              }
+            });
+          this._workAssessmentReportService.getWeightedProtocolReport(client.id)
+            .subscribe(workAssessmentReport => {
+              if (this.jobTitle != null && this.jobTitle !== '') {
+                this.weightedProtocolResult = workAssessmentReport;
+              }
+            });
+          this._workAssessmentReportService.getRepetitiveToleranceReport(client.id)
+            .subscribe(workAssessmentReport => {
+              if (this.jobTitle != null && this.jobTitle !== '') {
+                this.repetitiveToleranceResult = workAssessmentReport;
+              }
+            });
         });
     });
 
@@ -461,29 +461,29 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       });
   }
   getAge(entity: ClientListDto) {
-    const idNumber: string = '' + entity.idNumber;
-    const tempDate = new Date(
-      +idNumber.substr(0, 2),
-      +(idNumber.substring(2, 4)) - 1,
-      +idNumber.substring(4, 6));
-    const id_month = tempDate.getMonth();
-    const id_year = tempDate.getFullYear();
-    let currentAge = new Date().getFullYear() - id_year;
+    const idNumber: string = entity.idNumber;
+    const cutoff = (new Date()).getFullYear() - 2000;
+    const id_year = idNumber.substring(0, 2);
+    const id_month = +idNumber.substring(2, 4) - 1;
+    const id_day = +idNumber.substring(4, 6);
+    const full_year = (+id_year > cutoff ? '19' : '20') + id_year;
+    let currentAge = new Date().getFullYear() - (+full_year);
     if (id_month > new Date().getMonth()) {
       currentAge = currentAge - 1;
-    } else if (id_month === new Date().getMonth() && tempDate.getDate() < new Date().getDate()) {
+    } else if (id_month === new Date().getMonth() && id_day > new Date().getDate()) {
       currentAge = currentAge - 1;
     }
     return currentAge;
   }
 
   getDob(entity: ClientListDto) {
-    const idNumber: string = '' + entity.idNumber;
-    const tempDate = new Date(
-      +idNumber.substr(0, 2),
-      +(idNumber.substring(2, 4)) - 1,
-      +idNumber.substring(4, 6));
-    const fullDate = moment(tempDate).format('DD/MM/YYYY');
+    const idNumber: string = entity.idNumber;
+    const id_year = idNumber.substring(0, 2);
+    const id_month = idNumber.substring(2, 4);
+    const id_day = idNumber.substring(4, 6);
+    const cutoff = (new Date()).getFullYear() - 2000;
+    const full_year = (+id_year > cutoff ? '19' : '20') + id_year;
+    const fullDate = id_day + '/' + id_month + '/' + full_year;
     return fullDate;
   }
   handleChange(event: PageEvent) {
@@ -563,16 +563,16 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
             if (this.positionalToleranceResult.filter(x => x.assessmentName != null).length > 0) {
               this.assessmentReport[51] = true;
               this.assessmentReport[57] = false;
-              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null && 
+              const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null &&
                 (x.result != null && x.result !== '')).map((value) => {
-                // if (value.assessmentName != null && value.assessmentName != '') {
-                return {
-                  activity: value.assessmentName,
-                  performance: value.result,
-                  jobDemand: value.jobDemand
-                };
+                  // if (value.assessmentName != null && value.assessmentName != '') {
+                  return {
+                    activity: value.assessmentName,
+                    performance: value.result,
+                    jobDemand: value.jobDemand
+                  };
 
-              });
+                });
               this.assessmentReport[54] = filtered;
             } else {
               // this.assessmentReport[54] = {
@@ -615,15 +615,15 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               }
             });
             if (this.weightedProtocolResult.filter(x => x.assessmentName != null).length > 0) {
-              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null && 
+              const filtered = this.weightedProtocolResult.filter(x => x.assessmentName != null &&
                 (x.result != null && x.result !== '')).map((value) => {
-                return {
-                  activity: value.assessmentName,
-                  performance: value.result,
-                  jobDemand: value.jobDemand
-                };
+                  return {
+                    activity: value.assessmentName,
+                    performance: value.result,
+                    jobDemand: value.jobDemand
+                  };
 
-              });
+                });
               this.assessmentReport[55] = filtered;
               this.assessmentReport[52] = true;
               this.assessmentReport[58] = false;
@@ -677,14 +677,14 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
                 }
               }
               if (this.repetitiveToleranceResult.filter(x => x.assessmentName != null).length > 0) {
-                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null && 
+                const filtered = this.repetitiveToleranceResult.filter(x => x.assessmentName != null &&
                   (x.result != null && x.result !== '')).map((value) => {
-                  return {
-                    activity: value.assessmentName,
-                    performance: value.result,
-                    jobDemand: value.jobDemand
-                  };
-                });
+                    return {
+                      activity: value.assessmentName,
+                      performance: value.result,
+                      jobDemand: value.jobDemand
+                    };
+                  });
                 this.assessmentReport[56] = filtered;
                 this.assessmentReport[53] = true;
                 this.assessmentReport[59] = false;
@@ -701,13 +701,13 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           }
         }
         this.generateDocument(docCreator, entity, entity.address)
-            .then(() => {
-              // this.notify.success('Saved Successfully', 'Success');
-              this.isGenerating = false;
-            })
-            .catch(error => {
-              this.notify.error('An Error Occurred Please Try Again to Download');
-            });
+          .then(() => {
+            // this.notify.success('Saved Successfully', 'Success');
+            this.isGenerating = false;
+          })
+          .catch(error => {
+            this.notify.error('An Error Occurred Please Try Again to Download');
+          });
       });
   }
   calculateJobDemandResult(dataValue: number): string {
