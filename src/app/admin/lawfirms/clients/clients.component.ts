@@ -91,7 +91,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   comment: string;
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
-  searchTerm$ = new Subject<string>(); a
+  searchTerm$ = new Subject<string>(); 
   searchTerm: FormControl = new FormControl();
   isSearching = false;
   positionalToleranceResult: PositionalToleranceDto[] = [];

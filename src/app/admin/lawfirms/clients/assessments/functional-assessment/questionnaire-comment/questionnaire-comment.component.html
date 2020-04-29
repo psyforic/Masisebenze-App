@@ -14,7 +14,7 @@
      <form #newComment="ngForm">
       <div class="row">
         <div class="col-lg-12">
-          <quill-editor cdkDrag [styles]="{height: '200px'}" [(ngModel)]="commentInput.text" [sanitize]="true"
+          <quill-editor class="card" cdkDrop cdkDropData="card" [styles]="{height: '200px'}" [(ngModel)]="commentInput.text" [sanitize]="true"
             name="description">
           </quill-editor>
         </div>
@@ -29,7 +29,7 @@
     </div>
     <div class="col-lg-4 text-center">
       <button type="button" class="btn-secondary pull-center" mat-raised-button color="default" (click)="modal.close('Close click')">Close</button>
-      <button type="button" class="pull-center ml-2" [disabled]="(commentInput.text == null || commentInput.text == ' ')" mat-raised-button
+      <button type="button" class="pull-center ml-2" [disabled]="commentInput.text == null || commentInput.text == ''" mat-raised-button
         color="primary" (click)="save()">
         Save
       </button>

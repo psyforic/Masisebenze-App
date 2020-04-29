@@ -14,7 +14,10 @@ import {
   RepetitiveSquattingOptionDto,
   LadderWorkOptionDto,
   StairClimbingOptionDto,
-  RepetitiveFootMotionProtocolDto
+  RepetitiveFootMotionProtocolDto,
+  ClientAssessmentReportServiceProxy,
+  RepetitiveToleranceDto,
+  WorkAssessmentReportServiceProxy
 } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
@@ -34,7 +37,8 @@ import { MatTabChangeEvent } from '@angular/material';
     LadderWorkProtocolServiceProxy,
     RepetitiveSquattingProtocolServiceProxy,
     RepetitiveFootMotionProtocolServiceProxy,
-    CrawlingProtocolServiceProxy
+    CrawlingProtocolServiceProxy,
+    WorkAssessmentReportServiceProxy
   ]
 })
 export class RepetitiveToleranceProtocolComponent extends AppComponentBase implements OnInit {
@@ -42,23 +46,27 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() fullName: string;
   @Input() clientId: string;
-  current_step = 1;
+  current_step = 0;
   MAX_STEP = 4;
   isLoading = false;
-  balanceProtocolResult: BalanceProtocolOptionListDto[] = [];
+  balanceProtocolOptions: BalanceProtocolOptionListDto[] = [];
   stairClimbingProtocolResult: StairClimbingOptionDto[] = [];
   repetitiveSquattingProtocolResult: RepetitiveSquattingOptionDto[] = [];
   repetitiveLeftFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
   repetitiveFootMotion: RepetitiveFootMotionProtocolDto[] = [];
   repetitiveRightFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
-  ladderWorkProtocolResult: LadderWorkOptionDto[] = [];
+  ladderWorkProtocolOptions: LadderWorkOptionDto[] = [];
   walkingProtocol: WalkingProtocolDetailOutput = new WalkingProtocolDetailOutput();
   crawlingProtocolResult: CrawlingProtocolDetailOutput = new CrawlingProtocolDetailOutput();
   repFootMotionOption: RepetitiveFootMotionOptionDto = new RepetitiveFootMotionOptionDto();
+  stairClimbResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
+  balanceProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
+  ladderWorkProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
     private assessService: AssessmentService,
+    private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _ladderWorkService: LadderWorkProtocolServiceProxy,
     private _balanceProtocolService: BalanceProtocolServiceProxy,
     private _walkingProtocolService: WalkingProtocolServiceProxy,
@@ -102,10 +110,14 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
-      .subscribe((result) => {
-
-        this.balanceProtocolResult = (result != null) ? result.items : null;
-
+      .subscribe((results) => {
+        this.balanceProtocolOptions = (results != null) ? results.items : null;
+        if(this.balanceProtocolOptions.length  > 0) {
+          this._workAssessmentReportService.getBalance(this.clientId).
+          subscribe(result => {
+            this.balanceProtocolResult = (result != null) ? result : this.balanceProtocolResult;
+          });
+        }
       });
   }
   getWalkingProtocol() {
@@ -129,14 +141,30 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.stairClimbingProtocolResult = (result != null) ? result.items : this.stairClimbingProtocolResult;
       });
   }
+  getStairClimbingProtocolResult() {
+    this.isLoading = true;
+    this._workAssessmentReportService.getStairClimb(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.stairClimbResult = (result != null) ? result : this.stairClimbResult;
+      });
+  }
   getLadderWorkProtocol() {
     this.isLoading = true;
     this._ladderWorkService.get(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
-      .subscribe((result) => {
-        this.ladderWorkProtocolResult = (result != null) ? result.items : this.ladderWorkProtocolResult;
+      .subscribe((results) => {
+        this.ladderWorkProtocolOptions = (results != null) ? results.items : this.ladderWorkProtocolOptions;
+        if(this.ladderWorkProtocolOptions.length > 0){
+          this._workAssessmentReportService.getLadderWork(this.clientId)
+          .subscribe(result => {
+            this.ladderWorkProtocolResult = result;
+          });
+        }
       });
   }
   getRepetitiveSquattingProtocol() {
@@ -215,7 +243,8 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.getWalkingProtocol();
         break;
       case 1:
-        this.getStairClimbingProtocol();
+        this.getStairClimbingProtocol()
+        this.getStairClimbingProtocolResult();
         break;
       case 2:
         this.getBalanceProtocol();
