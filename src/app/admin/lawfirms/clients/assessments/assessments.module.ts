@@ -1,3 +1,4 @@
+import { QuestionnaireCommentComponent } from './functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { WorkAssessmentComponent } from './work-assessment/work-assessment.component';
 import { CognitiveAssessmentsModule } from './cognitive-assessments/cognitive-assessments.module';
 import { QuestionnaireResolverService } from './../../../resolvers/questionnaire-resolver.service';
@@ -50,7 +51,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PainLevelPipe,
     AffectComponent,
     FunctionalAssessmentComponent,
-    WorkAssessmentComponent
+    WorkAssessmentComponent,
   ],
 
   exports: [GripStrengthComponent,
@@ -66,6 +67,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AffectComponent,
     FunctionalAssessmentComponent,
     WorkAssessmentComponent,
+
   ],
   providers: [
     {

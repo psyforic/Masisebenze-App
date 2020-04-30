@@ -24,7 +24,7 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralService } from '@app/admin/services/general.service';
-import { MatRadioChange } from '@angular/material';
+import { MatRadioChange, MatDialog } from '@angular/material';
 import { QuestionnaireCommentComponent } from '../questionnaire-comment/questionnaire-comment.component';
 
 @Component({
@@ -174,6 +174,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
     private cdr: ChangeDetectorRef,
     private injector: Injector,
     private modalService: NgbModal,
+    private dialog: MatDialog,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
     private _generalService: GeneralService,
@@ -437,7 +438,19 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
     }
   }
   viewQuestionnaireComment(type) {
-    this.questionnaireComment.open(type);
+    // this.questionnaireComment.open(type);
+    const modalRef = this.dialog.open(QuestionnaireCommentComponent, {
+      data: [this.fullName, this.clientId, type, this.description],
+      height: '470px',
+      width: '600px'
+    });
+    // modalRef.componentInstance.fullName = this.fullName;
+    // modalRef.componentInstance.clientId = this.clientId;
+    // modalRef.componentInstance.type = this.type;
+    // modalRef.componentInstance.onSubmitSubject
+    //   .subscribe((res: boolean) => {
+    //     // this.buttonText = 'Open Modal Again!';
+    //   });
   }
   setOptionValue(questionPosition, optionPosition) {
     if (questionPosition != null && optionPosition != null) {

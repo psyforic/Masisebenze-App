@@ -51,10 +51,10 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   isLoading = false;
   balanceProtocolOptions: BalanceProtocolOptionListDto[] = [];
   stairClimbingProtocolResult: StairClimbingOptionDto[] = [];
-  repetitiveSquattingProtocolResult: RepetitiveSquattingOptionDto[] = [];
-  repetitiveLeftFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
+  repetitiveSquattingProtocolOptions: RepetitiveSquattingOptionDto[] = [];
+  repetitiveLeftFootMotionProtocolOptions: RepetitiveFootMotionOptionDto[] = [];
   repetitiveFootMotion: RepetitiveFootMotionProtocolDto[] = [];
-  repetitiveRightFootMotionProtocolResult: RepetitiveFootMotionOptionDto[] = [];
+  repetitiveRightFootMotionProtocolOptions: RepetitiveFootMotionOptionDto[] = [];
   ladderWorkProtocolOptions: LadderWorkOptionDto[] = [];
   walkingProtocol: WalkingProtocolDetailOutput = new WalkingProtocolDetailOutput();
   crawlingProtocolResult: CrawlingProtocolDetailOutput = new CrawlingProtocolDetailOutput();
@@ -62,6 +62,9 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   stairClimbResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   balanceProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   ladderWorkProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
+  repetitiveSquattingProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
+  // repetitiveLeftFootMotionProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
+  repetitiveFootMotionProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
@@ -174,7 +177,13 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        this.repetitiveSquattingProtocolResult = (result != null) ? result.items : this.repetitiveSquattingProtocolResult;
+        this.repetitiveSquattingProtocolOptions = (result != null) ? result.items : this.repetitiveSquattingProtocolOptions;
+        if(this.repetitiveSquattingProtocolOptions){
+          this._workAssessmentReportService.getRepetitiveSquatting(this.clientId)
+          .subscribe(results => {
+            this.repetitiveSquattingProtocolResult = (results != null) ? results : this.repetitiveSquattingProtocolResult;
+          });
+        }
       });
   }
   getRepetitiveLeftFootMotionProtocol() {
@@ -207,16 +216,16 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       }
     }
   }
-  // getRepetitiveRightFootMotionProtocol(id: string, side: number) {
-  //   this.isLoading = true;
-  //   this._repetitiveFootMotionProtocolService.getById(id, side)
-  //     .pipe(finalize(() => {
-  //       this.isLoading = false;
-  //     }))
-  //     .subscribe((result) => {
-  //       this.repetitiveRightFootMotionProtocolResult = result;
-  //     });
-  // }
+  getRepetitiveFootMotionProtocol() {
+    this.isLoading = true;
+    this._workAssessmentReportService.getRepetitiveFootMotion(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.repetitiveFootMotionProtocolResult = result;
+      });
+  }
   getCrawlingProtocol() {
     this.isLoading = true;
     this._crawlingProtocolService.get(this.clientId)
@@ -256,7 +265,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.getRepetitiveSquattingProtocol();
         break;
       case 5:
-        this.getCrawlingProtocol();
+        this.getRepetitiveFootMotionProtocol();
         break;
       case 6:
         this.getCrawlingProtocol();

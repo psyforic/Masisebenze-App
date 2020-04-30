@@ -68,9 +68,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TypeaheadModule.forRoot()
   ],
   exports: [
-    NewClientComponent, ReportSummaryComponent, DragDropModule
+    NewClientComponent, ReportSummaryComponent, DragDropModule, QuestionnaireCommentComponent
   ],
-  entryComponents: [NewClientComponent, CameraModalComponent, NewJobDescriptionComponent],
+  entryComponents: [NewClientComponent, CameraModalComponent, NewJobDescriptionComponent, QuestionnaireCommentComponent],
   providers: [NgbActiveModal,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

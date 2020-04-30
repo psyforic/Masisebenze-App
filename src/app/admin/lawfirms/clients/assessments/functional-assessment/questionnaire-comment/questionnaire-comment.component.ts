@@ -1,20 +1,25 @@
+import { FormControl } from '@angular/forms';
 import { FunctionalAssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import {
   CommentListDto, CommentServiceProxy, CreateCommentInput,
   QuestionnaireDto
 } from './../../../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, Injector, ViewChild, Input, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, Input, ElementRef, AfterViewInit, Optional, Inject } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import * as $ from 'jquery';
+// import * as $ from 'jquery';
 import { from } from 'rxjs';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { EditorChangeHandler } from 'quill';
+import { QuillEditorComponent } from 'ngx-quill';
+declare let $: any;
 @Component({
   selector: 'app-questionnaire-comment',
   templateUrl: './questionnaire-comment.component.html',
   styleUrls: ['./questionnaire-comment.component.scss'],
-  providers: [CommentServiceProxy]
+  providers: [CommentServiceProxy, FunctionalAssessmentServiceProxy]
 })
 export class QuestionnaireCommentComponent extends AppComponentBase implements OnInit, AfterViewInit {
   @ViewChild('content', { static: false }) content: ElementRef;
@@ -29,21 +34,29 @@ export class QuestionnaireCommentComponent extends AppComponentBase implements O
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
+    @Optional() public dialogRef: MatDialogRef<QuestionnaireCommentComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
     private _functionalAssessmentService: FunctionalAssessmentServiceProxy,
     private _commentService: CommentServiceProxy
   ) {
     super(injector);
   }
   ngAfterViewInit(): void {
-  
+    
   }
   ngOnInit() {
+    if(this.data != null) {
+      this.fullName = this.data[0];
+      this.clientId = this.data[1];
+      this.type = this.data[2];
+      this.description = this.data[3];
+      this.getQuestionnaire();
+    }
   }
   
   open(type: number) {
     this.type = type;
     this.getQuestionnaire();
-  
     this.modalService.open(this.content, { windowClass: 'modal-height', backdrop: 'static', keyboard: false, size: 'sm' })
       .result.then(() => { }, () => { });
   }
@@ -76,6 +89,7 @@ export class QuestionnaireCommentComponent extends AppComponentBase implements O
       });
   }
   close() {
-    this.modalService.dismissAll();
+    this.dialogRef.close();
   }
+  
 }
