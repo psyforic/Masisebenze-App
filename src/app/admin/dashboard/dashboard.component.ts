@@ -208,10 +208,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       high: 60,
       chartPadding: { top: 0, right: 5, bottom: 0, left: 0 },
       plugins: [
-        ChartistTooltip({
-          anchorToPoint: true,
-          appendToBody: true
-        })
+        ChartistTooltip()
       ]
     };
     const responsiveOptions: any[] = [
