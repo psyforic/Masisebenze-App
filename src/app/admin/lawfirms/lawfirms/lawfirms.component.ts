@@ -8,8 +8,9 @@ import { EditLawfirmComponent } from './edit-lawfirm/edit-lawfirm.component';
 import { AppComponentBase } from '@shared/app-component-base';
 import { LawFirmServiceProxy, LawFirmListDto } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { finalize } from 'rxjs/operators';
+import { finalize, catchError } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
+import { of } from 'rxjs';
 
 export interface User {
   id: number;
@@ -94,10 +95,18 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
           this.lawFirmService.delete(entity.id).pipe(finalize(() => {
             abp.notify.success('Deleted Law Firm: ' + entity.companyName);
             this.refresh();
-          })).subscribe(() => { });
+          }), catchError(error => {
+            if (error) {
+              abp.notify.error('An Error Occured: Not Permmited');
+              return;
+            }
+            return of({ results: null });
+          })).subscribe(() => { }, error => { },
+            () => {
+              abp.notify.success('Deleted Law Firm: ' + entity.companyName);
+            });
         }
       }
     );
   }
-
 }
