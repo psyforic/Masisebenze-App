@@ -5,7 +5,7 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    box-shadow: 0 0 13px 0 rgba(82, 63, 105, .05);
+    box-shadow: 0 0 13px 0 rgba(82, 63, 105, 0.05);
     margin-bottom: 20px;
     border-radius: 4px;
 }
@@ -66,11 +66,26 @@
 }
 
 .fc-unthemed td.fc-today {
-    background: #4FC3F7 !important;
+    background: #4fc3f7 !important;
 }
+
 .fc-day .fc-widget-content .fc-today {
-    background: #4FC3F7 !important;
+    background: #4fc3f7 !important;
 }
+
 td.fc-today {
-    background-color: #10CC55  !important;;
+    background-color: #10cc55 !important;
+}
+
+.card .card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    border-radius: 4px;
+}
+
+@media (min-width: 1025px) {
+    .card.card-height-fluid {
+        height: calc(100% - 20px);
+    }
 }

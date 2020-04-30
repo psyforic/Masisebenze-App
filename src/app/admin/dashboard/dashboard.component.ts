@@ -8,6 +8,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventInput } from '@fullcalendar/core';
+import ChartistTooltip from 'chartist-plugin-tooltips-updated';
 import {
   BookingServiceProxy,
   BookingListDto,
@@ -46,6 +47,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   activities: BookingListDto[] = [];
   calendarEvents: EventInput[] = [];
   barGraphData: any[] = [];
+  websiteViewsChart: any;
   constructor(injector: Injector,
     private bookingService: BookingServiceProxy,
     private dashBoardService: DashBoardServiceProxy,
@@ -126,8 +128,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       .pipe(finalize(() => {
         this.renderBarGraph();
       })).subscribe((result) => {
-        result.items.forEach(x => {
-          this.barGraphData[x.month] = x.value;
+        result.items.map(x => {
+          this.barGraphData[x.month] = { meta: 'Assessments', value: x.value };
         });
       });
   }
@@ -200,11 +202,17 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     };
     const optionswebsiteViewsChart = {
       axisX: {
-        showGrid: false
+        showGrid: true,
       },
       low: 0,
-      high: 50,
-      chartPadding: { top: 0, right: 5, bottom: 0, left: 5 }
+      high: 60,
+      chartPadding: { top: 0, right: 5, bottom: 0, left: 0 },
+      plugins: [
+        ChartistTooltip({
+          anchorToPoint: true,
+          appendToBody: true
+        })
+      ]
     };
     const responsiveOptions: any[] = [
       ['screen and (max-width: 640px)', {
@@ -216,8 +224,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         }
       }]
     ];
-    const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-    this.startAnimationForBarChart(websiteViewsChart);
+    this.websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+    this.startAnimationForBarChart(this.websiteViewsChart);
   }
   renderDay(event) {
     if (event != null) {
