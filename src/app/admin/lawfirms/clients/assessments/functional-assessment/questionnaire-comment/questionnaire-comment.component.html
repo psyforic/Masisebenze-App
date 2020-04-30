@@ -1,62 +1,14 @@
 
-  <div class="modal-header bg-color m-0" cdkDrag cdkDragRootElement=".cdk-overlay-pane" >
-    <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}} </b></h4>
-    <button type="button" class="close" aria-label="Close" (click)="close()">
-      <span class="text-white" aria-hidden="true">&times;</span>
-    </button>
+<div class="row">
+  <div class="col-lg-12">
+    <quill-editor #quill [id]="'quill'"
+        [styles]="{height: '150px'}" 
+        [(ngModel)] ="commentInput.text"
+        [sanitize]="true" name="homeEnvironment"
+        [placeholder]="'Enter comment here...'">
+    </quill-editor>
   </div>
+</div>
 
-  <div class="modal-body m-0">
-    <div class="example-loading-shade" *ngIf="isLoading || saving">
-      <mat-spinner *ngIf="isLoading || saving"></mat-spinner>
-    </div>
-     <h4 class="text-center"><b>{{description}}</b></h4>
-      <div class="row">
-        <div class="col-lg-12">
-          <quill-editor 
-             [styles]="{height: '200px'}" 
-             [(ngModel)] ="commentInput.text"
-             [sanitize]="true" name="homeEnvironment"
-             [placeholder]="'Enter comment here...'">
-          </quill-editor>
-        </div>
-      </div>
-  </div>
-  <div class="modal-footer">
-    <div class="col-lg-4">
 
-    </div>
-    <div class="col-lg-4 text-center">
-      <button type="button" class="btn-secondary pull-center" mat-raised-button color="default" (click)="close()">Close</button>
-      <button type="button" class="pull-center ml-2" [disabled]="(commentInput.text == null || commentInput.text == '')" mat-raised-button
-        color="primary" (click)="save()">
-        Save
-      </button>
-
-    </div>
-    <div class="col-lg-4">
-
-    </div>
-  </div>
  
-
-<!-- <div class="modal-header bg-color" #header cdkDrag cdkDragRootElement=".cdk-overlay-pane">
-  <span>{{ title }}</span>
-  <button type="button" class="close" (click)="close()" aria-hidden="true">
-      X
-  </button>
-</div>
-<div class="modal-body" #content > 
-  <div class="row">
-    <div class="col-md-12">
-      <div [innerHTML]='fullName'>
-      
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal-footer">
-  <span class="pull-right" style="padding-right:2%">
-    <button type="button" class="btn btn-default btn-sm" (click)="close()" id="btnCancel">Close</button>
-  </span>
-</div> -->

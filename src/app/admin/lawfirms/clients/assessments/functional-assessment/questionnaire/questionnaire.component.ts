@@ -26,7 +26,9 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GeneralService } from '@app/admin/services/general.service';
 import { MatRadioChange, MatDialog } from '@angular/material';
 import { QuestionnaireCommentComponent } from '../questionnaire-comment/questionnaire-comment.component';
-
+import { HtmlAstPath } from '@angular/compiler';
+import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
+declare let $: any;
 @Component({
   selector: 'app-questionnaire',
   templateUrl: './questionnaire.component.html',
@@ -36,7 +38,7 @@ import { QuestionnaireCommentComponent } from '../questionnaire-comment/question
 export class QuestionnaireComponent extends AppComponentBase implements OnInit, AfterViewChecked {
   @ViewChild('content', { static: false }) content: ElementRef;
   client: ClientDetailOutput = new ClientDetailOutput();
-  @ViewChild('questionnaireComment', { static: false }) questionnaireComment: QuestionnaireCommentComponent;
+  @ViewChild('questionnaireComment', { static: true }) questionnaireComment: QuestionnaireCommentComponent;
   @Input() fullName: string;
   @Input() clientId: string;
   @Input() type: number;
@@ -165,6 +167,8 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
   clientAnswers: ClientAnswerListDto[] = [];
   isLoading = false;
   saving = false;
+  isCommentShown = false;
+  commentLabel = 'Show Comment';
   answer;
   isSaved;
   index = 0;
@@ -177,7 +181,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
     private dialog: MatDialog,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
-    private _generalService: GeneralService,
+    private _commentService: CommentServiceProxy,
     private _functionAssessmentService: FunctionalAssessmentServiceProxy,
     private _activatedRoute: ActivatedRoute) {
     super(injector);
@@ -200,6 +204,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
   }
   save() {
     this.saving = true;
+    console.log(this.questionnaireComment);
     if (this.type !== 2) {
       if (this.clientAnswers != null && this.clientAnswers.length > 0) {
 
@@ -211,6 +216,15 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
             this.saving = false;
           }))
           .subscribe(() => {
+            if(this.commentInput.text != null || this.commentInput.text !== '') {
+              this.commentInput.targetId = this.questionnaire.id;
+              this._commentService.createComment(this.commentInput)
+                .pipe(finalize(() => {
+                  this.isLoading = false;
+                }))
+                .subscribe(() => {
+                });
+            }
             this.notify.success('Save successfully');
           });
       }
@@ -223,7 +237,16 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
             this.saving = false;
           }))
           .subscribe(() => {
-            this.notify.success('Saved successfully');
+            if(this.commentInput.text != null || this.commentInput.text !== '') {
+              this.commentInput.targetId = this.questionnaire.id;
+              this._commentService.createComment(this.commentInput)
+                .pipe(finalize(() => {
+                  this.isLoading = false;
+                }))
+                .subscribe(() => {
+                });
+            }
+            this.notify.success('Saved Successfully');
           });
       }
     }
@@ -251,6 +274,21 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
       this.index = this.index;
       return;
     }
+  }
+  getQuestionnaire() {
+    this._functionAssessmentService.getQuestionnaire(this.type, this.clientId)
+      .subscribe((result) => {
+        this.questionnaire = result;
+        this.getComments();
+      });
+  }
+  getComments() {
+    this._commentService.getUserComments(this.questionnaire.id)
+      .pipe(finalize(() => {
+      }))
+      .subscribe((result) => {
+        this.commentInput = result;
+      });
   }
   getQuestionOptions(position) {
 
@@ -323,6 +361,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
               this.total += clientAnswer.optionScore;
             }
           });
+          this.getQuestionnaire();
         });
   }
   createQuestionDto(question: QuestionListDto) {
@@ -437,20 +476,17 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
       }
     }
   }
-  viewQuestionnaireComment(type) {
-    // this.questionnaireComment.open(type);
-    const modalRef = this.dialog.open(QuestionnaireCommentComponent, {
-      data: [this.fullName, this.clientId, type, this.description],
-      height: '470px',
-      width: '600px'
+  viewQuestionnaireComment() {
+    if (this.isCommentShown) {
+      this.isCommentShown = false;
+      this.commentLabel = 'Show Comment';
+    } else {
+      this.isCommentShown = true;
+      this.commentLabel = 'Hide Comment';
+    }
+    $(document).ready(function(){
+      $('#quill').focus();
     });
-    // modalRef.componentInstance.fullName = this.fullName;
-    // modalRef.componentInstance.clientId = this.clientId;
-    // modalRef.componentInstance.type = this.type;
-    // modalRef.componentInstance.onSubmitSubject
-    //   .subscribe((res: boolean) => {
-    //     // this.buttonText = 'Open Modal Again!';
-    //   });
   }
   setOptionValue(questionPosition, optionPosition) {
     if (questionPosition != null && optionPosition != null) {
