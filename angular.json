@@ -41,8 +41,7 @@
                             "node_modules/quill/dist/quill.core.css",
                             "node_modules/quill/dist/quill.bubble.css",
                             "node_modules/quill/dist/quill.snow.css",
-                            "node_modules/chartist/dist/chartist.css",
-                            "node_modules/chartist-plugin-tooltips-updated/dist/chartist-plugin-tooltip.css"
+                            "node_modules/chartist/dist/chartist.css"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js",
@@ -52,7 +51,6 @@
                             "node_modules/toastr/toastr.js",
                             "node_modules/jquery-migrate/dist/jquery-migrate.min.js",
                             "node_modules/chartist/dist/chartist.js",
-                            "node_modules/chartist-plugin-tooltips-updated/dist/chartist-plugin-tooltip.min.js",
                             "node_modules/js-cookie/src/js.cookie.js",
                             "node_modules/lodash/lodash.min.js",
                             "node_modules/moment/min/moment.min.js",

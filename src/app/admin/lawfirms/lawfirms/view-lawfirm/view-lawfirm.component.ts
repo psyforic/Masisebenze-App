@@ -31,7 +31,7 @@ import {
   AffectDto,
   MobilityDto,
 } from '@shared/service-proxies/service-proxies';
-import { finalize } from 'rxjs/operators';
+import { finalize, catchError } from 'rxjs/operators';
 import { NewAttorneyComponent } from '../../attorneys/new-attorney/new-attorney.component';
 import { ViewAttorneyComponent } from '../../attorneys/view-attorney/view-attorney.component';
 import { EditAttorneyComponent } from '../../attorneys/edit-attorney/edit-attorney.component';
@@ -42,6 +42,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { Location } from '@angular/common';
 import { GeneralService } from '@app/admin/services/general.service';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/paged-listing-component-base';
+import { of } from 'rxjs';
 
 export class MaxDataValue {
   elementId: string;
@@ -539,18 +540,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         });
     });
 
-    // const docCreator = new DocumentCreator();
-    // setTimeout(async () => {
-    //   await this.generateDocument(docCreator, entity, entity.address)
-    //     .then(() => {
-    //       // this.notify.success('Saved Successfully', 'Success');
-    //       this.isGenerating = false;
-    //     })
-    //     .catch(error => {
-    //       this.notify.error('An Error Occurred Please Try Again to Download');
-    //     });
-    // }, 20000);
-
   }
   async generateDocument(docCreator: DocumentCreator, entity: ClientDetailOutput, address: CreateAddressInput) {
     const today = moment().format('LL');
@@ -676,7 +665,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
                   maxDataValue.elementId = workContext.elementID;
                   maxDataValue.elementName = workContext.elementName;
                   maxDataValue.category = workContext.category;
-                  // console.log(dataValues);
                   this.maxDataValues.push(maxDataValue);
                   this.ageList.push(workContext.elementName);
                 }
@@ -724,7 +712,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
               this.assessmentReport[57] = false;
               const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null &&
                 (x.result != null && x.result !== '')).map((value) => {
-                  // if (value.assessmentName != null && value.assessmentName != '') {
                   return {
                     activity: value.assessmentName,
                     performance: value.result,
@@ -734,11 +721,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
                 });
               this.assessmentReport[54] = filtered;
             } else {
-              // this.assessmentReport[54] = {
-              //     activity: value.assessmentName,
-              //     performance: value.result,
-              //     jobDemand: value.jobDemand
-              // };
               this.assessmentReport[51] = false;
               this.assessmentReport[57] = true;
             }
@@ -787,11 +769,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
               this.assessmentReport[52] = true;
               this.assessmentReport[58] = false;
             } else {
-
-              // this.assessmentReport[55] = {
-              //   taskName: 'Not Applicable',
-              //   taskComment: ''
-              // };
               this.assessmentReport[52] = false;
               this.assessmentReport[58] = true;
             }
@@ -848,11 +825,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
                 this.assessmentReport[53] = true;
                 this.assessmentReport[59] = false;
               } else {
-
-                // this.assessmentReport[56] = {
-                //   taskName: 'Not Applicable',
-                //   taskComment: ''
-                // };
                 this.assessmentReport[53] = false;
                 this.assessmentReport[59] = true;
               }
@@ -861,7 +833,6 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
         }
         this.generateDocument(docCreator, entity, entity.address)
           .then(() => {
-            // this.notify.success('Saved Successfully', 'Success');
             this.isGenerating = false;
           })
           .catch(error => {
@@ -902,11 +873,22 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
       'Delete Contact \'' + entity.firstName + '\'?',
       (result: boolean) => {
         if (result) {
-          this.contactService.delete(entity.id).pipe(finalize(() => {
-            abp.notify.success('Deleted Contact: ' + entity.firstName);
-          })).subscribe(() => {
-            this.getContacts();
-          });
+          this.isLoading = true;
+          this.contactService.delete(entity.id)
+            .pipe(finalize(() => {
+              this.isLoading = false;
+            }), catchError(error => {
+              if (error) {
+                abp.notify.error('An Error Occured: Not Permmited');
+                return;
+              }
+              return of({ results: null });
+            })).subscribe(() => {
+              this.getContacts();
+            }, error => { },
+              () => {
+                abp.notify.success('Deleted Contact: ' + entity.firstName);
+              });
         }
       }
     );
@@ -917,12 +899,21 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
       'Delete Client \'' + entity.firstName + ' ' + entity.lastName + '\'?',
       (result: boolean) => {
         if (result) {
-          this.contactService.delete(entity.id).pipe(finalize(() => {
-            abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
-            this.getClients();
-          })).subscribe(() => {
-
-          });
+          this.isLoading = true;
+          this.clientService.delete(entity.id)
+            .pipe(finalize(() => {
+              this.isLoading = false;
+              this.getClients();
+            }), catchError(error => {
+              if (error) {
+                abp.notify.error('An Error Occured: Not Permmited');
+                return;
+              }
+              return of({ results: null });
+            })).subscribe(() => { }, error => { },
+              () => {
+                abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
+              });
         }
       }
     );

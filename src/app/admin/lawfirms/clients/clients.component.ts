@@ -1,6 +1,14 @@
 import {
-  SensationServiceProxy, PostureServiceProxy,
-  ClientAssessmentReportServiceProxy, AssessmentReportDto, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy, WorkInformationServiceProxy, PositionalToleranceDto, WeightedProtocolDto, WorkAssessmentServiceProxy, RepetitiveToleranceDto
+  SensationServiceProxy,
+  PostureServiceProxy,
+  ClientAssessmentReportServiceProxy,
+  ReportSummaryServiceProxy,
+  WorkAssessmentReportServiceProxy,
+  WorkInformationServiceProxy,
+  PositionalToleranceDto,
+  WeightedProtocolDto,
+  WorkAssessmentServiceProxy,
+  RepetitiveToleranceDto
 } from './../../../../shared/service-proxies/service-proxies';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
@@ -23,19 +31,18 @@ import {
   ReportRoMHipDto,
   ReportRoMKneeDto,
   ReportRoMAnkleDto,
-  AssessmentServiceProxy,
   AffectServiceProxy,
   MobilityServiceProxy,
   AffectDto,
   MobilityDto,
 } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { finalize } from 'rxjs/operators';
+import { finalize, catchError } from 'rxjs/operators';
 import { NewClientComponent } from './new-client/new-client.component';
 import { DocumentCreator } from '@app/admin/partials/document-creator';
 import * as moment from 'moment';
 import { GeneralService } from '@app/admin/services/general.service';
-import { Subject, Observable } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
 export class MaxDataValue {
@@ -49,9 +56,12 @@ export class MaxDataValue {
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.scss'],
-  providers: [ClientServiceProxy, WorkAssessmentServiceProxy, DocumentServiceProxy, ReportServiceProxy, WorkInformationServiceProxy,
+  providers: [
+    ClientServiceProxy, WorkAssessmentServiceProxy,
+    DocumentServiceProxy, ReportServiceProxy, WorkInformationServiceProxy,
     MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy,
-    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy]
+    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy
+  ]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
 
@@ -60,7 +70,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   dataSource: MatTableDataSource<ClientListDto>;
   displayedColumns = ['firstName', 'lastName', 'dob', 'age', 'dateOfInjury', 'actions'];
-  clients: ClientListDto[] = []; client: ClientListDto;
+  clients: ClientListDto[] = [];
+  client: ClientListDto;
   workData: WorkHistoryListDto = new WorkHistoryDetailOutput();
   medicalData: MedicalHistoryListDto = new MedicalHistoryListDto();
   isSaving = false; isGenerating = false; documents: DocumentListDto[] = [];
@@ -91,7 +102,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   comment: string;
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
-  searchTerm$ = new Subject<string>(); a
+  searchTerm$ = new Subject<string>();
   searchTerm: FormControl = new FormControl();
   isSearching = false;
   positionalToleranceResult: PositionalToleranceDto[] = [];
@@ -146,14 +157,10 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     let entity: ClientDetailOutput = new ClientDetailOutput();
     this.isGenerating = true;
     this._reportService.getPersonalDetails(client.id).pipe(finalize(() => {
-      const address: CreateAddressInput = new CreateAddressInput();
       const age = this._generalService.getAge('' + client.idNumber);
       const gender = this._generalService.getGender('' + client.idNumber);
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
-          // console.log(this.positionalToleranceResult);
-          // console.log(this.weightedProtocolResult);
-          // console.log(this.repetitiveToleranceResult);
           this.isGenerating = false;
           const docCreator = new DocumentCreator();
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
@@ -169,11 +176,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
           this.getElementNames(this.jobTitle, docCreator, entity);
-          // setTimeout(async () => {
-          // }, 20000);
         }))
         .subscribe((result) => {
-          // console.log(result);
           /***************************************************************************************
            * COGNITIVE ASSESSMENT REPORT SECTION
            ****************************************************************************************/
@@ -339,7 +343,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           }
 
         });
-      this.getReportData(client.id, age, gender);
+      this.getReportData(client.id);
     })).subscribe((result) => {
       entity = result;
       if (entity.lawFirm != null && entity.lawFirm.physicalAddress != null) {
@@ -404,19 +408,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
             });
         });
     });
-
-    // const docCreator = new DocumentCreator();
-    // setTimeout(async () => {
-    //   await this.generateDocument(docCreator, entity, entity.address)
-    //     .then(() => {
-    //       // this.notify.success('Saved Successfully', 'Success');
-    //       this.isGenerating = false;
-    //     })
-    //     .catch(error => {
-    //       this.notify.error('An Error Occurred Please Try Again to Download');
-    //     });
-    // }, 20000);
-
   }
   async generateDocument(docCreator: DocumentCreator, entity: ClientDetailOutput, address: CreateAddressInput) {
     const today = moment().format('LL');
@@ -517,20 +508,18 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
                   maxDataValue.elementId = workContext.elementID;
                   maxDataValue.elementName = workContext.elementName;
                   maxDataValue.category = workContext.category;
-                  // console.log(dataValues);
                   this.maxDataValues.push(maxDataValue);
                   this.ageList.push(workContext.elementName);
                 }
               }
             });
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
-            this.positionalToleranceResult.forEach((item, index) => {
+            this.positionalToleranceResult.forEach((item) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Sitting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
                 if (element != null) {
                   item.jobDemand = this.calculateJobDemandResult(element.dataValue);
-
                 }
               } else if (item.assessmentName.includes('Kneeling')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.e')[0];
@@ -565,7 +554,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               this.assessmentReport[57] = false;
               const filtered = this.positionalToleranceResult.filter(x => x.assessmentName != null &&
                 (x.result != null && x.result !== '')).map((value) => {
-                  // if (value.assessmentName != null && value.assessmentName != '') {
                   return {
                     activity: value.assessmentName,
                     performance: value.result,
@@ -575,17 +563,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
                 });
               this.assessmentReport[54] = filtered;
             } else {
-              // this.assessmentReport[54] = {
-              //     activity: value.assessmentName,
-              //     performance: value.result,
-              //     jobDemand: value.jobDemand
-              // };
               this.assessmentReport[51] = false;
               this.assessmentReport[57] = true;
             }
           }
           if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
-            this.weightedProtocolResult.forEach((item, index) => {
+            this.weightedProtocolResult.forEach((item) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Lifting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
@@ -628,17 +611,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
               this.assessmentReport[52] = true;
               this.assessmentReport[58] = false;
             } else {
-
-              // this.assessmentReport[55] = {
-              //   taskName: 'Not Applicable',
-              //   taskComment: ''
-              // };
               this.assessmentReport[52] = false;
               this.assessmentReport[58] = true;
             }
           }
           if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
-            this.repetitiveToleranceResult.forEach((item, index) => {
+            this.repetitiveToleranceResult.forEach((item) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
@@ -689,11 +667,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
                 this.assessmentReport[53] = true;
                 this.assessmentReport[59] = false;
               } else {
-
-                // this.assessmentReport[56] = {
-                //   taskName: 'Not Applicable',
-                //   taskComment: ''
-                // };
                 this.assessmentReport[53] = false;
                 this.assessmentReport[59] = true;
               }
@@ -702,10 +675,9 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         }
         this.generateDocument(docCreator, entity, entity.address)
           .then(() => {
-            // this.notify.success('Saved Successfully', 'Success');
             this.isGenerating = false;
           })
-          .catch(error => {
+          .catch(() => {
             this.notify.error('An Error Occurred Please Try Again to Download');
           });
       });
@@ -725,30 +697,10 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
     }
     return jobDemand;
   }
-  async getReportData(clientId: string, age: number, gender: number) {
-    // await this.getGripStrength(clientId, age, gender);
-    // await this.getMusclePower(clientId);
-    // await this.getShoulders(clientId);
-    // await this.getForearmWrist(clientId);
-    // await this.getElbow(clientId);
-    // await this.getHand(clientId);
-    // await this.getHip(clientId);
-    // await this.getKnee(clientId);
-    // await this.getAnkle(clientId);
-    // await this.getBorgBalance(clientId);
+  async getReportData(clientId: string) {
     await this.getSensation(clientId);
     await this.getMobility(clientId);
     await this.getAffect(clientId);
-    // await this.getCoordination(clientId);
-    // await this.getPosture(clientId);
-    // await this.getGait(clientId);
-    // await this.getWalking(clientId);
-    // await this.getStairClimbing(clientId);
-    // await this.getBalance(clientId);
-    // await this.getLadderWork(clientId);
-    // await this.getRepetitiveSquatting(clientId);
-    // await this.getRepetitiveFootMotion(clientId);
-    // await this.getCrawling(clientId);
   }
 
   async  getSensation(clientId: string) {
@@ -786,7 +738,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       );
   }
 
-
   protected list(request: PagedRequestDto, pageNumber: number, finishedCallback: Function): void {
     this.clientService.getAll(request.sorting, request.skipCount, request.maxResultCount)
       .pipe(finalize(() => {
@@ -807,9 +758,17 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           this.isSaving = true;
           this.clientService.delete(entity.id).pipe(finalize(() => {
             this.isSaving = false;
-            abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
             this.refresh();
-          })).subscribe(() => { });
+          }), catchError(error => {
+            if (error) {
+              abp.notify.error('An Error Occured: Not Permmited');
+              return;
+            }
+            return of({ results: null });
+          })).subscribe(() => { }, error => { },
+            () => {
+              abp.notify.success('Deleted Client: ' + entity.firstName + ' ' + entity.lastName);
+            });
         } else {
           this.isSaving = false;
         }

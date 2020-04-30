@@ -4,9 +4,10 @@ import { NewAttorneyComponent } from './new-attorney/new-attorney.component';
 import { EditAttorneyComponent } from './edit-attorney/edit-attorney.component';
 import { AttorneyListDto, AttorneyServiceProxy } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { finalize } from 'rxjs/operators';
+import { finalize, catchError } from 'rxjs/operators';
 import { ViewAttorneyComponent } from './view-attorney/view-attorney.component';
 import { FormControl } from '@angular/forms';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -84,10 +85,19 @@ export class AttorneysComponent extends PagedListingComponentBase<AttorneyListDt
       'Delete Attorney \'' + entity.firstName + ' ' + entity.lastName + '\'?',
       (result: boolean) => {
         if (result) {
-          this.attorneyService.delete(entity.id).pipe(finalize(() => {
-            abp.notify.success('Deleted Attorney: ' + entity.firstName + ' ' + entity.lastName);
-            this.refresh();
-          })).subscribe(() => { });
+          this.attorneyService.delete(entity.id)
+            .pipe(finalize(() => {
+              this.refresh();
+            }), catchError(error => {
+              if (error) {
+                abp.notify.error('An Error Occured: Not Permmited');
+                return;
+              }
+              return of({ results: null });
+            })).subscribe(() => { }, error => { },
+              () => {
+                abp.notify.success('Deleted Attorney: ' + entity.firstName + ' ' + entity.lastName);
+              });
         }
       }
     );

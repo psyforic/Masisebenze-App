@@ -8,7 +8,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { EventInput } from '@fullcalendar/core';
-import ChartistTooltip from 'chartist-plugin-tooltips-updated';
+import ChartistTooltip from 'chartist-plugin-tooltip';
 import {
   BookingServiceProxy,
   BookingListDto,
@@ -22,6 +22,7 @@ import { MatBottomSheet } from '@angular/material';
 import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-sheet.component';
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { NewLawfirmComponent } from '../lawfirms/lawfirms/new-lawfirm/new-lawfirm.component';
+import { IBarChartOptions } from 'chartist';
 
 @Component({
   selector: 'app-dashboard',
@@ -47,7 +48,6 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   activities: BookingListDto[] = [];
   calendarEvents: EventInput[] = [];
   barGraphData: any[] = [];
-  websiteViewsChart: any;
   constructor(injector: Injector,
     private bookingService: BookingServiceProxy,
     private dashBoardService: DashBoardServiceProxy,
@@ -200,7 +200,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
       series: [this.barGraphData]
     };
-    const optionswebsiteViewsChart = {
+    const optionswebsiteViewsChart: IBarChartOptions = {
       axisX: {
         showGrid: true,
       },
@@ -208,8 +208,13 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
       high: 60,
       chartPadding: { top: 0, right: 5, bottom: 0, left: 0 },
       plugins: [
-        ChartistTooltip()
-      ]
+        ChartistTooltip({
+          defaultOptions: {
+            appendToBody: false,
+            metaIsHtml: false
+          }
+        })
+      ],
     };
     const responsiveOptions: any[] = [
       ['screen and (max-width: 640px)', {
@@ -221,8 +226,8 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
         }
       }]
     ];
-    this.websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
-    this.startAnimationForBarChart(this.websiteViewsChart);
+    const websiteViewsChart = new Chartist.Bar('#websiteViewsChart', datawebsiteViewsChart, optionswebsiteViewsChart, responsiveOptions);
+    this.startAnimationForBarChart(websiteViewsChart);
   }
   renderDay(event) {
     if (event != null) {

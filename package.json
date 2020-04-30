@@ -54,6 +54,7 @@
         "bootstrap-select": "^1.12.2",
         "chart.js": "^2.6.0",
         "chartist": "0.11.2",
+        "chartist-plugin-tooltip": "^0.0.11",
         "core-js": "^2.4.1",
         "docx": "^5.0.0-rc5",
         "docx-templates": "^3.1.1",
