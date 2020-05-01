@@ -52,14 +52,14 @@
             <div class="col-lg-12 mt-5 text-center" *ngIf="walkingProtocol?.id == null && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x">
               </i>
-              <h4 class="text-center">No assessments taken</h4>
+              <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Stair Climbing">
             <div class="col-lg-12" *ngIf="stairClimbingProtocolResult?.length > 0">
               <!-- <div *ngFor="let stairClimbingProtocolResult of stairClimbingProtocolResult; let i = index;"> -->
                 <div class="row">
-                  <p class="col-lg-12 text-center mt-1"><strong>{{(stair_current_step+1)+" of "+(STAIR_MAX_STEP+1)}}</strong></p>
+                  <p class="col-lg-12 text-center mt-1"><strong>Test {{(stair_current_step+1)+" of "+(STAIR_MAX_STEP+1)}}</strong></p>
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <input matInput placeholder="Pain" type="text" name="pain"
@@ -150,7 +150,7 @@
             <div class="col-lg-12 mt-5 text-center" *ngIf="stairClimbingProtocolResult?.length ==0 && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x">
               </i>
-              <h4 class="text-center">No assessments taken</h4>
+              <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Balance">
@@ -213,14 +213,14 @@
             <div class="col-lg-12 mt-5 text-center" *ngIf=" balanceProtocolOptions?.length == 0 && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x">
               </i>
-              <h4 class="text-center">No assessments taken</h4>
+              <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Ladder Work">
             <div class="col-lg-12" *ngIf="ladderWorkProtocolOptions?.length > 0">
               <!-- <div *ngFor="let ladderWorkProtocolResult of ladderWorkProtocolOptions; let i = index;"> -->
                 <div class="row">
-                  <p class="col-lg-12 text-center mt-1"><strong>{{(ladder_current_step+1)+" of "+(LADDER_MAX_STEP+1)}}</strong></p>
+                  <p class="col-lg-12 text-center mt-1"><strong>Test {{(ladder_current_step+1)+" of "+(LADDER_MAX_STEP+1)}}</strong></p>
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <input matInput placeholder="Pain" type="text" name="pain"
@@ -294,14 +294,14 @@
             <div class="col-mlg-12 mt-5 text-center" *ngIf="ladderWorkProtocolOptions?.length ==0 && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x">
               </i>
-              <h4 class="text-center">No assessments taken</h4>
+              <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Repetitive Squatting">
             <div class="col-lg-12" *ngIf="repetitiveSquattingProtocolOptions?.length > 0">
               <!-- <div *ngFor="let repetitiveSquattingProtocolResult of repetitiveSquattingProtocolOptions; let i = index;"> -->
                 <div class="row">
-                  <p class="col-lg-12 text-center mt-1"><strong>{{(rs_current_step+1)+" of "+(RS_MAX_STEP+1)}}</strong></p>
+                  <p class="col-lg-12 text-center mt-1"><strong>Test {{(rs_current_step+1)+" of "+(RS_MAX_STEP+1)}}</strong></p>
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <input matInput placeholder="Pain" type="text" name="pain"
@@ -387,15 +387,15 @@
              
                 <i class="fa fa-hourglass-3 fa-5x">
                 </i>
-                <h4 class="text-center">No assessments taken</h4>
+                <h4 class="text-center">No Result</h4>
             
             </div>
           </mat-tab>
           <mat-tab label="Repetitive Foot Motion">
-            <p class="col-lg-12 text-center mt-1"><strong>{{(rf_current_step+1)+" of "+(RF_MAX_STEP+1)}}</strong></p>
+        
             <div class="col-lg-12 mt-5" *ngIf="repetitiveFootMotion?.length > 0 && !isLoading">
               <!-- <div *ngFor="let rptFootMotion of repetitiveFootMotion; let i = index;"> -->
-               
+                <p class="col-lg-12 text-center mt-1">Test <strong>{{(rf_current_step+1)+" of "+(RF_MAX_STEP+1)}}</strong></p>
                   <div class="col-lg-12">
                     <mat-tab-group  mat-stretch-tabs (selectedTabChange)="handleRepFootMotionTabs($event, repetitiveFootMotion[rf_current_step].id)">
                       
@@ -498,13 +498,13 @@
             <div class="col-lg-12 mt-5 text-center" *ngIf="repetitiveFootMotion?.length == 0 && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x">
               </i>
-              <h4 class="text-center">No assessments taken</h4>
+              <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Crawling">
-            <p class="col-lg-12 text-center mt-1"><strong>{{(crawling_current_step+1)+" of "+(CRAWLING_MAX_STEP+1)}}</strong></p>
-            <div class="col-lg-12" *ngIf="crawlingProtocolResult?.id != null">
- 
+           
+            <div class="col-lg-12" *ngIf="crawlingProtocol?.id != null">
+              <p class="text-center mt-1"><strong>Test {{(crawling_current_step+1)+" of "+(CRAWLING_MAX_STEP+1)}}</strong></p>
               <!-- <div *ngFor="let crawlingProtocolResult of crawlingProtocolResult; let i = index"> -->
 
                 <div class="row">
@@ -512,7 +512,7 @@
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <input matInput placeholder="Pain" type="text" name="pain"
-                        value="{{decodePainLevel(crawlingProtocolResult?.painLevel)}}" readonly>
+                        value="{{decodePainLevel(crawlingProtocol?.painLevel)}}" readonly>
                     </mat-form-field>
                   </div>
                 </div>
@@ -520,7 +520,7 @@
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <input matInput placeholder="Time Taken" type="text" name="timeTaken"
-                        value="{{crawlingProtocolResult?.timeTaken}}" readonly>
+                        value="{{crawlingProtocol?.timeTaken}}" readonly>
                     </mat-form-field>
                   </div>
                 </div>
@@ -528,7 +528,7 @@
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <input matInput placeholder="Number of Tests" type="text" name="numTests"
-                        value="{{crawlingProtocolResult?.numTests}}" readonly>
+                        value="{{crawlingProtocol?.numTests}}" readonly>
                     </mat-form-field>
                   </div>
                 </div>
@@ -544,7 +544,7 @@
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                        value="{{crawlingProtocolResult?.comment}}"></textarea>
+                        value="{{crawlingProtocol?.comment}}"></textarea>
                     </mat-form-field>
                   </div>
                 </div>
@@ -566,10 +566,10 @@
               <!-- </div> -->
 
             </div>
-            <div class="col-lg-12 mt-5 text-center" *ngIf="crawlingProtocolResult?.id == null && !isLoading">
+            <div class="col-lg-12 mt-5 text-center" *ngIf="crawlingProtocol?.id == null && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x">
               </i>
-              <h4 class="text-center">No assessments taken</h4>
+              <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
         </mat-tab-group>
