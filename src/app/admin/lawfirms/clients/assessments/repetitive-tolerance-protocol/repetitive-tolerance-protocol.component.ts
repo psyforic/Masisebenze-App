@@ -73,6 +73,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   repFootMotionOption: RepetitiveFootMotionOptionDto = new RepetitiveFootMotionOptionDto();
   stairClimbResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   balanceProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
+  walkingProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   ladderWorkProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   repetitiveSquattingProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   // repetitiveLeftFootMotionProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
@@ -204,6 +205,12 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       .subscribe((result) => {
 
         this.walkingProtocol = result;
+        if(this.walkingProtocol != null){
+          this._workAssessmentReportService.getWalking(this.clientId)
+          .subscribe(results => {
+            this.walkingProtocolResult = (results != null) ? results : this.walkingProtocolResult;
+          });
+        }
       });
   }
   getStairClimbingProtocol() {
