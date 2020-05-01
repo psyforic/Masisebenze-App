@@ -32031,8 +32031,8 @@ export interface IAssessmentReportDto {
 }
 
 export class ReportGripStrength implements IReportGripStrength {
-    rightHandWeight: number | undefined;
-    leftHandWeight: number | undefined;
+    rightHandMachineTest: number | undefined;
+    leftHandMachineTest: number | undefined;
     normRight: number | undefined;
     normLeft: number | undefined;
     chosen: boolean | undefined;
@@ -32048,8 +32048,8 @@ export class ReportGripStrength implements IReportGripStrength {
 
     init(data?: any) {
         if (data) {
-            this.rightHandWeight = data["rightHandWeight"];
-            this.leftHandWeight = data["leftHandWeight"];
+            this.rightHandMachineTest = data["rightHandMachineTest"];
+            this.leftHandMachineTest = data["leftHandMachineTest"];
             this.normRight = data["normRight"];
             this.normLeft = data["normLeft"];
             this.chosen = data["chosen"];
@@ -32065,8 +32065,8 @@ export class ReportGripStrength implements IReportGripStrength {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["rightHandWeight"] = this.rightHandWeight;
-        data["leftHandWeight"] = this.leftHandWeight;
+        data["rightHandMachineTest"] = this.rightHandMachineTest;
+        data["leftHandMachineTest"] = this.leftHandMachineTest;
         data["normRight"] = this.normRight;
         data["normLeft"] = this.normLeft;
         data["chosen"] = this.chosen;
@@ -32082,8 +32082,8 @@ export class ReportGripStrength implements IReportGripStrength {
 }
 
 export interface IReportGripStrength {
-    rightHandWeight: number | undefined;
-    leftHandWeight: number | undefined;
+    rightHandMachineTest: number | undefined;
+    leftHandMachineTest: number | undefined;
     normRight: number | undefined;
     normLeft: number | undefined;
     chosen: boolean | undefined;
