@@ -29,7 +29,7 @@ export class DocumentCreator {
         } else if (id_month === new Date().getMonth() && id_day > new Date().getDate()) {
             currentAge = currentAge - 1;
         }
-        return currentAge;
+       // return currentAge;
 
         const assessmentReport = data[6];
         const romReport = data[7];
@@ -100,10 +100,10 @@ export class DocumentCreator {
                 shLMAbd: (romReport[1] != null && romReport[1].abdMusclePower != null) ? romReport[1].abdMusclePower : '',
                 shRMAdd: (romReport[0] != null && romReport[0].addMusclePower != null) ? romReport[0].addMusclePower : '',
                 shLMAdd: (romReport[1] != null && romReport[1].addMusclePower != null) ? romReport[1].addMusclePower : '',
-                shIrRigM: (romReport[0] != null && romReport[0].iRMusclePower != null) ? romReport[0].iRMusclePower : '',
-                shIrLftM: (romReport[1] != null && romReport[1].iRMusclePower != null) ? romReport[1].iRMusclePower : '',
-                shErRigM: (romReport[0] != null && romReport[0].eRMusclePower != null) ? romReport[0].eRMusclePower : '',
-                shErLftM: (romReport[1] != null && romReport[1].eRMusclePower != null) ? romReport[1].eRMusclePower : '',
+                shIrRigM: (romReport[0] != null && romReport[0].iRMusclePower != null) ? romReport[0].irMusclePower : '',
+                shIrLftM: (romReport[1] != null && romReport[1].iRMusclePower != null) ? romReport[1].irMusclePower : '',
+                shErRigM: (romReport[0] != null && romReport[0].eRMusclePower != null) ? romReport[0].erMusclePower : '',
+                shErLftM: (romReport[1] != null && romReport[1].eRMusclePower != null) ? romReport[1].erMusclePower : '',
                 // Forearm And Wrist Range of motion
                 fwRPro: (romReport[2] != null && romReport[2].pronation != null) ? romReport[2].pronation : '',
                 fwLPro: (romReport[3] != null && romReport[3].pronation != null) ? romReport[3].pronation : '',

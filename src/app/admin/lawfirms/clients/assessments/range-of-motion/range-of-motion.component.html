@@ -56,7 +56,7 @@
                                                 </div>
                                                 <div class="div col-lg-6">
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Muscle Power" type="text" name="extension" value="{{leftShoulder?.extMusclePower | musclepower}}" readonly />
+                                                        <input matInput placeholder="Extension (0-60) Muscle Power" type="text" name="extension" value="{{leftShoulder?.extMusclePower | musclepower}}" readonly />
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -68,11 +68,22 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Muscle Power" type="text" name="abduction" value="{{leftShoulder?.abdMusclePower | musclepower}}" readonly />
+                                                        <input matInput placeholder="Abduction (0-180) Muscle Power" type="text" name="abduction" value="{{leftShoulder?.abdMusclePower | musclepower}}" readonly />
                                                     </mat-form-field>
                                                 </div>
                                             </div>
-
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Adduction (0-180)" type="text" name="abduction" value="{{ leftShoulder?.adduction }}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Adduction (0-180) Muscle Power" type="text" name="abduction" value="{{leftShoulder?.addMusclePower | musclepower}}" readonly />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-lg-6">
                                                     <mat-form-field class="example-full-width">
@@ -81,7 +92,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Muscle Power" type="text" name="internalRotation" value="{{leftShoulder?.irMusclePower | musclepower}}" readonly />
+                                                        <input matInput placeholder="Internal Rotation (0-70) Muscle Power" type="text" name="internalRotation" value="{{leftShoulder?.irMusclePower | musclepower}}" readonly />
                                                     </mat-form-field>
                                                 </div>
                                             </div>
@@ -93,7 +104,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Muscle Power" type="text" name="externalRotation" value="{{leftShoulder?.extMusclePower | musclepower}}" readonly />
+                                                        <input matInput placeholder="External Rotation (0-90) Muscle Power" type="text" name="externalRotation" value="{{leftShoulder?.extMusclePower | musclepower}}" readonly />
                                                     </mat-form-field>
                                                 </div>
                                             </div>

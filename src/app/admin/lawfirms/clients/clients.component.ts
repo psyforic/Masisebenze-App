@@ -161,7 +161,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
       const gender = this._generalService.getGender('' + client.idNumber);
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
-          this.isGenerating = false;
+          // this.isGenerating = false;
           const docCreator = new DocumentCreator();
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.positionalToleranceResult = this.positionalToleranceResult.
@@ -188,9 +188,9 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           this.assessmentReport[1] = result.musclePowerReport;
           if (result.reportRoMShoulder != null && result.reportRoMShoulder.length > 0) {
             this.shoulderLeftReport = result.reportRoMShoulder.filter(x => x.side === 0)[0];
-            this.rangeOfMotionReport[0] = result.reportRoMShoulder.filter(x => x.side === 1)[0];
+            this.rangeOfMotionReport[0] = this.shoulderLeftReport;
             this.shoulderRightReport = result.reportRoMShoulder.filter(x => x.side === 1)[0];
-            this.rangeOfMotionReport[1] = result.reportRoMShoulder.filter(x => x.side === 0)[0];
+            this.rangeOfMotionReport[1] = this.shoulderRightReport;
             this.rangeOfMotionReport[14] = true;
           } else {
             this.rangeOfMotionReport[14] = false;
@@ -676,6 +676,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.generateDocument(docCreator, entity, entity.address)
           .then(() => {
             this.isGenerating = false;
+            console.log(this.assessmentReport);
           })
           .catch(() => {
             this.notify.error('An Error Occurred Please Try Again to Download');
