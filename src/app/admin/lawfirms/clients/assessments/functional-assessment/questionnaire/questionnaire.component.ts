@@ -1,12 +1,8 @@
-import { QuestionnaireResolverService } from './../../../../../resolvers/questionnaire-resolver.service';
-import { ActivatedRoute } from '@angular/router';
 
-import { registerLocaleData } from '@angular/common';
 import {
-  QuestionListDto, OptionListDto, QuestionOptionListDto,
+  QuestionListDto, QuestionOptionListDto,
   ClientAnswerListDto,
   QuestionDto,
-  OptionDto,
   QuestionOptionDto,
   CreateCommentInput,
   QuestionnaireDto,
@@ -15,18 +11,15 @@ import {
 import { finalize } from 'rxjs/operators';
 import { AppComponentBase } from '@shared/app-component-base';
 import {
-  Component, OnInit, ViewChild, Input, ElementRef, Injector, Type,
-  ChangeDetectorRef, AfterViewChecked
+  Component, OnInit, ViewChild, Input, ElementRef, Injector, ChangeDetectorRef, AfterViewChecked
 } from '@angular/core';
 import {
-  ClientServiceProxy, AssessmentServiceProxy, FunctionalAssessmentServiceProxy,
+  FunctionalAssessmentServiceProxy,
   ClientDetailOutput
 } from '@shared/service-proxies/service-proxies';
-import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { GeneralService } from '@app/admin/services/general.service';
-import { MatRadioChange, MatDialog } from '@angular/material';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatRadioChange } from '@angular/material';
 import { QuestionnaireCommentComponent } from '../questionnaire-comment/questionnaire-comment.component';
-import { HtmlAstPath } from '@angular/compiler';
 import { PerfectScrollbarComponent } from 'ngx-perfect-scrollbar';
 declare let $: any;
 @Component({
@@ -39,6 +32,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
   @ViewChild('content', { static: false }) content: ElementRef;
   client: ClientDetailOutput = new ClientDetailOutput();
   @ViewChild('questionnaireComment', { static: true }) questionnaireComment: QuestionnaireCommentComponent;
+  @ViewChild('perfectScroll', { static: true }) perfectScroll: PerfectScrollbarComponent;
   @Input() fullName: string;
   @Input() clientId: string;
   @Input() type: number;
@@ -174,16 +168,11 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
   index = 0;
   total = 0;
   constructor(
-    private _clientService: ClientServiceProxy,
     private cdr: ChangeDetectorRef,
-    private injector: Injector,
+    injector: Injector,
     private modalService: NgbModal,
-    private dialog: MatDialog,
-    private activeModal: NgbActiveModal,
-    private _assessmentService: AssessmentServiceProxy,
     private _commentService: CommentServiceProxy,
-    private _functionAssessmentService: FunctionalAssessmentServiceProxy,
-    private _activatedRoute: ActivatedRoute) {
+    private _functionAssessmentService: FunctionalAssessmentServiceProxy) {
     super(injector);
   }
   ngOnInit() {
@@ -216,7 +205,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
             this.saving = false;
           }))
           .subscribe(() => {
-            if(this.commentInput.text != null || this.commentInput.text !== '') {
+            if (this.commentInput.text != null || this.commentInput.text !== '') {
               this.commentInput.targetId = this.questionnaire.id;
               this._commentService.createComment(this.commentInput)
                 .pipe(finalize(() => {
@@ -237,7 +226,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
             this.saving = false;
           }))
           .subscribe(() => {
-            if(this.commentInput.text != null || this.commentInput.text !== '') {
+            if (this.commentInput.text != null || this.commentInput.text !== '') {
               this.commentInput.targetId = this.questionnaire.id;
               this._commentService.createComment(this.commentInput)
                 .pipe(finalize(() => {
@@ -253,6 +242,8 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
   }
   close() {
     this.index = 0;
+    this.isCommentShown = false;
+    this.commentLabel = 'Show Comment';
     this.clientAnswers = [];
     this.questions = [];
     this.modalService.dismissAll();
@@ -375,7 +366,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
       });
     }
   }
-  getQuestion(clientId, id) {
+  getQuestion(id) {
     if (this.clientAnswers.filter(ca => ca.questionId === id).length > 0) {
       this.clientAnswers.filter(ca => ca.questionId === id).forEach((r) => {
         this.setQuestionOption(r.questionOptionId, r.optionScore);
@@ -484,9 +475,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
       this.isCommentShown = true;
       this.commentLabel = 'Hide Comment';
     }
-    $(document).ready(function(){
-      $('#quill').focus();
-    });
+    $('#quill').focus();
   }
   setOptionValue(questionPosition, optionPosition) {
     if (questionPosition != null && optionPosition != null) {

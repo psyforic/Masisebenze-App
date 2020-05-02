@@ -1,19 +1,18 @@
-import { FormControl } from '@angular/forms';
 import { FunctionalAssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import {
-  CommentListDto, CommentServiceProxy, CreateCommentInput,
+  CommentServiceProxy, CreateCommentInput,
   QuestionnaireDto
 } from './../../../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, Injector, ViewChild, Input, ElementRef, AfterViewInit, Optional, Inject, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit, Injector,
+  ViewChild,
+  Input,
+  ElementRef,
+  AfterViewInit
+} from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { NgbModal, NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-// import * as $ from 'jquery';
-import { from } from 'rxjs';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { EditorChangeHandler } from 'quill';
-import { QuillEditorComponent } from 'ngx-quill';
 declare let $: any;
 @Component({
   selector: 'app-questionnaire-comment',
@@ -22,7 +21,7 @@ declare let $: any;
   providers: [CommentServiceProxy, FunctionalAssessmentServiceProxy]
 })
 export class QuestionnaireCommentComponent extends AppComponentBase implements OnInit, AfterViewInit {
-  @ViewChild('quill', { static: true }) quill: ElementRef;
+  @ViewChild('quill', { static: true }) quillEditor: ElementRef;
   @Input() fullName: string;
   @Input() clientId: string;
   @Input() type: number;
@@ -32,21 +31,20 @@ export class QuestionnaireCommentComponent extends AppComponentBase implements O
   isLoading = false;
   saving = false;
   constructor(
-    private injector: Injector,
+    injector: Injector,
     private _functionalAssessmentService: FunctionalAssessmentServiceProxy,
     private _commentService: CommentServiceProxy
   ) {
     super(injector);
   }
   ngAfterViewInit(): void {
-    $(document).ready(function(){
+    $(document).ready(function () {
       $('#quill').focus();
     });
 
   }
   ngOnInit() {
-    // alert(this.fullName)
-     this.getQuestionnaire();
+    this.getQuestionnaire();
   }
   getQuestionnaire() {
     this._functionalAssessmentService.getQuestionnaire(this.type, this.clientId)
@@ -57,7 +55,7 @@ export class QuestionnaireCommentComponent extends AppComponentBase implements O
   }
   save() {
     this.isLoading = true;
-    if(this.commentInput.text != null || this.commentInput.text !== '') {
+    if (this.commentInput.text != null || this.commentInput.text !== '') {
       this.commentInput.targetId = this.questionnaire.id;
       this._commentService.createComment(this.commentInput)
         .pipe(finalize(() => {
@@ -78,5 +76,4 @@ export class QuestionnaireCommentComponent extends AppComponentBase implements O
         this.commentInput = result;
       });
   }
- 
 }
