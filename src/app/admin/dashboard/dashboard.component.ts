@@ -78,7 +78,7 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
     });
     this.getBookings();
   }
-  editSelectedEvent() {
+  editSelectedEvent(event) {
     this.getBookings();
   }
   ngAfterViewInit(): void {
