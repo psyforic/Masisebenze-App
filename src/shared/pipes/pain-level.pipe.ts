@@ -8,15 +8,17 @@ export class PainLevelPipe implements PipeTransform {
   transform(value: number, args?: any): any {
     switch (value) {
       case 0:
-        return 'significant pain indicators';
+        return 'No Pain';
       case 1:
-        return 'moderate pain indicators initially, possibly progressing to significant pain indicators';
+        return 'Hurts A Little';
       case 2:
-        return 'minimal to no pain indicators';
+        return 'Hurts A Little More';
       case 3:
-        return 'minimal pain indicators minimum to moderate CV exertion';
+        return 'Hurts Even More';
       case 4:
-        return 'no pain indicators minimum CV exertion';
+        return 'Hurts A Whole Lot';
+      case 5:
+        return 'Hurts Worse';
       default:
         return '';
     }

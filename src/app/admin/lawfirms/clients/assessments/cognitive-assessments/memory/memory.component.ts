@@ -21,6 +21,9 @@ export class MemoryComponent extends AppComponentBase implements OnInit {
   totalOfRecall = 0;
   totalOfAnterograde = 0;
   totalOfRetrograde = 0;
+  totalOfAllRecall = 0;
+  totalOfAllAnterograde = 0;
+  totalOfAllRetrograde = 0;
   comment;
   constructor(private _injector: Injector,
     private modalService: NgbModal,
@@ -53,7 +56,10 @@ export class MemoryComponent extends AppComponentBase implements OnInit {
   }
   getMemory() {
     this.totalOfRecall = 0;
+    this.totalOfAllRecall = 0;
     this.totalOfAnterograde = 0;
+    this.totalOfAllRetrograde = 0;
+    this.totalOfAllAnterograde = 0;
     this.totalOfRetrograde = 0;
     this._cognitiveService.getMemory(this.clientId)
       .subscribe(result => {
@@ -69,6 +75,9 @@ export class MemoryComponent extends AppComponentBase implements OnInit {
                 (item.score !== -1) ? this.totalOfRetrograde += item.score : this.totalOfRetrograde += 0;
               }
             });
+            this.totalOfAllAnterograde = result.options.items.filter(item => item.position >= 1 && item.position <= 3).length;
+            this.totalOfAllRetrograde =  result.options.items.filter(item => item.position > 3 && item.position <= 10).length;
+            this.totalOfAllRecall =  result.options.items.filter(item => item.position > 10 && item.position <= 13).length;
           }
         }
       });

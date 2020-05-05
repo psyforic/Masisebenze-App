@@ -1,5 +1,5 @@
 import { CalculationsServiceProxy, CognitiveServiceProxy, CognitiveParentDto }
-from './../../../../../../../shared/service-proxies/service-proxies';
+  from './../../../../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { Component, OnInit, ViewChild, ElementRef, Input, Injector } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +20,8 @@ export class AttentionAndConcentrationComponent extends AppComponentBase impleme
   isLoading = false;
   totalOfSubtraction = 0;
   totalOfSpelling = 0;
+  totalOfAllSubtraction = 0;
+  totalOfAllSpelling = 0;
   attentionAndConcentration: CognitiveParentDto = new CognitiveParentDto();
   comment;
   constructor(private injector: Injector,
@@ -46,11 +48,11 @@ export class AttentionAndConcentrationComponent extends AppComponentBase impleme
   save() {
     this.isLoading = true;
     this._cognitiveService.updateCognitiveComment(this.attentionAndConcentration)
-    .pipe(finalize(() => {
-      this.isLoading = false;
-    })).subscribe(() => {
-      this.notify.success('Saved successfully!');
-    });
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      })).subscribe(() => {
+        this.notify.success('Saved successfully!');
+      });
   }
   getAttentionAndConcentration() {
     this.isLoading = true;
@@ -64,7 +66,7 @@ export class AttentionAndConcentrationComponent extends AppComponentBase impleme
         if (result != null && result.options != null) {
           this.attentionAndConcentration = result;
           if (result.options.items != null) {
-            result.options.items.forEach( (item, index) => {
+            result.options.items.forEach((item, index) => {
               if (item.position >= 1 && item.position <= 5) {
                 (item.score !== -1) ? this.totalOfSubtraction += item.score : this.totalOfSubtraction += 0;
               } else if (item.position > 6 && item.position <= 9) {
@@ -72,6 +74,8 @@ export class AttentionAndConcentrationComponent extends AppComponentBase impleme
                 (item.score !== -1) ? this.totalOfSpelling += item.score : this.totalOfSpelling += 0;
               }
             });
+            this.totalOfAllSubtraction = result.options.items.filter(x => x.position >= 1 && x.position <= 5).length;
+            this.totalOfAllSpelling = result.options.items.filter(x => x.position > 6 && x.position <= 9).length;
           }
         }
         // this.coordinationOptions = result.items;

@@ -21,6 +21,8 @@ export class OrientationComponent extends AppComponentBase implements OnInit {
   comment;
   totalOfTimeQuestions = 0;
   totalOfPlaceQuestions = 0;
+  totalOfAllTimeQuestions = 0;
+  totalOfAllPlaceQuestions = 0;
   constructor(private injector: Injector,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
@@ -54,6 +56,8 @@ export class OrientationComponent extends AppComponentBase implements OnInit {
     this.isLoading = true;
     this.totalOfPlaceQuestions = 0;
     this.totalOfTimeQuestions = 0;
+    this.totalOfAllTimeQuestions = 0;
+    this.totalOfAllPlaceQuestions = 0;
     this._cognitiveService.getOrientation(this.clientId).pipe(finalize(() => {
       this.isLoading = false;
     })).subscribe(result => {
@@ -67,6 +71,8 @@ export class OrientationComponent extends AppComponentBase implements OnInit {
               (item.score !== -1) ? this.totalOfPlaceQuestions += item.score : this.totalOfPlaceQuestions += 0;
             }
           });
+          this.totalOfAllTimeQuestions =  result.options.items.filter(item => item.position < 6).length;
+          this.totalOfAllPlaceQuestions =  result.options.items.filter(item => item.position >= 6).length;
         }
       }
     });

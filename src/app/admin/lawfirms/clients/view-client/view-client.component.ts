@@ -569,7 +569,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         });
     }
   }
-  viewPhysicalAssessments(assessmentName: string) {
+  viewPhysicalAssessments(assessmentName: string, assessmentId: string) {
     switch (assessmentName) {
       case 'Gait':
         this.getGait();
@@ -584,7 +584,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         this.getBorgBalance();
         break;
       case 'Posture':
-        this.getPosture();
+        this.getPosture(assessmentId);
         break;
       case 'Range Of Motion':
         this.getRangeOfMotion();
@@ -764,8 +764,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   getCoordination() {
     this.openCoordination.open();
   }
-  getPosture() {
-    this.openPosture.open();
+  getPosture(assessmentId: string) {
+    this.openPosture.open(assessmentId);
   }
   getRepetitiveToleranceProtocol() {
     this.openRTP.open();

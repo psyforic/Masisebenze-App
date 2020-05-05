@@ -22,6 +22,8 @@ export class PerceptualAbilityComponent extends AppComponentBase implements OnIn
   comment;
   totalOfImages = 0;
   totalOfLetters = 0;
+  totalOfAllImages = 0;
+  totalOfAllLetters = 0;
   perceptualAbility: CognitiveParentDto = new CognitiveParentDto();
   constructor(private injector: Injector,
     private modalService: NgbModal,
@@ -56,6 +58,8 @@ export class PerceptualAbilityComponent extends AppComponentBase implements OnIn
     this.isLoading = true;
     this.totalOfImages = 0;
     this.totalOfLetters = 0;
+    this.totalOfAllImages = 0;
+    this.totalOfAllLetters = 0;
     this._cognitiveService.getPerceptualAbility(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -69,6 +73,8 @@ export class PerceptualAbilityComponent extends AppComponentBase implements OnIn
               (item.score !== -1) ? this.totalOfLetters += item.score : this.totalOfLetters += 0;
             }
           });
+          this.totalOfAllImages = result.options.items.filter(x => x.position < 5).length;
+          this.totalOfAllLetters = result.options.items.filter(x => x.position >= 5).length;
         }
       });
   }

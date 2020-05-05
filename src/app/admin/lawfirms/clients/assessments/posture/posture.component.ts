@@ -1,33 +1,38 @@
-import { PostureServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
+import { PostureServiceProxy, CreateCommentInput, CommentServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PostureOptionDto, AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AssessmentService } from '@app/admin/services/assessment.service';
 import { finalize } from 'rxjs/operators';
+import { ThickUnderline } from 'docx/build/file/paragraph/run/underline';
 
 @Component({
   selector: 'app-posture',
   templateUrl: './posture.component.html',
   styleUrls: ['./posture.component.scss'],
-  providers: [PostureServiceProxy]
+  providers: [PostureServiceProxy, CommentServiceProxy]
 })
 export class PostureComponent extends AppComponentBase implements OnInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
   @Input() fullName: string;
   @Input() clientId: string;
+  assessmentId: string;
   current_step = 1;
   MAX_STEP = 13;
   isLoading = false;
   srcImage = '';
-
+  commentLabel ='Show Comment';
+  isCommentShown = false;
   postureOptions: PostureOptionDto[] = [];
+  commentInput: CreateCommentInput = new CreateCommentInput();
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
     private _assessmentService: AssessmentServiceProxy,
+    private _commentService: CommentServiceProxy,
     private _postureService: PostureServiceProxy,
     private _generalService: AssessmentService) {
     super(injector);
@@ -35,8 +40,10 @@ export class PostureComponent extends AppComponentBase implements OnInit {
 
   ngOnInit() {
   }
-  open() {
+  open(assessmentId) {
+   this.assessmentId = assessmentId;
     this.getPostureOptions();
+    this.getComments();
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
@@ -79,5 +86,37 @@ export class PostureComponent extends AppComponentBase implements OnInit {
     if (score != null || undefined) {
       return this._generalService.getPostureOptionScore(this.current_step - 1, score);
     }
+  }
+  showHideComment() {
+    if(this.isCommentShown){
+        this.isCommentShown = false;
+        this.commentLabel = 'Show Comment';
+    } else {
+      this.isCommentShown = true;
+      this.commentLabel = 'Hide Comment';
+    }
+  }
+  saveComment() {
+    this.isLoading = true;
+    if(this.commentInput.text != null || this.commentInput.text !== '') {
+      this.commentInput.targetId = this.assessmentId;
+      this._commentService.createComment(this.commentInput)
+        .pipe(finalize(() => {
+          this.isLoading = false;
+        }))
+        .subscribe(() => {
+          this.notify.success('Comment Saved Successfully');
+        });
+    }
+  }
+  getComments() {
+    this.isLoading = true;
+    this._commentService.getUserComments(this.assessmentId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.commentInput = result;
+      });
   }
 }

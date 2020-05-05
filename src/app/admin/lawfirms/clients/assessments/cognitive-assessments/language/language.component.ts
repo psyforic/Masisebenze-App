@@ -30,7 +30,13 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
   totalOfImageComprehension = 0;
   totalOfReading = 0;
   totalOfRepetition = 0;
-  totalOfWritting = 0;
+  totalOfWriting = 0;
+  totalOfAllComprehension = 0;
+  totalOfAllNaming = 0;
+  totalOfAllImageComprehension = 0;
+  totalOfAllReading = 0;
+  totalOfAllRepetition = 0;
+  totalOfAllWriting = 0;
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
@@ -65,6 +71,8 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
     }
   }
   getComprehension() {
+    this.totalOfComprehension = 0;
+    this.totalOfAllComprehension = 0;
     this._cognitiveService.getComprehension(this.clientId)
     .pipe(finalize(() => {
       this.isLoading = false;
@@ -76,6 +84,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
           result.options.items.forEach((item, index) => {
             (item.score !== -1) ? this.totalOfComprehension += item.score : this.totalOfComprehension += 0;
           });
+          this.totalOfAllComprehension = result.options.items.length;
         }
       }
     });
@@ -83,6 +92,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
   getImageComprehension() {
     this.isLoading = true;
     this.totalOfImageComprehension  = 0;
+    this.totalOfAllImageComprehension  = 0;
     this._cognitiveService.getImageComprehension(this.clientId)
     .pipe(finalize(() => {
       this.isLoading = false;
@@ -94,6 +104,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
           result.options.items.forEach((item, index) => {
             (item.score !== -1) ? this.totalOfImageComprehension += item.score : this.totalOfImageComprehension += 0;
           });
+          this.totalOfAllImageComprehension  =   result.options.items.length;
         }
       }
     });
@@ -101,6 +112,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
   getNaming() {
     this.isLoading = true;
     this.totalOfNaming = 0;
+    this.totalOfAllNaming = 0;
     this._cognitiveService.getNaming(this.clientId)
     .pipe(finalize(() => {
       this.isLoading = false;
@@ -112,6 +124,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
           result.options.items.forEach((item, index) => {
             (item.score !== -1) ? this.totalOfNaming += item.score : this.totalOfNaming += 0;
           });
+          this.totalOfAllNaming =  result.options.items.length;
         }
       }
     });
@@ -119,6 +132,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
   getReading() {
     this.isLoading = true;
     this.totalOfReading = 0;
+    this.totalOfAllReading = 0;
     this._cognitiveService.getReading(this.clientId)
     .pipe(finalize(() => {
       this.isLoading = false;
@@ -131,6 +145,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
           result.options.items.forEach((item, index) => {
             (item.score !== -1) ? this.totalOfReading += item.score : this.totalOfReading += 0;
           });
+          this.totalOfAllReading =  result.options.items.length;
         }
       }
     });
@@ -138,6 +153,7 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
   getRepetition() {
     this.isLoading = true;
     this.totalOfRepetition = 0;
+    this.totalOfAllRepetition = 0;
     this._cognitiveService.getRepetition(this.clientId)
     .pipe(finalize(() => {
       this.isLoading = false;
@@ -147,15 +163,18 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
         this.repetition = result;
         if (result.options != null && result.options.items != null) {
           result.options.items.forEach((item, index) => {
-            (item.score !== -1) ? this.totalOfRepetition += item.score : this.totalOfRepetition += 0;
+            (item.score !== -1) ? this.totalOfRepetition += item.score : this.totalOfRepetition = 0;
           });
+          this.totalOfAllRepetition = result.options.items.length +1;
+          console.log(result.options.items);
         }
       }
     });
   }
   getWritting() {
     this.isLoading = true;
-    this.totalOfWritting = 0;
+    this.totalOfWriting = 0;
+    this.totalOfAllWriting = 0;
     this._cognitiveService.getWriting(this.clientId)
     .pipe(finalize(() => {
       this.isLoading = false;
@@ -165,8 +184,9 @@ export class LanguageComponent extends AppComponentBase implements OnInit {
         this.writting = result;
         if (result.options != null && result.options.items != null) {
           result.options.items.forEach((item, index) => {
-            (item.score !== -1) ? this.totalOfWritting += item.score : this.totalOfWritting += 0;
+            (item.score !== -1) ? this.totalOfWriting += item.score : this.totalOfWriting += 0;
           });
+          this.totalOfAllWriting = result.options.items.length;
         }
       }
     });

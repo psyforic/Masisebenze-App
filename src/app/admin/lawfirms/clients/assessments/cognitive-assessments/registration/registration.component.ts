@@ -19,6 +19,7 @@ export class RegistrationComponent extends AppComponentBase implements OnInit {
   isLoading = false;
   comment;
   total = 0;
+  allTotal = 0;
   constructor(private injector: Injector,
     private modalService: NgbModal,
     private activeModal: NgbActiveModal,
@@ -51,6 +52,7 @@ export class RegistrationComponent extends AppComponentBase implements OnInit {
   getRegistration() {
     this.isLoading = true;
     this.total = 0;
+    this.allTotal = 0;
     this._cognitiveService.getRegistration(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -60,6 +62,7 @@ export class RegistrationComponent extends AppComponentBase implements OnInit {
           result.options.items.forEach((item) => {
             (item.score !== -1) ? this.total += item.score : this.total += 0;
           });
+          this.allTotal = result.options.items.length;
         }
       });
   }
