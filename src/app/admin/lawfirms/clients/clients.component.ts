@@ -84,8 +84,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   forearmWristRightReport: ReportRoMForearmWristDto = new ReportRoMForearmWristDto();
   elbowLeftReport: ReportRoMElbowDto = new ReportRoMElbowDto();
   elbowRightReport: ReportRoMElbowDto = new ReportRoMElbowDto();
-  handLeftReport: ReportRoMHandDto = new ReportRoMHandDto();
-  handRightReport: ReportRoMHandDto = new ReportRoMHandDto();
+  handLeftReport: ReportRoMHandDto[] = [];
+  handRightReport: ReportRoMHandDto[] = [];
   hipLeftReport: ReportRoMHipDto = new ReportRoMHipDto();
   hipRightReport: ReportRoMHipDto = new ReportRoMHipDto();
   kneeLeftReport: ReportRoMKneeDto = new ReportRoMKneeDto();
@@ -186,6 +186,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
 
           this.musclePowerReport = result.musclePowerReport;
           this.assessmentReport[1] = result.musclePowerReport;
+          // SHOULDER
           if (result.reportRoMShoulder != null && result.reportRoMShoulder.length > 0) {
             this.shoulderLeftReport = result.reportRoMShoulder.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[0] = this.shoulderLeftReport;
@@ -195,6 +196,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           } else {
             this.rangeOfMotionReport[14] = false;
           }
+          // FOREARM AND WRIST
           if (result.reportRoMForearmWrist != null && result.reportRoMForearmWrist.length > 0) {
             this.forearmWristLeftReport = result.reportRoMForearmWrist.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[2] = result.reportRoMForearmWrist.filter(x => x.side === 1)[0];
@@ -204,7 +206,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           } else {
             this.rangeOfMotionReport[15] = false;
           }
-
+          // ELBOW
           if (result.reportRoMElbow != null && result.reportRoMElbow.length > 0) {
             this.elbowLeftReport = result.reportRoMElbow.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[4] = result.reportRoMElbow.filter(x => x.side === 1)[0];
@@ -214,17 +216,17 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           } else {
             this.rangeOfMotionReport[16] = false;
           }
-
+          // HAND 
           if (result.reportRoMHand != null && result.reportRoMHand.length > 0) {
-            this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0)[0];
-            this.rangeOfMotionReport[6] = result.reportRoMHand.filter(x => x.side === 1)[0];
-            this.handRightReport = result.reportRoMHand.filter(x => x.side === 1)[0];
-            this.rangeOfMotionReport[7] = result.reportRoMHand.filter(x => x.side === 0)[0];
+            this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0);
+            this.handRightReport = result.reportRoMHand.filter(x => x.side === 1);
+            this.rangeOfMotionReport[6] = this.handRightReport;
+            this.rangeOfMotionReport[7] = this.handLeftReport;
             this.rangeOfMotionReport[17] = true;
           } else {
             this.rangeOfMotionReport[17] = false;
           }
-
+          // HIP
           if (result.reportRoMHip != null && result.reportRoMHip.length > 0) {
             this.hipLeftReport = result.reportRoMHip.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[8] = result.reportRoMHip.filter(x => x.side === 1)[0];
@@ -234,7 +236,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           } else {
             this.rangeOfMotionReport[18] = false;
           }
-
+          // KNEE
           if (result.reportRoMKnee != null && result.reportRoMKnee.length > 0) {
             this.kneeLeftReport = result.reportRoMKnee.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[10] = result.reportRoMKnee.filter(x => x.side === 1)[0];
@@ -244,7 +246,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
           } else {
             this.rangeOfMotionReport[19] = false;
           }
-
+          // ANKLE
           if (result.reportRoMAnkle != null && result.reportRoMAnkle.length > 0) {
             this.ankleLeftReport = result.reportRoMAnkle.filter(x => x.side === 0)[0];
             this.rangeOfMotionReport[12] = result.reportRoMAnkle.filter(x => x.side === 1)[0];
@@ -676,7 +678,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
         this.generateDocument(docCreator, entity, entity.address)
           .then(() => {
             this.isGenerating = false;
-            console.log(this.assessmentReport);
+            //console.log(this.assessmentReport);
           })
           .catch(() => {
             this.notify.error('An Error Occurred Please Try Again to Download');

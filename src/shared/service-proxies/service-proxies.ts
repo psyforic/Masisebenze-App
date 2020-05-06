@@ -1162,6 +1162,114 @@ export class AssessmentServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @return Success
+     */
+    getSelectedPositionalToleranceAssessments(clientId: string | null | undefined): Observable<ListResultDtoOfAssessmentsListListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetSelectedPositionalToleranceAssessments?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSelectedPositionalToleranceAssessments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSelectedPositionalToleranceAssessments(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAssessmentsListListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAssessmentsListListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSelectedPositionalToleranceAssessments(response: HttpResponseBase): Observable<ListResultDtoOfAssessmentsListListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAssessmentsListListDto.fromJS(resultData200) : new ListResultDtoOfAssessmentsListListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAssessmentsListListDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getSelectedRepetitiveToleranceAssessments(clientId: string | null | undefined): Observable<ListResultDtoOfAssessmentsListListDto> {
+        let url_ = this.baseUrl + "/api/services/app/Assessment/GetSelectedRepetitiveToleranceAssessments?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSelectedRepetitiveToleranceAssessments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSelectedRepetitiveToleranceAssessments(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfAssessmentsListListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfAssessmentsListListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSelectedRepetitiveToleranceAssessments(response: HttpResponseBase): Observable<ListResultDtoOfAssessmentsListListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfAssessmentsListListDto.fromJS(resultData200) : new ListResultDtoOfAssessmentsListListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfAssessmentsListListDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
      * @param categoryId (optional) 
      * @return Success
      */
@@ -32276,7 +32384,11 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
     pipFlexionExtension: number | undefined;
     dipFlexionExtension: number | undefined;
     mpHyperExtension: number | undefined;
+    abduction: number | undefined;
+    adduction: number | undefined;
+    opposition: number | undefined;
     painLevel: number | undefined;
+    position: number | undefined;
     comment: string | undefined;
     cmExtension: number | undefined;
     cmFlexion: number | undefined;
@@ -32285,6 +32397,7 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
     rangeOfMotionId: string | undefined;
     side: number | undefined;
     chosen: boolean | undefined;
+    id: string | undefined;
 
     constructor(data?: IReportRoMHandDto) {
         if (data) {
@@ -32301,7 +32414,11 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
             this.pipFlexionExtension = data["pipFlexionExtension"];
             this.dipFlexionExtension = data["dipFlexionExtension"];
             this.mpHyperExtension = data["mpHyperExtension"];
+            this.abduction = data["abduction"];
+            this.adduction = data["adduction"];
+            this.opposition = data["opposition"];
             this.painLevel = data["painLevel"];
+            this.position = data["position"];
             this.comment = data["comment"];
             this.cmExtension = data["cmExtension"];
             this.cmFlexion = data["cmFlexion"];
@@ -32310,6 +32427,7 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
             this.rangeOfMotionId = data["rangeOfMotionId"];
             this.side = data["side"];
             this.chosen = data["chosen"];
+            this.id = data["id"];
         }
     }
 
@@ -32326,7 +32444,11 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
         data["pipFlexionExtension"] = this.pipFlexionExtension;
         data["dipFlexionExtension"] = this.dipFlexionExtension;
         data["mpHyperExtension"] = this.mpHyperExtension;
+        data["abduction"] = this.abduction;
+        data["adduction"] = this.adduction;
+        data["opposition"] = this.opposition;
         data["painLevel"] = this.painLevel;
+        data["position"] = this.position;
         data["comment"] = this.comment;
         data["cmExtension"] = this.cmExtension;
         data["cmFlexion"] = this.cmFlexion;
@@ -32335,6 +32457,7 @@ export class ReportRoMHandDto implements IReportRoMHandDto {
         data["rangeOfMotionId"] = this.rangeOfMotionId;
         data["side"] = this.side;
         data["chosen"] = this.chosen;
+        data["id"] = this.id;
         return data; 
     }
 
@@ -32351,7 +32474,11 @@ export interface IReportRoMHandDto {
     pipFlexionExtension: number | undefined;
     dipFlexionExtension: number | undefined;
     mpHyperExtension: number | undefined;
+    abduction: number | undefined;
+    adduction: number | undefined;
+    opposition: number | undefined;
     painLevel: number | undefined;
+    position: number | undefined;
     comment: string | undefined;
     cmExtension: number | undefined;
     cmFlexion: number | undefined;
@@ -32360,6 +32487,7 @@ export interface IReportRoMHandDto {
     rangeOfMotionId: string | undefined;
     side: number | undefined;
     chosen: boolean | undefined;
+    id: string | undefined;
 }
 
 export class ReportRoMHipDto implements IReportRoMHipDto {

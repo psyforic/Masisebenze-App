@@ -1,3 +1,4 @@
+import { AssessmentServiceProxy, AssessmentsListListDto } from '@shared/service-proxies/service-proxies';
 
 import {
   BalanceProtocolServiceProxy,
@@ -38,7 +39,7 @@ import { MatTabChangeEvent } from '@angular/material';
     RepetitiveSquattingProtocolServiceProxy,
     RepetitiveFootMotionProtocolServiceProxy,
     CrawlingProtocolServiceProxy,
-    WorkAssessmentReportServiceProxy
+    WorkAssessmentReportServiceProxy,
   ]
 })
 export class RepetitiveToleranceProtocolComponent extends AppComponentBase implements OnInit {
@@ -79,10 +80,12 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   repetitiveSquattingProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   // repetitiveLeftFootMotionProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   repetitiveFootMotionProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
+  selectedAssessments: AssessmentsListListDto[] = [];
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
     private assessService: AssessmentService,
+    private _assessmentService: AssessmentServiceProxy,
     private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _ladderWorkService: LadderWorkProtocolServiceProxy,
     private _balanceProtocolService: BalanceProtocolServiceProxy,
@@ -102,6 +105,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
     // this.getBalanceProtocol();
     this.getWalkingProtocol();
     this.getRepetitiveLeftFootMotionProtocol();
+    this.getSelectedAssessments();
     // this.getStairClimbingProtocol();
     // this.getLadderWorkProtocol();
     // this.getCrawlingProtocol();
@@ -181,6 +185,19 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   close() {
     this.activeModal.close();
   }
+  getSelectedAssessments(){
+    this._assessmentService.getSelectedRepetitiveToleranceAssessments(this.clientId)
+        .pipe(finalize(() => {
+          this.isLoading = false;
+        }))
+        .subscribe(assessments => {
+          this.selectedAssessments = assessments.items;
+         // console.log(assessments);
+        });
+  }
+  isAssessmentSelected(identifier: number) {
+    return this.selectedAssessments.filter(x =>x.identifier === identifier).length > 0;
+  }
   getBalanceProtocol() {
     this.isLoading = true;
     this._balanceProtocolService.get(this.clientId)
@@ -188,9 +205,9 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((results) => {
-        this.balanceProtocolOptions = (results != null) ? results.items.filter(x => x.status === 1) : null;
+        this.balanceProtocolOptions = (results != null) ? results.items.filter(x => x.status === 1) : this.balanceProtocolOptions;
         if(this.balanceProtocolOptions.length  > 0) {
-          console.log(this.balanceProtocolOptions)
+         // console.log(this.balanceProtocolOptions)
           this._workAssessmentReportService.getBalance(this.clientId).
           subscribe(result => {
             this.balanceProtocolResult = (result != null) ? result : this.balanceProtocolResult;
@@ -205,12 +222,11 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-
-        this.walkingProtocol = result;
-        if(this.walkingProtocol != null){
+        if(result != null && result.status === 1){
+          this.walkingProtocol = result;
           this._workAssessmentReportService.getWalking(this.clientId)
           .subscribe(results => {
-            this.walkingProtocolResult = (results != null) ? results : this.walkingProtocolResult;
+            this.walkingProtocolResult = (results != null) ? results : null;
           });
         }
       });
@@ -245,7 +261,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       }))
       .subscribe((results) => {
         this.LADDER_MAX_STEP = (results != null) ? results.items.filter(x => x.status === 1).length - 1: 0;
-        this.ladderWorkProtocolOptions = (results != null) ? results.items.filter(x => x.status === 1) : this.ladderWorkProtocolOptions;
+        this.ladderWorkProtocolOptions = (results != null) ? results.items.filter(x => x.status === 1) : null;
         if(this.ladderWorkProtocolOptions.length > 0){
           this._workAssessmentReportService.getLadderWork(this.clientId)
           .subscribe(result => {

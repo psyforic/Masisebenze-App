@@ -225,6 +225,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   getFileData() {
     this.isLoading = true;
+    
     this.documentService.getClientDocuments(this.clientId).subscribe(
       (result) => {
         this.documents = result.items;
