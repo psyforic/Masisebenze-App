@@ -1,3 +1,4 @@
+import { TopBarService } from '@app/admin/services/top-bar.service';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { EditJobDescriptionComponent } from './edit-job-description/edit-job-description.component';
@@ -24,9 +25,11 @@ export class JobDescriptionsComponent extends PagedListingComponentBase<JobDescr
   @ViewChild('newJob', { static: false }) newJob: NewJobDescriptionComponent;
   searchInput: string;
   constructor(injector: Injector,
+    private _topBarService: TopBarService,
     private http: HttpClient,
     private jobDescriptionService: JobDescriptionServiceProxy) {
     super(injector);
+    this._topBarService.setTitle('Job Descriptions');
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace

@@ -1,3 +1,4 @@
+import { TopBarService } from '@app/admin/services/top-bar.service';
 import { AssessmentReportService } from './app/admin/services/assessment-report.service';
 import { SensationComponent } from './app/admin/lawfirms/clients/assessments/sensation/sensation.component';
 import { PostureServiceProxy, GripStrengthServiceProxy, BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy, ClientServiceProxy, DocumentServiceProxy, ReportSummaryServiceProxy, ClientAssessmentReportServiceProxy, WorkAssessmentReportServiceProxy, AffectServiceProxy, MobilityServiceProxy } from './shared/service-proxies/service-proxies';
@@ -152,7 +153,7 @@ export function getCurrentLanguage(): string {
         BorgBalanceServiceProxy, MusclePowerServiceProxy, GaitServiceProxy, SensationServiceProxy, CoordinationServiceProxy,
         AssessmentReportService, ClientServiceProxy, DocumentServiceProxy, ReportServiceProxy, ReportSummaryServiceProxy,
         ClientAssessmentReportServiceProxy, WorkAssessmentReportServiceProxy, GeneralService, AffectServiceProxy, MobilityServiceProxy,
-        SensationServiceProxy
+        SensationServiceProxy, TopBarService
     ],
     bootstrap: [RootComponent]
 })

@@ -8,6 +8,7 @@ import { AppSessionService } from '@shared/session/app-session.service';
 import { ROUTES } from '../sidebar/sidebar.component';
 import { NewClientComponent } from '@app/admin/lawfirms/clients/new-client/new-client.component';
 import { NewLawfirmComponent } from '@app/admin/lawfirms/lawfirms/new-lawfirm/new-lawfirm.component';
+import { TopBarService } from '@app/admin/services/top-bar.service';
 
 const misc: any = {
   navbar_menu_visible: 0,
@@ -21,11 +22,12 @@ declare var $: any;
   providers: [AppSessionService, ProfileServiceProxy]
 })
 
-export class NavbarComponent extends AppComponentBase implements OnInit {
+export class NavbarComponent extends AppComponentBase implements OnInit{
   @ViewChild('newClient', { static: false }) newClientModal: NewClientComponent;
   @ViewChild('newLawFirm', { static: false }) newLawFirmModal: NewLawfirmComponent;
   user: ProfileDto = new ProfileDto();
   location: Location;
+  title = 'Dashboard';
   mobile_menu_visible: any = 0;
   private listTitles: any[];
   private toggleButton: any;
@@ -34,6 +36,7 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
   constructor(
     location: Location, private element: ElementRef,
     private injector: Injector,
+    private _topBarService: TopBarService,
     private _authService: AppAuthService,
     private appSessionService: AppSessionService,
     private profileService: ProfileServiceProxy,
@@ -41,9 +44,12 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
     super(injector);
     this.location = location;
     this.sidebarVisible = false;
+    
   }
-
   ngOnInit() {
+    this._topBarService.getTitle().subscribe( appTitle => {
+      this.title = appTitle.toString();
+    });
     this.getUserName();
     this.listTitles = ROUTES.filter(listTitle => listTitle);
     const navbar: HTMLElement = this.element.nativeElement;
@@ -164,17 +170,23 @@ export class NavbarComponent extends AppComponentBase implements OnInit {
   }
 
   getTitle() {
-    let titlee = this.location.prepareExternalUrl(this.location.path());
-    if (titlee.charAt(0) === '#') {
-      titlee = titlee.slice(1);
-    }
-
-    for (let item = 0; item < this.listTitles.length; item++) {
-      if (this.listTitles[item].path === titlee) {
-        return this.listTitles[item].title;
-      }
-    }
-    return 'Dashboard';
+    // let title = this.location.prepareExternalUrl(this.location.path());
+    // if (title.charAt(0) === '#') {
+    //   title = title.slice(1);
+    // }
+    // if(this.listTitles.filter( x=> x.path == title).length > 0){
+    //   for (let item = 0; item < this.listTitles.length; item++) {
+    //     if (this.listTitles[item].path === title) {
+    //       this.title = this.listTitles[item].title;
+    //     }
+    //   }
+    // } else {
+    //   this._topBarService.getTitle().subscribe( appTitle => {
+    //     this.title = appTitle.toString();
+    //   });
+    // }
+    
+    return this.title;
   }
 
   logout(): void {

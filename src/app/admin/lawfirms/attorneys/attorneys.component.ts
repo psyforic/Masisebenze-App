@@ -1,3 +1,4 @@
+import { TopBarService } from '@app/admin/services/top-bar.service';
 import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { NewAttorneyComponent } from './new-attorney/new-attorney.component';
@@ -29,8 +30,10 @@ export class AttorneysComponent extends PagedListingComponentBase<AttorneyListDt
   searchTerm: FormControl = new FormControl();
   isSearching = false;
   constructor(private injector: Injector,
+    private _topBarService: TopBarService,
     private attorneyService: AttorneyServiceProxy) {
     super(injector);
+    this._topBarService.setTitle('Attorneys');
     this.searchAttorneys();
   }
   applyFilter(filterValue: string) {

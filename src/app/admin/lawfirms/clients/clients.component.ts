@@ -1,3 +1,4 @@
+import { TopBarService } from '@app/admin/services/top-bar.service';
 import {
   SensationServiceProxy,
   PostureServiceProxy,
@@ -10,7 +11,7 @@ import {
   WorkAssessmentServiceProxy,
   RepetitiveToleranceDto
 } from './../../../../shared/service-proxies/service-proxies';
-import { Component, ViewChild, Injector } from '@angular/core';
+import { Component, ViewChild, Injector, OnInit } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import {
   ClientListDto,
@@ -63,7 +64,7 @@ export class MaxDataValue {
     ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy
   ]
 })
-export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  {
+export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
 
   @ViewChild('newClient', { static: false }) newClientRef: NewClientComponent;
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -112,6 +113,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   ageList: string[] = [];
   jobTitle;
   constructor(injector: Injector,
+    private _topBarService: TopBarService,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
     private _reportService: ReportServiceProxy,
@@ -127,6 +129,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto>  
   ) {
     super(injector);
     this.searchClients();
+    this._topBarService.setTitle('Clients');
   }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim();

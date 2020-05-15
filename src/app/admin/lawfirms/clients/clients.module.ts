@@ -24,7 +24,7 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
 import { AdminCommentsComponent } from './admin-comments/admin-comments.component';
 import { AssessmentsModule } from './assessments/assessments.module';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { MAT_DATE_LOCALE } from '@angular/material';
+import { MAT_DATE_LOCALE, MatDividerModule } from '@angular/material';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { PreventUnsavedChangesGuard } from '@app/admin/guards/prevent-unsaved-changes.guard';
 import {MatChipsModule} from '@angular/material/chips';
@@ -49,7 +49,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     QuestionnaireCommentComponent,
     WorkInformationComponent,
     ReportSummaryComponent,
-    QuestionnaireComponent
+    QuestionnaireComponent,
   ],
   imports: [
     CommonModule,
@@ -65,6 +65,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DragDropModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDividerModule,
     TypeaheadModule.forRoot()
   ],
   exports: [

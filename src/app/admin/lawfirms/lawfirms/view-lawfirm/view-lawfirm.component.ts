@@ -43,6 +43,7 @@ import { Location } from '@angular/common';
 import { GeneralService } from '@app/admin/services/general.service';
 import { PagedRequestDto, PagedListingComponentBase } from '@shared/paged-listing-component-base';
 import { of } from 'rxjs';
+import { TopBarService } from '@app/admin/services/top-bar.service';
 
 export class MaxDataValue {
   elementId: string;
@@ -144,6 +145,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
   clientTotalItems;
   constructor(private injector: Injector,
     private route: ActivatedRoute,
+    private _topBarService: TopBarService,
     private lawFimService: LawFirmServiceProxy,
     private contactService: ContactServiceProxy,
     private clientService: ClientServiceProxy,
@@ -162,7 +164,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.lawFirmId = paramMap.get('id');
-
+      this._topBarService.setTitle('Law Firm Details');
     });
   }
   ngOnInit() {

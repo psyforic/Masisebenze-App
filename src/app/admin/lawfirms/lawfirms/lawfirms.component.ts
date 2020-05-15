@@ -1,3 +1,4 @@
+import { TopBarService } from '@app/admin/services/top-bar.service';
 import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
@@ -23,7 +24,7 @@ export interface User {
   styleUrls: ['./lawfirms.component.scss'],
   providers: [LawFirmServiceProxy]
 })
-export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto> {
+export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>{
 
   dataSource: MatTableDataSource<LawFirmListDto>;
   displayedColumns = ['companyName', 'email', 'phone', 'actions'];
@@ -38,8 +39,10 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
   isSearching = false;
   constructor(private injector: Injector,
     private router: Router,
+    private _topBarService: TopBarService,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
+    this._topBarService.setTitle('Law Firms');
     this.searchLawFirms();
   }
   applyFilter(filterValue: string) {

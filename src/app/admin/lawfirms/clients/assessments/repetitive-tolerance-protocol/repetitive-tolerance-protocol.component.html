@@ -394,92 +394,126 @@
           </mat-tab>
           <mat-tab label="Repetitive Foot Motion" *ngIf="isAssessmentSelected(203)">
         
-            <div class="col-lg-12 mt-5" *ngIf="repetitiveFootMotion?.length > 0 && !isLoading">
+            <div class="col-lg-12 mt-5" *ngIf="(repetitiveLeftFootMotionProtocolOptions?.length > 0 || 
+              repetitiveRightFootMotionProtocolOptions.length > 0)">
               <!-- <div *ngFor="let rptFootMotion of repetitiveFootMotion; let i = index;"> -->
-                <p class="col-lg-12 text-center mt-1">Test <strong>{{(rf_current_step+1)+" of "+(RF_MAX_STEP+1)}}</strong></p>
+                <div class="col-md-10 ml-auto mr-auto">
+                  <div class="nav-container mt-4">
+                      <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
+                          <li class="nav-item">
+                              <a class="nav-link text-center active" href="#fa-left-side" role="tab" data-toggle="tab">
+                                  <i class="fa fa-hand-o-left"></i><br />
+                                  <h5>Left Side</h5>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link text-center" href="#fa-right-side" role="tab" data-toggle="tab">
+                                  <i class="fa fa-hand-o-right"></i><br />
+                                  <h5>Right Side</h5>
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
                   <div class="col-lg-12">
-                    <mat-tab-group  mat-stretch-tabs (selectedTabChange)="handleRepFootMotionTabs($event, repetitiveFootMotion[rf_current_step].id)">
+                    <div class = "tab-content tab-space tab-subcategories">
                       
-                      <mat-tab [label]="'Left'">
-                        <div class="col-lg-12" *ngFor="let option of getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotion[rf_current_step].id, 0)">
-                          <div class="row">
+                      <div class="tab-pane active" id="fa-left-side">
+                        <div class="card">
+                          <div class="card-body">
+                            <p class="col-lg-12 text-center mt-1">Test <strong>{{(lrf_current_step+1)+" of "+(LRF_MAX_STEP+1)}}</strong></p>
                             <div class="col-lg-12">
-                              <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Pain" type="text" name="pain"
-                                  [value]="decodePainLevel(option?.painLevel)" readonly>
-                              </mat-form-field>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Pain" type="text" name="pain"
+                                      [value]="decodePainLevel(repetitiveLeftFootMotionProtocolOptions[lrf_current_step]?.painLevel)" readonly>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+    
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Time Taken" type="text" name="pain"
+                                      value="{{repetitiveLeftFootMotionProtocolOptions[lrf_current_step]?.timeTaken}}" readonly>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <mat-form-field class="example-full-width">
+                                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                      value="{{repetitiveLeftFootMotionProtocolOptions[lrf_current_step]?.comment}}"></textarea>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <!-- <div class="row">
+                                <p class="col-lg-12 text-primary">
+                                  <i class="fa fa-info"></i>
+                                  <b class="ml-2">{{option?.result}}</b>
+                                </p>
+                              </div> -->
+                              <div class="row">
+                                <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                                    *ngIf="lrf_current_step !== 0" (click)="lrfPrev()">Prev</button>
+                                </div>
+                                <div class="col-lg-6 pull-right"> <button class="pull-right" type="button"
+                                    *ngIf="lrf_current_step !== LRF_MAX_STEP" mat-button color="primary" (click)="lrfNext()">Next</button>
+                                </div>
+                              </div>
                             </div>
                           </div>
-
-                          <div class="row">
-                            <div class="col-lg-12">
-                              <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Time Taken" type="text" name="pain"
-                                  value="{{option?.timeTaken}}" readonly>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-lg-12">
-                              <mat-form-field class="example-full-width">
-                                <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                  value="{{option?.comment}}"></textarea>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <!-- <div class="row">
-                            <p class="col-lg-12 text-primary">
-                              <i class="fa fa-info"></i>
-                              <b class="ml-2">{{option?.result}}</b>
-                            </p>
-                          </div> -->
                         </div>
-                      </mat-tab>
-                      <mat-tab [label]="'Right'">
-                        <div class="col-lg-12"*ngFor="let option of getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotion[rf_current_step].id, 1)">
-                          <div class="row">
+                        
+                        
+                      </div>
+                      <div class="tab-pane" id="fa-right-side">
+                        <div class="card">
+                          <div class="card-body">
+                            <p class="col-lg-12 text-center mt-1">Test <strong>{{(rrf_current_step+1)+" of "+(RRF_MAX_STEP+1)}}</strong></p>
                             <div class="col-lg-12">
-                              <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Pain" type="text" name="pain"
-                                  value="{{decodePainLevel(option?.painLevel)}}" readonly>
-                              </mat-form-field>
-                            </div>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Pain" type="text" name="pain"
+                                      value="{{decodePainLevel(repetitiveRightFootMotionProtocolOptions[rrf_current_step]?.painLevel)}}" readonly>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+    
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Time Taken" type="text" name="timeTaken"
+                                      value="{{repetitiveRightFootMotionProtocolOptions[rrf_current_step]?.timeTaken}}" readonly>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-12">
+                                  <mat-form-field class="example-full-width">
+                                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                                      value="{{repetitiveRightFootMotionProtocolOptions[rrf_current_step]?.comment}}"></textarea>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
+                                    *ngIf="rrf_current_step !== 0" (click)="rrfPrev()">Prev</button>
+                                </div>
+                                <div class="col-lg-6 pull-right"> <button class="pull-right" type="button"
+                                    *ngIf="rrf_current_step !== RRF_MAX_STEP" mat-button color="primary" (click)="rrfNext()">Next</button>
+                                </div>
+                              </div>
+                            </div> 
                           </div>
-
-                          <div class="row">
-                            <div class="col-lg-12">
-                              <mat-form-field class="example-full-width">
-                                <input matInput placeholder="Time Taken" type="text" name="timeTaken"
-                                  value="{{option?.timeTaken}}" readonly>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-lg-12">
-                              <mat-form-field class="example-full-width">
-                                <textarea matInput placeholder="Comments" type="text" name="comments" readonly
-                                  value="{{option?.comment}}"></textarea>
-                              </mat-form-field>
-                            </div>
-                          </div>
-                          <!-- <div class="row">
-                            <p class="col-lg-12 text-primary">
-                              <i class="fa fa-info"></i>
-                              <b class="ml-2">{{option?.result}}</b>
-                            </p>
-                          </div> -->
-                        </div>  
-                      </mat-tab>
-                    </mat-tab-group>
-                  </div>
-                  <div class="row">
-                    <div class="col-lg-6 pull-left"> <button type="button" mat-button color="primary"
-                        *ngIf="rf_current_step !== 0" (click)="rfPrev()">Prev</button>
+                        </div>
+                         
+                       
+                      </div>
                     </div>
-                    <div class="col-lg-6 pull-right"> <button class="pull-right" type="button"
-                        *ngIf="rf_current_step !== RF_MAX_STEP" mat-button color="primary" (click)="rfNext()">Next</button>
-                    </div>
                   </div>
+                </div>
               <!-- </div> -->
               <div class="row">
                 <div class="col-lg-12">
@@ -496,7 +530,8 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-12 mt-5 text-center" *ngIf="repetitiveFootMotion?.length == 0 && !isLoading">
+            <div class="col-lg-12 mt-5 text-center" *ngIf="repetitiveRightFootMotionProtocolOptions?.length == 0 && 
+             repetitiveLeftFootMotionProtocolOptions?.length == 0 && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x">
               </i>
               <h4 class="text-center">No Result</h4>
@@ -574,7 +609,7 @@
             </div>
           </mat-tab>
         </mat-tab-group>
-        <div class="col-lg-12 mt-5 text-center" *ngIf="selectedAssessments.length ==0 && !isLoading">
+        <div class="col-lg-12 mt-5 text-center" *ngIf="selectedAssessments.length == 0 && !isLoading">
           <i class="fa fa-hourglass-3 fa-5x">
           </i>
           <h4 class="text-center">No Assessment Selected</h4>

@@ -1,3 +1,4 @@
+import { JobDescriptionServiceProxy } from '@shared/service-proxies/service-proxies';
 import { element } from 'protractor';
 import { MatOptionSelectionChange } from '@angular/material';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -31,7 +32,7 @@ export class MaxDataValue {
   selector: 'app-work-information',
   templateUrl: './work-information.component.html',
   styleUrls: ['./work-information.component.scss'],
-  providers: [WorkAssessmentServiceProxy, WorkInformationServiceProxy]
+  providers: [WorkAssessmentServiceProxy, WorkInformationServiceProxy, JobDescriptionServiceProxy]
 })
 
 export class WorkInformationComponent extends AppComponentBase implements OnInit {
@@ -73,6 +74,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     private _workInformationService: WorkInformationServiceProxy,
     private route: ActivatedRoute,
     private _workAssessmentService: WorkAssessmentServiceProxy,
+    private _jobDescriptionService: JobDescriptionServiceProxy,
     private _location: Location) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
@@ -121,10 +123,18 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
         this.isLoading = false;
       }))
       .subscribe(result => {
-        this.occupations = result;
-        // if (this.occupations != null && this.occupations.length > 0) {
-        //   this.selectedOccupation.push(this.occupations[0].title);
-        // }
+        this.occupations = result
+          this._jobDescriptionService.searchJob(keyword).
+          pipe(finalize(() => {
+          })).subscribe(jobsFound => {
+            jobsFound.forEach((value) => {
+              const occupation = new OccupationDto();
+              occupation.title = value.title,
+              occupation.code = value.code;
+              occupation.isLocal = true;
+              this.occupations.push(occupation);
+            });
+          });
       });
   }
   getWorkContext(event: MatOptionSelectionChange, onetSocCode) {

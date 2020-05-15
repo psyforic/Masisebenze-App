@@ -1,11 +1,6 @@
-import { VirtualPerceptionComponent } from './../assessments/cognitive-assessments/virtual-perception/virtual-perception.component';
+import { CognitiveAssessmentsComponent } from './../assessments/cognitive-assessments/cognitive-assessments.component';
+import { TopBarService } from './../../../services/top-bar.service';
 import { ReportSummaryComponent } from './report-summary/report-summary.component';
-import { VisuoSpatialAbilityComponent } from './../assessments/cognitive-assessments/visuo-spatial-ability/visuo-spatial-ability.component';
-import { VerbalFluencyComponent } from './../assessments/cognitive-assessments/verbal-fluency/verbal-fluency.component';
-import { RegistrationComponent } from './../assessments/cognitive-assessments/registration/registration.component';
-import { PerceptualAbilityComponent } from './../assessments/cognitive-assessments/perceptual-ability/perceptual-ability.component';
-import { MemoryComponent } from './../assessments/cognitive-assessments/memory/memory.component';
-import { LanguageComponent } from './../assessments/cognitive-assessments/language/language.component';
 import { AttentionAndConcentrationComponent } from './../assessments/cognitive-assessments/attention-and-concentration/attention-and-concentration.component';
 import { QuestionnaireCommentComponent } from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { QuestionnaireComponent } from './../assessments/functional-assessment/questionnaire/questionnaire.component';
@@ -116,24 +111,8 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   @ViewChild('questionnaire', { static: false }) questionnaire: QuestionnaireComponent;
 
   // Cogntive Assessments components
-  @ViewChild('attentionAndConcentrationComponent', { static: false })
-  openAttentionAndConcentrationComponent: AttentionAndConcentrationComponent;
-  @ViewChild('languageComponent', { static: false })
-  openLanguageComponent: LanguageComponent;
-  @ViewChild('memoryComponent', { static: false })
-  openMemoryComponent: MemoryComponent;
-  @ViewChild('orientationComponent', { static: false })
-  openOrientationComponent: MemoryComponent;
-  @ViewChild('perceptualAbilityComponent', { static: false })
-  openPerceptualAbilityComponent: PerceptualAbilityComponent;
-  @ViewChild('registrationComponent', { static: false })
-  openRegistrationComponent: RegistrationComponent;
-  @ViewChild('verbalFulencyComponent', { static: false })
-  openVerbalFliuencyComponent: VerbalFluencyComponent;
-  @ViewChild('virtualPerceptionComponent', { static: false })
-  openVirtualPerceptionComponent: VirtualPerceptionComponent;
-  @ViewChild('visuoSpatialAbilityComponent', { static: false })
-  openVisuoSpatialAbilityComponent: VisuoSpatialAbilityComponent;
+  @ViewChild('cognitiveAssessments', { static: false })
+  cognitiveAssessments: CognitiveAssessmentsComponent;
   @ViewChild('assessmentTabs', { static: false }) assessmentTabs;
 
   ageList: string[] = [];
@@ -195,9 +174,11 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     { type: 3, description: 'ACTIVITIES OF DAILY LIVING' },
     { type: 4, description: 'INSTRUMENTAL ACTIVITIES OF DAILY LIVING' }
   ];
+  categoryId: string;
   questionnaireType: number;
   questionnaireDescription: string;
   constructor(injector: Injector,
+    private _topBarService: TopBarService,
     private clientService: ClientServiceProxy,
     private _functionAssessmentService: FunctionalAssessmentServiceProxy,
     private _assessmentService: AssessmentServiceProxy,
@@ -216,6 +197,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this.route.paramMap.subscribe((paramMap) => {
       this.clientId = paramMap.get('id');
     });
+    this._topBarService.setTitle('Client Details');
   }
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
@@ -225,7 +207,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   }
   getFileData() {
     this.isLoading = true;
-    
     this.documentService.getClientDocuments(this.clientId).subscribe(
       (result) => {
         this.documents = result.items;
@@ -400,7 +381,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         const bookings: Booking[] = this.bookings.filter(x => x.eventId === 1);
         if (bookings.length > 1) {
           this.assessmentDate = bookings[bookings.length - 1].startTime ? bookings[bookings.length - 1].startTime.toDate() : '';
-        } else {
+        } else if(bookings.length == 1){
           this.assessmentDate = bookings[0].startTime ? bookings[0].startTime.toDate() : '';
         }
       });
@@ -566,7 +547,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         }))
         .subscribe(assessments => {
           this.selectedAssessments = assessments.items;
-          // console.log(assessments);
         });
     }
   }
@@ -607,47 +587,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         break;
     }
   }
-  viewCognitiveAssessments(assessmentName: string) {
-    switch (assessmentName) {
-      case 'Attention And Concentration':
-        this.getAttentionAndConcentration();
-        break;
-      case 'Language':
-        this.getLanguage();
-        break;
-      case 'Memory':
-        this.getMemory();
-        break;
-      case 'Orientation':
-        this.getOrientation();
-        break;
-      case 'Registration':
-        this.getRegistration();
-        break;
-      case 'Perceptual Ability':
-        this.getPerceptualAbility();
-        break;
-      case 'Visuo Spatial Ability':
-        this.getVisuoSpatialAbility();
-        break;
-      case 'Verbal Fluency':
-        this.getVerbalFluency();
-        break;
-      case 'Virtual Perception':
-        this.getVitualPreception();
-        break;
-      case 'Comprehension':
-        break;
-      case 'Naming':
-        break;
-      case 'Repetition':
-        break;
-      case 'Reading':
-        break;
-      case 'Writing':
-        break;
-    }
-  }
+
   changeAssessmentTabs(event: MatTabChangeEvent) {
     // console.log(event.index);
     switch (event.index) {
@@ -659,11 +599,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         }
         break;
       case 1:
-        this.isLoading = true;
-        const cognitive = this.assessmentCategories.filter(x => x.name.includes('COGNITIVE'))[0];
-        if (cognitive != null && cognitive.id != null) {
-          this.getSelectedAssessments(cognitive.id);
-        }
+        this.getCogntiveAssessments();
         break;
       case 2:
         this.isLoading = true;
@@ -786,33 +722,16 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   /**
    * Open Cognitive assessemnt modals
   **/
-  getAttentionAndConcentration() {
-    this.openAttentionAndConcentrationComponent.open();
+  getCogntiveAssessments() {
+    const cognitive = this.assessmentCategories.filter(x => x.name.includes('COGNITIVE'))[0];
+    if (cognitive != null && cognitive.id != null) {
+      this.categoryId = cognitive.id;
+      // this.getSelectedAssessments(cognitive.id);
+      this.cognitiveAssessments.show(cognitive.id);
+    }
+    
   }
-  getLanguage() {
-    this.openLanguageComponent.open();
-  }
-  getMemory() {
-    this.openMemoryComponent.open();
-  }
-  getOrientation() {
-    this.openOrientationComponent.open();
-  }
-  getPerceptualAbility() {
-    this.openPerceptualAbilityComponent.open();
-  }
-  getRegistration() {
-    this.openRegistrationComponent.open();
-  }
-  getVerbalFluency() {
-    this.openVerbalFliuencyComponent.open();
-  }
-  getVisuoSpatialAbility() {
-    this.openVisuoSpatialAbilityComponent.open();
-  }
-  getVitualPreception() {
-    this.openVirtualPerceptionComponent.open();
-  }
+  
   createQuestionnaire(type, description) {
     this.questionnaireType = type;
     this.questionnaireDescription = description;

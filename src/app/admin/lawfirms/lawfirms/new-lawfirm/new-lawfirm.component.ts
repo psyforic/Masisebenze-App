@@ -1,3 +1,4 @@
+import { TopBarService } from './../../../services/top-bar.service';
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, Injector } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { CreateLawFirmInput, LawFirmServiceProxy, CreateAddressInput } from '@shared/service-proxies/service-proxies';
@@ -29,7 +30,6 @@ export class NewLawfirmComponent extends AppComponentBase implements OnInit {
   }
   ngOnInit(): void {
     this.initializeForm();
-    // this.aliases();
   }
   initializeForm() {
     this.lawFirmForm = this.fb.group({

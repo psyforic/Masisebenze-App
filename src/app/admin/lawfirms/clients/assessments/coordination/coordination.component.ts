@@ -27,11 +27,21 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   current_step_sitting = 1;
   current_step_standing = 1;
   MAX_STEP = 4;
+  coordinationNames = [
+    '1 Handed Assembly',
+    '2 Handed Assembly',
+    '1 Handed Disassembly',
+    '2 Handed Disassembly'
+  ];
+  coordinationPositionNames = [
+    'Sitting',
+    'Standing'
+  ];
   types: number[] = [1, 0, 3, 2];
   result: AssessmentResult = new AssessmentResult();
   coordinationSittingOptions: CoordinationOptionListDto[] = [];
   coordinationStandingOptions: CoordinationOptionListDto[] = [];
-  coordinationIncomplete: CoordinationIncompleteDto = new CoordinationIncompleteDto();
+  coordinationIncomplete: CoordinationIncompleteDto[] = [];
   constructor(
     injector: Injector,
     private modalService: NgbModal,
@@ -47,7 +57,7 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   open() {
     this.getCoordinationSitting();
     this.getCoordinationStanding();
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
+    this.modalService.open(this.content, { windowClass: 'slideInDown', size: 'lg', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
   close() {
@@ -77,12 +87,12 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   }
   getCoordinationIncomplete() {
     this.isLoading = true;
-    this._ccordinationIncompleteService.getCoordinationIncomplete(this.clientId, 0)
+    this._ccordinationIncompleteService.getCoordinationIncomplete(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
       .subscribe(result => {
-        this.coordinationIncomplete = result;
+        this.coordinationIncomplete = result.items;
       });
   }
   getResult(seconds: number, current_step: number) {
@@ -103,32 +113,33 @@ export class CoordinationComponent extends AppComponentBase implements OnInit {
   nextSitting() {
     if (this.current_step_sitting !== this.MAX_STEP) {
       this.current_step_sitting++;
-      this.getResult(this.formatTime(this.coordinationSittingOptions[this.current_step_sitting - 1].time), this.current_step_sitting);
+      // this.getResult(this.formatTime(this.coordinationSittingOptions[this.current_step_sitting - 1].time), this.current_step_sitting);
     }
   }
   prevSitting() {
     if (this.current_step_sitting !== 1) {
       this.current_step_sitting--;
-      this.getResult(this.formatTime(this.coordinationSittingOptions[this.current_step_sitting - 1].time), this.current_step_sitting);
+      // this.getResult(this.formatTime(this.coordinationSittingOptions[this.current_step_sitting - 1].time), this.current_step_sitting);
     }
   }
 
   nextStanding() {
     if (this.current_step_standing !== this.MAX_STEP) {
       this.current_step_standing++;
-      this.getResult(this.formatTime(this.coordinationStandingOptions[this.current_step_standing - 1].time), this.current_step_standing);
+      // this.getResult(this.formatTime(this.coordinationStandingOptions[this.current_step_standing - 1].time), this.current_step_standing);
     }
   }
   prevStanding() {
     if (this.current_step_standing !== 1) {
       this.current_step_standing--;
-      this.getResult(this.formatTime(this.coordinationStandingOptions[this.current_step_standing - 1].time), this.current_step_standing);
+      // this.getResult(this.formatTime(this.coordinationStandingOptions[this.current_step_standing - 1].time), this.current_step_standing);
     }
   }
   formatTime(time: number): number {
     return time == null || undefined ? 0 : time;
   }
-  isShown(): boolean {
-    return this.coordinationIncomplete.status == null || undefined ? false : true;
-  }
+
+  // isShown(): boolean {
+  //   return this.coordinationIncomplete.status == null || undefined ? false : true;
+  // }
 }

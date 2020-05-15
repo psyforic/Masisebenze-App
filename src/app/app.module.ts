@@ -33,6 +33,7 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 import { AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
+import { TopBarService } from './admin/services/top-bar.service';
 
 // import { FooterComponent } from './layout/footer/footer.component';
 // import { NavbarComponent } from './layout/navbar/navbar.component';
@@ -76,7 +77,7 @@ import { AssessmentServiceProxy } from '@shared/service-proxies/service-proxies'
     NgxPaginationModule,
     AdminModule
   ],
-  providers: [],
+  providers: [TopBarService],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,

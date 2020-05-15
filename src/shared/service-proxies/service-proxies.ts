@@ -1009,56 +1009,6 @@ export class AssessmentServiceProxy {
      * @param id (optional) 
      * @return Success
      */
-    createCoordinationIncomplete(id: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Assessment/CreateCoordinationIncomplete?";
-        if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateCoordinationIncomplete(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateCoordinationIncomplete(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateCoordinationIncomplete(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param id (optional) 
-     * @return Success
-     */
     createRangeOfMotion(id: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Assessment/CreateRangeOfMotion?";
         if (id !== undefined)
@@ -2306,6 +2256,59 @@ export class BalanceProtocolServiceProxy {
     }
 
     protected processUpdate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param comment (optional) 
+     * @return Success
+     */
+    updateOTComment(clientId: string | null | undefined, comment: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/UpdateOTComment?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (comment !== undefined)
+            url_ += "comment=" + encodeURIComponent("" + comment) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOTComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOTComment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOTComment(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -3596,6 +3599,59 @@ export class BorgBalanceServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfBorgBalanceOptionListDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param comment (optional) 
+     * @return Success
+     */
+    updateOTComment(clientId: string | null | undefined, comment: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/BorgBalance/UpdateOTComment?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (comment !== undefined)
+            url_ += "comment=" + encodeURIComponent("" + comment) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOTComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOTComment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOTComment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -6290,12 +6346,73 @@ export class CognitiveServiceProxy {
     }
 
     /**
+     * @param clientId (optional) 
+     * @param categoryId (optional) 
+     * @return Success
+     */
+    getSelectedAssessments(clientId: string | null | undefined, categoryId: string | null | undefined): Observable<SelectedAssessmentsDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetSelectedAssessments?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (categoryId !== undefined)
+            url_ += "categoryId=" + encodeURIComponent("" + categoryId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSelectedAssessments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSelectedAssessments(<any>response_);
+                } catch (e) {
+                    return <Observable<SelectedAssessmentsDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SelectedAssessmentsDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSelectedAssessments(response: HttpResponseBase): Observable<SelectedAssessmentsDto[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(SelectedAssessmentsDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SelectedAssessmentsDto[]>(<any>null);
+    }
+
+    /**
      * @param identifier (optional) 
      * @param clientId (optional) 
      * @return Success
      */
-    createAttentionAndConcentration(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateAttentionAndConcentration?";
+    createAttention(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateAttention?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -6310,11 +6427,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateAttentionAndConcentration(response_);
+            return this.processCreateAttention(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateAttentionAndConcentration(<any>response_);
+                    return this.processCreateAttention(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6323,7 +6440,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreateAttentionAndConcentration(response: HttpResponseBase): Observable<void> {
+    protected processCreateAttention(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6346,8 +6463,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getAttentionAndConcentration(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetAttentionAndConcentration?";
+    getAttention(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetAttention?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -6361,11 +6478,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAttentionAndConcentration(response_);
+            return this.processGetAttention(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAttentionAndConcentration(<any>response_);
+                    return this.processGetAttention(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -6374,7 +6491,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetAttentionAndConcentration(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetAttention(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6400,8 +6517,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updateAttentionAndConcentration(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateAttentionAndConcentration";
+    updateAttention(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateAttention";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -6416,11 +6533,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateAttentionAndConcentration(response_);
+            return this.processUpdateAttention(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateAttentionAndConcentration(<any>response_);
+                    return this.processUpdateAttention(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6429,7 +6546,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdateAttentionAndConcentration(response: HttpResponseBase): Observable<void> {
+    protected processUpdateAttention(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6449,13 +6566,13 @@ export class CognitiveServiceProxy {
     }
 
     /**
-     * @param attentionAndConcentrationId (optional) 
+     * @param attentionId (optional) 
      * @return Success
      */
-    deleteAttentionAndConcentration(attentionAndConcentrationId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteAttentionAndConcentration?";
-        if (attentionAndConcentrationId !== undefined)
-            url_ += "attentionAndConcentrationId=" + encodeURIComponent("" + attentionAndConcentrationId) + "&"; 
+    deleteAttention(attentionId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteAttention?";
+        if (attentionId !== undefined)
+            url_ += "attentionId=" + encodeURIComponent("" + attentionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -6466,11 +6583,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteAttentionAndConcentration(response_);
+            return this.processDeleteAttention(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteAttentionAndConcentration(<any>response_);
+                    return this.processDeleteAttention(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6479,7 +6596,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeleteAttentionAndConcentration(response: HttpResponseBase): Observable<void> {
+    protected processDeleteAttention(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6503,8 +6620,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    createComprehension(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateComprehension?";
+    createVigilance(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateVigilance?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -6519,11 +6636,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateComprehension(response_);
+            return this.processCreateVigilance(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateComprehension(<any>response_);
+                    return this.processCreateVigilance(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6532,7 +6649,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreateComprehension(response: HttpResponseBase): Observable<void> {
+    protected processCreateVigilance(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6555,8 +6672,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getComprehension(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetComprehension?";
+    getVigilance(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetVigilance?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -6570,11 +6687,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetComprehension(response_);
+            return this.processGetVigilance(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetComprehension(<any>response_);
+                    return this.processGetVigilance(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -6583,7 +6700,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetComprehension(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetVigilance(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6609,8 +6726,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updateComprehension(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateComprehension";
+    updateVigilance(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateVigilance";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -6625,11 +6742,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateComprehension(response_);
+            return this.processUpdateVigilance(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateComprehension(<any>response_);
+                    return this.processUpdateVigilance(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6638,7 +6755,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdateComprehension(response: HttpResponseBase): Observable<void> {
+    protected processUpdateVigilance(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6661,8 +6778,8 @@ export class CognitiveServiceProxy {
      * @param comprehensionId (optional) 
      * @return Success
      */
-    deleteComprehension(comprehensionId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteComprehension?";
+    deleteVigilance(comprehensionId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteVigilance?";
         if (comprehensionId !== undefined)
             url_ += "comprehensionId=" + encodeURIComponent("" + comprehensionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -6675,11 +6792,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteComprehension(response_);
+            return this.processDeleteVigilance(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteComprehension(<any>response_);
+                    return this.processDeleteVigilance(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6688,7 +6805,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeleteComprehension(response: HttpResponseBase): Observable<void> {
+    protected processDeleteVigilance(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6921,8 +7038,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    createImageComprehension(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateImageComprehension?";
+    createSerialSevens(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateSerialSevens?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -6937,11 +7054,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateImageComprehension(response_);
+            return this.processCreateSerialSevens(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateImageComprehension(<any>response_);
+                    return this.processCreateSerialSevens(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -6950,7 +7067,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreateImageComprehension(response: HttpResponseBase): Observable<void> {
+    protected processCreateSerialSevens(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -6973,8 +7090,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updateImageComprehension(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateImageComprehension";
+    updateSerialSevens(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateSerialSevens";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -6989,11 +7106,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateImageComprehension(response_);
+            return this.processUpdateSerialSevens(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateImageComprehension(<any>response_);
+                    return this.processUpdateSerialSevens(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7002,7 +7119,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdateImageComprehension(response: HttpResponseBase): Observable<void> {
+    protected processUpdateSerialSevens(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7025,8 +7142,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getImageComprehension(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetImageComprehension?";
+    getSerialSevens(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetSerialSevens?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7040,11 +7157,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetImageComprehension(response_);
+            return this.processGetSerialSevens(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetImageComprehension(<any>response_);
+                    return this.processGetSerialSevens(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -7053,7 +7170,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetImageComprehension(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetSerialSevens(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7079,8 +7196,8 @@ export class CognitiveServiceProxy {
      * @param imageComprehensionId (optional) 
      * @return Success
      */
-    deleteImageComprehension(imageComprehensionId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteImageComprehension?";
+    deleteSerialSevens(imageComprehensionId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteSerialSevens?";
         if (imageComprehensionId !== undefined)
             url_ += "imageComprehensionId=" + encodeURIComponent("" + imageComprehensionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7093,11 +7210,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteImageComprehension(response_);
+            return this.processDeleteSerialSevens(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteImageComprehension(<any>response_);
+                    return this.processDeleteSerialSevens(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7106,7 +7223,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeleteImageComprehension(response: HttpResponseBase): Observable<void> {
+    protected processDeleteSerialSevens(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7130,8 +7247,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    createReading(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateReading?";
+    createAbstraction(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateAbstraction?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -7146,11 +7263,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateReading(response_);
+            return this.processCreateAbstraction(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateReading(<any>response_);
+                    return this.processCreateAbstraction(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7159,7 +7276,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreateReading(response: HttpResponseBase): Observable<void> {
+    protected processCreateAbstraction(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7182,8 +7299,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updateReading(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateReading";
+    updateAbstraction(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateAbstraction";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -7198,11 +7315,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateReading(response_);
+            return this.processUpdateAbstraction(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateReading(<any>response_);
+                    return this.processUpdateAbstraction(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7211,7 +7328,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdateReading(response: HttpResponseBase): Observable<void> {
+    protected processUpdateAbstraction(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7234,8 +7351,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getReading(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetReading?";
+    getAbstraction(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetAbstraction?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7249,11 +7366,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetReading(response_);
+            return this.processGetAbstraction(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetReading(<any>response_);
+                    return this.processGetAbstraction(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -7262,7 +7379,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetReading(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetAbstraction(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7285,13 +7402,13 @@ export class CognitiveServiceProxy {
     }
 
     /**
-     * @param readingId (optional) 
+     * @param abstractionId (optional) 
      * @return Success
      */
-    deleteReading(readingId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteReading?";
-        if (readingId !== undefined)
-            url_ += "readingId=" + encodeURIComponent("" + readingId) + "&"; 
+    deleteAbstraction(abstractionId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteAbstraction?";
+        if (abstractionId !== undefined)
+            url_ += "abstractionId=" + encodeURIComponent("" + abstractionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -7302,11 +7419,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteReading(response_);
+            return this.processDeleteAbstraction(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteReading(<any>response_);
+                    return this.processDeleteAbstraction(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7315,7 +7432,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeleteReading(response: HttpResponseBase): Observable<void> {
+    protected processDeleteAbstraction(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7339,8 +7456,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    createRepetition(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateRepetition?";
+    createSentenceRepetition(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateSentenceRepetition?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -7355,11 +7472,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateRepetition(response_);
+            return this.processCreateSentenceRepetition(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateRepetition(<any>response_);
+                    return this.processCreateSentenceRepetition(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7368,7 +7485,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreateRepetition(response: HttpResponseBase): Observable<void> {
+    protected processCreateSentenceRepetition(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7391,8 +7508,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updateRepetition(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateRepetition";
+    updateSentenceRepetition(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateSentenceRepetition";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -7407,11 +7524,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateRepetition(response_);
+            return this.processUpdateSentenceRepetition(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateRepetition(<any>response_);
+                    return this.processUpdateSentenceRepetition(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7420,7 +7537,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdateRepetition(response: HttpResponseBase): Observable<void> {
+    protected processUpdateSentenceRepetition(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7443,8 +7560,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getRepetition(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetRepetition?";
+    getSentenceRepetition(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetSentenceRepetition?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7458,11 +7575,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRepetition(response_);
+            return this.processGetSentenceRepetition(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetRepetition(<any>response_);
+                    return this.processGetSentenceRepetition(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -7471,7 +7588,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetRepetition(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetSentenceRepetition(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7497,8 +7614,8 @@ export class CognitiveServiceProxy {
      * @param repetitionId (optional) 
      * @return Success
      */
-    deleteRepetition(repetitionId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteRepetition?";
+    deleteSentenceRepetition(repetitionId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteSentenceRepetition?";
         if (repetitionId !== undefined)
             url_ += "repetitionId=" + encodeURIComponent("" + repetitionId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7511,11 +7628,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteRepetition(response_);
+            return this.processDeleteSentenceRepetition(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteRepetition(<any>response_);
+                    return this.processDeleteSentenceRepetition(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7524,7 +7641,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeleteRepetition(response: HttpResponseBase): Observable<void> {
+    protected processDeleteSentenceRepetition(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7548,8 +7665,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    createWriting(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateWriting?";
+    createDelayedRecall(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateDelayedRecall?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -7564,11 +7681,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateWriting(response_);
+            return this.processCreateDelayedRecall(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateWriting(<any>response_);
+                    return this.processCreateDelayedRecall(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7577,7 +7694,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreateWriting(response: HttpResponseBase): Observable<void> {
+    protected processCreateDelayedRecall(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7600,8 +7717,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updateWriting(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateWriting";
+    updateDelayedRecall(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateDelayedRecall";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -7616,11 +7733,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateWriting(response_);
+            return this.processUpdateDelayedRecall(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateWriting(<any>response_);
+                    return this.processUpdateDelayedRecall(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7629,7 +7746,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdateWriting(response: HttpResponseBase): Observable<void> {
+    protected processUpdateDelayedRecall(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7652,8 +7769,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getWriting(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetWriting?";
+    getDelayedRecall(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetDelayedRecall?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7667,11 +7784,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetWriting(response_);
+            return this.processGetDelayedRecall(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetWriting(<any>response_);
+                    return this.processGetDelayedRecall(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -7680,7 +7797,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetWriting(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetDelayedRecall(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -7706,8 +7823,8 @@ export class CognitiveServiceProxy {
      * @param writingId (optional) 
      * @return Success
      */
-    deleteWriting(writingId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteWriting?";
+    deleteDelayedRecall(writingId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteDelayedRecall?";
         if (writingId !== undefined)
             url_ += "writingId=" + encodeURIComponent("" + writingId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -7720,11 +7837,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteWriting(response_);
+            return this.processDeleteDelayedRecall(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteWriting(<any>response_);
+                    return this.processDeleteDelayedRecall(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -7733,7 +7850,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeleteWriting(response: HttpResponseBase): Observable<void> {
+    protected processDeleteDelayedRecall(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8175,8 +8292,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    createPerceptualAbility(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreatePerceptualAbility?";
+    createAlternatingAndTrailMaking(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateAlternatingAndTrailMaking?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -8191,11 +8308,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreatePerceptualAbility(response_);
+            return this.processCreateAlternatingAndTrailMaking(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreatePerceptualAbility(<any>response_);
+                    return this.processCreateAlternatingAndTrailMaking(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -8204,7 +8321,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreatePerceptualAbility(response: HttpResponseBase): Observable<void> {
+    protected processCreateAlternatingAndTrailMaking(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8227,8 +8344,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updatePerceptualAbility(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdatePerceptualAbility";
+    updateAlternatingAndTrailMaking(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateAlternatingAndTrailMaking";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -8243,11 +8360,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdatePerceptualAbility(response_);
+            return this.processUpdateAlternatingAndTrailMaking(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdatePerceptualAbility(<any>response_);
+                    return this.processUpdateAlternatingAndTrailMaking(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -8256,7 +8373,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdatePerceptualAbility(response: HttpResponseBase): Observable<void> {
+    protected processUpdateAlternatingAndTrailMaking(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8279,8 +8396,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getPerceptualAbility(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetPerceptualAbility?";
+    getAlternatingAndTrailMaking(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetAlternatingAndTrailMaking?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -8294,11 +8411,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetPerceptualAbility(response_);
+            return this.processGetAlternatingAndTrailMaking(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetPerceptualAbility(<any>response_);
+                    return this.processGetAlternatingAndTrailMaking(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -8307,7 +8424,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetPerceptualAbility(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetAlternatingAndTrailMaking(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8333,8 +8450,8 @@ export class CognitiveServiceProxy {
      * @param perceptualAbilityId (optional) 
      * @return Success
      */
-    deletePerceptualAbility(perceptualAbilityId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeletePerceptualAbility?";
+    deleteAlternatingAndTrailMaking(perceptualAbilityId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteAlternatingAndTrailMaking?";
         if (perceptualAbilityId !== undefined)
             url_ += "perceptualAbilityId=" + encodeURIComponent("" + perceptualAbilityId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -8347,11 +8464,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeletePerceptualAbility(response_);
+            return this.processDeleteAlternatingAndTrailMaking(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeletePerceptualAbility(<any>response_);
+                    return this.processDeleteAlternatingAndTrailMaking(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -8360,7 +8477,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeletePerceptualAbility(response: HttpResponseBase): Observable<void> {
+    protected processDeleteAlternatingAndTrailMaking(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8802,8 +8919,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    createVirtualPerception(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateVirtualPerception?";
+    createVisuoconstructionalSkills(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateVisuoconstructionalSkills?";
         if (identifier !== undefined)
             url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
         if (clientId !== undefined)
@@ -8818,11 +8935,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateVirtualPerception(response_);
+            return this.processCreateVisuoconstructionalSkills(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreateVirtualPerception(<any>response_);
+                    return this.processCreateVisuoconstructionalSkills(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -8831,7 +8948,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processCreateVirtualPerception(response: HttpResponseBase): Observable<void> {
+    protected processCreateVisuoconstructionalSkills(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8854,8 +8971,8 @@ export class CognitiveServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    updateVirtualPerception(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateVirtualPerception";
+    updateVisuoconstructionalSkills(input: OptionDto | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateVisuoconstructionalSkills";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(input);
@@ -8870,11 +8987,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateVirtualPerception(response_);
+            return this.processUpdateVisuoconstructionalSkills(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processUpdateVirtualPerception(<any>response_);
+                    return this.processUpdateVisuoconstructionalSkills(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -8883,7 +9000,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processUpdateVirtualPerception(response: HttpResponseBase): Observable<void> {
+    protected processUpdateVisuoconstructionalSkills(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -8906,8 +9023,8 @@ export class CognitiveServiceProxy {
      * @param clientId (optional) 
      * @return Success
      */
-    getVirtualPerception(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetVirtualPerception?";
+    getVisuoconstructionalSkills(clientId: string | null | undefined): Observable<CognitiveParentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetVisuoconstructionalSkills?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -8921,11 +9038,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetVirtualPerception(response_);
+            return this.processGetVisuoconstructionalSkills(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetVirtualPerception(<any>response_);
+                    return this.processGetVisuoconstructionalSkills(<any>response_);
                 } catch (e) {
                     return <Observable<CognitiveParentDto>><any>_observableThrow(e);
                 }
@@ -8934,216 +9051,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processGetVirtualPerception(response: HttpResponseBase): Observable<CognitiveParentDto> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? CognitiveParentDto.fromJS(resultData200) : new CognitiveParentDto();
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<CognitiveParentDto>(<any>null);
-    }
-
-    /**
-     * @param virtualPerceptionId (optional) 
-     * @return Success
-     */
-    deleteVirtualPerception(virtualPerceptionId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteVirtualPerception?";
-        if (virtualPerceptionId !== undefined)
-            url_ += "virtualPerceptionId=" + encodeURIComponent("" + virtualPerceptionId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteVirtualPerception(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processDeleteVirtualPerception(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processDeleteVirtualPerception(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param identifier (optional) 
-     * @param clientId (optional) 
-     * @return Success
-     */
-    createVisuoSpatialAbility(identifier: number | null | undefined, clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/CreateVisuoSpatialAbility?";
-        if (identifier !== undefined)
-            url_ += "identifier=" + encodeURIComponent("" + identifier) + "&"; 
-        if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreateVisuoSpatialAbility(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreateVisuoSpatialAbility(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreateVisuoSpatialAbility(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
-    updateVisuoSpatialAbility(input: OptionDto | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/UpdateVisuoSpatialAbility";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processUpdateVisuoSpatialAbility(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processUpdateVisuoSpatialAbility(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processUpdateVisuoSpatialAbility(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param clientId (optional) 
-     * @return Success
-     */
-    getVisuoSpatialAbility(clientId: string | null | undefined): Observable<CognitiveParentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/GetVisuoSpatialAbility?";
-        if (clientId !== undefined)
-            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetVisuoSpatialAbility(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGetVisuoSpatialAbility(<any>response_);
-                } catch (e) {
-                    return <Observable<CognitiveParentDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<CognitiveParentDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGetVisuoSpatialAbility(response: HttpResponseBase): Observable<CognitiveParentDto> {
+    protected processGetVisuoconstructionalSkills(response: HttpResponseBase): Observable<CognitiveParentDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -9169,8 +9077,8 @@ export class CognitiveServiceProxy {
      * @param visuoSpatialAbilityId (optional) 
      * @return Success
      */
-    deleteVisuoSpatialAbility(visuoSpatialAbilityId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteVisuoSpatialAbility?";
+    deleteVisuoconstructionalSkills(visuoSpatialAbilityId: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/DeleteVisuoconstructionalSkills?";
         if (visuoSpatialAbilityId !== undefined)
             url_ += "visuoSpatialAbilityId=" + encodeURIComponent("" + visuoSpatialAbilityId) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
@@ -9183,11 +9091,11 @@ export class CognitiveServiceProxy {
         };
 
         return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processDeleteVisuoSpatialAbility(response_);
+            return this.processDeleteVisuoconstructionalSkills(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processDeleteVisuoSpatialAbility(<any>response_);
+                    return this.processDeleteVisuoconstructionalSkills(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -9196,7 +9104,7 @@ export class CognitiveServiceProxy {
         }));
     }
 
-    protected processDeleteVisuoSpatialAbility(response: HttpResponseBase): Observable<void> {
+    protected processDeleteVisuoconstructionalSkills(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -10690,15 +10598,67 @@ export class CoordinationIncompleteServiceProxy {
 
     /**
      * @param clientId (optional) 
-     * @param side (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    getCoordinationIncomplete(clientId: string | null | undefined, side: number | null | undefined): Observable<CoordinationIncompleteDto> {
+    create(clientId: string | null | undefined, input: CreateCoordinationIncompleteInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CoordinationIncomplete/Create?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getCoordinationIncomplete(clientId: string | null | undefined): Observable<ListResultDtoOfCoordinationIncompleteDto> {
         let url_ = this.baseUrl + "/api/services/app/CoordinationIncomplete/GetCoordinationIncomplete?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
-        if (side !== undefined)
-            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -10716,14 +10676,14 @@ export class CoordinationIncompleteServiceProxy {
                 try {
                     return this.processGetCoordinationIncomplete(<any>response_);
                 } catch (e) {
-                    return <Observable<CoordinationIncompleteDto>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfCoordinationIncompleteDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<CoordinationIncompleteDto>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfCoordinationIncompleteDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetCoordinationIncomplete(response: HttpResponseBase): Observable<CoordinationIncompleteDto> {
+    protected processGetCoordinationIncomplete(response: HttpResponseBase): Observable<ListResultDtoOfCoordinationIncompleteDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -10734,7 +10694,7 @@ export class CoordinationIncompleteServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? CoordinationIncompleteDto.fromJS(resultData200) : new CoordinationIncompleteDto();
+            result200 = resultData200 ? ListResultDtoOfCoordinationIncompleteDto.fromJS(resultData200) : new ListResultDtoOfCoordinationIncompleteDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -10742,7 +10702,7 @@ export class CoordinationIncompleteServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<CoordinationIncompleteDto>(<any>null);
+        return _observableOf<ListResultDtoOfCoordinationIncompleteDto>(<any>null);
     }
 }
 
@@ -13756,6 +13716,64 @@ export class JobDescriptionServiceProxy {
             }));
         }
         return _observableOf<JobDescriptionDetailOutput>(<any>null);
+    }
+
+    /**
+     * @param jobTitle (optional) 
+     * @return Success
+     */
+    searchJob(jobTitle: string | null | undefined): Observable<JobDescriptionDetailOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/JobDescription/SearchJob?";
+        if (jobTitle !== undefined)
+            url_ += "jobTitle=" + encodeURIComponent("" + jobTitle) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSearchJob(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSearchJob(<any>response_);
+                } catch (e) {
+                    return <Observable<JobDescriptionDetailOutput[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<JobDescriptionDetailOutput[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSearchJob(response: HttpResponseBase): Observable<JobDescriptionDetailOutput[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(JobDescriptionDetailOutput.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<JobDescriptionDetailOutput[]>(<any>null);
     }
 
     /**
@@ -17045,6 +17063,59 @@ export class PostureServiceProxy {
         }
         return _observableOf<ListResultDtoOfPostureOptionListDto>(<any>null);
     }
+
+    /**
+     * @param clientId (optional) 
+     * @param comment (optional) 
+     * @return Success
+     */
+    updateOTComment(clientId: string | null | undefined, comment: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Posture/UpdateOTComment?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (comment !== undefined)
+            url_ += "comment=" + encodeURIComponent("" + comment) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateOTComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateOTComment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateOTComment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
 }
 
 @Injectable()
@@ -18852,28 +18923,30 @@ export class RepetitiveFootMotionProtocolServiceProxy {
     }
 
     /**
-     * @param clientId (optional) 
+     * @param input (optional) 
      * @return Success
      */
-    create(clientId: string | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/Create?";
-        if (clientId !== undefined)
-            url_ += "ClientId=" + encodeURIComponent("" + clientId) + "&"; 
+    createRepetitiveFootMotion(input: RepetitiveFootMotionCreateInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/CreateRepetitiveFootMotion";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(input);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json", 
             })
         };
 
         return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
+            return this.processCreateRepetitiveFootMotion(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processCreate(<any>response_);
+                    return this.processCreateRepetitiveFootMotion(<any>response_);
                 } catch (e) {
                     return <Observable<void>><any>_observableThrow(e);
                 }
@@ -18882,7 +18955,7 @@ export class RepetitiveFootMotionProtocolServiceProxy {
         }));
     }
 
-    protected processCreate(response: HttpResponseBase): Observable<void> {
+    protected processCreateRepetitiveFootMotion(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -19014,9 +19087,66 @@ export class RepetitiveFootMotionProtocolServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    getRepetitiveFootMotion(clientId: string | null | undefined): Observable<RepetitiveFootMotionProtocolDto> {
+    getBySide(clientId: string | null | undefined, side: number | null | undefined): Observable<ListResultDtoOfRepetitiveFootMotionOptionDto> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/GetBySide?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBySide(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBySide(<any>response_);
+                } catch (e) {
+                    return <Observable<ListResultDtoOfRepetitiveFootMotionOptionDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ListResultDtoOfRepetitiveFootMotionOptionDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBySide(response: HttpResponseBase): Observable<ListResultDtoOfRepetitiveFootMotionOptionDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ListResultDtoOfRepetitiveFootMotionOptionDto.fromJS(resultData200) : new ListResultDtoOfRepetitiveFootMotionOptionDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ListResultDtoOfRepetitiveFootMotionOptionDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getRepetitiveFootMotion(clientId: string | null | undefined): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/GetRepetitiveFootMotion?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
@@ -19037,14 +19167,14 @@ export class RepetitiveFootMotionProtocolServiceProxy {
                 try {
                     return this.processGetRepetitiveFootMotion(<any>response_);
                 } catch (e) {
-                    return <Observable<RepetitiveFootMotionProtocolDto>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<RepetitiveFootMotionProtocolDto>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRepetitiveFootMotion(response: HttpResponseBase): Observable<RepetitiveFootMotionProtocolDto> {
+    protected processGetRepetitiveFootMotion(response: HttpResponseBase): Observable<ListResultDtoOfRepetitiveFootMotionProtocolDto> {
         const status = response.status;
         const responseBlob = 
             response instanceof HttpResponse ? response.body : 
@@ -19055,7 +19185,7 @@ export class RepetitiveFootMotionProtocolServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 ? RepetitiveFootMotionProtocolDto.fromJS(resultData200) : new RepetitiveFootMotionProtocolDto();
+            result200 = resultData200 ? ListResultDtoOfRepetitiveFootMotionProtocolDto.fromJS(resultData200) : new ListResultDtoOfRepetitiveFootMotionProtocolDto();
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -19063,7 +19193,64 @@ export class RepetitiveFootMotionProtocolServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<RepetitiveFootMotionProtocolDto>(<any>null);
+        return _observableOf<ListResultDtoOfRepetitiveFootMotionProtocolDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @param side (optional) 
+     * @return Success
+     */
+    getTestStatus(clientId: string | null | undefined, side: number | null | undefined): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/GetTestStatus?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTestStatus(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTestStatus(<any>response_);
+                } catch (e) {
+                    return <Observable<boolean>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<boolean>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTestStatus(response: HttpResponseBase): Observable<boolean> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<boolean>(<any>null);
     }
 
     /**
@@ -19123,12 +19310,15 @@ export class RepetitiveFootMotionProtocolServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @param side (optional) 
      * @return Success
      */
-    updateTestStatus(clientId: string | null | undefined): Observable<void> {
+    updateTestStatus(clientId: string | null | undefined, side: number | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/RepetitiveFootMotionProtocol/UpdateTestStatus?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        if (side !== undefined)
+            url_ += "Side=" + encodeURIComponent("" + side) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -32905,6 +33095,61 @@ export interface ICogntiveReportDto {
     id: string | undefined;
 }
 
+export class SelectedAssessmentsDto implements ISelectedAssessmentsDto {
+    name: string | undefined;
+    score: number | undefined;
+    id: string | undefined;
+    totalScore: number | undefined;
+
+    constructor(data?: ISelectedAssessmentsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.score = data["score"];
+            this.id = data["id"];
+            this.totalScore = data["totalScore"];
+        }
+    }
+
+    static fromJS(data: any): SelectedAssessmentsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SelectedAssessmentsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["score"] = this.score;
+        data["id"] = this.id;
+        data["totalScore"] = this.totalScore;
+        return data; 
+    }
+
+    clone(): SelectedAssessmentsDto {
+        const json = this.toJSON();
+        let result = new SelectedAssessmentsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ISelectedAssessmentsDto {
+    name: string | undefined;
+    score: number | undefined;
+    id: string | undefined;
+    totalScore: number | undefined;
+}
+
 export class CognitiveParentDto implements ICognitiveParentDto {
     assessment: Assessment | undefined;
     assessmentId: string | undefined;
@@ -33227,6 +33472,7 @@ export interface IAssessmentCategory {
 
 export class OptionListDto implements IOptionListDto {
     instruction: string | undefined;
+    fileUrl: string | undefined;
     score: number | undefined;
     position: number | undefined;
     targetId: string | undefined;
@@ -33245,6 +33491,7 @@ export class OptionListDto implements IOptionListDto {
     init(data?: any) {
         if (data) {
             this.instruction = data["instruction"];
+            this.fileUrl = data["fileUrl"];
             this.score = data["score"];
             this.position = data["position"];
             this.targetId = data["targetId"];
@@ -33263,6 +33510,7 @@ export class OptionListDto implements IOptionListDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["instruction"] = this.instruction;
+        data["fileUrl"] = this.fileUrl;
         data["score"] = this.score;
         data["position"] = this.position;
         data["targetId"] = this.targetId;
@@ -33281,6 +33529,7 @@ export class OptionListDto implements IOptionListDto {
 
 export interface IOptionListDto {
     instruction: string | undefined;
+    fileUrl: string | undefined;
     score: number | undefined;
     position: number | undefined;
     targetId: string | undefined;
@@ -33369,6 +33618,7 @@ export class OptionDto implements IOptionDto {
     position: number | undefined;
     targetId: string | undefined;
     identifier: number | undefined;
+    fileUrl: string | undefined;
     id: string | undefined;
 
     constructor(data?: IOptionDto) {
@@ -33387,6 +33637,7 @@ export class OptionDto implements IOptionDto {
             this.position = data["position"];
             this.targetId = data["targetId"];
             this.identifier = data["identifier"];
+            this.fileUrl = data["fileUrl"];
             this.id = data["id"];
         }
     }
@@ -33405,6 +33656,7 @@ export class OptionDto implements IOptionDto {
         data["position"] = this.position;
         data["targetId"] = this.targetId;
         data["identifier"] = this.identifier;
+        data["fileUrl"] = this.fileUrl;
         data["id"] = this.id;
         return data; 
     }
@@ -33423,6 +33675,7 @@ export interface IOptionDto {
     position: number | undefined;
     targetId: string | undefined;
     identifier: number | undefined;
+    fileUrl: string | undefined;
     id: string | undefined;
 }
 
@@ -34158,6 +34411,7 @@ export class CoordinationOptionDto implements ICoordinationOptionDto {
     numPieces: number | undefined;
     status: number | undefined;
     comment: string | undefined;
+    isStopped: boolean | undefined;
     id: string | undefined;
 
     constructor(data?: ICoordinationOptionDto) {
@@ -34180,6 +34434,7 @@ export class CoordinationOptionDto implements ICoordinationOptionDto {
             this.numPieces = data["numPieces"];
             this.status = data["status"];
             this.comment = data["comment"];
+            this.isStopped = data["isStopped"];
             this.id = data["id"];
         }
     }
@@ -34202,6 +34457,7 @@ export class CoordinationOptionDto implements ICoordinationOptionDto {
         data["numPieces"] = this.numPieces;
         data["status"] = this.status;
         data["comment"] = this.comment;
+        data["isStopped"] = this.isStopped;
         data["id"] = this.id;
         return data; 
     }
@@ -34224,6 +34480,7 @@ export interface ICoordinationOptionDto {
     numPieces: number | undefined;
     status: number | undefined;
     comment: string | undefined;
+    isStopped: boolean | undefined;
     id: string | undefined;
 }
 
@@ -34288,6 +34545,7 @@ export class CoordinationOptionListDto implements ICoordinationOptionListDto {
     numPieces: number | undefined;
     status: number | undefined;
     comment: string | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -34317,6 +34575,7 @@ export class CoordinationOptionListDto implements ICoordinationOptionListDto {
             this.numPieces = data["numPieces"];
             this.status = data["status"];
             this.comment = data["comment"];
+            this.isStopped = data["isStopped"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -34346,6 +34605,7 @@ export class CoordinationOptionListDto implements ICoordinationOptionListDto {
         data["numPieces"] = this.numPieces;
         data["status"] = this.status;
         data["comment"] = this.comment;
+        data["isStopped"] = this.isStopped;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -34375,6 +34635,7 @@ export interface ICoordinationOptionListDto {
     numPieces: number | undefined;
     status: number | undefined;
     comment: string | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -34393,6 +34654,8 @@ export class CoordinationIncompleteDto implements ICoordinationIncompleteDto {
     mtm: number | undefined;
     status: number | undefined;
     side: number | undefined;
+    position: number | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -34420,6 +34683,8 @@ export class CoordinationIncompleteDto implements ICoordinationIncompleteDto {
             this.mtm = data["mtm"];
             this.status = data["status"];
             this.side = data["side"];
+            this.position = data["position"];
+            this.isStopped = data["isStopped"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -34447,6 +34712,8 @@ export class CoordinationIncompleteDto implements ICoordinationIncompleteDto {
         data["mtm"] = this.mtm;
         data["status"] = this.status;
         data["side"] = this.side;
+        data["position"] = this.position;
+        data["isStopped"] = this.isStopped;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -34474,6 +34741,8 @@ export interface ICoordinationIncompleteDto {
     mtm: number | undefined;
     status: number | undefined;
     side: number | undefined;
+    position: number | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -34482,6 +34751,124 @@ export interface ICoordinationIncompleteDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class CreateCoordinationIncompleteInput implements ICreateCoordinationIncompleteInput {
+    clientId: string | undefined;
+    completedPieces: number | undefined;
+    timeTaken: number | undefined;
+    holeType: number | undefined;
+    mtm: number | undefined;
+    position: number | undefined;
+    isStopped: boolean | undefined;
+
+    constructor(data?: ICreateCoordinationIncompleteInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.completedPieces = data["completedPieces"];
+            this.timeTaken = data["timeTaken"];
+            this.holeType = data["holeType"];
+            this.mtm = data["mtm"];
+            this.position = data["position"];
+            this.isStopped = data["isStopped"];
+        }
+    }
+
+    static fromJS(data: any): CreateCoordinationIncompleteInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCoordinationIncompleteInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["completedPieces"] = this.completedPieces;
+        data["timeTaken"] = this.timeTaken;
+        data["holeType"] = this.holeType;
+        data["mtm"] = this.mtm;
+        data["position"] = this.position;
+        data["isStopped"] = this.isStopped;
+        return data; 
+    }
+
+    clone(): CreateCoordinationIncompleteInput {
+        const json = this.toJSON();
+        let result = new CreateCoordinationIncompleteInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateCoordinationIncompleteInput {
+    clientId: string | undefined;
+    completedPieces: number | undefined;
+    timeTaken: number | undefined;
+    holeType: number | undefined;
+    mtm: number | undefined;
+    position: number | undefined;
+    isStopped: boolean | undefined;
+}
+
+export class ListResultDtoOfCoordinationIncompleteDto implements IListResultDtoOfCoordinationIncompleteDto {
+    items: CoordinationIncompleteDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfCoordinationIncompleteDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(CoordinationIncompleteDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfCoordinationIncompleteDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfCoordinationIncompleteDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfCoordinationIncompleteDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfCoordinationIncompleteDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfCoordinationIncompleteDto {
+    items: CoordinationIncompleteDto[] | undefined;
 }
 
 export class CrawlingProtocolDetailOutput implements ICrawlingProtocolDetailOutput {
@@ -41794,6 +42181,81 @@ export interface IRangeOfMotionSelectionDto {
     sides: number[] | undefined;
 }
 
+export class RepetitiveFootMotionCreateInput implements IRepetitiveFootMotionCreateInput {
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    isStopped: boolean | undefined;
+    numDepressions: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+
+    constructor(data?: IRepetitiveFootMotionCreateInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.timeTaken = data["timeTaken"];
+            this.side = data["side"];
+            this.painLevel = data["painLevel"];
+            this.comment = data["comment"];
+            this.isStopped = data["isStopped"];
+            this.numDepressions = data["numDepressions"];
+            this.chosen = data["chosen"];
+            this.status = data["status"];
+        }
+    }
+
+    static fromJS(data: any): RepetitiveFootMotionCreateInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new RepetitiveFootMotionCreateInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["timeTaken"] = this.timeTaken;
+        data["side"] = this.side;
+        data["painLevel"] = this.painLevel;
+        data["comment"] = this.comment;
+        data["isStopped"] = this.isStopped;
+        data["numDepressions"] = this.numDepressions;
+        data["chosen"] = this.chosen;
+        data["status"] = this.status;
+        return data; 
+    }
+
+    clone(): RepetitiveFootMotionCreateInput {
+        const json = this.toJSON();
+        let result = new RepetitiveFootMotionCreateInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRepetitiveFootMotionCreateInput {
+    clientId: string | undefined;
+    timeTaken: number | undefined;
+    side: number | undefined;
+    painLevel: number | undefined;
+    comment: string | undefined;
+    isStopped: boolean | undefined;
+    numDepressions: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+}
+
 export class ListResultDtoOfRepetitiveFootMotionProtocolDto implements IListResultDtoOfRepetitiveFootMotionProtocolDto {
     items: RepetitiveFootMotionProtocolDto[] | undefined;
 
@@ -41852,6 +42314,7 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
     otComments: string | undefined;
     isStopped: boolean | undefined;
     chosen: boolean | undefined;
+    side: number | undefined;
     repetitiveFootMotionOptions: RepetitiveFootMotionOptionDto[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -41879,6 +42342,7 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
             this.otComments = data["otComments"];
             this.isStopped = data["isStopped"];
             this.chosen = data["chosen"];
+            this.side = data["side"];
             if (data["repetitiveFootMotionOptions"] && data["repetitiveFootMotionOptions"].constructor === Array) {
                 this.repetitiveFootMotionOptions = [];
                 for (let item of data["repetitiveFootMotionOptions"])
@@ -41910,6 +42374,7 @@ export class RepetitiveFootMotionProtocolDto implements IRepetitiveFootMotionPro
         data["otComments"] = this.otComments;
         data["isStopped"] = this.isStopped;
         data["chosen"] = this.chosen;
+        data["side"] = this.side;
         if (this.repetitiveFootMotionOptions && this.repetitiveFootMotionOptions.constructor === Array) {
             data["repetitiveFootMotionOptions"] = [];
             for (let item of this.repetitiveFootMotionOptions)
@@ -41941,6 +42406,7 @@ export interface IRepetitiveFootMotionProtocolDto {
     otComments: string | undefined;
     isStopped: boolean | undefined;
     chosen: boolean | undefined;
+    side: number | undefined;
     repetitiveFootMotionOptions: RepetitiveFootMotionOptionDto[] | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
@@ -41962,8 +42428,10 @@ export class RepetitiveFootMotionOptionDto implements IRepetitiveFootMotionOptio
     comment: string | undefined;
     numDepressions: number | undefined;
     result: string | undefined;
+    isStopped: boolean | undefined;
     chosen: boolean | undefined;
     status: number | undefined;
+    index: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -41993,8 +42461,10 @@ export class RepetitiveFootMotionOptionDto implements IRepetitiveFootMotionOptio
             this.comment = data["comment"];
             this.numDepressions = data["numDepressions"];
             this.result = data["result"];
+            this.isStopped = data["isStopped"];
             this.chosen = data["chosen"];
             this.status = data["status"];
+            this.index = data["index"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -42024,8 +42494,10 @@ export class RepetitiveFootMotionOptionDto implements IRepetitiveFootMotionOptio
         data["comment"] = this.comment;
         data["numDepressions"] = this.numDepressions;
         data["result"] = this.result;
+        data["isStopped"] = this.isStopped;
         data["chosen"] = this.chosen;
         data["status"] = this.status;
+        data["index"] = this.index;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -42055,8 +42527,10 @@ export interface IRepetitiveFootMotionOptionDto {
     comment: string | undefined;
     numDepressions: number | undefined;
     result: string | undefined;
+    isStopped: boolean | undefined;
     chosen: boolean | undefined;
     status: number | undefined;
+    index: number | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -42065,6 +42539,57 @@ export interface IRepetitiveFootMotionOptionDto {
     creationTime: moment.Moment | undefined;
     creatorUserId: number | undefined;
     id: string | undefined;
+}
+
+export class ListResultDtoOfRepetitiveFootMotionOptionDto implements IListResultDtoOfRepetitiveFootMotionOptionDto {
+    items: RepetitiveFootMotionOptionDto[] | undefined;
+
+    constructor(data?: IListResultDtoOfRepetitiveFootMotionOptionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            if (data["items"] && data["items"].constructor === Array) {
+                this.items = [];
+                for (let item of data["items"])
+                    this.items.push(RepetitiveFootMotionOptionDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ListResultDtoOfRepetitiveFootMotionOptionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ListResultDtoOfRepetitiveFootMotionOptionDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.items && this.items.constructor === Array) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): ListResultDtoOfRepetitiveFootMotionOptionDto {
+        const json = this.toJSON();
+        let result = new ListResultDtoOfRepetitiveFootMotionOptionDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IListResultDtoOfRepetitiveFootMotionOptionDto {
+    items: RepetitiveFootMotionOptionDto[] | undefined;
 }
 
 export class RepetitiveSquattingCreateInput implements IRepetitiveSquattingCreateInput {
@@ -45534,6 +46059,7 @@ export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput
     result: string | undefined;
     chosen: boolean | undefined;
     status: number | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -45563,6 +46089,7 @@ export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput
             this.result = data["result"];
             this.chosen = data["chosen"];
             this.status = data["status"];
+            this.isStopped = data["isStopped"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -45592,6 +46119,7 @@ export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput
         data["result"] = this.result;
         data["chosen"] = this.chosen;
         data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -45621,6 +46149,7 @@ export interface IWalkingProtocolDetailOutput {
     result: string | undefined;
     chosen: boolean | undefined;
     status: number | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -45640,6 +46169,7 @@ export class WalkingProtocolDto implements IWalkingProtocolDto {
     result: string | undefined;
     chosen: boolean | undefined;
     status: number | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -45668,6 +46198,7 @@ export class WalkingProtocolDto implements IWalkingProtocolDto {
             this.result = data["result"];
             this.chosen = data["chosen"];
             this.status = data["status"];
+            this.isStopped = data["isStopped"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -45696,6 +46227,7 @@ export class WalkingProtocolDto implements IWalkingProtocolDto {
         data["result"] = this.result;
         data["chosen"] = this.chosen;
         data["status"] = this.status;
+        data["isStopped"] = this.isStopped;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -45724,6 +46256,7 @@ export interface IWalkingProtocolDto {
     result: string | undefined;
     chosen: boolean | undefined;
     status: number | undefined;
+    isStopped: boolean | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -45841,6 +46374,7 @@ export class OccupationDto implements IOccupationDto {
     code: string | undefined;
     title: string | undefined;
     relevanceScore: number | undefined;
+    isLocal: boolean | undefined;
 
     constructor(data?: IOccupationDto) {
         if (data) {
@@ -45856,6 +46390,7 @@ export class OccupationDto implements IOccupationDto {
             this.code = data["code"];
             this.title = data["title"];
             this.relevanceScore = data["relevanceScore"];
+            this.isLocal = data["isLocal"];
         }
     }
 
@@ -45871,6 +46406,7 @@ export class OccupationDto implements IOccupationDto {
         data["code"] = this.code;
         data["title"] = this.title;
         data["relevanceScore"] = this.relevanceScore;
+        data["isLocal"] = this.isLocal;
         return data; 
     }
 
@@ -45886,6 +46422,7 @@ export interface IOccupationDto {
     code: string | undefined;
     title: string | undefined;
     relevanceScore: number | undefined;
+    isLocal: boolean | undefined;
 }
 
 export class WorkContextSummaryDto implements IWorkContextSummaryDto {

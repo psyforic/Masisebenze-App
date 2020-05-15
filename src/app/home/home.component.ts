@@ -1,6 +1,7 @@
 import { Component, Injector, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
+import { TopBarService } from '@app/admin/services/top-bar.service';
 
 @Component({
     templateUrl: './home.component.html',
@@ -9,9 +10,11 @@ import { appModuleAnimation } from '@shared/animations/routerTransition';
 export class HomeComponent extends AppComponentBase implements AfterViewInit {
 
     constructor(
+        private _topBarService: TopBarService,
         injector: Injector
     ) {
         super(injector);
+        this._topBarService.setTitle('Dashboard');
     }
 
     ngAfterViewInit(): void {

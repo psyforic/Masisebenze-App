@@ -100,13 +100,20 @@ export class PostureComponent extends AppComponentBase implements OnInit {
     this.isLoading = true;
     if(this.commentInput.text != null || this.commentInput.text !== '') {
       this.commentInput.targetId = this.assessmentId;
-      this._commentService.createComment(this.commentInput)
-        .pipe(finalize(() => {
-          this.isLoading = false;
-        }))
-        .subscribe(() => {
-          this.notify.success('Comment Saved Successfully');
-        });
+      this._postureService.updateOTComment(this.clientId, this.commentInput.text)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(() => {
+        this.notify.success('Comment Saved Successfully');
+      });
+      // this._commentService.createComment(this.commentInput)
+      //   .pipe(finalize(() => {
+      //     this.isLoading = false;
+      //   }))
+      //   .subscribe(() => {
+      //     this.notify.success('Comment Saved Successfully');
+      //   });
     }
   }
   getComments() {
