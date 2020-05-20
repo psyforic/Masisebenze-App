@@ -1,5 +1,5 @@
+import { CognitiveCommentComponent } from './cognitive-comment/cognitive-comment.component';
 import { SelectedAssessmentsDto } from './../../../../../../shared/service-proxies/service-proxies';
-import { NamingComponent } from './naming/naming.component';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { AssessmentsListListDto, AssessmentServiceProxy, 
   CognitiveServiceProxy, CognitiveParentDto } from '@shared/service-proxies/service-proxies';
@@ -21,6 +21,8 @@ interface formattedSelectedAssessments{
 export class CognitiveAssessmentsComponent implements OnInit {
   @Input() categoryId: string;
   @Input() clientId: string;
+  @Input() fullName: string;
+  @ViewChild('cognitiveComment', {static: false}) cognitiveComment: CognitiveCommentComponent;
   displayedColumns: string[] = ['name', 'score'];
   
   selectedAssessments: SelectedAssessmentsDto[] = [];
@@ -77,7 +79,9 @@ export class CognitiveAssessmentsComponent implements OnInit {
   show(categoryId) {
     this.getSelectedAssessments(categoryId);
   }
-
+  showComment(){
+    this.cognitiveComment.show();
+  }
   viewCognitiveAssessments(assessmentName: string) {
     switch (assessmentName) {
       case 'Attention':

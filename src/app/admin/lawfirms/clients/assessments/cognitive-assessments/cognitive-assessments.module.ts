@@ -1,3 +1,4 @@
+import { CognitiveCommentComponent } from './cognitive-comment/cognitive-comment.component';
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -15,16 +16,18 @@ import { PartialsModule } from '@app/admin/partials/partials.module';
   ],
   declarations: [
   CognitiveAssessmentsComponent,
+  CognitiveCommentComponent
 
 ],
   exports: [
-    CognitiveAssessmentsComponent
+    CognitiveAssessmentsComponent,
+    CognitiveCommentComponent
   ],
   providers: [
 
   ],
   entryComponents: [
-
+    CognitiveCommentComponent
   ]
 })
 export class CognitiveAssessmentsModule { }

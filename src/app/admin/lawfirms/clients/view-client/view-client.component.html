@@ -593,10 +593,11 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <app-repetitive-tolerance-protocol #rtp [fullName]="fullName" [clientId]="clientId"></app-repetitive-tolerance-protocol>
                                                 </mat-tab>
                                                 <mat-tab label="Cognitive Assessment">
                                                  
-                                                    <app-cognitive-assessments #cognitiveAssessments [categoryId]="categoryId" [clientId]="clientId"></app-cognitive-assessments>
+                                                    <app-cognitive-assessments #cognitiveAssessments [fullName]="fullName" [categoryId]="categoryId" [clientId]="clientId"></app-cognitive-assessments>
                                                 </mat-tab>
                                                 <mat-tab label="Functional Assessment">
 
@@ -861,7 +862,6 @@
 <app-sensation #sensation [fullName]="fullName" [clientId]="clientId"></app-sensation>
 <app-coordination #coordination [fullName]="fullName" [clientId]="clientId"></app-coordination>
 <app-posture #posture [fullName]="fullName" [clientId]="clientId"></app-posture>
-<app-repetitive-tolerance-protocol #rtp [fullName]="fullName" [clientId]="clientId"></app-repetitive-tolerance-protocol>
 <app-affect #affect [fullName]="fullName" [clientId]="clientId"></app-affect>
 <app-mobility #mobility [fullName]="fullName" [clientId]="clientId"></app-mobility>
 <app-functional-assessment #functional [fullName]="fullName" [clientId]="clientId" (assessmentsAdded)="loadList($event)"></app-functional-assessment>

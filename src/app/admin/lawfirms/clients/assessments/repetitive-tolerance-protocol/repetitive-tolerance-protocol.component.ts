@@ -20,13 +20,13 @@ import {
   RepetitiveToleranceDto,
   WorkAssessmentReportServiceProxy
 } from './../../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Injector, Input, AfterViewInit, ViewChildren } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AssessmentService } from '@app/admin/services/assessment.service';
-import { MatTabChangeEvent } from '@angular/material';
-
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material';
+import * as $ from 'jquery'
 @Component({
   selector: 'app-repetitive-tolerance-protocol',
   templateUrl: './repetitive-tolerance-protocol.component.html',
@@ -42,9 +42,10 @@ import { MatTabChangeEvent } from '@angular/material';
     WorkAssessmentReportServiceProxy,
   ]
 })
-export class RepetitiveToleranceProtocolComponent extends AppComponentBase implements OnInit {
+export class RepetitiveToleranceProtocolComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChildren('repetitiveToleranceTabs') repetitiveToleranceTabs: any;
   @Input() fullName: string;
   @Input() clientId: string;
   walking_current_step = 0;
@@ -101,16 +102,23 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
 
   ngOnInit() {
   }
+  ngAfterViewInit() {
+    console.log(this.repetitiveToleranceTabs);
+  }
   open() {
     // this.getRepetitiveSquattingProtocol();
     // this.getBalanceProtocol();
     // this.getRepetitiveLeftFootMotionProtocol();
+
     this.getSelectedAssessments();
     // this.getStairClimbingProtocol();
     // this.getLadderWorkProtocol();
     // this.getCrawlingProtocol();
-    this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
-      .result.then(() => { }, () => { });
+      this.modalService.open(this.content,
+      { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
+      .result.then(() => {
+      }, () => { });
+   
   }
   wNext() {
     if (this.walking_current_step !== this.WALKING_MAX_STEP) {
@@ -195,20 +203,46 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   close() {
     this.activeModal.close();
   }
-  getSelectedAssessments(){
+  async getSelectedAssessments() {
     this.isLoading = true;
     this._assessmentService.getSelectedRepetitiveToleranceAssessments(this.clientId)
-        .pipe(finalize(() => {
-          this.isLoading = false;
-        }))
-        .subscribe(assessments => {
-          this.selectedAssessments = assessments.items;
-          this.getWalkingProtocol();
-         // console.log(assessments);
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.selectedAssessments.forEach(item => {
+          switch(item.identifier) {
+            case 204:
+              this.getWalkingProtocol();
+              break;
+            case 201:
+              this.getStairClimbingProtocol();
+            break;
+            case 202:
+              this.getCrawlingProtocol();
+              break;
+            case 203:
+              this.getRepetitiveLeftFootMotionProtocol();
+              this.getRepetitiveRightFootMotionProtocol();
+              break;
+            case 205:
+              this.getBalanceProtocol();
+              break;
+            case 206:
+              this.getLadderWorkProtocol();
+              break;
+            case 207:
+              this.getRepetitiveSquattingProtocol();
+              break;
+          }
         });
+      }))
+      .subscribe(assessments => {
+        this.selectedAssessments = assessments.items;
+        this.getWalkingProtocol();
+        // console.log(assessments);
+      });
   }
   isAssessmentSelected(identifier: number) {
-    return this.selectedAssessments.filter(x =>x.identifier === identifier).length > 0;
+    return this.selectedAssessments.filter(x => x.identifier === identifier).length > 0;
   }
   getBalanceProtocol() {
     this.isLoading = true;
@@ -218,12 +252,12 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       }))
       .subscribe((results) => {
         this.balanceProtocolOptions = (results != null) ? results.items.filter(x => x.status === 1) : this.balanceProtocolOptions;
-        if(this.balanceProtocolOptions.length  > 0) {
-         // console.log(this.balanceProtocolOptions)
+        if (this.balanceProtocolOptions.length > 0) {
+          // console.log(this.balanceProtocolOptions)
           this._workAssessmentReportService.getBalance(this.clientId).
-          subscribe(result => {
-            this.balanceProtocolResult = (result != null) ? result : this.balanceProtocolResult;
-          });
+            subscribe(result => {
+              this.balanceProtocolResult = (result != null) ? result : this.balanceProtocolResult;
+            });
         }
       });
   }
@@ -234,12 +268,12 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        if(result != null && result.status === 1){
+        if (result != null && result.status === 1) {
           this.walkingProtocol = result;
           this._workAssessmentReportService.getWalking(this.clientId)
-          .subscribe(results => {
-            this.walkingProtocolResult = (results != null) ? results : null;
-          });
+            .subscribe(results => {
+              this.walkingProtocolResult = (results != null) ? results : null;
+            });
         }
       });
   }
@@ -250,8 +284,8 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        if(result != null) {
-          this.STAIR_MAX_STEP =  result.items.length - 1;
+        if (result != null) {
+          this.STAIR_MAX_STEP = result.items.length - 1;
           this.stairClimbingProtocolResult = result.items.filter(x => x.status === 1);
 
           this.getStairClimbingProtocolResult();
@@ -262,7 +296,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   getStairClimbingProtocolResult() {
     this._workAssessmentReportService.getStairClimb(this.clientId)
       .subscribe((result) => {
-        this.stairClimbResult = (result != null) ? result : this.stairClimbResult;  
+        this.stairClimbResult = (result != null) ? result : this.stairClimbResult;
       });
   }
   getLadderWorkProtocol() {
@@ -272,13 +306,13 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((results) => {
-        this.LADDER_MAX_STEP = (results != null) ? results.items.filter(x => x.status === 1).length - 1: 0;
-        this.ladderWorkProtocolOptions = (results != null) ? results.items.filter(x => x.status === 1) : null;
-        if(this.ladderWorkProtocolOptions.length > 0){
+        this.LADDER_MAX_STEP = (results != null) ? results.items.length - 1 : 0;
+        this.ladderWorkProtocolOptions = (results != null) ? results.items : null;
+        if (this.ladderWorkProtocolOptions.length > 0) {
           this._workAssessmentReportService.getLadderWork(this.clientId)
-          .subscribe(result => {
-            this.ladderWorkProtocolResult = result;
-          });
+            .subscribe(result => {
+              this.ladderWorkProtocolResult = result;
+            });
         }
       });
   }
@@ -289,14 +323,14 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        this.RS_MAX_STEP = (result != null) ? result.items.filter(x => x.status === 1).length -1 : 0;
-        this.repetitiveSquattingProtocolOptions = (result != null) ? 
-        result.items.filter(x => x.status === 1) : this.repetitiveSquattingProtocolOptions;
-        if(this.repetitiveSquattingProtocolOptions){
+        this.RS_MAX_STEP = (result != null) ? result.items.length - 1 : 0;
+        this.repetitiveSquattingProtocolOptions = (result != null) ?
+          result.items : this.repetitiveSquattingProtocolOptions;
+        if (this.repetitiveSquattingProtocolOptions) {
           this._workAssessmentReportService.getRepetitiveSquatting(this.clientId)
-          .subscribe(results => {
-            this.repetitiveSquattingProtocolResult = (results != null) ? results : this.repetitiveSquattingProtocolResult;
-          });
+            .subscribe(results => {
+              this.repetitiveSquattingProtocolResult = (results != null) ? results : this.repetitiveSquattingProtocolResult;
+            });
         }
       });
   }
@@ -308,8 +342,8 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       }))
       .subscribe((result) => {
         this.LRF_MAX_STEP = (result != null) ? result.items.length - 1 : 0;
-       this.repetitiveLeftFootMotionProtocolOptions =   (result != null) ?
-        result.items : this.repetitiveLeftFootMotionProtocolOptions;
+        this.repetitiveLeftFootMotionProtocolOptions = (result != null) ?
+          result.items : this.repetitiveLeftFootMotionProtocolOptions;
 
         // if (this.repetitiveFootMotion.length > 0) {
         //   this.repetitiveFootMotion.forEach((element, index) => {
@@ -329,8 +363,10 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       }))
       .subscribe((result) => {
         this.RRF_MAX_STEP = (result != null) ? result.items.length - 1 : 0;
-       this.repetitiveRightFootMotionProtocolOptions =   (result != null) ?
-        result.items : this.repetitiveRightFootMotionProtocolOptions;
+        this.repetitiveRightFootMotionProtocolOptions = (result != null) ?
+          result.items : this.repetitiveRightFootMotionProtocolOptions;
+
+        console.log(this.repetitiveRightFootMotionProtocolOptions);
       });
   }
   getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotionProtocolId, tabIndex): RepetitiveFootMotionOptionDto[] {
@@ -361,14 +397,13 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       }))
       .subscribe((result) => {
         // console.log(result);
-        if(result != null && result.status === 1) {
+        if (result != null && result.status === 1) {
           this.crawlingProtocol = result;
           this._workAssessmentReportService.getCrawling(this.clientId)
-          .subscribe(results => {
-            this.crawlingProtocolResult = (results != null) ? results : this.crawlingProtocolResult;
-          });
+            .subscribe(results => {
+              this.crawlingProtocolResult = (results != null) ? results : this.crawlingProtocolResult;
+            });
         }
-      
       });
   }
   decodeResult(index: number, result: number) {

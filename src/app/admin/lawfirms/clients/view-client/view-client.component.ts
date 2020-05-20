@@ -1,7 +1,6 @@
 import { CognitiveAssessmentsComponent } from './../assessments/cognitive-assessments/cognitive-assessments.component';
 import { TopBarService } from './../../../services/top-bar.service';
 import { ReportSummaryComponent } from './report-summary/report-summary.component';
-import { AttentionAndConcentrationComponent } from './../assessments/cognitive-assessments/attention-and-concentration/attention-and-concentration.component';
 import { QuestionnaireCommentComponent } from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { QuestionnaireComponent } from './../assessments/functional-assessment/questionnaire/questionnaire.component';
 import { FunctionalAssessmentComponent } from './../assessments/functional-assessment/functional-assessment.component';

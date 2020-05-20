@@ -78,7 +78,14 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
       </table>
-      
+    <div class="col-lg-12 mt-1 text-center">
+        <button mat-stroked-button color="primary"
+        (click)="showComment()">
+          Show Comment
+        </button>
+    </div>
       <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
     </div>  
+    
 </div>
+<app-cognitive-comment #cognitiveComment [fullName]="fullName" [clientId]="clientId"></app-cognitive-comment>
