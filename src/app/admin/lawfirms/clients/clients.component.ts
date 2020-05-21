@@ -103,7 +103,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
   comment: string;
   affect: AffectDto = new AffectDto();
   mobility: MobilityDto = new MobilityDto();
-  searchTerm$ = new Subject<string>(); 
+  searchTerm$ = new Subject<string>();
   searchTerm: FormControl = new FormControl();
   isSearching = false;
   positionalToleranceResult: PositionalToleranceDto[] = [];
@@ -219,12 +219,12 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           } else {
             this.rangeOfMotionReport[16] = false;
           }
-          // HAND 
+          // HAND
           if (result.reportRoMHand != null && result.reportRoMHand.length > 0) {
             this.handLeftReport = result.reportRoMHand.filter(x => x.side === 0);
             this.handRightReport = result.reportRoMHand.filter(x => x.side === 1);
-            this.rangeOfMotionReport[6] = this.handRightReport;
-            this.rangeOfMotionReport[7] = this.handLeftReport;
+            this.rangeOfMotionReport[6] = this.handLeftReport;
+            this.rangeOfMotionReport[7] = this.handRightReport;
             this.rangeOfMotionReport[17] = true;
           } else {
             this.rangeOfMotionReport[17] = false;
@@ -683,8 +683,9 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
             this.isGenerating = false;
             //console.log(this.assessmentReport);
           })
-          .catch(() => {
+          .catch((error) => {
             this.notify.error('An Error Occurred Please Try Again to Download');
+            this.isGenerating = false;
           });
       });
   }

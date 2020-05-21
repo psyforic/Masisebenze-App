@@ -11,7 +11,7 @@ import { ReportRoMHandDto } from '@shared/service-proxies/service-proxies';
 
 
 export class DocumentCreator {
-  
+
     generateDoc(data, today) {
         let handRightReport: ReportRoMHandDto[] = [];
         let handLeftReport: ReportRoMHandDto[] = [];
@@ -43,27 +43,33 @@ export class DocumentCreator {
         } else if (id_month === new Date().getMonth() && id_day > new Date().getDate()) {
             currentAge = currentAge - 1;
         }
-       // return currentAge;
+        // return currentAge;
 
         const assessmentReport = data[6];
-       
+
         const romReport = data[7];
         handRightReport = romReport[6];
         handLeftReport = romReport[7];
-        if(handLeftReport.length > 0) {
-            handLeftLittle = handLeftReport.filter(x => x.position === 1)[0];
-            handLeftRing = handLeftReport.filter(x => x.position === 2)[0];
-            handLeftMiddle = handLeftReport.filter(x => x.position === 3)[0];
-            handLeftIndex = handLeftReport.filter(x => x.position === 4)[0];
-            handLeftThumb = handLeftReport.filter(x => x.position === 5)[0];
+        if (handLeftReport != null || handLeftReport !== undefined) {
+            if (handLeftReport.length > 0) {
+                handLeftLittle = handLeftReport.filter(x => x.position === 1)[0];
+                handLeftRing = handLeftReport.filter(x => x.position === 2)[0];
+                handLeftMiddle = handLeftReport.filter(x => x.position === 3)[0];
+                handLeftIndex = handLeftReport.filter(x => x.position === 4)[0];
+                handLeftThumb = handLeftReport.filter(x => x.position === 5)[0];
+            }
         }
-        if(handRightReport.length > 0) {
-            handRightLittle = handRightReport.filter(x => x.position === 1)[0];
-            handRightRing = handRightReport.filter(x => x.position === 2)[0];
-            handRightMiddle = handRightReport.filter(x => x.position === 3)[0];
-            handRightIndex = handRightReport.filter(x => x.position === 4)[0];
-            handRightThumb = handRightReport.filter(x => x.position === 5)[0];
+
+        if (handRightReport != null || handRightReport !== undefined) {
+            if (handRightReport.length > 0) {
+                handRightLittle = handRightReport.filter(x => x.position === 1)[0];
+                handRightRing = handRightReport.filter(x => x.position === 2)[0];
+                handRightMiddle = handRightReport.filter(x => x.position === 3)[0];
+                handRightIndex = handRightReport.filter(x => x.position === 4)[0];
+                handRightThumb = handRightReport.filter(x => x.position === 5)[0];
+            }
         }
+
         function loadFile(url, callback) {
             JSZipUtils.getBinaryContent(url, callback);
         }
@@ -183,53 +189,53 @@ export class DocumentCreator {
                     LEFT HAND RANGE OF MOTION
                 * ****************************************************************************************************************/
                 // Little Finger
-                ltMPFex: ( handLeftLittle != null && handLeftLittle.mpFlexion != null) ? handLeftLittle.mpFlexion : '',
+                ltMPFex: (handLeftLittle != null && handLeftLittle.mpFlexion != null) ? handLeftLittle.mpFlexion : '',
                 ltMPHyp: (handLeftLittle != null && handLeftLittle.mpHyperExtension != null) ? handLeftLittle.mpHyperExtension : '',
                 ltPIPFlx: (handLeftLittle != null && handLeftLittle.pipFlexionExtension != null) ? handLeftLittle.pipFlexionExtension : '',
                 ltDIPFlx: (handLeftLittle != null && handLeftLittle.dipFlexionExtension != null) ? handLeftLittle.dipFlexionExtension : '',
                 ltAbd: (handLeftLittle != null && handLeftLittle.abduction != null) ? handLeftLittle.abduction : '',
                 ltAdd: (handLeftLittle != null && handLeftLittle.adduction != null) ? handLeftLittle.adduction : '',
 
-                 // Ring Finger
-                 rngMPFex: ( handLeftRing != null && handLeftRing.mpFlexion != null) ? handLeftRing.mpFlexion : '',
-                 rngMPHyp: (handLeftRing != null && handLeftRing.mpHyperExtension != null) ? handLeftRing.mpHyperExtension : '',
-                 rngPIPFlx: (handLeftRing != null && handLeftRing.pipFlexionExtension != null) ? handLeftRing.pipFlexionExtension : '',
-                 rngDIPFlx: (handLeftRing != null && handLeftRing.dipFlexionExtension != null) ? handLeftRing.dipFlexionExtension : '',
-                 rngAbd: (handLeftRing != null && handLeftRing.abduction != null) ? handLeftRing.abduction : '',
-                 rngAdd: (handLeftRing != null && handLeftRing.adduction != null) ? handLeftRing.adduction : '',
+                // Ring Finger
+                rngMPFex: (handLeftRing != null && handLeftRing.mpFlexion != null) ? handLeftRing.mpFlexion : '',
+                rngMPHyp: (handLeftRing != null && handLeftRing.mpHyperExtension != null) ? handLeftRing.mpHyperExtension : '',
+                rngPIPFlx: (handLeftRing != null && handLeftRing.pipFlexionExtension != null) ? handLeftRing.pipFlexionExtension : '',
+                rngDIPFlx: (handLeftRing != null && handLeftRing.dipFlexionExtension != null) ? handLeftRing.dipFlexionExtension : '',
+                rngAbd: (handLeftRing != null && handLeftRing.abduction != null) ? handLeftRing.abduction : '',
+                rngAdd: (handLeftRing != null && handLeftRing.adduction != null) ? handLeftRing.adduction : '',
 
-                  // Middle Finger
-                mdMPFex: ( handLeftMiddle != null && handLeftMiddle.mpFlexion != null) ? handLeftMiddle.mpFlexion : '',
+                // Middle Finger
+                mdMPFex: (handLeftMiddle != null && handLeftMiddle.mpFlexion != null) ? handLeftMiddle.mpFlexion : '',
                 mdMPHyp: (handLeftMiddle != null && handLeftMiddle.mpHyperExtension != null) ? handLeftMiddle.mpHyperExtension : '',
                 mdPIPFlx: (handLeftMiddle != null && handLeftMiddle.pipFlexionExtension != null) ? handLeftMiddle.pipFlexionExtension : '',
                 mdDIPFlx: (handLeftMiddle != null && handLeftMiddle.dipFlexionExtension != null) ? handLeftMiddle.dipFlexionExtension : '',
                 mdAbd: (handLeftMiddle != null && handLeftMiddle.abduction != null) ? handLeftMiddle.abduction : '',
                 mdAdd: (handLeftMiddle != null && handLeftMiddle.adduction != null) ? handLeftMiddle.adduction : '',
 
-                 // Index Finger
-                 idxMPFex: (handLeftIndex != null && handLeftIndex.mpFlexion != null) ? handLeftIndex.mpFlexion : '',
-                 idxMPHyp: (handLeftIndex != null && handLeftIndex.mpHyperExtension != null) ? handLeftIndex.mpHyperExtension : '',
-                 idxPIPFlx: (handLeftIndex != null && handLeftIndex.pipFlexionExtension != null) ? handLeftIndex.pipFlexionExtension : '',
-                 idxDIPFlx: (handLeftIndex != null && handLeftIndex.dipFlexionExtension != null) ? handLeftIndex.dipFlexionExtension : '',
-                 idxAbd: (handLeftIndex != null && handLeftIndex.abduction != null) ? handLeftIndex.abduction : '',
-                 idxAdd: (handLeftIndex != null && handLeftIndex.adduction != null) ? handLeftIndex.adduction : '',
-                 // Thumb 
-                 tmbCMFlx: (handLeftThumb != null && handLeftThumb.cmFlexion != null) ? handLeftThumb.cmFlexion : '',
-                 tmbCMExt: (handLeftThumb != null && handLeftThumb.cmExtension != null) ? handLeftThumb.cmExtension : '',
-                 tmbMPFlx: (handLeftThumb != null && handLeftThumb.mpFlexion != null) ? handLeftThumb.mpFlexion : '',
-                 tmbIPFlx: (handLeftThumb != null && handLeftThumb.ipFlexionExtension != null) ? handLeftThumb.ipFlexionExtension : '',
-                 tmbAbd: (handLeftThumb != null && handLeftThumb.abduction != null) ? handLeftThumb.abduction : '',
-                 tmbOpp: (handLeftThumb != null && handLeftThumb.opposition != null) ? handLeftThumb.opposition : '',
-              /* ***************************************************************************************************************
-                    RIGHT HAND RANGE OF MOTION
-                * ****************************************************************************************************************/
-               // Little Finger
-               ltRMPFex: (handRightLittle != null && handRightLittle.mpFlexion != null) ? handRightLittle.mpFlexion : '',
-               ltRMPHyp: (handRightLittle != null && handRightLittle.mpHyperExtension != null) ? handRightLittle.mpHyperExtension : '',
-               ltRPIPFlx: (handRightLittle != null && handRightLittle.pipFlexionExtension != null) ? handRightLittle.pipFlexionExtension : '',
-               ltRDIPFlx: (handRightLittle != null && handRightLittle.dipFlexionExtension != null) ? handRightLittle.dipFlexionExtension : '',
-               ltRAbd: (handRightLittle != null && handRightLittle.abduction != null) ? handRightLittle.abduction : '',
-               ltRAdd: (handRightLittle != null && handRightLittle.adduction != null) ? handRightLittle.adduction : '',
+                // Index Finger
+                idxMPFex: (handLeftIndex != null && handLeftIndex.mpFlexion != null) ? handLeftIndex.mpFlexion : '',
+                idxMPHyp: (handLeftIndex != null && handLeftIndex.mpHyperExtension != null) ? handLeftIndex.mpHyperExtension : '',
+                idxPIPFlx: (handLeftIndex != null && handLeftIndex.pipFlexionExtension != null) ? handLeftIndex.pipFlexionExtension : '',
+                idxDIPFlx: (handLeftIndex != null && handLeftIndex.dipFlexionExtension != null) ? handLeftIndex.dipFlexionExtension : '',
+                idxAbd: (handLeftIndex != null && handLeftIndex.abduction != null) ? handLeftIndex.abduction : '',
+                idxAdd: (handLeftIndex != null && handLeftIndex.adduction != null) ? handLeftIndex.adduction : '',
+                // Thumb
+                tmbCMFlx: (handLeftThumb != null && handLeftThumb.cmFlexion != null) ? handLeftThumb.cmFlexion : '',
+                tmbCMExt: (handLeftThumb != null && handLeftThumb.cmExtension != null) ? handLeftThumb.cmExtension : '',
+                tmbMPFlx: (handLeftThumb != null && handLeftThumb.mpFlexion != null) ? handLeftThumb.mpFlexion : '',
+                tmbIPFlx: (handLeftThumb != null && handLeftThumb.ipFlexionExtension != null) ? handLeftThumb.ipFlexionExtension : '',
+                tmbAbd: (handLeftThumb != null && handLeftThumb.abduction != null) ? handLeftThumb.abduction : '',
+                tmbOpp: (handLeftThumb != null && handLeftThumb.opposition != null) ? handLeftThumb.opposition : '',
+                /* ***************************************************************************************************************
+                      RIGHT HAND RANGE OF MOTION
+                  * ****************************************************************************************************************/
+                // Little Finger
+                ltRMPFex: (handRightLittle != null && handRightLittle.mpFlexion != null) ? handRightLittle.mpFlexion : '',
+                ltRMPHyp: (handRightLittle != null && handRightLittle.mpHyperExtension != null) ? handRightLittle.mpHyperExtension : '',
+                ltRPIPFlx: (handRightLittle != null && handRightLittle.pipFlexionExtension != null) ? handRightLittle.pipFlexionExtension : '',
+                ltRDIPFlx: (handRightLittle != null && handRightLittle.dipFlexionExtension != null) ? handRightLittle.dipFlexionExtension : '',
+                ltRAbd: (handRightLittle != null && handRightLittle.abduction != null) ? handRightLittle.abduction : '',
+                ltRAdd: (handRightLittle != null && handRightLittle.adduction != null) ? handRightLittle.adduction : '',
 
                 // Ring Finger
                 rngRMPFex: (handRightRing != null && handRightRing.mpFlexion != null) ? handRightRing.mpFlexion : '',
@@ -239,13 +245,13 @@ export class DocumentCreator {
                 rngRRAbd: (handRightRing != null && handRightRing.abduction != null) ? handRightRing.abduction : '',
                 rngRAdd: (handRightRing != null && handRightRing.adduction != null) ? handRightRing.adduction : '',
 
-                 // Middle Finger
-               mdRMPFex: (handRightMiddle != null && handRightMiddle.mpFlexion != null) ? handRightMiddle.mpFlexion : '',
-               mdRMPHyp: (handRightMiddle != null && handRightMiddle.mpHyperExtension != null) ? handRightMiddle.mpHyperExtension : '',
-               mdRPIPFlx: (handRightMiddle != null && handRightMiddle.pipFlexionExtension != null) ? handRightMiddle.pipFlexionExtension : '',
-               mdRDIPFlx: (handRightMiddle != null && handRightMiddle.dipFlexionExtension != null) ? handRightMiddle.dipFlexionExtension : '',
-               mdRAbd: (handRightMiddle != null && handRightMiddle.abduction != null) ? handRightMiddle.abduction : '',
-               mdRAdd: (handRightMiddle != null && handRightMiddle.adduction != null) ? handRightMiddle.adduction : '',
+                // Middle Finger
+                mdRMPFex: (handRightMiddle != null && handRightMiddle.mpFlexion != null) ? handRightMiddle.mpFlexion : '',
+                mdRMPHyp: (handRightMiddle != null && handRightMiddle.mpHyperExtension != null) ? handRightMiddle.mpHyperExtension : '',
+                mdRPIPFlx: (handRightMiddle != null && handRightMiddle.pipFlexionExtension != null) ? handRightMiddle.pipFlexionExtension : '',
+                mdRDIPFlx: (handRightMiddle != null && handRightMiddle.dipFlexionExtension != null) ? handRightMiddle.dipFlexionExtension : '',
+                mdRAbd: (handRightMiddle != null && handRightMiddle.abduction != null) ? handRightMiddle.abduction : '',
+                mdRAdd: (handRightMiddle != null && handRightMiddle.adduction != null) ? handRightMiddle.adduction : '',
 
                 // Index Finger
                 idxRMPFex: (handRightIndex != null && handRightIndex.mpFlexion != null) ? handRightIndex.mpFlexion : '',
@@ -395,7 +401,7 @@ export class DocumentCreator {
                     stack: error.stack,
                     properties: error.properties,
                 };
-                // console.log(JSON.stringify({ error: e }));
+                console.log(JSON.stringify({ error: e }));
                 throw error;
             }
             const out = doc.getZip().generate({
