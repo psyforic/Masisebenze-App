@@ -68,7 +68,7 @@ export class EditJobDescriptionComponent extends AppComponentBase implements OnI
       this.id = result.id;
       this.jobDescriptionForm.patchValue(result);
     });
-    this.modalRef = this.modalService.show(this.content);
+    this.modalRef = this.modalService.show(this.content, { class: 'modal-lg' });
   }
 
 }

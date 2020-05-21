@@ -15,6 +15,7 @@ import { AngularFireStorageReference, AngularFireUploadTask, AngularFireStorage 
 import { Observable } from 'rxjs';
 import { MatOptionSelectionChange } from '@angular/material';
 import { Location } from '@angular/common';
+import { TopBarService } from '@app/admin/services/top-bar.service';
 
 @Component({
   selector: 'app-upload-document',
@@ -44,6 +45,7 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
     private route: ActivatedRoute,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
+    private _topBarService: TopBarService,
     private afStorage: AngularFireStorage,
     private _location: Location,
     private fb: FormBuilder) {
@@ -51,6 +53,7 @@ export class UploadDocumentComponent extends AppComponentBase implements OnInit 
     this.route.paramMap.subscribe((paramMap) => {
       this.clientId = paramMap.get('id');
     });
+    this._topBarService.setTitle('Document Upload');
   }
   ngOnInit() {
     this.initializeForm();

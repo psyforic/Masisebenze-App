@@ -8,6 +8,7 @@ import {
 } from '@shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
 import { finalize } from 'rxjs/operators';
+import { TopBarService } from '@app/admin/services/top-bar.service';
 
 @Component({
   selector: 'app-admin-comments',
@@ -25,11 +26,13 @@ export class AdminCommentsComponent extends AppComponentBase implements OnInit {
     injector: Injector,
     private route: ActivatedRoute,
     private commentService: CommentServiceProxy,
+    private _topBarService: TopBarService,
     private clientService: ClientServiceProxy) {
     super(injector);
     this.route.paramMap.subscribe((paramMap) => {
       this.clientId = paramMap.get('id');
     });
+    this._topBarService.setTitle('Admin Comments');
   }
   ngOnInit() {
     this.getClient();
