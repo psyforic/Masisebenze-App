@@ -23,6 +23,7 @@ import { ClientBottomSheetComponent } from './client-bottom-sheet/client-bottom-
 import { EditEventComponent } from './edit-event/edit-event.component';
 import { NewLawfirmComponent } from '../lawfirms/lawfirms/new-lawfirm/new-lawfirm.component';
 import { IBarChartOptions } from 'chartist';
+import { TopBarService } from '../services/top-bar.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -51,9 +52,11 @@ export class DashboardComponent extends AppComponentBase implements OnInit, Afte
   constructor(injector: Injector,
     private bookingService: BookingServiceProxy,
     private dashBoardService: DashBoardServiceProxy,
+    private _topBarService: TopBarService,
     private datePipe: DatePipe,
     private _bottomSheet: MatBottomSheet) {
     super(injector);
+    this._topBarService.setTitle('Dashboard');
   }
 
   modifyTitle(eventIndex, newTitle) {

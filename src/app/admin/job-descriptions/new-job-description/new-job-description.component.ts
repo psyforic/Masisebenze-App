@@ -64,8 +64,8 @@ export class NewJobDescriptionComponent extends AppComponentBase implements OnIn
         this.modalRef.hide();
       });
   }
-  open(jobTitle?) {
+  open(jobTitle?: string) {
     this.jobDescriptionForm.get('title').setValue(jobTitle);
-    this.modalRef = this.modalService.show(this.content);
+    this.modalRef = this.modalService.show(this.content, { class: 'modal-lg' });
   }
 }
