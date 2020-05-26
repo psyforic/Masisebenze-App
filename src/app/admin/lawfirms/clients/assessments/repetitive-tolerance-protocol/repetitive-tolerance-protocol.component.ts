@@ -1,4 +1,4 @@
-import { AssessmentServiceProxy, AssessmentsListListDto } from '@shared/service-proxies/service-proxies';
+import { AssessmentServiceProxy, AssessmentsListListDto, CreateCommentInput } from '@shared/service-proxies/service-proxies';
 
 import {
   BalanceProtocolServiceProxy,
@@ -45,7 +45,6 @@ import * as $ from 'jquery'
 export class RepetitiveToleranceProtocolComponent extends AppComponentBase implements OnInit, AfterViewInit {
 
   @ViewChild('content', { static: false }) content: ElementRef;
-  @ViewChildren('repetitiveToleranceTabs') repetitiveToleranceTabs: any;
   @Input() fullName: string;
   @Input() clientId: string;
   walking_current_step = 0;
@@ -83,6 +82,9 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   repetitiveSquattingProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   repetitiveFootMotionProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   selectedAssessments: AssessmentsListListDto[] = [];
+  commentLabel =' Show Comment';
+  isCommentShown = false;
+  commentInput: CreateCommentInput = new CreateCommentInput();
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
@@ -103,7 +105,6 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   ngOnInit() {
   }
   ngAfterViewInit() {
-    console.log(this.repetitiveToleranceTabs);
   }
   open() {
     // this.getRepetitiveSquattingProtocol();
@@ -268,7 +269,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        if (result != null && result.status === 1) {
+        if (result != null) {
           this.walkingProtocol = result;
           this._workAssessmentReportService.getWalking(this.clientId)
             .subscribe(results => {
@@ -286,8 +287,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       .subscribe((result) => {
         if (result != null) {
           this.STAIR_MAX_STEP = result.items.length - 1;
-          this.stairClimbingProtocolResult = result.items.filter(x => x.status === 1);
-
+          this.stairClimbingProtocolResult = result.items;
           this.getStairClimbingProtocolResult();
         }
 
@@ -426,6 +426,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         break;
       case 2:
         this.getBalanceProtocol();
+        this.getBalanceProtocol();
         break;
       case 3:
         this.getLadderWorkProtocol();
@@ -443,6 +444,37 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       default:
         break;
     }
+  }
+  showHideBalanceComment() {
+    if(this.isCommentShown){
+        this.isCommentShown = false;
+        this.commentLabel = 'Show Comment';
+    } else {
+      this.isCommentShown = true;
+      this.commentLabel = 'Hide Comment';
+    }
+  }
+  saveComment() {
+    this.isLoading = true;
+    if (this.commentInput.text != null || this.commentInput.text !== '') {
+      this._balanceProtocolService.updateOTComment(this.clientId, this.commentInput.text)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(() => {
+        this.notify.success('Comment Saved Successfully');
+      });
+    }
+  }
+  getComments() {
+    this.isLoading = true;
+    this._balanceProtocolService.getOTComment(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.commentInput.text = result.otComment;
+      });
   }
 
 }

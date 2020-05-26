@@ -1,9 +1,14 @@
 import { AppComponentBase } from '@shared/app-component-base';
-import { Component, OnInit, Input, Injector, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Injector, ViewChild, 
+  ElementRef, TemplateRef, ViewContainerRef, AfterViewInit, OnDestroy, Optional, Inject } from '@angular/core';
 import { ClientServiceProxy, AssessmentServiceProxy, AffectServiceProxy, CreateCommentInput,
    CommentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
+import { OverlayRef, Overlay } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { EditUserDialogComponent } from '@app/admin/users/edit-user/edit-user-dialog.component';
 
 @Component({
   selector: 'app-cognitive-comment',
@@ -15,9 +20,14 @@ export class CognitiveCommentComponent extends AppComponentBase implements OnIni
   @Input() fullName: string;
   @Input() clientId: string;
   @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('content', { static: false }) _dialogTemplate: TemplateRef<any>;
   commentInput: CreateCommentInput = new CreateCommentInput();
   isLoading = false;
+  private _overlayRef: OverlayRef;
+  private _portal: TemplatePortal;
   constructor(
+    private _dialogRef: MatDialogRef<EditUserDialogComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private _data: any,
     private _clientService: ClientServiceProxy,
     private injector: Injector,
     private modalService: NgbModal,
@@ -27,20 +37,23 @@ export class CognitiveCommentComponent extends AppComponentBase implements OnIni
     super(injector);
   }
 
-
   ngOnInit() {
+    if(this._data != null){
+      this.fullName = this._data.fullName;
+      this.clientId = this._data.clientId;
+    }
+    this._commentService.getUserComments(this.clientId)
+    .pipe(finalize(() =>{
+      this.isLoading = false;
+    })).subscribe(result => {
+      this.commentInput = result;
+    });
   }
   show(){
     this.isLoading = true;
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
     .result.then(() => { }, () => { });
-    this._commentService.getUserComments(this.clientId)
-    .pipe(finalize(()=>{
-      this.isLoading = false;
-    })).subscribe(result => {
-      console.log(result);
-      this.commentInput = result;
-    });
+   
   }
   save() {
     this.isLoading = true;
@@ -58,5 +71,6 @@ export class CognitiveCommentComponent extends AppComponentBase implements OnIni
   }
   close() {
     this.modalService.dismissAll();
+    this._dialogRef.close(true);
   }
 }

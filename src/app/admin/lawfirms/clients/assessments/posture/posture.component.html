@@ -77,9 +77,9 @@
         </div>
       </div>
     </div>
-  </form>
+      </form>
      
-  </div>
+    </div>
   <div class="card-footer">
     <div class="row">
       <div class="col-lg-4 pull-left">
@@ -94,7 +94,7 @@
         </button>
       </div>
       <div class="col-lg-4 pull-left">
-        <button
+        <button *ngIf="current_step == MAX_STEP"
           type="button"
           mat-stroked-button
           color="primary"

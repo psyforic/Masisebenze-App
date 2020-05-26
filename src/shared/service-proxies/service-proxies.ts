@@ -2276,6 +2276,60 @@ export class BalanceProtocolServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @return Success
+     */
+    getOTComment(clientId: string | null | undefined): Observable<BalanceProtocolDto> {
+        let url_ = this.baseUrl + "/api/services/app/BalanceProtocol/GetOTComment?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOTComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOTComment(<any>response_);
+                } catch (e) {
+                    return <Observable<BalanceProtocolDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BalanceProtocolDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOTComment(response: HttpResponseBase): Observable<BalanceProtocolDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BalanceProtocolDto.fromJS(resultData200) : new BalanceProtocolDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BalanceProtocolDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
      * @param comment (optional) 
      * @return Success
      */
@@ -3599,6 +3653,60 @@ export class BorgBalanceServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfBorgBalanceOptionListDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getOTComment(clientId: string | null | undefined): Observable<BorgBalanceDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/BorgBalance/GetOTComment?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOTComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOTComment(<any>response_);
+                } catch (e) {
+                    return <Observable<BorgBalanceDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BorgBalanceDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOTComment(response: HttpResponseBase): Observable<BorgBalanceDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? BorgBalanceDetailOutput.fromJS(resultData200) : new BorgBalanceDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BorgBalanceDetailOutput>(<any>null);
     }
 
     /**
@@ -9125,6 +9233,61 @@ export class CognitiveServiceProxy {
 
     /**
      * @param clientId (optional) 
+     * @param assessments (optional) 
+     * @return Success
+     */
+    addAssessments(clientId: string | null | undefined, assessments: AssessmentsListListDto[] | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Cognitive/AddAssessments?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(assessments);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processAddAssessments(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processAddAssessments(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processAddAssessments(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
      * @param options (optional) 
      * @param identifier (optional) 
      * @return Success
@@ -13665,6 +13828,60 @@ export class JobDescriptionServiceProxy {
     }
 
     /**
+     * @param title (optional) 
+     * @return Success
+     */
+    getByTitle(title: string | null | undefined): Observable<JobDescriptionListDto> {
+        let url_ = this.baseUrl + "/api/services/app/JobDescription/GetByTitle?";
+        if (title !== undefined)
+            url_ += "title=" + encodeURIComponent("" + title) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetByTitle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetByTitle(<any>response_);
+                } catch (e) {
+                    return <Observable<JobDescriptionListDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<JobDescriptionListDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetByTitle(response: HttpResponseBase): Observable<JobDescriptionListDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? JobDescriptionListDto.fromJS(resultData200) : new JobDescriptionListDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<JobDescriptionListDto>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -17062,6 +17279,60 @@ export class PostureServiceProxy {
             }));
         }
         return _observableOf<ListResultDtoOfPostureOptionListDto>(<any>null);
+    }
+
+    /**
+     * @param clientId (optional) 
+     * @return Success
+     */
+    getOTComment(clientId: string | null | undefined): Observable<PostureDetailOutput> {
+        let url_ = this.baseUrl + "/api/services/app/Posture/GetOTComment?";
+        if (clientId !== undefined)
+            url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetOTComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetOTComment(<any>response_);
+                } catch (e) {
+                    return <Observable<PostureDetailOutput>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PostureDetailOutput>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetOTComment(response: HttpResponseBase): Observable<PostureDetailOutput> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? PostureDetailOutput.fromJS(resultData200) : new PostureDetailOutput();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PostureDetailOutput>(<any>null);
     }
 
     /**
@@ -28956,6 +29227,7 @@ export interface IBooking {
 export class WorkInformation implements IWorkInformation {
     jobTitle: string | undefined;
     jobDescription: string | undefined;
+    isLocal: boolean | undefined;
     clientId: string | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
@@ -28976,6 +29248,7 @@ export class WorkInformation implements IWorkInformation {
         if (data) {
             this.jobTitle = data["jobTitle"];
             this.jobDescription = data["jobDescription"];
+            this.isLocal = data["isLocal"];
             this.clientId = data["clientId"];
             this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
             this.lastModifierUserId = data["lastModifierUserId"];
@@ -28996,6 +29269,7 @@ export class WorkInformation implements IWorkInformation {
         data = typeof data === 'object' ? data : {};
         data["jobTitle"] = this.jobTitle;
         data["jobDescription"] = this.jobDescription;
+        data["isLocal"] = this.isLocal;
         data["clientId"] = this.clientId;
         data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
         data["lastModifierUserId"] = this.lastModifierUserId;
@@ -29016,6 +29290,7 @@ export class WorkInformation implements IWorkInformation {
 export interface IWorkInformation {
     jobTitle: string | undefined;
     jobDescription: string | undefined;
+    isLocal: boolean | undefined;
     clientId: string | undefined;
     lastModificationTime: moment.Moment | undefined;
     lastModifierUserId: number | undefined;
@@ -30754,6 +31029,366 @@ export interface IBorgBalanceOptionListDto {
     comment: string | undefined;
     chosen: boolean | undefined;
     status: number | undefined;
+    id: string | undefined;
+}
+
+export class BorgBalanceDetailOutput implements IBorgBalanceDetailOutput {
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    assessment: Assessment | undefined;
+    otComment: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IBorgBalanceDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.otComment = data["otComment"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): BorgBalanceDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new BorgBalanceDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["otComment"] = this.otComment;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): BorgBalanceDetailOutput {
+        const json = this.toJSON();
+        let result = new BorgBalanceDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBorgBalanceDetailOutput {
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    assessment: Assessment | undefined;
+    otComment: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class Assessment implements IAssessment {
+    name: string | undefined;
+    categoryId: string | undefined;
+    category: AssessmentCategory | undefined;
+    clientId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.categoryId = data["categoryId"];
+            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
+            this.clientId = data["clientId"];
+            this.side = data["side"];
+            this.chosen = data["chosen"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): Assessment {
+        data = typeof data === 'object' ? data : {};
+        let result = new Assessment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["categoryId"] = this.categoryId;
+        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
+        data["clientId"] = this.clientId;
+        data["side"] = this.side;
+        data["chosen"] = this.chosen;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): Assessment {
+        const json = this.toJSON();
+        let result = new Assessment();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessment {
+    name: string | undefined;
+    categoryId: string | undefined;
+    category: AssessmentCategory | undefined;
+    clientId: string | undefined;
+    side: number | undefined;
+    chosen: boolean | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class AssessmentCategory implements IAssessmentCategory {
+    name: string | undefined;
+    position: number | undefined;
+    assessments: Assessment[] | undefined;
+    status: number | undefined;
+    assessmentsLists: AssessmentsList[] | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessmentCategory) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.name = data["name"];
+            this.position = data["position"];
+            if (data["assessments"] && data["assessments"].constructor === Array) {
+                this.assessments = [];
+                for (let item of data["assessments"])
+                    this.assessments.push(Assessment.fromJS(item));
+            }
+            this.status = data["status"];
+            if (data["assessmentsLists"] && data["assessmentsLists"].constructor === Array) {
+                this.assessmentsLists = [];
+                for (let item of data["assessmentsLists"])
+                    this.assessmentsLists.push(AssessmentsList.fromJS(item));
+            }
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentCategory {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentCategory();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["position"] = this.position;
+        if (this.assessments && this.assessments.constructor === Array) {
+            data["assessments"] = [];
+            for (let item of this.assessments)
+                data["assessments"].push(item.toJSON());
+        }
+        data["status"] = this.status;
+        if (this.assessmentsLists && this.assessmentsLists.constructor === Array) {
+            data["assessmentsLists"] = [];
+            for (let item of this.assessmentsLists)
+                data["assessmentsLists"].push(item.toJSON());
+        }
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AssessmentCategory {
+        const json = this.toJSON();
+        let result = new AssessmentCategory();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentCategory {
+    name: string | undefined;
+    position: number | undefined;
+    assessments: Assessment[] | undefined;
+    status: number | undefined;
+    assessmentsLists: AssessmentsList[] | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
+export class AssessmentsList implements IAssessmentsList {
+    assessmentCategoryId: string | undefined;
+    position: number | undefined;
+    assessmentName: string | undefined;
+    identifier: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAssessmentsList) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.assessmentCategoryId = data["assessmentCategoryId"];
+            this.position = data["position"];
+            this.assessmentName = data["assessmentName"];
+            this.identifier = data["identifier"];
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): AssessmentsList {
+        data = typeof data === 'object' ? data : {};
+        let result = new AssessmentsList();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["assessmentCategoryId"] = this.assessmentCategoryId;
+        data["position"] = this.position;
+        data["assessmentName"] = this.assessmentName;
+        data["identifier"] = this.identifier;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AssessmentsList {
+        const json = this.toJSON();
+        let result = new AssessmentsList();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAssessmentsList {
+    assessmentCategoryId: string | undefined;
+    position: number | undefined;
+    assessmentName: string | undefined;
+    identifier: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -33100,6 +33735,7 @@ export class SelectedAssessmentsDto implements ISelectedAssessmentsDto {
     score: number | undefined;
     id: string | undefined;
     totalScore: number | undefined;
+    fileUrls: FileUrlDto[] | undefined;
 
     constructor(data?: ISelectedAssessmentsDto) {
         if (data) {
@@ -33116,6 +33752,11 @@ export class SelectedAssessmentsDto implements ISelectedAssessmentsDto {
             this.score = data["score"];
             this.id = data["id"];
             this.totalScore = data["totalScore"];
+            if (data["fileUrls"] && data["fileUrls"].constructor === Array) {
+                this.fileUrls = [];
+                for (let item of data["fileUrls"])
+                    this.fileUrls.push(FileUrlDto.fromJS(item));
+            }
         }
     }
 
@@ -33132,6 +33773,11 @@ export class SelectedAssessmentsDto implements ISelectedAssessmentsDto {
         data["score"] = this.score;
         data["id"] = this.id;
         data["totalScore"] = this.totalScore;
+        if (this.fileUrls && this.fileUrls.constructor === Array) {
+            data["fileUrls"] = [];
+            for (let item of this.fileUrls)
+                data["fileUrls"].push(item.toJSON());
+        }
         return data; 
     }
 
@@ -33148,6 +33794,54 @@ export interface ISelectedAssessmentsDto {
     score: number | undefined;
     id: string | undefined;
     totalScore: number | undefined;
+    fileUrls: FileUrlDto[] | undefined;
+}
+
+export class FileUrlDto implements IFileUrlDto {
+    instruction: string | undefined;
+    fileUrl: string | undefined;
+
+    constructor(data?: IFileUrlDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.instruction = data["instruction"];
+            this.fileUrl = data["fileUrl"];
+        }
+    }
+
+    static fromJS(data: any): FileUrlDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new FileUrlDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["instruction"] = this.instruction;
+        data["fileUrl"] = this.fileUrl;
+        return data; 
+    }
+
+    clone(): FileUrlDto {
+        const json = this.toJSON();
+        let result = new FileUrlDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IFileUrlDto {
+    instruction: string | undefined;
+    fileUrl: string | undefined;
 }
 
 export class CognitiveParentDto implements ICognitiveParentDto {
@@ -33225,105 +33919,6 @@ export interface ICognitiveParentDto {
     id: string | undefined;
 }
 
-export class Assessment implements IAssessment {
-    name: string | undefined;
-    categoryId: string | undefined;
-    category: AssessmentCategory | undefined;
-    clientId: string | undefined;
-    side: number | undefined;
-    chosen: boolean | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessment) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.categoryId = data["categoryId"];
-            this.category = data["category"] ? AssessmentCategory.fromJS(data["category"]) : <any>undefined;
-            this.clientId = data["clientId"];
-            this.side = data["side"];
-            this.chosen = data["chosen"];
-            this.status = data["status"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): Assessment {
-        data = typeof data === 'object' ? data : {};
-        let result = new Assessment();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["categoryId"] = this.categoryId;
-        data["category"] = this.category ? this.category.toJSON() : <any>undefined;
-        data["clientId"] = this.clientId;
-        data["side"] = this.side;
-        data["chosen"] = this.chosen;
-        data["status"] = this.status;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): Assessment {
-        const json = this.toJSON();
-        let result = new Assessment();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessment {
-    name: string | undefined;
-    categoryId: string | undefined;
-    category: AssessmentCategory | undefined;
-    clientId: string | undefined;
-    side: number | undefined;
-    chosen: boolean | undefined;
-    status: number | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-}
-
 export class ListResultDtoOfOptionListDto implements IListResultDtoOfOptionListDto {
     items: OptionListDto[] | undefined;
 
@@ -33373,101 +33968,6 @@ export class ListResultDtoOfOptionListDto implements IListResultDtoOfOptionListD
 
 export interface IListResultDtoOfOptionListDto {
     items: OptionListDto[] | undefined;
-}
-
-export class AssessmentCategory implements IAssessmentCategory {
-    name: string | undefined;
-    position: number | undefined;
-    assessments: Assessment[] | undefined;
-    status: number | undefined;
-    assessmentsLists: AssessmentsList[] | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessmentCategory) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.name = data["name"];
-            this.position = data["position"];
-            if (data["assessments"] && data["assessments"].constructor === Array) {
-                this.assessments = [];
-                for (let item of data["assessments"])
-                    this.assessments.push(Assessment.fromJS(item));
-            }
-            this.status = data["status"];
-            if (data["assessmentsLists"] && data["assessmentsLists"].constructor === Array) {
-                this.assessmentsLists = [];
-                for (let item of data["assessmentsLists"])
-                    this.assessmentsLists.push(AssessmentsList.fromJS(item));
-            }
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): AssessmentCategory {
-        data = typeof data === 'object' ? data : {};
-        let result = new AssessmentCategory();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["name"] = this.name;
-        data["position"] = this.position;
-        if (this.assessments && this.assessments.constructor === Array) {
-            data["assessments"] = [];
-            for (let item of this.assessments)
-                data["assessments"].push(item.toJSON());
-        }
-        data["status"] = this.status;
-        if (this.assessmentsLists && this.assessmentsLists.constructor === Array) {
-            data["assessmentsLists"] = [];
-            for (let item of this.assessmentsLists)
-                data["assessmentsLists"].push(item.toJSON());
-        }
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): AssessmentCategory {
-        const json = this.toJSON();
-        let result = new AssessmentCategory();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessmentCategory {
-    name: string | undefined;
-    position: number | undefined;
-    assessments: Assessment[] | undefined;
-    status: number | undefined;
-    assessmentsLists: AssessmentsList[] | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
 }
 
 export class OptionListDto implements IOptionListDto {
@@ -33534,81 +34034,6 @@ export interface IOptionListDto {
     position: number | undefined;
     targetId: string | undefined;
     identifier: number | undefined;
-    id: string | undefined;
-}
-
-export class AssessmentsList implements IAssessmentsList {
-    assessmentCategoryId: string | undefined;
-    position: number | undefined;
-    assessmentName: string | undefined;
-    identifier: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
-
-    constructor(data?: IAssessmentsList) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.assessmentCategoryId = data["assessmentCategoryId"];
-            this.position = data["position"];
-            this.assessmentName = data["assessmentName"];
-            this.identifier = data["identifier"];
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): AssessmentsList {
-        data = typeof data === 'object' ? data : {};
-        let result = new AssessmentsList();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["assessmentCategoryId"] = this.assessmentCategoryId;
-        data["position"] = this.position;
-        data["assessmentName"] = this.assessmentName;
-        data["identifier"] = this.identifier;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): AssessmentsList {
-        const json = this.toJSON();
-        let result = new AssessmentsList();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IAssessmentsList {
-    assessmentCategoryId: string | undefined;
-    position: number | undefined;
-    assessmentName: string | undefined;
-    identifier: number | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
     id: string | undefined;
 }
 
@@ -40273,6 +40698,101 @@ export interface IPostureOptionListDto {
     id: string | undefined;
 }
 
+export class PostureDetailOutput implements IPostureDetailOutput {
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    assessment: Assessment | undefined;
+    chosen: boolean | undefined;
+    otComment: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+
+    constructor(data?: IPostureDetailOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.clientId = data["clientId"];
+            this.assessmentId = data["assessmentId"];
+            this.assessment = data["assessment"] ? Assessment.fromJS(data["assessment"]) : <any>undefined;
+            this.chosen = data["chosen"];
+            this.otComment = data["otComment"];
+            this.status = data["status"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): PostureDetailOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostureDetailOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["clientId"] = this.clientId;
+        data["assessmentId"] = this.assessmentId;
+        data["assessment"] = this.assessment ? this.assessment.toJSON() : <any>undefined;
+        data["chosen"] = this.chosen;
+        data["otComment"] = this.otComment;
+        data["status"] = this.status;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): PostureDetailOutput {
+        const json = this.toJSON();
+        let result = new PostureDetailOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IPostureDetailOutput {
+    clientId: string | undefined;
+    assessmentId: string | undefined;
+    assessment: Assessment | undefined;
+    chosen: boolean | undefined;
+    otComment: string | undefined;
+    status: number | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
+}
+
 export class ProfileDto implements IProfileDto {
     userName: string | undefined;
     name: string | undefined;
@@ -46806,6 +47326,7 @@ export interface IWorkAssessmentTasksParentDto {
 export class WorkInformationDto implements IWorkInformationDto {
     jobTitle: string | undefined;
     jobDescription: string | undefined;
+    isLocal: boolean | undefined;
     clientId: string | undefined;
     id: string | undefined;
 
@@ -46822,6 +47343,7 @@ export class WorkInformationDto implements IWorkInformationDto {
         if (data) {
             this.jobTitle = data["jobTitle"];
             this.jobDescription = data["jobDescription"];
+            this.isLocal = data["isLocal"];
             this.clientId = data["clientId"];
             this.id = data["id"];
         }
@@ -46838,6 +47360,7 @@ export class WorkInformationDto implements IWorkInformationDto {
         data = typeof data === 'object' ? data : {};
         data["jobTitle"] = this.jobTitle;
         data["jobDescription"] = this.jobDescription;
+        data["isLocal"] = this.isLocal;
         data["clientId"] = this.clientId;
         data["id"] = this.id;
         return data; 
@@ -46854,6 +47377,7 @@ export class WorkInformationDto implements IWorkInformationDto {
 export interface IWorkInformationDto {
     jobTitle: string | undefined;
     jobDescription: string | undefined;
+    isLocal: boolean | undefined;
     clientId: string | undefined;
     id: string | undefined;
 }

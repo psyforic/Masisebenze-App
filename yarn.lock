@@ -5180,6 +5180,11 @@ neo-async@^2.5.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.1.tgz#acb909e327b1e87ec9ef15f41b8a269512ad41ee"
 
+ngx-audio-player@^9.0.7:
+  version "9.0.7"
+  resolved "https://registry.yarnpkg.com/ngx-audio-player/-/ngx-audio-player-9.0.7.tgz#477992b2979b7b06263473e13b893fca4089e2cf"
+  integrity sha512-2jHsQY93LYbSkyev64M+6DKYNjXRIMz/FBl17bIXDmwC/al/Unq3EGnBgVFCKWK+rbJerrZ9PumPgfARSNgXag==
+
 ngx-bootstrap@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.0.0.tgz#563368404dd71962e2ef8eee21794c6aeaab4490"

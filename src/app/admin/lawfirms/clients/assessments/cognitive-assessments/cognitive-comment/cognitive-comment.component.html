@@ -1,7 +1,7 @@
-<ng-template #content let-modal class="modal modal-fade">
-  <div class="modal-header bg-color">
+<div #content>
+  <div class="modal-header bg-color" cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>
     <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Cognitive Assessment</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <button type="button" class="close" aria-label="Close" (click)="close()">
       <span class="text-white" aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -13,13 +13,16 @@
         </div>
         <form #commentForm="ngForm" class="col-lg-12 mt-1" (ngSubmit)="save()">
           <div class="row">
-            <div class="col-lg-12">
-                <quill-editor matInput [styles]="{height: '150px'}" #sensationComment="ngModel" [(ngModel)]="commentInput.text"
+            <div class="col-lg-12" style="z-index: 99999 !important;">
+              <quill-editor [styles]="{height: '150px', zindex:'1000'}" #sensationComment="ngModel" [(ngModel)]="commentInput.text"
                 [sanitize]="true" name="comment" placeholder="Add Cognitive Assessment here...">
               </quill-editor>
-        
+
             </div>
-            <div class="col-lg-12 mt-1 text-right">
+            <div class="col-lg-3 mt-1 text-left">
+              Normal >= 26 / 30
+            </div>
+            <div class="col-lg-9 mt-1 text-right">
               <button mat-raised-button class=" " color="primary" [disabled]="commentInput.text == null || commentInput.text == '' || isLoading">Save Comment</button>
             </div>
           </div>
@@ -27,5 +30,5 @@
       </div>
     </div>
   </div>
-</ng-template>
+</div>
 

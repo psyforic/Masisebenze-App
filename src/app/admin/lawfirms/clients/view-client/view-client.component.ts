@@ -17,7 +17,9 @@ import {
   StaticDataServiceProxy,
   AssessmentCategoryDetailOutput,
   AssessmentsListListDto,
-  RepetitiveToleranceDto
+  RepetitiveToleranceDto,
+  JobDescriptionServiceProxy,
+  JobDescriptionListDto
 } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injector, OnInit, ViewChild, HostListener, AfterViewInit } from '@angular/core';
@@ -89,7 +91,7 @@ export class MaxDataValue {
   styleUrls: ['./view-client.component.scss'],
   providers: [ClientServiceProxy, DocumentServiceProxy, WorkAssessmentServiceProxy,
     LawFirmServiceProxy, FunctionalAssessmentServiceProxy, WorkAssessmentReportServiceProxy,
-    WorkInformationServiceProxy, AssessmentServiceProxy, StaticDataServiceProxy]
+    WorkInformationServiceProxy, AssessmentServiceProxy, StaticDataServiceProxy, JobDescriptionServiceProxy]
 })
 export class ViewClientComponent extends AppComponentBase implements OnInit {
 
@@ -164,6 +166,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   maxDataValues: MaxDataValue[] = [];
   assessmentCategories: AssessmentCategoryDetailOutput[] = [];
   selectedAssessments: AssessmentsListListDto[] = [];
+  occupation: JobDescriptionListDto;
   jobTitle: string;
   hidden = true;
   bookings: Booking[] = [];
@@ -185,6 +188,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     private _workAssessmentReportService: WorkAssessmentReportServiceProxy,
     private _workAssessmentService: WorkAssessmentServiceProxy,
     private _workInformationService: WorkInformationServiceProxy,
+    private _jobDescriptionService: JobDescriptionServiceProxy,
     private documentService: DocumentServiceProxy,
     private _lawFirmService: LawFirmServiceProxy,
     private route: ActivatedRoute,
@@ -308,54 +312,186 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     this._workAssessmentReportService.getPositionalToleranceReport(clientId)
       .pipe(finalize(() => {
       })).subscribe(result => {
-        this._workInformationService.getByClientId(clientId)
-          .pipe(finalize(() => {
-          })).subscribe(workResult => {
-            if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
-              this.positionalToleranceResult = result.filter(x =>
-                (x.assessmentName != null && x.assessmentName !== '') &&
-                (x.result != null && x.result !== ''));
-              this.getElementNames(workResult.jobTitle);
+        this.positionalToleranceResult = result.filter(x =>
+          (x.assessmentName != null && x.assessmentName !== '') &&
+          (x.result != null && x.result !== ''));
+        if (this.occupation != null) {
+          this.positionalToleranceResult.forEach((item, index) => {
+            if (item.assessmentName.includes('Sitting')) {
+              item.jobDemand = (this.occupation.sittingJobDemand != null) ?
+                this.occupation.sittingJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Kneeling')) {
+              item.jobDemand = (this.occupation.kneelingJobDemand != null) ?
+                this.occupation.kneelingJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Crouching')) {
+              item.jobDemand = (this.occupation.crouchingJobDemand != null) ?
+                this.occupation.crouchingJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Standing')) {
+              item.jobDemand = (this.occupation.standingJobDemand != null) ?
+                this.occupation.standingJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Elevated')) {
+              item.jobDemand = (this.occupation.elevatedReachJobDemand != null) ?
+                this.occupation.elevatedReachJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Mid Level')) {
+              item.jobDemand = (this.occupation.midLevelReachJobDemand != null) ?
+                this.occupation.midLevelReachJobDemand.toUpperCase() : '';
+            }
+            if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
+              !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
+              && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('RARE') && !item.result.includes('CONSTANT') &&
+              !item.result.includes('NIL') && !item.result.includes('FREQUENT')
+              && !item.result.includes('OCCASIONAL') && !item.result.includes('RARE')) {
+              item.isDeficit = 'Yes';
+            } else {
+              item.isDeficit = 'No';
             }
           });
+        } else {
+          this.getElementNames(this.jobTitle);
+        }
       });
+
   }
   getRepetitiveToleranceReport(clientId) {
     this._workAssessmentReportService.getRepetitiveToleranceReport(clientId)
       .pipe(finalize(() => {
       })).subscribe(result => {
-        this._workInformationService.getByClientId(clientId)
-          .pipe(finalize(() => {
-          })).subscribe(workResult => {
-            if (result != null && (workResult.jobTitle != null && workResult.jobTitle !== '' && workResult.jobTitle != 'undefined')) {
-              this.repetitiveToleranceResult = result.filter(x =>
-                (x.assessmentName != null && x.assessmentName !== '') &&
-                (x.result != null && x.result !== ''));
-              this.getElementNames(workResult.jobTitle);
+        this.repetitiveToleranceResult = result.filter(x =>
+          (x.assessmentName != null && x.assessmentName !== '') &&
+          (x.result != null && x.result !== ''));
+
+        if (this.occupation != null) {
+          this.repetitiveToleranceResult.forEach((item, index) => {
+            if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
+              item.jobDemand = (this.occupation.squattingJobDemand != null) ?
+                this.occupation.squattingJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Ladder Work Protocol')) {
+              item.jobDemand = (this.occupation.ladderWorkJobDemand != null) ?
+                this.occupation.ladderWorkJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Balance Protocol')) {
+              item.jobDemand = (this.occupation.balanceJobDemand != null) ?
+                this.occupation.balanceJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Repetitive Foot Motion')) {
+              item.jobDemand = (this.occupation.repFootMotionJobDemand != null) ?
+                this.occupation.repFootMotionJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Crawling Protocol')) {
+              item.jobDemand = (this.occupation.crawlingJobDemand != null) ?
+                this.occupation.crawlingJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Walking Protocol')) {
+              item.jobDemand = (this.occupation.walkingJobDemand != null) ?
+                this.occupation.walkingJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Stair Climbing Protocol')) {
+              item.jobDemand = (this.occupation.stairClimbingJobDemand != null) ?
+                this.occupation.stairClimbingJobDemand.toUpperCase() : '';
+            }
+            if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
+              !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
+              && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('RARE') && !item.result.includes('RARE')) {
+              item.isDeficit = 'No';
+            } else {
+              item.isDeficit = 'No';
             }
           });
+        } else {
+          this.getElementNames(this.jobTitle);
+        }
       });
   }
-  getWeightedProtocolReport(clientId) {
+  getWorkInformation() {
+    this.weightedProtocolResult = [];
+    this.positionalToleranceResult = [];
+    this.repetitiveToleranceResult = [];
+    this._workInformationService.getByClientId(this.clientId)
+      .pipe(finalize(() => {
 
+      })).subscribe(workResult => {
+        console.log(workResult);
+        if (workResult != null && (workResult.jobTitle != null &&
+          workResult.jobTitle !== '' &&
+          typeof workResult.jobTitle != 'undefined')) {
+          this.jobTitle = workResult.jobTitle;
+          if (workResult.isLocal) {
+            this._jobDescriptionService.getByTitle(workResult.jobTitle)
+              .pipe(finalize(() => {
+                this.isLoading = false;
+              }))
+              .subscribe(occupation => {
+                this.occupation = occupation;
+
+                this.getPositionalToleranceReport(this.clientId);
+                this.getWeightedProtocolReport(this.clientId);
+                this.getRepetitiveToleranceReport(this.clientId);
+              });
+          } else {
+            this.getPositionalToleranceReport(this.clientId);
+            this.getWeightedProtocolReport(this.clientId);
+            this.getRepetitiveToleranceReport(this.clientId);
+          }
+        } else {
+          this.jobTitle = 'No job title found';
+        }
+      });
+  }
+  getWeightedProtocolReport(clientId, ) {
     this._workAssessmentReportService.getWeightedProtocolReport(clientId)
       .pipe(finalize(() => {
       })).subscribe(result => {
-        this._workInformationService.getByClientId(clientId)
-          .pipe(finalize(() => {
-          })).subscribe(workResult => {
-            if (result != null && (workResult.jobTitle != null &&
-              workResult.jobTitle !== '' &&
-              typeof workResult.jobTitle != 'undefined')) {
-              this.jobTitle = workResult.jobTitle;
-              this.weightedProtocolResult = result.filter(x =>
-                (x.assessmentName != null && x.assessmentName !== '') &&
-                (x.result != null && x.result !== ''));
-              this.getElementNames(workResult.jobTitle);
+        this.weightedProtocolResult = result.filter(x =>
+          (x.assessmentName != null && x.assessmentName !== '') &&
+          (x.result != null && x.result !== ''));
+        if (this.occupation != null) {
+          this.weightedProtocolResult.forEach((item, index) => {
+            if (item.assessmentName.includes('Lifting')) {
+              item.jobDemand = (this.occupation.liftingJobDemand != null) ?
+                this.occupation.liftingJobDemand.toUpperCase() : ' ';
+            } else if (item.assessmentName.includes('Unilateral')) {
+              item.jobDemand = (this.occupation.unilateralCarryJobDemand != null) ?
+                this.occupation.unilateralCarryJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Pushing')) {
+              item.jobDemand = (this.occupation.pushPullJobDemand != null) ?
+                this.occupation.pushPullJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Pulling')) {
+              item.jobDemand = (this.occupation.pushPullJobDemand != null) ?
+                this.occupation.pushPullJobDemand.toUpperCase() : '';
+            } else if (item.assessmentName.includes('Bilateral')) {
+              item.jobDemand = (this.occupation.bilateralCarryJobDemand != null) ?
+                this.occupation.bilateralCarryJobDemand.toUpperCase() : '';
+            }
+            if (item.jobDemand.includes('NIL') && !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('CONSTANT') && !item.result.includes('CONSTANT') &&
+              !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('FREQUENT') && !item.result.includes('FREQUENT')
+              && !item.result.includes('CONSTANT') && !item.result.includes('NIL')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('OCCASIONAL') && item.result.includes('RARE')) {
+              item.isDeficit = 'Yes';
+            } else if (item.jobDemand.includes('RARE')) {
+              item.isDeficit = 'No';
             } else {
-              this.jobTitle = 'No job title found';
+              item.isDeficit = 'No';
             }
           });
+        } else {
+          this.getElementNames(this.jobTitle);
+        }
       });
   }
   getClient() {
@@ -380,7 +516,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         const bookings: Booking[] = this.bookings.filter(x => x.eventId === 1);
         if (bookings.length > 1) {
           this.assessmentDate = bookings[bookings.length - 1].startTime ? bookings[bookings.length - 1].startTime.toDate() : '';
-        } else if(bookings.length == 1){
+        } else if (bookings.length == 1) {
           this.assessmentDate = bookings[0].startTime ? bookings[0].startTime.toDate() : '';
         }
       });
@@ -606,9 +742,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         break;
       case 3:
         this.isLoading = true;
-        this.getWeightedProtocolReport(this.clientId);
-        this.getPositionalToleranceReport(this.clientId);
-        this.getRepetitiveToleranceReport(this.clientId);
+        this.getWorkInformation();
         break;
       default:
         break;
@@ -728,9 +862,9 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       // this.getSelectedAssessments(cognitive.id);
       this.cognitiveAssessments.show(cognitive.id);
     }
-    
+
   }
-  
+
   createQuestionnaire(type, description) {
     this.questionnaireType = type;
     this.questionnaireDescription = description;

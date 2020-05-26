@@ -98,8 +98,7 @@ export class PostureComponent extends AppComponentBase implements OnInit {
   }
   saveComment() {
     this.isLoading = true;
-    if(this.commentInput.text != null || this.commentInput.text !== '') {
-      this.commentInput.targetId = this.assessmentId;
+    if (this.commentInput.text != null || this.commentInput.text !== '') {
       this._postureService.updateOTComment(this.clientId, this.commentInput.text)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -118,12 +117,12 @@ export class PostureComponent extends AppComponentBase implements OnInit {
   }
   getComments() {
     this.isLoading = true;
-    this._commentService.getUserComments(this.assessmentId)
+    this._postureService.getOTComment(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
       }))
       .subscribe((result) => {
-        this.commentInput = result;
+        this.commentInput.text = result.otComment;
       });
   }
 }

@@ -55,7 +55,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   filteredOptions: Observable<OccupationDto[]>;
   isLoading = false;
   workConextDto: WorkContextDto = new WorkContextDto();
-
+  id:string;
   // Worn Information
   visible = true;
   selectable = true;
@@ -63,7 +63,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
-  selectedOccupation: string[] = [];
+  selectedOccupation: OccupationDto[] = [];
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
   @ViewChild('occupationInput', { static: false }) occupationInput: ElementRef<HTMLInputElement>;
@@ -93,12 +93,13 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     this._workInformationService.getByClientId(this.clientId)
       .pipe(finalize(() => {
         this.isLoading = false;
-      })).subscribe(result => {
+      })).subscribe((result: WorkInformationDto) => {
         if (result != null) {
-          if (result.jobTitle != null && result.jobTitle !== '') {
-            this.selectedOccupation[0] = result.jobTitle;
             this.workInformation = result;
-          }
+            const occupation = new OccupationDto();
+            occupation.isLocal = result.isLocal;
+            occupation.title = result.jobTitle;
+            this.selectedOccupation[0] = occupation;
         }
       });
   }
@@ -187,7 +188,8 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   save() {
     this.isLoading = true;
     this.workInformation.clientId = this.clientId;
-    this.workInformation.jobTitle = this.jobTitle.value.title;
+    this.workInformation.isLocal = this.selectedOccupation[0].isLocal;
+    this.workInformation.jobTitle = this.selectedOccupation[0].title;
     this._workInformationService.create(this.workInformation)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -216,11 +218,12 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
-
-    // Add our fruit
     if ((value || '').trim()) {
-      this.selectedOccupation[0] = value.trim();
-      if (this.occupations.filter(x => x.title.includes(value)).length === 0) {
+      const occupation: OccupationDto = new OccupationDto();
+      occupation.title = value;
+      occupation.isLocal = true;
+      this.selectedOccupation[0] = occupation;
+      if (this.occupations.filter(x => x.title.includes(occupation.title)).length === 0) {
         this.autocomplete.closePanel();
         this.newJobTitle();
       }
@@ -234,7 +237,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     this.jobTitle.setValue({title:  this.selectedOccupation[0]});
   }
 
-  remove(occupation: string): void {
+  remove(occupation: OccupationDto): void {
     const index = this.selectedOccupation.indexOf(occupation);
 
     if (index >= 0) {
@@ -242,13 +245,15 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     }
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.selectedOccupation[0] = event.option.viewValue;
-    this.occupationInput.nativeElement.value = '';
-    this.jobTitle.setValue({title:  this.selectedOccupation[0]});
+  selected(event, occupation: OccupationDto): void {
+    if(event.source.selected) {
+      this.selectedOccupation[0] = occupation;
+      this.occupationInput.nativeElement.value = '';
+      this.jobTitle.setValue({title:  this.selectedOccupation[0]});
+    }  
   }
   newJobTitle() {
-    this.newJob.open(this.selectedOccupation[0]);
+    this.newJob.open(this.selectedOccupation[0].title);
   }
   isInList(jobTitle) {
     return this.occupations.filter(x => x.title === jobTitle).length > 0;

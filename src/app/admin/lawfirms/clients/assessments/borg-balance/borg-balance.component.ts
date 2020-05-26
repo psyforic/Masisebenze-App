@@ -1,4 +1,4 @@
-import { BorgBalanceServiceProxy } from './../../../../../../shared/service-proxies/service-proxies';
+import { BorgBalanceServiceProxy, CreateCommentInput } from './../../../../../../shared/service-proxies/service-proxies';
 import { Component, OnInit, ViewChild, ElementRef, Injector, Input } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,9 @@ export class BorgBalanceComponent extends AppComponentBase implements OnInit {
   current_step = 1;
   MAX_STEP = 14;
   isLoading = false;
-
+  commentLabel ='Show Comment';
+  isCommentShown = false;
+  commentInput: CreateCommentInput = new CreateCommentInput();
   constructor(
     private injector: Injector,
     private modalService: NgbModal,
@@ -37,6 +39,7 @@ export class BorgBalanceComponent extends AppComponentBase implements OnInit {
   }
   open() {
     this.getOptions();
+    this.getComments();
     this.modalService.open(this.content, { windowClass: 'slideInDown', backdrop: 'static', keyboard: false })
       .result.then(() => { }, () => { });
   }
@@ -70,5 +73,37 @@ export class BorgBalanceComponent extends AppComponentBase implements OnInit {
   }
   decodePainLevel(painLevel: number) {
     return this.assessService.getPain(painLevel);
+  }
+  showHideComment() {
+    if(this.isCommentShown){
+        this.isCommentShown = false;
+        this.commentLabel = 'Show Comment';
+    } else {
+      this.isCommentShown = true;
+      this.commentLabel = 'Hide Comment';
+    }
+  }
+  saveComment() {
+    this.isLoading = true;
+    if (this.commentInput.text != null || this.commentInput.text !== '') {
+      this._borgBalanceService.updateOTComment(this.clientId, this.commentInput.text)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(() => {
+        this.notify.success('Comment Saved Successfully');
+      });
+     
+    }
+  }
+  getComments() {
+    this.isLoading = true;
+    this._borgBalanceService.getOTComment(this.clientId)
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe((result) => {
+        this.commentInput.text = result.otComment;
+      });
   }
 }

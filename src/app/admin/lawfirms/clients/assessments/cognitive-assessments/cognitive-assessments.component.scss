@@ -1,3 +1,13 @@
 tr.mat-footer-row {
     font-weight: bold;
   }
+.cognitive-assessment:hover {
+    background-color: lightgrey;
+    cursor: pointer;
+}
+.cognitive-assessment .clickable {
+  cursor: pointer;
+}
+.cognitive-assessment .not-clickable {
+  cursor: not-allowed;
+}

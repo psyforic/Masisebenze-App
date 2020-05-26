@@ -1,3 +1,4 @@
+import { MatChipsModule } from '@angular/material/chips';
 import { QuestionnaireCommentComponent } from './functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { WorkAssessmentComponent } from './work-assessment/work-assessment.component';
 import { CognitiveAssessmentsModule } from './cognitive-assessments/cognitive-assessments.module';
@@ -24,6 +25,7 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { MusclepowerPipe } from '@shared/pipes/musclepower.pipe';
 import { PainLevelPipe } from '@shared/pipes/pain-level.pipe';
+import { MatBadgeModule } from '@angular/material';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -33,7 +35,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CommonModule,
     PartialsModule,
     PerfectScrollbarModule,
-    CognitiveAssessmentsModule
+    CognitiveAssessmentsModule,
+    MatChipsModule
   ],
   declarations: [
     AssessmentsComponent,
@@ -51,7 +54,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PainLevelPipe,
     AffectComponent,
     FunctionalAssessmentComponent,
-    WorkAssessmentComponent,
+    WorkAssessmentComponent
   ],
 
   exports: [GripStrengthComponent,

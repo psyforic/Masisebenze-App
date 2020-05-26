@@ -214,22 +214,34 @@ export class DocumentCreator {
                  idxAbd: (handLeftIndex != null && handLeftIndex.abduction != null) ? handLeftIndex.abduction : '',
                  idxAdd: (handLeftIndex != null && handLeftIndex.adduction != null) ? handLeftIndex.adduction : '',
                  // Thumb 
-                 tmbCMFlx: (handLeftThumb != null && handLeftThumb.cmFlexion != null) ? handLeftThumb.cmFlexion : '',
-                 tmbCMExt: (handLeftThumb != null && handLeftThumb.cmExtension != null) ? handLeftThumb.cmExtension : '',
-                 tmbMPFlx: (handLeftThumb != null && handLeftThumb.mpFlexion != null) ? handLeftThumb.mpFlexion : '',
-                 tmbIPFlx: (handLeftThumb != null && handLeftThumb.ipFlexionExtension != null) ? handLeftThumb.ipFlexionExtension : '',
-                 tmbAbd: (handLeftThumb != null && handLeftThumb.abduction != null) ? handLeftThumb.abduction : '',
-                 tmbOpp: (handLeftThumb != null && handLeftThumb.opposition != null) ? handLeftThumb.opposition : '',
+                 tmbCMFlx: (handLeftThumb != null && handLeftThumb.cmFlexion != null && handLeftThumb.cmFlexion !== -1) ?
+                  handLeftThumb.cmFlexion : '',
+                 tmbCMExt: (handLeftThumb != null && handLeftThumb.cmExtension != null && handLeftThumb.cmExtension !== -1) ?
+                  handLeftThumb.cmExtension : '',
+                 tmbMPFlx: (handLeftThumb != null && handLeftThumb.mpFlexion != null && handLeftThumb.mpFlexion !== -1) ?
+                 handLeftThumb.mpFlexion : '',
+                 tmbIPFlx: (handLeftThumb != null && handLeftThumb.ipFlexionExtension != null && handLeftThumb.ipFlexionExtension != -1) ? 
+                 handLeftThumb.ipFlexionExtension : '',
+                 tmbAbd: (handLeftThumb != null && handLeftThumb.abduction != null && handLeftThumb.abduction !== -1) ?
+                 handLeftThumb.abduction : '',
+                 tmbOpp: (handLeftThumb != null && handLeftThumb.opposition != null && handLeftThumb.opposition !== -1) ?
+                 handLeftThumb.opposition : '',
               /* ***************************************************************************************************************
                     RIGHT HAND RANGE OF MOTION
                 * ****************************************************************************************************************/
                // Little Finger
-               ltRMPFex: (handRightLittle != null && handRightLittle.mpFlexion != null) ? handRightLittle.mpFlexion : '',
-               ltRMPHyp: (handRightLittle != null && handRightLittle.mpHyperExtension != null) ? handRightLittle.mpHyperExtension : '',
-               ltRPIPFlx: (handRightLittle != null && handRightLittle.pipFlexionExtension != null) ? handRightLittle.pipFlexionExtension : '',
-               ltRDIPFlx: (handRightLittle != null && handRightLittle.dipFlexionExtension != null) ? handRightLittle.dipFlexionExtension : '',
-               ltRAbd: (handRightLittle != null && handRightLittle.abduction != null) ? handRightLittle.abduction : '',
-               ltRAdd: (handRightLittle != null && handRightLittle.adduction != null) ? handRightLittle.adduction : '',
+               ltRMPFex: (handRightLittle != null && handRightLittle.mpFlexion != null && handRightLittle.mpFlexion !== -1) ?
+               handRightLittle.mpFlexion : '',
+               ltRMPHyp: (handRightLittle != null && handRightLittle.mpHyperExtension != null && handRightLittle.mpHyperExtension !== -1) ?
+               handRightLittle.mpHyperExtension : '',
+               ltRPIPFlx: (handRightLittle != null && handRightLittle.pipFlexionExtension != null
+                && handRightLittle.pipFlexionExtension !== -1) ? handRightLittle.pipFlexionExtension : '',
+               ltRDIPFlx: (handRightLittle != null && handRightLittle.dipFlexionExtension != null
+                 && handRightLittle.dipFlexionExtension !== -1) ? handRightLittle.dipFlexionExtension : '',
+               ltRAbd: (handRightLittle != null && handRightLittle.abduction != null && handRightLittle.abduction !== -1) ?
+               handRightLittle.abduction : '',
+               ltRAdd: (handRightLittle != null && handRightLittle.adduction != null && handRightLittle.adduction !== -1) ?
+               handRightLittle.adduction : '',
 
                 // Ring Finger
                 rngRMPFex: (handRightRing != null && handRightRing.mpFlexion != null) ? handRightRing.mpFlexion : '',
@@ -248,19 +260,29 @@ export class DocumentCreator {
                mdRAdd: (handRightMiddle != null && handRightMiddle.adduction != null) ? handRightMiddle.adduction : '',
 
                 // Index Finger
-                idxRMPFex: (handRightIndex != null && handRightIndex.mpFlexion != null) ? handRightIndex.mpFlexion : '',
-                idxRMPHyp: (handRightIndex != null && handRightIndex.mpHyperExtension != null) ? handRightIndex.mpHyperExtension : '',
-                idxRPIPFlx: (handRightIndex != null && handRightIndex.pipFlexionExtension != null) ? handRightIndex.pipFlexionExtension : '',
-                idxRDIPFlx: (handRightIndex != null && handRightIndex.dipFlexionExtension != null) ? handRightIndex.dipFlexionExtension : '',
+                idxRMPFex: (handRightIndex != null && handRightIndex.mpFlexion != null) ?
+                 handRightIndex.mpFlexion : '',
+                idxRMPHyp: (handRightIndex != null && handRightIndex.mpHyperExtension != null) ?
+                 handRightIndex.mpHyperExtension : '',
+                idxRPIPFlx: (handRightIndex != null && handRightIndex.pipFlexionExtension != null) ?
+                handRightIndex.pipFlexionExtension : '',
+                idxRDIPFlx: (handRightIndex != null && handRightIndex.dipFlexionExtension != null) ?
+                handRightIndex.dipFlexionExtension : '',
                 idxRAbd: (handRightIndex != null && handRightIndex.abduction != null) ? handRightIndex.abduction : '',
                 idxRAdd: (handRightIndex != null && handRightIndex.adduction != null) ? handRightIndex.adduction : '',
                 // Thumb
-                tmbRCMFlx: (handRightThumb != null && handRightThumb.cmFlexion != null) ? handRightThumb.cmFlexion : '',
-                tmbRCMExt: (handRightThumb != null && handRightThumb.cmExtension != null) ? handRightThumb.cmExtension : '',
-                tmbRMPFlx: (handRightThumb != null && handRightThumb.mpFlexion != null) ? handRightThumb.mpFlexion : '',
-                tmbRIPFlx: (handRightThumb != null && handRightThumb.ipFlexionExtension != null) ? handRightThumb.ipFlexionExtension : '',
-                tmbRAbd: (handRightThumb != null && handRightThumb.abduction != null) ? handRightThumb.abduction : '',
-                tmbROpp: (handRightThumb != null && handRightThumb.opposition != null) ? handRightThumb.opposition : '',
+                tmbRCMFlx: (handRightThumb != null && handRightThumb.cmFlexion != null && handRightThumb.cmFlexion !== -1) ?
+                handRightThumb.cmFlexion : '',
+                tmbRCMExt: (handRightThumb != null && handRightThumb.cmExtension != null && handRightThumb.cmExtension !== -1) ?
+                handRightThumb.cmExtension : '',
+                tmbRMPFlx: (handRightThumb != null && handRightThumb.mpFlexion != null && handRightThumb.mpFlexion !== -1) ?
+                handRightThumb.mpFlexion : '',
+                tmbRIPFlx: (handRightThumb != null && handRightThumb.ipFlexionExtension != null
+                     && handRightThumb.ipFlexionExtension !== -1) ? handRightThumb.ipFlexionExtension : '',
+                tmbRAbd: (handRightThumb != null && handRightThumb.abduction != null && handRightThumb.abduction !== -1) ?
+                 handRightThumb.abduction : '',
+                tmbROpp: (handRightThumb != null && handRightThumb.opposition != null && handRightThumb.opposition !== -1) ?
+                 handRightThumb.opposition : '',
                 // Hip Range Of Motion
                 hipRFlex: (romReport[8] != null && romReport[8].flexion != null) ? romReport[8].flexion : '',
                 hipLFlex: (romReport[9] != null && romReport[9].flexion != null) ? romReport[9].flexion : '',

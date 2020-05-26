@@ -61,21 +61,27 @@
   <div class="row">
       <table class="col-lg-10 mx-auto" mat-table [dataSource]="selectedAssessments">
   
-        <!-- Position Column -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
+        <!-- Name Column -->
+        <ng-container  matColumnDef="name">
+          <th  mat-header-cell *matHeaderCellDef> Name </th>
           <td class="text-left" mat-cell *matCellDef="let element"> {{element.name}} </td>
           <td class="text-left" mat-footer-cell *matFooterCellDef>Total Score</td>
         </ng-container>
-      
-        <!-- Name Column -->
+          <!-- Attachment Column -->
+        <ng-container matColumnDef="attachments">
+          <th mat-header-cell *matHeaderCellDef>Attachment </th>
+          <td class="text-left" mat-cell *matCellDef="let element"> {{element.fileUrls?.length}} </td>
+          <td class="text-left" mat-footer-cell *matFooterCellDef> {{totalAttachments}} </td>
+        </ng-container>
+        <!-- Score Column -->
         <ng-container matColumnDef="score">
           <th mat-header-cell *matHeaderCellDef>Score </th>
           <td class="text-left" mat-cell *matCellDef="let element"> {{element.score}} </td>
           <td class="text-left" mat-footer-cell *matFooterCellDef> {{totalScore}} </td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="cognitive-assessment" (click)="showFile(row)" mat-row *matRowDef="let row; columns: displayedColumns;" >
+        </tr>
         <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
       </table>
     <div class="col-lg-12 mt-1 text-center">
@@ -88,4 +94,5 @@
     </div>  
     
 </div>
-<app-cognitive-comment #cognitiveComment [fullName]="fullName" [clientId]="clientId"></app-cognitive-comment>
+<!-- <app-cognitive-comment #cognitiveComment [fullName]="fullName" [clientId]="clientId"></app-cognitive-comment>
+<app-view-file #viewFile [fullName]="fullName" [clientId]="clientId"></app-view-file> -->

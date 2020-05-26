@@ -1,0 +1,12 @@
+.cdk-overlay-pane {
+    z-index: -1000 !important;
+}
+.modal-header {
+    cursor: grab; 
+    cursor: move; 
+    cursor:-moz-grab; 
+    cursor: -moz-grabbing;
+}
+::ng-deep .ql-editor strong{    
+    font-weight: bold;
+}
