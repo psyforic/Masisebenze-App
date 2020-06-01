@@ -101,14 +101,14 @@
                     </mat-form-field>
                   </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
                       <input matInput placeholder="Number Of Stairs" type="text" name="numStairs"
                         value="{{stairClimbingProtocolResult[stair_current_step]?.numStairs}}" readonly>
                     </mat-form-field>
                   </div>
-                </div>
+                </div> -->
                 <div class="row">
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
@@ -210,7 +210,7 @@
                   <div class="col-lg-4 pull-left"> <button type="button" mat-button color="primary"
                       *ngIf="balance_current_step !== 0" (click)="bPrev()">Prev</button>
                   </div>
-                  <div class="col-lg-4 pull-left">
+                  <div class="col-lg-4 text-center">
                     <button *ngIf="balance_current_step == BALANCE_MAX_STEP"
                       type="button"
                       mat-stroked-button
@@ -340,37 +340,45 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-lg-6">
+                  <div class="col-lg-4">
                     <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Initial Heart Rate" type="text" name="numErrors"
+                      <input matInput placeholder="Initial Heart Rate" type="text" name="initialHeartRate"
                         value="{{repetitiveSquattingProtocolOptions[rs_current_step]?.initialHeartRate}}" readonly>
                     </mat-form-field>
                   </div>
-                  <div class="col-lg-6">
+                  <div class="col-lg-4">
                     <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Second Heart Rate" type="text" name="numErrors"
+                      <input matInput placeholder="Second Heart Rate" type="text" name="secondHeartRate"
                         value="{{repetitiveSquattingProtocolOptions[rs_current_step]?.secondHeartRate}}" readonly>
                     </mat-form-field>
                   </div>
+                  <div class="col-lg-4">
+                    <mat-form-field class="example-full-width">
+                      <input matInput placeholder="Third Heart Rate" type="text" name="thirdHeartRate"
+                        value="{{repetitiveSquattingProtocolOptions[rs_current_step]?.thirdHeartRate}}" readonly>
+                    </mat-form-field>
+                  </div>
+                 
                 </div>
                 <div class="row">
                   <div class="col-lg-6">
                     <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Pegs First Time" type="text" name="numErrors"
+                      <input matInput placeholder="Pegs First Time" type="text" name="numPegsFirstTime"
                         value="{{repetitiveSquattingProtocolOptions[rs_current_step]?.numPegsFirstTime}}" readonly>
                     </mat-form-field>
                   </div>
                   <div class="col-lg-6">
                     <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Pegs Second Time" type="text" name="numErrors"
+                      <input matInput placeholder="Pegs Second Time" type="text" name="numPegsSecondTime"
                         value="{{repetitiveSquattingProtocolOptions[rs_current_step]?.numPegsSecondTime}}" readonly>
                     </mat-form-field>
                   </div>
+                  
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Number Of Squats" type="text" name="numStairs"
+                      <input matInput placeholder="Number Of Squats" type="text" name="numSquats"
                         value="{{repetitiveSquattingProtocolOptions[rs_current_step]?.numSquats}}" readonly>
                     </mat-form-field>
                   </div>
