@@ -1,30 +1,29 @@
 <div #content>
     <div class="modal-header bg-color" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
-      <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Cognitive Assessment</h4>
-      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <h4 class="modal-title"><i class="fa fa-info"></i><b class="ml-1">{{fullName}}'s </b>Cognitive Assessment</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
         <span class="text-white" aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <div class="card">
-        <div class="card-body">
-          <div class="example-loading-shade" *ngIf="isLoading">
-            <mat-spinner *ngIf="isLoading"></mat-spinner>
-          </div>
-            <div class="row">
-                <div class="col-lg-{{ 12/files?.length}} mx-auto" *ngFor="let file of files;" >
-                    <p>{{file.instruction}}</p>
-                    <img #images class="img w-100" *ngIf="file.fileUrl.includes('Image')" [src]="file.fileUrl"/>
-                    <!-- <audio controls autoplay preload="auto" #audioOption *ngIf="file.fileUrl.includes('Audio')">
+        <div class="card">
+            <div class="card-body">
+                <div class="example-loading-shade" *ngIf="isLoading">
+                    <mat-spinner *ngIf="isLoading"></mat-spinner>
+                </div>
+                <div class="row">
+                    <div class="col-lg-{{ 12/files?.length}} mx-auto" *ngFor="let file of files;">
+                        <p>{{file.instruction}}</p>
+                        <img #images class="img w-100" *ngIf="file.fileUrl.includes('Image')" [src]="file.fileUrl" />
+                        <!-- <audio controls autoplay preload="auto" #audioOption *ngIf="file.fileUrl.includes('Audio')">
                         <source [src]="'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'" type="audio/mp3"/>
                     </audio> -->
-                    <mat-basic-audio-player *ngIf="file.fileUrl.includes('Audio')" [audioUrl]="'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'" [title]="msbapTitle" [autoPlay]="false" muted="muted" (ended)="onEnded($event)"
-                      [displayTitle]="msbapDisplayTitle" [displayVolumeControls]="true" >
-                    </mat-basic-audio-player>
+                        <mat-basic-audio-player *ngIf="file.fileUrl.includes('Audio')" [audioUrl]="file.fileUrl" [title]="msbapTitle" [autoPlay]="false" muted="muted" (ended)="onEnded($event)" [displayTitle]="msbapDisplayTitle" [displayVolumeControls]="true">
+                        </mat-basic-audio-player>
+                    </div>
+
                 </div>
-               
             </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>

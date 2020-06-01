@@ -88,6 +88,7 @@ export class CognitiveAssessmentsComponent implements OnInit {
   showComment() {
     // this.cognitiveComment.show();
     this.dialog.open(CognitiveCommentComponent, {
+      hasBackdrop: false,
       data: { fullName: this.fullName, clientId: this.clientId },
       width: '650px'
     });
@@ -96,7 +97,8 @@ export class CognitiveAssessmentsComponent implements OnInit {
     if (assessment.fileUrls.length > 0) {
       this.dialog.open(ViewFileComponent,
         {
-          data: {fullName: this.fullName, client: this.clientId, name: assessment.name, files: assessment.fileUrls },
+          hasBackdrop: false,
+          data: { fullName: this.fullName, client: this.clientId, name: assessment.name, files: assessment.fileUrls },
           width: '650px'
         });
     }
