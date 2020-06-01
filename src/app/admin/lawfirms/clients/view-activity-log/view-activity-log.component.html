@@ -5,8 +5,8 @@
             <h1 class="card-title">{{client.firstName}} {{client.lastName}}</h1>
             <div class="header-toolbar">
                 <button (click)="backClicked()" mat-icon-button color="primary" matTooltip="Back">
-          <mat-icon>keyboard_backspace</mat-icon>
-        </button>
+                    <mat-icon>keyboard_backspace</mat-icon>
+                </button>
             </div>
         </div>
 
@@ -28,6 +28,8 @@
             <!-- tomorrow = new Date(2017, 9, 20, 14,34); -->
             <vertical-timeline-card [dateValue]="client?.creationTime| date: 'short'">
                 <h3>File Created</h3>
+                <br />
+                <small class="text text-black-50 fw-600"> by {{createdUser| titlecase}}</small>
             </vertical-timeline-card>
 
         </vertical-timeline>

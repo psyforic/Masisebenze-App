@@ -82,7 +82,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   repetitiveSquattingProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   repetitiveFootMotionProtocolResult: RepetitiveToleranceDto = new RepetitiveToleranceDto();
   selectedAssessments: AssessmentsListListDto[] = [];
-  commentLabel =' Show Comment';
+  commentLabel = ' Show Comment';
   isCommentShown = false;
   commentInput: CreateCommentInput = new CreateCommentInput();
   constructor(
@@ -115,11 +115,10 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
     // this.getStairClimbingProtocol();
     // this.getLadderWorkProtocol();
     // this.getCrawlingProtocol();
-      this.modalService.open(this.content,
+    this.modalService.open(this.content,
       { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => {
       }, () => { });
-   
   }
   wNext() {
     if (this.walking_current_step !== this.WALKING_MAX_STEP) {
@@ -210,13 +209,13 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       .pipe(finalize(() => {
         this.isLoading = false;
         this.selectedAssessments.forEach(item => {
-          switch(item.identifier) {
+          switch (item.identifier) {
             case 204:
               this.getWalkingProtocol();
               break;
             case 201:
               this.getStairClimbingProtocol();
-            break;
+              break;
             case 202:
               this.getCrawlingProtocol();
               break;
@@ -446,9 +445,9 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
     }
   }
   showHideBalanceComment() {
-    if(this.isCommentShown){
-        this.isCommentShown = false;
-        this.commentLabel = 'Show Comment';
+    if (this.isCommentShown) {
+      this.isCommentShown = false;
+      this.commentLabel = 'Show Comment';
     } else {
       this.isCommentShown = true;
       this.commentLabel = 'Hide Comment';
@@ -458,12 +457,12 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
     this.isLoading = true;
     if (this.commentInput.text != null || this.commentInput.text !== '') {
       this._balanceProtocolService.updateOTComment(this.clientId, this.commentInput.text)
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
-      .subscribe(() => {
-        this.notify.success('Comment Saved Successfully');
-      });
+        .pipe(finalize(() => {
+          this.isLoading = false;
+        }))
+        .subscribe(() => {
+          this.notify.success('Comment Saved Successfully');
+        });
     }
   }
   getComments() {
