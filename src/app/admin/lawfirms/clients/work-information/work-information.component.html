@@ -23,11 +23,11 @@
         <div class="col-md-12">
             <mat-form-field class="example-chip-list">
                 <mat-chip-list #chipList aria-label="Fruit selection">
-                    <mat-chip *ngFor="let occupation of selectedOccupation" 
+                    <mat-chip *ngIf="selectedOccupation && selectedOccupation?.title != null" 
                     [selectable]="selectable" 
                     [removable]="removable" 
-                    (removed)="remove(occupation)">
-                        {{occupation.title}}
+                    (removed)="remove()">
+                        {{selectedOccupation?.title}}
                         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                     </mat-chip>
                     <input placeholder="New Job Title..." #occupationInput 
@@ -46,15 +46,16 @@
             </mat-form-field>
         </div>
     </div>
-    <div class="row" *ngIf="(selectedOccupation.length > 0 && (isInList(selectedOccupation[0].title)) || workInformation.jobDescription != null)">
+    <div class="row" *ngIf="(selectedOccupation && (isInList(selectedOccupation?.title)) || workInformation.jobDescription != null)">
         <div class="col-md-12">
-            <quill-editor [placeholder]="'Job Description According to Claiment'" [styles]="{height: '200px'}" [(ngModel)]="workInformation.jobDescription" [sanitize]="true" name="jobDescription" [disabled]="selectedOccupation.length == 0 ">
+            <quill-editor [placeholder]="'Job Description According to Claiment'" [styles]="{height: '200px'}" [(ngModel)]="workInformation.jobDescription" [sanitize]="true" name="jobDescription" 
+            [disabled]="selectedOccupation == null || !selectedOccupation.title">
             </quill-editor>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 mt-2">
-            <button color="primary" class="float-right " type="button" [disabled]="selectedOccupation.length == 0" mat-raised-button color="primary" (click)="save()">Save</button>
+            <button color="primary" class="float-right " type="button" [disabled]="selectedOccupation == null || selectedOccupation.title == null" mat-raised-button color="primary" (click)="save()">Save</button>
         </div>
     </div>
     <div class="row">

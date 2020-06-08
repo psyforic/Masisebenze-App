@@ -55,7 +55,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   filteredOptions: Observable<OccupationDto[]>;
   isLoading = false;
   workConextDto: WorkContextDto = new WorkContextDto();
-  id:string;
+  id: string;
   // Worn Information
   visible = true;
   selectable = true;
@@ -63,7 +63,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
-  selectedOccupation: OccupationDto[] = [];
+  selectedOccupation: OccupationDto = new OccupationDto();
   allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
 
   @ViewChild('occupationInput', { static: false }) occupationInput: ElementRef<HTMLInputElement>;
@@ -124,7 +124,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
         this.isLoading = false;
       }))
       .subscribe(result => {
-        this.occupations = result
+        this.occupations = result;
           this._jobDescriptionService.searchJob(keyword).
           pipe(finalize(() => {
           })).subscribe(jobsFound => {
@@ -237,20 +237,16 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
     this.jobTitle.setValue({title:  this.selectedOccupation[0]});
   }
 
-  remove(occupation: OccupationDto): void {
-    const index = this.selectedOccupation.indexOf(occupation);
-
-    if (index >= 0) {
-      this.selectedOccupation.splice(index, 1);
-    }
+  remove(): void {
+    this.selectedOccupation = null;
   }
 
   selected(event, occupation: OccupationDto): void {
     if(event.source.selected) {
-      this.selectedOccupation[0] = occupation;
+      this.selectedOccupation = occupation;
       this.occupationInput.nativeElement.value = '';
       this.jobTitle.setValue({title:  this.selectedOccupation[0]});
-    }  
+    }
   }
   newJobTitle() {
     this.newJob.open(this.selectedOccupation[0].title);
