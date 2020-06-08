@@ -421,7 +421,6 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       .pipe(finalize(() => {
 
       })).subscribe(workResult => {
-        console.log(workResult);
         if (workResult != null && (workResult.jobTitle != null &&
           workResult.jobTitle !== '' &&
           typeof workResult.jobTitle != 'undefined')) {
@@ -445,6 +444,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           }
         } else {
           this.jobTitle = 'No job title found';
+          this.isLoading = false;
         }
       });
   }
