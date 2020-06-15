@@ -413,6 +413,49 @@ export class AssessmentService {
         return 'NIL';
     }
   }
+  decodeOnetCategory(option: number) {
+    switch (option) {
+      case 1:
+        return 'Never';
+      case 2:
+        return 'Less than half the time';
+      case 3:
+        return 'About half the time';
+      case 4:
+        return 'More than half the time';
+      case 5:
+        return 'Continually or almost continually';
+    }
+  }
+  decodeDotCategory(option: number) {
+    switch (option) {
+      case 1:
+        return 'Up to 5% of the work day, non-repetitive (less than 25 minutes in an 8 hour shift)';
+      case 2:
+        return 'Up to 1/3 of the work day (up to 2% hours in an 8-hour day), non-repetitive';
+      case 3:
+        return 'Between 1/3 and 2/3 of the work day (2% - 5% hours in an 8-hour day), repetitive';
+      case 4:
+        return 'Greater than 2/3 (or 66%) of the work day (greater than 5% hours in an 8-hour day), repetitive';
+      case 5:
+        return 'Greater than 33% of the work day, but no specific maximum is determined. This is not a dot category \n\
+        , and is specific to Valpar in customized lifting tests only';
+    }
+  }
+  decodeDotResult(option: string): number {
+    switch (option.toLowerCase()) {
+      case 'rare':
+        return 1;
+      case 'occassional':
+        return 2;
+      case 'frequent':
+        return 3;
+      case 'constant':
+        return 4;
+      case 'nil':
+        return 5;
+    }
+  }
   getPostureOptionScore(position: number, score: number): number {
     const options: number[][] =
       [

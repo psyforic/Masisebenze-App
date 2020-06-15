@@ -170,11 +170,11 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
             this.positionalToleranceResult = this.positionalToleranceResult.
               filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
-          if (this.weightedProtocolResult != null && this.positionalToleranceResult.length > 0) {
-            this.weightedProtocolResult = this.positionalToleranceResult.
+          if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
+            this.weightedProtocolResult = this.weightedProtocolResult.
               filter(x => x.assessmentName != null && x.assessmentName !== '');
           }
-          if (this.repetitiveToleranceResult != null && this.positionalToleranceResult.length > 0) {
+          if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
             this.repetitiveToleranceResult = this.repetitiveToleranceResult.
               filter(x => x.assessmentName != null && x.assessmentName !== '');
           }

@@ -53,8 +53,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MusclepowerPipe,
     PainLevelPipe,
     AffectComponent,
-    FunctionalAssessmentComponent,
-    WorkAssessmentComponent
+    FunctionalAssessmentComponent
   ],
 
   exports: [GripStrengthComponent,
@@ -68,9 +67,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     GaitComponent,
     MobilityComponent,
     AffectComponent,
-    FunctionalAssessmentComponent,
-    WorkAssessmentComponent,
-
+    FunctionalAssessmentComponent
   ],
   providers: [
     {

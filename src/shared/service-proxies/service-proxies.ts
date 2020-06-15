@@ -26689,6 +26689,119 @@ export class WorkAssessmentReportServiceProxy {
         }
         return _observableOf<RepetitiveToleranceDto>(<any>null);
     }
+
+    /**
+     * @param assessmentId (optional) 
+     * @param assessmentName (optional) 
+     * @param comment (optional) 
+     * @return Success
+     */
+    updateWeightedProtocolComment(assessmentId: string | null | undefined, assessmentName: string | null | undefined, comment: string | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/UpdateWeightedProtocolComment?";
+        if (assessmentId !== undefined)
+            url_ += "assessmentId=" + encodeURIComponent("" + assessmentId) + "&"; 
+        if (assessmentName !== undefined)
+            url_ += "assessmentName=" + encodeURIComponent("" + assessmentName) + "&"; 
+        if (comment !== undefined)
+            url_ += "comment=" + encodeURIComponent("" + comment) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateWeightedProtocolComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateWeightedProtocolComment(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateWeightedProtocolComment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param assessmentId (optional) 
+     * @param assessmentName (optional) 
+     * @return Success
+     */
+    getWeightedProtocolComment(assessmentId: string | null | undefined, assessmentName: string | null | undefined): Observable<string> {
+        let url_ = this.baseUrl + "/api/services/app/WorkAssessmentReport/getWeightedProtocolComment?";
+        if (assessmentId !== undefined)
+            url_ += "assessmentId=" + encodeURIComponent("" + assessmentId) + "&"; 
+        if (assessmentName !== undefined)
+            url_ += "assessmentName=" + encodeURIComponent("" + assessmentName) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetWeightedProtocolComment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetWeightedProtocolComment(<any>response_);
+                } catch (e) {
+                    return <Observable<string>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<string>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetWeightedProtocolComment(response: HttpResponseBase): Observable<string> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 !== undefined ? resultData200 : <any>null;
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<string>(<any>null);
+    }
 }
 
 @Injectable()
@@ -29887,6 +30000,7 @@ export class BilateralTestCreateInput implements IBilateralTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 
     constructor(data?: IBilateralTestCreateInput) {
         if (data) {
@@ -29909,6 +30023,7 @@ export class BilateralTestCreateInput implements IBilateralTestCreateInput {
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
             this.painLevel = data["painLevel"];
+            this.level = data["level"];
         }
     }
 
@@ -29931,6 +30046,7 @@ export class BilateralTestCreateInput implements IBilateralTestCreateInput {
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
         data["painLevel"] = this.painLevel;
+        data["level"] = this.level;
         return data; 
     }
 
@@ -29953,6 +30069,7 @@ export interface IBilateralTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 }
 
 export class ListResultDtoOfBilateralTestDto implements IListResultDtoOfBilateralTestDto {
@@ -30019,6 +30136,7 @@ export class BilateralTestDto implements IBilateralTestDto {
     comment: string | undefined;
     bilateralId: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
     id: string | undefined;
 
     constructor(data?: IBilateralTestDto) {
@@ -30044,6 +30162,7 @@ export class BilateralTestDto implements IBilateralTestDto {
             this.comment = data["comment"];
             this.bilateralId = data["bilateralId"];
             this.painLevel = data["painLevel"];
+            this.level = data["level"];
             this.id = data["id"];
         }
     }
@@ -30069,6 +30188,7 @@ export class BilateralTestDto implements IBilateralTestDto {
         data["comment"] = this.comment;
         data["bilateralId"] = this.bilateralId;
         data["painLevel"] = this.painLevel;
+        data["level"] = this.level;
         data["id"] = this.id;
         return data; 
     }
@@ -30094,6 +30214,7 @@ export interface IBilateralTestDto {
     comment: string | undefined;
     bilateralId: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
     id: string | undefined;
 }
 
@@ -39560,6 +39681,7 @@ export class LiftWaistTestCreateInput implements ILiftWaistTestCreateInput {
     comment: string | undefined;
     type: number | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 
     constructor(data?: ILiftWaistTestCreateInput) {
         if (data) {
@@ -39582,6 +39704,7 @@ export class LiftWaistTestCreateInput implements ILiftWaistTestCreateInput {
             this.comment = data["comment"];
             this.type = data["type"];
             this.painLevel = data["painLevel"];
+            this.level = data["level"];
         }
     }
 
@@ -39604,6 +39727,7 @@ export class LiftWaistTestCreateInput implements ILiftWaistTestCreateInput {
         data["comment"] = this.comment;
         data["type"] = this.type;
         data["painLevel"] = this.painLevel;
+        data["level"] = this.level;
         return data; 
     }
 
@@ -39626,6 +39750,7 @@ export interface ILiftWaistTestCreateInput {
     comment: string | undefined;
     type: number | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 }
 
 export class ListResultDtoOfLiftWaistTestDto implements IListResultDtoOfLiftWaistTestDto {
@@ -39692,6 +39817,7 @@ export class LiftWaistTestDto implements ILiftWaistTestDto {
     liftWaistId: string | undefined;
     painLevel: number | undefined;
     type: number | undefined;
+    level: number | undefined;
     id: string | undefined;
 
     constructor(data?: ILiftWaistTestDto) {
@@ -39717,6 +39843,7 @@ export class LiftWaistTestDto implements ILiftWaistTestDto {
             this.liftWaistId = data["liftWaistId"];
             this.painLevel = data["painLevel"];
             this.type = data["type"];
+            this.level = data["level"];
             this.id = data["id"];
         }
     }
@@ -39742,6 +39869,7 @@ export class LiftWaistTestDto implements ILiftWaistTestDto {
         data["liftWaistId"] = this.liftWaistId;
         data["painLevel"] = this.painLevel;
         data["type"] = this.type;
+        data["level"] = this.level;
         data["id"] = this.id;
         return data; 
     }
@@ -39767,6 +39895,7 @@ export interface ILiftWaistTestDto {
     liftWaistId: string | undefined;
     painLevel: number | undefined;
     type: number | undefined;
+    level: number | undefined;
     id: string | undefined;
 }
 
@@ -40885,6 +41014,7 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 
     constructor(data?: IPullingTestCreateInput) {
         if (data) {
@@ -40905,6 +41035,7 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
             this.painLevel = data["painLevel"];
+            this.level = data["level"];
         }
     }
 
@@ -40925,6 +41056,7 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
         data["painLevel"] = this.painLevel;
+        data["level"] = this.level;
         return data; 
     }
 
@@ -40945,6 +41077,7 @@ export interface IPullingTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 }
 
 export class ListResultDtoOfPullingTestDto implements IListResultDtoOfPullingTestDto {
@@ -41009,6 +41142,7 @@ export class PullingTestDto implements IPullingTestDto {
     comment: string | undefined;
     painLevel: number | undefined;
     pullingId: string | undefined;
+    level: number | undefined;
     id: string | undefined;
 
     constructor(data?: IPullingTestDto) {
@@ -41032,6 +41166,7 @@ export class PullingTestDto implements IPullingTestDto {
             this.comment = data["comment"];
             this.painLevel = data["painLevel"];
             this.pullingId = data["pullingId"];
+            this.level = data["level"];
             this.id = data["id"];
         }
     }
@@ -41055,6 +41190,7 @@ export class PullingTestDto implements IPullingTestDto {
         data["comment"] = this.comment;
         data["painLevel"] = this.painLevel;
         data["pullingId"] = this.pullingId;
+        data["level"] = this.level;
         data["id"] = this.id;
         return data; 
     }
@@ -41078,6 +41214,7 @@ export interface IPullingTestDto {
     comment: string | undefined;
     painLevel: number | undefined;
     pullingId: string | undefined;
+    level: number | undefined;
     id: string | undefined;
 }
 
@@ -41197,6 +41334,7 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 
     constructor(data?: IPushingTestCreateInput) {
         if (data) {
@@ -41217,6 +41355,7 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
             this.isStopped = data["isStopped"];
             this.comment = data["comment"];
             this.painLevel = data["painLevel"];
+            this.level = data["level"];
         }
     }
 
@@ -41237,6 +41376,7 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
         data["isStopped"] = this.isStopped;
         data["comment"] = this.comment;
         data["painLevel"] = this.painLevel;
+        data["level"] = this.level;
         return data; 
     }
 
@@ -41257,6 +41397,7 @@ export interface IPushingTestCreateInput {
     isStopped: boolean | undefined;
     comment: string | undefined;
     painLevel: number | undefined;
+    level: number | undefined;
 }
 
 export class ListResultDtoOfPushingTestDto implements IListResultDtoOfPushingTestDto {
@@ -41321,6 +41462,7 @@ export class PushingTestDto implements IPushingTestDto {
     comment: string | undefined;
     painLevel: number | undefined;
     pushingId: string | undefined;
+    level: number | undefined;
     id: string | undefined;
 
     constructor(data?: IPushingTestDto) {
@@ -41344,6 +41486,7 @@ export class PushingTestDto implements IPushingTestDto {
             this.comment = data["comment"];
             this.painLevel = data["painLevel"];
             this.pushingId = data["pushingId"];
+            this.level = data["level"];
             this.id = data["id"];
         }
     }
@@ -41367,6 +41510,7 @@ export class PushingTestDto implements IPushingTestDto {
         data["comment"] = this.comment;
         data["painLevel"] = this.painLevel;
         data["pushingId"] = this.pushingId;
+        data["level"] = this.level;
         data["id"] = this.id;
         return data; 
     }
@@ -41390,6 +41534,7 @@ export interface IPushingTestDto {
     comment: string | undefined;
     painLevel: number | undefined;
     pushingId: string | undefined;
+    level: number | undefined;
     id: string | undefined;
 }
 
@@ -45843,6 +45988,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
     isStopped: boolean | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    level: number | undefined;
 
     constructor(data?: IUnilateralTestCreateInput) {
         if (data) {
@@ -45865,6 +46011,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
             this.isStopped = data["isStopped"];
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
+            this.level = data["level"];
         }
     }
 
@@ -45887,6 +46034,7 @@ export class UnilateralTestCreateInput implements IUnilateralTestCreateInput {
         data["isStopped"] = this.isStopped;
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
+        data["level"] = this.level;
         return data; 
     }
 
@@ -45909,6 +46057,7 @@ export interface IUnilateralTestCreateInput {
     isStopped: boolean | undefined;
     painLevel: number | undefined;
     comment: string | undefined;
+    level: number | undefined;
 }
 
 export class ListResultDtoOfUnilateralTestDto implements IListResultDtoOfUnilateralTestDto {
@@ -45975,6 +46124,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
     painLevel: number | undefined;
     comment: string | undefined;
     unilateralId: string | undefined;
+    level: number | undefined;
     id: string | undefined;
 
     constructor(data?: IUnilateralTestDto) {
@@ -46000,6 +46150,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
             this.painLevel = data["painLevel"];
             this.comment = data["comment"];
             this.unilateralId = data["unilateralId"];
+            this.level = data["level"];
             this.id = data["id"];
         }
     }
@@ -46025,6 +46176,7 @@ export class UnilateralTestDto implements IUnilateralTestDto {
         data["painLevel"] = this.painLevel;
         data["comment"] = this.comment;
         data["unilateralId"] = this.unilateralId;
+        data["level"] = this.level;
         data["id"] = this.id;
         return data; 
     }
@@ -46050,6 +46202,7 @@ export interface IUnilateralTestDto {
     painLevel: number | undefined;
     comment: string | undefined;
     unilateralId: string | undefined;
+    level: number | undefined;
     id: string | undefined;
 }
 
@@ -47125,6 +47278,8 @@ export class WeightedProtocolDto implements IWeightedProtocolDto {
     jobDemand: string | undefined;
     isDeficit: string | undefined;
     noTrials: number | undefined;
+    level: number | undefined;
+    targetId: string | undefined;
 
     constructor(data?: IWeightedProtocolDto) {
         if (data) {
@@ -47143,6 +47298,8 @@ export class WeightedProtocolDto implements IWeightedProtocolDto {
             this.jobDemand = data["jobDemand"];
             this.isDeficit = data["isDeficit"];
             this.noTrials = data["noTrials"];
+            this.level = data["level"];
+            this.targetId = data["targetId"];
         }
     }
 
@@ -47161,6 +47318,8 @@ export class WeightedProtocolDto implements IWeightedProtocolDto {
         data["jobDemand"] = this.jobDemand;
         data["isDeficit"] = this.isDeficit;
         data["noTrials"] = this.noTrials;
+        data["level"] = this.level;
+        data["targetId"] = this.targetId;
         return data; 
     }
 
@@ -47179,6 +47338,8 @@ export interface IWeightedProtocolDto {
     jobDemand: string | undefined;
     isDeficit: string | undefined;
     noTrials: number | undefined;
+    level: number | undefined;
+    targetId: string | undefined;
 }
 
 export class RepetitiveToleranceDto implements IRepetitiveToleranceDto {

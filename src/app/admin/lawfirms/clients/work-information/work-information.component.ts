@@ -81,7 +81,6 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       this.clientId = paramMap.get('id');
     });
   }
-
   ngOnInit() {
     this.getClient();
     this.filteredOptions = this.jobTitle.valueChanges
@@ -214,7 +213,6 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   getCategories(elementName) {
     return this.workContextList.filter(w => w.elementName === elementName);
   }
-
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -236,11 +234,9 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
 
     this.jobTitle.setValue({title:  this.selectedOccupation[0]});
   }
-
   remove(): void {
     this.selectedOccupation = null;
   }
-
   selected(event, occupation: OccupationDto): void {
     if(event.source.selected) {
       this.selectedOccupation = occupation;

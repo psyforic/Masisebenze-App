@@ -34,6 +34,7 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { WorkAssessmentComponent } from './assessments/work-assessment/work-assessment.component';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
@@ -50,6 +51,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     WorkInformationComponent,
     ReportSummaryComponent,
     QuestionnaireComponent,
+    WorkAssessmentComponent
   ],
   imports: [
     CommonModule,
@@ -69,9 +71,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TypeaheadModule.forRoot()
   ],
   exports: [
-    NewClientComponent, ReportSummaryComponent, DragDropModule, QuestionnaireCommentComponent
+    NewClientComponent, ReportSummaryComponent, DragDropModule,
+    QuestionnaireCommentComponent,
+    WorkAssessmentComponent
   ],
-  entryComponents: [NewClientComponent, CameraModalComponent, NewJobDescriptionComponent, QuestionnaireCommentComponent],
+  entryComponents: [NewClientComponent, 
+    CameraModalComponent, 
+    NewJobDescriptionComponent, 
+    QuestionnaireCommentComponent,
+    WorkAssessmentComponent],
   providers: [NgbActiveModal,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },

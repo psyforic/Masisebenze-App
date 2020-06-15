@@ -655,7 +655,7 @@
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-lg-12 text-center">
-                                                                <h3>Forceful Tasks
+                                                                <h3>Forceful Tasks / Weighted Protocols
                                                                 </h3>
                                                                 <div class="text-center text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
@@ -666,45 +666,70 @@
 
                                                         </div>
 
-                                                        <div class="row mnt-5" *ngIf="weightedProtocolResult.length > 0 && !isLoading">
+                                                        <div class="row mnt-5" *ngIf="weightedProtocolTables.length > 0 && !isLoading">
                                                             <div class="col-md-12">
-                                                                <table mat-table [dataSource]="weightedProtocolResult">
+                                                                <table mat-table [dataSource]="weightedProtocolTables">
 
                                                                     <!--- Note that these columns can be defined in any order.
                                                                           The actual rendered columns are set as a property on the row definition" -->
 
                                                                     <!-- Position Column -->
                                                                     <ng-container matColumnDef="activity">
-                                                                        <th mat-header-cell *matHeaderCellDef> Activity
+                                                                        <th mat-header-cell *matHeaderCellDef >
+                                                                            <strong>Activity</strong> 
                                                                         </th>
-                                                                        <td class="text-left" mat-cell *matCellDef="let element">
-                                                                            {{element.assessmentName}} </td>
+                                                                        <td class="text-left p-1" 
+                                                                            width="10%"
+                                                                            mat-cell *matCellDef="let element">
+                                                                            {{element.activity}} 
+                                                                        </td>
                                                                     </ng-container>
 
                                                                     <!-- Name Column -->
-                                                                    <ng-container matColumnDef="peformance">
-                                                                        <th mat-header-cell *matHeaderCellDef> FCE Perfomance </th>
-                                                                        <td class="text-left" mat-cell *matCellDef="let element">
-                                                                            {{element.result}} </td>
+                                                                    <ng-container matColumnDef="result">
+                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                                                                            <strong>Result</strong> 
+                                                                        </th>
+                                                                        <td class="text-left p-1" 
+                                                                            mat-cell 
+                                                                            width="30%"
+                                                                            *matCellDef="let element">
+                                                                            {{element.result}} 
+                                                                        </td>
                                                                     </ng-container>
 
                                                                     <!-- Weight Column -->
-                                                                    <ng-container matColumnDef="jobDemand">
-                                                                        <th mat-header-cell *matHeaderCellDef> Job Demand </th>
-                                                                        <td class="text-left" mat-cell *matCellDef="let element">
-                                                                            {{element.jobDemand}} </td>
+                                                                    <ng-container matColumnDef="onet_description">
+                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> 
+                                                                            <strong>Description</strong>  
+                                                                        </th>
+                                                                        <td class="text-left p-1" 
+                                                                            width="30%"
+                                                                            mat-cell 
+                                                                            *matCellDef="let element">
+                                                                            {{element.onetDescription}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Symbol Column -->
-                                                                    <ng-container matColumnDef="deficit">
-                                                                        <th mat-header-cell *matHeaderCellDef> Deficit
+                                                                    <ng-container matColumnDef="dot_description">
+                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> 
+                                                                            <strong>Description</strong> 
                                                                         </th>
-                                                                        <td class="text-left" mat-cell *matCellDef="let element">
-                                                                            {{element.isDeficit}} </td>
+                                                                        <td class="text-left p-1" 
+                                                                            width="30%"
+                                                                            mat-cell 
+                                                                            *matCellDef="let element">
+                                                                            {{element.dotDescription}} </td>
                                                                     </ng-container>
-
-                                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                                                                    <ng-container matColumnDef="action">
+                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> 
+                                                                           <strong>Action</strong> 
+                                                                        </th>
+                                                                        <td class="text-left p-1" mat-cell *matCellDef="let element">
+                                                                            <mat-icon style="cursor: pointer;" (click)="showComment(element.id, element.activity)">comment</mat-icon>
+                                                                    </ng-container>
+                                                                    <tr mat-header-row *matHeaderRowDef="weightedProtocolDisplayedColumns"></tr>
+                                                                    <tr mat-row *matRowDef="let row; columns: weightedProtocolDisplayedColumns;">
                                                                     </tr>
                                                                 </table>
                                                             </div>
@@ -730,7 +755,8 @@
 
                                                                     <!-- Position Column -->
                                                                     <ng-container matColumnDef="activity">
-                                                                        <th mat-header-cell *matHeaderCellDef> Activity
+                                                                        <th mat-header-cell *matHeaderCellDef> 
+                                                                           <strong>Activity</strong> 
                                                                         </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.assessmentName}} </td>
@@ -738,21 +764,24 @@
 
                                                                     <!-- Name Column -->
                                                                     <ng-container matColumnDef="peformance">
-                                                                        <th mat-header-cell *matHeaderCellDef> FCE Perfomance </th>
+                                                                        <th mat-header-cell *matHeaderCellDef> 
+                                                                           <strong>FCE Performance </strong> </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.result}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Weight Column -->
                                                                     <ng-container matColumnDef="jobDemand">
-                                                                        <th mat-header-cell *matHeaderCellDef> Job Demand </th>
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>Job Demand </strong> </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.jobDemand}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Symbol Column -->
                                                                     <ng-container matColumnDef="deficit">
-                                                                        <th mat-header-cell *matHeaderCellDef> Deficit
+                                                                        <th mat-header-cell *matHeaderCellDef> 
+                                                                           <strong>Deficit</strong> 
                                                                         </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.isDeficit}} </td>
@@ -785,7 +814,7 @@
 
                                                                     <!-- Position Column -->
                                                                     <ng-container matColumnDef="activity">
-                                                                        <th mat-header-cell *matHeaderCellDef> Activity
+                                                                        <th mat-header-cell *matHeaderCellDef><strong>Activity</strong> 
                                                                         </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.assessmentName}} </td>
@@ -793,21 +822,24 @@
 
                                                                     <!-- Name Column -->
                                                                     <ng-container matColumnDef="peformance">
-                                                                        <th mat-header-cell *matHeaderCellDef> FCE Perfomance </th>
+                                                                        <th mat-header-cell *matHeaderCellDef> 
+                                                                            <strong>FCE Performance</strong>  </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.result}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Weight Column -->
                                                                     <ng-container matColumnDef="jobDemand">
-                                                                        <th mat-header-cell *matHeaderCellDef> Job Demand </th>
+                                                                        <th mat-header-cell *matHeaderCellDef> 
+                                                                           <strong>Job Demand</strong>  </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.jobDemand}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Symbol Column -->
                                                                     <ng-container matColumnDef="deficit">
-                                                                        <th mat-header-cell *matHeaderCellDef> Deficit
+                                                                        <th mat-header-cell *matHeaderCellDef> 
+                                                                           <strong>Deficit</strong> 
                                                                         </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.isDeficit}} </td>
