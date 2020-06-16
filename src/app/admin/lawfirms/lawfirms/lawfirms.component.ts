@@ -1,12 +1,9 @@
 import { TopBarService } from '@app/admin/services/top-bar.service';
-import { Component, OnInit, ViewChild, AfterViewInit, Injector } from '@angular/core';
+import { Component, ViewChild, Injector } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, PageEvent } from '@angular/material';
 import { Router } from '@angular/router';
-import { NewAttorneyComponent } from '../attorneys/new-attorney/new-attorney.component';
-import { EditAttorneyComponent } from '../attorneys/edit-attorney/edit-attorney.component';
 import { NewLawfirmComponent } from './new-lawfirm/new-lawfirm.component';
 import { EditLawfirmComponent } from './edit-lawfirm/edit-lawfirm.component';
-import { AppComponentBase } from '@shared/app-component-base';
 import { LawFirmServiceProxy, LawFirmListDto } from '@shared/service-proxies/service-proxies';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { finalize, catchError } from 'rxjs/operators';
@@ -37,8 +34,8 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
   lawFirms: LawFirmListDto[] = [];
   searchTerm: FormControl = new FormControl();
   isSearching = false;
-  constructor(private injector: Injector,
-    private router: Router,
+  constructor(injector: Injector,
+    private _router: Router,
     private _topBarService: TopBarService,
     private lawFirmService: LawFirmServiceProxy) {
     super(injector);
@@ -65,6 +62,10 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
             this.pageSize = 5;
           });
       });
+  }
+
+  viewProfile(lawFirm: LawFirmListDto) {
+    this._router.navigate(['/admin/lawfirms/view', lawFirm.id]);
   }
   createNewLawFirm() {
     this.newLawFirm.open();
@@ -104,7 +105,7 @@ export class LawfirmsComponent extends PagedListingComponentBase<LawFirmListDto>
               return;
             }
             return of({ results: null });
-          })).subscribe(() => { }, error => { },
+          })).subscribe(() => { }, () => { },
             () => {
               abp.notify.success('Deleted Law Firm: ' + entity.companyName);
             });

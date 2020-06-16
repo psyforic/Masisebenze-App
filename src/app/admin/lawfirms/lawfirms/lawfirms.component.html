@@ -6,8 +6,7 @@
                     <div class="card-header">
                         <div class="card-title">Law Firms</div>
                         <div class="header-toolbar">
-                            <button mat-raised-button color="primary" (click)="createNewLawFirm()"
-                                matTooltip="Create new Law Firm">
+                            <button mat-raised-button color="primary" (click)="createNewLawFirm()" matTooltip="Create new Law Firm">
                                 <mat-icon>add</mat-icon>
                             </button>
                         </div>
@@ -16,9 +15,7 @@
                         <div class="mat-table__wrapper">
                             <div class="example-header">
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
-                                    </div>
-                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
                                         <mat-form-field appearance="outline">
                                             <mat-label>Search Law Firms</mat-label>
                                             <input matInput [formControl]="searchTerm">
@@ -38,8 +35,10 @@
                                         <mat-header-cell *matHeaderCellDef mat-sort-header>
                                             Company Name
                                         </mat-header-cell>
-                                        <mat-cell *matCellDef="let law">
-
+                                        <mat-cell *matCellDef="let law; let i=index;">
+                                            <div [ngClass]="{'circle-primary': i%2==0 , 'circle-accent':i%2==1 }">
+                                                {{law.companyName | initial}}
+                                            </div>
                                             <h6><a [routerLink]="['/admin/lawfirms/view', law.id]">
                                                     {{ law.companyName }}</a>
                                             </h6>
@@ -67,18 +66,16 @@
                                     <ng-container matColumnDef="actions">
                                         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                                         <mat-cell *matCellDef="let lawFirm">
-                                            <button (click)="editSelectedLawFirm(lawFirm.id)" mat-icon-button
-                                                color="primary" matTooltip="Edit Law Firm">
+                                            <button (click)="$event.stopPropagation();editSelectedLawFirm(lawFirm.id)" mat-icon-button color="primary" matTooltip="Edit Law Firm">
                                                 <mat-icon>create</mat-icon>
                                             </button>&nbsp;
-                                            <button (click)="delete(lawFirm)" mat-icon-button color="warn"
-                                                matTooltip="Delete Law Firm" type="button">
+                                            <button (click)="$event.stopPropagation();delete(lawFirm)" mat-icon-button color="warn" matTooltip="Delete Law Firm" type="button">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
                                         </mat-cell>
                                     </ng-container>
                                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                                    <mat-row *matRowDef="let row; columns: displayedColumns">
+                                    <mat-row (click)="viewProfile(row)" *matRowDef="let row; columns: displayedColumns" class="py-2 bg-hover trans-ease-out cursor-pointer">
                                     </mat-row>
                                 </mat-table>
                                 <div class="col-lg-12 mt-4" *ngIf="lawFirms.length == 0 && !isTableLoading">
@@ -88,8 +85,7 @@
                                         <h4 class="text-center">No Data</h4>
                                     </div>
                                 </div>
-                                <mat-paginator [length]="totalItems" (page)="handleChange($event)" [pageSize]="pageSize"
-                                    [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                <mat-paginator [length]="totalItems" (page)="handleChange($event)" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
                             </div>
                         </div>
                     </div>

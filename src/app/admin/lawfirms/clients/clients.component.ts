@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { TopBarService } from '@app/admin/services/top-bar.service';
 import {
   SensationServiceProxy,
@@ -113,6 +114,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
   ageList: string[] = [];
   jobTitle;
   constructor(injector: Injector,
+    private _router: Router,
     private _topBarService: TopBarService,
     private clientService: ClientServiceProxy,
     private documentService: DocumentServiceProxy,
@@ -152,7 +154,9 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           });
       });
   }
-
+  viewFullProfile(client: ClientListDto) {
+    this._router.navigate(['/admin/clients/view', client.id])
+  }
   createClient() {
     this.newClientRef.open();
   }
@@ -710,7 +714,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
     await this.getAffect(clientId);
   }
 
-  async  getSensation(clientId: string) {
+  async getSensation(clientId: string) {
     this._sensationService.getSensation(clientId)
       .pipe(finalize(() => {
       }))

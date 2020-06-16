@@ -1,3 +1,4 @@
+import { InitialPipe } from './../../../../shared/pipes/initial.pipe';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AttorneysComponent } from './attorneys.component';

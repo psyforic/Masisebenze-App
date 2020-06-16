@@ -37,7 +37,7 @@
                             "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
                             "src/assets/scss/material-dashboard.scss",
                             "node_modules/toastr/build/toastr.css",
-                            "src/assets/css/demo.scss",
+                            "src/assets/css/styles.scss",
                             "node_modules/quill/dist/quill.core.css",
                             "node_modules/quill/dist/quill.bubble.css",
                             "node_modules/quill/dist/quill.snow.css",

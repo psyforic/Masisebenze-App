@@ -1,3 +1,4 @@
+import { InitialPipe } from './../../../shared/pipes/initial.pipe';
 
 
 import { NgModule } from '@angular/core';
@@ -56,7 +57,7 @@ import { JobDescriptionsModule } from '../job-descriptions/job-descriptions.modu
     ViewLawfirmComponent,
     NewContactComponent,
     NewClientComponent,
-    NewAttorneyComponent,
+    NewAttorneyComponent
   ],
   imports: [
     CommonModule,
