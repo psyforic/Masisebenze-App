@@ -362,8 +362,10 @@
                                                     FirstName
                                                 </mat-header-cell>
                                                 <mat-cell *matCellDef="let client; let i=index;">
-                                                    <div [ngClass]="{'circle-primary': i%2==0 , 'circle-accent':i%2==1 }">
-                                                        {{client.firstName | initial}}
+                                                    <div class="card-avatar">
+                                                        <a href="javascript:void(0)">
+                                                            <img width="50" class="img mr-1 shadow-lg" [src]="client.profilePictureId|| '../../../../../assets/img/faces/face-0.jpg' " alt="Logo" />
+                                                        </a>
                                                     </div>
                                                     <h6><a [routerLink]="['/admin/clients/view', client?.id]">{{ client?.firstName }}</a>
                                                     </h6>

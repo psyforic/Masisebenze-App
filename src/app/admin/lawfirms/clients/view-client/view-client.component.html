@@ -674,7 +674,7 @@
                                                                             <strong>Activity</strong>
                                                                         </th>
                                                                         <td class="text-left p-1 fw-500" width="10%" mat-cell *matCellDef="let element">
-                                                                            {{element.activity}}
+                                                                            <strong>{{element.activity}}</strong>
                                                                         </td>
                                                                     </ng-container>
 
@@ -743,7 +743,7 @@
                                                                         <th mat-header-cell *matHeaderCellDef>
                                                                             <strong>Activity</strong>
                                                                         </th>
-                                                                        <td class="text-left" mat-cell *matCellDef="let element">
+                                                                        <td class="text-left fw-500" mat-cell *matCellDef="let element">
                                                                             <strong> {{element.assessmentName}}</strong>
                                                                         </td>
                                                                     </ng-container>
@@ -752,7 +752,7 @@
                                                                     <ng-container matColumnDef="peformance">
                                                                         <th mat-header-cell *matHeaderCellDef>
                                                                             <strong>FCE Performance </strong> </th>
-                                                                        <td class="text-left fw-500" mat-cell *matCellDef="let element">
+                                                                        <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.result}} </td>
                                                                     </ng-container>
 
@@ -882,5 +882,5 @@
 <app-posture #posture [fullName]="fullName" [clientId]="clientId"></app-posture>
 <app-affect #affect [fullName]="fullName" [clientId]="clientId"></app-affect>
 <app-mobility #mobility [fullName]="fullName" [clientId]="clientId"></app-mobility>
-<app-functional-assessment #functional [fullName]="fullName" [clientId]="clientId" (assessmentsAdded)="loadList($event)"></app-functional-assessment>
+<app-functional-assessment #functional [fullName]="fullName" [clientId]="clientId" (assessmentsAdded)="loadList()"></app-functional-assessment>
 <app-questionnaire #questionnaire [fullName]="fullName" [clientId]="clientId" [type]="questionnaireType" [description]="questionnaireDescription"></app-questionnaire>
