@@ -235,8 +235,7 @@ export class ViewLawfirmComponent extends AppComponentBase implements OnInit {
       });
   }
   deleteAttorney(entity: any) {
-    this.editAttorneyRef.delete(entity);
-    this.getAttorneys();
+    (this.editAttorneyRef.delete(entity));
   }
   getAge(entity: ClientListDto) {
     const idNumber: string = entity.idNumber;

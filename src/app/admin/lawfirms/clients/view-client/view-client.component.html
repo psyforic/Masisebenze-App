@@ -20,14 +20,6 @@
                             </li>
                             <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/comments/clients', client.id]" routerLinkActive="router-link-active">Comments</a>
                             </li>
-                            <!-- <li role="menuitem">
-                                <a href="javascript:void(0)" class="dropdown-item" [routerLink]="['/admin/clients/view/work-information',clientId]" routerLinkActive="router-link-active">
-                                    Work Information
-                                </a>
-                            </li> -->
-
-                            <!-- <li role="menuitem"><a class="dropdown-item" href="javascript:void(0)" [routerLink]="['/admin/clients/view/report-summary', client.id]" routerLinkActive="router-link-active">Report Summary</a>
-                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -398,8 +390,6 @@
                                                     <mat-expansion-panel>
                                                     </mat-expansion-panel>
                                                 </mat-accordion>
-
-
                                             </div>
                                             <div class="card-footer pull-right">
                                                 <div class="row">
@@ -500,48 +490,55 @@
                             <div class="example-loading-shade" *ngIf="isLoading">
                                 <mat-spinner *ngIf="isLoading"></mat-spinner>
                             </div>
-                            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
-                                <!-- This is the tree node template for leaf nodes -->
-                                <mat-tree-node *matTreeNodeDef="let node;" matTreeNodeToggle>
-                                    <li class="mat-tree-node">
-                                        <h6><a href="{{node.url}}" target="_blank"><i class="fa fa-file-pdf-o"></i>
-                                                {{node.name}}</a></h6>
-                                    </li>
+                            <div class="row">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+                                            <!-- This is the tree node template for leaf nodes -->
+                                            <mat-tree-node *matTreeNodeDef="let node;" matTreeNodeToggle>
+                                                <li class="mat-tree-node">
+                                                    <h6><a href="{{node.url}}" target="_blank"><i
+                                                                class="fa fa-file-pdf-o"></i>
+                                                            {{node.name}}</a></h6>
+                                                </li>
 
-                                    <button color="warn" class="pull-right" (click)="deleteDocument(node)" mat-icon-button>
-                                        <mat-icon>delete</mat-icon>
-                                    </button>
-                                </mat-tree-node>
-                                <!-- This is the tree node template for expandable nodes -->
-                                <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-                                    <li>
-                                        <div class="mat-tree-node">
-                                            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
-                                                <mat-icon class="mat-icon-rtl-mirror">
-                                                    {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
-                                                </mat-icon>
-                                            </button> {{node.value}}
-                                        </div>
-                                        <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
-                                            <ng-container matTreeNodeOutlet></ng-container>
-                                        </ul>
-                                    </li>
-                                </mat-nested-tree-node>
-                            </mat-tree>
-                        </div>
-                        <div class="col-lg-12 mt-4" *ngIf="documents.length == 0">
-                            <div class="text-center">
-                                <i class="fa fa-hourglass-3 fa-5x">
-                                </i>
-                                <h4 class="text-center">No Documents Added</h4>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="float-right mr-4">
-                                <button [routerLink]="['/admin/clients/documents/upload', client.id]" type="button" color="primary" class="btn btn-primary btn-round pull-right">
-                                    Upload <i class="ml-1 fa fa-upload"></i>
-                                </button>
-                                <div class="clearfix"></div>
+                                                <button color="warn" class="pull-right" (click)="deleteDocument(node)" mat-icon-button>
+                                                    <mat-icon>delete</mat-icon>
+                                                </button>
+                                            </mat-tree-node>
+                                            <!-- This is the tree node template for expandable nodes -->
+                                            <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                                                <li>
+                                                    <div class="mat-tree-node">
+                                                        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                                                            <mat-icon class="mat-icon-rtl-mirror">
+                                                                {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
+                                                            </mat-icon>
+                                                        </button> {{node.value}}
+                                                    </div>
+                                                    <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                                                        <ng-container matTreeNodeOutlet></ng-container>
+                                                    </ul>
+                                                </li>
+                                            </mat-nested-tree-node>
+                                        </mat-tree>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 mt-4" *ngIf="documents.length == 0">
+                                    <div class="text-center">
+                                        <i class="fa fa-hourglass-3 fa-5x">
+                                        </i>
+                                        <h4 class="text-center">No Documents Added</h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="float-right mr-4">
+                                        <button [routerLink]="['/admin/clients/documents/upload', client.id]" type="button" color="primary" class="btn btn-primary btn-round pull-right">
+                                            Upload <i class="ml-1 fa fa-upload"></i>
+                                        </button>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </mat-tab>
@@ -559,7 +556,7 @@
                                         <div class="col-lg-12">
                                             <mat-tab-group [selectedIndex]="0" #assessmentTabs mat-stretch-tabs (selectedTabChange)="changeAssessmentTabs($event)">
                                                 <mat-tab label="Physical Assessment">
-                                                  
+
                                                     <div class="example-loading-shade" *ngIf="isLoading">
                                                         <mat-spinner *ngIf="isLoading"></mat-spinner>
                                                     </div>
@@ -596,7 +593,7 @@
                                                     <app-repetitive-tolerance-protocol #rtp [fullName]="fullName" [clientId]="clientId"></app-repetitive-tolerance-protocol>
                                                 </mat-tab>
                                                 <mat-tab label="Cognitive Assessment">
-                                                 
+
                                                     <app-cognitive-assessments #cognitiveAssessments [fullName]="fullName" [categoryId]="categoryId" [clientId]="clientId"></app-cognitive-assessments>
                                                 </mat-tab>
                                                 <mat-tab label="Functional Assessment">
@@ -614,7 +611,7 @@
                                                         <i class="fa fa-hourglass-3 fa-5x">
                                                         </i>
                                                         <h4 class="text-center">Loading assessments ...</h4>
-                                                      </div>
+                                                    </div>
                                                     <div class="col-lg-12">
                                                         <div class="row" *ngIf="questionnairesDto.length > 0">
                                                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let questionnaire of questionnaires">
@@ -643,21 +640,19 @@
                                                     </button>
                                                 </mat-tab>
                                                 <mat-tab label="FCE Assessment">
-                                                    <div class="example-loading-shade" *ngIf="isLoading">
-                                                        <mat-spinner *ngIf="isLoading"></mat-spinner>
-                                                    </div>
+                                                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading" class="my-2"></mat-progress-bar>
                                                     <div class="col-md-12">
 
                                                         <div class="row mt-2">
                                                             <div class="col-lg-12 text-center">
-                                                                <h4>Job Title: {{jobTitle}}</h4>
+                                                                <h4><strong>Job Title: {{jobTitle}}</strong></h4>
                                                             </div>
 
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-lg-12 text-center">
-                                                                <h3>Forceful Tasks / Weighted Protocols
-                                                                </h3>
+                                                                <h4><strong>Forceful Tasks / Weighted Protocols</strong>
+                                                                </h4>
                                                                 <div class="text-center text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
                                                                     </i>
@@ -676,60 +671,51 @@
 
                                                                     <!-- Position Column -->
                                                                     <ng-container matColumnDef="activity">
-                                                                        <th mat-header-cell *matHeaderCellDef >
-                                                                            <strong>Activity</strong> 
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>Activity</strong>
                                                                         </th>
-                                                                        <td class="text-left p-1" 
-                                                                            width="10%"
-                                                                            mat-cell *matCellDef="let element">
-                                                                            {{element.activity}} 
+                                                                        <td class="text-left p-1 fw-500" width="10%" mat-cell *matCellDef="let element">
+                                                                            <strong>{{element.activity}}</strong>
                                                                         </td>
                                                                     </ng-container>
 
                                                                     <!-- Name Column -->
                                                                     <ng-container matColumnDef="result">
                                                                         <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
-                                                                            <strong>Result</strong> 
+                                                                            <strong>Result</strong>
                                                                         </th>
-                                                                        <td class="text-left p-1" 
-                                                                            mat-cell 
-                                                                            width="30%"
-                                                                            *matCellDef="let element">
-                                                                            {{element.result}} 
+                                                                        <td class="text-left p-1" mat-cell width="30%" *matCellDef="let element">
+                                                                            {{element.result}}
                                                                         </td>
                                                                     </ng-container>
 
                                                                     <!-- Weight Column -->
                                                                     <ng-container matColumnDef="onet_description">
-                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> 
-                                                                            <strong>Description</strong>  
+                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                                                                            <strong>Description</strong>
                                                                         </th>
-                                                                        <td class="text-left p-1" 
-                                                                            width="30%"
-                                                                            mat-cell 
-                                                                            *matCellDef="let element">
+                                                                        <td class="text-left p-1" width="30%" mat-cell *matCellDef="let element">
                                                                             {{element.onetDescription}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Symbol Column -->
                                                                     <ng-container matColumnDef="dot_description">
-                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> 
-                                                                            <strong>Description</strong> 
+                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                                                                            <strong>ONET Description</strong>
                                                                         </th>
-                                                                        <td class="text-left p-1" 
-                                                                            width="30%"
-                                                                            mat-cell 
-                                                                            *matCellDef="let element">
+                                                                        <td class="text-left p-1" width="30%" mat-cell *matCellDef="let element">
                                                                             {{element.dotDescription}} </td>
                                                                     </ng-container>
                                                                     <ng-container matColumnDef="action">
-                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold"> 
-                                                                           <strong>Action</strong> 
+                                                                        <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
+                                                                            <strong>Action</strong>
                                                                         </th>
                                                                         <td class="text-left p-1" mat-cell *matCellDef="let element">
-                                                                            <mat-icon style="cursor: pointer;" (click)="showComment(element.id, element.activity)">comment</mat-icon>
+                                                                            <mat-icon style="cursor: pointer;" (click)="showComment(element.id, element.activity)">
+                                                                                comment</mat-icon>
                                                                     </ng-container>
-                                                                    <tr mat-header-row *matHeaderRowDef="weightedProtocolDisplayedColumns"></tr>
+                                                                    <tr mat-header-row *matHeaderRowDef="weightedProtocolDisplayedColumns">
+                                                                    </tr>
                                                                     <tr mat-row *matRowDef="let row; columns: weightedProtocolDisplayedColumns;">
                                                                     </tr>
                                                                 </table>
@@ -737,8 +723,7 @@
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-lg-12 text-center">
-                                                                <h3>Positional Tolerance Tasks 
-                                                                </h3>
+                                                                <h4> <strong>Positional Tolerance Tasks</strong> </h4>
                                                                 <div class="text-center text-dark mt-5" *ngIf="positionalToleranceResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
                                                                     </i>
@@ -756,17 +741,18 @@
 
                                                                     <!-- Position Column -->
                                                                     <ng-container matColumnDef="activity">
-                                                                        <th mat-header-cell *matHeaderCellDef> 
-                                                                           <strong>Activity</strong> 
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>Activity</strong>
                                                                         </th>
-                                                                        <td class="text-left" mat-cell *matCellDef="let element">
-                                                                            {{element.assessmentName}} </td>
+                                                                        <td class="text-left fw-500" mat-cell *matCellDef="let element">
+                                                                            <strong> {{element.assessmentName}}</strong>
+                                                                        </td>
                                                                     </ng-container>
 
                                                                     <!-- Name Column -->
                                                                     <ng-container matColumnDef="peformance">
-                                                                        <th mat-header-cell *matHeaderCellDef> 
-                                                                           <strong>FCE Performance </strong> </th>
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>FCE Performance </strong> </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.result}} </td>
                                                                     </ng-container>
@@ -781,8 +767,8 @@
 
                                                                     <!-- Symbol Column -->
                                                                     <ng-container matColumnDef="deficit">
-                                                                        <th mat-header-cell *matHeaderCellDef> 
-                                                                           <strong>Deficit</strong> 
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>Deficit</strong>
                                                                         </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.isDeficit}} </td>
@@ -796,8 +782,7 @@
                                                         </div>
                                                         <div class="row mt-2">
                                                             <div class="col-lg-12 text-center">
-                                                                <h3>Repetitive Tolerance Tasks
-                                                                </h3>
+                                                                <h4><strong>Repetitive Tolerance Tasks</strong></h4>
                                                                 <div class="text-center text-dark mt-5" *ngIf="repetitiveToleranceResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
                                                                     </i>
@@ -815,32 +800,33 @@
 
                                                                     <!-- Position Column -->
                                                                     <ng-container matColumnDef="activity">
-                                                                        <th mat-header-cell *matHeaderCellDef><strong>Activity</strong> 
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>Activity</strong>
                                                                         </th>
-                                                                        <td class="text-left" mat-cell *matCellDef="let element">
-                                                                            {{element.assessmentName}} </td>
+                                                                        <td class="text-left fw-500" mat-cell *matCellDef="let element">
+                                                                            <strong>{{element.assessmentName}} </strong></td>
                                                                     </ng-container>
 
                                                                     <!-- Name Column -->
                                                                     <ng-container matColumnDef="peformance">
-                                                                        <th mat-header-cell *matHeaderCellDef> 
-                                                                            <strong>FCE Performance</strong>  </th>
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>FCE Performance</strong> </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.result}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Weight Column -->
                                                                     <ng-container matColumnDef="jobDemand">
-                                                                        <th mat-header-cell *matHeaderCellDef> 
-                                                                           <strong>Job Demand</strong>  </th>
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>Job Demand</strong> </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.jobDemand}} </td>
                                                                     </ng-container>
 
                                                                     <!-- Symbol Column -->
                                                                     <ng-container matColumnDef="deficit">
-                                                                        <th mat-header-cell *matHeaderCellDef> 
-                                                                           <strong>Deficit</strong> 
+                                                                        <th mat-header-cell *matHeaderCellDef>
+                                                                            <strong>Deficit</strong>
                                                                         </th>
                                                                         <td class="text-left" mat-cell *matCellDef="let element">
                                                                             {{element.isDeficit}} </td>
@@ -854,20 +840,20 @@
                                                         </div>
                                                     </div>
                                                     <!-- <div class="row"> -->
-                                                        <div class="col-lg-12">
-                                                            <!-- <mat-accordion> -->
-                                                                <!-- <mat-expansion-panel>
+                                                    <div class="col-lg-12">
+                                                        <!-- <mat-accordion> -->
+                                                        <!-- <mat-expansion-panel>
                                                                     <mat-expansion-panel-header>
                                                                         <mat-panel-title>
                                                                             Report Summary
                                                                         </mat-panel-title>
                                                                     </mat-expansion-panel-header>
                                                                     <div class="col-md-12"> -->
-                                                                        <app-report-summary></app-report-summary>
-                                                                    <!-- </div>
+                                                        <app-report-summary></app-report-summary>
+                                                        <!-- </div>
                                                                 </mat-expansion-panel> -->
-                                                            <!-- </mat-accordion> -->
-                                                        </div>
+                                                        <!-- </mat-accordion> -->
+                                                    </div>
                                                     <!-- </div> -->
                                                 </mat-tab>
                                             </mat-tab-group>
@@ -897,5 +883,5 @@
 <app-posture #posture [fullName]="fullName" [clientId]="clientId"></app-posture>
 <app-affect #affect [fullName]="fullName" [clientId]="clientId"></app-affect>
 <app-mobility #mobility [fullName]="fullName" [clientId]="clientId"></app-mobility>
-<app-functional-assessment #functional [fullName]="fullName" [clientId]="clientId" (assessmentsAdded)="loadList($event)"></app-functional-assessment>
+<app-functional-assessment #functional [fullName]="fullName" [clientId]="clientId" (assessmentsAdded)="loadList()"></app-functional-assessment>
 <app-questionnaire #questionnaire [fullName]="fullName" [clientId]="clientId" [type]="questionnaireType" [description]="questionnaireDescription"></app-questionnaire>

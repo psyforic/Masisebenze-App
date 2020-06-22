@@ -94,11 +94,11 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
         this.isLoading = false;
       })).subscribe((result: WorkInformationDto) => {
         if (result != null) {
-            this.workInformation = result;
-            const occupation = new OccupationDto();
-            occupation.isLocal = result.isLocal;
-            occupation.title = result.jobTitle;
-            this.selectedOccupation[0] = occupation;
+          this.workInformation = result;
+          const occupation = new OccupationDto();
+          occupation.isLocal = result.isLocal;
+          occupation.title = result.jobTitle;
+          this.selectedOccupation = occupation;
         }
       });
   }
@@ -124,13 +124,13 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       }))
       .subscribe(result => {
         this.occupations = result;
-          this._jobDescriptionService.searchJob(keyword).
+        this._jobDescriptionService.searchJob(keyword).
           pipe(finalize(() => {
           })).subscribe(jobsFound => {
             jobsFound.forEach((value) => {
               const occupation = new OccupationDto();
               occupation.title = value.title,
-              occupation.code = value.code;
+                occupation.code = value.code;
               occupation.isLocal = true;
               this.occupations.push(occupation);
             });
@@ -187,8 +187,8 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
   save() {
     this.isLoading = true;
     this.workInformation.clientId = this.clientId;
-    this.workInformation.isLocal = this.selectedOccupation[0].isLocal;
-    this.workInformation.jobTitle = this.selectedOccupation[0].title;
+    this.workInformation.isLocal = this.selectedOccupation.isLocal;
+    this.workInformation.jobTitle = this.selectedOccupation.title;
     this._workInformationService.create(this.workInformation)
       .pipe(finalize(() => {
         this.isLoading = false;
@@ -220,7 +220,7 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       const occupation: OccupationDto = new OccupationDto();
       occupation.title = value;
       occupation.isLocal = true;
-      this.selectedOccupation[0] = occupation;
+      this.selectedOccupation = occupation;
       if (this.occupations.filter(x => x.title.includes(occupation.title)).length === 0) {
         this.autocomplete.closePanel();
         this.newJobTitle();
@@ -232,20 +232,20 @@ export class WorkInformationComponent extends AppComponentBase implements OnInit
       input.value = '';
     }
 
-    this.jobTitle.setValue({title:  this.selectedOccupation[0]});
+    this.jobTitle.setValue({ title: this.selectedOccupation });
   }
   remove(): void {
     this.selectedOccupation = null;
   }
   selected(event, occupation: OccupationDto): void {
-    if(event.source.selected) {
+    if (event.source.selected) {
       this.selectedOccupation = occupation;
       this.occupationInput.nativeElement.value = '';
-      this.jobTitle.setValue({title:  this.selectedOccupation[0]});
+      this.jobTitle.setValue({ title: this.selectedOccupation });
     }
   }
   newJobTitle() {
-    this.newJob.open(this.selectedOccupation[0].title);
+    this.newJob.open(this.selectedOccupation.title);
   }
   isInList(jobTitle) {
     return this.occupations.filter(x => x.title === jobTitle).length > 0;

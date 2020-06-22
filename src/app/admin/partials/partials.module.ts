@@ -1,3 +1,4 @@
+import { InitialPipe } from './../../../shared/pipes/initial.pipe';
 import { NewLawfirmComponent } from './../lawfirms/lawfirms/new-lawfirm/new-lawfirm.component';
 import { NewClientComponent } from './../lawfirms/clients/new-client/new-client.component';
 import { NgModule } from '@angular/core';
@@ -58,7 +59,8 @@ export const MY_FORMATS = {
   declarations: [
     NewJobDescriptionComponent,
     NewClientComponent,
-    NewLawfirmComponent],
+    NewLawfirmComponent,
+    InitialPipe],
   imports: [
     CommonModule,
     RouterModule,
@@ -138,7 +140,8 @@ export const MY_FORMATS = {
     QuillModule,
     NewJobDescriptionComponent,
     NewClientComponent,
-    NewLawfirmComponent
+    NewLawfirmComponent,
+    InitialPipe
   ],
   entryComponents: [
     NewClientComponent,

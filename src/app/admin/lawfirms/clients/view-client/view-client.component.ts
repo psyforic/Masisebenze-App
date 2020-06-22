@@ -2,8 +2,6 @@ import { WorkAssessmentComponent } from './../assessments/work-assessment/work-a
 import { AssessmentService } from '@app/admin/services/assessment.service';
 import { CognitiveAssessmentsComponent } from './../assessments/cognitive-assessments/cognitive-assessments.component';
 import { TopBarService } from './../../../services/top-bar.service';
-import { ReportSummaryComponent } from './report-summary/report-summary.component';
-import { QuestionnaireCommentComponent } from './../assessments/functional-assessment/questionnaire-comment/questionnaire-comment.component';
 import { QuestionnaireComponent } from './../assessments/functional-assessment/questionnaire/questionnaire.component';
 import { FunctionalAssessmentComponent } from './../assessments/functional-assessment/functional-assessment.component';
 import { DocumentFolder } from './../../../documents/document-types';
@@ -24,7 +22,7 @@ import {
   JobDescriptionListDto
 } from './../../../../../shared/service-proxies/service-proxies';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, Injector, OnInit, ViewChild, HostListener, AfterViewInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewChild, HostListener } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { NgForm } from '@angular/forms';
 import {
@@ -65,7 +63,6 @@ import { AffectComponent } from '../assessments/affect/affect.component';
 import { MobilityComponent } from '../assessments/mobility/mobility.component';
 import { Location } from '@angular/common';
 import * as moment from 'moment';
-import { CognitiveCommentComponent } from '../assessments/cognitive-assessments/cognitive-comment/cognitive-comment.component';
 export const DD_MM_YYYY_Format = {
   parse: {
     dateInput: 'LL',
@@ -332,7 +329,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           (x.assessmentName != null && x.assessmentName !== '') &&
           (x.result != null && x.result !== ''));
         if (this.occupation != null) {
-          this.positionalToleranceResult.forEach((item, index) => {
+          this.positionalToleranceResult.forEach((item) => {
             if (item.assessmentName.includes('Sitting')) {
               item.jobDemand = (this.occupation.sittingJobDemand != null) ?
                 this.occupation.sittingJobDemand.toUpperCase() : '';
@@ -385,7 +382,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
           (x.result != null && x.result !== ''));
 
         if (this.occupation != null) {
-          this.repetitiveToleranceResult.forEach((item, index) => {
+          this.repetitiveToleranceResult.forEach((item) => {
             if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
               item.jobDemand = (this.occupation.squattingJobDemand != null) ?
                 this.occupation.squattingJobDemand.toUpperCase() : '';
@@ -464,14 +461,14 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         }
       });
   }
-  getWeightedProtocolReport(clientId, ) {
+  getWeightedProtocolReport(clientId: string) {
     this._workAssessmentReportService.getWeightedProtocolReport(clientId)
       .pipe(finalize(() => {
       })).subscribe(result => {
         this.weightedProtocolResult = result.filter(x =>
           (x.assessmentName != null && x.assessmentName !== '')
-           && (x.result != null && x.result !== '')
-          );
+          && (x.result != null && x.result !== '')
+        );
         if (this.occupation != null) {
           this.weightedProtocolTables = this.weightedProtocolResult.map(value => {
             return {
@@ -483,54 +480,54 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               jobDemand: value.jobDemand
             };
           });
-            this.weightedProtocolTables.forEach((item, index) => {
-              if (item.activity.includes('Lifting')) {
-                
-                if (item.jobDemand  != null && typeof item.jobDemand  !== 'undefined') {
-                  item.onetDescription = this._assessmentServ.decodeOnetCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                  item.dotDescription = this._assessmentServ.decodeDotCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                }
-              } else if (item.activity.includes('Unilateral')) {
-                if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
-                  item.onetDescription = this._assessmentServ.decodeOnetCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand));
-                  item.dotDescription = this._assessmentServ.decodeDotCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                }
-              } else if (item.activity.includes('Pushing')) {
-                if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
-                  item.onetDescription = this._assessmentServ.decodeOnetCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                  item.dotDescription = this._assessmentServ.decodeDotCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                }
-              } else if (item.activity.includes('Pulling')) {
-                if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
-                  item.onetDescription = this._assessmentServ.decodeOnetCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                  item.dotDescription = this._assessmentServ.decodeDotCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                }
-              } else if (item.activity.includes('Bilateral')) {
-                if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
-                  item.onetDescription = this._assessmentServ.decodeOnetCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                  item.dotDescription = this._assessmentServ.decodeDotCategory(
-                    this._assessmentServ.decodeDotResult(item.jobDemand)
-                  );
-                }
+          this.weightedProtocolTables.forEach((item) => {
+            if (item.activity.includes('Lifting')) {
+
+              if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
+                item.onetDescription = this._assessmentServ.decodeOnetCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+                item.dotDescription = this._assessmentServ.decodeDotCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
               }
-            });
+            } else if (item.activity.includes('Unilateral')) {
+              if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
+                item.onetDescription = this._assessmentServ.decodeOnetCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand));
+                item.dotDescription = this._assessmentServ.decodeDotCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+              }
+            } else if (item.activity.includes('Pushing')) {
+              if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
+                item.onetDescription = this._assessmentServ.decodeOnetCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+                item.dotDescription = this._assessmentServ.decodeDotCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+              }
+            } else if (item.activity.includes('Pulling')) {
+              if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
+                item.onetDescription = this._assessmentServ.decodeOnetCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+                item.dotDescription = this._assessmentServ.decodeDotCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+              }
+            } else if (item.activity.includes('Bilateral')) {
+              if (item.jobDemand != null && typeof item.jobDemand !== 'undefined') {
+                item.onetDescription = this._assessmentServ.decodeOnetCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+                item.dotDescription = this._assessmentServ.decodeDotCategory(
+                  this._assessmentServ.decodeDotResult(item.jobDemand)
+                );
+              }
+            }
+          });
         } else {
           this.getElementNames(this.jobTitle);
         }
@@ -855,7 +852,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
     );
 
   }
-  loadList(event) {
+  loadList() {
     this.getQuestionnaires();
   }
   getGripStrength() {
@@ -968,7 +965,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
               }
             });
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
-            this.positionalToleranceResult.forEach((item, index) => {
+            this.positionalToleranceResult.forEach((item) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Sitting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
@@ -1033,7 +1030,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
                 jobDemand: value.jobDemand
               };
             });
-            this.weightedProtocolTables.forEach((item, index) => {
+            this.weightedProtocolTables.forEach((item) => {
               let element: MaxDataValue;
               if (item.activity.includes('Lifting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.g')[0];
@@ -1069,7 +1066,7 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
             });
           }
           if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
-            this.repetitiveToleranceResult.forEach((item, index) => {
+            this.repetitiveToleranceResult.forEach((item) => {
               let element: MaxDataValue;
               if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
@@ -1127,12 +1124,12 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
         }
       });
   }
-  
+
   showComment(id: string, activity: string) {
     // this.cognitiveComment.show();
     this.dialog.open(WorkAssessmentComponent, {
       hasBackdrop: false,
-      data: { id: id, fullName: this.fullName, clientId: this.clientId, activity: activity},
+      data: { id: id, fullName: this.fullName, clientId: this.clientId, activity: activity },
       width: '650px'
     });
   }

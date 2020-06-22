@@ -14,8 +14,10 @@
             <div class="card-body" [hidden]="false">
                 <div class="mat-table__wrapper">
                     <div class="example-header">
-                        <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" />
+                        <mat-form-field appearance="outline">
+                            <mat-label>Filter</mat-label>
+                            <input matInput (keyup)="applyFilter($event.target.value)" />
+                            <mat-icon matSuffix>filter_list</mat-icon>
                         </mat-form-field>
                     </div>
 
@@ -30,7 +32,10 @@
                                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                                     ID
                                 </mat-header-cell>
-                                <mat-cell *matCellDef="let job">
+                                <mat-cell *matCellDef="let job; let i=index;">
+                                    <div [ngClass]="{'circle-primary': i%2==0 , 'circle-accent':i%2==1 }">
+                                        {{job.title | initial}}
+                                    </div>
                                     {{ job.code }}
                                 </mat-cell>
                             </ng-container>
@@ -46,16 +51,16 @@
                             <ng-container matColumnDef="actions">
                                 <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
                                 <mat-cell *matCellDef="let job">
-                                    <button (click)="editJobTitle(job.id)" mat-icon-button color="primary" matTooltip="Edit Job">
+                                    <button (click)="$event.stopPropagation();editJobTitle(job.id)" mat-icon-button color="primary" matTooltip="Edit Job">
                                         <mat-icon>create</mat-icon>
                                     </button>&nbsp;
-                                    <button mat-icon-button color="warn" (click)="delete(job)" matTooltip="Delete Job" type="button">
+                                    <button mat-icon-button color="warn" (click)="$event.stopPropagation();delete(job)" matTooltip="Delete Job" type="button">
                                         <mat-icon>delete</mat-icon>
                                     </button>
                                 </mat-cell>
                             </ng-container>
                             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: displayedColumns">
+                            <mat-row (click)="editJobTitle(row.id)" *matRowDef="let row; columns: displayedColumns" class="py-2 bg-hover trans-ease-out cursor-pointer">
                             </mat-row>
                         </mat-table>
                         <mat-paginator [length]="totalItems" (page)="handleChange($event)" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

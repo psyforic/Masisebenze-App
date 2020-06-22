@@ -16,52 +16,20 @@ import { AbpModule } from '@abp/abp.module';
 import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module';
 import { SharedModule } from '@shared/shared.module';
 
-import { HomeComponent } from '@app/home/home.component';
-import { AboutComponent } from '@app/about/about.component';
-// tenants
-import { TenantsComponent } from '@app/tenants/tenants.component';
-import { CreateTenantDialogComponent } from './tenants/create-tenant/create-tenant-dialog.component';
-import { EditTenantDialogComponent } from './tenants/edit-tenant/edit-tenant-dialog.component';
 // roles
 import { RolesComponent } from '@app/roles/roles.component';
 import { CreateRoleDialogComponent } from './roles/create-role/create-role-dialog.component';
 import { EditRoleDialogComponent } from './roles/edit-role/edit-role-dialog.component';
 // users
-import { UsersComponent } from '@app/users/users.component';
-import { CreateUserDialogComponent } from '@app/users/create-user/create-user-dialog.component';
-import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.component';
-import { ChangePasswordComponent } from './users/change-password/change-password.component';
-import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
-import { AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { TopBarService } from './admin/services/top-bar.service';
-
-// import { FooterComponent } from './layout/footer/footer.component';
-// import { NavbarComponent } from './layout/navbar/navbar.component';
-// import { SidebarComponent } from './layout/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    AboutComponent,
-    // FooterComponent,
-    // NavbarComponent,
-    // SidebarComponent,
-    // tenants
-    TenantsComponent,
-    CreateTenantDialogComponent,
-    EditTenantDialogComponent,
     // roles
     RolesComponent,
     CreateRoleDialogComponent,
-    EditRoleDialogComponent,
-    // users
-    UsersComponent,
-    CreateUserDialogComponent,
-    EditUserDialogComponent,
-    ChangePasswordComponent,
-    ResetPasswordDialogComponent,
-
+    EditRoleDialogComponent
   ],
   imports: [
     CommonModule,
@@ -79,16 +47,9 @@ import { TopBarService } from './admin/services/top-bar.service';
   ],
   providers: [TopBarService],
   entryComponents: [
-    // tenants
-    CreateTenantDialogComponent,
-    EditTenantDialogComponent,
     // roles
     CreateRoleDialogComponent,
-    EditRoleDialogComponent,
-    // users
-    CreateUserDialogComponent,
-    EditUserDialogComponent,
-    ResetPasswordDialogComponent
+    EditRoleDialogComponent
   ]
 })
-export class AppModule {}
+export class AppModule { }

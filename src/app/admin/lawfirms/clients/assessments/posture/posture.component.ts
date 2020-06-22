@@ -5,7 +5,6 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { PostureOptionDto, AssessmentServiceProxy } from '@shared/service-proxies/service-proxies';
 import { AssessmentService } from '@app/admin/services/assessment.service';
 import { finalize } from 'rxjs/operators';
-import { ThickUnderline } from 'docx/build/file/paragraph/run/underline';
 
 @Component({
   selector: 'app-posture',

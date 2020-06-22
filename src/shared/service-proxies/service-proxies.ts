@@ -206,58 +206,6 @@ export class ActivityServiceProxy {
      * @param input (optional) 
      * @return Success
      */
-    editActivityLog(input: ActivityLogDetailOutput | null | undefined): Observable<void> {
-        let url_ = this.baseUrl + "/api/services/app/Activity/EditActivityLog";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(input);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json", 
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processEditActivityLog(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processEditActivityLog(<any>response_);
-                } catch (e) {
-                    return <Observable<void>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<void>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processEditActivityLog(response: HttpResponseBase): Observable<void> {
-        const status = response.status;
-        const responseBlob = 
-            response instanceof HttpResponse ? response.body : 
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return _observableOf<void>(<any>null);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<void>(<any>null);
-    }
-
-    /**
-     * @param input (optional) 
-     * @return Success
-     */
     getById(input: string | null | undefined): Observable<ActivityLogListDto> {
         let url_ = this.baseUrl + "/api/services/app/Activity/GetById?";
         if (input !== undefined)
@@ -27229,15 +27177,23 @@ export interface ICreateActivityLogInput {
     targetType: string | undefined;
 }
 
-export class ActivityLogDetailOutput implements IActivityLogDetailOutput {
+export class ActivityLogListDto implements IActivityLogListDto {
     description: string | undefined;
     routeUrl: string | undefined;
     userId: number | undefined;
     user: User | undefined;
     targetId: string | undefined;
     targetType: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
 
-    constructor(data?: IActivityLogDetailOutput) {
+    constructor(data?: IActivityLogListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -27254,12 +27210,20 @@ export class ActivityLogDetailOutput implements IActivityLogDetailOutput {
             this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
             this.targetId = data["targetId"];
             this.targetType = data["targetType"];
+            this.isDeleted = data["isDeleted"];
+            this.deleterUserId = data["deleterUserId"];
+            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = data["lastModifierUserId"];
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = data["creatorUserId"];
+            this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): ActivityLogDetailOutput {
+    static fromJS(data: any): ActivityLogListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ActivityLogDetailOutput();
+        let result = new ActivityLogListDto();
         result.init(data);
         return result;
     }
@@ -27272,24 +27236,40 @@ export class ActivityLogDetailOutput implements IActivityLogDetailOutput {
         data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["targetId"] = this.targetId;
         data["targetType"] = this.targetType;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
         return data; 
     }
 
-    clone(): ActivityLogDetailOutput {
+    clone(): ActivityLogListDto {
         const json = this.toJSON();
-        let result = new ActivityLogDetailOutput();
+        let result = new ActivityLogListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IActivityLogDetailOutput {
+export interface IActivityLogListDto {
     description: string | undefined;
     routeUrl: string | undefined;
     userId: number | undefined;
     user: User | undefined;
     targetId: string | undefined;
     targetType: string | undefined;
+    isDeleted: boolean | undefined;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: moment.Moment | undefined;
+    creatorUserId: number | undefined;
+    id: string | undefined;
 }
 
 export class User implements IUser {
@@ -27933,23 +27913,15 @@ export interface ISetting {
     id: number | undefined;
 }
 
-export class ActivityLogListDto implements IActivityLogListDto {
+export class ActivityLogDetailOutput implements IActivityLogDetailOutput {
     description: string | undefined;
     routeUrl: string | undefined;
     userId: number | undefined;
     user: User | undefined;
     targetId: string | undefined;
     targetType: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
 
-    constructor(data?: IActivityLogListDto) {
+    constructor(data?: IActivityLogDetailOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -27966,20 +27938,12 @@ export class ActivityLogListDto implements IActivityLogListDto {
             this.user = data["user"] ? User.fromJS(data["user"]) : <any>undefined;
             this.targetId = data["targetId"];
             this.targetType = data["targetType"];
-            this.isDeleted = data["isDeleted"];
-            this.deleterUserId = data["deleterUserId"];
-            this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
-            this.lastModificationTime = data["lastModificationTime"] ? moment(data["lastModificationTime"].toString()) : <any>undefined;
-            this.lastModifierUserId = data["lastModifierUserId"];
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            this.creatorUserId = data["creatorUserId"];
-            this.id = data["id"];
         }
     }
 
-    static fromJS(data: any): ActivityLogListDto {
+    static fromJS(data: any): ActivityLogDetailOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new ActivityLogListDto();
+        let result = new ActivityLogDetailOutput();
         result.init(data);
         return result;
     }
@@ -27992,40 +27956,24 @@ export class ActivityLogListDto implements IActivityLogListDto {
         data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["targetId"] = this.targetId;
         data["targetType"] = this.targetType;
-        data["isDeleted"] = this.isDeleted;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["lastModifierUserId"] = this.lastModifierUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["creatorUserId"] = this.creatorUserId;
-        data["id"] = this.id;
         return data; 
     }
 
-    clone(): ActivityLogListDto {
+    clone(): ActivityLogDetailOutput {
         const json = this.toJSON();
-        let result = new ActivityLogListDto();
+        let result = new ActivityLogDetailOutput();
         result.init(json);
         return result;
     }
 }
 
-export interface IActivityLogListDto {
+export interface IActivityLogDetailOutput {
     description: string | undefined;
     routeUrl: string | undefined;
     userId: number | undefined;
     user: User | undefined;
     targetId: string | undefined;
     targetType: string | undefined;
-    isDeleted: boolean | undefined;
-    deleterUserId: number | undefined;
-    deletionTime: moment.Moment | undefined;
-    lastModificationTime: moment.Moment | undefined;
-    lastModifierUserId: number | undefined;
-    creationTime: moment.Moment | undefined;
-    creatorUserId: number | undefined;
-    id: string | undefined;
 }
 
 export class AffectDto implements IAffectDto {
@@ -41015,6 +40963,14 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
     comment: string | undefined;
     painLevel: number | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
 
     constructor(data?: IPullingTestCreateInput) {
         if (data) {
@@ -41036,6 +40992,14 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
             this.comment = data["comment"];
             this.painLevel = data["painLevel"];
             this.level = data["level"];
+            this.readingOne = data["readingOne"];
+            this.readingTwo = data["readingTwo"];
+            this.readingThree = data["readingThree"];
+            this.readingFour = data["readingFour"];
+            this.readingFive = data["readingFive"];
+            this.readingSix = data["readingSix"];
+            this.readingSeven = data["readingSeven"];
+            this.readingEight = data["readingEight"];
         }
     }
 
@@ -41057,6 +41021,14 @@ export class PullingTestCreateInput implements IPullingTestCreateInput {
         data["comment"] = this.comment;
         data["painLevel"] = this.painLevel;
         data["level"] = this.level;
+        data["readingOne"] = this.readingOne;
+        data["readingTwo"] = this.readingTwo;
+        data["readingThree"] = this.readingThree;
+        data["readingFour"] = this.readingFour;
+        data["readingFive"] = this.readingFive;
+        data["readingSix"] = this.readingSix;
+        data["readingSeven"] = this.readingSeven;
+        data["readingEight"] = this.readingEight;
         return data; 
     }
 
@@ -41078,6 +41050,14 @@ export interface IPullingTestCreateInput {
     comment: string | undefined;
     painLevel: number | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
 }
 
 export class ListResultDtoOfPullingTestDto implements IListResultDtoOfPullingTestDto {
@@ -41143,6 +41123,14 @@ export class PullingTestDto implements IPullingTestDto {
     painLevel: number | undefined;
     pullingId: string | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
     id: string | undefined;
 
     constructor(data?: IPullingTestDto) {
@@ -41167,6 +41155,14 @@ export class PullingTestDto implements IPullingTestDto {
             this.painLevel = data["painLevel"];
             this.pullingId = data["pullingId"];
             this.level = data["level"];
+            this.readingOne = data["readingOne"];
+            this.readingTwo = data["readingTwo"];
+            this.readingThree = data["readingThree"];
+            this.readingFour = data["readingFour"];
+            this.readingFive = data["readingFive"];
+            this.readingSix = data["readingSix"];
+            this.readingSeven = data["readingSeven"];
+            this.readingEight = data["readingEight"];
             this.id = data["id"];
         }
     }
@@ -41191,6 +41187,14 @@ export class PullingTestDto implements IPullingTestDto {
         data["painLevel"] = this.painLevel;
         data["pullingId"] = this.pullingId;
         data["level"] = this.level;
+        data["readingOne"] = this.readingOne;
+        data["readingTwo"] = this.readingTwo;
+        data["readingThree"] = this.readingThree;
+        data["readingFour"] = this.readingFour;
+        data["readingFive"] = this.readingFive;
+        data["readingSix"] = this.readingSix;
+        data["readingSeven"] = this.readingSeven;
+        data["readingEight"] = this.readingEight;
         data["id"] = this.id;
         return data; 
     }
@@ -41215,6 +41219,14 @@ export interface IPullingTestDto {
     painLevel: number | undefined;
     pullingId: string | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
     id: string | undefined;
 }
 
@@ -41335,6 +41347,14 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
     comment: string | undefined;
     painLevel: number | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
 
     constructor(data?: IPushingTestCreateInput) {
         if (data) {
@@ -41356,6 +41376,14 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
             this.comment = data["comment"];
             this.painLevel = data["painLevel"];
             this.level = data["level"];
+            this.readingOne = data["readingOne"];
+            this.readingTwo = data["readingTwo"];
+            this.readingThree = data["readingThree"];
+            this.readingFour = data["readingFour"];
+            this.readingFive = data["readingFive"];
+            this.readingSix = data["readingSix"];
+            this.readingSeven = data["readingSeven"];
+            this.readingEight = data["readingEight"];
         }
     }
 
@@ -41377,6 +41405,14 @@ export class PushingTestCreateInput implements IPushingTestCreateInput {
         data["comment"] = this.comment;
         data["painLevel"] = this.painLevel;
         data["level"] = this.level;
+        data["readingOne"] = this.readingOne;
+        data["readingTwo"] = this.readingTwo;
+        data["readingThree"] = this.readingThree;
+        data["readingFour"] = this.readingFour;
+        data["readingFive"] = this.readingFive;
+        data["readingSix"] = this.readingSix;
+        data["readingSeven"] = this.readingSeven;
+        data["readingEight"] = this.readingEight;
         return data; 
     }
 
@@ -41398,6 +41434,14 @@ export interface IPushingTestCreateInput {
     comment: string | undefined;
     painLevel: number | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
 }
 
 export class ListResultDtoOfPushingTestDto implements IListResultDtoOfPushingTestDto {
@@ -41463,6 +41507,14 @@ export class PushingTestDto implements IPushingTestDto {
     painLevel: number | undefined;
     pushingId: string | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
     id: string | undefined;
 
     constructor(data?: IPushingTestDto) {
@@ -41487,6 +41539,14 @@ export class PushingTestDto implements IPushingTestDto {
             this.painLevel = data["painLevel"];
             this.pushingId = data["pushingId"];
             this.level = data["level"];
+            this.readingOne = data["readingOne"];
+            this.readingTwo = data["readingTwo"];
+            this.readingThree = data["readingThree"];
+            this.readingFour = data["readingFour"];
+            this.readingFive = data["readingFive"];
+            this.readingSix = data["readingSix"];
+            this.readingSeven = data["readingSeven"];
+            this.readingEight = data["readingEight"];
             this.id = data["id"];
         }
     }
@@ -41511,6 +41571,14 @@ export class PushingTestDto implements IPushingTestDto {
         data["painLevel"] = this.painLevel;
         data["pushingId"] = this.pushingId;
         data["level"] = this.level;
+        data["readingOne"] = this.readingOne;
+        data["readingTwo"] = this.readingTwo;
+        data["readingThree"] = this.readingThree;
+        data["readingFour"] = this.readingFour;
+        data["readingFive"] = this.readingFive;
+        data["readingSix"] = this.readingSix;
+        data["readingSeven"] = this.readingSeven;
+        data["readingEight"] = this.readingEight;
         data["id"] = this.id;
         return data; 
     }
@@ -41535,6 +41603,14 @@ export interface IPushingTestDto {
     painLevel: number | undefined;
     pushingId: string | undefined;
     level: number | undefined;
+    readingOne: number | undefined;
+    readingTwo: number | undefined;
+    readingThree: number | undefined;
+    readingFour: number | undefined;
+    readingFive: number | undefined;
+    readingSix: number | undefined;
+    readingSeven: number | undefined;
+    readingEight: number | undefined;
     id: string | undefined;
 }
 
