@@ -92,11 +92,15 @@ export class GripStrengthComponent extends AppComponentBase implements OnInit {
     }
   }
   getResult() {
+    this.gripStrengthLeft.weight = this.gripStrengthLeft.weight ? this.gripStrengthLeft.weight : 0;
+    this.gripStrengthLeft.machineTest = this.gripStrengthLeft.machineTest ? this.gripStrengthLeft.machineTest : 0;
     this._calculationService
       .getGripStrengthResults(this.age, this.numGender, 0, this.gripStrengthLeft.weight, this.gripStrengthLeft.machineTest)
       .subscribe((result) => {
         this.leftResult = result;
       });
+    this.gripStrengthRight.weight = this.gripStrengthRight.weight ? this.gripStrengthRight.weight : 0;
+    this.gripStrengthRight.machineTest = this.gripStrengthRight.machineTest ? this.gripStrengthRight.machineTest : 0;
     this._calculationService
       .getGripStrengthResults(this.age, this.numGender, 1, this.gripStrengthRight.weight, this.gripStrengthRight.machineTest)
       .subscribe((result) => {

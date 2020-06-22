@@ -176,6 +176,7 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
     super(injector);
   }
   ngOnInit() {
+
   }
   ngAfterViewChecked() {
     this.cdr.detectChanges();
@@ -186,6 +187,10 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
     this.clientAnswers = [];
     this.isSaved = false;
     this.type = type;
+    this._functionAssessmentService.getQuestionnaire(this.type, this.clientId)
+      .subscribe(questionnaire => {
+        this.questionnaire = questionnaire;
+      });
     this.getQuestions(this.type);
     this.getClientAnswers(this.type, this.clientId);
     this.modalService.open(this.content, { windowClass: 'modal-height', backdrop: 'static', keyboard: false, size: 'xl' })
@@ -202,19 +207,25 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
         )
           .pipe(finalize(() => {
             this.isSaved = false;
-            this.saving = false;
           }))
           .subscribe(() => {
-            if (this.commentInput.text != null || this.commentInput.text !== '') {
-              this.commentInput.targetId = this.questionnaire.id;
-              this._commentService.createComment(this.commentInput)
-                .pipe(finalize(() => {
-                  this.isLoading = false;
-                }))
-                .subscribe(() => {
-                });
-            }
-            this.notify.success('Save successfully');
+
+            this._functionAssessmentService.updateQuestionnaireStatus(this.clientId, this.type)
+              .pipe(finalize(() => {
+                this.saving = false;
+                this.notify.success('Save successfully');
+              }))
+              .subscribe(() => {
+                if (this.commentInput.text != null || this.commentInput.text !== '') {
+                  this.commentInput.targetId = this.questionnaire.id;
+                  this._commentService.createComment(this.commentInput)
+                    .pipe(finalize(() => {
+                      this.isLoading = false;
+                    }))
+                    .subscribe(() => {
+                    });
+                }
+              });
           });
       }
 
@@ -223,19 +234,26 @@ export class QuestionnaireComponent extends AppComponentBase implements OnInit, 
         this._functionAssessmentService.updateQuestionList(this.clientAnswers)
           .pipe(finalize(() => {
             this.isSaved = false;
-            this.saving = false;
+
           }))
           .subscribe(() => {
-            if (this.commentInput.text != null || this.commentInput.text !== '') {
-              this.commentInput.targetId = this.questionnaire.id;
-              this._commentService.createComment(this.commentInput)
-                .pipe(finalize(() => {
-                  this.isLoading = false;
-                }))
-                .subscribe(() => {
-                });
-            }
-            this.notify.success('Saved Successfully');
+
+            this._functionAssessmentService.updateQuestionnaireStatus(this.clientId, this.type)
+              .pipe(finalize(() => {
+                this.saving = false;
+                this.notify.success('Saved Successfully');
+              }))
+              .subscribe(() => {
+                if (this.commentInput.text != null || this.commentInput.text !== '') {
+                  this.commentInput.targetId = this.questionnaire.id;
+                  this._commentService.createComment(this.commentInput)
+                    .pipe(finalize(() => {
+                      this.isLoading = false;
+                    }))
+                    .subscribe(() => {
+                    });
+                }
+              });
           });
       }
     }

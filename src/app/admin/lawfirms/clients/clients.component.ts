@@ -521,6 +521,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.positionalToleranceResult.forEach((item) => {
               let element: MaxDataValue;
+              item.assessmentName = (item.assessmentName) ? item.assessmentName : '';
               if (item.assessmentName.includes('Sitting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
                 if (element != null) {
@@ -575,6 +576,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
             this.weightedProtocolResult.forEach((item) => {
               let element: MaxDataValue;
+              item.assessmentName = (item.assessmentName) ? item.assessmentName : '';
               if (item.assessmentName.includes('Lifting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
                 if (element != null && typeof element !== 'undefined') {
@@ -623,6 +625,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
             this.repetitiveToleranceResult.forEach((item) => {
               let element: MaxDataValue;
+              item.assessmentName = (item.assessmentName) ? item.assessmentName : '';
               if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
                 if (element != null && typeof element !== 'undefined') {

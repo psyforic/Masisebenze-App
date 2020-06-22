@@ -185,10 +185,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
   hidden = true;
   bookings: Booking[] = [];
   questionnaires = [
-    { type: 1, description: 'PATIENT HEALTH' },
-    { type: 2, description: 'DEPRESSION' },
-    { type: 3, description: 'ACTIVITIES OF DAILY LIVING' },
-    { type: 4, description: 'INSTRUMENTAL ACTIVITIES OF DAILY LIVING' }
+    { type: 1, description: 'PATIENT HEALTH', status: 0 },
+    { type: 2, description: 'DEPRESSION', status: 0 },
+    { type: 3, description: 'ACTIVITIES OF DAILY LIVING', status: 0 },
+    { type: 4, description: 'INSTRUMENTAL ACTIVITIES OF DAILY LIVING', status: 0 }
   ];
   categoryId: string;
   questionnaireType: number;
@@ -921,10 +921,13 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       }))
       .subscribe(result => {
         this.questionnairesDto = result.items;
+        console.log(this.questionnairesDto);
         const tempQuestionnaires = [];
         this.questionnairesDto.forEach((questionnaire) => {
           if (this.questionnaires.filter(x => x.type === questionnaire.type).length > 0) {
-            tempQuestionnaires.push(this.questionnaires.filter(x => x.type === questionnaire.type)[0]);
+            const question = this.questionnaires.filter(x => x.type === questionnaire.type)[0];
+            question.status = questionnaire.status;
+            tempQuestionnaires.push(question);
           }
         });
         this.questionnaires = tempQuestionnaires;
