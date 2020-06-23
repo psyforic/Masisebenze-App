@@ -13,8 +13,8 @@ import { MatBasicAudioPlayerComponent } from 'ngx-audio-player';
 export class ViewFileComponent extends AppComponentBase implements OnInit, AfterViewInit {
   @Input() fullName: string;
   @Input() clientId: string;
-  @ViewChild('images', {static: false}) images: ElementRef;
-  @ViewChild('audioOption', {static: false}) audioOption: ElementRef;
+  @ViewChild('images', { static: false }) images: ElementRef;
+  @ViewChild('audioOption', { static: false }) audioOption: ElementRef;
   isLoading = false;
   msbapTitle = 'Audio Title';
   msbapAudioUrl = 'Link to audio URL';
@@ -27,7 +27,7 @@ export class ViewFileComponent extends AppComponentBase implements OnInit, After
     private _dialogRef: MatDialogRef<EditUserDialogComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private _data: any) {
     super(injector);
-   }
+  }
   ngAfterViewInit() {
     // this.audioOption.nativeElement.play();
   }
@@ -43,5 +43,15 @@ export class ViewFileComponent extends AppComponentBase implements OnInit, After
   }
   close() {
     this._dialogRef.close();
+  }
+  getFileHeading(instruction: string): string {
+    if (instruction.includes('clock')) {
+      return 'Clock';
+    } else if (instruction.includes('copy')) {
+      return 'Cube';
+    } else if (instruction.includes('draw a line')) {
+      return 'Connect Letters';
+    }
+    return '';
   }
 }

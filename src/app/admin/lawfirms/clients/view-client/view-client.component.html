@@ -644,19 +644,21 @@
                                                     <div class="col-md-12">
 
                                                         <div class="row mt-2">
-                                                            <div class="col-lg-12 text-center">
-                                                                <h4><strong>Job Title: {{jobTitle}}</strong></h4>
+                                                            <div class="col-5"></div>
+                                                            <div class="col-7">
+                                                                <h4 class="text-left"><strong>Job Title: {{jobTitle}}</strong></h4>
                                                             </div>
 
                                                         </div>
                                                         <div class="row mt-2">
-                                                            <div class="col-lg-12 text-center">
-                                                                <h4><strong>Forceful Tasks / Weighted Protocols</strong>
+                                                            <div class="col-5"></div>
+                                                            <div class="col-7">
+                                                                <h4 class="text-left"><strong>Forceful Tasks / Weighted Protocols</strong>
                                                                 </h4>
-                                                                <div class="text-center text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
+                                                                <div class="text-left text-dark mt-5" *ngIf="weightedProtocolResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
                                                                     </i>
-                                                                    <h4 class="text-center">No Result</h4>
+                                                                    <h4 class="text-left">No Result</h4>
                                                                 </div>
                                                             </div>
 
@@ -692,7 +694,7 @@
                                                                     <!-- Weight Column -->
                                                                     <ng-container matColumnDef="onet_description">
                                                                         <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
-                                                                            <strong>Description</strong>
+                                                                            <strong>ONET Description</strong>
                                                                         </th>
                                                                         <td class="text-left p-1" width="30%" mat-cell *matCellDef="let element">
                                                                             {{element.onetDescription}} </td>
@@ -701,7 +703,7 @@
                                                                     <!-- Symbol Column -->
                                                                     <ng-container matColumnDef="dot_description">
                                                                         <th mat-header-cell *matHeaderCellDef class="font-weight-bold">
-                                                                            <strong>ONET Description</strong>
+                                                                            <strong>DOT Description</strong>
                                                                         </th>
                                                                         <td class="text-left p-1" width="30%" mat-cell *matCellDef="let element">
                                                                             {{element.dotDescription}} </td>
@@ -722,12 +724,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
-                                                            <div class="col-lg-12 text-center">
-                                                                <h4> <strong>Positional Tolerance Tasks</strong> </h4>
-                                                                <div class="text-center text-dark mt-5" *ngIf="positionalToleranceResult.length == 0 && !isLoading">
+                                                            <div class="col-5"></div>
+                                                            <div class="col-7">
+                                                                <h4 class="text-left"> <strong>Positional Tolerance Tasks</strong> </h4>
+                                                                <div class="text-left text-dark mt-5" *ngIf="positionalToleranceResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
                                                                     </i>
-                                                                    <h4 class="text-center">No Result</h4>
+                                                                    <h4 class="text-left">No Result</h4>
                                                                 </div>
                                                             </div>
 
@@ -781,12 +784,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="row mt-2">
-                                                            <div class="col-lg-12 text-center">
-                                                                <h4><strong>Repetitive Tolerance Tasks</strong></h4>
-                                                                <div class="text-center text-dark mt-5" *ngIf="repetitiveToleranceResult.length == 0 && !isLoading">
+                                                            <div class="col-5"></div>
+                                                            <div class="col-7">
+                                                                <h4 class="text-left"><strong>Repetitive Tolerance Tasks</strong></h4>
+                                                                <div class="text-left text-dark mt-5" *ngIf="repetitiveToleranceResult.length == 0 && !isLoading">
                                                                     <i class="fa fa-hourglass-3 fa-5x">
                                                                     </i>
-                                                                    <h4 class="text-center">No Result</h4>
+                                                                    <h4 class="text-left">No Result</h4>
                                                                 </div>
                                                             </div>
 
