@@ -1,15 +1,9 @@
 <ng-template #content let-modal class="modal modal-fade">
   <div class="modal-header bg-color">
     <h4 class="modal-title">
-      <i class="fa fa-info"></i><b class="ml-1">{{ fullName }}'s </b>Repetitive
-      Tolerance Protocol
+      <i class="fa fa-info"></i><b class="ml-1">{{ fullName }}'s </b>Repetitive Tolerance Protocol
     </h4>
-    <button
-      type="button"
-      class="close"
-      aria-label="Close"
-      (click)="modal.dismiss()"
-    >
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
       <span class="text-white" aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -25,42 +19,24 @@
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Pain"
-                      type="text"
-                      name="pain"
-                      value="{{ decodePainLevel(walkingProtocol?.painLevel) }}"
-                      readonly
-                    />
+                    <input matInput placeholder="Pain" type="text" name="pain"
+                      value="{{ decodePainLevel(walkingProtocol?.painLevel) }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Time Taken"
-                      type="text"
-                      name="numErrors"
-                      value="{{ walkingProtocol?.timeTaken }}"
-                      readonly
-                    />
+                    <input matInput placeholder="Time Taken" type="text" name="numErrors"
+                      value="{{ walkingProtocol?.timeTaken }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <textarea
-                      matInput
-                      placeholder="Comments"
-                      type="text"
-                      name="comments"
-                      readonly
-                      value="{{ walkingProtocol?.comment }}"
-                    ></textarea>
+                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                      value="{{ walkingProtocol?.comment }}"></textarea>
                   </mat-form-field>
                 </div>
               </div>
@@ -74,10 +50,7 @@
                 </p>
               </div>
             </div>
-            <div
-              class="col-lg-12 mt-5 text-center"
-              *ngIf="walkingProtocol?.id == null && !isLoading"
-            >
+            <div class="col-lg-12 mt-5 text-center" *ngIf="walkingProtocol?.id == null && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
@@ -87,131 +60,75 @@
               <!-- <div *ngFor="let stairClimbingProtocolResult of stairClimbingProtocolResult; let i = index;"> -->
               <div class="row">
                 <p class="col-lg-12 text-center mt-1">
-                  <strong
-                    >Test
+                  <strong>Test
                     {{
                       stair_current_step + 1 + " of " + (STAIR_MAX_STEP + 1)
-                    }}</strong
-                  >
+                    }}</strong>
                 </p>
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Pain"
-                      type="text"
-                      name="pain"
-                      value="{{
+                    <input matInput placeholder="Pain" type="text" name="pain" value="{{
                         decodePainLevel(
                           stairClimbingProtocolResult[stair_current_step]
                             ?.painLevel
                         )
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Time Taken"
-                      type="text"
-                      name="numErrors"
-                      value="{{
+                    <input matInput placeholder="Time Taken" type="text" name="numErrors" value="{{
                         stairClimbingProtocolResult[stair_current_step]
                           ?.timeTaken
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-3">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Initial Heart Rate"
-                      type="text"
-                      name="numErrors"
-                      value="{{
+                    <input matInput placeholder="Initial Heart Rate" type="text" name="numErrors" value="{{
                         stairClimbingProtocolResult[stair_current_step]
                           ?.initialHeartRate
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
                 <div class="col-lg-3">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Second Heart Rate"
-                      type="text"
-                      name="numErrors"
-                      value="{{
+                    <input matInput placeholder="Second Heart Rate" type="text" name="numErrors" value="{{
                         stairClimbingProtocolResult[stair_current_step]
                           ?.secondHeartRate
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
                 <div class="col-lg-3">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Third Heart Rate"
-                      type="text"
-                      name="numErrors"
-                      value="{{
+                    <input matInput placeholder="Third Heart Rate" type="text" name="numErrors" value="{{
                         stairClimbingProtocolResult[stair_current_step]
                           ?.thirdHeartRate
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
                 <div class="col-lg-3">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Fourth Heart Rate"
-                      type="text"
-                      name="numErrors"
-                      value="{{
+                    <input matInput placeholder="Fourth Heart Rate" type="text" name="numErrors" value="{{
                         stairClimbingProtocolResult[stair_current_step]
                           ?.fourthHeartRate
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 pull-left">
-                  <button
-                    type="button"
-                    mat-button
-                    color="primary"
-                    *ngIf="stair_current_step !== 0"
-                    (click)="sPrev()"
-                  >
+                  <button type="button" mat-button color="primary" *ngIf="stair_current_step !== 0" (click)="sPrev()">
                     Prev
                   </button>
                 </div>
                 <div class="col-lg-6 pull-right">
-                  <button
-                    class="pull-right"
-                    type="button"
-                    *ngIf="stair_current_step !== STAIR_MAX_STEP"
-                    mat-button
-                    color="primary"
-                    (click)="sNext()"
-                  >
+                  <button class="pull-right" type="button" *ngIf="stair_current_step !== STAIR_MAX_STEP" mat-button
+                    color="primary" (click)="sNext()">
                     Next
                   </button>
                 </div>
@@ -226,23 +143,16 @@
                 </p>
               </div>
             </div>
-            <div
-              class="col-lg-12 mt-5 text-center"
-              *ngIf="walkingProtocol?.id == null && !isLoading"
-            >
+            <div class="col-lg-12 mt-5 text-center" *ngIf="walkingProtocol?.id == null && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Balance" *ngIf="isAssessmentSelected(205)">
-            <div
-              class="col-lg-12 mt-2"
-              *ngIf="
+            <div class="col-lg-12 mt-2" *ngIf="
                 balanceProtocolOptions != null &&
-                balanceProtocolOptions?.length > 0
-              "
-            >
-             <form #commentForm="ngForm" (submit)="saveComment()">
+                balanceProtocolOptions?.length > 0">
+              <form #commentForm="ngForm" (submit)="saveComment()">
                 <h4 class="text-center">
                   <strong>{{
                     balanceProtocolOptions[balance_current_step].direction
@@ -251,68 +161,38 @@
                 <div class="row">
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
-                      <input
-                        matInput
-                        placeholder="Pain"
-                        type="text"
-                        name="pain"
-                        value=""
-                        readonly
-                      />
+                      <input matInput placeholder="Pain" type="text" name="pain"
+                        value="{{balanceProtocolOptions[balance_current_step]?.painLevel | painLevel}}" readonly />
                     </mat-form-field>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
-                      <input
-                        matInput
-                        placeholder="Number of errors"
-                        type="text"
-                        name="numErrors"
-                        value="{{
+                      <input matInput placeholder="Number of errors" type="text" name="numErrors" value="{{
                           balanceProtocolOptions[balance_current_step]
                             ?.numErrors
-                        }}"
-                        readonly
-                      />
+                        }}" readonly />
                     </mat-form-field>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-lg-12">
                     <mat-form-field class="example-full-width">
-                      <textarea
-                        matInput
-                        placeholder="Comments"
-                        type="text"
-                        name="comments"
-                        readonly
-                        value="{{
+                      <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{
                           balanceProtocolOptions[balance_current_step]?.comment
-                        }}"
-                      ></textarea>
+                        }}"></textarea>
                     </mat-form-field>
                   </div>
                 </div>
                 <div class="row" *ngIf="isCommentShown">
                   <div class="col-lg-12">
-                    <quill-editor
-                      [styles]="{ height: '150px' }"
-                      #balanceComment="ngModel"
-                      [(ngModel)]="commentInput.text"
-                      [sanitize]="true"
-                      name="comment"
-                    >
+                    <quill-editor [styles]="{ height: '150px' }" #balanceComment="ngModel"
+                      [(ngModel)]="commentInput.text" [sanitize]="true" name="comment">
                     </quill-editor>
                   </div>
                   <div class="col-lg-12 mt-1" align="end">
-                    <button
-                      type="submit"
-                      [disabled]="!commentForm.dirty"
-                      mat-raised-button
-                      color="primary"
-                    >
+                    <button type="submit" [disabled]="!commentForm.dirty" mat-raised-button color="primary">
                       Save Comment
                     </button>
                   </div>
@@ -325,36 +205,20 @@
                 </div> -->
                 <div class="row">
                   <div class="col-lg-4 pull-left">
-                    <button
-                      type="button"
-                      mat-button
-                      color="primary"
-                      *ngIf="balance_current_step !== 0"
-                      (click)="bPrev()"
-                    >
+                    <button type="button" mat-button color="primary" *ngIf="balance_current_step !== 0"
+                      (click)="bPrev()">
                       Prev
                     </button>
                   </div>
                   <div class="col-lg-4 text-center">
-                    <button
-                      *ngIf="balance_current_step == BALANCE_MAX_STEP"
-                      type="button"
-                      mat-stroked-button
-                      color="primary"
-                      (click)="showHideBalanceComment()"
-                    >
+                    <button *ngIf="balance_current_step == BALANCE_MAX_STEP" type="button" mat-stroked-button
+                      color="primary" (click)="showHideBalanceComment()">
                       {{ commentLabel }}
                     </button>
                   </div>
                   <div class="col-lg-4 pull-right">
-                    <button
-                      class="pull-right"
-                      type="button"
-                      *ngIf="balance_current_step !== BALANCE_MAX_STEP"
-                      mat-button
-                      color="primary"
-                      (click)="bNext()"
-                    >
+                    <button class="pull-right" type="button" *ngIf="balance_current_step !== BALANCE_MAX_STEP"
+                      mat-button color="primary" (click)="bNext()">
                       Next
                     </button>
                   </div>
@@ -373,12 +237,9 @@
                     </div>
                   </div>
                 </div>
-             </form>
+              </form>
             </div>
-            <div
-              class="col-lg-12 mt-5 text-center"
-              *ngIf="balanceProtocolOptions?.length == 0 && !isLoading"
-            >
+            <div class="col-lg-12 mt-5 text-center" *ngIf="balanceProtocolOptions?.length == 0 && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
@@ -388,28 +249,19 @@
               <!-- <div *ngFor="let ladderWorkProtocolResult of ladderWorkProtocolOptions; let i = index;"> -->
               <div class="row">
                 <p class="col-lg-12 text-center mt-1">
-                  <strong
-                    >Test
+                  <strong>Test
                     {{
                       ladder_current_step + 1 + " of " + (LADDER_MAX_STEP + 1)
-                    }}</strong
-                  >
+                    }}</strong>
                 </p>
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Pain"
-                      type="text"
-                      name="pain"
-                      value="{{
+                    <input matInput placeholder="Pain" type="text" name="pain" value="{{
                         decodePainLevel(
                           ladderWorkProtocolOptions[ladder_current_step]
                             ?.painLevel
                         )
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
@@ -424,72 +276,39 @@
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Number of Tests"
-                      type="text"
-                      name="numTests"
-                      value="{{
+                    <input matInput placeholder="Number of Tests" type="text" name="numTests" value="{{
                         ladderWorkProtocolOptions[ladder_current_step]?.numTests
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Number of Sets"
-                      type="text"
-                      name="numSets"
-                      value="{{
+                    <input matInput placeholder="Number of Sets" type="text" name="numSets" value="{{
                         ladderWorkProtocolOptions[ladder_current_step]?.numSets
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <textarea
-                      matInput
-                      placeholder="Comments"
-                      type="text"
-                      name="comments"
-                      readonly
-                      value="{{
+                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{
                         ladderWorkProtocolOptions[ladder_current_step]?.comment
-                      }}"
-                    ></textarea>
+                      }}"></textarea>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 pull-left">
-                  <button
-                    type="button"
-                    mat-button
-                    color="primary"
-                    *ngIf="ladder_current_step !== 0"
-                    (click)="lPrev()"
-                  >
+                  <button type="button" mat-button color="primary" *ngIf="ladder_current_step !== 0" (click)="lPrev()">
                     Prev
                   </button>
                 </div>
                 <div class="col-lg-6 pull-right">
-                  <button
-                    class="pull-right"
-                    type="button"
-                    *ngIf="ladder_current_step !== LADDER_MAX_STEP"
-                    mat-button
-                    color="primary"
-                    (click)="lNext()"
-                  >
+                  <button class="pull-right" type="button" *ngIf="ladder_current_step !== LADDER_MAX_STEP" mat-button
+                    color="primary" (click)="lNext()">
                     Next
                   </button>
                 </div>
@@ -506,179 +325,106 @@
                 </p>
               </div>
             </div>
-            
-            <div class="col-lg-12 mt-5 text-center"
-              *ngIf="ladderWorkProtocolOptions?.length == 0 && !isLoading">
+
+            <div class="col-lg-12 mt-5 text-center" *ngIf="ladderWorkProtocolOptions?.length == 0 && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Repetitive Squatting" *ngIf="isAssessmentSelected(207)">
-            <div
-              class="col-lg-12"
-              *ngIf="repetitiveSquattingProtocolOptions?.length > 0">
+            <div class="col-lg-12" *ngIf="repetitiveSquattingProtocolOptions?.length > 0">
               <!-- <div *ngFor="let repetitiveSquattingProtocolResult of repetitiveSquattingProtocolOptions; let i = index;"> -->
               <div class="row">
                 <p class="col-lg-12 text-center mt-1">
-                  <strong
-                    >Test
+                  <strong>Test
                     {{
                       rs_current_step + 1 + " of " + (RS_MAX_STEP + 1)
-                    }}</strong
-                  >
+                    }}</strong>
                 </p>
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Pain"
-                      type="text"
-                      name="pain"
-                      value="{{
+                    <input matInput placeholder="Pain" type="text" name="pain" value="{{
                         decodePainLevel(
                           repetitiveSquattingProtocolOptions[rs_current_step]
                             ?.painLevel
                         )
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-4">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Initial Heart Rate"
-                      type="text"
-                      name="initialHeartRate"
-                      value="{{
+                    <input matInput placeholder="Initial Heart Rate" type="text" name="initialHeartRate" value="{{
                         repetitiveSquattingProtocolOptions[rs_current_step]
                           ?.initialHeartRate
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
                 <div class="col-lg-4">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Second Heart Rate"
-                      type="text"
-                      name="secondHeartRate"
-                      value="{{
+                    <input matInput placeholder="Second Heart Rate" type="text" name="secondHeartRate" value="{{
                         repetitiveSquattingProtocolOptions[rs_current_step]
                           ?.secondHeartRate
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
                 <div class="col-lg-4">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Third Heart Rate"
-                      type="text"
-                      name="thirdHeartRate"
-                      value="{{
+                    <input matInput placeholder="Third Heart Rate" type="text" name="thirdHeartRate" value="{{
                         repetitiveSquattingProtocolOptions[rs_current_step]
                           ?.thirdHeartRate
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Pegs First Time"
-                      type="text"
-                      name="numPegsFirstTime"
-                      value="{{
+                    <input matInput placeholder="Pegs First Time" type="text" name="numPegsFirstTime" value="{{
                         repetitiveSquattingProtocolOptions[rs_current_step]
                           ?.numPegsFirstTime
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
                 <div class="col-lg-6">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Pegs Second Time"
-                      type="text"
-                      name="numPegsSecondTime"
-                      value="{{
+                    <input matInput placeholder="Pegs Second Time" type="text" name="numPegsSecondTime" value="{{
                         repetitiveSquattingProtocolOptions[rs_current_step]
                           ?.numPegsSecondTime
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Number Of Squats"
-                      type="text"
-                      name="numSquats"
-                      value="{{
+                    <input matInput placeholder="Number Of Squats" type="text" name="numSquats" value="{{
                         repetitiveSquattingProtocolOptions[rs_current_step]
                           ?.numSquats
-                      }}"
-                      readonly
-                    />
+                      }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <textarea
-                      matInput
-                      placeholder="Comments"
-                      type="text"
-                      name="comments"
-                      readonly
-                      value="{{
+                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{
                         repetitiveSquattingProtocolOptions[rs_current_step]
                           ?.comment
-                      }}"
-                    ></textarea>
+                      }}"></textarea>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 pull-left">
-                  <button
-                    type="button"
-                    mat-button
-                    color="primary"
-                    *ngIf="rs_current_step !== 0"
-                    (click)="rsPrev()"
-                  >
+                  <button type="button" mat-button color="primary" *ngIf="rs_current_step !== 0" (click)="rsPrev()">
                     Prev
                   </button>
                 </div>
                 <div class="col-lg-6 pull-right">
-                  <button
-                    class="pull-right"
-                    type="button"
-                    *ngIf="rs_current_step !== RS_MAX_STEP"
-                    mat-button
-                    color="primary"
-                    (click)="rsNext()"
-                  >
+                  <button class="pull-right" type="button" *ngIf="rs_current_step !== RS_MAX_STEP" mat-button
+                    color="primary" (click)="rsNext()">
                     Next
                   </button>
                 </div>
@@ -707,45 +453,28 @@
                 </div>
               </div>
             </div>
-            <div
-              class="col-lg-12 mt-5 text-center"
-              *ngIf="
+            <div class="col-lg-12 mt-5 text-center" *ngIf="
                 repetitiveSquattingProtocolOptions?.length == 0 && !isLoading
-              "
-            >
+              ">
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
           <mat-tab label="Repetitive Foot Motion" *ngIf="isAssessmentSelected(203)">
             <div class="col-lg-12 mt-5" *ngIf=" repetitiveLeftFootMotionProtocolOptions?.length > 0 ||
-                repetitiveRightFootMotionProtocolOptions.length > 0 "
-            >
+                repetitiveRightFootMotionProtocolOptions.length > 0 ">
               <!-- <div *ngFor="let rptFootMotion of repetitiveFootMotion; let i = index;"> -->
               <div class="col-md-10 ml-auto mr-auto">
                 <div class="nav-container mt-4">
-                  <ul
-                    class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center"
-                    role="tablist"
-                  >
+                  <ul class="nav nav-pills nav-pills-warning nav-pills-icons justify-content-center" role="tablist">
                     <li class="nav-item">
-                      <a
-                        class="nav-link text-center active"
-                        href="#fa-left-side"
-                        role="tab"
-                        data-toggle="tab"
-                      >
+                      <a class="nav-link text-center active" href="#fa-left-side" role="tab" data-toggle="tab">
                         <i class="fa fa-hand-o-left"></i><br />
                         <h5>Left Side</h5>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a
-                        class="nav-link text-center"
-                        href="#fa-right-side"
-                        role="tab"
-                        data-toggle="tab"
-                      >
+                      <a class="nav-link text-center" href="#fa-right-side" role="tab" data-toggle="tab">
                         <i class="fa fa-hand-o-right"></i><br />
                         <h5>Right Side</h5>
                       </a>
@@ -756,12 +485,8 @@
                   <div class="tab-content tab-space tab-subcategories">
                     <div class="tab-pane active" id="fa-left-side">
                       <div class="card">
-                        <div
-                          class="card-body"
-                          *ngIf="
-                            repetitiveLeftFootMotionProtocolOptions?.length > 0
-                          "
-                        >
+                        <div class="card-body"
+                          *ngIf="repetitiveLeftFootMotionProtocolOptions?.length > 0                          ">
                           <p class="col-lg-12 text-center mt-1">
                             Test
                             <strong>{{
@@ -772,20 +497,13 @@
                             <div class="row">
                               <div class="col-lg-12">
                                 <mat-form-field class="example-full-width">
-                                  <input
-                                    matInput
-                                    placeholder="Pain"
-                                    type="text"
-                                    name="pain"
-                                    [value]="
+                                  <input matInput placeholder="Pain" type="text" name="pain" [value]="
                                       decodePainLevel(
                                         repetitiveLeftFootMotionProtocolOptions[
                                           lrf_current_step
                                         ]?.painLevel
                                       )
-                                    "
-                                    readonly
-                                  />
+                                    " readonly />
                                 </mat-form-field>
                               </div>
                             </div>
@@ -793,36 +511,22 @@
                             <div class="row">
                               <div class="col-lg-12">
                                 <mat-form-field class="example-full-width">
-                                  <input
-                                    matInput
-                                    placeholder="Time Taken"
-                                    type="text"
-                                    name="pain"
-                                    value="{{
+                                  <input matInput placeholder="Time Taken" type="text" name="pain" value="{{
                                       repetitiveLeftFootMotionProtocolOptions[
                                         lrf_current_step
                                       ]?.timeTaken
-                                    }}"
-                                    readonly
-                                  />
+                                    }}" readonly />
                                 </mat-form-field>
                               </div>
                             </div>
                             <div class="row">
                               <div class="col-lg-12">
                                 <mat-form-field class="example-full-width">
-                                  <textarea
-                                    matInput
-                                    placeholder="Comments"
-                                    type="text"
-                                    name="comments"
-                                    readonly
-                                    value="{{
+                                  <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{
                                       repetitiveLeftFootMotionProtocolOptions[
                                         lrf_current_step
                                       ]?.comment
-                                    }}"
-                                  ></textarea>
+                                    }}"></textarea>
                                 </mat-form-field>
                               </div>
                             </div>
@@ -834,37 +538,23 @@
                               </div> -->
                             <div class="row">
                               <div class="col-lg-6 pull-left">
-                                <button
-                                  type="button"
-                                  mat-button
-                                  color="primary"
-                                  *ngIf="lrf_current_step !== 0"
-                                  (click)="lrfPrev()"
-                                >
+                                <button type="button" mat-button color="primary" *ngIf="lrf_current_step !== 0"
+                                  (click)="lrfPrev()">
                                   Prev
                                 </button>
                               </div>
                               <div class="col-lg-6 pull-right">
-                                <button
-                                  class="pull-right"
-                                  type="button"
-                                  *ngIf="lrf_current_step !== LRF_MAX_STEP"
-                                  mat-button
-                                  color="primary"
-                                  (click)="lrfNext()"
-                                >
+                                <button class="pull-right" type="button" *ngIf="lrf_current_step !== LRF_MAX_STEP"
+                                  mat-button color="primary" (click)="lrfNext()">
                                   Next
                                 </button>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="card-body"
-                          *ngIf="
+                        <div class="card-body" *ngIf="
                             repetitiveLeftFootMotionProtocolOptions?.length == 0
-                          "
-                        >
+                          ">
                           <div class="col-lg-12 mt-5 text-center">
                             <i class="fa fa-hourglass-3 fa-5x"> </i>
                             <h4 class="text-center">No Result</h4>
@@ -874,12 +564,9 @@
                     </div>
                     <div class="tab-pane" id="fa-right-side">
                       <div class="card">
-                        <div
-                          class="card-body"
-                          *ngIf="
+                        <div class="card-body" *ngIf="
                             repetitiveRightFootMotionProtocolOptions?.length > 0
-                          "
-                        >
+                          ">
                           <p class="col-lg-12 text-center mt-1">
                             Test
                             <strong>{{
@@ -890,20 +577,13 @@
                             <div class="row">
                               <div class="col-lg-12">
                                 <mat-form-field class="example-full-width">
-                                  <input
-                                    matInput
-                                    placeholder="Pain"
-                                    type="text"
-                                    name="pain"
-                                    value="{{
+                                  <input matInput placeholder="Pain" type="text" name="pain" value="{{
                                       decodePainLevel(
                                         repetitiveRightFootMotionProtocolOptions[
                                           rrf_current_step
                                         ]?.painLevel
                                       )
-                                    }}"
-                                    readonly
-                                  />
+                                    }}" readonly />
                                 </mat-form-field>
                               </div>
                             </div>
@@ -911,73 +591,45 @@
                             <div class="row">
                               <div class="col-lg-12">
                                 <mat-form-field class="example-full-width">
-                                  <input
-                                    matInput
-                                    placeholder="Time Taken"
-                                    type="text"
-                                    name="timeTaken"
-                                    value="{{
+                                  <input matInput placeholder="Time Taken" type="text" name="timeTaken" value="{{
                                       repetitiveRightFootMotionProtocolOptions[
                                         rrf_current_step
                                       ]?.timeTaken
-                                    }}"
-                                    readonly
-                                  />
+                                    }}" readonly />
                                 </mat-form-field>
                               </div>
                             </div>
                             <div class="row">
                               <div class="col-lg-12">
                                 <mat-form-field class="example-full-width">
-                                  <textarea
-                                    matInput
-                                    placeholder="Comments"
-                                    type="text"
-                                    name="comments"
-                                    readonly
-                                    value="{{
+                                  <textarea matInput placeholder="Comments" type="text" name="comments" readonly value="{{
                                       repetitiveRightFootMotionProtocolOptions[
                                         rrf_current_step
                                       ]?.comment
-                                    }}"
-                                  ></textarea>
+                                    }}"></textarea>
                                 </mat-form-field>
                               </div>
                             </div>
                             <div class="row">
                               <div class="col-lg-6 pull-left">
-                                <button
-                                  type="button"
-                                  mat-button
-                                  color="primary"
-                                  *ngIf="rrf_current_step !== 0"
-                                  (click)="rrfPrev()"
-                                >
+                                <button type="button" mat-button color="primary" *ngIf="rrf_current_step !== 0"
+                                  (click)="rrfPrev()">
                                   Prev
                                 </button>
                               </div>
                               <div class="col-lg-6 pull-right">
-                                <button
-                                  class="pull-right"
-                                  type="button"
-                                  *ngIf="rrf_current_step !== RRF_MAX_STEP"
-                                  mat-button
-                                  color="primary"
-                                  (click)="rrfNext()"
-                                >
+                                <button class="pull-right" type="button" *ngIf="rrf_current_step !== RRF_MAX_STEP"
+                                  mat-button color="primary" (click)="rrfNext()">
                                   Next
                                 </button>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="card-body"
-                          *ngIf="
+                        <div class="card-body" *ngIf="
                             repetitiveRightFootMotionProtocolOptions?.length ==
                             0
-                          "
-                        >
+                          ">
                           <div class="col-lg-12 mt-5 text-center">
                             <i class="fa fa-hourglass-3 fa-5x"> </i>
                             <h4 class="text-center">No Result</h4>
@@ -1006,14 +658,11 @@
                 </div>
               </div>
             </div>
-            <div
-              class="col-lg-12 mt-5 text-center"
-              *ngIf="
+            <div class="col-lg-12 mt-5 text-center" *ngIf="
                 repetitiveRightFootMotionProtocolOptions?.length == 0 &&
                 repetitiveLeftFootMotionProtocolOptions?.length == 0 &&
                 !isLoading
-              "
-            >
+              ">
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
@@ -1021,12 +670,10 @@
           <mat-tab label="Crawling" *ngIf="isAssessmentSelected(202)">
             <div class="col-lg-12" *ngIf="crawlingProtocol?.id != null">
               <p class="text-center mt-1">
-                <strong
-                  >Test
+                <strong>Test
                   {{
                     crawling_current_step + 1 + " of " + (CRAWLING_MAX_STEP + 1)
-                  }}</strong
-                >
+                  }}</strong>
               </p>
               <!-- <div *ngFor="let crawlingProtocolResult of crawlingProtocolResult; let i = index"> -->
 
@@ -1034,14 +681,8 @@
                 <!-- {{(i+1)+". "}} -->
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Pain"
-                      type="text"
-                      name="pain"
-                      value="{{ decodePainLevel(crawlingProtocol?.painLevel) }}"
-                      readonly
-                    />
+                    <input matInput placeholder="Pain" type="text" name="pain"
+                      value="{{ decodePainLevel(crawlingProtocol?.painLevel) }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
@@ -1056,14 +697,8 @@
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <input
-                      matInput
-                      placeholder="Number of Tests"
-                      type="text"
-                      name="numTests"
-                      value="{{ crawlingProtocol?.numTests }}"
-                      readonly
-                    />
+                    <input matInput placeholder="Number of Tests" type="text" name="numTests"
+                      value="{{ crawlingProtocol?.numTests }}" readonly />
                   </mat-form-field>
                 </div>
               </div>
@@ -1078,38 +713,21 @@
               <div class="row">
                 <div class="col-lg-12">
                   <mat-form-field class="example-full-width">
-                    <textarea
-                      matInput
-                      placeholder="Comments"
-                      type="text"
-                      name="comments"
-                      readonly
-                      value="{{ crawlingProtocol?.comment }}"
-                    ></textarea>
+                    <textarea matInput placeholder="Comments" type="text" name="comments" readonly
+                      value="{{ crawlingProtocol?.comment }}"></textarea>
                   </mat-form-field>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 pull-left">
-                  <button
-                    type="button"
-                    mat-button
-                    color="primary"
-                    *ngIf="crawling_current_step !== 0"
-                    (click)="cPrev()"
-                  >
+                  <button type="button" mat-button color="primary" *ngIf="crawling_current_step !== 0"
+                    (click)="cPrev()">
                     Prev
                   </button>
                 </div>
                 <div class="col-lg-6 pull-right">
-                  <button
-                    class="pull-right"
-                    type="button"
-                    *ngIf="crawling_current_step !== CRAWLING_MAX_STEP"
-                    mat-button
-                    color="primary"
-                    (click)="cNext()"
-                  >
+                  <button class="pull-right" type="button" *ngIf="crawling_current_step !== CRAWLING_MAX_STEP"
+                    mat-button color="primary" (click)="cNext()">
                     Next
                   </button>
                 </div>
@@ -1123,19 +741,13 @@
               </div>
               <!-- </div> -->
             </div>
-            <div
-              class="col-lg-12 mt-5 text-center"
-              *ngIf="crawlingProtocol?.id == null && !isLoading"
-            >
+            <div class="col-lg-12 mt-5 text-center" *ngIf="crawlingProtocol?.id == null && !isLoading">
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
           </mat-tab>
         </mat-tab-group>
-        <div
-          class="col-lg-12 mt-5 text-center"
-          *ngIf="selectedAssessments.length == 0 && !isLoading"
-        >
+        <div class="col-lg-12 mt-5 text-center" *ngIf="selectedAssessments.length == 0 && !isLoading">
           <i class="fa fa-hourglass-3 fa-5x"> </i>
           <h4 class="text-center">No Assessment Selected</h4>
         </div>

@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h4><strong>1. Discussion</strong></h4>
-                <hr/>
+                <hr />
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
@@ -14,7 +14,8 @@
                                 Discussion
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1 w-90" [placeholder]="'Write client\'s assessment discussion here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="discussion">
+                        <quill-editor class="mt-1 w-90" [placeholder]="'Write client\'s assessment discussion here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true" formControlName="discussion">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -23,7 +24,8 @@
                                 1.1 Loss Of Emenities
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1 w-90" [placeholder]="'Write client\'s assessment discussion here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="lossOfEmenities">
+                        <quill-editor class="mt-1 w-90" [placeholder]="'Write client\'s assessment discussion here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true" formControlName="lossOfEmenities">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -32,7 +34,8 @@
                                 1.2 Residual Work Capacity
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s assessment discussion here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="residualWorkCapacity">
+                        <quill-editor class="mt-1" [placeholder]="'Write client\'s assessment discussion here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true" formControlName="residualWorkCapacity">
                         </quill-editor>
                     </mat-expansion-panel>
                 </mat-accordion>
@@ -40,7 +43,7 @@
             </div>
             <div class="col-md-12 mt-2">
                 <h4><strong>2. Recommendations</strong></h4>
-                <hr/>
+                <hr />
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
@@ -48,7 +51,8 @@
                                 Recommendation
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-2" [placeholder]="'Write client\'s assessment recommendations here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="recommendations">
+                        <quill-editor class="mt-2" [placeholder]="'Write client\'s assessment recommendations here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true" formControlName="recommendations">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -57,7 +61,8 @@
                                 2.1 Future Medical Expenses
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s future medical expenses here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="futureMedicalExpenses">
+                        <quill-editor class="mt-1" [placeholder]="'Write client\'s future medical expenses here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true" formControlName="futureMedicalExpenses">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -66,7 +71,10 @@
                                 2.2 Future Medication and Surgical Intervention
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s future medication and surgical intervention here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="futureMedicalAndSurgicalIntervention">
+                        <quill-editor class="mt-1"
+                            [placeholder]="'Write client\'s future medication and surgical intervention here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true"
+                            formControlName="futureMedicalAndSurgicalIntervention">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -75,7 +83,10 @@
                                 2.3 Supplementary Health Services
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s supplementary health services here...'" [styles]="{height: '200px'}" [(ngModel)]="reportSummary.supplementaryHealthServices " [sanitize]="true" formControlName="supplementaryHealthServices">
+                        <quill-editor class="mt-1"
+                            [placeholder]="'Write client\'s supplementary health services here...'"
+                            [styles]="{height: '200px'}" [(ngModel)]="reportSummary.supplementaryHealthServices "
+                            [sanitize]="true" formControlName="supplementaryHealthServices">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -84,7 +95,8 @@
                                 2.4 Physiotherapy
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Physiotherapy here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="physiotherapy">
+                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Physiotherapy here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true" formControlName="physiotherapy">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -93,7 +105,8 @@
                                 2.5 Psychology
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Psychology here...'" [styles]="{height: '200px'}" formControlName="psychology" [sanitize]="true">
+                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Psychology here...'"
+                            [styles]="{height: '200px'}" formControlName="psychology" [sanitize]="true">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -102,7 +115,8 @@
                                 2.6 Occupational Therapy
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Occupational Therapy here...'" [styles]="{height: '200px'}" [sanitize]="true" formControlName="occupationalTherapy">
+                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Occupational Therapy here...'"
+                            [styles]="{height: '200px'}" [sanitize]="true" formControlName="occupationalTherapy">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -111,7 +125,9 @@
                                 2.7 Special and Adapted Equipment
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Special and Adapted Equipment here...'" [styles]="{height: '200px'}" formControlName="specialEquipment" [sanitize]="true">
+                        <quill-editor class="mt-1"
+                            [placeholder]="'Write client\'s Special and Adapted Equipment here...'"
+                            [styles]="{height: '200px'}" formControlName="specialEquipment" [sanitize]="true">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -120,7 +136,9 @@
                                 2.8 Assistance Required
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Assistance Required here...'" [styles]="{height: '200px'}" formControlName="caseManagement1" [sanitize]="true" name="caseManagement1">
+                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Assistance Required here...'"
+                            [styles]="{height: '200px'}" formControlName="caseManagement1" [sanitize]="true"
+                            name="caseManagement1">
                         </quill-editor>
                     </mat-expansion-panel>
                     <mat-expansion-panel>
@@ -129,7 +147,9 @@
                                 2.9 Transportation Costs
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Transportation Costs here...'" [styles]="{height: '200px'}" formControlName="transportationCosts" [sanitize]="true" name="transportationCosts">
+                        <quill-editor class="mt-1" [placeholder]="'Write client\'s Transportation Costs here...'"
+                            [styles]="{height: '200px'}" formControlName="transportationCosts" [sanitize]="true"
+                            name="transportationCosts">
                         </quill-editor>
                     </mat-expansion-panel>
 
@@ -139,7 +159,8 @@
         </div>
         <div class="row">
             <div class="col-md-12 mt-2">
-                <button color="primary" class="float-right " type="button" [disabled]="!summaryForm.dirty" mat-raised-button color="primary" (click)="save()">Save</button>
+                <button color="primary" class="float-right " type="button" [disabled]="!summaryForm.dirty"
+                    mat-raised-button color="primary" (click)="save()">Save</button>
             </div>
         </div>
     </form>
