@@ -47,6 +47,7 @@ import { GeneralService } from '@app/admin/services/general.service';
 import { Subject, of } from 'rxjs';
 import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
+import { AssessmentService } from '@app/admin/services/assessment.service';
 export class MaxDataValue {
   elementId: string;
   elementName: string;
@@ -62,7 +63,8 @@ export class MaxDataValue {
     ClientServiceProxy, WorkAssessmentServiceProxy,
     DocumentServiceProxy, ReportServiceProxy, WorkInformationServiceProxy,
     MobilityServiceProxy, AffectServiceProxy, SensationServiceProxy, PostureServiceProxy,
-    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy
+    ClientAssessmentReportServiceProxy, ReportSummaryServiceProxy, WorkAssessmentReportServiceProxy,
+    AssessmentService
   ]
 })
 export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
@@ -117,6 +119,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
     private _router: Router,
     private _topBarService: TopBarService,
     private clientService: ClientServiceProxy,
+    private _assessmentServ: AssessmentService,
     private documentService: DocumentServiceProxy,
     private _reportService: ReportServiceProxy,
     private _workInformationService: WorkInformationServiceProxy,
@@ -525,6 +528,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.positionalToleranceResult.forEach((item) => {
               let element: MaxDataValue;
+              item.assessmentName = (item.assessmentName) ? item.assessmentName : '';
               if (item.assessmentName.includes('Sitting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.a')[0];
                 if (element != null) {
@@ -579,30 +583,31 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           if (this.weightedProtocolResult != null && this.weightedProtocolResult.length > 0) {
             this.weightedProtocolResult.forEach((item) => {
               let element: MaxDataValue;
-              if (item.assessmentName.includes('Lifting')) {
+              item.assessmentName = (item.assessmentName) ? item.assessmentName : '';
+              if (item.assessmentName.includes('Core Lifting')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.j')[0];
                 if (element != null && typeof element !== 'undefined') {
-                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                  item.jobDemand = this._assessmentServ.decodeOnetCategory(element.category);
                 }
               } else if (item.assessmentName.includes('Unilateral')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
                 if (element != null && typeof element !== 'undefined') {
-                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                  item.jobDemand = this._assessmentServ.decodeOnetCategory(element.category);
                 }
               } else if (item.assessmentName.includes('Pushing')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
                 if (element != null && typeof element !== 'undefined') {
-                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                  item.jobDemand = this._assessmentServ.decodeOnetCategory(element.category);
                 }
               } else if (item.assessmentName.includes('Pulling')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.h')[0];
                 if (element != null && typeof element !== 'undefined') {
-                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                  item.jobDemand = this._assessmentServ.decodeOnetCategory(element.category);
                 }
               } else if (item.assessmentName.includes('Bilateral')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
                 if (element != null && typeof element !== 'undefined') {
-                  item.jobDemand = this.calculateJobDemandResult(element.dataValue);
+                  item.jobDemand = this._assessmentServ.decodeOnetCategory(element.category);
                 }
               }
             });
@@ -612,7 +617,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
                   return {
                     activity: value.assessmentName,
                     performance: value.result,
-                    jobDemand: value.jobDemand
+                    jobDemand: value.jobDemand ? value.jobDemand : ''
                   };
 
                 });
@@ -627,6 +632,7 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
           if (this.repetitiveToleranceResult != null && this.repetitiveToleranceResult.length > 0) {
             this.repetitiveToleranceResult.forEach((item) => {
               let element: MaxDataValue;
+              item.assessmentName = (item.assessmentName) ? item.assessmentName : '';
               if (item.assessmentName.includes('Repetitive Squatting Protocol')) {
                 element = this.maxDataValues.filter(x => x.elementId === '4.C.2.d.1.i')[0];
                 if (element != null && typeof element !== 'undefined') {

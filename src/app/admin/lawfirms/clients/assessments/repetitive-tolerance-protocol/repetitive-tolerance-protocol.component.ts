@@ -220,8 +220,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
               this.getCrawlingProtocol();
               break;
             case 203:
-              this.getRepetitiveLeftFootMotionProtocol();
-              this.getRepetitiveRightFootMotionProtocol();
+                this.getRepetitiveFootMotionProtocol();
               break;
             case 205:
               this.getBalanceProtocol();
@@ -364,8 +363,6 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.RRF_MAX_STEP = (result != null) ? result.items.length - 1 : 0;
         this.repetitiveRightFootMotionProtocolOptions = (result != null) ?
           result.items : this.repetitiveRightFootMotionProtocolOptions;
-
-        console.log(this.repetitiveRightFootMotionProtocolOptions);
       });
   }
   getRepetitiveLeftFootMotionProtocolOptions(repetitiveFootMotionProtocolId, tabIndex): RepetitiveFootMotionOptionDto[] {
@@ -386,6 +383,8 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       }))
       .subscribe((result) => {
         this.repetitiveFootMotionProtocolResult = result;
+        this.getRepetitiveLeftFootMotionProtocol();
+        this.getRepetitiveRightFootMotionProtocol();
       });
   }
   getCrawlingProtocol() {
@@ -434,8 +433,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.getRepetitiveSquattingProtocol();
         break;
       case 5:
-        this.getRepetitiveLeftFootMotionProtocol();
-        this.getRepetitiveRightFootMotionProtocol();
+        this.getRepetitiveFootMotionProtocol();
         break;
       case 6:
         this.getCrawlingProtocol();

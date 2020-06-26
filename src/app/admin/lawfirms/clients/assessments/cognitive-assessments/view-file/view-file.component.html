@@ -13,7 +13,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-{{ 12/files?.length}} mx-auto" *ngFor="let file of files;">
-                        <p>{{file.instruction}}</p>
+                        <p>{{getFileHeading(file?.instruction)}}</p>
                         <img #images class="img w-100" *ngIf="file.fileUrl.includes('Image')" [src]="file.fileUrl" />
                         <!-- <audio controls autoplay preload="auto" #audioOption *ngIf="file.fileUrl.includes('Audio')">
                         <source [src]="'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'" type="audio/mp3"/>
