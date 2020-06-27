@@ -530,12 +530,10 @@
                                 </mat-form-field>
                               </div>
                             </div>
-                            <!-- <div class="row">
-                                <p class="col-lg-12 text-primary">
-                                  <i class="fa fa-info"></i>
-                                  <b class="ml-2">{{option?.result}}</b>
-                                </p>
-                              </div> -->
+                            <div class="row">
+                              <h4 class="fw-500">Left Foot Result:
+                                {{ repetitiveFootMotionProtocolResult?.resultLeftFoot}}</h4>
+                            </div>
                             <div class="row">
                               <div class="col-lg-6 pull-left">
                                 <button type="button" mat-button color="primary" *ngIf="lrf_current_step !== 0"
@@ -611,6 +609,10 @@
                               </div>
                             </div>
                             <div class="row">
+                              <h4 class="fw-500">Right Foot Result:
+                                {{ repetitiveFootMotionProtocolResult?.resultRightFoot}}</h4>
+                            </div>
+                            <div class="row">
                               <div class="col-lg-6 pull-left">
                                 <button type="button" mat-button color="primary" *ngIf="rrf_current_step !== 0"
                                   (click)="rrfPrev()">
@@ -626,10 +628,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="card-body" *ngIf="
-                            repetitiveRightFootMotionProtocolOptions?.length ==
-                            0
-                          ">
+                        <div class="card-body" *ngIf="repetitiveRightFootMotionProtocolOptions?.length == 0">
                           <div class="col-lg-12 mt-5 text-center">
                             <i class="fa fa-hourglass-3 fa-5x"> </i>
                             <h4 class="text-center">No Result</h4>
@@ -641,7 +640,7 @@
                 </div>
               </div>
               <!-- </div> -->
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-lg-12">
                   <h5 class="text-center">Overall Result</h5>
                 </div>
@@ -656,7 +655,7 @@
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="col-lg-12 mt-5 text-center" *ngIf="
                 repetitiveRightFootMotionProtocolOptions?.length == 0 &&
