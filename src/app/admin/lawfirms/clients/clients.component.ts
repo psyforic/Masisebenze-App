@@ -171,7 +171,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
       const gender = this._generalService.getGender('' + client.idNumber);
       this._assessmentReportService.getAssessmentReport(entity.id, gender, age)
         .pipe(finalize(() => {
-          // this.isGenerating = false;
           const docCreator = new DocumentCreator();
           if (this.positionalToleranceResult != null && this.positionalToleranceResult.length > 0) {
             this.positionalToleranceResult = this.positionalToleranceResult.
@@ -691,7 +690,6 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
         this.generateDocument(docCreator, entity, entity.address)
           .then(() => {
             this.isGenerating = false;
-            //console.log(this.assessmentReport);
           })
           .catch((error) => {
             this.notify.error('An Error Occurred Please Try Again to Download');
