@@ -1,0 +1,96 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="card-title"> Outgoing Mail Settings </h1>
+        <div class="header-toolbar">
+          <button (click)="backClicked()" mat-icon-button color="primary" type="button" matTooltip="Back">
+            <mat-icon>keyboard_backspace</mat-icon>
+          </button>
+        </div>
+      </div>
+      <form [formGroup]="mailSettingsForm" novalidate (ngSubmit)="save()">
+        <div class="card-body">
+          <div class="example-loading-shade" *ngIf="isLoading">
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+          </div>
+          <div class="alert alert-primary" role="alert" *ngIf="isSent">
+            <b>If you Don't receive any welcome email, Check your Settings again, and Resend a test email.</b>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field>
+                <input matInput type="text" formControlName="displayName" placeholder="Display Name" required>
+                <mat-error *ngIf="mailSettingsForm.get('displayName').touched
+                                      && mailSettingsForm.get('displayName').hasError('required')">
+                  Display Name is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-6">
+              <mat-form-field>
+                <input required type="email" matInput placeholder="Email Address" formControlName="emailAddress"
+                  required>
+                <mat-error *ngIf="mailSettingsForm.get('emailAddress').touched
+                                      && mailSettingsForm.get('emailAddress').hasError('required')">
+                  Email Address is Required
+                </mat-error>
+                <mat-error *ngIf="mailSettingsForm.get('emailAddress').touched
+                                      && mailSettingsForm.get('emailAddress').hasError('email')">
+                  Please enter a valid Email Address
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <mat-form-field>
+                <input required matInput formControlName="password" placeholder="Password" type="password">
+                <mat-error *ngIf="mailSettingsForm.get('password').touched
+                                      && mailSettingsForm.get('password').hasError('required')">
+                  Password is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <mat-form-field>
+                <input matInput type="text" formControlName="host" placeholder="Host Name" required>
+                <mat-error *ngIf="mailSettingsForm.get('host').touched
+                                      && mailSettingsForm.get('host').hasError('required')">
+                  Host Name is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-lg-6">
+              <mat-form-field>
+                <input matInput type="text" formControlName="port" placeholder="Port Number" required>
+                <mat-error *ngIf="mailSettingsForm.get('port').touched
+                                      && mailSettingsForm.get('port').hasError('required')">
+                  Port Number is Required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-lg-6">
+              <button type="button" mat-raised-button color="primary" class="ml-3" (click)="sendTestMail()"
+                [disabled]="!mailSettingsForm.valid || isLoading || mailSettingsForm.dirty">
+                Send Test Mail
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-6" class="float-right">
+            <button type="button" mat-raised-button color="secondary" (click)="mailSettingsForm.reset()">Clear</button>
+            <button type="submit" mat-raised-button color="primary" class="ml-3"
+              [disabled]="!mailSettingsForm.valid || isLoading || !mailSettingsForm.dirty">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

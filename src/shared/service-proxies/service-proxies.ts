@@ -30,6 +30,156 @@ export class AccountServiceProxy {
      * @param input (optional) 
      * @return Success
      */
+    connect(input: MailSettingsInput | null | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Account/Connect";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(input);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processConnect(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processConnect(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processConnect(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    deleteMailSettings(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Account/DeleteMailSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteMailSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteMailSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteMailSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getMailSettings(): Observable<MailSettingsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Account/GetMailSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetMailSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetMailSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<MailSettingsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<MailSettingsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetMailSettings(response: HttpResponseBase): Observable<MailSettingsDto> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? MailSettingsDto.fromJS(resultData200) : new MailSettingsDto();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<MailSettingsDto>(<any>null);
+    }
+
+    /**
+     * @param input (optional) 
+     * @return Success
+     */
     isTenantAvailable(input: IsTenantAvailableInput | null | undefined): Observable<IsTenantAvailableOutput> {
         let url_ = this.baseUrl + "/api/services/app/Account/IsTenantAvailable";
         url_ = url_.replace(/[?&]$/, "");
@@ -136,6 +286,53 @@ export class AccountServiceProxy {
             }));
         }
         return _observableOf<RegisterOutput>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    sendTestEmail(): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Account/SendTestEmail";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processSendTestEmail(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processSendTestEmail(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processSendTestEmail(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
     }
 }
 
@@ -4770,14 +4967,17 @@ export class ClientServiceProxy {
     /**
      * @param clientId (optional) 
      * @param contactId (optional) 
+     * @param baseUrl (optional) 
      * @return Success
      */
-    resendEmail(clientId: string | null | undefined, contactId: string | null | undefined): Observable<void> {
+    resendEmail(clientId: string | null | undefined, contactId: string | null | undefined, baseUrl: string | null | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/services/app/Client/ResendEmail?";
         if (clientId !== undefined)
             url_ += "clientId=" + encodeURIComponent("" + clientId) + "&"; 
         if (contactId !== undefined)
             url_ += "contactId=" + encodeURIComponent("" + contactId) + "&"; 
+        if (baseUrl !== undefined)
+            url_ += "baseUrl=" + encodeURIComponent("" + baseUrl) + "&"; 
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -27293,6 +27493,219 @@ export class WorkInformationServiceProxy {
     }
 }
 
+export class MailSettingsInput implements IMailSettingsInput {
+    emailAddress: string | undefined;
+    displayName: string | undefined;
+    password: string | undefined;
+    host: string | undefined;
+    port: number | undefined;
+
+    constructor(data?: IMailSettingsInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.emailAddress = data["emailAddress"];
+            this.displayName = data["displayName"];
+            this.password = data["password"];
+            this.host = data["host"];
+            this.port = data["port"];
+        }
+    }
+
+    static fromJS(data: any): MailSettingsInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new MailSettingsInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["emailAddress"] = this.emailAddress;
+        data["displayName"] = this.displayName;
+        data["password"] = this.password;
+        data["host"] = this.host;
+        data["port"] = this.port;
+        return data; 
+    }
+
+    clone(): MailSettingsInput {
+        const json = this.toJSON();
+        let result = new MailSettingsInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMailSettingsInput {
+    emailAddress: string | undefined;
+    displayName: string | undefined;
+    password: string | undefined;
+    host: string | undefined;
+    port: number | undefined;
+}
+
+export class MailSettingsDto implements IMailSettingsDto {
+    userId: number | undefined;
+    user: UserDto | undefined;
+    emailAddress: string | undefined;
+    displayName: string | undefined;
+    password: string | undefined;
+    host: string | undefined;
+    port: number | undefined;
+
+    constructor(data?: IMailSettingsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userId = data["userId"];
+            this.user = data["user"] ? UserDto.fromJS(data["user"]) : <any>undefined;
+            this.emailAddress = data["emailAddress"];
+            this.displayName = data["displayName"];
+            this.password = data["password"];
+            this.host = data["host"];
+            this.port = data["port"];
+        }
+    }
+
+    static fromJS(data: any): MailSettingsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new MailSettingsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userId"] = this.userId;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        data["emailAddress"] = this.emailAddress;
+        data["displayName"] = this.displayName;
+        data["password"] = this.password;
+        data["host"] = this.host;
+        data["port"] = this.port;
+        return data; 
+    }
+
+    clone(): MailSettingsDto {
+        const json = this.toJSON();
+        let result = new MailSettingsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IMailSettingsDto {
+    userId: number | undefined;
+    user: UserDto | undefined;
+    emailAddress: string | undefined;
+    displayName: string | undefined;
+    password: string | undefined;
+    host: string | undefined;
+    port: number | undefined;
+}
+
+export class UserDto implements IUserDto {
+    userName: string;
+    name: string;
+    surname: string;
+    emailAddress: string;
+    isActive: boolean | undefined;
+    fullName: string | undefined;
+    lastLoginTime: moment.Moment | undefined;
+    creationTime: moment.Moment | undefined;
+    roleNames: string[] | undefined;
+    id: number | undefined;
+
+    constructor(data?: IUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.userName = data["userName"];
+            this.name = data["name"];
+            this.surname = data["surname"];
+            this.emailAddress = data["emailAddress"];
+            this.isActive = data["isActive"];
+            this.fullName = data["fullName"];
+            this.lastLoginTime = data["lastLoginTime"] ? moment(data["lastLoginTime"].toString()) : <any>undefined;
+            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
+            if (data["roleNames"] && data["roleNames"].constructor === Array) {
+                this.roleNames = [];
+                for (let item of data["roleNames"])
+                    this.roleNames.push(item);
+            }
+            this.id = data["id"];
+        }
+    }
+
+    static fromJS(data: any): UserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userName"] = this.userName;
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["emailAddress"] = this.emailAddress;
+        data["isActive"] = this.isActive;
+        data["fullName"] = this.fullName;
+        data["lastLoginTime"] = this.lastLoginTime ? this.lastLoginTime.toISOString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        if (this.roleNames && this.roleNames.constructor === Array) {
+            data["roleNames"] = [];
+            for (let item of this.roleNames)
+                data["roleNames"].push(item);
+        }
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): UserDto {
+        const json = this.toJSON();
+        let result = new UserDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserDto {
+    userName: string;
+    name: string;
+    surname: string;
+    emailAddress: string;
+    isActive: boolean | undefined;
+    fullName: string | undefined;
+    lastLoginTime: moment.Moment | undefined;
+    creationTime: moment.Moment | undefined;
+    roleNames: string[] | undefined;
+    id: number | undefined;
+}
+
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
     tenancyName: string;
 
@@ -31907,6 +32320,7 @@ export class CreateClientInput implements ICreateClientInput {
     address: CreateAddressInput | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
+    baseUrl: string | undefined;
 
     constructor(data?: ICreateClientInput) {
         if (data) {
@@ -31946,6 +32360,7 @@ export class CreateClientInput implements ICreateClientInput {
             this.address = data["address"] ? CreateAddressInput.fromJS(data["address"]) : <any>undefined;
             this.startTime = data["startTime"] ? moment(data["startTime"].toString()) : <any>undefined;
             this.endTime = data["endTime"] ? moment(data["endTime"].toString()) : <any>undefined;
+            this.baseUrl = data["baseUrl"];
         }
     }
 
@@ -31985,6 +32400,7 @@ export class CreateClientInput implements ICreateClientInput {
         data["address"] = this.address ? this.address.toJSON() : <any>undefined;
         data["startTime"] = this.startTime ? this.startTime.toISOString() : <any>undefined;
         data["endTime"] = this.endTime ? this.endTime.toISOString() : <any>undefined;
+        data["baseUrl"] = this.baseUrl;
         return data; 
     }
 
@@ -32024,6 +32440,7 @@ export interface ICreateClientInput {
     address: CreateAddressInput | undefined;
     startTime: moment.Moment | undefined;
     endTime: moment.Moment | undefined;
+    baseUrl: string | undefined;
 }
 
 export class CreateAddressInput implements ICreateAddressInput {
@@ -46833,93 +47250,6 @@ export interface ICreateUserDto {
     isActive: boolean | undefined;
     roleNames: string[] | undefined;
     password: string;
-}
-
-export class UserDto implements IUserDto {
-    userName: string;
-    name: string;
-    surname: string;
-    emailAddress: string;
-    isActive: boolean | undefined;
-    fullName: string | undefined;
-    lastLoginTime: moment.Moment | undefined;
-    creationTime: moment.Moment | undefined;
-    roleNames: string[] | undefined;
-    id: number | undefined;
-
-    constructor(data?: IUserDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(data?: any) {
-        if (data) {
-            this.userName = data["userName"];
-            this.name = data["name"];
-            this.surname = data["surname"];
-            this.emailAddress = data["emailAddress"];
-            this.isActive = data["isActive"];
-            this.fullName = data["fullName"];
-            this.lastLoginTime = data["lastLoginTime"] ? moment(data["lastLoginTime"].toString()) : <any>undefined;
-            this.creationTime = data["creationTime"] ? moment(data["creationTime"].toString()) : <any>undefined;
-            if (data["roleNames"] && data["roleNames"].constructor === Array) {
-                this.roleNames = [];
-                for (let item of data["roleNames"])
-                    this.roleNames.push(item);
-            }
-            this.id = data["id"];
-        }
-    }
-
-    static fromJS(data: any): UserDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userName"] = this.userName;
-        data["name"] = this.name;
-        data["surname"] = this.surname;
-        data["emailAddress"] = this.emailAddress;
-        data["isActive"] = this.isActive;
-        data["fullName"] = this.fullName;
-        data["lastLoginTime"] = this.lastLoginTime ? this.lastLoginTime.toISOString() : <any>undefined;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        if (this.roleNames && this.roleNames.constructor === Array) {
-            data["roleNames"] = [];
-            for (let item of this.roleNames)
-                data["roleNames"].push(item);
-        }
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): UserDto {
-        const json = this.toJSON();
-        let result = new UserDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IUserDto {
-    userName: string;
-    name: string;
-    surname: string;
-    emailAddress: string;
-    isActive: boolean | undefined;
-    fullName: string | undefined;
-    lastLoginTime: moment.Moment | undefined;
-    creationTime: moment.Moment | undefined;
-    roleNames: string[] | undefined;
-    id: number | undefined;
 }
 
 export class ListResultDtoOfRoleDto implements IListResultDtoOfRoleDto {
