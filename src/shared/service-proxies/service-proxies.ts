@@ -47510,6 +47510,7 @@ export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput
     chosen: boolean | undefined;
     status: number | undefined;
     isStopped: boolean | undefined;
+    videoUrl: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -47540,6 +47541,7 @@ export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput
             this.chosen = data["chosen"];
             this.status = data["status"];
             this.isStopped = data["isStopped"];
+            this.videoUrl = data["videoUrl"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -47570,6 +47572,7 @@ export class WalkingProtocolDetailOutput implements IWalkingProtocolDetailOutput
         data["chosen"] = this.chosen;
         data["status"] = this.status;
         data["isStopped"] = this.isStopped;
+        data["videoUrl"] = this.videoUrl;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -47600,6 +47603,7 @@ export interface IWalkingProtocolDetailOutput {
     chosen: boolean | undefined;
     status: number | undefined;
     isStopped: boolean | undefined;
+    videoUrl: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -47620,6 +47624,7 @@ export class WalkingProtocolDto implements IWalkingProtocolDto {
     chosen: boolean | undefined;
     status: number | undefined;
     isStopped: boolean | undefined;
+    videoUrl: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;
@@ -47649,6 +47654,7 @@ export class WalkingProtocolDto implements IWalkingProtocolDto {
             this.chosen = data["chosen"];
             this.status = data["status"];
             this.isStopped = data["isStopped"];
+            this.videoUrl = data["videoUrl"];
             this.isDeleted = data["isDeleted"];
             this.deleterUserId = data["deleterUserId"];
             this.deletionTime = data["deletionTime"] ? moment(data["deletionTime"].toString()) : <any>undefined;
@@ -47678,6 +47684,7 @@ export class WalkingProtocolDto implements IWalkingProtocolDto {
         data["chosen"] = this.chosen;
         data["status"] = this.status;
         data["isStopped"] = this.isStopped;
+        data["videoUrl"] = this.videoUrl;
         data["isDeleted"] = this.isDeleted;
         data["deleterUserId"] = this.deleterUserId;
         data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
@@ -47707,6 +47714,7 @@ export interface IWalkingProtocolDto {
     chosen: boolean | undefined;
     status: number | undefined;
     isStopped: boolean | undefined;
+    videoUrl: string | undefined;
     isDeleted: boolean | undefined;
     deleterUserId: number | undefined;
     deletionTime: moment.Moment | undefined;

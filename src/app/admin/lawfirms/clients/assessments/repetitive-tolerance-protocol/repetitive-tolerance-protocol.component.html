@@ -54,6 +54,14 @@
               <i class="fa fa-hourglass-3 fa-5x"> </i>
               <h4 class="text-center">No Result</h4>
             </div>
+            <div class="row" *ngIf="walkingProtocol?.videoUrl">
+              <div class="col-lg-12 mt-4">
+                <video width="600" controls>
+                  <source src="{{walkingProtocol?.videoUrl}}" type="video/mp4">
+                </video>
+              </div>
+            </div>
+
           </mat-tab>
           <mat-tab label="Stair Climbing" *ngIf="isAssessmentSelected(201)">
             <div class="col-lg-12" *ngIf="stairClimbingProtocolResult?.length > 0">
