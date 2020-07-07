@@ -655,10 +655,10 @@ export class ViewClientComponent extends AppComponentBase implements OnInit {
       (result: boolean) => {
         if (result) {
           this.isLoading = true;
-          this.clientService.resendEmail(this.clientId, this.client.contactId)
+          this.clientService.resendEmail(this.clientId, this.client.contactId, location.origin)
             .pipe(finalize(() => {
               this.isLoading = false;
-              abp.notify.success('Email Send Successfully');
+              abp.notify.success('Email Sent Successfully');
             })).subscribe(() => {
             });
         }

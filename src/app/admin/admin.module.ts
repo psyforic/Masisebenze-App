@@ -1,3 +1,4 @@
+import { MailSettingsModule } from './mail-settings/mail-settings.module';
 import { InitialPipe } from './../../shared/pipes/initial.pipe';
 
 import { NgModule } from '@angular/core';
@@ -30,6 +31,7 @@ import { NewJobDescriptionComponent } from './job-descriptions/new-job-descripti
     ActivityLogModule,
     PartialsModule,
     DashboardModule,
+    MailSettingsModule,
     UsersModule,
     RolesModule
   ],

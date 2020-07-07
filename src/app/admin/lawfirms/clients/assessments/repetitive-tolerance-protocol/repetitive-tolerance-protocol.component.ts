@@ -16,17 +16,15 @@ import {
   LadderWorkOptionDto,
   StairClimbingOptionDto,
   RepetitiveFootMotionProtocolDto,
-  ClientAssessmentReportServiceProxy,
   RepetitiveToleranceDto,
   WorkAssessmentReportServiceProxy
 } from './../../../../../../shared/service-proxies/service-proxies';
-import { Component, OnInit, ViewChild, ElementRef, Injector, Input, AfterViewInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Injector, Input, AfterViewInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
 import { AssessmentService } from '@app/admin/services/assessment.service';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material';
-import * as $ from 'jquery'
+import { MatTabChangeEvent } from '@angular/material';
 @Component({
   selector: 'app-repetitive-tolerance-protocol',
   templateUrl: './repetitive-tolerance-protocol.component.html',
@@ -86,7 +84,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   isCommentShown = false;
   commentInput: CreateCommentInput = new CreateCommentInput();
   constructor(
-    private injector: Injector,
+    injector: Injector,
     private modalService: NgbModal,
     private assessService: AssessmentService,
     private _assessmentService: AssessmentServiceProxy,
@@ -107,14 +105,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   ngAfterViewInit() {
   }
   open() {
-    // this.getRepetitiveSquattingProtocol();
-    // this.getBalanceProtocol();
-    // this.getRepetitiveLeftFootMotionProtocol();
-
     this.getSelectedAssessments();
-    // this.getStairClimbingProtocol();
-    // this.getLadderWorkProtocol();
-    // this.getCrawlingProtocol();
     this.modalService.open(this.content,
       { windowClass: 'slideInDown', backdrop: 'static', keyboard: false, size: 'xl' })
       .result.then(() => {
@@ -237,7 +228,6 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
       .subscribe(assessments => {
         this.selectedAssessments = assessments.items;
         this.getWalkingProtocol();
-        // console.log(assessments);
       });
   }
   isAssessmentSelected(identifier: number) {
@@ -343,14 +333,6 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.repetitiveLeftFootMotionProtocolOptions = (result != null) ?
           result.items : this.repetitiveLeftFootMotionProtocolOptions;
 
-        // if (this.repetitiveFootMotion.length > 0) {
-        //   this.repetitiveFootMotion.forEach((element, index) => {
-        //     element.repetitiveFootMotionOptions.forEach((item, i) => {
-        //       item.comment = index.toLocaleString() + ' ' + i.toString();
-        //     });
-        //   });
-        // }
-
       });
   }
   getRepetitiveRightFootMotionProtocol() {
@@ -411,7 +393,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
   decodePainLevel(painLevel: number) {
     return this.assessService.getPain(painLevel);
   }
-  handleRepFootMotionTabs(event: MatTabChangeEvent, repetitiveFootMotionProtocolId) {
+  handleRepFootMotionTabs(event: MatTabChangeEvent) {
     console.log(event.index);
   }
   handleTabChange(event: MatTabChangeEvent) {
@@ -420,7 +402,7 @@ export class RepetitiveToleranceProtocolComponent extends AppComponentBase imple
         this.getWalkingProtocol();
         break;
       case 1:
-        this.getStairClimbingProtocol()
+        this.getStairClimbingProtocol();
         break;
       case 2:
         this.getBalanceProtocol();

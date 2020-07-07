@@ -124,6 +124,7 @@ export class NewClientComponent extends AppComponentBase implements OnInit {
     this.clientInput.courtDate = this.courtDate;
     this.clientInput.startTime = moment(formattedAssessmentDate + ' ' + this.startTime + '+0000', 'YYYY-MM-DD HH:mm Z');
     this.clientInput.endTime = moment(formattedAssessmentDate + ' ' + this.endTime + '+0000', 'YYYY-MM-DD HH:mm Z');
+    this.clientInput.baseUrl = location.origin;
     this.clientService.createClient(this.clientInput)
       .pipe(finalize(() => {
         this.isSaving = false;

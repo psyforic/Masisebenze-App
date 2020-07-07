@@ -10,14 +10,19 @@ table {
     position: relative;
     overflow: hidden;
     cursor: pointer;
-
 }
 
-.file>input {
+.file > input {
     position: absolute;
     font-size: 30px;
     opacity: 0;
     right: 0;
     top: 0;
     cursor: pointer;
+}
+td.mat-cell,
+td.mat-footer-cell,
+th.mat-header-cell {
+    border-bottom: none !important;
+    border-bottom-style: none !important;
 }

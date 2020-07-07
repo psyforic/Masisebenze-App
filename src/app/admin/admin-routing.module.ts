@@ -1,3 +1,4 @@
+import { MailSettingsComponent } from './mail-settings/mail-settings.component';
 import { ReportSummaryComponent } from './lawfirms/clients/view-client/report-summary/report-summary.component';
 import { WorkInformationComponent } from './lawfirms/clients/work-information/work-information.component';
 import { NgModule } from '@angular/core';
@@ -43,6 +44,7 @@ import { PreventUnsavedChangesGuard } from './guards/prevent-unsaved-changes.gua
                     { path: 'lawfirms/list', component: LawfirmsComponent, canActivate: [AppRouteGuard] },
                     { path: 'clients', component: ClientsComponent, canActivate: [AppRouteGuard] },
                     { path: 'attorneys/new', component: NewAttorneyComponent, canActivate: [AppRouteGuard] },
+                    { path: 'mail-settings', component: MailSettingsComponent, canActivate: [AppRouteGuard] },
                     { path: 'lawfirms/view/:id', component: ViewLawfirmComponent, canActivate: [AppRouteGuard] },
                     {
                         path: 'clients/view/:id', component: ViewClientComponent, canActivate: [AppRouteGuard],
