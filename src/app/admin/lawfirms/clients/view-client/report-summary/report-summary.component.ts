@@ -1,28 +1,62 @@
+import { NewEquipmentComponent } from './new-equipment/new-equipment.component';
+import { EqualValidator } from './../../../../../../shared/directives/equal-validator.directive';
 import {
   ReportSummaryServiceProxy, ReportSummaryDto, ClientServiceProxy,
   ClientDetailOutput
 } from '../../../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
-import { Component, OnInit, Injector } from '@angular/core';
+import { Component, OnInit, Injector, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
-
+import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
+export interface Equipment {
+  section: string;
+  equipment: string;
+  estimatedLifespan: string;
+  approximateCost: number;
+}
+export interface Group {
+  group: string;
+}
 @Component({
   selector: 'app-report-summary',
   templateUrl: './report-summary.component.html',
   styleUrls: ['./report-summary.component.scss'],
   providers: [ReportSummaryServiceProxy, ClientServiceProxy]
 })
-export class ReportSummaryComponent extends AppComponentBase implements OnInit {
+export class ReportSummaryComponent extends AppComponentBase implements OnInit, AfterViewInit {
   client: ClientDetailOutput = new ClientDetailOutput();
+  @Input() fullName: string;
+  @Input() clientId: string;
+  @ViewChild('equipment', { static: true }) equipment;
   summaryForm: FormGroup;
-  clientId: string;
   isLoading = false;
   reportSummary: ReportSummaryDto = new ReportSummaryDto();
+  displayedColumns: string[] = ['equipment', 'estimatedLifespan', 'approximateCost'];
+  dataSource = new MatTableDataSource<(Equipment | Group)>();
+  equipments: (Equipment | Group)[] = [];
+  groups: Group[] = [];
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  config = {
+    placeholder: '',
+    spellCheck: true,
+    height: '200px',
+    direction: 'rtl',
+    toolbar: [
+        ['misc', ['codeview', 'undo', 'redo']],
+        ['style', ['bold', 'italic', 'underline', 'clear']],
+        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+        ['fontsize', ['fontname', 'fontsize', 'color']],
+        ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
+        ['insert', ['table', 'picture', 'link', 'video', 'hr']]
+    ],
+    fontNames: ['Helvetica', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Roboto', 'Times']
+  };
   constructor(
     injector: Injector,
+    private dialog: MatDialog,
     private _clientService: ClientServiceProxy,
     private route: ActivatedRoute,
     private fb: FormBuilder,
@@ -37,6 +71,11 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
     this.initializeForm();
     this.getClient();
     this.getReportSummary();
+    this.dataSource.data = this.equipments;
+    this.dataSource.sort = this.sort;
+  }
+  ngAfterViewInit() {
+    console.log(this.equipment);
   }
   initializeForm() {
     this.summaryForm = this.fb.group({
@@ -115,6 +154,9 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
       });
   }
 
+  private get tableModule() {
+    return this.equipment.getModule('table');
+  }
   getReportSummary() {
     this.isLoading = true;
     this._reportSummaryService.getByClientId(this.clientId)
@@ -127,6 +169,30 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
         }
       });
   }
+  isGroup(index, item): boolean {
+    return item.group;
+  }
+  addEquipment() {
+    // this.cognitiveComment.show();
+    this.dialog.open(NewEquipmentComponent, {
+      hasBackdrop: false,
+      data: { fullName: this.fullName, clientId: this.clientId },
+      width: '650px'
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        if (this.groups.filter(x => x.group === result.section).length === 0) {
+          this.groups.push({ group: result.section });
+          this.equipments.push({ group: result.section });
+        } else {
 
+        }
+        if (this.groups.filter(x => x.group === result.section).length > 0) {
 
+        }
+        this.equipments.push(result);
+        this.dataSource.data = this.equipments;
+        this.dataSource.sort = this.sort;
+      }
+    });
+  }
 }

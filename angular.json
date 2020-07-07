@@ -41,7 +41,8 @@
                             "node_modules/quill/dist/quill.core.css",
                             "node_modules/quill/dist/quill.bubble.css",
                             "node_modules/quill/dist/quill.snow.css",
-                            "node_modules/chartist/dist/chartist.css"
+                            "node_modules/chartist/dist/chartist.css",
+                            "node_modules/summernote/dist/summernote-lite.min.css"
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js",
@@ -69,7 +70,8 @@
                             "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js",
                             "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
                             "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
-                            "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js"
+                            "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+                            "node_modules/summernote/dist/summernote-lite.min.js"
                         ]
                     },
                     "configurations": {

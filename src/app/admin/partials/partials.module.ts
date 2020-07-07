@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
-
+import { NgxSummernoteModule } from 'ngx-summernote';
 // NgBootstrap
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -40,10 +40,12 @@ import {
 } from '@angular/material';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { QuillModule } from 'ngx-quill';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { NewJobDescriptionComponent } from '../job-descriptions/new-job-description/new-job-description.component';
-
+import { QuillModule } from 'ngx-quill-v2';
+import Quill from 'quill';
+import quillTable from 'quill-table';
+Quill.register('modules/table', quillTable.TableModule);
 export const MY_FORMATS = {
   parse: {
     dateInput: 'LL',
@@ -92,9 +94,11 @@ export const MY_FORMATS = {
     NgxMaterialTimepickerModule,
     MatTreeModule,
     MatBottomSheetModule,
+    NgxSummernoteModule,
     BsDropdownModule.forRoot(),
     QuillModule.forRoot({
       modules: {
+        table: true,
         syntax: false,
         toolbar: [
           ['bold', 'italic'],
@@ -141,7 +145,8 @@ export const MY_FORMATS = {
     NewJobDescriptionComponent,
     NewClientComponent,
     NewLawfirmComponent,
-    InitialPipe
+    InitialPipe,
+    NgxSummernoteModule
   ],
   entryComponents: [
     NewClientComponent,

@@ -1,20 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js remove ngx-chips
+  C:\node-v12.13.0-win-x64\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\PostgreSQL\11\bin;C:\Program Files\PostgreSQL\11\lib;C:\Android\Sdk\platform-tools;C:\Program Files (x86)\Yarn\bin\;C:\php;C:\MAMP\bin\php\php7.2.10;C:\ProgramData\ComposerSetup\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\AdoptOpenJDK\jdk8u192-b12\bin;C:\Program Files\Java\jdk1.8.0_221\bin;C:\Android\android-sdk\tools;C:\Android\android-sdk\platform-tools;C:\Android\android-sdk\tools\bin;C:\Program Files\nodejs\;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32\Scripts\;C:\Users\Lundi Mapundu\AppData\Local\Programs\Python\Python37-32\;C:\tizen-sdk\tools\ide\bin;C:\Users\Lundi Mapundu\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Android\Sdk\platform-tools;C:\Users\Lundi Mapundu\.dotnet\tools;C:\Users\Lundi Mapundu\AppData\Local\Microsoft\WindowsApps;C:\Users\Lundi Mapundu\AppData\Local\Programs\Azure Data Studio\bin;C:\Users\Lundi Mapundu\AppData\Local\Yarn\bin;C:\php;C:\Users\Lundi Mapundu\AppData\Roaming\Composer\vendor\bin;C:\Users\Lundi Mapundu\AppData\Roaming\npm
+  C:\Python27\;C:\Python27\Scripts;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Microsoft MPI\Bin\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_211\bin;C:\Users\ADMIN\AppData\Local\Android\Sdk\platform-tools;C:\Users\ADMIN\AppData\Local\Android\Sdk\tools;C:\node-v12.13.0-win-x64;C:\Program Files\Java\jdk-9.0.4\bin;C:\Users\ADMIN\anaconda3;C:\Users\ADMIN\anaconda3\Library\mingw-w64\bin;C:\Users\ADMIN\anaconda3\Library\usr\bin;C:\Users\ADMIN\anaconda3\Library\bin;C:\Users\ADMIN\anaconda3\Scripts;C:\Users\ADMIN\AppData\Local\Microsoft\WindowsApps;C:\Users\ADMIN\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ADMIN\AppData\Local\Yarn\bin;C:\Users\ADMIN\.dotnet\tools;C:\Users\ADMIN\AppData\Roaming\npm;C:\node-v12.13.0-win-x64;C:\MinGW\bin;C:\MinGW\msys\1.0\bin;;C:\Users\ADMIN\AppData\Local\Programs\Azure Data Studio\bin
 
 Yarn version: 
-  1.17.3
+  1.21.1
 
 Node version: 
-  13.7.0
+  12.13.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Lundi Mapundu\source\repos\MasisebenzeFCE\masisebenze\node_modules\ngx-chips\core'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\ADMIN\source\repos\masisebenze\node_modules\@syncfusion\ej2-angular-richtexteditor\@syncfusion'
 
 npm manifest: 
   {
@@ -73,11 +73,9 @@ npm manifest:
           "bootstrap-select": "^1.12.2",
           "chart.js": "^2.6.0",
           "chartist": "0.11.2",
+          "chartist-plugin-tooltip": "^0.0.11",
           "core-js": "^2.4.1",
-          "docx": "^5.0.0-rc5",
-          "docx-templates": "^3.1.1",
           "docxtemplater": "^3.14.3",
-          "easy-template-x": "^0.10.0",
           "famfamfam-flags": "^1.0.0",
           "file-saver": "^2.0.2",
           "firebase": "^6.6.0",
@@ -98,12 +96,13 @@ npm manifest:
           "moment": "^2.18.1",
           "moment-timezone": "^0.5.13",
           "morris.js": "^0.5.0",
+          "ngx-audio-player": "^9.0.7",
           "ngx-bootstrap": "^3.0.0",
           "ngx-image-cropper": "^1.4.1",
           "ngx-material-timepicker": "^5.0.0",
           "ngx-pagination": "^3.0.3",
           "ngx-perfect-scrollbar": "^8.0.0",
-          "ngx-quill": "^7.3.1",
+          "ngx-quill-v2": "^0.0.1",
           "ngx-webcam": "^0.2.6",
           "node-waves": "^0.7.5",
           "perfect-scrollbar": "1.1.0",
@@ -111,6 +110,7 @@ npm manifest:
           "popper.js": "1.15.0",
           "push.js": "1.0.9",
           "quill": "^1.3.7",
+          "quill-table": "^1.0.0",
           "raphael": "^2.2.7",
           "rxjs": "^6.2.0",
           "rxjs-compat": "6.2.0",
@@ -782,6 +782,113 @@ Lockfile:
       semver "6.2.0"
       semver-intersect "1.4.0"
   
+  "@syncfusion/ej2-angular-base@~18.1.57":
+    version "18.1.57"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-angular-base/-/ej2-angular-base-18.1.57.tgz#d9250d16aed07b024cfd7e23da603a0beafe28f8"
+    integrity sha512-IHkQmizxNeR69GeQRnMlTaQJ49lmbtQiOHewFme+YKM6D1fi2zH8wi41G7ytdpUincgEq1knU4x6w/NAQbQxdg==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.57"
+      "@syncfusion/ej2-icons" "~18.1.52"
+      core-js "^3.4.8"
+      reflect-metadata "^0.1.9"
+      rxjs "^6.5.4"
+      rxjs-compat "^6.5.4"
+      zone.js "^0.10.2"
+  
+  "@syncfusion/ej2-angular-richtexteditor@^18.1.57":
+    version "18.1.57"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-angular-richtexteditor/-/ej2-angular-richtexteditor-18.1.57.tgz#620bf6a6a5e9b34a4ff5fc49842cb7a8ed232dfb"
+    integrity sha512-P/k/gzkEHqoRvWrWNqNShFBR6yWxJy4oY6WK+X3SE/YTYcn7pwGas932rf226uhAB7iurQ448EV3Rfh3PhfxLA==
+    dependencies:
+      "@syncfusion/ej2-angular-base" "~18.1.57"
+      "@syncfusion/ej2-base" "~18.1.57"
+      "@syncfusion/ej2-richtexteditor" "18.1.57"
+  
+  "@syncfusion/ej2-base@~18.1.52", "@syncfusion/ej2-base@~18.1.53", "@syncfusion/ej2-base@~18.1.56", "@syncfusion/ej2-base@~18.1.57":
+    version "18.1.57"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-base/-/ej2-base-18.1.57.tgz#57651b46c0b475e1197bbb4f2c3d014299d7bafe"
+    integrity sha512-6Qc0Qpv38bK50wI/k6GzjoRvL4J1KfmDqs22V7YBtnVS/mh8hMl5x1qscgiAsH5dYlfJIGJb/PyEb5RgJeKjaA==
+    dependencies:
+      "@syncfusion/ej2-icons" "~18.1.52"
+  
+  "@syncfusion/ej2-buttons@~18.1.52", "@syncfusion/ej2-buttons@~18.1.56":
+    version "18.1.56"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-buttons/-/ej2-buttons-18.1.56.tgz#bdf428729c34c2fc7356ffb4ae371e423ff7ae0d"
+    integrity sha512-CFNY+LNa4gINat44v46IuTUBuaPKKZmG1GKACwA6FA1ECE9g4Ed/eTRYNBO19P8+w74jzYr5b769j6PrNkNQMw==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.56"
+  
+  "@syncfusion/ej2-data@~18.1.52", "@syncfusion/ej2-data@~18.1.55":
+    version "18.1.55"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-data/-/ej2-data-18.1.55.tgz#bf4f62db531447c654e8e2cabfeb6b3eeb90be59"
+    integrity sha512-sTz4k3diSgy/7dwQjb9MByZyVDD+uzgjaKVO6xocDTcZpYSvcg+J/p+ORhahQULC0aHBd/qZv7ctiQ1acNrImw==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.53"
+  
+  "@syncfusion/ej2-icons@~18.1.52":
+    version "18.1.52"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-icons/-/ej2-icons-18.1.52.tgz#3aac373083d60338aa65a0cb44d0db3472c409ba"
+    integrity sha512-G7TQ+1Y7BVUGR8qlo/NOx7IxQ/WkR9qoAyWVSs3sNNxnpM8HXP16N0BiexPwxkNEgoRmdByngtWPddHax9cdbA==
+  
+  "@syncfusion/ej2-inputs@~18.1.56":
+    version "18.1.59"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-inputs/-/ej2-inputs-18.1.59.tgz#29320dad530204034bb01f4e8a54bf9fa324a346"
+    integrity sha512-yGlRtPr2G5Ou4FmuFq3jCKT3N6xbDvUSfOkyOIWJ8cxjnXY5G7opVNO5jPSW4w05NT07AtkAmaC1FI4kQBgoNg==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.57"
+      "@syncfusion/ej2-buttons" "~18.1.56"
+      "@syncfusion/ej2-popups" "~18.1.57"
+      "@syncfusion/ej2-splitbuttons" "~18.1.52"
+  
+  "@syncfusion/ej2-lists@~18.1.53":
+    version "18.1.53"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-lists/-/ej2-lists-18.1.53.tgz#94425e03f8e4a230f770046311c197f0304f1d5f"
+    integrity sha512-KW48B+Zjoy2s+Efnxg03F8PZyq/SgBueYae/AtVE0kIPGyK9T3ZLt05S44mOvm+Bxb36D03HoRDjMOfEzqmULQ==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.53"
+      "@syncfusion/ej2-buttons" "~18.1.52"
+      "@syncfusion/ej2-data" "~18.1.52"
+  
+  "@syncfusion/ej2-navigations@~18.1.57":
+    version "18.1.57"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-navigations/-/ej2-navigations-18.1.57.tgz#f2084f37198dd90caec2432d10947b95e13392f1"
+    integrity sha512-O86PEdM44+3xFfOR4hq7rgPbNSMQrnTTyFdT98dpMsMJhrGsSQfPFOHVOz3SlKS2ts3ke9t1I/hjyjAqVoNEQQ==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.57"
+      "@syncfusion/ej2-buttons" "~18.1.56"
+      "@syncfusion/ej2-data" "~18.1.55"
+      "@syncfusion/ej2-inputs" "~18.1.56"
+      "@syncfusion/ej2-lists" "~18.1.53"
+      "@syncfusion/ej2-popups" "~18.1.57"
+  
+  "@syncfusion/ej2-popups@~18.1.52", "@syncfusion/ej2-popups@~18.1.57":
+    version "18.1.57"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-popups/-/ej2-popups-18.1.57.tgz#521158cbaa2e5f823fe37aeb9555efbed14e7103"
+    integrity sha512-pJybcSqvg2mf+N8iJnxfTqb7x8rQWxOjkCJdJm2bWzq/qQ5aKCnqfCnduKgOEgcCqstSjpRYHPQrGYM0/sTe7A==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.57"
+      "@syncfusion/ej2-buttons" "~18.1.56"
+  
+  "@syncfusion/ej2-richtexteditor@18.1.57":
+    version "18.1.57"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-richtexteditor/-/ej2-richtexteditor-18.1.57.tgz#24ad8ac3c1ca00ad981c593782b7ad90cc400736"
+    integrity sha512-g/XsLzC6EHZ5YS03p3W8W7RaXqa9824C9XZeNtf72O8ETkeBVsBs3J8ODL3r2VO5MfBeG79JrFYA1jcQTdZoyQ==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.57"
+      "@syncfusion/ej2-buttons" "~18.1.56"
+      "@syncfusion/ej2-inputs" "~18.1.56"
+      "@syncfusion/ej2-navigations" "~18.1.57"
+      "@syncfusion/ej2-popups" "~18.1.57"
+      "@syncfusion/ej2-splitbuttons" "~18.1.52"
+  
+  "@syncfusion/ej2-splitbuttons@~18.1.52":
+    version "18.1.52"
+    resolved "https://registry.yarnpkg.com/@syncfusion/ej2-splitbuttons/-/ej2-splitbuttons-18.1.52.tgz#176bbf295609efe89daa9877ad71ef525c941aec"
+    integrity sha512-7w3+3rIHTvSXqCKh52YLlrF/BPsa1um29wYtBN0pBfOSyfGVdteXXYjgA364Z64b8okykBwvIE7SYxvm/cUhew==
+    dependencies:
+      "@syncfusion/ej2-base" "~18.1.52"
+      "@syncfusion/ej2-popups" "~18.1.52"
+  
   "@types/bootstrap@^3.3.33":
     version "3.3.39"
     resolved "https://registry.yarnpkg.com/@types/bootstrap/-/bootstrap-3.3.39.tgz#aa0d208999e4a4f941de9468ff928c05507830f8"
@@ -840,13 +947,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.27.tgz#f27c3e793b743359d1ee2b926b4ef0d0c33e59f7"
     dependencies:
       "@types/sizzle" "*"
-  
-  "@types/jszip@^3.1.4":
-    version "3.1.6"
-    resolved "https://registry.yarnpkg.com/@types/jszip/-/jszip-3.1.6.tgz#0512574a2b35f3194b41769c56e4b35065e67000"
-    integrity sha512-m8uFcI+O2EupCfbEVQWsBM/4nhbegjOHL7cQgBpM95FeF98kdFJXzy9/8yhx4b3lCRl/gMBhcvyh30Qt3X+XPQ==
-    dependencies:
-      "@types/node" "*"
   
   "@types/lodash@^4.14.62":
     version "4.14.109"
@@ -1517,6 +1617,11 @@ Lockfile:
     dependencies:
       babel-runtime "^6.22.0"
   
+  babel-plugin-add-module-exports@^0.2.1:
+    version "0.2.1"
+    resolved "https://registry.yarnpkg.com/babel-plugin-add-module-exports/-/babel-plugin-add-module-exports-0.2.1.tgz#9ae9a1f4a8dc67f0cdec4f4aeda1e43a5ff65e25"
+    integrity sha1-mumh9KjcZ/DN7E9K7aHkOl/2XiU=
+  
   babel-runtime@^6.22.0, babel-runtime@^6.26.0:
     version "6.26.0"
     resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
@@ -2005,6 +2110,11 @@ Lockfile:
       chartjs-color "^2.1.0"
       moment "^2.10.2"
   
+  chartist-plugin-tooltip@^0.0.11:
+    version "0.0.11"
+    resolved "https://registry.yarnpkg.com/chartist-plugin-tooltip/-/chartist-plugin-tooltip-0.0.11.tgz#cec2195fa505f4d34e6d8e41a86bfbcb9bfff461"
+    integrity sha1-zsIZX6UF9NNObY5BqGv7y5v/9GE=
+  
   chartist@0.11.2:
     version "0.11.2"
     resolved "https://registry.yarnpkg.com/chartist/-/chartist-0.11.2.tgz#cd8aed966a81cc950d280b91224f97e39cf602d1"
@@ -2429,6 +2539,11 @@ Lockfile:
     version "2.5.7"
     resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
   
+  core-js@^3.4.8:
+    version "3.6.5"
+    resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+    integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
+  
   core-js@~2.3.0:
     version "2.3.0"
     resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.3.0.tgz#fab83fbb0b2d8dc85fa636c4b9d34c75420c6d65"
@@ -2758,27 +2873,6 @@ Lockfile:
     dependencies:
       buffer-indexof "^1.0.0"
   
-  docx-templates@^3.1.1:
-    version "3.1.1"
-    resolved "https://registry.yarnpkg.com/docx-templates/-/docx-templates-3.1.1.tgz#6bc31cdd963891e683292b28a2a56e9bd536a2b1"
-    integrity sha512-G+ei2Bkg5OrM2RLCl4kc576wNzcTNYNl20BLEQGt0xxlhvDpK5vhYmCF46IcbNrFrThR3yV9v53AF4GRQwK4BA==
-    dependencies:
-      babel-runtime "^6.26.0"
-      fs-extra "^3.0.1"
-      jszip "^3.2.2"
-      sax "1.2.4"
-      timm "^1.6.2"
-  
-  docx@^5.0.0-rc5:
-    version "5.0.0-rc5"
-    resolved "https://registry.yarnpkg.com/docx/-/docx-5.0.0-rc5.tgz#e0cc1e376ed425c8a1070f442dcd2c3ede67066c"
-    integrity sha512-suNpubIKN8sbXPMb5Vse9kU50qe+CxBSmGqGCU5L0jXyNyh7WkdNPAQ6HOxzyP0yok8ByA0HrN560XMRkOo1Rw==
-    dependencies:
-      "@types/jszip" "^3.1.4"
-      jszip "^3.1.5"
-      xml "^1.0.1"
-      xml-js "^1.6.8"
-  
   docxtemplater@3.9.6:
     version "3.9.6"
     resolved "https://registry.yarnpkg.com/docxtemplater/-/docxtemplater-3.9.6.tgz#c1e2ae876074df30f089bb30a965b0a6bf400ec2"
@@ -2828,15 +2922,6 @@ Lockfile:
       inherits "^2.0.1"
       readable-stream "^2.0.0"
       stream-shift "^1.0.0"
-  
-  easy-template-x@^0.10.0:
-    version "0.10.0"
-    resolved "https://registry.yarnpkg.com/easy-template-x/-/easy-template-x-0.10.0.tgz#fc4dd653c469988ccdeb69581a0ee0f39a732cb0"
-    integrity sha512-LCuie/Fn1E+0cpUUwtXWU37fIukuOAO6Mx20UO/TC674Q5EG9qBG/VzS04WDYq6CHZTscMPSMlfP+ykKMDfF8g==
-    dependencies:
-      jszip "3.2.2"
-      lodash.get "4.4.2"
-      xmldom "0.2.1"
   
   ecc-jsbn@~0.1.1:
     version "0.1.1"
@@ -3507,15 +3592,6 @@ Lockfile:
     dependencies:
       null-check "^1.0.0"
   
-  fs-extra@^3.0.1:
-    version "3.0.1"
-    resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-3.0.1.tgz#3794f378c58b342ea7dbbb23095109c4b3b62291"
-    integrity sha1-N5TzeMWLNC6n27sjCVEJxLO2IpE=
-    dependencies:
-      graceful-fs "^4.1.2"
-      jsonfile "^3.0.0"
-      universalify "^0.1.0"
-  
   fs-minipass@^1.2.5:
     version "1.2.5"
     resolved "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-1.2.5.tgz#06c277218454ec288df77ada54a03b8702aacb9d"
@@ -3727,11 +3803,6 @@ Lockfile:
     version "4.2.0"
     resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.0.tgz#8d8fdc73977cb04104721cb53666c1ca64cd328b"
     integrity sha512-jpSvDPV4Cq/bgtpndIWbI5hmYxhQGHPC4d4cqBPb4DLniCfhJokdXhwhaDuLBGLQdvvRum/UiX6ECVIPvDXqdg==
-  
-  graceful-fs@^4.1.6:
-    version "4.2.3"
-    resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
-    integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
   
   grpc@1.23.3:
     version "1.23.3"
@@ -4628,13 +4699,6 @@ Lockfile:
     dependencies:
       minimist "^1.2.0"
   
-  jsonfile@^3.0.0:
-    version "3.0.1"
-    resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-3.0.1.tgz#a5ecc6f65f53f662c4415c7675a0331d0992ec66"
-    integrity sha1-pezG9l9T9mLEQVx2daAzHQmS7GY=
-    optionalDependencies:
-      graceful-fs "^4.1.6"
-  
   jsonparse@^1.2.0:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/jsonparse/-/jsonparse-1.3.1.tgz#3f4dae4a91fac315f71062f8521cc239f1366280"
@@ -4660,16 +4724,6 @@ Lockfile:
     dependencies:
       pako "~1.0.2"
   
-  jszip@3.2.2, jszip@^3.1.5, jszip@^3.2.2:
-    version "3.2.2"
-    resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
-    integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
-    dependencies:
-      lie "~3.3.0"
-      pako "~1.0.2"
-      readable-stream "~2.3.6"
-      set-immediate-shim "~1.0.1"
-  
   jszip@^3.1.3:
     version "3.1.5"
     resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.1.5.tgz#e3c2a6c6d706ac6e603314036d43cd40beefdf37"
@@ -4679,6 +4733,16 @@ Lockfile:
       lie "~3.1.0"
       pako "~1.0.2"
       readable-stream "~2.0.6"
+  
+  jszip@^3.2.2:
+    version "3.2.2"
+    resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.2.2.tgz#b143816df7e106a9597a94c77493385adca5bd1d"
+    integrity sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
+    dependencies:
+      lie "~3.3.0"
+      pako "~1.0.2"
+      readable-stream "~2.3.6"
+      set-immediate-shim "~1.0.1"
   
   karma-chrome-launcher@^2.0.0:
     version "2.2.0"
@@ -4875,11 +4939,6 @@ Lockfile:
   lodash.clonedeep@^4.5.0:
     version "4.5.0"
     resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
-  
-  lodash.get@4.4.2:
-    version "4.4.2"
-    resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
-    integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
   
   lodash.tail@^4.1.1:
     version "4.1.1"
@@ -5333,24 +5392,14 @@ Lockfile:
     version "2.5.1"
     resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.5.1.tgz#acb909e327b1e87ec9ef15f41b8a269512ad41ee"
   
-  ng2-material-dropdown@0.11.0:
-    version "0.11.0"
-    resolved "https://registry.yarnpkg.com/ng2-material-dropdown/-/ng2-material-dropdown-0.11.0.tgz#27a402ef3cbdcaf6791ef4cfd4b257e31db7546f"
-    integrity sha512-wptBo09qKecY0QPTProAThrc4A3ajJTcHE9LTpCG5XZZUhXLBzhnGK8OW33TN8A+K/jqcs7OB74ppYJiqs3nhQ==
-    dependencies:
-      tslib "^1.9.0"
+  ngx-audio-player@^9.0.7:
+    version "9.0.7"
+    resolved "https://registry.yarnpkg.com/ngx-audio-player/-/ngx-audio-player-9.0.7.tgz#477992b2979b7b06263473e13b893fca4089e2cf"
+    integrity sha512-2jHsQY93LYbSkyev64M+6DKYNjXRIMz/FBl17bIXDmwC/al/Unq3EGnBgVFCKWK+rbJerrZ9PumPgfARSNgXag==
   
   ngx-bootstrap@^3.0.0:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-3.0.0.tgz#563368404dd71962e2ef8eee21794c6aeaab4490"
-  
-  ngx-chips@^2.1.0:
-    version "2.1.0"
-    resolved "https://registry.yarnpkg.com/ngx-chips/-/ngx-chips-2.1.0.tgz#aa299bcf40dc3e1f6288bf1d29e2fdfe9a132ed3"
-    integrity sha512-OQV4dTfD3nXm5d2mGKUSgwOtJOaMnZ4F+lwXOtd7DWRSUne0JQWwoZNHdOpuS6saBGhqCPDAwq6KxdR5XSgZUQ==
-    dependencies:
-      ng2-material-dropdown "0.11.0"
-      tslib "^1.9.0"
   
   ngx-image-cropper@^1.4.1:
     version "1.4.1"
@@ -5380,10 +5429,10 @@ Lockfile:
       perfect-scrollbar "^1.4.0"
       resize-observer-polyfill "^1.5.0"
   
-  ngx-quill@^7.3.1:
-    version "7.3.1"
-    resolved "https://registry.yarnpkg.com/ngx-quill/-/ngx-quill-7.3.1.tgz#55fb1b87e55ef0145b478ed75dee514ee012e696"
-    integrity sha512-vHN/8OsX2P2P8mlnjdMrp0GL0j8r27kUcGpQ+gn3FQPRTxh5Ua4Ppogk0KAzy4NbdKiHCllW7xK9sJklwUVevA==
+  ngx-quill-v2@^0.0.1:
+    version "0.0.1"
+    resolved "https://registry.yarnpkg.com/ngx-quill-v2/-/ngx-quill-v2-0.0.1.tgz#f1784f2424983d57906170d165f9b28999f120e6"
+    integrity sha512-yW/+kgLiTpeijMX4WEg04r8TTC3tO8M4YE2lARxBtfDMC0suIlXHOH6WQU1gPuyfwDJzszO/9Iwby5kvmydJYw==
     dependencies:
       tslib "^1.9.0"
   
@@ -6331,6 +6380,11 @@ Lockfile:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.0.0.tgz#fa3ed6e68eb15159457c89b37bc6472833195755"
   
+  quill-better-table@^1.2.4:
+    version "1.2.10"
+    resolved "https://registry.yarnpkg.com/quill-better-table/-/quill-better-table-1.2.10.tgz#ed0e21cdbaff672189b902187720fde08ae2a96a"
+    integrity sha512-CFwxAQzt4EPCQuynQ65R/FU7Yu//kcDBb/rmBBOsFfO758+q50zvG/PDt4Lenv9DcrSgwnyNkfo4yeA5fzzVYQ==
+  
   quill-delta@^3.6.2:
     version "3.6.3"
     resolved "https://registry.yarnpkg.com/quill-delta/-/quill-delta-3.6.3.tgz#b19fd2b89412301c60e1ff213d8d860eac0f1032"
@@ -6339,6 +6393,14 @@ Lockfile:
       deep-equal "^1.0.1"
       extend "^3.0.2"
       fast-diff "1.1.2"
+  
+  quill-table@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/quill-table/-/quill-table-1.0.0.tgz#b7938dc5dfb03431b570893016f721b10d119de1"
+    integrity sha512-ZE3+p+leMg8o7Whmku/bcDAS30WLd9ISQR9rV7aN+kIwoJ8e+VkPx7FcqmmHwbjpKfymJnpScyu/Sb+SRqgChw==
+    dependencies:
+      babel-plugin-add-module-exports "^0.2.1"
+      babel-runtime "^6.26.0"
   
   quill@^1.3.7:
     version "1.3.7"
@@ -6513,6 +6575,11 @@ Lockfile:
   reflect-metadata@^0.1.2:
     version "0.1.12"
     resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.12.tgz#311bf0c6b63cd782f228a81abe146a2bfa9c56f2"
+  
+  reflect-metadata@^0.1.9:
+    version "0.1.13"
+    resolved "https://registry.yarnpkg.com/reflect-metadata/-/reflect-metadata-0.1.13.tgz#67ae3ca57c972a2aa1642b10fe363fe32d49dc08"
+    integrity sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
   
   regenerate@^1.2.1:
     version "1.4.0"
@@ -6739,6 +6806,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.2.0.tgz#2eb49cc6ac20d0d7057c6887d1895beaab0966f9"
     integrity sha512-kFX7NSIgyzqn3+J5F/w75R72wDOICXwArbXyPU1neE4laOEwxkMTm+2oAZXN82yb+yli+j+c5USgbGLfphTCTA==
   
+  rxjs-compat@^6.5.4:
+    version "6.6.0"
+    resolved "https://registry.yarnpkg.com/rxjs-compat/-/rxjs-compat-6.6.0.tgz#fb86908ca9ea385befd25f6d4e451d1b0154fe5c"
+    integrity sha512-XvW8LM/3QnoehC74BAbC3bSiaSsfdZHC21QErD50TmdjNQhpQ6s3bM5PjcdcZWbX7mNgC3zi3BcbI9dWGJ6fsA==
+  
   rxjs@6.4.0:
     version "6.4.0"
     resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.4.0.tgz#f3bb0fe7bda7fb69deac0c16f17b50b0b8790504"
@@ -6756,6 +6828,13 @@ Lockfile:
     version "6.5.2"
     resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.2.tgz#2e35ce815cd46d84d02a209fb4e5921e051dbec7"
     integrity sha512-HUb7j3kvb7p7eCUHE3FqjoDsC1xfZQ4AHFWfTKSpZ+sAhhz5X1WX0ZuUqWbzB2QhSLp3DoLUG+hMdEDKqWo2Zg==
+    dependencies:
+      tslib "^1.9.0"
+  
+  rxjs@^6.5.4:
+    version "6.6.0"
+    resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.0.tgz#af2901eedf02e3a83ffa7f886240ff9018bbec84"
+    integrity sha512-3HMA8z/Oz61DUHe+SdOiQyzIf4tOx5oQHmMir7IZEu6TMqCLHT4LRcmNaUS0NwOz8VLvmmBduMsoaUvMaIiqzg==
     dependencies:
       tslib "^1.9.0"
   
@@ -6805,7 +6884,7 @@ Lockfile:
     version "0.6.1"
     resolved "https://registry.yarnpkg.com/sax/-/sax-0.6.1.tgz#563b19c7c1de892e09bfc4f2fc30e3c27f0952b9"
   
-  sax@1.2.4, sax@>=0.6.0, sax@^1.2.4:
+  sax@>=0.6.0, sax@^1.2.4:
     version "1.2.4"
     resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   
@@ -7611,11 +7690,6 @@ Lockfile:
     dependencies:
       setimmediate "^1.0.4"
   
-  timm@^1.6.2:
-    version "1.6.2"
-    resolved "https://registry.yarnpkg.com/timm/-/timm-1.6.2.tgz#dfd8c6719f7ba1fcfc6295a32670a1c6d166c0bd"
-    integrity sha512-IH3DYDL1wMUwmIlVmMrmesw5lZD6N+ZOAFWEyLrtpoL9Bcrs9u7M/vyOnHzDD2SMs4irLkVjqxZbHrXStS/Nmw==
-  
   tmp@0.0.24:
     version "0.0.24"
     resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.24.tgz#d6a5e198d14a9835cc6f2d7c3d9e302428c8cf12"
@@ -7855,11 +7929,6 @@ Lockfile:
       debug "^3.0.0"
       request "^2.88.0"
       uuid "^3.0.0"
-  
-  universalify@^0.1.0:
-    version "0.1.2"
-    resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
-    integrity sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
   
   unpipe@1.0.0, unpipe@~1.0.0:
     version "1.0.0"
@@ -8266,13 +8335,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/xhr2/-/xhr2-0.1.4.tgz#7f87658847716db5026323812f818cadab387a5f"
     integrity sha1-f4dliEdxbbUCYyOBL4GMras4el8=
   
-  xml-js@^1.6.8:
-    version "1.6.11"
-    resolved "https://registry.yarnpkg.com/xml-js/-/xml-js-1.6.11.tgz#927d2f6947f7f1c19a316dd8eea3614e8b18f8e9"
-    integrity sha512-7rVi2KMfwfWFl+GpPg6m80IVMWXLRjO+PxTq7V2CDhoGak0wzYzFgUY2m4XJ47OGdXd8eLE8EmwfAmdjw7lC1g==
-    dependencies:
-      sax "^1.2.4"
-  
   xml2js@0.4.4:
     version "0.4.4"
     resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.4.tgz#3111010003008ae19240eba17497b57c729c555d"
@@ -8287,11 +8349,6 @@ Lockfile:
       sax ">=0.6.0"
       xmlbuilder "~9.0.1"
   
-  xml@^1.0.1:
-    version "1.0.1"
-    resolved "https://registry.yarnpkg.com/xml/-/xml-1.0.1.tgz#78ba72020029c5bc87b8a81a3cfcd74b4a2fc1e5"
-    integrity sha1-eLpyAgApxbyHuKgaPPzXS0ovweU=
-  
   xmlbuilder@>=1.0.0:
     version "10.0.0"
     resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-10.0.0.tgz#c64e52f8ae097fe5fd46d1c38adaade071ee1b55"
@@ -8299,11 +8356,6 @@ Lockfile:
   xmlbuilder@~9.0.1:
     version "9.0.7"
     resolved "https://registry.yarnpkg.com/xmlbuilder/-/xmlbuilder-9.0.7.tgz#132ee63d2ec5565c557e20f4c22df9aca686b10d"
-  
-  xmldom@0.2.1:
-    version "0.2.1"
-    resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.2.1.tgz#cac9465066f161e1c3302793ea4dbe59c518274f"
-    integrity sha512-kXXiYvmblIgEemGeB75y97FyaZavx6SQhGppLw5TKWAD2Wd0KAly0g23eVLh17YcpxZpnFym1Qk/eaRjy1APPg==
   
   xmldom@^0.1.27:
     version "0.1.27"
@@ -8416,6 +8468,11 @@ Lockfile:
   yn@^2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/yn/-/yn-2.0.0.tgz#e5adabc8acf408f6385fc76495684c88e6af689a"
+  
+  zone.js@^0.10.2:
+    version "0.10.3"
+    resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.10.3.tgz#3e5e4da03c607c9dcd92e37dd35687a14a140c16"
+    integrity sha512-LXVLVEq0NNOqK/fLJo3d0kfzd4sxwn2/h67/02pjCjfKDxgx1i9QqpvtHD8CrBnSSwMw5+dy11O7FRX5mkO7Cg==
   
   zone.js@~0.9.1:
     version "0.9.1"

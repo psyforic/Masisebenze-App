@@ -1,3 +1,4 @@
+import { NewEquipmentComponent } from './view-client/report-summary/new-equipment/new-equipment.component';
 import { JobDescriptionsModule } from '@app/admin/job-descriptions/job-descriptions.module';
 import { QuestionnaireComponent } from './assessments/functional-assessment/questionnaire/questionnaire.component';
 import { NewJobDescriptionComponent } from './../../job-descriptions/new-job-description/new-job-description.component';
@@ -51,7 +52,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     WorkInformationComponent,
     ReportSummaryComponent,
     QuestionnaireComponent,
-    WorkAssessmentComponent
+    WorkAssessmentComponent,
+    NewEquipmentComponent
   ],
   imports: [
     CommonModule,
@@ -79,7 +81,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CameraModalComponent, 
     NewJobDescriptionComponent, 
     QuestionnaireCommentComponent,
-    WorkAssessmentComponent],
+    WorkAssessmentComponent,
+    NewEquipmentComponent],
   providers: [NgbActiveModal,
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
