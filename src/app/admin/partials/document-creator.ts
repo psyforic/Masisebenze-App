@@ -410,6 +410,7 @@ export class DocumentCreator {
                 caseManagement1: assessmentReport[48].replace(/<[^>]*>/g, ''),
                 transportationCosts: assessmentReport[49].replace(/<[^>]*>/g, ''),
                 psychology: assessmentReport[50].replace(/<[^>]*>/g, ''),
+                homeAdaptations: assessmentReport[60].replace(/<[^>]*>/g, ''),
                 caseManagement2: ''
             });
 

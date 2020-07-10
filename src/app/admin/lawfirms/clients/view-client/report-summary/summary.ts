@@ -19,7 +19,7 @@ export const summary: Summary = {
     discussion: '',
     lossOfAmenities: '<p>This has been significant/insignificant.&nbsp;The claimant has been scarred which is permanent in nature.' +
         '</p><p>There are functional limitations which will be permanent in nature.</p>',
-    residualWorkCapacity: '<p><br></p><p>5.1.2 Residual work capacity</p><p><br></p><p><u>Summary of medical opinion</u>:</p><p><br>' +
+    residualWorkCapacity: '<p><u>Summary of medical opinion</u>:</p><p><br>' +
         '</p><p><u>Neurosurgeon, Dr &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
         '&nbsp;diagnosed</u>:</p><p><br>' +
         '</p><p><br></p><p><br></p><p>Orthopaedic surgeon, Dr. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
@@ -61,8 +61,7 @@ export const summary: Summary = {
         ' therapist</p><p class="ql-align-justify">5.2.10 Pain clinic:&nbsp;&nbsp;</p><p class="ql-align-justify"><br></p><ul>' +
         '<li class="ql-align-justify">DBC</li><li class="ql-align-justify">Dr. E Buitendag</li></ul><p><br></p>',
     specialEquipment: '',
-    caseManagement1: '<p class="ql-align-justify">5.2.9.1&nbsp;&nbsp;Case Management</p><p class="ql-align-justify"><br></p>' +
-        '<p class="ql-align-justify">When considering the available information and the claimant’s functioning, it seems that she' +
+    caseManagement1: '<p class="ql-align-justify"> When considering the available information and the claimant’s functioning, it seems that she' +
         ' will benefit from obtaining a case manager.</p><p><br></p><p>The role of the case manager is to co-ordinate medical services' +
         ' to ensure the quality and continuity of services to a specific patient/client.</p><p><br></p><ul><li>Oversee implementation of' +
         ' plans</li><li>Adaptation to plans where necessary</li><li>Oversee follow-up consultations within the multi-disciplinary team</li>' +

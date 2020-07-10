@@ -393,6 +393,8 @@ export class ClientsComponent extends PagedListingComponentBase<ClientListDto> {
               reportSummary.transportationCosts : 'Not Applicable';
             this.assessmentReport[50] = (reportSummary.psychology != null) ?
               reportSummary.psychology : 'Not Applicable';
+            this.assessmentReport[60] = (reportSummary.homeAdaptions != null) ?
+              reportSummary.homeAdaptions : 'Not Applicable';
           }
         });
       this._workInformationService.getByClientId(client.id)
