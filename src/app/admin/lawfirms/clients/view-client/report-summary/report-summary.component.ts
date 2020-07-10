@@ -27,30 +27,32 @@ export interface Group {
   providers: [ReportSummaryServiceProxy, ClientServiceProxy]
 })
 export class ReportSummaryComponent extends AppComponentBase implements OnInit, AfterViewInit {
-  client: ClientDetailOutput = new ClientDetailOutput();
+
+  @ViewChild('equipment', { static: true }) equipment;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   @Input() fullName: string;
   @Input() clientId: string;
-  @ViewChild('equipment', { static: true }) equipment;
   summaryForm: FormGroup;
+  client: ClientDetailOutput = new ClientDetailOutput();
   isLoading = false;
   reportSummary: ReportSummaryDto = new ReportSummaryDto();
   displayedColumns: string[] = ['equipment', 'estimatedLifespan', 'approximateCost'];
   dataSource = new MatTableDataSource<(Equipment | Group)>();
   equipments: (Equipment | Group)[] = [];
   groups: Group[] = [];
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   config = {
     placeholder: '',
     spellCheck: true,
     height: '200px',
     direction: 'rtl',
     toolbar: [
-        ['misc', ['codeview', 'undo', 'redo']],
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-        ['fontsize', ['fontname', 'fontsize', 'color']],
-        ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
-        ['insert', ['table', 'picture', 'link', 'video', 'hr']]
+      ['misc', ['codeview', 'undo', 'redo']],
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+      ['fontsize', ['fontname', 'fontsize', 'color']],
+      ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
+      ['insert', ['table', 'picture', 'link', 'video', 'hr']]
     ],
     fontNames: ['Helvetica', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Roboto', 'Times']
   };

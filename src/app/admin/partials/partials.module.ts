@@ -101,9 +101,10 @@ export const MY_FORMATS = {
         table: true,
         syntax: false,
         toolbar: [
-          ['bold', 'italic'],
+          ['bold', 'italic', 'underline'],
           [{ 'header': 1 }, { 'header': 2 }],               // custom button values
           [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'color': [] }, { 'background': [] }],
           [{ 'indent': '-1' }, { 'indent': '+1' }],
           [{ 'align': [] }],                        // link and image, video]
         ]
