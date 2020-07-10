@@ -24,6 +24,10 @@ const routes: Routes = [
         path: 'documents/upload',
         loadChildren: 'app/admin/documents/documents.module#DocumentsModule'
     },
+    {
+        path: 'client-report',
+        loadChildren: 'app/admin/lawfirms/clients/client-report/client-report.module#ClientReportModule'
+    }
 ];
 
 @NgModule({

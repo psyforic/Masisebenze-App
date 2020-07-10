@@ -43,12 +43,11 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit {
     height: '200px',
     direction: 'rtl',
     toolbar: [
-      ['misc', ['codeview', 'undo', 'redo']],
-      ['style', ['bold', 'italic', 'underline', 'clear']],
-      ['font', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-      ['fontsize', ['fontname', 'fontsize', 'color']],
-      ['para', ['style', 'ul', 'ol', 'paragraph', 'height']],
-      ['insert', ['table', 'picture', 'link', 'video', 'hr']]
+      ['misc', ['undo', 'redo']],
+      ['font', ['bold', 'italic', 'underline', 'clear']],
+      ['fontsize', ['fontsize', 'color']],
+      ['para', ['ul', 'ol', 'paragraph', 'height']],
+      ['insert', ['table']]
     ],
     fontNames: ['Helvetica', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Roboto', 'Times']
   };
