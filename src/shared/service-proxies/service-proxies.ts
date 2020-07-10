@@ -44524,6 +44524,7 @@ export class ReportSummaryDto implements IReportSummaryDto {
     psychology: string | undefined;
     transportationCosts: string | undefined;
     recommendations: string | undefined;
+    homeAdaptions: string | undefined;
     id: string | undefined;
 
     constructor(data?: IReportSummaryDto) {
@@ -44551,6 +44552,7 @@ export class ReportSummaryDto implements IReportSummaryDto {
             this.psychology = data["psychology"];
             this.transportationCosts = data["transportationCosts"];
             this.recommendations = data["recommendations"];
+            this.homeAdaptions = data["homeAdaptions"];
             this.id = data["id"];
         }
     }
@@ -44578,6 +44580,7 @@ export class ReportSummaryDto implements IReportSummaryDto {
         data["psychology"] = this.psychology;
         data["transportationCosts"] = this.transportationCosts;
         data["recommendations"] = this.recommendations;
+        data["homeAdaptions"] = this.homeAdaptions;
         data["id"] = this.id;
         return data; 
     }
@@ -44605,6 +44608,7 @@ export interface IReportSummaryDto {
     psychology: string | undefined;
     transportationCosts: string | undefined;
     recommendations: string | undefined;
+    homeAdaptions: string | undefined;
     id: string | undefined;
 }
 

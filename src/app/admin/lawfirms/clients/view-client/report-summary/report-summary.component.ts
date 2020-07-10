@@ -1,16 +1,17 @@
-import { NewEquipmentComponent } from './new-equipment/new-equipment.component';
+
 import { EqualValidator } from './../../../../../../shared/directives/equal-validator.directive';
 import {
   ReportSummaryServiceProxy, ReportSummaryDto, ClientServiceProxy,
   ClientDetailOutput
 } from '../../../../../../shared/service-proxies/service-proxies';
 import { AppComponentBase } from '@shared/app-component-base';
-import { Component, OnInit, Injector, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, Injector, Input } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { MatTableDataSource, MatSort, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { summary } from './summary';
 export interface Equipment {
   section: string;
   equipment: string;
@@ -26,21 +27,16 @@ export interface Group {
   styleUrls: ['./report-summary.component.scss'],
   providers: [ReportSummaryServiceProxy, ClientServiceProxy]
 })
-export class ReportSummaryComponent extends AppComponentBase implements OnInit, AfterViewInit {
+export class ReportSummaryComponent extends AppComponentBase implements OnInit {
 
-  @ViewChild('equipment', { static: true }) equipment;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
   @Input() fullName: string;
   @Input() clientId: string;
   summaryForm: FormGroup;
   client: ClientDetailOutput = new ClientDetailOutput();
   isLoading = false;
   reportSummary: ReportSummaryDto = new ReportSummaryDto();
-  displayedColumns: string[] = ['equipment', 'estimatedLifespan', 'approximateCost'];
-  dataSource = new MatTableDataSource<(Equipment | Group)>();
-  equipments: (Equipment | Group)[] = [];
-  groups: Group[] = [];
-
+  summary = summary;
   config = {
     placeholder: '',
     spellCheck: true,
@@ -73,11 +69,6 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit, 
     this.initializeForm();
     this.getClient();
     this.getReportSummary();
-    this.dataSource.data = this.equipments;
-    this.dataSource.sort = this.sort;
-  }
-  ngAfterViewInit() {
-    console.log(this.equipment);
   }
   initializeForm() {
     this.summaryForm = this.fb.group({
@@ -93,7 +84,8 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit, 
       occupationalTherapy: [''],
       specialEquipment: [''],
       caseManagement1: [''],
-      transportationCosts: ['']
+      transportationCosts: [''],
+      homeAdaptions: ['']
     });
   }
   backClicked() {
@@ -112,6 +104,7 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit, 
   save() {
     this.isLoading = true;
     this.reportSummary.clientId = this.clientId;
+
     if (this.summaryForm.get('discussion') != null) {
       this.reportSummary.discussion = this.summaryForm.get('discussion').value;
     }
@@ -148,16 +141,18 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit, 
     if (this.summaryForm.get('specialEquipment') != null) {
       this.reportSummary.specialEquipment = this.summaryForm.get('specialEquipment').value;
     }
+    if (this.summaryForm.get('supplementaryHealthServices') != null) {
+      this.reportSummary.supplementaryHealthServices = this.summaryForm.get('supplementaryHealthServices').value;
+    }
+    if (this.summaryForm.get('homeAdaptions') != null) {
+      this.reportSummary.homeAdaptions = this.summaryForm.get('homeAdaptions').value;
+    }
     this._reportSummaryService.create(this.reportSummary).
       pipe(finalize(() => {
         this.isLoading = false;
       })).subscribe(() => {
         this.notify.success('Saved successfully!');
       });
-  }
-
-  private get tableModule() {
-    return this.equipment.getModule('table');
   }
   getReportSummary() {
     this.isLoading = true;
@@ -167,34 +162,54 @@ export class ReportSummaryComponent extends AppComponentBase implements OnInit, 
       })).subscribe(result => {
         if (result != null) {
           this.reportSummary = result;
-          this.summaryForm.patchValue(result);
+          if (this.reportSummary != null) {
+            this.reportSummary.discussion = this.reportSummary.discussion ?
+              this.reportSummary.discussion : this.summary.discussion;
+
+            this.reportSummary.lossOfEmenities = this.reportSummary.lossOfEmenities ?
+              this.reportSummary.lossOfEmenities : this.summary.lossOfAmenities;
+
+            this.reportSummary.occupationalTherapy = this.reportSummary.occupationalTherapy ?
+              this.reportSummary.occupationalTherapy : this.summary.occupationalTherapy;
+
+            this.reportSummary.caseManagement1 = this.reportSummary.caseManagement1 ?
+              this.reportSummary.caseManagement1 : this.summary.caseManagement1;
+
+            this.reportSummary.futureMedicalExpenses = this.reportSummary.futureMedicalExpenses ?
+              this.reportSummary.futureMedicalExpenses : this.summary.futureMedicalExpenses;
+
+            this.reportSummary.physiotherapy = this.reportSummary.physiotherapy ?
+              this.reportSummary.physiotherapy : this.summary.physiotherapy;
+
+            this.reportSummary.psychology = this.reportSummary.psychology ?
+              this.reportSummary.psychology : this.summary.psychology;
+
+            this.reportSummary.futureMedicalAndSurgicalIntervention = this.reportSummary.futureMedicalAndSurgicalIntervention ?
+              this.reportSummary.futureMedicalAndSurgicalIntervention : this.summary.futureMedicalAndSurgicalIntervention;
+
+            this.reportSummary.transportationCosts = this.reportSummary.transportationCosts ?
+              this.reportSummary.transportationCosts : this.summary.transportationCosts;
+
+            this.reportSummary.recommendations = this.reportSummary.recommendations ?
+              this.reportSummary.recommendations : this.summary.recommendations;
+
+            this.reportSummary.residualWorkCapacity = this.reportSummary.residualWorkCapacity ?
+              this.reportSummary.residualWorkCapacity : this.summary.residualWorkCapacity;
+
+            this.reportSummary.specialEquipment = this.reportSummary.specialEquipment ?
+              this.reportSummary.specialEquipment : this.summary.specialEquipment;
+
+            this.reportSummary.supplementaryHealthServices = this.reportSummary.supplementaryHealthServices ?
+              this.reportSummary.supplementaryHealthServices : this.summary.supplementaryHealthServices;
+
+            this.reportSummary.homeAdaptions = this.reportSummary.homeAdaptions ?
+              this.reportSummary.homeAdaptions : this.summary.homeAdaptions;
+
+            this.summaryForm.patchValue(result);
+
+          }
         }
       });
   }
-  isGroup(index, item): boolean {
-    return item.group;
-  }
-  addEquipment() {
-    // this.cognitiveComment.show();
-    this.dialog.open(NewEquipmentComponent, {
-      hasBackdrop: false,
-      data: { fullName: this.fullName, clientId: this.clientId },
-      width: '650px'
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        if (this.groups.filter(x => x.group === result.section).length === 0) {
-          this.groups.push({ group: result.section });
-          this.equipments.push({ group: result.section });
-        } else {
 
-        }
-        if (this.groups.filter(x => x.group === result.section).length > 0) {
-
-        }
-        this.equipments.push(result);
-        this.dataSource.data = this.equipments;
-        this.dataSource.sort = this.sort;
-      }
-    });
-  }
 }

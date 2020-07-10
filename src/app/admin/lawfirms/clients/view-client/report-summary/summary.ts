@@ -12,6 +12,7 @@ export interface Summary {
     psychology: string;
     transportationCosts: string;
     recommendations: string;
+    homeAdaptions: string;
 }
    // tslint:disable-next-line: max-line-length
 export const summary: Summary = {
@@ -81,5 +82,6 @@ export const summary: Summary = {
         '<p>Transport by sedan motor may be necessary after surgery as minibus transfers will be difficult and unsafe.</p>',
     recommendations: '<p>Considering injury ethology, prognosis, treatment (medical and rehabilitative) proposed, test results' +
         ' obtained and observations made on the day of the assessment, as well as reporting by various specialists, the following' +
-        ' recommendations are made:&nbsp;</p>'
+        ' recommendations are made:&nbsp;</p>',
+    homeAdaptions: ''
 };
